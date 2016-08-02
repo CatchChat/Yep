@@ -268,13 +268,10 @@ final public class YepUserDefaults {
                 return
             }
 
-            if let
-                nickname = nickname,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    let _ = try? realm.write {
-                        me.nickname = nickname
-                    }
+            if let nickname = nickname, let me = meInRealm(realm) {
+                let _ = try? realm.write {
+                    me.nickname = nickname
+                }
             }
         }
     }()
@@ -289,13 +286,10 @@ final public class YepUserDefaults {
                 return
             }
 
-            if let
-                introduction = introduction,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    let _ = try? realm.write {
-                        me.introduction = introduction
-                    }
+            if let introduction = introduction, let me = meInRealm(realm) {
+                let _ = try? realm.write {
+                    me.introduction = introduction
+                }
             }
         }
     }()
@@ -310,13 +304,10 @@ final public class YepUserDefaults {
                 return
             }
 
-            if let
-                avatarURLString = avatarURLString,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    let _ = try? realm.write {
-                        me.avatarURLString = avatarURLString
-                    }
+            if let avatarURLString = avatarURLString, let me = meInRealm(realm) {
+                let _ = try? realm.write {
+                    me.avatarURLString = avatarURLString
+                }
             }
         }
     }()
@@ -331,13 +322,10 @@ final public class YepUserDefaults {
                 return
             }
 
-            if let
-                badge = badge,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
-                    let _ = try? realm.write {
-                        me.badge = badge
-                    }
+            if let badge = badge, let me = meInRealm(realm) {
+                let _ = try? realm.write {
+                    me.badge = badge
+                }
             }
         }
     }()
@@ -352,10 +340,7 @@ final public class YepUserDefaults {
                 return
             }
 
-            if let
-                blogURLString = blogURLString,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
+            if let blogURLString = blogURLString, let me = meInRealm(realm) {
                 let _ = try? realm.write {
                     me.blogURLString = blogURLString
                 }
@@ -373,10 +358,7 @@ final public class YepUserDefaults {
                 return
             }
 
-            if let
-                blogTitle = blogTitle,
-                myUserID = YepUserDefaults.userID.value,
-                me = userWithUserID(myUserID, inRealm: realm) {
+            if let blogTitle = blogTitle, let me = meInRealm(realm) {
                 let _ = try? realm.write {
                     me.blogTitle = blogTitle
                 }

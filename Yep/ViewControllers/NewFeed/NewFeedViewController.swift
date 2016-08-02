@@ -190,19 +190,13 @@ final class NewFeedViewController: SegueViewController {
     //let max = Int(INT16_MAX)
     
     private let skills: [Skill] = {
-        if let
-            myUserID = YepUserDefaults.userID.value,
-            realm = try? Realm(),
-            me = userWithUserID(myUserID, inRealm: realm) {
-                
-                var skills = skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
-                
-                skills.insert(generalSkill, atIndex: 0)
-                
-                return skills
+        guard let me = me() else {
+            return []
         }
-        
-        return []
+
+        var skills = skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
+        skills.insert(generalSkill, atIndex: 0)
+        return skills
     }()
     
     private var pickedSkill: Skill? {
@@ -554,11 +548,8 @@ final class NewFeedViewController: SegueViewController {
     
     func tryMakeUploadingFeed() -> DiscoveredFeed? {
 
-        guard let
-            myUserID = YepUserDefaults.userID.value,
-            realm = try? Realm(),
-            me = userWithUserID(myUserID, inRealm: realm) else {
-                return nil
+        guard let me = me() else {
+            return nil
         }
 
         let creator = DiscoveredUser.fromUser(me)

@@ -1163,6 +1163,20 @@ public func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
     return realm.objects(User).filter(predicate).first
 }
 
+public func meInRealm(realm: Realm) -> User? {
+    guard let myUserID = YepUserDefaults.userID.value else {
+        return nil
+    }
+    return userWithUserID(myUserID, inRealm: realm)
+}
+
+public func me() -> User? {
+    guard let realm = try? Realm() else {
+        return nil
+    }
+    return meInRealm(realm)
+}
+
 public func userWithUsername(username: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "username = %@", username)
     return realm.objects(User).filter(predicate).first
@@ -1602,35 +1616,34 @@ public func avatarWithAvatarURLString(avatarURLString: String, inRealm realm: Re
 }
 
 public func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
-    if let userID = YepUserDefaults.userID.value {
 
-        if let me = userWithUserID(userID, inRealm: realm) {
-            return me
-
-        } else {
-
-            let me = User()
-
-            me.userID = userID
-            me.friendState = UserFriendState.Me.rawValue
-
-            if let nickname = YepUserDefaults.nickname.value {
-                me.nickname = nickname
-            }
-
-            if let avatarURLString = YepUserDefaults.avatarURLString.value {
-                me.avatarURLString = avatarURLString
-            }
-
-            let _ = try? realm.write {
-                realm.add(me)
-            }
-
-            return me
-        }
+    guard let userID = YepUserDefaults.userID.value else {
+        return nil
     }
 
-    return nil
+    if let me = userWithUserID(userID, inRealm: realm) {
+        return me
+
+    } else {
+        let me = User()
+
+        me.userID = userID
+        me.friendState = UserFriendState.Me.rawValue
+
+        if let nickname = YepUserDefaults.nickname.value {
+            me.nickname = nickname
+        }
+
+        if let avatarURLString = YepUserDefaults.avatarURLString.value {
+            me.avatarURLString = avatarURLString
+        }
+
+        let _ = try? realm.write {
+            realm.add(me)
+        }
+
+        return me
+    }
 }
 
 public func mediaMetaDataFromString(metaDataString: String, inRealm realm: Realm) -> MediaMetaData? {

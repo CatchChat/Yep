@@ -89,22 +89,15 @@ final class NotificationsViewController: SegueViewController {
 
         title = NSLocalizedString("Notifications & Privacy", comment: "")
 
-        let realm = try! Realm()
+        if let me = me(), let userDoNotDisturb = me.doNotDisturb {
 
-        if let
-            myUserID = YepUserDefaults.userID.value,
-            me = userWithUserID(myUserID, inRealm: realm) {
+            doNotDisturbPeriod.isOn = userDoNotDisturb.isOn
 
-                if let userDoNotDisturb = me.doNotDisturb {
+            doNotDisturbPeriod.fromHour = userDoNotDisturb.fromHour
+            doNotDisturbPeriod.fromMinute = userDoNotDisturb.fromMinute
 
-                    doNotDisturbPeriod.isOn = userDoNotDisturb.isOn
-
-                    doNotDisturbPeriod.fromHour = userDoNotDisturb.fromHour
-                    doNotDisturbPeriod.fromMinute = userDoNotDisturb.fromMinute
-
-                    doNotDisturbPeriod.toHour = userDoNotDisturb.toHour
-                    doNotDisturbPeriod.toMinute = userDoNotDisturb.toMinute
-                }
+            doNotDisturbPeriod.toHour = userDoNotDisturb.toHour
+            doNotDisturbPeriod.toMinute = userDoNotDisturb.toMinute
         }
     }
 
@@ -131,106 +124,90 @@ final class NotificationsViewController: SegueViewController {
             return
         }
 
-        if let
-            myUserID = YepUserDefaults.userID.value,
-            me = userWithUserID(myUserID, inRealm: realm) {
-
-                var userDoNotDisturb = me.doNotDisturb
-
-                if userDoNotDisturb == nil {
-                    let _userDoNotDisturb = UserDoNotDisturb()
-
-                    let _ = try? realm.write {
-                        me.doNotDisturb = _userDoNotDisturb
-                    }
-
-                    userDoNotDisturb = _userDoNotDisturb
-                }
-
-                if let userDoNotDisturb = me.doNotDisturb {
-
-                    let info: JSONDictionary = [
-                        "mute_started_at_string": userDoNotDisturb.serverFromString,
-                        "mute_ended_at_string": userDoNotDisturb.serverToString,
-                    ]
-
-                    updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                        YepAlert.alertSorry(message: NSLocalizedString("Enable Do Not Disturb failed!", comment: ""), inViewController: self)
-
-                        failed()
-
-                    }, completion: { success in
-
-                        SafeDispatch.async {
-
-                            guard let realm = try? Realm() else {
-                                return
-                            }
-
-                            if let
-                                myUserID = YepUserDefaults.userID.value,
-                                me = userWithUserID(myUserID, inRealm: realm) {
-
-                                    let _ = try? realm.write {
-                                        me.doNotDisturb?.isOn = true
-                                    }
-                            }
-                        }
-                    })
-                }
+        guard let me = meInRealm(realm) else {
+            return
         }
+
+        // create
+        if me.doNotDisturb == nil {
+            let _userDoNotDisturb = UserDoNotDisturb()
+
+            let _ = try? realm.write {
+                me.doNotDisturb = _userDoNotDisturb
+            }
+        }
+
+        guard let userDoNotDisturb = me.doNotDisturb else {
+            return
+        }
+
+        let info: JSONDictionary = [
+            "mute_started_at_string": userDoNotDisturb.serverFromString,
+            "mute_ended_at_string": userDoNotDisturb.serverToString,
+        ]
+
+        updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            YepAlert.alertSorry(message: NSLocalizedString("Enable Do Not Disturb failed!", comment: ""), inViewController: self)
+
+            failed()
+
+        }, completion: { success in
+
+            SafeDispatch.async {
+
+                guard let realm = try? Realm() else {
+                    return
+                }
+
+                if let me = meInRealm(realm) {
+                    let _ = try? realm.write {
+                        me.doNotDisturb?.isOn = true
+                    }
+                }
+            }
+        })
     }
 
     private func disableDoNotDisturb(failed failed: () -> Void) {
 
-        guard let realm = try? Realm() else {
+        guard let me = me() else {
             return
         }
 
-        if let
-            myUserID = YepUserDefaults.userID.value,
-            me = userWithUserID(myUserID, inRealm: realm) {
+        if let _ = me.doNotDisturb {
 
-                if let _ = me.doNotDisturb {
+            let info: JSONDictionary = [
+                "mute_started_at_string": "",
+                "mute_ended_at_string": "",
+            ]
 
-                    let info: JSONDictionary = [
-                        "mute_started_at_string": "",
-                        "mute_ended_at_string": "",
-                    ]
+            updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
+                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                    updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                YepAlert.alertSorry(message: NSLocalizedString("Disable Do Not Disturb failed!", comment: ""), inViewController: self)
 
-                        YepAlert.alertSorry(message: NSLocalizedString("Disable Do Not Disturb failed!", comment: ""), inViewController: self)
+                failed()
 
-                        failed()
+            }, completion: { success in
 
-                    }, completion: { success in
+                SafeDispatch.async { [weak self] in
 
-                        SafeDispatch.async { [weak self] in
+                    // clean UI
+                    self?.doNotDisturbPeriod = DoNotDisturbPeriod()
 
-                            // clean UI
-                            self?.doNotDisturbPeriod = DoNotDisturbPeriod()
+                    guard let realm = try? Realm() else {
+                        return
+                    }
 
-                            guard let realm = try? Realm() else {
-                                return
-                            }
-
-                            if let
-                                myUserID = YepUserDefaults.userID.value,
-                                me = userWithUserID(myUserID, inRealm: realm) {
-
-                                    if let userDoNotDisturb = me.doNotDisturb {
-                                        let _ = try? realm.write {
-                                            realm.delete(userDoNotDisturb)
-                                        }
-                                    }
-                            }
+                    if let me = meInRealm(realm), let userDoNotDisturb = me.doNotDisturb {
+                        let _ = try? realm.write {
+                            realm.delete(userDoNotDisturb)
                         }
-                    })
+                    }
                 }
+            })
         }
     }
 }

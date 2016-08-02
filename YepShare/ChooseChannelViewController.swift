@@ -29,17 +29,12 @@ class ChooseChannelViewController: UITableViewController {
     }()
 
     private let skills: [Skill] = {
-        if let
-            myUserID = YepUserDefaults.userID.value,
-            realm = try? Realm(),
-            me = userWithUserID(myUserID, inRealm: realm) {
-
-            let skills = skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
-
-            return skills
+        guard let me = me() else {
+            return []
         }
 
-        return []
+        let skills = skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
+        return skills
     }()
 
     override func viewDidLoad() {
