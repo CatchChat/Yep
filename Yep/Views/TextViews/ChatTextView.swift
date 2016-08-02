@@ -83,45 +83,6 @@ final class ChatTextView: UITextView {
         }
     }
 
-    /*
-    override var text: String! {
-        didSet {
-            let plainText = text
-
-            let attributedString = NSMutableAttributedString(string: plainText)
-
-            let textRange = NSMakeRange(0, (plainText as NSString).length)
-
-            attributedString.addAttribute(NSForegroundColorAttributeName, value: textColor!, range: textRange)
-            attributedString.addAttribute(NSFontAttributeName, value: font!, range: textRange)
-
-            // mention link
-
-            func addMentionAttributes(withRange range: NSRange) {
-
-                let textValue = (plainText as NSString).substringWithRange(range)
-
-                let textAttributes: [String: AnyObject] = [
-                    NSLinkAttributeName: textValue,
-                    ChatTextView.detectionTypeName: DetectionType.Mention.rawValue,
-                ]
-
-                attributedString.addAttributes(textAttributes, range: range)
-            }
-
-            ChatTextView.mentionRegularExpressions.forEach {
-                let matches = $0.matchesInString(plainText, options: [], range: textRange)
-                for match in matches {
-                    let range = match.rangeAtIndex(1)
-                    addMentionAttributes(withRange: range)
-                }
-            }
-
-            self.attributedText = attributedString
-        }
-    }
-     */
-
     // MARK: 点击链接 hack
 
     override func canBecomeFirstResponder() -> Bool {

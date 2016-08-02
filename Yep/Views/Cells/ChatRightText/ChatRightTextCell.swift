@@ -111,7 +111,6 @@ class ChatRightTextCell: ChatRightBaseCell {
         self.mediaTapAction = mediaTapAction
 
         textContentTextView.setAttributedTextWithMessage(message)
-        //textContentTextView.text = message.textContent
 
         func adjustedTextContentTextViewWidth() -> CGFloat {
             
