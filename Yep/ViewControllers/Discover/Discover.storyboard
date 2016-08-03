@@ -186,6 +186,7 @@
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
+                        <outlet property="segmentedControl" destination="XLA-8Q-V51" id="kJW-Qh-9rT"/>
                         <segue destination="9vY-cf-Vg4" kind="show" identifier="showGeniusInterview" id="QwL-hb-Wo5"/>
                         <segue destination="s8W-oM-19O" kind="show" identifier="showGeniusInterviewWithBanner" id="VkR-EM-Nmy"/>
                         <segue destination="TbH-ta-fpD" kind="show" identifier="showProfile" id="Q9u-Ti-hcS"/>

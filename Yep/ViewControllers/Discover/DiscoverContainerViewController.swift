@@ -39,12 +39,9 @@ class DiscoverContainerViewController: UIPageViewController {
         }
     }
 
-    @IBOutlet weak var geniusesContainerView: UIView!
-    @IBOutlet weak var discoveredUsersContainerView: UIView!
+    private var meetGeniusViewController: MeetGeniusViewController!
+    private var discoverViewController: DiscoverViewController!
 
-    private weak var meetGeniusViewController: MeetGeniusViewController?
-
-    private weak var discoverViewController: DiscoverViewController?
     private var discoveredUsersLayoutMode: DiscoverFlowLayout.Mode = .Card {
         didSet {
             switch discoveredUsersLayoutMode {
@@ -89,15 +86,17 @@ class DiscoverContainerViewController: UIPageViewController {
             switch currentOption {
 
             case .MeetGenius:
-                geniusesContainerView.hidden = false
-                discoveredUsersContainerView.hidden = true
+                //geniusesContainerView.hidden = false
+                //discoveredUsersContainerView.hidden = true
+                setViewControllerForIndex(0)
 
                 navigationItem.leftBarButtonItem = nil
                 navigationItem.rightBarButtonItem = nil
 
             case .FindAll:
-                geniusesContainerView.hidden = true
-                discoveredUsersContainerView.hidden = false
+                //geniusesContainerView.hidden = true
+                //discoveredUsersContainerView.hidden = false
+                setViewControllerForIndex(1)
 
                 //navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
                 navigationItem.rightBarButtonItem = discoveredUsersFilterButtonItem
@@ -105,8 +104,16 @@ class DiscoverContainerViewController: UIPageViewController {
         }
     }
 
+    func setViewControllerForIndex(index: Int) {
+        let viewControllers = [index == 0 ? meetGeniusViewController : discoverViewController]
+        setViewControllers(viewControllers, direction: .Forward, animated: false, completion: nil)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        meetGeniusViewController = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("MeetGeniusViewController") as! MeetGeniusViewController
+        discoverViewController = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
 
         currentOption = .MeetGenius
 
