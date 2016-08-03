@@ -36,6 +36,7 @@ class DiscoverContainerViewController: UIPageViewController {
                 let option = Option(rawValue: $0)
                 segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
             })
+            segmentedControl.setContentPositionAdjustment(UIOffset(horizontal: -1, vertical: 0), forSegmentType: .Any, barMetrics: .Default)
         }
     }
 
