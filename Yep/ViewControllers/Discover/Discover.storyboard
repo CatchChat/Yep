@@ -7,7 +7,7 @@
         <!--Discover-->
         <scene sceneID="6eH-9x-VcH">
             <objects>
-                <viewController storyboardIdentifier="DiscoverViewController" id="fxl-gW-1pr" userLabel="Discover" customClass="DiscoverViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DiscoverViewController" automaticallyAdjustsScrollViewInsets="NO" id="fxl-gW-1pr" userLabel="Discover" customClass="DiscoverViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="h7g-Hp-sr5"/>
                         <viewControllerLayoutGuide type="bottom" id="G9m-cx-iQE"/>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="06U-4l-fjf" customClass="DiscoverCollectionView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MdZ-To-pDH">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -26,17 +26,17 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rkh-4n-Lvv">
-                                <rect key="frame" x="150" y="120" width="20" height="20"/>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rkh-4n-Lvv">
+                                <rect key="frame" x="150" y="140" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="rkh-4n-Lvv" secondAttribute="centerX" id="2Id-zg-YRJ"/>
-                            <constraint firstAttribute="bottom" secondItem="06U-4l-fjf" secondAttribute="bottom" id="9H3-h2-21X"/>
                             <constraint firstAttribute="trailing" secondItem="06U-4l-fjf" secondAttribute="trailing" id="CA6-rT-Bsr"/>
-                            <constraint firstItem="06U-4l-fjf" firstAttribute="top" secondItem="7h2-s3-2Sv" secondAttribute="top" id="SzC-e0-Ofd"/>
                             <constraint firstItem="06U-4l-fjf" firstAttribute="leading" secondItem="7h2-s3-2Sv" secondAttribute="leading" id="eZs-w4-dLu"/>
+                            <constraint firstItem="06U-4l-fjf" firstAttribute="top" secondItem="h7g-Hp-sr5" secondAttribute="bottom" id="iif-Ll-pLe"/>
+                            <constraint firstItem="G9m-cx-iQE" firstAttribute="top" secondItem="06U-4l-fjf" secondAttribute="bottom" id="mNX-Jw-VOG"/>
                             <constraint firstItem="rkh-4n-Lvv" firstAttribute="top" secondItem="h7g-Hp-sr5" secondAttribute="bottom" constant="120" id="zo9-EA-a8g"/>
                         </constraints>
                     </view>
