@@ -11,7 +11,7 @@ import YepKit
 import RxSwift
 import RxCocoa
 
-class DiscoverContainerViewController: UIViewController {
+class DiscoverContainerViewController: UIPageViewController {
 
     private lazy var disposeBag = DisposeBag()
 

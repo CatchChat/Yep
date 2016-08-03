@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KiL-mx-7DZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MUg-4Q-wf9">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -26,7 +26,7 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rkh-4n-Lvv">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rkh-4n-Lvv">
                                 <rect key="frame" x="150" y="120" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
@@ -49,7 +49,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Lb-bmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1094" y="698"/>
+            <point key="canvasLocation" x="1456" y="947"/>
         </scene>
         <!--Meet Genius View Controller-->
         <scene sceneID="LJn-ul-tWy">
@@ -80,13 +80,14 @@
                             <constraint firstAttribute="bottom" secondItem="Wiu-tM-IPE" secondAttribute="bottom" id="mK8-Ja-XO0"/>
                         </constraints>
                     </view>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="Wiu-tM-IPE" id="kqE-9Y-rTj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RtR-Fj-qI0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1094" y="-3"/>
+            <point key="canvasLocation" x="1072" y="947"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="c2u-kZ-KfX">
@@ -112,10 +113,10 @@
             </objects>
             <point key="canvasLocation" x="1121.5" y="321"/>
         </scene>
-        <!--Discover Container View Controller-->
+        <!--View Controller-->
         <scene sceneID="O2C-is-rbL">
             <objects>
-                <viewController storyboardIdentifier="DiscoverContainerViewController" id="pzu-gF-0gR" customClass="DiscoverContainerViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DiscoverContainerViewController" id="pzu-gF-0gR" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3H-P4-lPA"/>
                         <viewControllerLayoutGuide type="bottom" id="FXe-lF-NcI"/>
@@ -126,15 +127,9 @@
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ade-aI-clV">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                                <connections>
-                                    <segue destination="T3K-r6-koR" kind="embed" identifier="embedMeetGenius" id="ldB-jB-1ZQ"/>
-                                </connections>
                             </containerView>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tFq-8H-AGD">
                                 <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                                <connections>
-                                    <segue destination="fxl-gW-1pr" kind="embed" identifier="embedDiscover" id="myY-3S-VTe"/>
-                                </connections>
                             </containerView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -174,6 +169,27 @@
             </objects>
             <point key="canvasLocation" x="636" y="342"/>
         </scene>
+        <!--Page View Controller-->
+        <scene sceneID="val-6z-adZ">
+            <objects>
+                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="Jon-hm-GB8" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="hMA-hJ-Q1K">
+                        <nil key="title"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XLA-8Q-V51">
+                            <rect key="frame" x="96" y="7" width="128" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <segments>
+                                <segment title="First"/>
+                                <segment title="Second"/>
+                            </segments>
+                        </segmentedControl>
+                    </navigationItem>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kl2-Hv-EcR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="636" y="947"/>
+        </scene>
         <!--Navigation Controller-->
         <scene sceneID="udH-A7-yh6">
             <objects>
@@ -192,6 +208,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mHp-Gp-rzt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="199" y="342"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="3i7-6c-SeN">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MUg-4Q-wf9" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PWQ-KB-QxN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Jon-hm-GB8" kind="relationship" relationship="rootViewController" id="zwd-o4-54W"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YKJ-EK-LM2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="199" y="947"/>
         </scene>
     </scenes>
 </document>
