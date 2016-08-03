@@ -49,7 +49,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Lb-bmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1460" y="726"/>
+            <point key="canvasLocation" x="993" y="1538"/>
         </scene>
         <!--Meet Genius View Controller-->
         <scene sceneID="LJn-ul-tWy">
@@ -88,87 +88,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RtR-Fj-qI0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1077" y="726"/>
-        </scene>
-        <!--ProfileViewController-->
-        <scene sceneID="c2u-kZ-KfX">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="Mso-uB-5h2" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2y7-Gv-1UV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1015" y="384"/>
-        </scene>
-        <!--GeniusInterviewViewController-->
-        <scene sceneID="rFU-Ru-Gmf">
-            <objects>
-                <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="mSt-h3-goH" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="et6-lG-1Em" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1044.5" y="275"/>
-        </scene>
-        <!--GeniusInterviewViewController-->
-        <scene sceneID="z00-Cx-Yy0">
-            <objects>
-                <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="qJO-BR-2rB" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1ii-43-19w" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1121.5" y="321"/>
-        </scene>
-        <!--View Controller-->
-        <scene sceneID="O2C-is-rbL">
-            <objects>
-                <viewController id="pzu-gF-0gR" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3H-P4-lPA"/>
-                        <viewControllerLayoutGuide type="bottom" id="FXe-lF-NcI"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="d6M-Vq-qBS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ade-aI-clV">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tFq-8H-AGD">
-                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                            </containerView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ade-aI-clV" firstAttribute="top" secondItem="d6M-Vq-qBS" secondAttribute="top" id="4U8-1Z-uRw"/>
-                            <constraint firstItem="tFq-8H-AGD" firstAttribute="leading" secondItem="d6M-Vq-qBS" secondAttribute="leading" id="99I-5c-eiG"/>
-                            <constraint firstItem="FXe-lF-NcI" firstAttribute="top" secondItem="tFq-8H-AGD" secondAttribute="bottom" id="Gj5-kE-x8q"/>
-                            <constraint firstAttribute="trailing" secondItem="ade-aI-clV" secondAttribute="trailing" id="IGI-0N-1kR"/>
-                            <constraint firstItem="ade-aI-clV" firstAttribute="leading" secondItem="d6M-Vq-qBS" secondAttribute="leading" id="Rv2-JD-OQ5"/>
-                            <constraint firstItem="tFq-8H-AGD" firstAttribute="top" secondItem="y3H-P4-lPA" secondAttribute="bottom" id="TlA-OQ-cyq"/>
-                            <constraint firstAttribute="bottom" secondItem="ade-aI-clV" secondAttribute="bottom" id="Vqt-P2-WI0"/>
-                            <constraint firstAttribute="trailing" secondItem="tFq-8H-AGD" secondAttribute="trailing" id="jKv-ha-Sw1"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="4ZW-be-UeP">
-                        <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="pIA-g9-MZ7">
-                            <rect key="frame" x="69" y="7" width="183" height="30"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            <segments>
-                                <segment title="Meet Genius"/>
-                                <segment title="Find All"/>
-                            </segments>
-                        </segmentedControl>
-                    </navigationItem>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
-                    <connections>
-                        <outlet property="discoveredUsersContainerView" destination="tFq-8H-AGD" id="saM-Ql-bS0"/>
-                        <outlet property="geniusesContainerView" destination="ade-aI-clV" id="MLp-zX-9Fu"/>
-                        <outlet property="segmentedControl" destination="pIA-g9-MZ7" id="3w9-pT-zy3"/>
-                        <segue destination="Mso-uB-5h2" kind="show" identifier="showProfile" id="xMr-kL-ECd"/>
-                        <segue destination="mSt-h3-goH" kind="show" identifier="showGeniusInterview" id="4mo-zj-Hna"/>
-                        <segue destination="qJO-BR-2rB" kind="show" identifier="showGeniusInterviewWithBanner" id="XVn-G9-ljI"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="T4l-ea-p2b" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="636" y="342"/>
+            <point key="canvasLocation" x="636" y="1538"/>
         </scene>
         <!--Discover Container View Controller-->
         <scene sceneID="val-6z-adZ">
@@ -198,25 +118,6 @@
             <point key="canvasLocation" x="636" y="947"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="udH-A7-yh6">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KiL-mx-7DZ" sceneMemberID="viewController">
-                    <toolbarItems/>
-                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PBT-4x-fqv">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="pzu-gF-0gR" kind="relationship" relationship="rootViewController" id="uMo-m9-UNx"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mHp-Gp-rzt" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="199" y="342"/>
-        </scene>
-        <!--Navigation Controller-->
         <scene sceneID="3i7-6c-SeN">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MUg-4Q-wf9" sceneMemberID="viewController">
@@ -241,7 +142,7 @@
                 <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="TbH-ta-fpD" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jaA-bA-dAL" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="998" y="1173"/>
+            <point key="canvasLocation" x="1072" y="1033"/>
         </scene>
         <!--GeniusInterviewViewController-->
         <scene sceneID="lL1-6q-htg">
@@ -249,7 +150,7 @@
                 <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="9vY-cf-Vg4" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xtB-cT-ilp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1027.5" y="1030"/>
+            <point key="canvasLocation" x="1101.5" y="866"/>
         </scene>
         <!--GeniusInterviewViewController-->
         <scene sceneID="b9S-VW-FGm">
@@ -257,7 +158,7 @@
                 <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="s8W-oM-19O" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ub8-UX-6T2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1027.5" y="1104"/>
+            <point key="canvasLocation" x="1101.5" y="947"/>
         </scene>
     </scenes>
 </document>
