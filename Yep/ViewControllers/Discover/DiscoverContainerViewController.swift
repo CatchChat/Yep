@@ -22,9 +22,9 @@ class DiscoverContainerViewController: UIPageViewController {
         var title: String {
             switch self {
             case .MeetGenius:
-                return " " + NSLocalizedString("Meet Genius", comment: "") + " "
+                return NSLocalizedString("Meet Genius", comment: "")
             case .FindAll:
-                return " " + NSLocalizedString("Find All", comment: "") + " "
+                return NSLocalizedString("Find All", comment: "")
             }
         }
     }
@@ -36,6 +36,9 @@ class DiscoverContainerViewController: UIPageViewController {
                 let option = Option(rawValue: $0)
                 segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
             })
+
+            let font = UIFont.systemFontOfSize(15)
+            segmentedControl.yep_setTitleFont(font, withPadding: 12)
         }
     }
 
