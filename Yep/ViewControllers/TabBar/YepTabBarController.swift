@@ -147,9 +147,12 @@ final class YepTabBarController: UITabBarController {
 
         let duration = (animated ? 0.25 : 0.0)
 
-        UIView.animateWithDuration(duration, animations: {
-            let frame = self.tabBar.frame
-            self.tabBar.frame = CGRectOffset(frame, 0, offsetY);
+        UIView.animateWithDuration(duration, animations: { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            let frame = strongSelf.tabBar.frame
+            strongSelf.tabBar.frame = CGRectOffset(frame, 0, offsetY)
         }, completion: nil)
     }
 }
@@ -276,18 +279,6 @@ extension YepTabBarController: UITabBarControllerDelegate {
                 }
             }
         }
-
-        /*
-        if selectedIndex == 1 {
-            if let nvc = viewController as? UINavigationController, vc = nvc.topViewController as? ContactsViewController {
-                syncFriendshipsAndDoFurtherAction {
-                    SafeDispatch.async { [weak vc] in
-                        vc?.updateContactsTableView()
-                    }
-                }
-            }
-        }
-        */
     }
 }
 
