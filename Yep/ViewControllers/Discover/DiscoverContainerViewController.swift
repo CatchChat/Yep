@@ -128,7 +128,7 @@ class DiscoverContainerViewController: UIPageViewController {
             case .MeetGenius:
                 //geniusesContainerView.hidden = false
                 //discoveredUsersContainerView.hidden = true
-                setViewControllerForIndex(0)
+                setViewControllers([meetGeniusViewController], direction: .Reverse, animated: true, completion: nil)
 
                 navigationItem.leftBarButtonItem = nil
                 navigationItem.rightBarButtonItem = nil
@@ -136,7 +136,7 @@ class DiscoverContainerViewController: UIPageViewController {
             case .FindAll:
                 //geniusesContainerView.hidden = true
                 //discoveredUsersContainerView.hidden = false
-                setViewControllerForIndex(1)
+                setViewControllers([discoverViewController], direction: .Forward, animated: true, completion: nil)
 
                 //navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
                 navigationItem.rightBarButtonItem = discoveredUsersFilterButtonItem
@@ -144,10 +144,10 @@ class DiscoverContainerViewController: UIPageViewController {
         }
     }
 
-    func setViewControllerForIndex(index: Int) {
-        let viewControllers = [index == 0 ? meetGeniusViewController : discoverViewController]
-        setViewControllers(viewControllers, direction: .Forward, animated: false, completion: nil)
-    }
+//    func setViewControllerForIndex(index: Int) {
+//        let viewControllers = [index == 0 ? meetGeniusViewController : discoverViewController]
+//        setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
+//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
