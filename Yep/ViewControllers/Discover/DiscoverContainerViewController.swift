@@ -115,6 +115,8 @@ class DiscoverContainerViewController: UIPageViewController {
         meetGeniusViewController = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("MeetGeniusViewController") as! MeetGeniusViewController
         discoverViewController = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
 
+        self.dataSource = self
+
         currentOption = .MeetGenius
 
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
@@ -210,6 +212,29 @@ class DiscoverContainerViewController: UIPageViewController {
         default:
             break
         }
+    }
+}
+
+// MARK: - UIViewControllerPreviewingDelegate
+
+extension DiscoverContainerViewController: UIPageViewControllerDataSource {
+
+    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+
+        if viewController == discoverViewController {
+            return meetGeniusViewController
+        }
+
+        return nil
+    }
+
+    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+
+        if viewController == meetGeniusViewController {
+            return discoverViewController
+        }
+        
+        return nil
     }
 }
 
