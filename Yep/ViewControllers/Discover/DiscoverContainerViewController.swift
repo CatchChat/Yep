@@ -22,9 +22,9 @@ class DiscoverContainerViewController: UIPageViewController {
         var title: String {
             switch self {
             case .MeetGenius:
-                return " " + NSLocalizedString("Meet Genius", comment: "") + " "
+                return NSLocalizedString("Meet Genius", comment: "")
             case .FindAll:
-                return " " + NSLocalizedString("Find All", comment: "") + " "
+                return NSLocalizedString("Find All", comment: "")
             }
         }
     }
@@ -36,7 +36,8 @@ class DiscoverContainerViewController: UIPageViewController {
                 let option = Option(rawValue: $0)
                 segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
             })
-            segmentedControl.setContentPositionAdjustment(UIOffset(horizontal: -1, vertical: 0), forSegmentType: .Any, barMetrics: .Default)
+
+            segmentedControl.addTitlePadding(10)
         }
     }
 
