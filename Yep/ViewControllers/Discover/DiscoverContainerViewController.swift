@@ -153,7 +153,6 @@ class DiscoverContainerViewController: UIPageViewController {
         super.viewDidLoad()
 
         currentOption = .MeetGenius
-
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
 
         segmentedControl.rx_value
@@ -172,6 +171,7 @@ class DiscoverContainerViewController: UIPageViewController {
         }
 
         self.dataSource = self
+        self.delegate = self
 
         if traitCollection.forceTouchCapability == .Available {
             registerForPreviewingWithDelegate(self, sourceView: view)
@@ -276,6 +276,26 @@ extension DiscoverContainerViewController: UIPageViewControllerDataSource {
         return nil
     }
 }
+
+// MARK: - UIPageViewControllerDelegate
+
+extension DiscoverContainerViewController: UIPageViewControllerDelegate {
+
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+
+        guard completed else {
+            return
+        }
+
+        if previousViewControllers.first == meetGeniusViewController {
+            currentOption = .FindAll
+        } else if previousViewControllers.first == discoverViewController {
+            currentOption = .MeetGenius
+        }
+        segmentedControl.selectedSegmentIndex = currentOption.rawValue
+    }
+}
+
 
 // MARK: - UIViewControllerPreviewingDelegate
 
