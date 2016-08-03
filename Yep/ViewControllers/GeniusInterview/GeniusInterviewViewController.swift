@@ -13,7 +13,7 @@ import RealmSwift
 import RxSwift
 import RxCocoa
 
-class GeniusInterviewViewController: UIViewController {
+class GeniusInterviewViewController: BaseViewController {
 
     var interview: InterviewRepresentation!
 
