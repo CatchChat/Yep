@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="KiL-mx-7DZ">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="MUg-4Q-wf9">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -7,7 +7,7 @@
         <!--Discover-->
         <scene sceneID="6eH-9x-VcH">
             <objects>
-                <viewController storyboardIdentifier="DiscoverViewController" id="fxl-gW-1pr" userLabel="Discover" customClass="DiscoverViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="DiscoverViewController" automaticallyAdjustsScrollViewInsets="NO" id="fxl-gW-1pr" userLabel="Discover" customClass="DiscoverViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="h7g-Hp-sr5"/>
                         <viewControllerLayoutGuide type="bottom" id="G9m-cx-iQE"/>
@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="06U-4l-fjf" customClass="DiscoverCollectionView" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="MdZ-To-pDH">
                                     <size key="itemSize" width="50" height="50"/>
                                     <size key="headerReferenceSize" width="0.0" height="0.0"/>
@@ -27,16 +27,16 @@
                                 <cells/>
                             </collectionView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rkh-4n-Lvv">
-                                <rect key="frame" x="150" y="120" width="20" height="20"/>
+                                <rect key="frame" x="150" y="140" width="20" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="centerX" secondItem="rkh-4n-Lvv" secondAttribute="centerX" id="2Id-zg-YRJ"/>
-                            <constraint firstAttribute="bottom" secondItem="06U-4l-fjf" secondAttribute="bottom" id="9H3-h2-21X"/>
                             <constraint firstAttribute="trailing" secondItem="06U-4l-fjf" secondAttribute="trailing" id="CA6-rT-Bsr"/>
-                            <constraint firstItem="06U-4l-fjf" firstAttribute="top" secondItem="7h2-s3-2Sv" secondAttribute="top" id="SzC-e0-Ofd"/>
                             <constraint firstItem="06U-4l-fjf" firstAttribute="leading" secondItem="7h2-s3-2Sv" secondAttribute="leading" id="eZs-w4-dLu"/>
+                            <constraint firstItem="06U-4l-fjf" firstAttribute="top" secondItem="h7g-Hp-sr5" secondAttribute="bottom" id="iif-Ll-pLe"/>
+                            <constraint firstItem="G9m-cx-iQE" firstAttribute="top" secondItem="06U-4l-fjf" secondAttribute="bottom" id="mNX-Jw-VOG"/>
                             <constraint firstItem="rkh-4n-Lvv" firstAttribute="top" secondItem="h7g-Hp-sr5" secondAttribute="bottom" constant="120" id="zo9-EA-a8g"/>
                         </constraints>
                     </view>
@@ -49,12 +49,12 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Lb-bmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1094" y="698"/>
+            <point key="canvasLocation" x="993" y="1538"/>
         </scene>
         <!--Meet Genius View Controller-->
         <scene sceneID="LJn-ul-tWy">
             <objects>
-                <viewController storyboardIdentifier="MeetGeniusViewController" id="T3K-r6-koR" customClass="MeetGeniusViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MeetGeniusViewController" automaticallyAdjustsScrollViewInsets="NO" id="T3K-r6-koR" customClass="MeetGeniusViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="56x-SH-EPZ"/>
                         <viewControllerLayoutGuide type="bottom" id="Z9c-2v-IDR"/>
@@ -64,7 +64,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="Wiu-tM-IPE">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="460"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="dataSource" destination="T3K-r6-koR" id="iAr-aR-b2y"/>
@@ -74,124 +74,91 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="Wiu-tM-IPE" firstAttribute="top" secondItem="56x-SH-EPZ" secondAttribute="bottom" id="1nD-P4-rvW"/>
                             <constraint firstAttribute="trailing" secondItem="Wiu-tM-IPE" secondAttribute="trailing" id="GtF-6c-Zb3"/>
-                            <constraint firstItem="Wiu-tM-IPE" firstAttribute="top" secondItem="hth-dN-RZR" secondAttribute="top" id="I2X-FT-efW"/>
+                            <constraint firstItem="Z9c-2v-IDR" firstAttribute="top" secondItem="Wiu-tM-IPE" secondAttribute="bottom" id="I4h-7H-2Ls"/>
                             <constraint firstItem="Wiu-tM-IPE" firstAttribute="leading" secondItem="hth-dN-RZR" secondAttribute="leading" id="Rqg-dh-dJe"/>
-                            <constraint firstAttribute="bottom" secondItem="Wiu-tM-IPE" secondAttribute="bottom" id="mK8-Ja-XO0"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Iwq-0Z-LV0"/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="Wiu-tM-IPE" id="kqE-9Y-rTj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RtR-Fj-qI0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1094" y="-3"/>
-        </scene>
-        <!--ProfileViewController-->
-        <scene sceneID="c2u-kZ-KfX">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="Mso-uB-5h2" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="2y7-Gv-1UV" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1015" y="384"/>
-        </scene>
-        <!--GeniusInterviewViewController-->
-        <scene sceneID="rFU-Ru-Gmf">
-            <objects>
-                <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="mSt-h3-goH" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="et6-lG-1Em" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1044.5" y="275"/>
-        </scene>
-        <!--GeniusInterviewViewController-->
-        <scene sceneID="z00-Cx-Yy0">
-            <objects>
-                <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="qJO-BR-2rB" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="1ii-43-19w" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1121.5" y="321"/>
+            <point key="canvasLocation" x="636" y="1538"/>
         </scene>
         <!--Discover Container View Controller-->
-        <scene sceneID="O2C-is-rbL">
+        <scene sceneID="val-6z-adZ">
             <objects>
-                <viewController storyboardIdentifier="DiscoverContainerViewController" id="pzu-gF-0gR" customClass="DiscoverContainerViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3H-P4-lPA"/>
-                        <viewControllerLayoutGuide type="bottom" id="FXe-lF-NcI"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="d6M-Vq-qBS">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ade-aI-clV">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
-                                <connections>
-                                    <segue destination="T3K-r6-koR" kind="embed" identifier="embedMeetGenius" id="ldB-jB-1ZQ"/>
-                                </connections>
-                            </containerView>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tFq-8H-AGD">
-                                <rect key="frame" x="0.0" y="64" width="320" height="416"/>
-                                <connections>
-                                    <segue destination="fxl-gW-1pr" kind="embed" identifier="embedDiscover" id="myY-3S-VTe"/>
-                                </connections>
-                            </containerView>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <constraints>
-                            <constraint firstItem="ade-aI-clV" firstAttribute="top" secondItem="d6M-Vq-qBS" secondAttribute="top" id="4U8-1Z-uRw"/>
-                            <constraint firstItem="tFq-8H-AGD" firstAttribute="leading" secondItem="d6M-Vq-qBS" secondAttribute="leading" id="99I-5c-eiG"/>
-                            <constraint firstItem="FXe-lF-NcI" firstAttribute="top" secondItem="tFq-8H-AGD" secondAttribute="bottom" id="Gj5-kE-x8q"/>
-                            <constraint firstAttribute="trailing" secondItem="ade-aI-clV" secondAttribute="trailing" id="IGI-0N-1kR"/>
-                            <constraint firstItem="ade-aI-clV" firstAttribute="leading" secondItem="d6M-Vq-qBS" secondAttribute="leading" id="Rv2-JD-OQ5"/>
-                            <constraint firstItem="tFq-8H-AGD" firstAttribute="top" secondItem="y3H-P4-lPA" secondAttribute="bottom" id="TlA-OQ-cyq"/>
-                            <constraint firstAttribute="bottom" secondItem="ade-aI-clV" secondAttribute="bottom" id="Vqt-P2-WI0"/>
-                            <constraint firstAttribute="trailing" secondItem="tFq-8H-AGD" secondAttribute="trailing" id="jKv-ha-Sw1"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="4ZW-be-UeP">
+                <pageViewController storyboardIdentifier="DiscoverContainerViewController" autoresizesArchivedViewToFullSize="NO" automaticallyAdjustsScrollViewInsets="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="Jon-hm-GB8" customClass="DiscoverContainerViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <navigationItem key="navigationItem" id="hMA-hJ-Q1K">
                         <nil key="title"/>
-                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="pIA-g9-MZ7">
-                            <rect key="frame" x="69" y="7" width="183" height="30"/>
+                        <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XLA-8Q-V51">
+                            <rect key="frame" x="96" y="7" width="128" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <segments>
-                                <segment title="Meet Genius"/>
-                                <segment title="Find All"/>
+                                <segment title="First"/>
+                                <segment title="Second"/>
                             </segments>
                         </segmentedControl>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
-                        <outlet property="discoveredUsersContainerView" destination="tFq-8H-AGD" id="saM-Ql-bS0"/>
-                        <outlet property="geniusesContainerView" destination="ade-aI-clV" id="MLp-zX-9Fu"/>
-                        <outlet property="segmentedControl" destination="pIA-g9-MZ7" id="3w9-pT-zy3"/>
-                        <segue destination="Mso-uB-5h2" kind="show" identifier="showProfile" id="xMr-kL-ECd"/>
-                        <segue destination="mSt-h3-goH" kind="show" identifier="showGeniusInterview" id="4mo-zj-Hna"/>
-                        <segue destination="qJO-BR-2rB" kind="show" identifier="showGeniusInterviewWithBanner" id="XVn-G9-ljI"/>
+                        <outlet property="segmentedControl" destination="XLA-8Q-V51" id="kJW-Qh-9rT"/>
+                        <segue destination="9vY-cf-Vg4" kind="show" identifier="showGeniusInterview" id="QwL-hb-Wo5"/>
+                        <segue destination="s8W-oM-19O" kind="show" identifier="showGeniusInterviewWithBanner" id="VkR-EM-Nmy"/>
+                        <segue destination="TbH-ta-fpD" kind="show" identifier="showProfile" id="Q9u-Ti-hcS"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="T4l-ea-p2b" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </pageViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kl2-Hv-EcR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="636" y="342"/>
+            <point key="canvasLocation" x="636" y="947"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="udH-A7-yh6">
+        <scene sceneID="3i7-6c-SeN">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="KiL-mx-7DZ" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="MUg-4Q-wf9" sceneMemberID="viewController">
                     <toolbarItems/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PBT-4x-fqv">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="PWQ-KB-QxN">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="pzu-gF-0gR" kind="relationship" relationship="rootViewController" id="uMo-m9-UNx"/>
+                        <segue destination="Jon-hm-GB8" kind="relationship" relationship="rootViewController" id="zwd-o4-54W"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="mHp-Gp-rzt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="YKJ-EK-LM2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="199" y="342"/>
+            <point key="canvasLocation" x="199" y="947"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="tRX-6X-Lco">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="TbH-ta-fpD" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jaA-bA-dAL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1072" y="1033"/>
+        </scene>
+        <!--GeniusInterviewViewController-->
+        <scene sceneID="lL1-6q-htg">
+            <objects>
+                <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="9vY-cf-Vg4" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xtB-cT-ilp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1101.5" y="866"/>
+        </scene>
+        <!--GeniusInterviewViewController-->
+        <scene sceneID="b9S-VW-FGm">
+            <objects>
+                <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="s8W-oM-19O" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ub8-UX-6T2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1101.5" y="947"/>
         </scene>
     </scenes>
 </document>

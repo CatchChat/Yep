@@ -11,7 +11,7 @@ import YepKit
 import RxSwift
 import RxCocoa
 
-class DiscoverContainerViewController: UIViewController {
+class DiscoverContainerViewController: UIPageViewController {
 
     private lazy var disposeBag = DisposeBag()
 
@@ -39,12 +39,55 @@ class DiscoverContainerViewController: UIViewController {
         }
     }
 
-    @IBOutlet weak var geniusesContainerView: UIView!
-    @IBOutlet weak var discoveredUsersContainerView: UIView!
+    private lazy var meetGeniusViewController: MeetGeniusViewController = {
 
-    private weak var meetGeniusViewController: MeetGeniusViewController?
+        let vc = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("MeetGeniusViewController") as! MeetGeniusViewController
 
-    private weak var discoverViewController: DiscoverViewController?
+        vc.tapBannerAction = { [weak self] banner in
+            SafeDispatch.async { [weak self] in
+                self?.performSegueWithIdentifier("showGeniusInterviewWithBanner", sender: Box<GeniusInterviewBanner>(banner))
+            }
+        }
+
+        vc.showGeniusInterviewAction = { geniusInterview in
+            SafeDispatch.async { [weak self] in
+                self?.performSegueWithIdentifier("showGeniusInterview", sender: Box<GeniusInterview>(geniusInterview))
+            }
+        }
+
+        return vc
+    }()
+
+    private lazy var discoverViewController: DiscoverViewController = {
+
+        let vc = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
+
+        vc.showProfileOfDiscoveredUserAction = { discoveredUser in
+            SafeDispatch.async { [weak self] in
+                self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+            }
+        }
+
+        vc.didChangeLayoutModeAction = { [weak self] layoutMode in
+            self?.discoveredUsersLayoutMode = layoutMode
+        }
+
+        vc.didChangeSortStyleAction = { [weak self] sortStyle in
+            self?.discoveredUserSortStyle = sortStyle
+        }
+
+        return vc
+    }()
+
+    private lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
+        let item = UIBarButtonItem()
+        item.image = UIImage(named:"icon_list")
+        item.rx_tap
+            .subscribeNext({ [weak self] in self?.discoverViewController.changeLayoutMode() })
+            .addDisposableTo(self.disposeBag)
+        return item
+    }()
+
     private var discoveredUsersLayoutMode: DiscoverFlowLayout.Mode = .Card {
         didSet {
             switch discoveredUsersLayoutMode {
@@ -59,14 +102,15 @@ class DiscoverContainerViewController: UIViewController {
             }
         }
     }
-    lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
+
+    private lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
-        item.image = UIImage(named:"icon_list")
         item.rx_tap
-            .subscribeNext({ [weak self] in self?.discoverViewController?.changeLayoutMode() })
+            .subscribeNext({ [weak self] in self?.discoverViewController.showFilters() })
             .addDisposableTo(self.disposeBag)
         return item
     }()
+
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         willSet {
             SafeDispatch.async {
@@ -76,28 +120,19 @@ class DiscoverContainerViewController: UIViewController {
             }
         }
     }
-    lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem()
-        item.rx_tap
-            .subscribeNext({ [weak self] in self?.discoverViewController?.showFilters() })
-            .addDisposableTo(self.disposeBag)
-        return item
-    }()
 
     var currentOption: Option = .MeetGenius {
         didSet {
             switch currentOption {
 
             case .MeetGenius:
-                geniusesContainerView.hidden = false
-                discoveredUsersContainerView.hidden = true
+                setViewControllers([meetGeniusViewController], direction: .Reverse, animated: true, completion: nil)
 
                 navigationItem.leftBarButtonItem = nil
                 navigationItem.rightBarButtonItem = nil
 
             case .FindAll:
-                geniusesContainerView.hidden = true
-                discoveredUsersContainerView.hidden = false
+                setViewControllers([discoverViewController], direction: .Forward, animated: true, completion: nil)
 
                 //navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
                 navigationItem.rightBarButtonItem = discoveredUsersFilterButtonItem
@@ -109,7 +144,6 @@ class DiscoverContainerViewController: UIViewController {
         super.viewDidLoad()
 
         currentOption = .MeetGenius
-
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
 
         segmentedControl.rx_value
@@ -127,6 +161,9 @@ class DiscoverContainerViewController: UIViewController {
             discoveredUserSortStyle = .Default
         }
 
+        self.dataSource = self
+        self.delegate = self
+
         if traitCollection.forceTouchCapability == .Available {
             registerForPreviewingWithDelegate(self, sourceView: view)
         }
@@ -141,44 +178,6 @@ class DiscoverContainerViewController: UIViewController {
         }
 
         switch identifier {
-
-        case "embedMeetGenius":
-
-            let vc = segue.destinationViewController as! MeetGeniusViewController
-
-            self.meetGeniusViewController = vc
-
-            vc.tapBannerAction = { [weak self] banner in
-                SafeDispatch.async { [weak self] in
-                    self?.performSegueWithIdentifier("showGeniusInterviewWithBanner", sender: Box<GeniusInterviewBanner>(banner))
-                }
-            }
-
-            vc.showGeniusInterviewAction = { geniusInterview in
-                SafeDispatch.async { [weak self] in
-                    self?.performSegueWithIdentifier("showGeniusInterview", sender: Box<GeniusInterview>(geniusInterview))
-                }
-            }
-
-        case "embedDiscover":
-
-            let vc = segue.destinationViewController as! DiscoverViewController
-
-            self.discoverViewController = vc
-
-            vc.showProfileOfDiscoveredUserAction = { discoveredUser in
-                SafeDispatch.async { [weak self] in
-                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
-                }
-            }
-
-            vc.didChangeLayoutModeAction = { [weak self] layoutMode in
-                self?.discoveredUsersLayoutMode = layoutMode
-            }
-
-            vc.didChangeSortStyleAction = { [weak self] sortStyle in
-                self?.discoveredUserSortStyle = sortStyle
-            }
 
         case "showProfile":
 
@@ -208,6 +207,49 @@ class DiscoverContainerViewController: UIViewController {
 
 // MARK: - UIViewControllerPreviewingDelegate
 
+extension DiscoverContainerViewController: UIPageViewControllerDataSource {
+
+    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+
+        if viewController == discoverViewController {
+            return meetGeniusViewController
+        }
+
+        return nil
+    }
+
+    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+
+        if viewController == meetGeniusViewController {
+            return discoverViewController
+        }
+        
+        return nil
+    }
+}
+
+// MARK: - UIPageViewControllerDelegate
+
+extension DiscoverContainerViewController: UIPageViewControllerDelegate {
+
+    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+
+        guard completed else {
+            return
+        }
+
+        if previousViewControllers.first == meetGeniusViewController {
+            currentOption = .FindAll
+        } else if previousViewControllers.first == discoverViewController {
+            currentOption = .MeetGenius
+        }
+        segmentedControl.selectedSegmentIndex = currentOption.rawValue
+    }
+}
+
+
+// MARK: - UIViewControllerPreviewingDelegate
+
 extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
     func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
@@ -216,7 +258,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
         case .MeetGenius:
 
-            guard let tableView = meetGeniusViewController?.tableView else {
+            guard let tableView = meetGeniusViewController.tableView else {
                 return nil
             }
 
@@ -230,17 +272,14 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
             let vc = UIStoryboard(name: "GeniusInterview", bundle: nil).instantiateViewControllerWithIdentifier("GeniusInterviewViewController") as! GeniusInterviewViewController
 
-            guard let geniusInterview = meetGeniusViewController?.geniusInterviews[indexPath.row] else {
-                return nil
-            }
-            
+            let geniusInterview = meetGeniusViewController.geniusInterviews[indexPath.row]
             vc.interview = geniusInterview
 
             return vc
 
         case .FindAll:
 
-            guard let discoveredUsersCollectionView = discoverViewController?.discoveredUsersCollectionView else {
+            guard let discoveredUsersCollectionView = discoverViewController.discoveredUsersCollectionView else {
                 return nil
             }
 
@@ -254,10 +293,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
             let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
 
-            guard let discoveredUser = discoverViewController?.discoveredUsers[indexPath.item] else {
-                return nil
-            }
-
+            let discoveredUser = discoverViewController.discoveredUsers[indexPath.item]
             vc.prepare(withDiscoveredUser: discoveredUser)
 
             return vc
