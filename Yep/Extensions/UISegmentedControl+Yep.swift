@@ -10,10 +10,10 @@ import UIKit
 
 extension UISegmentedControl {
 
-    func addTitlePadding(padding: CGFloat) {
+    func yep_setTitleFont(font: UIFont, withPadding padding: CGFloat) {
 
-        let font = UIFont.systemFontOfSize(15)
         let attributes = [NSFontAttributeName: font]
+
         setTitleTextAttributes(attributes, forState: .Normal)
 
         for i in 0..<numberOfSegments {

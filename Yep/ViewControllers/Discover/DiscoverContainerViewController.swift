@@ -37,7 +37,8 @@ class DiscoverContainerViewController: UIPageViewController {
                 segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
             })
 
-            segmentedControl.addTitlePadding(10)
+            let font = UIFont.systemFontOfSize(15)
+            segmentedControl.yep_setTitleFont(font, withPadding: 12)
         }
     }
 
