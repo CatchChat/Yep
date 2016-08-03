@@ -39,8 +39,24 @@ class DiscoverContainerViewController: UIPageViewController {
         }
     }
 
-    private var meetGeniusViewController: MeetGeniusViewController!
-    private var discoverViewController: DiscoverViewController!
+    private lazy var meetGeniusViewController: MeetGeniusViewController = {
+        let meetGeniusViewController = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("MeetGeniusViewController") as! MeetGeniusViewController
+        return meetGeniusViewController
+    }()
+
+    private lazy var discoverViewController: DiscoverViewController = {
+        let discoverViewController = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
+        return discoverViewController
+    }()
+
+    private lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
+        let item = UIBarButtonItem()
+        item.image = UIImage(named:"icon_list")
+        item.rx_tap
+            .subscribeNext({ [weak self] in self?.discoverViewController.changeLayoutMode() })
+            .addDisposableTo(self.disposeBag)
+        return item
+    }()
 
     private var discoveredUsersLayoutMode: DiscoverFlowLayout.Mode = .Card {
         didSet {
@@ -56,14 +72,15 @@ class DiscoverContainerViewController: UIPageViewController {
             }
         }
     }
-    lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
+
+    private lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
-        item.image = UIImage(named:"icon_list")
         item.rx_tap
-            .subscribeNext({ [weak self] in self?.discoverViewController?.changeLayoutMode() })
+            .subscribeNext({ [weak self] in self?.discoverViewController.showFilters() })
             .addDisposableTo(self.disposeBag)
         return item
     }()
+
     private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         willSet {
             SafeDispatch.async {
@@ -73,13 +90,6 @@ class DiscoverContainerViewController: UIPageViewController {
             }
         }
     }
-    lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem()
-        item.rx_tap
-            .subscribeNext({ [weak self] in self?.discoverViewController?.showFilters() })
-            .addDisposableTo(self.disposeBag)
-        return item
-    }()
 
     var currentOption: Option = .MeetGenius {
         didSet {
@@ -112,11 +122,6 @@ class DiscoverContainerViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        meetGeniusViewController = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("MeetGeniusViewController") as! MeetGeniusViewController
-        discoverViewController = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
-
-        self.dataSource = self
-
         currentOption = .MeetGenius
 
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
@@ -135,6 +140,8 @@ class DiscoverContainerViewController: UIPageViewController {
         } else {
             discoveredUserSortStyle = .Default
         }
+
+        self.dataSource = self
 
         if traitCollection.forceTouchCapability == .Available {
             registerForPreviewingWithDelegate(self, sourceView: view)
@@ -248,7 +255,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
         case .MeetGenius:
 
-            guard let tableView = meetGeniusViewController?.tableView else {
+            guard let tableView = meetGeniusViewController.tableView else {
                 return nil
             }
 
@@ -262,17 +269,14 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
             let vc = UIStoryboard(name: "GeniusInterview", bundle: nil).instantiateViewControllerWithIdentifier("GeniusInterviewViewController") as! GeniusInterviewViewController
 
-            guard let geniusInterview = meetGeniusViewController?.geniusInterviews[indexPath.row] else {
-                return nil
-            }
-            
+            let geniusInterview = meetGeniusViewController.geniusInterviews[indexPath.row]
             vc.interview = geniusInterview
 
             return vc
 
         case .FindAll:
 
-            guard let discoveredUsersCollectionView = discoverViewController?.discoveredUsersCollectionView else {
+            guard let discoveredUsersCollectionView = discoverViewController.discoveredUsersCollectionView else {
                 return nil
             }
 
@@ -286,10 +290,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
             let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
 
-            guard let discoveredUser = discoverViewController?.discoveredUsers[indexPath.item] else {
-                return nil
-            }
-
+            let discoveredUser = discoverViewController.discoveredUsers[indexPath.item]
             vc.prepare(withDiscoveredUser: discoveredUser)
 
             return vc
