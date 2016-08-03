@@ -126,16 +126,12 @@ class DiscoverContainerViewController: UIPageViewController {
             switch currentOption {
 
             case .MeetGenius:
-                //geniusesContainerView.hidden = false
-                //discoveredUsersContainerView.hidden = true
                 setViewControllers([meetGeniusViewController], direction: .Reverse, animated: true, completion: nil)
 
                 navigationItem.leftBarButtonItem = nil
                 navigationItem.rightBarButtonItem = nil
 
             case .FindAll:
-                //geniusesContainerView.hidden = true
-                //discoveredUsersContainerView.hidden = false
                 setViewControllers([discoverViewController], direction: .Forward, animated: true, completion: nil)
 
                 //navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
@@ -143,11 +139,6 @@ class DiscoverContainerViewController: UIPageViewController {
             }
         }
     }
-
-//    func setViewControllerForIndex(index: Int) {
-//        let viewControllers = [index == 0 ? meetGeniusViewController : discoverViewController]
-//        setViewControllers(viewControllers, direction: .Forward, animated: true, completion: nil)
-//    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -187,46 +178,6 @@ class DiscoverContainerViewController: UIPageViewController {
         }
 
         switch identifier {
-
-            /*
-        case "embedMeetGenius":
-
-            let vc = segue.destinationViewController as! MeetGeniusViewController
-
-            self.meetGeniusViewController = vc
-
-            vc.tapBannerAction = { [weak self] banner in
-                SafeDispatch.async { [weak self] in
-                    self?.performSegueWithIdentifier("showGeniusInterviewWithBanner", sender: Box<GeniusInterviewBanner>(banner))
-                }
-            }
-
-            vc.showGeniusInterviewAction = { geniusInterview in
-                SafeDispatch.async { [weak self] in
-                    self?.performSegueWithIdentifier("showGeniusInterview", sender: Box<GeniusInterview>(geniusInterview))
-                }
-            }
-
-        case "embedDiscover":
-
-            let vc = segue.destinationViewController as! DiscoverViewController
-
-            self.discoverViewController = vc
-
-            vc.showProfileOfDiscoveredUserAction = { discoveredUser in
-                SafeDispatch.async { [weak self] in
-                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
-                }
-            }
-
-            vc.didChangeLayoutModeAction = { [weak self] layoutMode in
-                self?.discoveredUsersLayoutMode = layoutMode
-            }
-
-            vc.didChangeSortStyleAction = { [weak self] sortStyle in
-                self?.discoveredUserSortStyle = sortStyle
-            }
-             */
 
         case "showProfile":
 
