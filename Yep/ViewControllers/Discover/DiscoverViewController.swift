@@ -149,6 +149,14 @@ final class DiscoverViewController: BaseViewController {
         #endif
     }
 
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        let inset = UIEdgeInsets(top: 64, left: 0, bottom: 50, right: 0)
+        discoveredUsersCollectionView.contentInset = inset
+        discoveredUsersCollectionView.scrollIndicatorInsets = inset
+    }
+
     // MARK: Actions
 
     @objc private func refresh(sender: UIRefreshControl) {

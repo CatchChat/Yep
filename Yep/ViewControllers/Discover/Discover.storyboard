@@ -49,7 +49,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Lb-bmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1483" y="726"/>
+            <point key="canvasLocation" x="1460" y="726"/>
         </scene>
         <!--Meet Genius View Controller-->
         <scene sceneID="LJn-ul-tWy">
@@ -80,6 +80,7 @@
                             <constraint firstAttribute="bottom" secondItem="Wiu-tM-IPE" secondAttribute="bottom" id="mK8-Ja-XO0"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Iwq-0Z-LV0"/>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="Wiu-tM-IPE" id="kqE-9Y-rTj"/>
