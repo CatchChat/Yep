@@ -139,7 +139,8 @@ final class ProfileFooterCell: UICollectionViewCell {
             usernameLabel.text = NSLocalizedString("No username", comment: "")
         }
 
-        introductionTextView.text = introduction
+        let attributedString = introductionTextView.createAttributedStringWithString(introduction)
+        introductionTextView.attributedText = attributedString
     }
 
     var location: CLLocation? {
@@ -173,3 +174,4 @@ final class ProfileFooterCell: UICollectionViewCell {
         }
     }
 }
+
