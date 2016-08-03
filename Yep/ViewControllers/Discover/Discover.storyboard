@@ -49,7 +49,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="BbO-Lb-bmk" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1456" y="947"/>
+            <point key="canvasLocation" x="1483" y="726"/>
         </scene>
         <!--Meet Genius View Controller-->
         <scene sceneID="LJn-ul-tWy">
@@ -87,7 +87,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="RtR-Fj-qI0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1072" y="947"/>
+            <point key="canvasLocation" x="1077" y="726"/>
         </scene>
         <!--ProfileViewController-->
         <scene sceneID="c2u-kZ-KfX">
@@ -116,7 +116,7 @@
         <!--View Controller-->
         <scene sceneID="O2C-is-rbL">
             <objects>
-                <viewController storyboardIdentifier="DiscoverContainerViewController" id="pzu-gF-0gR" sceneMemberID="viewController">
+                <viewController id="pzu-gF-0gR" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3H-P4-lPA"/>
                         <viewControllerLayoutGuide type="bottom" id="FXe-lF-NcI"/>
@@ -169,10 +169,10 @@
             </objects>
             <point key="canvasLocation" x="636" y="342"/>
         </scene>
-        <!--Page View Controller-->
+        <!--Discover Container View Controller-->
         <scene sceneID="val-6z-adZ">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="Jon-hm-GB8" sceneMemberID="viewController">
+                <pageViewController storyboardIdentifier="DiscoverContainerViewController" autoresizesArchivedViewToFullSize="NO" transitionStyle="pageCurl" navigationOrientation="horizontal" spineLocation="min" id="Jon-hm-GB8" customClass="DiscoverContainerViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
                     <navigationItem key="navigationItem" id="hMA-hJ-Q1K">
                         <nil key="title"/>
                         <segmentedControl key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="XLA-8Q-V51">
@@ -185,6 +185,11 @@
                         </segmentedControl>
                     </navigationItem>
                     <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <connections>
+                        <segue destination="9vY-cf-Vg4" kind="show" identifier="showGeniusInterview" id="QwL-hb-Wo5"/>
+                        <segue destination="s8W-oM-19O" kind="show" identifier="showGeniusInterviewWithBanner" id="VkR-EM-Nmy"/>
+                        <segue destination="TbH-ta-fpD" kind="show" identifier="showProfile" id="Q9u-Ti-hcS"/>
+                    </connections>
                 </pageViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kl2-Hv-EcR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -227,6 +232,30 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YKJ-EK-LM2" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="199" y="947"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="tRX-6X-Lco">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="TbH-ta-fpD" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jaA-bA-dAL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="998" y="1173"/>
+        </scene>
+        <!--GeniusInterviewViewController-->
+        <scene sceneID="lL1-6q-htg">
+            <objects>
+                <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="9vY-cf-Vg4" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xtB-cT-ilp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1027.5" y="1030"/>
+        </scene>
+        <!--GeniusInterviewViewController-->
+        <scene sceneID="b9S-VW-FGm">
+            <objects>
+                <viewControllerPlaceholder storyboardName="GeniusInterview" referencedIdentifier="GeniusInterviewViewController" id="s8W-oM-19O" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ub8-UX-6T2" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1027.5" y="1104"/>
         </scene>
     </scenes>
 </document>
