@@ -40,13 +40,43 @@ class DiscoverContainerViewController: UIPageViewController {
     }
 
     private lazy var meetGeniusViewController: MeetGeniusViewController = {
-        let meetGeniusViewController = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("MeetGeniusViewController") as! MeetGeniusViewController
-        return meetGeniusViewController
+
+        let vc = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("MeetGeniusViewController") as! MeetGeniusViewController
+
+        vc.tapBannerAction = { [weak self] banner in
+            SafeDispatch.async { [weak self] in
+                self?.performSegueWithIdentifier("showGeniusInterviewWithBanner", sender: Box<GeniusInterviewBanner>(banner))
+            }
+        }
+
+        vc.showGeniusInterviewAction = { geniusInterview in
+            SafeDispatch.async { [weak self] in
+                self?.performSegueWithIdentifier("showGeniusInterview", sender: Box<GeniusInterview>(geniusInterview))
+            }
+        }
+
+        return vc
     }()
 
     private lazy var discoverViewController: DiscoverViewController = {
-        let discoverViewController = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
-        return discoverViewController
+
+        let vc = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
+
+        vc.showProfileOfDiscoveredUserAction = { discoveredUser in
+            SafeDispatch.async { [weak self] in
+                self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+            }
+        }
+
+        vc.didChangeLayoutModeAction = { [weak self] layoutMode in
+            self?.discoveredUsersLayoutMode = layoutMode
+        }
+
+        vc.didChangeSortStyleAction = { [weak self] sortStyle in
+            self?.discoveredUserSortStyle = sortStyle
+        }
+
+        return vc
     }()
 
     private lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
@@ -158,6 +188,7 @@ class DiscoverContainerViewController: UIPageViewController {
 
         switch identifier {
 
+            /*
         case "embedMeetGenius":
 
             let vc = segue.destinationViewController as! MeetGeniusViewController
@@ -195,6 +226,7 @@ class DiscoverContainerViewController: UIPageViewController {
             vc.didChangeSortStyleAction = { [weak self] sortStyle in
                 self?.discoveredUserSortStyle = sortStyle
             }
+             */
 
         case "showProfile":
 
