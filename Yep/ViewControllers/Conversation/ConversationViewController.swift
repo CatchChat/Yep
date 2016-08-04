@@ -753,7 +753,14 @@ final class ConversationViewController: BaseViewController {
             })
         }
 
-        return [subscribeAction]
+        let shareFeedAction = UIPreviewAction(title: NSLocalizedString("Share", comment: ""), style: .Default) { [weak self] (action, previewViewController) in
+            self?.shareFeed()
+        }
+
+        return [
+            subscribeAction,
+            shareFeedAction,
+        ]
     }
 
     // MARK: Navigation
