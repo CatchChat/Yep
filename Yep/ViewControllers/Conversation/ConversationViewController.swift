@@ -1003,7 +1003,6 @@ final class ConversationViewController: BaseViewController {
             guard !strongSelf.conversation.invalidated else {
                 return
             }
-
             guard let group = strongSelf.conversation.withGroup where !group.invalidated else {
                 return
             }
@@ -1011,8 +1010,9 @@ final class ConversationViewController: BaseViewController {
             _ = try? strongSelf.realm.write {
                 group.includeMe = true
                 group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
-                strongSelf.moreViewManager.updateForGroupAffair()
             }
+
+            strongSelf.moreViewManager.updateForGroupAffair()
 
             NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
         }
