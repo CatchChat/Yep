@@ -749,9 +749,7 @@ final class ConversationViewController: BaseViewController {
             joinGroup(groupID: groupID, failureHandler: nil, completion: { [weak self] in
                 println("subscribe OK")
 
-                self?.updateGroupToIncludeMe() { [weak self] in
-                    self?.moreViewManager.updateForGroupAffair()
-
+                self?.updateGroupToIncludeMe() {
                     SafeDispatch.async { [weak self] in
                         guard let strongSelf = self else { return }
                         if strongSelf.isSubscribeViewShowing {
@@ -1003,7 +1001,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    func updateGroupToIncludeMe(finished: () -> Void) {
+    func updateGroupToIncludeMe(finish: (() -> Void)? = nil) {
 
         SafeDispatch.async { [weak self] in
             guard let strongSelf = self else {
@@ -1023,7 +1021,9 @@ final class ConversationViewController: BaseViewController {
 
             NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
 
-            finished()
+            strongSelf.moreViewManager.updateForGroupAffair()
+
+            finish?()
         }
     }
 
