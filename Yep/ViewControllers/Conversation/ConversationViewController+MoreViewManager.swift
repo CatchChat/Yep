@@ -36,27 +36,7 @@ extension ConversationViewController {
         }
 
         manager.shareFeedAction = { [weak self] in
-            guard let
-                description = self?.conversation.withGroup?.withFeed?.body,
-                groupID = self?.conversation.withGroup?.groupID else {
-                    return
-            }
-
-            guard let groupShareURLString = self?.groupShareURLString else {
-
-                shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
-
-                    self?.groupShareURLString = groupShareURLString
-
-                    SafeDispatch.async { [weak self] in
-                        self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
-                    }
-                })
-
-                return
-            }
-
-            self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
+            self?.shareFeed()
         }
 
         manager.updateGroupAffairAction = { [weak self, weak manager] in
@@ -160,6 +140,31 @@ extension ConversationViewController {
                 })
             }
         }
+    }
+
+    func shareFeed() {
+
+        guard let
+            description = conversation.withGroup?.withFeed?.body,
+            groupID = conversation.withGroup?.groupID else {
+                return
+        }
+
+        guard let groupShareURLString = self.groupShareURLString else {
+
+            shareURLStringOfGroupWithGroupID(groupID, failureHandler: nil, completion: { [weak self] groupShareURLString in
+
+                self?.groupShareURLString = groupShareURLString
+
+                SafeDispatch.async { [weak self] in
+                    self?.shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
+                }
+            })
+
+            return
+        }
+
+        shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
     }
 
     private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
@@ -285,18 +290,11 @@ extension ConversationViewController {
 
             } else {
                 let groupID = group.groupID
-                joinGroup(groupID: groupID, failureHandler: nil, completion: {
+                joinGroup(groupID: groupID, failureHandler: nil, completion: { [weak self] in
                     println("subscribe OK")
 
-                    SafeDispatch.async { [weak self] in
-                        if let strongSelf = self {
-                            let _ = try? strongSelf.realm.write {
-                                group.includeMe = true
-                                group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
-                            }
-                            
-                            afterSubscribed?()
-                        }
+                    self?.updateGroupToIncludeMe() {
+                        afterSubscribed?()
                     }
                 })
             }

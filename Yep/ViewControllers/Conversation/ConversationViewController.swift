@@ -734,6 +734,43 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
+    // MARK: - Preview Actions
+
+    override func previewActionItems() -> [UIPreviewActionItem] {
+
+        guard let group = conversation.withGroup where !group.includeMe else {
+            return []
+        }
+
+        let groupID = group.groupID
+
+        let subscribeAction = UIPreviewAction(title: NSLocalizedString("Subscribe", comment: ""), style: .Default) { (action, previewViewController) in
+
+            joinGroup(groupID: groupID, failureHandler: nil, completion: { [weak self] in
+                println("subscribe OK")
+
+                self?.updateGroupToIncludeMe() {
+                    SafeDispatch.async { [weak self] in
+                        guard let strongSelf = self else { return }
+                        if strongSelf.isSubscribeViewShowing {
+                            strongSelf.subscribeView.hide()
+                        }
+                    }
+                }
+            })
+        }
+
+        let shareFeedAction = UIPreviewAction(title: NSLocalizedString("Share this feed", comment: ""), style: .Default) { [weak self] (action, previewViewController) in
+
+            self?.shareFeed()
+        }
+
+        return [
+            subscribeAction,
+            shareFeedAction,
+        ]
+    }
+
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
@@ -964,7 +1001,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    func updateGroupToIncludeMe() {
+    func updateGroupToIncludeMe(finish: (() -> Void)? = nil) {
 
         SafeDispatch.async { [weak self] in
             guard let strongSelf = self else {
@@ -973,7 +1010,6 @@ final class ConversationViewController: BaseViewController {
             guard !strongSelf.conversation.invalidated else {
                 return
             }
-
             guard let group = strongSelf.conversation.withGroup where !group.invalidated else {
                 return
             }
@@ -981,10 +1017,13 @@ final class ConversationViewController: BaseViewController {
             _ = try? strongSelf.realm.write {
                 group.includeMe = true
                 group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
-                strongSelf.moreViewManager.updateForGroupAffair()
             }
 
             NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+
+            strongSelf.moreViewManager.updateForGroupAffair()
+
+            finish?()
         }
     }
 
