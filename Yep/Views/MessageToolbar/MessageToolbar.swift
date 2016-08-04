@@ -16,7 +16,6 @@ final class MessageToolbar: UIToolbar {
     var lastToolbarFrame: CGRect?
 
     var messageTextViewHeightConstraint: NSLayoutConstraint!
-    let messageTextViewHeightConstraintNormalConstant: CGFloat = 34
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15)]
 
@@ -309,7 +308,7 @@ final class MessageToolbar: UIToolbar {
 
         UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
             if let strongSelf = self {
-                strongSelf.messageTextViewHeightConstraint.constant = strongSelf.messageTextViewHeightConstraintNormalConstant
+                strongSelf.messageTextViewHeightConstraint.constant = strongSelf.messageTextViewMinHeight
                 strongSelf.layoutIfNeeded()
             }
         }, completion: { _ in })
