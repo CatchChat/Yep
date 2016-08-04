@@ -12,6 +12,8 @@ final class SubscribeView: UIView {
 
     static let height: CGFloat = 50
 
+    lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
+
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "icon_subscribe_notify")
@@ -59,6 +61,15 @@ final class SubscribeView: UIView {
     func makeUI() {
 
         backgroundColor = UIColor.whiteColor()
+
+        do {
+            addSubview(blurView)
+            blurView.translatesAutoresizingMaskIntoConstraints = false
+            blurView.leadingAnchor.constraintEqualToAnchor(leadingAnchor).active = true
+            blurView.trailingAnchor.constraintEqualToAnchor(trailingAnchor).active = true
+            blurView.topAnchor.constraintEqualToAnchor(topAnchor).active = true
+            blurView.bottomAnchor.constraintEqualToAnchor(bottomAnchor).active = true
+        }
 
         do {
             let horizontalLineView = HorizontalLineView()
