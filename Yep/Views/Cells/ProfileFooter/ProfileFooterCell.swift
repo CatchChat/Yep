@@ -139,37 +139,39 @@ final class ProfileFooterCell: UICollectionViewCell {
             usernameLabel.text = NSLocalizedString("No username", comment: "")
         }
 
-        introductionTextView.text = introduction
+        let attributedString = introductionTextView.createAttributedStringWithString(introduction)
+        introductionTextView.attributedText = attributedString
     }
 
     var location: CLLocation? {
         didSet {
-            if let location = location {
+            guard let location = location else {
+                return
+            }
 
-                // 优化，减少反向查询
-                if let oldLocation = oldValue {
-                    let distance = location.distanceFromLocation(oldLocation)
-                    if distance < YepConfig.Location.distanceThreshold {
-                        return
+            // 优化，减少反向查询
+            if let oldLocation = oldValue {
+                let distance = location.distanceFromLocation(oldLocation)
+                if distance < YepConfig.Location.distanceThreshold {
+                    return
+                }
+            }
+
+            CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+
+                SafeDispatch.async { [weak self] in
+                    if (error != nil) {
+                        println("\(location) reverse geodcode fail: \(error?.localizedDescription)")
+                        self?.location = nil
+
+                    } else {
+                        if let placemarks = placemarks, let firstPlacemark = placemarks.first {
+                            self?.newLocationName = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
+                        }
                     }
                 }
-
-                CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
-
-                    SafeDispatch.async { [weak self] in
-                        if (error != nil) {
-                            println("\(location) reverse geodcode fail: \(error?.localizedDescription)")
-                            self?.location = nil
-                        }
-
-                        if let placemarks = placemarks {
-                            if let firstPlacemark = placemarks.first {
-                                self?.newLocationName = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
-                            }
-                        }
-                    }
-                })
-            }
+            })
         }
     }
 }
+
