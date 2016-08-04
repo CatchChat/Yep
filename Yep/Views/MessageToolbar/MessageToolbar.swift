@@ -16,7 +16,6 @@ final class MessageToolbar: UIToolbar {
     var lastToolbarFrame: CGRect?
 
     var messageTextViewHeightConstraint: NSLayoutConstraint!
-    let messageTextViewHeightConstraintNormalConstant: CGFloat = 34
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15)]
 
@@ -89,7 +88,7 @@ final class MessageToolbar: UIToolbar {
                 messageTextView.hidden = true
                 voiceRecordButton.hidden = false
 
-                messageTextView.text = nil
+                messageTextView.text = ""
 
                 micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
                 moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
@@ -217,6 +216,11 @@ final class MessageToolbar: UIToolbar {
         state = .Default
     }
 
+    var messageTextViewMinHeight: CGFloat {
+        let textContainerInset = messageTextView.textContainerInset
+        return ceil(messageTextView.font!.lineHeight + textContainerInset.top + textContainerInset.bottom)
+    }
+
     func makeUI() {
 
         self.addSubview(messageTextView)
@@ -249,10 +253,8 @@ final class MessageToolbar: UIToolbar {
 
         let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-7-[messageTextView]-8-|", options: [], metrics: nil, views: viewsDictionary)
 
-        let textContainerInset = messageTextView.textContainerInset
-        let constant = ceil(messageTextView.font!.lineHeight + textContainerInset.top + textContainerInset.bottom)
-        //println("messageTextViewHeight: \(constant)")
-        messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: constant)
+        println("messageTextViewMinHeight: \(messageTextViewMinHeight)")
+        messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: messageTextViewMinHeight)
         messageTextViewHeightConstraint.priority = UILayoutPriorityDefaultHigh
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton(48)][messageTextView][moreButton(==micButton)]|", options: [], metrics: nil, views: viewsDictionary)
@@ -279,8 +281,12 @@ final class MessageToolbar: UIToolbar {
 
         let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton][voiceRecordButton][moreButton]|", options: [], metrics: nil, views: viewsDictionary)
 
+        let voiceRecordButtonHeightConstraint = NSLayoutConstraint(item: voiceRecordButton, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: messageTextViewMinHeight)
+        voiceRecordButtonHeightConstraint.priority = UILayoutPriorityDefaultHigh
+
         NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsV)
         NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsH)
+        NSLayoutConstraint.activateConstraints([voiceRecordButtonHeightConstraint])
     }
 
     // MARK: Animations
@@ -302,7 +308,7 @@ final class MessageToolbar: UIToolbar {
 
         UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
             if let strongSelf = self {
-                strongSelf.messageTextViewHeightConstraint.constant = strongSelf.messageTextViewHeightConstraintNormalConstant
+                strongSelf.messageTextViewHeightConstraint.constant = strongSelf.messageTextViewMinHeight
                 strongSelf.layoutIfNeeded()
             }
         }, completion: { _ in })
