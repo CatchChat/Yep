@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Show View Controller-->
@@ -18,6 +19,51 @@
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zwm-fM-O1u">
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xhG-3f-Ybv">
+                                        <rect key="frame" x="0.0" y="0.0" width="1125" height="668"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="FEV-Ra-LqV">
+                                                <rect key="frame" x="0.0" y="0.0" width="1125" height="668"/>
+                                                <subviews>
+                                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xQa-Lf-Uvv">
+                                                        <rect key="frame" x="0.0" y="0.0" width="375" height="668"/>
+                                                        <connections>
+                                                            <segue destination="uOd-IQ-cPI" kind="embed" id="iyE-84-WG2"/>
+                                                        </connections>
+                                                    </containerView>
+                                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="AlW-pE-xwn">
+                                                        <rect key="frame" x="375" y="0.0" width="375" height="668"/>
+                                                        <connections>
+                                                            <segue destination="PZT-AV-qxC" kind="embed" id="xnZ-Go-BzP"/>
+                                                        </connections>
+                                                    </containerView>
+                                                    <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rB9-IU-fYu">
+                                                        <rect key="frame" x="750" y="0.0" width="375" height="668"/>
+                                                        <connections>
+                                                            <segue destination="hs0-4g-kkg" kind="embed" id="AiV-sc-UbQ"/>
+                                                        </connections>
+                                                    </containerView>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="FEV-Ra-LqV" firstAttribute="leading" secondItem="xhG-3f-Ybv" secondAttribute="leading" id="Dey-Ia-Mb3"/>
+                                            <constraint firstAttribute="trailing" secondItem="FEV-Ra-LqV" secondAttribute="trailing" id="VS1-Qm-FG9"/>
+                                            <constraint firstItem="FEV-Ra-LqV" firstAttribute="top" secondItem="xhG-3f-Ybv" secondAttribute="top" id="XIY-Sj-waT"/>
+                                            <constraint firstAttribute="bottom" secondItem="FEV-Ra-LqV" secondAttribute="bottom" id="uUx-R7-QDA"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstItem="xhG-3f-Ybv" firstAttribute="leading" secondItem="Zwm-fM-O1u" secondAttribute="leading" id="EfC-A5-MAf"/>
+                                    <constraint firstAttribute="bottom" secondItem="xhG-3f-Ybv" secondAttribute="bottom" id="M39-9w-s3a"/>
+                                    <constraint firstAttribute="trailing" secondItem="xhG-3f-Ybv" secondAttribute="trailing" id="VBk-De-hqw"/>
+                                    <constraint firstItem="xhG-3f-Ybv" firstAttribute="centerY" secondItem="Zwm-fM-O1u" secondAttribute="centerY" id="vmT-tc-9L4"/>
+                                    <constraint firstItem="xhG-3f-Ybv" firstAttribute="width" secondItem="Zwm-fM-O1u" secondAttribute="width" multiplier="3" id="wdd-md-lzJ"/>
+                                    <constraint firstItem="xhG-3f-Ybv" firstAttribute="top" secondItem="Zwm-fM-O1u" secondAttribute="top" id="xs5-7s-dS5"/>
+                                </constraints>
                                 <connections>
                                     <outlet property="delegate" destination="Acs-5Z-0vE" id="4Rx-1k-RAw"/>
                                 </connections>
@@ -26,7 +72,7 @@
                                 <rect key="frame" x="168" y="560" width="39" height="37"/>
                             </pageControl>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kzt-eY-iLl" userLabel="Register Button">
-                                <rect key="frame" x="0.0" y="607" width="188" height="60"/>
+                                <rect key="frame" x="0.0" y="607" width="187.5" height="60"/>
                                 <color key="backgroundColor" red="0.0" green="0.50196081399917603" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="60" id="g5v-yL-RwM"/>
@@ -39,7 +85,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXr-PM-hSY" userLabel="Login Button" customClass="EdgeBorderButton" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="188" y="607" width="187" height="60"/>
+                                <rect key="frame" x="187" y="607" width="187.5" height="60"/>
                                 <state key="normal" title="Login">
                                     <color key="titleColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
@@ -210,7 +256,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="h2f-lA-c09" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1607.5" y="329.5"/>
+            <point key="canvasLocation" x="700.5" y="1249.5"/>
         </scene>
         <!--Show Step Match View Controller-->
         <scene sceneID="s8K-Id-ctX">
@@ -297,7 +343,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eRf-2b-6t8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2063.5" y="329.5"/>
+            <point key="canvasLocation" x="1156.5" y="1249.5"/>
         </scene>
         <!--Show Step Meet View Controller-->
         <scene sceneID="BhG-6b-dOc">
@@ -397,7 +443,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="urc-QG-uK3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2525.5" y="329.5"/>
+            <point key="canvasLocation" x="1618.5" y="1249.5"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3zM-n1-XF5">
@@ -416,7 +462,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uDX-I7-bBu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="691.5" y="329.5"/>
+            <point key="canvasLocation" x="700.5" y="329.5"/>
         </scene>
     </scenes>
     <resources>
