@@ -751,6 +751,13 @@ final class ConversationViewController: BaseViewController {
 
                 self?.updateGroupToIncludeMe() { [weak self] in
                     self?.moreViewManager.updateForGroupAffair()
+
+                    SafeDispatch.async { [weak self] in
+                        guard let strongSelf = self else { return }
+                        if strongSelf.isSubscribeViewShowing {
+                            strongSelf.subscribeView.hide()
+                        }
+                    }
                 }
             })
         }
@@ -1013,8 +1020,6 @@ final class ConversationViewController: BaseViewController {
                 group.includeMe = true
                 group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
             }
-
-            //strongSelf.moreViewManager.updateForGroupAffair()
 
             NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
 
