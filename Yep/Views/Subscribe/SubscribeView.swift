@@ -12,15 +12,19 @@ final class SubscribeView: UIView {
 
     static let height: CGFloat = 50
 
-    lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
+    var subscribeAction: (() -> Void)?
+    var showWithChangeAction: (() -> Void)?
+    var hideWithChangeAction: (() -> Void)?
 
-    lazy var iconImageView: UIImageView = {
+    private lazy var blurView = UIVisualEffectView(effect: UIBlurEffect(style: .ExtraLight))
+
+    private lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = UIImage(named: "icon_subscribe_notify")
         return imageView
     }()
 
-    lazy var promptLabel: UILabel = {
+    private lazy var promptLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(14)
         label.text = NSLocalizedString("Get notified.", comment: "")
@@ -28,7 +32,7 @@ final class SubscribeView: UIView {
         return label
     }()
 
-    lazy var subscribeButton: BorderButton = {
+    private lazy var subscribeButton: BorderButton = {
         let button = BorderButton()
         button.titleLabel?.font = UIFont.systemFontOfSize(14)
         button.setTitle(NSLocalizedString("Subscribe", comment: ""), forState: .Normal)
@@ -40,7 +44,7 @@ final class SubscribeView: UIView {
         return button
     }()
 
-    lazy var dismissButton: UIButton = {
+    private lazy var dismissButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "icon_subscribe_close"), forState: .Normal)
 
@@ -49,11 +53,8 @@ final class SubscribeView: UIView {
         return button
     }()
 
-    var subscribeAction: (() -> Void)?
-    var showWithChangeAction: (() -> Void)?
-    var hideWithChangeAction: (() -> Void)?
-
     override func didMoveToSuperview() {
+        super.didMoveToSuperview()
 
         makeUI()
     }
@@ -138,14 +139,14 @@ final class SubscribeView: UIView {
         }, completion: { _ in })
     }
 
-    func subscribe(sender: BorderButton) {
+    @objc private func subscribe(sender: BorderButton) {
 
         subscribeAction?()
 
         hide()
     }
 
-    func dismiss(sender: UIButton) {
+    @objc private func dismiss(sender: UIButton) {
 
         hide()
     }
