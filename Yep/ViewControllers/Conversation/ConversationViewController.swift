@@ -1482,7 +1482,7 @@ final class ConversationViewController: BaseViewController {
 
                     } else {
                         #if DEBUG
-                            YepAlert.alertSorry(message: "unknown message: \(messageID)", inViewController: self)
+                            YepAlert.alertSorry(message: "Unknown message: \(messageID)", inViewController: self)
                         #endif
 
                         reloadConversationCollectionView()

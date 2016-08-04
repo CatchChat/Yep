@@ -134,12 +134,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         application.applicationIconBadgeNumber = -1
 
-        /*
-        if YepUserDefaults.isLogined {
-            syncMessagesReadStatus()
-        }
-        */
-
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.applicationDidBecomeActive, object: nil)
         
         isFirstActive = false
