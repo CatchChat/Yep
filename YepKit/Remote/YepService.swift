@@ -1166,7 +1166,11 @@ public enum DiscoveredUserSortStyle: String {
     }
 
     public var nameWithArrow: String {
-        return name + " ▾"
+        if NSProcessInfo().isOperatingSystemAtLeastVersion(NSOperatingSystemVersion(majorVersion: 10, minorVersion: 0, patchVersion: 0)) {
+            return name + " ▼"
+        } else {
+            return name + " ▾"
+        }
     }
 }
 
