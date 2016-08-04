@@ -738,28 +738,22 @@ final class ConversationViewController: BaseViewController {
 
     override func previewActionItems() -> [UIPreviewActionItem] {
 
-        guard let group = conversation.withGroup else {
+        guard let group = conversation.withGroup where !group.includeMe else {
             return []
         }
 
-        var actionItems = [UIPreviewActionItem]()
+        let groupID = group.groupID
 
-        let groupIncludeMe = group.includeMe
+        let subscribeAction = UIPreviewAction(title: NSLocalizedString("Subscribe", comment: ""), style: .Default) { (action, previewViewController) in
 
-        if groupIncludeMe {
-            let unsubscribeAction = UIPreviewAction(title: NSLocalizedString("Unsubscribe", comment: ""), style: .Default) { (action, previewViewController) in
+            joinGroup(groupID: groupID, failureHandler: nil, completion: { [weak self] in
+                println("subscribe OK")
 
-            }
-            actionItems.append(unsubscribeAction)
-
-        } else {
-            let subscribeAction = UIPreviewAction(title: NSLocalizedString("Subscribe", comment: ""), style: .Default) { (action, previewViewController) in
-
-            }
-            actionItems.append(subscribeAction)
+                self?.updateGroupToIncludeMe()
+            })
         }
 
-        return actionItems
+        return [subscribeAction]
     }
 
     // MARK: Navigation
