@@ -92,10 +92,10 @@ final class SubscribeView: UIView {
         }
 
         do {
-            addSubview(iconImageView)
-            addSubview(promptLabel)
-            addSubview(subscribeButton)
-            addSubview(dismissButton)
+            blurView.contentView.addSubview(iconImageView)
+            blurView.contentView.addSubview(promptLabel)
+            blurView.contentView.addSubview(subscribeButton)
+            blurView.contentView.addSubview(dismissButton)
 
             iconImageView.translatesAutoresizingMaskIntoConstraints = false
             promptLabel.translatesAutoresizingMaskIntoConstraints = false
