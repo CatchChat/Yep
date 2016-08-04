@@ -821,17 +821,6 @@ final class FeedsViewController: BaseViewController {
         }
     }
 
-    // MARK: - Preview Actions
-
-    override func previewActionItems() -> [UIPreviewActionItem] {
-
-        let subscribeAction = UIPreviewAction(title: NSLocalizedString("Subscribe", comment: ""), style: .Default) { (action, previewViewController) in
-
-        }
-
-        return [subscribeAction]
-    }
-
     // MARK: - Navigation
 
     private var newFeedViewController: NewFeedViewController?

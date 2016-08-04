@@ -734,6 +734,34 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
+    // MARK: - Preview Actions
+
+    override func previewActionItems() -> [UIPreviewActionItem] {
+
+        guard let group = conversation.withGroup else {
+            return []
+        }
+
+        var actionItems = [UIPreviewActionItem]()
+
+        let groupIncludeMe = group.includeMe
+
+        if groupIncludeMe {
+            let unsubscribeAction = UIPreviewAction(title: NSLocalizedString("Unsubscribe", comment: ""), style: .Default) { (action, previewViewController) in
+
+            }
+            actionItems.append(unsubscribeAction)
+
+        } else {
+            let subscribeAction = UIPreviewAction(title: NSLocalizedString("Subscribe", comment: ""), style: .Default) { (action, previewViewController) in
+
+            }
+            actionItems.append(subscribeAction)
+        }
+
+        return actionItems
+    }
+
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
