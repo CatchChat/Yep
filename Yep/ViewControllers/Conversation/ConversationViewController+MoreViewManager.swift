@@ -293,24 +293,7 @@ extension ConversationViewController {
                 joinGroup(groupID: groupID, failureHandler: nil, completion: { [weak self] in
                     println("subscribe OK")
 
-                    SafeDispatch.async { [weak self] in
-                        guard let strongSelf = self else {
-                            return
-                        }
-                        guard !strongSelf.conversation.invalidated else {
-                            return
-                        }
-                        guard let group = strongSelf.conversation.withGroup where !group.invalidated else {
-                            return
-                        }
-
-                        let _ = try? strongSelf.realm.write {
-                            group.includeMe = true
-                            group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
-                        }
-
-                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
-
+                    self?.updateGroupToIncludeMe() {
                         afterSubscribed?()
                     }
                 })

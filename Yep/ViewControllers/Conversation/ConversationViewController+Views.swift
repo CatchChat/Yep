@@ -305,7 +305,9 @@ extension ConversationViewController {
                     joinGroup(groupID: groupID, failureHandler: nil, completion: { [weak self] in
                         println("subscribe OK")
 
-                        self?.updateGroupToIncludeMe()
+                        self?.updateGroupToIncludeMe() { [weak self] in
+                            self?.moreViewManager.updateForGroupAffair()
+                        }
                     })
                 }
 

@@ -749,7 +749,9 @@ final class ConversationViewController: BaseViewController {
             joinGroup(groupID: groupID, failureHandler: nil, completion: { [weak self] in
                 println("subscribe OK")
 
-                self?.updateGroupToIncludeMe()
+                self?.updateGroupToIncludeMe() { [weak self] in
+                    self?.moreViewManager.updateForGroupAffair()
+                }
             })
         }
 
@@ -994,7 +996,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    func updateGroupToIncludeMe() {
+    func updateGroupToIncludeMe(finished: () -> Void) {
 
         SafeDispatch.async { [weak self] in
             guard let strongSelf = self else {
@@ -1012,9 +1014,11 @@ final class ConversationViewController: BaseViewController {
                 group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
             }
 
-            strongSelf.moreViewManager.updateForGroupAffair()
+            //strongSelf.moreViewManager.updateForGroupAffair()
 
             NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+
+            finished()
         }
     }
 
