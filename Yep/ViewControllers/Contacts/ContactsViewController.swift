@@ -432,6 +432,32 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
     }
+
+    // MARK: UITableViewRowAction
+
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            return false
+        }
+
+        switch section {
+        case .Local:
+            return true
+        case .Online:
+            return false
+        }
+    }
+
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+
+        let unfriendAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Unfriend", comment: "")) { [weak self] action, indexPath in
+
+            tableView.setEditing(false, animated: true)
+        }
+
+        return [unfriendAction]
+    }
 }
 
 // MARK: - UISearchResultsUpdating 
