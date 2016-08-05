@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import Ruler
 import RxSwift
 import RxCocoa
 
@@ -37,8 +38,9 @@ class DiscoverContainerViewController: UIPageViewController {
                 segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
             })
 
-            let font = UIFont.systemFontOfSize(15)
-            segmentedControl.yep_setTitleFont(font, withPadding: 12)
+            let font = UIFont.systemFontOfSize(Ruler.iPhoneHorizontal(13, 14, 15).value)
+            let padding: CGFloat = Ruler.iPhoneHorizontal(6, 11, 12).value
+            segmentedControl.yep_setTitleFont(font, withPadding: padding)
         }
     }
 
