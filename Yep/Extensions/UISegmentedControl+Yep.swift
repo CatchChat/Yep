@@ -16,11 +16,16 @@ extension UISegmentedControl {
 
         setTitleTextAttributes(attributes, forState: .Normal)
 
+        var maxWidth: CGFloat = 0
         for i in 0..<numberOfSegments {
             if let title = titleForSegmentAtIndex(i) {
                 let width = (title as NSString).sizeWithAttributes(attributes).width + (padding * 2)
-                setWidth(width, forSegmentAtIndex: i)
+                maxWidth = max(maxWidth, width)
             }
+        }
+
+        for i in 0..<numberOfSegments {
+            setWidth(maxWidth, forSegmentAtIndex: i)
         }
     }
 }
