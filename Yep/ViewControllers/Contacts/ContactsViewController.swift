@@ -432,6 +432,55 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
     }
+
+    // MARK: UITableViewRowAction
+
+    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            return false
+        }
+
+        switch section {
+        case .Local:
+            return true
+        case .Online:
+            return false
+        }
+    }
+
+    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+
+        let user = friends[indexPath.row]
+        let userID = user.userID
+        let nickname = user.nickname
+
+        let unfriendAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Unfriend", comment: "")) { [weak self, weak tableView] action, indexPath in
+
+            tableView?.setEditing(false, animated: true)
+
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Unfriend", comment: ""), message: String(format: NSLocalizedString("Do you want to unfriend with %@?", comment: ""), nickname), confirmTitle: NSLocalizedString("Confirm", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+
+                unfriend(withUserID: userID, failureHandler: { [weak self] (reason, errorMessage) in
+                    let message = errorMessage ?? NSLocalizedString("Unfriend failed!", comment: "")
+                    YepAlert.alertSorry(message: message, inViewController: self)
+
+                }, completion: {
+                    SafeDispatch.async { [weak self] in
+                        if let user = self?.friends[indexPath.row], let realm = user.realm {
+                            realm.beginWrite()
+                            user.friendState = UserFriendState.Stranger.rawValue
+                            _ = try? realm.commitWrite()
+                        }
+                    }
+                })
+
+            }, cancelAction: {
+            })
+        }
+
+        return [unfriendAction]
+    }
 }
 
 // MARK: - UISearchResultsUpdating 

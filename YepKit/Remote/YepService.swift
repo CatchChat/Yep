@@ -1431,6 +1431,21 @@ public func friendships(failureHandler failureHandler: FailureHandler?, completi
     }
 }
 
+public func unfriend(withUserID userID: String, failureHandler: FailureHandler?, completion: () -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "friend_id": userID,
+    ]
+
+    let parse: JSONDictionary -> Void? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/unfriend_requests", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 // MARK: - Groups
 
 public func shareURLStringOfGroupWithGroupID(groupID: String, failureHandler: FailureHandler?, completion: String -> Void) {
