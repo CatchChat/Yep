@@ -61,7 +61,7 @@ final class ConversationViewController: BaseViewController {
     var lastTimeMessagesCount: Int = 0
 
     // 位于后台时收到的消息
-    private var inActiveNewMessageIDSet = Set<String>()
+    private var inactiveNewMessageIDSet = Set<String>()
 
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
@@ -760,15 +760,7 @@ final class ConversationViewController: BaseViewController {
             })
         }
 
-        let shareFeedAction = UIPreviewAction(title: NSLocalizedString("Share this feed", comment: ""), style: .Default) { [weak self] (action, previewViewController) in
-
-            self?.shareFeed()
-        }
-
-        return [
-            subscribeAction,
-            shareFeedAction,
-        ]
+        return [subscribeAction]
     }
 
     // MARK: Navigation
@@ -1304,57 +1296,36 @@ final class ConversationViewController: BaseViewController {
         handleRecievedNewMessages(messageIDs, messageAge: messageAge)
     }
 
-    private func handleRecievedNewMessages(_messageIDs: [String], messageAge: MessageAge) {
-
-        var messageIDs: [String]?
-
-        //Make sure insert cell when in conversation viewcontroller
-        guard let conversationController = self.navigationController?.visibleViewController as? ConversationViewController else {
-            return
-        }
+    private func handleRecievedNewMessages(messageIDs: [String], messageAge: MessageAge) {
 
         realm.refresh() // 确保是最新数据
 
         // 按照 conversation 过滤消息，匹配的才能考虑插入
-        if let conversation = conversation {
-
-            if let conversationID = conversation.fakeID, realm = conversation.realm, currentVisibleConversationID = conversationController.conversation.fakeID {
-
-                if currentVisibleConversationID != conversationID {
-                    return
-                }
-
-                var filteredMessageIDs = [String]()
-
-                for messageID in _messageIDs {
-                    if let message = messageWithMessageID(messageID, inRealm: realm) {
-                        if let messageInConversationID = message.conversation?.fakeID {
-                            if messageInConversationID == conversationID {
-                                filteredMessageIDs.append(messageID)
-                            }
+        var filteredMessageIDs: [String] = []
+        if let conversation = conversation, let conversationID = conversation.fakeID {
+            for messageID in messageIDs {
+                if let message = messageWithMessageID(messageID, inRealm: realm) {
+                    if let messageInConversationID = message.conversation?.fakeID {
+                        if messageInConversationID == conversationID {
+                            filteredMessageIDs.append(messageID)
                         }
                     }
                 }
-
-                messageIDs = filteredMessageIDs
             }
+        }
+        guard !filteredMessageIDs.isEmpty else {
+            return
         }
 
         // 在前台时才能做插入
-
         if UIApplication.sharedApplication().applicationState == .Active {
-            updateConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, scrollToBottom: false, success: { _ in
+            updateConversationCollectionViewWithMessageIDs(filteredMessageIDs, messageAge: messageAge, scrollToBottom: false, success: { _ in
             })
 
         } else {
             // 不然就先记下来
-
-            if let messageIDs = messageIDs {
-                for messageID in messageIDs {
-                    inActiveNewMessageIDSet.insert(messageID)
-                    println("inActiveNewMessageIDSet insert: \(messageID)")
-                }
-            }
+            inactiveNewMessageIDSet.unionInPlace(filteredMessageIDs)
+            println("inactiveNewMessageIDSet: \(inactiveNewMessageIDSet)")
         }
     }
 
@@ -1388,13 +1359,13 @@ final class ConversationViewController: BaseViewController {
 
     private func tryInsertInActiveNewMessages() {
 
-        if inActiveNewMessageIDSet.count > 0 {
-            updateConversationCollectionViewWithMessageIDs(Array(inActiveNewMessageIDSet), messageAge: .New, scrollToBottom: false, success: { _ in
+        if inactiveNewMessageIDSet.count > 0 {
+            updateConversationCollectionViewWithMessageIDs(Array(inactiveNewMessageIDSet), messageAge: .New, scrollToBottom: false, success: { _ in
             })
 
-            inActiveNewMessageIDSet = []
+            inactiveNewMessageIDSet = []
 
-            println("insert inActiveNewMessageIDSet to CollectionView")
+            println("insert inactiveNewMessageIDSet to CollectionView")
         }
     }
 
