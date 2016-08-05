@@ -11,7 +11,6 @@ import YepKit
 import RealmSwift
 import Navi
 import Kingfisher
-import Proposer
 
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
@@ -183,10 +182,6 @@ final class ConversationsViewController: BaseViewController {
 
                 strongSelf.noConversation = countOfConversationsInRealm(realm) == 0
             }
-        }
-
-        if PrivateResource.Location(.WhenInUse).isAuthorized {
-            YepLocationService.turnOn()
         }
 
         cacheInAdvance()

@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import Proposer
 
 final class YepTabBarController: UITabBarController {
 
@@ -98,6 +99,12 @@ final class YepTabBarController: UITabBarController {
                 if style == .Message {
                     self?.selectedIndex = 0
                 }
+            }
+        }
+
+        delay(3) {
+            if PrivateResource.Location(.WhenInUse).isAuthorized {
+                YepLocationService.turnOn()
             }
         }
     }
