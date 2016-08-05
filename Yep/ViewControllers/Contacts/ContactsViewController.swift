@@ -455,7 +455,9 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         let userID = user.userID
         let nickname = user.nickname
 
-        let unfriendAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Unfriend", comment: "")) { [weak self] action, indexPath in
+        let unfriendAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Unfriend", comment: "")) { [weak self, weak tableView] action, indexPath in
+
+            tableView?.setEditing(false, animated: true)
 
             YepAlert.confirmOrCancel(title: NSLocalizedString("Unfriend", comment: ""), message: String(format: NSLocalizedString("Do you want to unfriend with %@?", comment: ""), nickname), confirmTitle: NSLocalizedString("Confirm", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
 
@@ -463,26 +465,17 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
                     let message = errorMessage ?? NSLocalizedString("Unfriend failed!", comment: "")
                     YepAlert.alertSorry(message: message, inViewController: self)
 
-                    SafeDispatch.async { [weak tableView] in
-                        tableView?.setEditing(false, animated: true)
-                    }
-
                 }, completion: {
-                    SafeDispatch.async { [weak self, weak tableView] in
+                    SafeDispatch.async { [weak self] in
                         if let user = self?.friends[indexPath.row], let realm = user.realm {
                             realm.beginWrite()
                             user.friendState = UserFriendState.Stranger.rawValue
                             _ = try? realm.commitWrite()
                         }
-                        
-                        tableView?.setEditing(false, animated: true)
                     }
                 })
 
             }, cancelAction: {
-                SafeDispatch.async { [weak tableView] in
-                    tableView?.setEditing(false, animated: true)
-                }
             })
         }
 
