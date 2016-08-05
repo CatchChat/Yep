@@ -1751,9 +1751,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         return nil
     }
 
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-    }
-
     // MARK: Copy Message
 
     @objc private func didRecieveMenuWillHideNotification(notification: NSNotification) {
