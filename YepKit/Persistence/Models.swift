@@ -750,11 +750,11 @@ public class Conversation: Object {
         switch type {
         case ConversationType.OneToOne.rawValue:
             if let withFriend = withFriend {
-                return "user" + withFriend.userID
+                return "user_" + withFriend.userID
             }
         case ConversationType.Group.rawValue:
             if let withGroup = withGroup {
-                return "group" + withGroup.groupID
+                return "group_" + withGroup.groupID
             }
         default:
             return nil
