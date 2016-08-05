@@ -469,8 +469,6 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
                         realm.beginWrite()
                         user.friendState = UserFriendState.Stranger.rawValue
                         _ = try? realm.commitWrite()
-
-                        tableView?.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                     }
 
                     tableView?.setEditing(false, animated: true)
