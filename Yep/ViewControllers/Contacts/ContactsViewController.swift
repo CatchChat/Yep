@@ -451,9 +451,31 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 
+        let userID = friends[indexPath.row].userID
+
         let unfriendAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Unfriend", comment: "")) { [weak self] action, indexPath in
 
-            tableView.setEditing(false, animated: true)
+            unfriend(withUserID: userID, failureHandler: { [weak self] (reason, errorMessage) in
+                let message = errorMessage ?? "Unfriend failed!"
+                YepAlert.alertSorry(message: message, inViewController: self)
+
+                SafeDispatch.async { [weak tableView] in
+                    tableView?.setEditing(false, animated: true)
+                }
+
+            }, completion: {
+                SafeDispatch.async { [weak self, weak tableView] in
+                    if let user = self?.friends[indexPath.row], let realm = user.realm {
+                        realm.beginWrite()
+                        user.friendState = UserFriendState.Stranger.rawValue
+                        _ = try? realm.commitWrite()
+
+                        tableView?.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    }
+
+                    tableView?.setEditing(false, animated: true)
+                }
+            })
         }
 
         return [unfriendAction]
