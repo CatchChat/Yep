@@ -828,3 +828,7 @@
 "Review now" = "马上评价";
 
 "Yep can not save files!\nProbably not enough storage space." = "Yep 无法保持文件！\n可能存储空间不够。";
+
+"Unfriend" = "解除好友";
+"Unfriend failed!" = "解除好友失败！";
+

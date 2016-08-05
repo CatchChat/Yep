@@ -1100,9 +1100,6 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
         return nil
     }
-
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
-    }
     
     // MARK: Copy Message
     

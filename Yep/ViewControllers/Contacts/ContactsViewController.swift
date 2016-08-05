@@ -456,7 +456,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         let unfriendAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Unfriend", comment: "")) { [weak self] action, indexPath in
 
             unfriend(withUserID: userID, failureHandler: { [weak self] (reason, errorMessage) in
-                let message = errorMessage ?? "Unfriend failed!"
+                let message = errorMessage ?? NSLocalizedString("Unfriend failed!", comment: "")
                 YepAlert.alertSorry(message: message, inViewController: self)
 
                 SafeDispatch.async { [weak tableView] in
