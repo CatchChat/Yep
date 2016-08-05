@@ -61,7 +61,7 @@ final class ConversationViewController: BaseViewController {
     var lastTimeMessagesCount: Int = 0
 
     // 位于后台时收到的消息
-    private var inActiveNewMessageIDSet = Set<String>()
+    private var inactiveNewMessageIDSet = Set<String>()
 
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
@@ -1324,10 +1324,8 @@ final class ConversationViewController: BaseViewController {
 
         } else {
             // 不然就先记下来
-            for messageID in filteredMessageIDs {
-                inActiveNewMessageIDSet.insert(messageID)
-                println("inActiveNewMessageIDSet insert: \(messageID)")
-            }
+            inactiveNewMessageIDSet.unionInPlace(filteredMessageIDs)
+            println("inactiveNewMessageIDSet: \(inactiveNewMessageIDSet)")
         }
     }
 
@@ -1361,13 +1359,13 @@ final class ConversationViewController: BaseViewController {
 
     private func tryInsertInActiveNewMessages() {
 
-        if inActiveNewMessageIDSet.count > 0 {
-            updateConversationCollectionViewWithMessageIDs(Array(inActiveNewMessageIDSet), messageAge: .New, scrollToBottom: false, success: { _ in
+        if inactiveNewMessageIDSet.count > 0 {
+            updateConversationCollectionViewWithMessageIDs(Array(inactiveNewMessageIDSet), messageAge: .New, scrollToBottom: false, success: { _ in
             })
 
-            inActiveNewMessageIDSet = []
+            inactiveNewMessageIDSet = []
 
-            println("insert inActiveNewMessageIDSet to CollectionView")
+            println("insert inactiveNewMessageIDSet to CollectionView")
         }
     }
 
