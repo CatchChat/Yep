@@ -1296,61 +1296,37 @@ final class ConversationViewController: BaseViewController {
         handleRecievedNewMessages(messageIDs, messageAge: messageAge)
     }
 
-    private func handleRecievedNewMessages(_messageIDs: [String], messageAge: MessageAge) {
-
-        var messageIDs: [String]?
-
-        /*
-        //Make sure insert cell when in conversation viewcontroller
-        guard let conversationController = self.navigationController?.visibleViewController as? ConversationViewController else {
-            return
-        }
-         */
+    private func handleRecievedNewMessages(messageIDs: [String], messageAge: MessageAge) {
 
         realm.refresh() // 确保是最新数据
 
         // 按照 conversation 过滤消息，匹配的才能考虑插入
-        if let conversation = conversation, let realm = conversation.realm {
-
-            //if let conversationID = conversation.fakeID, currentVisibleConversationID = conversationController.conversation.fakeID {
-            if let conversationID = conversation.fakeID {
-
-                /*
-                if currentVisibleConversationID != conversationID {
-                    return
-                }
-                 */
-
-                var filteredMessageIDs = [String]()
-
-                for messageID in _messageIDs {
-                    if let message = messageWithMessageID(messageID, inRealm: realm) {
-                        if let messageInConversationID = message.conversation?.fakeID {
-                            if messageInConversationID == conversationID {
-                                filteredMessageIDs.append(messageID)
-                            }
+        var filteredMessageIDs: [String] = []
+        if let conversation = conversation, let conversationID = conversation.fakeID {
+            for messageID in messageIDs {
+                if let message = messageWithMessageID(messageID, inRealm: realm) {
+                    if let messageInConversationID = message.conversation?.fakeID {
+                        if messageInConversationID == conversationID {
+                            filteredMessageIDs.append(messageID)
                         }
                     }
                 }
-
-                messageIDs = filteredMessageIDs
             }
+        }
+        guard !filteredMessageIDs.isEmpty else {
+            return
         }
 
         // 在前台时才能做插入
-
         if UIApplication.sharedApplication().applicationState == .Active {
-            updateConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, scrollToBottom: false, success: { _ in
+            updateConversationCollectionViewWithMessageIDs(filteredMessageIDs, messageAge: messageAge, scrollToBottom: false, success: { _ in
             })
 
         } else {
             // 不然就先记下来
-
-            if let messageIDs = messageIDs {
-                for messageID in messageIDs {
-                    inActiveNewMessageIDSet.insert(messageID)
-                    println("inActiveNewMessageIDSet insert: \(messageID)")
-                }
+            for messageID in filteredMessageIDs {
+                inActiveNewMessageIDSet.insert(messageID)
+                println("inActiveNewMessageIDSet insert: \(messageID)")
             }
         }
     }
