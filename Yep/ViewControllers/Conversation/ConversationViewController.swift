@@ -1371,10 +1371,12 @@ final class ConversationViewController: BaseViewController {
 
     func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
 
+        /*
         // 重要
         guard navigationController?.topViewController == self else { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
             return
         }
+         */
 
         if messageIDs != nil {
             batchMarkMessagesAsReaded()
