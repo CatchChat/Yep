@@ -31,7 +31,7 @@ final class AboutViewController: SegueViewController {
 
     private let aboutAnnotations: [String] = [
         NSLocalizedString("Open Source of Yep", comment: ""),
-        NSLocalizedString("Raview Yep on the App Store", comment: ""),
+        NSLocalizedString("Review Yep on the App Store", comment: ""),
         NSLocalizedString("Terms of Service", comment: ""),
     ]
 

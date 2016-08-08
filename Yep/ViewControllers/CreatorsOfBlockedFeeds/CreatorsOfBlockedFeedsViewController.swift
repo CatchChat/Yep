@@ -45,7 +45,7 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
                 self?.activityIndicator.stopAnimating()
             }
 
-            let errorMessage = errorMessage ?? NSLocalizedString("Netword Error: Faild to get blocked creator!", comment: "")
+            let errorMessage = errorMessage ?? NSLocalizedString("Network Error: Failed to get blocked creator!", comment: "")
             YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
         }, completion: { blockedCreators in
