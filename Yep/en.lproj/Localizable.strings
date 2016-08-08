@@ -10,16 +10,16 @@
 " is " = "";
 
 /* No comment provided by engineer. */
-"[Audio]" = "[Audio]";
+"placeholder.audio" = "[Audio]";
 
 /* No comment provided by engineer. */
-"[Image]" = "[Image]";
+"placeholder.image" = "[Image]";
 
 /* No comment provided by engineer. */
-"[Location]" = "[Location]";
+"placeholder.location" = "[Location]";
 
 /* No comment provided by engineer. */
-"[Video]" = "[Video]";
+"placeholder.video" = "[Video]";
 
 /* No comment provided by engineer. */
 "About" = "About";
@@ -98,9 +98,6 @@
 "Choose from Library" = "Choose from Library";
 
 /* No comment provided by engineer. */
-"Choose photo" = "Choose photo";
-
-/* No comment provided by engineer. */
 "Clear history" = "Clear history";
 
 "FeedConversationsViewController.ClearUnread" = "Clear";
@@ -120,7 +117,7 @@
 "Didn't get it?" = "Didn't get it?";
 
 /* No comment provided by engineer. */
-"Disable Do Not Disturb failed!" = "Disable Do Not Disturb failed!";
+"Disable Do Not Disturb Failed!" = "Disable Do Not Disturb Failed!";
 
 "Discover" = "Discover";
 
@@ -129,9 +126,6 @@
 
 /* No comment provided by engineer. */
 "Dismiss" = "Dismiss";
-
-/* No comment provided by engineer. */
-"Do not disturb" = "Do not disturb";
 
 /* No comment provided by engineer. */
 "Do Not Disturb" = "Do Not Disturb";
@@ -155,7 +149,7 @@
 "Edit Profile" = "Edit Profile";
 
 /* No comment provided by engineer. */
-"Enable Do Not Disturb failed!" = "Enable Do Not Disturb failed!";
+"Enable Do Not Disturb Failed!" = "Enable Do Not Disturb Failed!";
 
 /* No comment provided by engineer. */
 "Face to Face" = "Face to Face";
@@ -420,16 +414,13 @@
 "Set badge failed!" = "Set badge failed!";
 
 /* No comment provided by engineer. */
-"Set Do Not Disturb failed!" = "Set Do Not Disturb failed!";
+"Set Do Not Disturb Failed!" = "Set Do Not Disturb Failed!";
 
 /* No comment provided by engineer. */
 "Settings" = "Settings";
 
 /* No comment provided by engineer. */
 "Share location" = "Share location";
-
-/* No comment provided by engineer. */
-"Sign up" = "Sign up";
 
 /* No comment provided by engineer. */
 "Sign Up" = "Sign Up";
@@ -445,9 +436,6 @@
 
 /* No comment provided by engineer. */
 "Take Photo" = "Take Photo";
-
-/* No comment provided by engineer. */
-"Take photo" = "Take photo";
 
 /* No comment provided by engineer. */
 "Thanks! Your feedback has been recorded!" = "Thanks! Your feedback has been recorded!";
@@ -618,45 +606,4 @@
 
 /* No comment provided by engineer. */
 "Set" = "Set";
-
-/* No comment provided by engineer. */
-"Set username failed!" = "Set username failed!";
-
-"Release to Send" = "Release to Send";
-
-"Fetching" = "Fetching";
-
-"Have a nice day!" = "Have a nice day!";
-
-"No discovered users." = "No discovered users.";
-
-"No friends yet.\nTry discover or add some." = "No friends yet.\nTry discover or add some.";
-
-"Feeds" = "Feeds";
-
-"Joined Feeds" = "Joined Feeds";
-
-"Send Photos (%d)" = "Send Photos (%d)";
-
-"Channel:" = "Channel:";
-
-"Choose..." = "Choose...";
-
-"People with this skill" = "People with this skill";
-
-"Push notifications" = "Push notifications";
-
-"Share this feed" = "Share this feed";
-
-"Unsubscribe" = "Unsubscribe";
-
-"Also delete this feed?" = "Also delete this feed?";
-
-"From Yep" = "From Yep";
-
-"Join Us" = "Join Us";
-
-"[Deleted]" = "[Deleted]";
-
-"Feed has been deleted by creator." = "Feed has been deleted by creator.";
 

@@ -351,17 +351,17 @@ public enum MessageMediaType: Int, CustomStringConvertible {
         case .Text:
             return nil
         case .Image:
-            return NSLocalizedString("[Image]", comment: "")
+            return NSLocalizedString("placeholder.image", comment: "")
         case .Video:
-            return NSLocalizedString("[Video]", comment: "")
+            return NSLocalizedString("placeholder.video", comment: "")
         case .Audio:
-            return NSLocalizedString("[Audio]", comment: "")
+            return NSLocalizedString("placeholder.audio", comment: "")
         case .Sticker:
-            return NSLocalizedString("[Sticker]", comment: "")
+            return NSLocalizedString("placeholder.sticker", comment: "")
         case .Location:
-            return NSLocalizedString("[Location]", comment: "")
+            return NSLocalizedString("placeholder.location", comment: "")
         case .SocialWork:
-            return NSLocalizedString("[Social Work]", comment: "")
+            return NSLocalizedString("placeholder.socialWork", comment: "")
         default:
             return NSLocalizedString("All messages read.", comment: "")
         }

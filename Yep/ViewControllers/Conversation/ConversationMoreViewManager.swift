@@ -149,7 +149,7 @@ final class ConversationMoreViewManager {
 
     private func makeDoNotDisturbItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
         return .Switch(
-            title: NSLocalizedString("Do not disturb", comment: ""),
+            title: NSLocalizedString("Do Not Disturb", comment: ""),
             titleColor: UIColor.darkGrayColor(),
             switchOn: !notificationEnabled,
             action: { [weak self] switchOn in
@@ -160,7 +160,7 @@ final class ConversationMoreViewManager {
 
     private func makePushNotificationsItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
         return .Switch(
-            title: NSLocalizedString("Push notifications", comment: ""),
+            title: NSLocalizedString("Push Notifications", comment: ""),
             titleColor: UIColor.darkGrayColor(),
             switchOn: notificationEnabled,
             action: { [weak self] switchOn in
