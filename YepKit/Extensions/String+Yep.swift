@@ -36,3 +36,11 @@ public extension String {
         return false
     }
 }
+
+public extension String {
+
+    public func yep_appendArrow() -> String {
+        return self + " ▾"
+    }
+}
+

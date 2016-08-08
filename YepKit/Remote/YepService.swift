@@ -1166,11 +1166,7 @@ public enum DiscoveredUserSortStyle: String {
     }
 
     public var nameWithArrow: String {
-        if NSProcessInfo().isOperatingSystemAtLeastVersion(NSOperatingSystemVersion(majorVersion: 10, minorVersion: 0, patchVersion: 0)) {
-            return name + " ▼"
-        } else {
-            return name + " ▾"
-        }
+        return name.yep_appendArrow()
     }
 }
 
@@ -2485,7 +2481,7 @@ public enum FeedSortStyle: String {
     }
     
     public var nameWithArrow: String {
-        return name + " ▾"
+        return name.yep_appendArrow()
     }
 
     public var needPageFeedID: Bool {
