@@ -26,7 +26,6 @@ final class RightShareFeedCell: ChatBaseCell {
     
     var accessoryView: UIImageView = {
         let imageView = UIImageView(image: R.image.icon_accessory_mini())
-
         return imageView
     }()
     
