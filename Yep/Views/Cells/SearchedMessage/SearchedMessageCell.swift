@@ -67,7 +67,7 @@ final class SearchedMessageCell: UITableViewCell {
 
             if count > 1 {
                 messageLabel.textColor = UIColor.yepTintColor()
-                messageLabel.text = String(format: NSLocalizedString("%d messages", comment: ""), count)
+                messageLabel.text = String(format: NSLocalizedString("countMessages%d", comment: ""), count)
 
                 timeLabel.hidden = true
                 timeLabel.text = nil

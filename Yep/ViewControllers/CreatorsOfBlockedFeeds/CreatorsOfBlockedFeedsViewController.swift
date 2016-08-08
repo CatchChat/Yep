@@ -28,7 +28,7 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
     private var blockedCreators = [DiscoveredUser]() {
         willSet {
             if newValue.count == 0 {
-                blockedCreatorsTableView.tableFooterView = InfoView(NSLocalizedString("No blocked creators.", comment: ""))
+                blockedCreatorsTableView.tableFooterView = InfoView(NSLocalizedString("No Blocked Creators", comment: ""))
             }
         }
     }

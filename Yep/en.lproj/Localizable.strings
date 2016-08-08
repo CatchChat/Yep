@@ -587,13 +587,13 @@
 "From Yep, with Skills." = "From Yep, with Skills.";
 
 /* No comment provided by engineer. */
-"%@'s Dribbble" = "%@'s Dribbble";
+"whosDribbble%@" = "%@'s Dribbble";
 
 /* No comment provided by engineer. */
-"%@'s GitHub" = "%@'s GitHub";
+"whosGitHub%@" = "%@'s GitHub";
 
 /* No comment provided by engineer. */
-"%@'s Instagram" = "%@'s Instagram";
+"whosInstagram%@" = "%@'s Instagram";
 
 /* No comment provided by engineer. */
 "Username" = "Username";
@@ -609,3 +609,20 @@
 
 "localityAndThoroughfare.%@%@" = "%1$@, %2$@";
 "nicknameWithTextContent.%@%@" = "%1$@: %2$@";
+
+"recalledMessage%@" = "%@ recalled a message";
+"countMessages%d" = "%d messages";
+"Albums" = "Albums";
+"All messages read." = "All messages read.";
+"Also delete this feed?" = "Also delete this feed?";
+"Blocked Creators" = "Blocked Creators";
+"No Blocked Creators" = "No Blocked Creators";
+"Camera" = "Camera";
+"Recommend" = "Recommend";
+"Cancel\nRecommended" = "Cancel\nRecommended";
+"Recommend feed failed!" = "Recommend feed failed!";
+"Cancel recommended feed failed!" = "Cancel recommended feed failed!";
+"Change Mobile" = "Change Mobile";
+"Channel:" = "Channel:";
+"Chat" = "Chat;
+"Chat Records" = "Chat Records";

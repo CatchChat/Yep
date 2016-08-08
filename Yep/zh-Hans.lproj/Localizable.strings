@@ -597,13 +597,13 @@
 "From Yep, with Skills." = "来自Yep，身怀绝技。";
 
 /* No comment provided by engineer. */
-"%@'s Dribbble" = "%@ 的 Dribbble";
+"whosDribbble%@" = "%@ 的 Dribbble";
 
 /* No comment provided by engineer. */
-"%@'s GitHub" = "%@ 的 GitHub";
+"whosGitHub%@" = "%@ 的 GitHub";
 
 /* No comment provided by engineer. */
-"%@'s Instagram" = "%@ 的 Instagram";
+"whosInstagram%@" = "%@ 的 Instagram";
 
 /* No comment provided by engineer. */
 "Username" = "用户名";
@@ -654,8 +654,6 @@
 "Choose..." = "选择…";
 
 "People with this skill" = "与此技能相关的用户";
-
-"%@ More..." = "等 %@ 个";
 
 "Push Notifications" = "推送通知";
 
@@ -727,7 +725,7 @@
 
 "Hide" = "隐藏";
 
-"%@ recalled a message." = "%@ 撤回了一条消息";
+"recalledMessage%@" = "%@ 撤回了一条消息";
 
 "Retry" = "重试";
 
@@ -752,7 +750,7 @@
 
 "Chat Records" = "聊天记录";
 
-"%d messages" = "%d 条相关记录";
+"countMessages%d" = "%d 条相关记录";
 
 "Hide these feeds" = "不看此人的话题";
 
@@ -760,7 +758,7 @@
 
 "Creators of Blocked Feeds" = "被屏蔽的话题创建者";
 "Blocked Creators" = "被屏蔽的创建者";
-"No blocked creators." = "没有被屏蔽的创建者";
+"No Blocked Creators." = "没有被屏蔽的创建者";
 "Ooops! You've been blocked." = "Ooops! 您被对方屏蔽了";
 
 "Try keywords" = "试试这些";
@@ -780,8 +778,7 @@
 "Upload Contacts" = "通讯录好友";
 "Yep will match friends from your contacts for you." = "Yep会从您的通讯录里为您匹配好友。";
 
-"Blog" = "Blog";
-"Set Blog" = "设置Blog";
+"Set Blog" = "设置 Blog";
 "Input your blog's URL." = "请输入您Blog的URL地址。";
 "Set blog failed!" = "设置Blog失败！";
 "Invalid URL!" = "无效的URL！";

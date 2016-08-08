@@ -119,7 +119,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
 
         if let dribbbleWork = dribbbleWork, profileURL = NSURL(string: dribbbleWork.userURLString) {
 
-            let title = String(format: NSLocalizedString("%@'s Dribbble", comment: ""), dribbbleWork.username)
+            let title = String(format: NSLocalizedString("whosDribbble%@", comment: ""), dribbbleWork.username)
 
             var thumbnail: UIImage?
             if let socialAccount = socialAccount {

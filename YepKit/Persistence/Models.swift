@@ -524,7 +524,7 @@ public class Message: Object {
 
     public var recalledTextContent: String {
         let nickname = fromFriend?.nickname ?? ""
-        return String(format: NSLocalizedString("%@ recalled a message.", comment: ""), nickname)
+        return String(format: NSLocalizedString("recalledMessage%@", comment: ""), nickname)
     }
 
     public var blockedTextContent: String {

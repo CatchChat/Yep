@@ -28,7 +28,7 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
 
         iconImageView.image = UIImage(named: "icon_blog")
-        nameLabel.text = NSLocalizedString("Blog", comment: "")
+        nameLabel.text = "Blog"
         blogLabel.text = nil
 
         accessoryImageView.hidden = true
