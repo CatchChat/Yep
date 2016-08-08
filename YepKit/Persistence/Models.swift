@@ -582,7 +582,7 @@ public class Message: Object {
 
     public var nicknameWithTextContent: String {
         if let nickname = fromFriend?.nickname {
-            return String(format: NSLocalizedString("nicknameWithTextContent.%@%@", comment: ""), nickname, textContent)
+            return String(format: NSLocalizedString("nicknameWithTextContent_%@_%@", comment: ""), nickname, textContent)
         } else {
             return textContent
         }

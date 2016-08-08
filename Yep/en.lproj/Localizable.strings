@@ -303,8 +303,8 @@
 "[Mentioned you]" = "[Mentioned you]";
 "countMessages%d" = "%d messages";
 "is not your friend." = "is not your friend.";
-"localityAndThoroughfare.%@%@" = "%1$, %2$@";
-"nicknameWithTextContent.%@%@" = "%1$@: %2$@";
+"localityAndThoroughfare_%@_%@" = "%1$@, %2$@";
+"nicknameWithTextContent_%@_%@" = "%1$@: %2$@";
 "placeholder.audio" = "[Audio]";
 "placeholder.image" = "[Image]";
 "placeholder.location" = "[Location]";

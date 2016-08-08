@@ -303,8 +303,8 @@
 "[Mentioned you]" = "[提及了你]";
 "countMessages%d" = "%d 条相关记录";
 "is not your friend." = "不是您的好友";
-"localityAndThoroughfare.%@%@" = "%1$@，%2$@";
-"nicknameWithTextContent.%@%@" = "%1$@：%2$@";
+"localityAndThoroughfare_%@_%@" = "%1$@，%2$@";
+"nicknameWithTextContent_%@_%@" = "%1$@：%2$@";
 "placeholder.audio" = "[音频]";
 "placeholder.image" = "[图片]";
 "placeholder.location" = "[位置]";
