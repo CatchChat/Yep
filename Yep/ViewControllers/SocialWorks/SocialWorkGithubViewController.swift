@@ -153,7 +153,7 @@ final class SocialWorkGithubViewController: BaseViewController {
 
             var title: String?
             if let githubUser = githubUser {
-                title = String(format: NSLocalizedString("%@'s GitHub", comment: ""), githubUser.loginName)
+                title = String(format: NSLocalizedString("whosGitHub%@", comment: ""), githubUser.loginName)
             }
 
             var thumbnail: UIImage?

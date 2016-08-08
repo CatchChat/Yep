@@ -464,7 +464,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             case .Blog:
                 let cell: EditProfileMoreInfoCell = tableView.dequeueReusableCell()
 
-                cell.annotationLabel.text = NSLocalizedString("Blog", comment: "")
+                cell.annotationLabel.text = "Blog"
 
                 YepUserDefaults.blogURLString.bindAndFireListener(Listener.Blog) { [weak cell] blogURLString in
                     SafeDispatch.async {

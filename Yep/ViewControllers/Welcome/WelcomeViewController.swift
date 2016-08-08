@@ -22,7 +22,7 @@ final class WelcomeViewController: UIViewController {
         super.viewDidLoad()
 
         logoLabel.text = NSLocalizedString("Yep", comment: "")
-        sloganLabel.text = NSLocalizedString("Meet with genius", comment: "")
+        sloganLabel.text = NSLocalizedString("Meet Genius", comment: "")
 
         registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), forState: .Normal)
         loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)

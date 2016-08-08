@@ -208,7 +208,7 @@ final private class ActionSheetCheckCell: UITableViewCell {
     }()
 
     lazy var checkImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "icon_location_checkmark"))
+        let imageView = UIImageView(image: R.image.icon_location_checkmark())
         return imageView
     }()
 

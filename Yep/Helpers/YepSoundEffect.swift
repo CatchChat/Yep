@@ -12,18 +12,8 @@ final public class YepSoundEffect: NSObject {
 
     var soundID: SystemSoundID?
     
-    public init(soundName: String) {
+    public init(fileURL: NSURL) {
         super.init()
-
-        guard !soundName.isEmpty else {
-            fatalError("YepSoundEffect: no soundName!")
-        }
-
-        let bundle = NSBundle.mainBundle()
-
-        guard let fileURL = bundle.URLForResource(soundName, withExtension: "caf") else {
-            fatalError("YepSoundEffect: file no found!")
-        }
 
         var theSoundID: SystemSoundID = 0
         let error = AudioServicesCreateSystemSoundID(fileURL, &theSoundID)

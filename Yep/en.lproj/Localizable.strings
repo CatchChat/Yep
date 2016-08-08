@@ -1,662 +1,322 @@
-/* 
-  Localizable.strings
-  Yep
 
-  Created by nixzhu on 15/8/26.
-  Copyright (c) 2015年 Catch Inc. All rights reserved.
-*/
-
-/* 正在 */
-" is " = "";
-
-/* No comment provided by engineer. */
-"[Audio]" = "[Audio]";
-
-/* No comment provided by engineer. */
-"[Image]" = "[Image]";
-
-/* No comment provided by engineer. */
-"[Location]" = "[Location]";
-
-/* No comment provided by engineer. */
-"[Video]" = "[Video]";
-
-/* No comment provided by engineer. */
+" is " = " is ";
 "About" = "About";
-
-/* No comment provided by engineer. */
-"Accept" = "Accept";
-
-/* No comment provided by engineer. */
 "Accept Friend Request failed!" = "Accept Friend Request failed!";
-
-/* No comment provided by engineer. */
+"Accept" = "Accept";
 "Action" = "Action";
-
-/* No comment provided by engineer. */
-"Add" = "Add";
-
-/* No comment provided by engineer. */
 "Add Friends" = "Add Friends";
-
-/* No comment provided by engineer. */
 "Add Skills" = "Add Skills";
-
-/* No comment provided by engineer. */
-"Advertising" = "Advertising";
-
-/* No comment provided by engineer. */
-"Available Friends" = "Available Friends";
-
-/* No comment provided by engineer. */
-"Avatar" = "Avatar";
-
-/* No comment provided by engineer. */
-"Back" = "Back";
-
-/* No comment provided by engineer. */
-"Begin chat just now" = "Begin chat just now";
-
-/* No comment provided by engineer. */
-"Block" = "Block";
-
-/* No comment provided by engineer. */
-"Blocked Users" = "Blocked Users";
-
-/* No comment provided by engineer. */
-"Build world together" = "Build world together";
-
-"By tapping Next you agree to our terms." = "By tapping Next you agree to our terms.";
-
-/* No comment provided by engineer. */
-"Call me" = "Call me";
-
-/* No comment provided by engineer. */
-"Calling" = "Calling";
-
-/* No comment provided by engineer. */
-"Cancel" = "Cancel";
-
-/* No comment provided by engineer. */
-"Catch Inc." = "Catch Inc.";
-
-/* No comment provided by engineer. */
-"Change it now" = "Change it now";
-
-/* No comment provided by engineer. */
-"Change skill cover" = "Change skill cover";
-
-/* No comment provided by engineer. */
-"Change Skills" = "Change Skills";
-
-"Chats" = "Chats";
-
-/* No comment provided by engineer. */
-"Choose Photo" = "Choose Photo";
-
-/* No comment provided by engineer. */
-"Choose from Library" = "Choose from Library";
-
-/* No comment provided by engineer. */
-"Choose photo" = "Choose photo";
-
-/* No comment provided by engineer. */
-"Clear history" = "Clear history";
-
-"FeedConversationsViewController.ClearUnread" = "Clear";
-
-"Contacts" = "Contacts";
-
-/* No comment provided by engineer. */
-"Copy" = "Copy";
-
-/* No comment provided by engineer. */
-"Default" = "Default";
-
-/* No comment provided by engineer. */
-"Delete" = "Delete";
-
-/* No comment provided by engineer. */
-"Didn't get it?" = "Didn't get it?";
-
-/* No comment provided by engineer. */
-"Disable Do Not Disturb failed!" = "Disable Do Not Disturb failed!";
-
-"Discover" = "Discover";
-
-/* No comment provided by engineer. */
-"Discover them around you" = "Discover them around you";
-
-/* No comment provided by engineer. */
-"Dismiss" = "Dismiss";
-
-/* No comment provided by engineer. */
-"Do not disturb" = "Do not disturb";
-
-/* No comment provided by engineer. */
-"Do Not Disturb" = "Do Not Disturb";
-
-/* No comment provided by engineer. */
-"Do you want to logout?" = "Do you want to logout?";
-
-/* No comment provided by engineer. */
-"Yep! I'm %@." = "Yep！I'm %@.";
-
-/* No comment provided by engineer. */
-"Reply" = "Reply";
-
-/* No comment provided by engineer. */
-"Do you want to reject this friend request?" = "Do you want to reject this friend request?";
-
-/* No comment provided by engineer. */
-"Done" = "Done";
-
-/* No comment provided by engineer. */
-"Edit Profile" = "Edit Profile";
-
-/* No comment provided by engineer. */
-"Enable Do Not Disturb failed!" = "Enable Do Not Disturb failed!";
-
-/* No comment provided by engineer. */
-"Face to Face" = "Face to Face";
-
-/* No comment provided by engineer. */
-"Failed to resend audio!\nPlease make sure your device is connected to the Internet." = "Failed to resend audio!\nPlease make sure your device is connected to the Internet.";
-
-/* No comment provided by engineer. */
-"Failed to resend image!\nPlease make sure your device is connected to the Internet." = "Failed to resend image!\nPlease make sure your device is connected to the Internet.";
-
-/* No comment provided by engineer. */
-"Failed to resend location!\nPlease make sure your device is connected to the Internet." = "Failed to resend location!\nPlease make sure your device is connected to the Internet.";
-
-/* No comment provided by engineer. */
-"Failed to resend text!\nPlease make sure your device is connected to the Internet." = "Failed to resend text!\nPlease make sure your device is connected to the Internet.";
-
-/* No comment provided by engineer. */
-"Failed to resend video!\nPlease make sure your device is connected to the Internet." = "Failed to resend video!\nPlease make sure your device is connected to the Internet.";
-
-/* No comment provided by engineer. */
-"Failed to send audio!\nTry tap on message to resend." = "Failed to send audio!\nTry tap on message to resend.";
-
-/* No comment provided by engineer. */
-"Failed to send image!\nTry tap on message to resend." = "Failed to send image!\nTry tap on message to resend.";
-
-/* No comment provided by engineer. */
-"Failed to send location!\nTry tap on message to resend." = "Failed to send location!\nTry tap on message to resend.";
-
-/* No comment provided by engineer. */
-"Failed to send text!\nTry tap on message to resend." = "Failed to send text!\nTry tap on message to resend.";
-
-/* No comment provided by engineer. */
-"Failed to send verification code!" = "Failed to send verification code!";
-
-/* No comment provided by engineer. */
-"Failed to send video!\nTry tap on message to resend." = "Failed to send video!\nTry tap on message to resend.";
-
-/* No comment provided by engineer. */
-"Feedback" = "Feedback";
-
-/* No comment provided by engineer. */
-"Friends in Contacts" = "Friends in Contacts";
-
-/* No comment provided by engineer. */
-"From" = "From";
-
-/* No comment provided by engineer. */
-"Genius" = "Genius";
-
-/* No comment provided by engineer. */
-"Get Started" = "Get Started";
-
-/* No comment provided by engineer. */
-"Grow together" = "Grow together";
-
-/* No comment provided by engineer. */
-"Hold for Voice" = "Hold for Voice";
-
-/* No comment provided by engineer. */
-"Input verification code sent to" = "Input verification code sent to";
-
-/* No comment provided by engineer. */
-"Introduce yourself here." = "Introduce yourself here.";
-
-/* No comment provided by engineer. */
-"Introduction" = "Introduction";
-
-/* No comment provided by engineer. */
-"is not your friend." = "is not your friend.";
-
-/* No comment provided by engineer. */
-"Last seen %@" = "Last seen %@";
-
-/* No comment provided by engineer. */
-"Learning" = "Learning";
-
-/* No comment provided by engineer. */
-"Log out" = "Log out";
-
-/* No comment provided by engineer. */
-"Login" = "Login";
-
-/* No comment provided by engineer. */
-"Master" = "Master";
-
-/* No comment provided by engineer. */
-"Match" = "Match";
-
-/* No comment provided by engineer. */
-"Match friends with your skills" = "Match friends with your skills";
-
-/* No comment provided by engineer. */
-"Meet" = "Meet";
-
-/* No comment provided by engineer. */
-"Meet with genius" = "Meet with genius";
-
-/* No comment provided by engineer. */
-"Mute" = "Mute";
-
-/* No comment provided by engineer. */
-"My Current Location" = "My Current Location";
-
-/* No comment provided by engineer. */
-"Nearby" = "Nearby";
-
-/* No comment provided by engineer. */
-"Netword Error: Faild to get blocked users!" = "Netword Error: Faild to get blocked users!";
-
-/* No comment provided by engineer. */
-"Network error!" = "Network error!";
-
-/* No comment provided by engineer. */
-"Next" = "Next";
-
-/* No comment provided by engineer. */
-"Nickname" = "Nickname";
-
-/* No comment provided by engineer. */
-"No blocked users." = "No blocked users.";
-
-/* No comment provided by engineer. */
-"No Introduction yet." = "No Introduction yet.";
-
-/* No comment provided by engineer. */
-"No messages yet." = "No messages yet.";
-
-/* No comment provided by engineer. */
-"No more new friends." = "No more new friends.";
-
-/* No comment provided by engineer. */
-"Not now" = "Not now";
-
-/* No comment provided by engineer. */
-"No search results." = "No search results.";
-
-/* No comment provided by engineer. */
-"None" = "None";
-
-/* No comment provided by engineer. */
-"Notice" = "Notice";
-
-/* No comment provided by engineer. */
-"Notifications & Privacy" = "Notifications & Privacy";
-
-/* No comment provided by engineer. */
-"OAuth" = "OAuth";
-
-/* No comment provided by engineer. */
-"OAuth Error" = "OAuth Error";
-
-/* No comment provided by engineer. */
-"OK" = "OK";
-
-"Open Camera" = "Open Camera";
-
-/* No comment provided by engineer. */
-"Other" = "Other";
-
-/* No comment provided by engineer. */
-"Other Reason" = "Other Reason";
-
-/* No comment provided by engineer. */
-"Pick a badge" = "Pick a badge";
-
-"Pick Location" = "Pick Location";
-
-/* No comment provided by engineer. */
-"Pick some skills" = "Pick some skills";
-
-/* No comment provided by engineer. */
-"Picked Location" = "Picked Location";
-
-/* No comment provided by engineer. */
-"Please wait while the audio is not ready!" = "Please wait while the audio is not ready!";
-
-/* No comment provided by engineer. */
-"Please wait while the image is not ready!" = "Please wait while the image is not ready!";
-
-/* No comment provided by engineer. */
-"Please wait while the video is not ready!" = "Please wait while the video is not ready!";
-
-/* No comment provided by engineer. */
-"Popular in " = "Popular in ";
-
-/* No comment provided by engineer. */
-"Porno" = "Porno";
-
-/* No comment provided by engineer. */
-"Preview" = "Preview";
-
-"Profile" = "Profile";
-
-/* No comment provided by engineer. */
-"recording" = "recording";
-
-//* No comment provided by engineer. */
-"Recently Deleted"= "Recently Deleted";
-
-* No comment provided by engineer. */
-"Reject" = "Reject";
-
-/* No comment provided by engineer. */
-"Reject Friend Request failed!" = "Reject Friend Request failed!";
-
-/* No comment provided by engineer. */
-"reject your last friend request." = "reject your last friend request.";
-
-/* No comment provided by engineer. */
-"Release to Cancel" = "Release to Cancel";
-
-/* No comment provided by engineer. */
-"Relogin" = "Relogin";
-
-/* No comment provided by engineer. */
-"Report" = "Report";
-
-/* No comment provided by engineer. */
-"Report Reason" = "Report Reason";
-
-/* No comment provided by engineer. */
-"Resend" = "Resend";
-
-/* No comment provided by engineer. */
-"Resend audio?" = "Resend audio?";
-
-/* No comment provided by engineer. */
-"Resend image?" = "Resend image?";
-
-/* No comment provided by engineer. */
-"Resend location?" = "Resend location?";
-
-/* No comment provided by engineer. */
-"Resend text?" = "Resend text?";
-
-/* No comment provided by engineer. */
-"Resend video?" = "Resend video?";
-
-/* No comment provided by engineer. */
-"Say Hi" = "Say Hi";
-
-/* No comment provided by engineer. */
-"Scams" = "Scams";
-
-/* No comment provided by engineer. */
-"Search" = "Search";
-
-"Search Friend" = "Search Friend";
-
-"Search User" = "Username/Nickname/Phone";
-
-/* No comment provided by engineer. */
-"Send" = "Send";
-
-/* No comment provided by engineer. */
-"Send Friend Request failed!" = "Send Friend Request failed!";
-
-/* No comment provided by engineer. */
-"Set an avatar" = "Set an avatar";
-
-/* No comment provided by engineer. */
-"Set badge failed!" = "Set badge failed!";
-
-/* No comment provided by engineer. */
-"Set Do Not Disturb failed!" = "Set Do Not Disturb failed!";
-
-/* No comment provided by engineer. */
-"Settings" = "Settings";
-
-/* No comment provided by engineer. */
-"Share location" = "Share location";
-
-/* No comment provided by engineer. */
-"Sign up" = "Sign up";
-
-/* No comment provided by engineer. */
-"Sign Up" = "Sign Up";
-
-/* No comment provided by engineer. */
-"Sorry" = "Sorry";
-
-/* No comment provided by engineer. */
-"Success" = "Success";
-
-/* No comment provided by engineer. */
-"Swipe Up to Cancel" = "Swipe Up to Cancel";
-
-/* No comment provided by engineer. */
-"Take Photo" = "Take Photo";
-
-/* No comment provided by engineer. */
-"Take photo" = "Take photo";
-
-/* No comment provided by engineer. */
-"Thanks! Your feedback has been recorded!" = "Thanks! Your feedback has been recorded!";
-
-/* No comment provided by engineer. */
-"This skill already in another learning skills set!" = "This skill already in another learning skills set!";
-
-/* No comment provided by engineer. */
-"This skill already in another master skills set!" = "This skill already in another master skills set!";
-
-/* No comment provided by engineer. */
-"Time" = "Time";
-
-/* No comment provided by engineer. */
-"To" = "To";
-
-"terms" = "terms";
-
-/* No comment provided by engineer. */
-"try add you as friend." = "is not your friend";
-
-/* No comment provided by engineer. */
-"typing" = "typing";
-
-/* No comment provided by engineer. */
-"Unblock" = "Unblock";
-
-/* No comment provided by engineer. */
-"Update nickname failed!" = "Update nickname failed!";
-
-/* No comment provided by engineer. */
-"Update skill cover failed!" = "Update skill cover failed!";
-
-/* No comment provided by engineer. */
-"Upload skill cover failed!" = "Upload skill cover failed!";
-
-/* No comment provided by engineer. */
-"User authentication error, you need to login again!" = "User authentication error, you need to login again!";
-
-/* No comment provided by engineer. */
-"View profile" = "View profile";
-
-/* No comment provided by engineer. */
-"Wait too long, the operation may not be completed." = "Wait too long, the operation may not be completed.";
-
-/* No comment provided by engineer. */
-"We read every feedback" = "We read every feedback";
-
-/* No comment provided by engineer. */
-"What are you good at?" = "What are you good at?";
-
-/* No comment provided by engineer. */
-"What are you learning?" = "What are you learning?";
-
-/* No comment provided by engineer. */
-"What's your name?" = "What's your name?";
-
-/* No comment provided by engineer. */
-"What's your number?" = "What's your number?";
-
-/* No comment provided by engineer. */
-"Yep" = "Yep";
-
-/* No comment provided by engineer. */
-"Yep can not access your Camera Roll!\nBut you can change it in iOS Settings." = "Yep can not access your Camera Roll!\nBut you can change it in iOS Settings.";
-
-/* No comment provided by engineer. */
-"Yep can not access your Microphone!\nBut you can change it in iOS Settings." = "Yep can not access your Microphone!\nBut you can change it in iOS Settings.";
-
-/* No comment provided by engineer. */
-"Yep can not get your Location!\nBut you can change it in iOS Settings." = "Yep can not get your Location!\nBut you can change it in iOS Settings.";
-
-/* No comment provided by engineer. */
-"Yep can not open your Camera!\nBut you can change it in iOS Settings." = "Yep can not open your Camera!\nBut you can change it in iOS Settings.";
-
-/* No comment provided by engineer. */
-"Yep can not read your Contacts!\nBut you can change it in iOS Settings." = "Yep can not read your Contacts!\nBut you can change it in iOS Settings.";
-
-/* No comment provided by engineer. */
-"Yep need to read your Contacts to continue this operation.\nIs that OK?" = "Yep need to read your Contacts to continue this operation.\nIs that OK?";
-
-/* No comment provided by engineer. */
-"Yes" = "Yes";
-
-/* No comment provided by engineer. */
-"You did not enter any nickname!" = "You did not enter any nickname!";
-
-/* No comment provided by engineer. */
-"You don't have any skills!\nWould you like to pick some?" = "You don't have any skills!\nWould you like to pick some?";
-
-/* No comment provided by engineer. */
-"You have been blocked by %@!" = "You have been blocked by %@!";
-
-/* No comment provided by engineer. */
-"You have blocked %@! Do you want to unblock him or her?" = "You have blocked %@! Do you want to unblock him or her?";
-
-/* No comment provided by engineer. */
-"Raview Yep on the App Store" = "Raview Yep on the App Store";
-
-/* No comment provided by engineer. */
-"Terms of Service" = "Terms of Service";
-
-/* No comment provided by engineer. */
-"Version" = "Version";
-
-/* No comment provided by engineer. */
-"Network is not good!" = "Network is not good!";
-
-/* No comment provided by engineer. */
-"Yep can't reach GitHub.\nWe blame GFW!" = "Yep can't reach GitHub.\nWe blame GFW!";
-
-/* No comment provided by engineer. */
-"Create" = "Create";
-
-/* No comment provided by engineer. */
-"Create a username" = "Create a username";
-
-/* No comment provided by engineer. */
-"Create username failed!" = "Create username failed!";
-
-/* No comment provided by engineer. */
-"In order to share your profile, create a unique username first." = "In order to share your profile, create a unique username first.";
-
-/* No comment provided by engineer. */
-"use letters, numbers, and underscore" = "use letters, numbers, and underscore";
-
-/* No comment provided by engineer. */
 "Add to Me" = "Add to Me";
-
-/* No comment provided by engineer. */
+"Add" = "Add";
 "Added %@ to %@ successfully!" = "Added %1$@ to %2$@ successfully!";
-
-/* No comment provided by engineer. */
-"Choose skill set" = "Choose skill set";
-
-/* No comment provided by engineer. */
-"Which skill set do you want %@ to be?" = "Which skill set do you want %@ to be?";
-
-/* No comment provided by engineer. */
-"WeChat Session" = "WeChat Session";
-
-/* No comment provided by engineer. */
-"WeChat Timeline" = "WeChat Timeline";
-
-/* No comment provided by engineer. */
-"Match me if you can" = "Match me if you can";
-
-/* No comment provided by engineer. */
-"From Yep, with Skills." = "From Yep, with Skills.";
-
-/* No comment provided by engineer. */
-"%@'s Dribbble" = "%@'s Dribbble";
-
-/* No comment provided by engineer. */
-"%@'s GitHub" = "%@'s GitHub";
-
-/* No comment provided by engineer. */
-"%@'s Instagram" = "%@'s Instagram";
-
-/* No comment provided by engineer. */
-"Username" = "Username";
-
-/* No comment provided by engineer. */
-"Set Username" = "Set Username";
-
-/* No comment provided by engineer. */
-"Please note that you can only set username once." = "Please note that you can only set username once.";
-
-/* No comment provided by engineer. */
-"Set" = "Set";
-
-/* No comment provided by engineer. */
-"Set username failed!" = "Set username failed!";
-
-"Release to Send" = "Release to Send";
-
-"Fetching" = "Fetching";
-
-"Have a nice day!" = "Have a nice day!";
-
-"No discovered users." = "No discovered users.";
-
-"No friends yet.\nTry discover or add some." = "No friends yet.\nTry discover or add some.";
-
-"Feeds" = "Feeds";
-
-"Joined Feeds" = "Joined Feeds";
-
-"Send Photos (%d)" = "Send Photos (%d)";
-
-"Channel:" = "Channel:";
-
-"Choose..." = "Choose...";
-
-"People with this skill" = "People with this skill";
-
-"Push notifications" = "Push notifications";
-
-"Share this feed" = "Share this feed";
-
-"Unsubscribe" = "Unsubscribe";
-
+"Advertising" = "Advertising";
+"Albums" = "Albums";
+"All messages read." = "All messages read.";
 "Also delete this feed?" = "Also delete this feed?";
-
-"From Yep" = "From Yep";
-
-"Join Us" = "Join Us";
-
-"[Deleted]" = "[Deleted]";
-
+"Available Friends" = "Available Friends";
+"Avatar" = "Avatar";
+"Back" = "Back";
+"Begin chat just now" = "Begin chat just now";
+"Block" = "Block";
+"Blocked Creators" = "Blocked Creators";
+"Blocked Users" = "Blocked Users";
+"Build world together" = "Build world together";
+"By tapping Next you agree to our terms." = "By tapping Next you agree to our terms.";
+"Call me" = "Call me";
+"Calling" = "Calling";
+"Camera" = "Camera";
+"Cancel recommended feed failed!" = "Cancel recommended feed failed!";
+"Cancel" = "Cancel";
+"Cancel\nRecommended" = "Cancel\nRecommended";
+"Catch Inc." = "Catch Inc.";
+"Change Mobile" = "Change Mobile";
+"Change Skills" = "Change Skills";
+"Change it now" = "Change it now";
+"Change skill cover" = "Change skill cover";
+"Channel:" = "Channel:";
+"Chat Records" = "Chat Records";
+"Chat" = "Chat";
+"Chats" = "Chats";
+"Choose Photo" = "Choose Photo";
+"Choose Skill Set" = "Choose Skill Set";
+"Choose Source" = "Choose Source";
+"Choose from Library" = "Choose from Library";
+"Choose..." = "Choose...";
+"Clear history" = "Clear history";
+"Contacts" = "Contacts";
+"Copy" = "Copy";
+"Create a username" = "Create a username";
+"Create feed failed!" = "Create feed failed!";
+"Create username failed!" = "Create username failed!";
+"Create" = "Create";
+"Created by %@ at %@" = "Created by %@ at %@";
+"Creators of Blocked Feeds" = "Creators of Blocked Feeds";
+"Current number:" = "Current number:";
+"Default" = "Default";
+"Delete" = "Delete";
+"Didn't get it?" = "Didn't get it?";
+"Disable Do Not Disturb Failed!" = "Disable Do Not Disturb Failed!";
+"Discover them around you" = "Discover them around you";
+"Discover" = "Discover";
+"Dismiss" = "Dismiss";
+"Do Not Disturb" = "Do Not Disturb";
+"Do not remind me in this version" = "Do not remind me in this version";
+"Do you like Yep?\nWould you like to review it on the App Store?" = "Do you like Yep?\nWould you like to review it on the App Store?";
+"Do you want to logout?" = "Do you want to logout?";
+"Do you want to reject this friend request?" = "Do you want to reject this friend request?";
+"Do you want to unfriend with %@?" = "Do you want to unfriend with %@?";
+"Done" = "Done";
+"Edit Profile" = "Edit Profile";
+"Enable Do Not Disturb Failed!" = "Enable Do Not Disturb Failed!";
+"Face to Face" = "Face to Face";
+"Failed to resend audio!\nPlease make sure your device is connected to the Internet." = "Failed to resend audio!\nPlease make sure your device is connected to the Internet.";
+"Failed to resend image!\nPlease make sure your device is connected to the Internet." = "Failed to resend image!\nPlease make sure your device is connected to the Internet.";
+"Failed to resend location!\nPlease make sure your device is connected to the Internet." = "Failed to resend location!\nPlease make sure your device is connected to the Internet.";
+"Failed to resend text!\nPlease make sure your device is connected to the Internet." = "Failed to resend text!\nPlease make sure your device is connected to the Internet.";
+"Failed to resend video!\nPlease make sure your device is connected to the Internet." = "Failed to resend video!\nPlease make sure your device is connected to the Internet.";
+"Failed to send audio!\nTry tap on message to resend." = "Failed to send audio!\nTry tap on message to resend.";
+"Failed to send image!\nTry tap on message to resend." = "Failed to send image!\nTry tap on message to resend.";
+"Failed to send location!\nTry tap on message to resend." = "Failed to send location!\nTry tap on message to resend.";
+"Failed to send text!\nTry tap on message to resend." = "Failed to send text!\nTry tap on message to resend.";
+"Failed to send verification code!" = "Failed to send verification code!";
+"Failed to send video!\nTry tap on message to resend." = "Failed to send video!\nTry tap on message to resend.";
+"Feed can only has 4 photos." = "Feed can only has 4 photos.";
 "Feed has been deleted by creator." = "Feed has been deleted by creator.";
-
+"Feed info is too long!\nUp to %d letters." = "Feed info is too long!\nUp to %d letters.";
+"Feed not found!" = "Feed not found!";
+"FeedConversationsViewController.ClearUnread" = "Clear";
+"Feedback" = "Feedback";
+"Feeds by this creator will remove from your timeline." = "Feeds by this creator will remove from your timeline.";
+"Feeds" = "Feeds";
+"Fetch Failed!" = "Fetch Failed!";
+"Fetching" = "Fetching";
+"Find All" = "Find All";
+"Friends in Contacts" = "Friends in Contacts";
+"Friends" = "Friends";
+"From Yep" = "From Yep";
+"From Yep, with Skills." = "From Yep, with Skills.";
+"From" = "From";
+"Genius" = "Genius";
+"Get Started" = "Get Started";
+"Get notified." = "Get notified.";
+"Get title of URL failed!" = "Get title of URL failed!";
+"Grow together" = "Grow together";
+"Have a nice day!" = "Have a nice day!";
+"Hide these feeds" = "Hide these feeds";
+"Hide" = "Hide";
+"Hold for Voice" = "Hold for Voice";
+"In order to share your profile, create a unique username first." = "In order to share your profile, create a unique username first.";
+"Input verification code sent to" = "Input verification code sent to";
+"Input your blog's URL." = "Input your blog's URL.";
+"Introduce a thing, share an idea, describe a problem ..." = "Introduce a thing, share an idea, describe a problem ...";
+"Introduce yourself here." = "Introduce yourself here.";
+"Introduction" = "Introduction";
+"Invalid URL!" = "Invalid URL!";
+"Join Us" = "Join Us";
+"Joined Feeds" = "Joined Feeds";
+"Last seen %@" = "Last seen %@";
+"Lately" = "Lately";
+"Learning" = "Learning";
+"Location" = "Location";
+"Log out" = "Log out";
+"Login" = "Login";
+"Master" = "Master";
+"Match friends with your skills" = "Match friends with your skills";
+"Match me if you can" = "Match me if you can";
+"Match" = "Match";
+"Maybe next time" = "Maybe next time";
+"Meet Genius" = "Meet Genius";
+"Meet" = "Meet";
+"Messages" = "Messages";
+"Modify" = "Modify";
+"Mute" = "Mute";
+"My Current Location" = "My Current Location";
+"Nearby" = "Nearby";
+"Network Error: Failed to get blocked users!" = "Network Error: Failed to get blocked users!";
+"Network error!" = "Network error!";
+"Network is not good!" = "Network is not good!";
+"New Feed" = "New Feed";
+"New Voice" = "New Voice";
+"Next" = "Next";
+"Nickname" = "Nickname";
+"No Blocked Creators" = "No Blocked Creators";
+"No Feeds." = "No Feeds.";
+"No Interviews." = "No Interviews.";
+"No Introduction yet." = "No Introduction yet.";
+"No blocked users." = "No blocked users.";
+"No discovered users." = "No discovered users.";
+"No friends yet.\nTry discover or add some." = "No friends yet.\nTry discover or add some.";
+"No messages yet." = "No messages yet.";
+"No more new friends." = "No more new friends.";
+"No more results." = "No more results.";
+"No search results." = "No search results.";
+"No title for URL!" = "No title for URL!";
+"No username" = "No username";
+"None" = "None";
+"Not now" = "Not now";
+"Notice" = "Notice";
+"Notifications & Privacy" = "Notifications & Privacy";
+"OAuth Error" = "OAuth Error";
+"OAuth" = "OAuth";
+"OK" = "OK";
+"Ooops! You've been blocked." = "Ooops! You've been blocked.";
+"Open Camera" = "Open Camera";
+"Open Source of Yep" = "Open Source of Yep";
+"Open Source" = "Open Source";
+"Other Reason" = "Other Reason";
+"Other" = "Other";
+"People with this skill" = "People with this skill";
+"Pick Location" = "Pick Location";
+"Pick Photos" = "Pick Photos";
+"Pick a badge" = "Pick a badge";
+"Pick some skills" = "Pick some skills";
+"Picked Location" = "Picked Location";
+"Please note that you can only set username once." = "Please note that you can only set username once.";
+"Please wait while the audio is not ready!" = "Please wait while the audio is not ready!";
+"Please wait while the image is not ready!" = "Please wait while the image is not ready!";
+"Please wait while the video is not ready!" = "Please wait while the video is not ready!";
+"Popular in " = "Popular in ";
+"Porno" = "Porno";
+"Post" = "Post";
+"Preview" = "Preview";
+"Profile" = "Profile";
+"Push Notifications" = "Push Notifications";
+"Review Yep on the App Store" = "Review Yep on the App Store";
+"Recall" = "Recall";
+"Recently Deleted" = "Recently Deleted";
+"Recommend feed failed!" = "Recommend feed failed!";
+"Recommend" = "Recommend";
+"Recommended" = "Recommended";
+"Reject Friend Request failed!" = "Reject Friend Request failed!";
+"Reject" = "Reject";
+"Release to Cancel" = "Release to Cancel";
+"Release to Send" = "Release to Send";
+"Relogin" = "Relogin";
+"Reply" = "Reply";
+"Report Reason" = "Report Reason";
+"Report" = "Report";
+"Resend audio?" = "Resend audio?";
+"Resend image?" = "Resend image?";
+"Resend location?" = "Resend location?";
+"Resend text?" = "Resend text?";
+"Resend video?" = "Resend video?";
+"Resend" = "Resend";
+"Retry" = "Retry";
+"Review Yep" = "Review Yep";
+"Review now" = "Review now";
+"Say Hi" = "Say Hi";
+"Scams" = "Scams";
+"Search Feeds" = "Search Feeds";
+"Search Friend" = "Search Friend";
+"Search User" = "Search User";
+"Search feeds by user" = "Search feeds by user";
+"Search feeds in channel" = "Search feeds in channel";
+"Search" = "Search";
+"Send Friend Request failed!" = "Send Friend Request failed!";
+"Send Photos (%d)" = "Send Photos (%d)";
+"Send" = "Send";
+"Set Blog" = "Set Blog";
+"Set Do Not Disturb failed!" = "Set Do Not Disturb failed!";
+"Set Username" = "Set Username";
+"Set an avatar" = "Set an avatar";
+"Set badge failed!" = "Set badge failed!";
+"Set blog failed!" = "Set blog failed!";
+"Set username failed!" = "Set username failed!";
+"Set" = "Set";
+"Settings" = "Settings";
+"Share location" = "Share location";
+"Share this feed" = "Share this feed";
+"Short Movie" = "Short Movie";
+"Show More" = "Show More";
+"Show Tab Bar Title" = "Show Tab Bar Title";
+"Sign Up" = "Sign Up";
+"Sorry" = "Sorry";
+"Submit" = "Submit";
+"Subscribe" = "Subscribe";
+"Success" = "Success";
+"Swipe Up to Cancel" = "Swipe Up to Cancel";
+"Sync to Feeds" = "Sync to Feeds";
+"Synced to Feeds" = "Synced to Feeds";
+"Take Photo" = "Take Photo";
+"Terms of Service" = "Terms of Service";
+"Text & Photos" = "Text & Photos";
+"Thanks! Your feedback has been recorded!" = "Thanks! Your feedback has been recorded!";
+"Third Party" = "Third Party";
+"This number (%@) not yet registered! Would you like to register it now?" = "This number (%@) not yet registered! Would you like to register it now?";
+"This skill already in another learning skills set!" = "This skill already in another learning skills set!";
+"This skill already in another master skills set!" = "This skill already in another master skills set!";
+"Time" = "Time";
+"To be continue." = "To be continue.";
+"To" = "To";
+"Try keywords" = "Try keywords";
+"Unblock" = "Unblock";
+"Unfriend failed!" = "Unfriend failed!";
+"Unfriend" = "Unfriend";
+"Unknown location" = "Unknown location";
+"Unsubscribe" = "Unsubscribe";
+"Update nickname failed!" = "Update nickname failed!";
+"Update skill cover failed!" = "Update skill cover failed!";
+"Upload Contacts" = "Upload Contacts";
+"Upload failed!" = "Upload failed!";
+"Upload skill cover failed!" = "Upload skill cover failed!";
+"User authentication error, you need to login again!" = "User authentication error, you need to login again!";
+"User not found!" = "User not found!";
+"Username" = "Username";
+"Users" = "Users";
+"Version" = "Version";
+"View profile" = "View profile";
+"Voice recording time is too short!" = "Voice recording time is too short!";
+"Voice" = "Voice";
+"Wait too long, the operation may not be completed." = "Wait too long, the operation may not be completed.";
+"We read every feedback" = "We read every feedback";
+"WeChat Session" = "WeChat Session";
+"WeChat Timeline" = "WeChat Timeline";
+"Welcome contributions!" = "Welcome contributions!";
+"What are you good at?" = "What are you good at?";
+"What are you learning?" = "What are you learning?";
+"What's your name?" = "What's your name?";
+"What's your new number?" = "What's your new number?";
+"What's your number?" = "What's your number?";
+"Which skill set do you want %@ to be?" = "Which skill set do you want %@ to be?";
+"Yep can not access your Camera Roll!\nBut you can change it in iOS Settings." = "Yep can not access your Camera Roll!\nBut you can change it in iOS Settings.";
+"Yep can not access your Microphone!\nBut you can change it in iOS Settings." = "Yep can not access your Microphone!\nBut you can change it in iOS Settings.";
+"Yep can not get your Location!\nBut you can change it in iOS Settings." = "Yep can not get your Location!\nBut you can change it in iOS Settings.";
+"Yep can not open your Camera!\nBut you can change it in iOS Settings." = "Yep can not open your Camera!\nBut you can change it in iOS Settings.";
+"Yep can not read your Contacts!\nBut you can change it in iOS Settings." = "Yep can not read your Contacts!\nBut you can change it in iOS Settings.";
+"Yep can not save files!\nProbably not enough storage space." = "Yep can not save files!\nProbably not enough storage space.";
+"Yep can't reach GitHub.\nWe blame GFW!" = "Yep can't reach GitHub.\nWe blame GFW!";
+"Yep need to read your Contacts to continue this operation.\nIs that OK?" = "Yep need to read your Contacts to continue this operation.\nIs that OK?";
+"Yep on GitHub" = "Yep on GitHub";
+"Yep will match friends from your contacts for you." = "Yep will match friends from your contacts for you.";
+"Yep! I'm %@." = "Yep! I'm %@.";
+"Yep" = "Yep";
+"Yes" = "Yes";
+"You did not enter any nickname!" = "You did not enter any nickname!";
+"You don't have any skills!\nWould you like to pick some?" = "You don't have any skills!\nWould you like to pick some?";
+"You have been blocked by %@!" = "You have been blocked by %@!";
+"You have blocked %@! Do you want to unblock him or her?" = "You have blocked %@! Do you want to unblock him or her?";
+"You have entered an invalid URL!" = "You have entered an invalid URL!";
+"You have no avatar! Please set up one first." = "You have no avatar! Please set up one first.";
+"You have successfully updated your mobile for Yep! For now on, using the new number to login." = "You have successfully updated your mobile for Yep! For now on, using the new number to login.";
+"You may meet different people and content depends on your skills" = "You may meet different people and content depends on your skills";
+"[Deleted]" = "[Deleted]";
+"[Mentioned you]" = "[Mentioned you]";
+"countMessages%d" = "%d messages";
+"is not your friend." = "is not your friend.";
+"localityAndThoroughfare_%@_%@" = "%1$@, %2$@";
+"nicknameWithTextContent_%@_%@" = "%1$@: %2$@";
+"placeholder.audio" = "[Audio]";
+"placeholder.image" = "[Image]";
+"placeholder.location" = "[Location]";
+"placeholder.socialWork" = "[Social Work]";
+"placeholder.video" = "[Video]";
+"recalledMessage%@" = "recalledMessage%@";
+"recording" = "recording";
+"reject your last friend request." = "reject your last friend request.";
+"terms" = "terms";
+"try add you as friend." = "try add you as friend.";
+"typing" = "typing";
+"use letters, numbers, and underscore" = "use letters, numbers, and underscore";
+"whosDribbble%@" = "%@'s Dribbble";
+"whosGitHub%@" = "%@'s GitHub";
+"whosInstagram%@" = "%@'s Instagram";

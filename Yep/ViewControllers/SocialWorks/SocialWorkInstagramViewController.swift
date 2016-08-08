@@ -125,7 +125,7 @@ final class SocialWorkInstagramViewController: BaseViewController {
 
             if let profileURL = NSURL(string: profileURLString) {
 
-                let title = String(format: NSLocalizedString("%@'s Instagram", comment: ""), firstMedia.username)
+                let title = String(format: NSLocalizedString("whosInstagram%@", comment: ""), firstMedia.username)
 
                 var thumbnail: UIImage?
                 if let socialAccount = socialAccount {
