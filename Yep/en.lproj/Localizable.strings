@@ -569,7 +569,7 @@
 "Added %@ to %@ successfully!" = "Added %1$@ to %2$@ successfully!";
 
 /* No comment provided by engineer. */
-"Choose skill set" = "Choose skill set";
+"Choose Skill Set" = "Choose Skill Set";
 
 /* No comment provided by engineer. */
 "Which skill set do you want %@ to be?" = "Which skill set do you want %@ to be?";
@@ -626,3 +626,9 @@
 "Channel:" = "Channel:";
 "Chat" = "Chat;
 "Chat Records" = "Chat Records";
+"Choose Source" = "Choose Source";
+"Choose..." = "Choose...";
+"Create feed failed!" = "Create feed failed!";
+"Created by %@ at %@" = "Created by %@ at %@";
+"Creators of Blocked Feeds" = "Creators of Blocked Feeds";
+"Ooops! You've been blocked." = "Ooops! You've been blocked.";

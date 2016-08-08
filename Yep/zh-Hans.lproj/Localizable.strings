@@ -576,7 +576,7 @@
 "Added %@ to %@ successfully!" = "已成功将“%1$@”添加到“%2$@”！";
 
 /* No comment provided by engineer. */
-"Choose skill set" = "选择技能集合";
+"Choose Skill Set" = "选择技能集合";
 
 /* No comment provided by engineer. */
 "Which skill set do you want %@ to be?" = "您想将“%@”放到哪一个技能集合？";
@@ -758,7 +758,7 @@
 
 "Creators of Blocked Feeds" = "被屏蔽的话题创建者";
 "Blocked Creators" = "被屏蔽的创建者";
-"No Blocked Creators." = "没有被屏蔽的创建者";
+"No Blocked Creators" = "没有被屏蔽的创建者";
 "Ooops! You've been blocked." = "Ooops! 您被对方屏蔽了";
 
 "Try keywords" = "试试这些";
