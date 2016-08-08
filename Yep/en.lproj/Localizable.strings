@@ -607,3 +607,5 @@
 /* No comment provided by engineer. */
 "Set" = "Set";
 
+"localityAndThoroughfare.%@%@" = "%1$@, %2$@";
+"nicknameWithTextContent.%@%@" = "%1$@: %2$@";

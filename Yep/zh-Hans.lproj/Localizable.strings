@@ -711,11 +711,11 @@
 
 "Subscribe" = "订阅";
 
-", " = "，";
+"localityAndThoroughfare.%@%@" = "%1$@，%2$@";
 
 "Voice recording time is too short!" = "语音录制时间太短！";
 
-"%@: %@" = "%1$@：%2$@";
+"nicknameWithTextContent.%@%@" = "%1$@：%2$@";
 
 "Unknown location" = "未知位置";
 
