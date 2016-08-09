@@ -65,7 +65,7 @@ class DiscoverContainerViewController: UIPageViewController {
 
     private lazy var discoverViewController: DiscoverViewController = {
 
-        let vc = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
+        let vc = UIStoryboard.Scene.discover
 
         vc.showProfileOfDiscoveredUserAction = { discoveredUser in
             SafeDispatch.async { [weak self] in
