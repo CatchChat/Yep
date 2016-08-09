@@ -135,9 +135,8 @@ final class ShowViewController: UIViewController {
     }
 
     @IBAction private func login(sender: UIButton) {
-        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-        let vc = storyboard.instantiateViewControllerWithIdentifier("LoginByMobileViewController") as! LoginByMobileViewController
 
+        let vc = UIStoryboard.Scene.loginByMobile
         navigationController?.pushViewController(vc, animated: true)
     }
 }

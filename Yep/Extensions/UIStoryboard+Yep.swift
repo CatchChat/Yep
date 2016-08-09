@@ -59,6 +59,10 @@ extension UIStoryboard {
         static var registerPickName: RegisterPickNameViewController {
             return UIStoryboard(name: "Intro", bundle: nil).instantiateViewControllerWithIdentifier("RegisterPickNameViewController") as! RegisterPickNameViewController
         }
+
+        static var loginByMobile: LoginByMobileViewController {
+            return UIStoryboard(name: "Intro", bundle: nil).instantiateViewControllerWithIdentifier("LoginByMobileViewController") as! LoginByMobileViewController
+        }
     }
 }
 
