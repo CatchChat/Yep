@@ -419,7 +419,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
 
-            let vc = UIStoryboard.conversationViewController
+            let vc = UIStoryboard.yep_conversation
 
             realm.beginWrite()
             let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
@@ -448,7 +448,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
 
-            let vc = UIStoryboard.profileViewController
+            let vc = UIStoryboard.yep_profile
             vc.prepare(withDiscoveredUser: discoveredUser)
 
             delay(0.25) {
@@ -472,7 +472,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
 
         } else {
-            let vc = UIStoryboard.profileViewController
+            let vc = UIStoryboard.yep_profile
             vc.prepare(withUser: user)
 
             delay(0.25) {
@@ -499,7 +499,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
 
         } else {
-            let vc = UIStoryboard.conversationViewController
+            let vc = UIStoryboard.yep_conversation
             vc.conversation = conversation
 
             delay(0.25) {

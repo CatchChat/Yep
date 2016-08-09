@@ -601,7 +601,7 @@ extension ConversationsViewController: UIViewControllerPreviewingDelegate {
 
         case .Conversation:
 
-            let vc = UIStoryboard.conversationViewController
+            let vc = UIStoryboard.yep_conversation
             let conversation = conversations[indexPath.row]
             prepareConversationViewController(vc, withConversation: conversation)
 

@@ -296,7 +296,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
             previewingContext.sourceRect = cell.frame
 
-            let vc = UIStoryboard.profileViewController
+            let vc = UIStoryboard.yep_profile
 
             let discoveredUser = discoverViewController.discoveredUsers[indexPath.item]
             vc.prepare(withDiscoveredUser: discoveredUser)
