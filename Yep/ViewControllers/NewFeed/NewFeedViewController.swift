@@ -1128,23 +1128,6 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
             let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
             self.presentViewController(photosViewController, animated: true, completion: nil)
-            /*
-//            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
-
-            let previewVC = UIStoryboard(name: "NewFeed", bundle: nil).instantiateViewControllerWithIdentifier("NewFeedPreviewViewController") as! NewFeedPreviewViewController
-            previewVC.previewImages = mediaImages
-            previewVC.imagesLimit = 4
-            previewVC.startIndex = indexPath.item
-            previewVC.returnPickedImage = { [weak self] images in
-                self?.mediaImages = images
-            }
-            
-            self.navigationController?.pushViewController(previewVC, animated: true)
-//            mediaImages.removeAtIndex(indexPath.item)
-////            if !imageAssets.isEmpty {
-////                imageAssets.removeAtIndex(indexPath.item)
-////            }
-             */
 
         default:
             break

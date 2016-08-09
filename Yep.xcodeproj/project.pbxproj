@@ -42,7 +42,6 @@
 		336563F81CCF2FF800598378 /* LeftShareFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336563F71CCF2FF800598378 /* LeftShareFeedCell.swift */; };
 		336563FA1CCF300200598378 /* RightShareFeedCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 336563F91CCF300200598378 /* RightShareFeedCell.swift */; };
 		33893E3A1CB7C62E00B276C1 /* NewFeed.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 33893E371CB7C62E00B276C1 /* NewFeed.storyboard */; };
-		33893E3B1CB7C62E00B276C1 /* NewFeedPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33893E381CB7C62E00B276C1 /* NewFeedPreviewViewController.swift */; };
 		33893E3C1CB7C62E00B276C1 /* NewFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33893E391CB7C62E00B276C1 /* NewFeedViewController.swift */; };
 		338940371CB7C80900B276C1 /* NewFeedPreviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 338940351CB7C80900B276C1 /* NewFeedPreviewCell.swift */; };
 		338940381CB7C80900B276C1 /* NewFeedPreviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 338940361CB7C80900B276C1 /* NewFeedPreviewCell.xib */; };
@@ -806,7 +805,6 @@
 		336563F71CCF2FF800598378 /* LeftShareFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LeftShareFeedCell.swift; sourceTree = "<group>"; };
 		336563F91CCF300200598378 /* RightShareFeedCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RightShareFeedCell.swift; sourceTree = "<group>"; };
 		33893E371CB7C62E00B276C1 /* NewFeed.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = NewFeed.storyboard; sourceTree = "<group>"; };
-		33893E381CB7C62E00B276C1 /* NewFeedPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedPreviewViewController.swift; sourceTree = "<group>"; };
 		33893E391CB7C62E00B276C1 /* NewFeedViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedViewController.swift; sourceTree = "<group>"; };
 		338940351CB7C80900B276C1 /* NewFeedPreviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewFeedPreviewCell.swift; sourceTree = "<group>"; };
 		338940361CB7C80900B276C1 /* NewFeedPreviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewFeedPreviewCell.xib; sourceTree = "<group>"; };
@@ -3579,7 +3577,6 @@
 			isa = PBXGroup;
 			children = (
 				33893E371CB7C62E00B276C1 /* NewFeed.storyboard */,
-				33893E381CB7C62E00B276C1 /* NewFeedPreviewViewController.swift */,
 				33893E391CB7C62E00B276C1 /* NewFeedViewController.swift */,
 			);
 			name = NewFeed;
@@ -4769,7 +4766,6 @@
 				502B605F1BD112E500D9C17E /* QuickPickPhotosCell.swift in Sources */,
 				50AFBF5F1BB4F332007D19DA /* FeedsViewController.swift in Sources */,
 				5000AB161D1A6F3A00F2085F /* PreviewMessagePhoto.swift in Sources */,
-				33893E3B1CB7C62E00B276C1 /* NewFeedPreviewViewController.swift in Sources */,
 				50EB8CBF1AE89ED8001AC1EE /* ChatLeftVideoCell.swift in Sources */,
 				50BAED8B1D2BA8380046B4AB /* ChatRightBaseCellNode.swift in Sources */,
 				502AE5331AB86020005BD199 /* RegisterVerifyMobileViewController.swift in Sources */,
