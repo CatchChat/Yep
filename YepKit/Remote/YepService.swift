@@ -451,7 +451,11 @@ public func updateAvatarWithImageData(imageData: NSData, failureHandler: Failure
 
         case .Failure(let encodingError):
 
-            failureHandler?(reason: .Other(nil), errorMessage: "\(encodingError)")
+            if let failureHandler = failureHandler {
+                failureHandler(reason: .Other(nil), errorMessage: "\(encodingError)")
+            } else {
+                defaultFailureHandler(reason: .Other(nil), errorMessage: "\(encodingError)")
+            }
         }
     })
 }

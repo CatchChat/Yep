@@ -34,7 +34,7 @@ final class SocialWorkTests: XCTestCase {
             }
         })
 
-        waitForExpectationsWithTimeout(15, handler: nil)
+        waitForExpectationsWithTimeout(30, handler: nil)
     }
 
     func testGetDribbbleSocialWorks() {
@@ -60,7 +60,7 @@ final class SocialWorkTests: XCTestCase {
             }
         })
 
-        waitForExpectationsWithTimeout(15, handler: nil)
+        waitForExpectationsWithTimeout(30, handler: nil)
     }
 }
 

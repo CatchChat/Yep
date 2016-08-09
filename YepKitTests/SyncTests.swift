@@ -23,7 +23,7 @@ final class SyncTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectationsWithTimeout(20, handler: nil)
     }
 
     func testSyncUnreadMessages() {
@@ -38,7 +38,7 @@ final class SyncTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectationsWithTimeout(20, handler: nil)
     }
 }
 
