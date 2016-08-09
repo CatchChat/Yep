@@ -625,7 +625,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Private
 
     private lazy var sendMessageSoundEffect: YepSoundEffect = {
-        return YepSoundEffect(fileURL: R.file.bub3Caf()!)
+        let bundle = NSBundle.mainBundle()
+        guard let fileURL = bundle.URLForResource("bub3", withExtension: "caf") else {
+            fatalError("YepSoundEffect: file no found!")
+        }
+        return YepSoundEffect(fileURL: fileURL)
     }()
 
     private func configureYepKit() {

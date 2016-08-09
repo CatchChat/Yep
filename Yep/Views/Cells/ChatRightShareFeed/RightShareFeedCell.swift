@@ -11,7 +11,7 @@ import YepKit
 
 final class RightShareFeedCell: ChatBaseCell {
     
-    var mediaView:FeedMediaView?
+    var mediaView: FeedMediaView?
     
     lazy var feedKindImageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 42, height: 42))
@@ -25,7 +25,8 @@ final class RightShareFeedCell: ChatBaseCell {
     }()
     
     var accessoryView: UIImageView = {
-        let imageView = UIImageView(image: R.image.icon_accessory_mini())
+        let image = UIImage(named: "icon_accessory_mini")
+        let imageView = UIImageView(image: image)
         return imageView
     }()
     
