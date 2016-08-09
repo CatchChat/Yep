@@ -27,8 +27,8 @@ final class LinkContainerView: UIView {
     }()
 
     lazy var accessoryImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = R.image.icon_accessory_mini()
+        let image = UIImage(named: "icon_accessory_mini")
+        let imageView = UIImageView(image: image)
         imageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
         return imageView
     }()

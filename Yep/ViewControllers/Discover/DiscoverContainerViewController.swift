@@ -46,7 +46,7 @@ class DiscoverContainerViewController: UIPageViewController {
 
     private lazy var meetGeniusViewController: MeetGeniusViewController = {
 
-        let vc = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("MeetGeniusViewController") as! MeetGeniusViewController
+        let vc = UIStoryboard.Scene.meetGenius
 
         vc.tapBannerAction = { [weak self] banner in
             SafeDispatch.async { [weak self] in
@@ -65,7 +65,7 @@ class DiscoverContainerViewController: UIPageViewController {
 
     private lazy var discoverViewController: DiscoverViewController = {
 
-        let vc = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
+        let vc = UIStoryboard.Scene.discover
 
         vc.showProfileOfDiscoveredUserAction = { discoveredUser in
             SafeDispatch.async { [weak self] in
@@ -275,8 +275,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
             previewingContext.sourceRect = cell.frame
 
-            let vc = UIStoryboard(name: "GeniusInterview", bundle: nil).instantiateViewControllerWithIdentifier("GeniusInterviewViewController") as! GeniusInterviewViewController
-
+            let vc = UIStoryboard.Scene.geniusInterview
             let geniusInterview = meetGeniusViewController.geniusInterviews[indexPath.row]
             vc.interview = geniusInterview
 
@@ -296,7 +295,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
             previewingContext.sourceRect = cell.frame
 
-            let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+            let vc = UIStoryboard.Scene.profile
 
             let discoveredUser = discoverViewController.discoveredUsers[indexPath.item]
             vc.prepare(withDiscoveredUser: discoveredUser)

@@ -415,11 +415,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             //println("matchSharedFeed: \(feed)")
 
-            guard let
-                vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController,
-                realm = try? Realm() else {
-                    return
+            guard let realm = try? Realm() else {
+                return
             }
+
+            let vc = UIStoryboard.Scene.conversation
 
             realm.beginWrite()
             let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
@@ -448,11 +448,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
 
-            guard let
-                vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
-                    return
-            }
-
+            let vc = UIStoryboard.Scene.profile
             vc.prepare(withDiscoveredUser: discoveredUser)
 
             delay(0.25) {
@@ -476,10 +472,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
 
         } else {
-            guard let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
-                return false
-            }
-
+            let vc = UIStoryboard.Scene.profile
             vc.prepare(withUser: user)
 
             delay(0.25) {
@@ -506,10 +499,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
 
         } else {
-            guard let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController else {
-                return false
-            }
-
+            let vc = UIStoryboard.Scene.conversation
             vc.conversation = conversation
 
             delay(0.25) {
@@ -526,18 +516,16 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func startShowStory() {
 
-        let storyboard = UIStoryboard(name: "Show", bundle: nil)
-        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("ShowNavigationController") as! UINavigationController
-        window?.rootViewController = rootViewController
+        let storyboard = UIStoryboard.yep_show
+        window?.rootViewController = storyboard.instantiateInitialViewController()
 
         inMainStory = false
     }
 
     func startMainStory() {
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController") as! UITabBarController
-        window?.rootViewController = rootViewController
+        let storyboard = UIStoryboard.yep_main
+        window?.rootViewController = storyboard.instantiateInitialViewController()
 
         inMainStory = true
     }
@@ -625,7 +613,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     // MARK: Private
 
     private lazy var sendMessageSoundEffect: YepSoundEffect = {
-        return YepSoundEffect(fileURL: R.file.bub3Caf()!)
+        let bundle = NSBundle.mainBundle()
+        guard let fileURL = bundle.URLForResource("bub3", withExtension: "caf") else {
+            fatalError("YepSoundEffect: file no found!")
+        }
+        return YepSoundEffect(fileURL: fileURL)
     }()
 
     private func configureYepKit() {

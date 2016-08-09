@@ -4,7 +4,6 @@ platform :ios, '9.0'
 use_frameworks!
 
 def pods
-    pod 'R.swift'
     pod 'AutoReview'
     pod 'AudioBot'
     pod 'AsyncDisplayKit'

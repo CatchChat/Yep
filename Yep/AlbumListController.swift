@@ -32,8 +32,7 @@ final class AlbumListController: UITableViewController {
     var assetsCollection: [Album]?
 
     lazy var pickPhotosVC: PickPhotosViewController = {
-        let vc = UIStoryboard(name: "PickPhotos", bundle: nil).instantiateViewControllerWithIdentifier("PickPhotosViewController") as! PickPhotosViewController
-        return vc
+        return UIStoryboard.Scene.pickPhotos
     }()
     
     override func viewDidLoad() {

@@ -1914,13 +1914,13 @@ extension FeedsViewController: UIViewControllerPreviewingDelegate {
 
         case .Feed:
 
-            let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
-
-           guard let
+            guard let
                 feed = feeds[safe: indexPath.row],
                 realm = try? Realm() else {
                     return nil
             }
+
+            let vc = UIStoryboard.Scene.conversation
 
             prepareConversationViewController(vc, withDiscoveredFeed: feed, inRealm: realm)
 

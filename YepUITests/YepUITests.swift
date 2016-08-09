@@ -49,7 +49,12 @@ final class YepUITests: XCTestCase {
 
         tab.tap()
 
-        app.navigationBars["Feeds"].buttons["Add"].tap()
+        let add = app.navigationBars["Feeds"].buttons["Add"]
+        guard add.exists else {
+            return
+        }
+
+        add.tap()
         app.tables.staticTexts["Text & Photos"].tap()
 
         let scrollViewsQuery = app.scrollViews
@@ -115,7 +120,11 @@ final class YepUITests: XCTestCase {
 
         tab.tap()
 
-        app.navigationBars["Contacts"].buttons["Add"].tap()
+        let add = app.navigationBars["Contacts"].buttons["Add"]
+        guard add.exists else {
+            return
+        }
+        add.tap()
         
         let textField = app.tables.childrenMatchingType(.Cell).elementBoundByIndex(0).childrenMatchingType(.TextField).element
         textField.tap()
@@ -166,14 +175,22 @@ final class YepUITests: XCTestCase {
 
         tab.tap()
 
-        app.tables.searchFields["Search Friend"].tap()
+        let search = app.tables.searchFields["Search Friend"]
+        guard search.exists else {
+            return
+        }
+        search.tap()
 
         let textField = app.searchFields["Search Friend"]
         textField.tap()
         textField.typeText("test")
         app.buttons["Done"].tap()
 
-        app.tables.staticTexts["test"].tap()
+        let test = app.tables.staticTexts["test"]
+        guard test.exists else {
+            return
+        }
+        test.tap()
 
         app.navigationBars["test"].buttons["icon back"].tap()
 
@@ -196,7 +213,11 @@ final class YepUITests: XCTestCase {
 
         tab.tap()
 
-        app.tables.searchFields["Search Feeds"].tap()
+        let search = app.tables.searchFields["Search Feeds"]
+        guard search.exists else {
+            return
+        }
+        search.tap()
 
         let textField = app.searchFields["Search Feeds"]
         textField.tap()
