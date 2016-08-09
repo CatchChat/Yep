@@ -21,9 +21,6 @@ PODS:
   - PINRemoteImage/iOS (3.0.0-beta.3):
     - PINRemoteImage/Core
   - pop (1.0.9)
-  - R.swift (2.4.0):
-    - R.swift.Library (~> 2.2.0)
-  - R.swift.Library (2.2.0)
   - SocketRocket (0.5.1)
   - TPKeyboardAvoiding (1.3)
 
@@ -38,7 +35,6 @@ DEPENDENCIES:
   - FXBlurView
   - JPush
   - pop
-  - R.swift
   - SocketRocket
   - TPKeyboardAvoiding
 
@@ -55,11 +51,9 @@ SPEC CHECKSUMS:
   PINCache: 9b66261ade3d4feb272df4b4dd2e035469909448
   PINRemoteImage: 308731aa6534500e58fc211b9cc2bb7252df25ba
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  R.swift: 0ef9c42dc6c94ac44a3c78a7639c73f855a8e159
-  R.swift.Library: 31a487b65381f37a7d203a6f1f935b43c9be35b0
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
 
-PODFILE CHECKSUM: f9d469e158be634318b901c3556fbb2aaf54b44e
+PODFILE CHECKSUM: 06808c48662dcaada4a29b7856a582d886b36474
 
 COCOAPODS: 1.0.1
