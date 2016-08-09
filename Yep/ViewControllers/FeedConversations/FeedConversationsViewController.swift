@@ -332,7 +332,7 @@ extension FeedConversationsViewController: UIViewControllerPreviewingDelegate {
 
         previewingContext.sourceRect = cell.frame
 
-        let vc = UIStoryboard.yep_conversation
+        let vc = UIStoryboard.Scene.conversation
         let conversation = feedConversations[indexPath.row]
         prepareConversationViewController(vc, withConversation: conversation)
 

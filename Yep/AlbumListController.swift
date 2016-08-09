@@ -32,7 +32,7 @@ final class AlbumListController: UITableViewController {
     var assetsCollection: [Album]?
 
     lazy var pickPhotosVC: PickPhotosViewController = {
-        return UIStoryboard.yep_pickPhotos
+        return UIStoryboard.Scene.pickPhotos
     }()
     
     override func viewDidLoad() {

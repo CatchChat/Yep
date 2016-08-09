@@ -1920,7 +1920,7 @@ extension FeedsViewController: UIViewControllerPreviewingDelegate {
                     return nil
             }
 
-            let vc = UIStoryboard.yep_conversation
+            let vc = UIStoryboard.Scene.conversation
 
             prepareConversationViewController(vc, withDiscoveredFeed: feed, inRealm: realm)
 

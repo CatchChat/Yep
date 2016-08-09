@@ -573,7 +573,7 @@ extension ContactsViewController: UIViewControllerPreviewingDelegate {
 
         previewingContext.sourceRect = cell.frame
 
-        let vc = UIStoryboard.yep_profile
+        let vc = UIStoryboard.Scene.profile
 
         let user = friends[indexPath.row]
         vc.prepare(withUser: user)
