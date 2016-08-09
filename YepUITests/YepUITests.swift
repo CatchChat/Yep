@@ -148,6 +148,9 @@ final class YepUITests: XCTestCase {
         tablesQuery.searchFields["Search"].tap()
 
         let textField = app.searchFields["Search"]
+        guard textField.exists else {
+            return
+        }
         textField.tap()
         textField.typeText("app")
         app.buttons["Done"].tap()
