@@ -35,6 +35,10 @@ extension UIStoryboard {
         static var mediaPreview: MediaPreviewViewController {
             return UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
         }
+
+        static var meetGenius: MeetGeniusViewController {
+            UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("MeetGeniusViewController") as! MeetGeniusViewController
+        }
     }
 }
 

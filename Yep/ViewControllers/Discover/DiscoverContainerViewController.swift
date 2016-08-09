@@ -46,7 +46,7 @@ class DiscoverContainerViewController: UIPageViewController {
 
     private lazy var meetGeniusViewController: MeetGeniusViewController = {
 
-        let vc = UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("MeetGeniusViewController") as! MeetGeniusViewController
+        let vc = UIStoryboard.Scene.meetGenius
 
         vc.tapBannerAction = { [weak self] banner in
             SafeDispatch.async { [weak self] in
