@@ -167,6 +167,7 @@
 		504F415B1AD5028200FBB19A /* SkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 504F41591AD5028200FBB19A /* SkillCell.xib */; };
 		504F8C041D49E8810046F6AA /* UIApplication+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504F8C031D49E8810046F6AA /* UIApplication+Yep.swift */; };
 		504FDFC61D5965BC00E1FE86 /* UIStoryboard+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FDFC51D5965BC00E1FE86 /* UIStoryboard+Yep.swift */; };
+		504FDFC81D597D4A00E1FE86 /* StoryboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 504FDFC71D597D4A00E1FE86 /* StoryboardTests.swift */; };
 		505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */; };
 		505082351C212E9200643CEB /* FeedLocationContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082341C212E9200643CEB /* FeedLocationContainerView.swift */; };
 		505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505082361C21377E00643CEB /* FeedVoiceContainerView.swift */; };
@@ -937,6 +938,7 @@
 		504F41591AD5028200FBB19A /* SkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillCell.xib; path = Views/Cells/Skill/SkillCell.xib; sourceTree = "<group>"; };
 		504F8C031D49E8810046F6AA /* UIApplication+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIApplication+Yep.swift"; path = "Extensions/UIApplication+Yep.swift"; sourceTree = "<group>"; };
 		504FDFC51D5965BC00E1FE86 /* UIStoryboard+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIStoryboard+Yep.swift"; path = "Extensions/UIStoryboard+Yep.swift"; sourceTree = "<group>"; };
+		504FDFC71D597D4A00E1FE86 /* StoryboardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoryboardTests.swift; sourceTree = "<group>"; };
 		505082321C21130100643CEB /* FeedGithubRepoContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedGithubRepoContainerView.swift; path = Views/ContainerViews/FeedGithubRepoContainerView.swift; sourceTree = "<group>"; };
 		505082341C212E9200643CEB /* FeedLocationContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedLocationContainerView.swift; path = Views/ContainerViews/FeedLocationContainerView.swift; sourceTree = "<group>"; };
 		505082361C21377E00643CEB /* FeedVoiceContainerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedVoiceContainerView.swift; path = Views/ContainerViews/FeedVoiceContainerView.swift; sourceTree = "<group>"; };
@@ -1834,6 +1836,7 @@
 			isa = PBXGroup;
 			children = (
 				5017FC1C1CD095E100DFCB71 /* YepTests.swift */,
+				504FDFC71D597D4A00E1FE86 /* StoryboardTests.swift */,
 				50CE7BE61CF532F300488E5B /* RealmTests.swift */,
 				50D84F261CF2F95D0018D91F /* ClearTests.swift */,
 				50390F0E1CE174180090A08C /* FunctionTests.swift */,
@@ -4964,6 +4967,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				50390F0F1CE174180090A08C /* FunctionTests.swift in Sources */,
+				504FDFC81D597D4A00E1FE86 /* StoryboardTests.swift in Sources */,
 				50D84F271CF2F95D0018D91F /* ClearTests.swift in Sources */,
 				5017FC1D1CD095E100DFCB71 /* YepTests.swift in Sources */,
 				50CE7BE71CF532F300488E5B /* RealmTests.swift in Sources */,
