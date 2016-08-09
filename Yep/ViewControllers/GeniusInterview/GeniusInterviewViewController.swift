@@ -114,8 +114,7 @@ class GeniusInterviewViewController: BaseViewController {
     }()
 
     deinit {
-        webView.navigationDelegate = nil
-        webView.scrollView.delegate = nil
+        println("deinit GeniusInterview")
     }
 
     override func viewDidLoad() {
