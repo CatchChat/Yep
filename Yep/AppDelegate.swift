@@ -524,9 +524,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func startMainStory() {
 
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let rootViewController = storyboard.instantiateViewControllerWithIdentifier("MainTabBarController") as! UITabBarController
-        window?.rootViewController = rootViewController
+        let storyboard = UIStoryboard.yep_main
+        window?.rootViewController = storyboard.instantiateInitialViewController()
 
         inMainStory = true
     }

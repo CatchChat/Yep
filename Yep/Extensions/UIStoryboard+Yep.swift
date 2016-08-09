@@ -14,6 +14,10 @@ extension UIStoryboard {
         return UIStoryboard(name: "Show", bundle: nil)
     }
 
+    static var yep_main: UIStoryboard {
+        return UIStoryboard(name: "Main", bundle: nil)
+    }
+
     struct Scene {
 
         static var pickPhotos: PickPhotosViewController {
