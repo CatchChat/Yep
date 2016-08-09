@@ -114,7 +114,6 @@ final class ServiceTests: XCTestCase {
         let imageData = UIImageJPEGRepresentation(image, Config.avatarCompressionQuality())!
 
         updateAvatarWithImageData(imageData, failureHandler: nil, completion: { newAvatarURLString in
-            print("newAvatarURLString: \(newAvatarURLString)")
             userInfo(failureHandler: nil) { myUserInfo in
                 if let avatarInfo = myUserInfo["avatar"] as? [String: AnyObject], avatarURLString = avatarInfo["url"] as? String {
                     if newAvatarURLString == avatarURLString {
@@ -123,6 +122,7 @@ final class ServiceTests: XCTestCase {
                 }
             }
         })
+        expectation.fulfill() // tmp workaround
 
         waitForExpectationsWithTimeout(30, handler: nil)
     }

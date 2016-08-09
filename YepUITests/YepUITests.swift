@@ -27,11 +27,6 @@ final class YepUITests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    func testExample() {
-        // Use recording to get started writing UI tests.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-    }
 
     func testPostTextFeed() {
 
@@ -144,9 +139,6 @@ final class YepUITests: XCTestCase {
             return
         }
 
-        let tablesQuery = app.tables
-        tablesQuery.searchFields["Search"].tap()
-
         let textField = app.searchFields["Search"]
         guard textField.exists else {
             return
@@ -154,10 +146,6 @@ final class YepUITests: XCTestCase {
         textField.tap()
         textField.typeText("app")
         app.buttons["Done"].tap()
-
-        //tablesQuery.staticTexts["大家期待Pay吗？要看看相关的API了 www.apple.com/cn/apple-pay/"].tap()
-
-        //app.navigationBars["Conversation"].buttons["Search"].tap()
 
         app.buttons["Cancel"].tap()
     }
