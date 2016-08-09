@@ -43,6 +43,10 @@ extension UIStoryboard {
         static var discover: DiscoverViewController {
             return UIStoryboard(name: "Discover", bundle: nil).instantiateViewControllerWithIdentifier("DiscoverViewController") as! DiscoverViewController
         }
+
+        static var geniusInterview: GeniusInterviewViewController {
+            return UIStoryboard(name: "GeniusInterview", bundle: nil).instantiateViewControllerWithIdentifier("GeniusInterviewViewController") as! GeniusInterviewViewController
+        }
     }
 }
 

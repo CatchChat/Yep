@@ -275,8 +275,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
             previewingContext.sourceRect = cell.frame
 
-            let vc = UIStoryboard(name: "GeniusInterview", bundle: nil).instantiateViewControllerWithIdentifier("GeniusInterviewViewController") as! GeniusInterviewViewController
-
+            let vc = UIStoryboard.Scene.geniusInterview
             let geniusInterview = meetGeniusViewController.geniusInterviews[indexPath.row]
             vc.interview = geniusInterview
 
