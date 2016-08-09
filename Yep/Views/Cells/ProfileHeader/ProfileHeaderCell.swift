@@ -152,10 +152,9 @@ final class ProfileHeaderCell: UICollectionViewCell {
 
                 self?.updatePrettyColorAction?(prettyColor)
 
-                UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { () -> Void in
+                UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { [weak self] in
                     self?.avatarImageView.alpha = 1
-                }, completion: { (finished) -> Void in
-                })
+                }, completion: nil)
             }
         }
     }

@@ -37,18 +37,16 @@ final class MediaPreviewView: UIView {
                             mediaControlView.shareAction = {
                                 if let vc = self.parentViewController {
 
-                                    UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                                        self.alpha = 0.0
-                                    }, completion: { finished in
-                                    })
+                                    UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                                        self?.alpha = 0.0
+                                    }, completion: nil)
 
                                     let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
                                     
                                     activityViewController.completionWithItemsHandler = { (_, _, _, _) in
-                                        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                                            self.alpha = 1.0
-                                        }, completion: { finished in
-                                        })
+                                        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                                            self?.alpha = 1.0
+                                        }, completion: nil)
                                     }
 
                                     vc.presentViewController(activityViewController, animated: true, completion: nil)
@@ -117,18 +115,16 @@ final class MediaPreviewView: UIView {
                             mediaControlView.shareAction = {
                                 if let vc = self.parentViewController {
 
-                                    UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                                        self.alpha = 0.0
-                                    }, completion: { finished in
-                                    })
+                                    UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                                        self?.alpha = 0.0
+                                    }, completion: nil)
 
                                     let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
 
                                     activityViewController.completionWithItemsHandler = { (_, _, _, _) in
-                                        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                                            self.alpha = 1.0
-                                        }, completion: { finished in
-                                        })
+                                        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                                            self?.alpha = 1.0
+                                        }, completion: nil)
                                     }
 
                                     vc.presentViewController(activityViewController, animated: true, completion: nil)
@@ -215,18 +211,19 @@ final class MediaPreviewView: UIView {
             }
         }
 
-        UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveLinear, animations: { _ in
-            self.mediaView.coverImageView.alpha = 1
-            self.mediaControlView.alpha = 0
+        UIView.animateWithDuration(0.05, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+            self?.mediaView.coverImageView.alpha = 1
+            self?.mediaControlView.alpha = 0
 
-        }, completion: { finished in
+        }, completion: { _ in
 
-            UIView.animateWithDuration(0.10, delay: 0.0, options: .CurveEaseOut, animations: { _ in
-                self.frame = self.initialframe
-                self.layoutIfNeeded()
+            UIView.animateWithDuration(0.10, delay: 0.0, options: .CurveEaseOut, animations: { [weak self] in
+                guard let strongSelf = self else { return }
+                strongSelf.frame = strongSelf.initialframe
+                strongSelf.layoutIfNeeded()
 
-            }, completion: { finished in
-                self.removeFromSuperview()
+            }, completion: { [weak self] _ in
+                self?.removeFromSuperview()
             })
         })
     }
@@ -250,19 +247,18 @@ final class MediaPreviewView: UIView {
             frame = initialframe
             layoutIfNeeded()
 
-            UIView.animateWithDuration(0.15, delay: 0.0, options: .CurveEaseOut, animations: { _ in
-                self.frame = parentView.bounds
-                self.layoutIfNeeded()
+            UIView.animateWithDuration(0.15, delay: 0.0, options: .CurveEaseOut, animations: { [weak self] in
+                self?.frame = parentView.bounds
+                self?.layoutIfNeeded()
 
-            }, completion: { finished in
+            }, completion: { [weak self] _ in
                 if message.mediaType != MessageMediaType.Video.rawValue {
-                    self.mediaView.coverImage = nil
+                    self?.mediaView.coverImage = nil
                 }
 
-                UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { _ in
-                    self.mediaControlView.alpha = 1
-                }, completion: { finished in
-                })
+                UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+                    self?.mediaControlView.alpha = 1
+                }, completion: nil)
             })
         }
     }
