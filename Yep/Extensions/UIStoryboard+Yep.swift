@@ -47,6 +47,10 @@ extension UIStoryboard {
         static var geniusInterview: GeniusInterviewViewController {
             return UIStoryboard(name: "GeniusInterview", bundle: nil).instantiateViewControllerWithIdentifier("GeniusInterviewViewController") as! GeniusInterviewViewController
         }
+
+        static var registerSelectSkills: RegisterSelectSkillsViewController {
+            return UIStoryboard(name: "Intro", bundle: nil).instantiateViewControllerWithIdentifier("RegisterSelectSkillsViewController") as! RegisterSelectSkillsViewController
+        }
     }
 }
 

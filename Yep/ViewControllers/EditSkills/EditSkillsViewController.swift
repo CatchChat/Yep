@@ -70,10 +70,9 @@ final class EditSkillsViewController: BaseViewController {
                 return
             }
 
-            let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-            let vc = storyboard.instantiateViewControllerWithIdentifier("RegisterSelectSkillsViewController") as! RegisterSelectSkillsViewController
+            let vc = UIStoryboard.Scene.registerSelectSkills
 
-            vc.modalPresentationStyle = UIModalPresentationStyle.Custom
+            vc.modalPresentationStyle = .Custom
             vc.transitioningDelegate = self?.selectSkillsTransitionManager
 
             if let strongSelf = self, me = strongSelf.me, skillSet = strongSelf.skillSet {
