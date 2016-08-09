@@ -10,6 +10,10 @@ import UIKit
 
 extension UIStoryboard {
 
+    static var yep_show: UIStoryboard {
+        return UIStoryboard(name: "Show", bundle: nil)
+    }
+
     struct Scene {
 
         static var pickPhotos: PickPhotosViewController {
