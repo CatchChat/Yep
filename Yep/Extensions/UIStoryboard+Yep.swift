@@ -17,5 +17,9 @@ extension UIStoryboard {
     static var conversationViewController: ConversationViewController {
         return UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as! ConversationViewController
     }
+
+    static var profileViewController: ProfileViewController {
+        return UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
+    }
 }
 

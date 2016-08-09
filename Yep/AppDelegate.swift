@@ -448,11 +448,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 return
             }
 
-            guard let
-                vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
-                    return
-            }
-
+            let vc = UIStoryboard.profileViewController
             vc.prepare(withDiscoveredUser: discoveredUser)
 
             delay(0.25) {
@@ -476,10 +472,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
 
         } else {
-            guard let vc = UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as? ProfileViewController else {
-                return false
-            }
-
+            let vc = UIStoryboard.profileViewController
             vc.prepare(withUser: user)
 
             delay(0.25) {
