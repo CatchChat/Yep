@@ -415,11 +415,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             //println("matchSharedFeed: \(feed)")
 
-            guard let
-                vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController,
-                realm = try? Realm() else {
-                    return
+            guard let realm = try? Realm() else {
+                return
             }
+
+            let vc = UIStoryboard.conversationViewController
 
             realm.beginWrite()
             let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
@@ -506,10 +506,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return true
 
         } else {
-            guard let vc = UIStoryboard(name: "Conversation", bundle: nil).instantiateViewControllerWithIdentifier("ConversationViewController") as? ConversationViewController else {
-                return false
-            }
-
+            let vc = UIStoryboard.conversationViewController
             vc.conversation = conversation
 
             delay(0.25) {
