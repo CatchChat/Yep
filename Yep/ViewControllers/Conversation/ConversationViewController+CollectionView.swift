@@ -392,7 +392,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                 if message.mediaType == MessageMediaType.Video.rawValue {
 
-                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+                    let vc = UIStoryboard.Scene.mediaPreview
 
                     vc.previewMedias = [PreviewMedia.MessageType(message: message)]
                     vc.startIndex = 0

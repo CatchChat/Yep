@@ -31,6 +31,10 @@ extension UIStoryboard {
         static var profile: ProfileViewController {
             return UIStoryboard(name: "Profile", bundle: nil).instantiateViewControllerWithIdentifier("ProfileViewController") as! ProfileViewController
         }
+
+        static var mediaPreview: MediaPreviewViewController {
+            return UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+        }
     }
 }
 
