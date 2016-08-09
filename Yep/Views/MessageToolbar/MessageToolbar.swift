@@ -539,7 +539,7 @@ extension MessageToolbar: UITextViewDelegate {
                         self?.mentionUsernameRange = mentionRange
 
                         let wordString = markedText.yep_removeAllWhitespaces
-                        println("wordString from markedText: >\(wordString)<")
+                        //println("wordString from markedText: >\(wordString)<")
                         self?.tryMentionUserAction?(usernamePrefix: wordString)
 
                         return

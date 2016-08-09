@@ -222,8 +222,6 @@ extension YepFayeService {
 
             self.fayeClient.sendMessage(data, toChannel: self.instantChannel(), usingExtension: extensionData, usingBlock: { message  in
 
-                println("sendInstantMessage \(message.successful)")
-
                 if message.successful {
                     completion(success: true)
 
