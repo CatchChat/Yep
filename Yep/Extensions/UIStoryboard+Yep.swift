@@ -51,6 +51,10 @@ extension UIStoryboard {
         static var registerSelectSkills: RegisterSelectSkillsViewController {
             return UIStoryboard(name: "Intro", bundle: nil).instantiateViewControllerWithIdentifier("RegisterSelectSkillsViewController") as! RegisterSelectSkillsViewController
         }
+
+        static var registerPickSkills: RegisterPickSkillsViewController {
+            return UIStoryboard(name: "Intro", bundle: nil).instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
+        }
     }
 }
 

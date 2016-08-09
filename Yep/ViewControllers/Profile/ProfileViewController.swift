@@ -727,14 +727,13 @@ final class ProfileViewController: SegueViewController {
 
     private func pickSkills() {
 
-        let storyboard = UIStoryboard(name: "Intro", bundle: nil)
-        let pickSkillsController = storyboard.instantiateViewControllerWithIdentifier("RegisterPickSkillsViewController") as! RegisterPickSkillsViewController
+        let vc = UIStoryboard.Scene.registerPickSkills
 
-        pickSkillsController.isRegister = false
-        pickSkillsController.masterSkills = self.masterSkills
-        pickSkillsController.learningSkills = self.learningSkills
+        vc.isRegister = false
+        vc.masterSkills = self.masterSkills
+        vc.learningSkills = self.learningSkills
 
-        pickSkillsController.afterChangeSkillsAction = { [weak self] masterSkills, learningSkills in
+        vc.afterChangeSkillsAction = { [weak self] masterSkills, learningSkills in
             self?.masterSkills = masterSkills
             self?.learningSkills = learningSkills
 
@@ -746,7 +745,7 @@ final class ProfileViewController: SegueViewController {
             }
         }
 
-        self.navigationController?.pushViewController(pickSkillsController, animated: true)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
     @objc private func showSettings(sender: AnyObject) {
