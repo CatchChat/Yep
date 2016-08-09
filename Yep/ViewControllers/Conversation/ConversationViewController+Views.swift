@@ -435,22 +435,21 @@ extension ConversationViewController {
         NSLayoutConstraint.activateConstraints([friendRequestViewLeading, friendRequestViewTrailing, friendRequestViewTop, friendRequestViewHeight])
 
         view.layoutIfNeeded()
-        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { () -> Void in
-            self.conversationCollectionView.contentInset.top += FriendRequestView.height
+
+        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
+            self?.conversationCollectionView.contentInset.top += FriendRequestView.height
 
             friendRequestViewTop.constant += FriendRequestView.height
-            self.view.layoutIfNeeded()
-
-        }, completion: { _ in })
+            self?.view.layoutIfNeeded()
+        }, completion: nil)
 
         friendRequestView.user = user
 
         let userID = user.userID
 
         let hideFriendRequestView: () -> Void = {
-            SafeDispatch.async { [weak self] in
-
-                UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: {
+            SafeDispatch.async {
+                UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
                     if let strongSelf = self {
                         strongSelf.conversationCollectionView.contentInset.top = 64 + strongSelf.conversationCollectionViewContentInsetYOffset
 
@@ -458,7 +457,7 @@ extension ConversationViewController {
                         strongSelf.view.layoutIfNeeded()
                     }
 
-                }, completion: { _ in
+                }, completion: { [weak self] _ in
                     friendRequestView.removeFromSuperview()
 
                     if let strongSelf = self {

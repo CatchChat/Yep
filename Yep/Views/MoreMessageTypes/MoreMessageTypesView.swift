@@ -57,50 +57,43 @@ final class MoreMessageTypesView: UIView {
 
         containerView.alpha = 1
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
-            self.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { [weak self] in
+            self?.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        }, completion: nil)
 
-        }, completion: { _ in
-        })
-
-        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
-            self.tableViewBottomConstraint?.constant = 0
-
-            self.layoutIfNeeded()
-
-        }, completion: { _ in
-        })
+        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { [weak self] in
+            self?.tableViewBottomConstraint?.constant = 0
+            self?.layoutIfNeeded()
+        }, completion: nil)
     }
 
     func hide() {
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
-            self.tableViewBottomConstraint?.constant = self.totalHeight
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { [weak self] in
+            guard let strongSelf = self else { return }
 
-            self.layoutIfNeeded()
+            strongSelf.tableViewBottomConstraint?.constant = strongSelf.totalHeight
+            strongSelf.layoutIfNeeded()
+        }, completion: nil)
 
-        }, completion: { _ in
-        })
+        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { [weak self] in
+            self?.containerView.backgroundColor = UIColor.clearColor()
 
-        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
-            self.containerView.backgroundColor = UIColor.clearColor()
-
-        }, completion: { _ in
-            self.removeFromSuperview()
+        }, completion: { [weak self] _ in
+            self?.removeFromSuperview()
         })
     }
 
     func hideAndDo(afterHideAction: (() -> Void)?) {
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveLinear, animations: { _ in
-            self.containerView.alpha = 0
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.containerView.alpha = 0
+            strongSelf.tableViewBottomConstraint?.constant = strongSelf.totalHeight
+            strongSelf.layoutIfNeeded()
 
-            self.tableViewBottomConstraint?.constant = self.totalHeight
-
-            self.layoutIfNeeded()
-
-        }, completion: { finished in
-            self.removeFromSuperview()
+        }, completion: { [weak self] _ in
+            self?.removeFromSuperview()
         })
 
         delay(0.1) {

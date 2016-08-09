@@ -117,10 +117,9 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
                     self.badgeEnabledImageViewAppearInCenter(badgeView.center)
 
                 } else {
-                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { _ in
-                        self.badgeEnabledImageView.center = badgeView.center
-                    }, completion: { finished in
-                    })
+                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+                        self?.badgeEnabledImageView.center = badgeView.center
+                    }, completion: nil)
                 }
 
                 // try save online & local
@@ -153,12 +152,12 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
 
         badgeEnabledImageView.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
 
-        UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { _ in
-            self.badgeEnabledImageView.alpha = 1
-            self.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+        UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+            self?.badgeEnabledImageView.alpha = 1
+            self?.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
 
-        }, completion: { finished in
-            self.badgeEnabledImageView.transform = CGAffineTransformIdentity
+        }, completion: { [weak self] _ in
+            self?.badgeEnabledImageView.transform = CGAffineTransformIdentity
         })
     }
 

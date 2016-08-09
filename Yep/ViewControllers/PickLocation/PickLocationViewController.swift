@@ -374,12 +374,14 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         navigationController?.setNavigationBarHidden(true, animated: true)
 
-        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            self.searchBarTopToSuperBottomConstraint.constant = CGRectGetHeight(self.view.bounds) - 20
-            self.view.layoutIfNeeded()
+        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            guard let strongSelf = self else { return }
 
-        }, completion: { finished in
-            self.searchBar.setShowsCancelButton(true, animated: true)
+            strongSelf.searchBarTopToSuperBottomConstraint.constant = CGRectGetHeight(strongSelf.view.bounds) - 20
+            strongSelf.view.layoutIfNeeded()
+
+        }, completion: { [weak self] _ in
+            self?.searchBar.setShowsCancelButton(true, animated: true)
         })
 
         return true
@@ -394,12 +396,12 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         navigationController?.setNavigationBarHidden(false, animated: true)
 
-        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            self.searchBarTopToSuperBottomConstraint.constant = 250
-            self.view.layoutIfNeeded()
+        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.searchBarTopToSuperBottomConstraint.constant = 250
+            self?.view.layoutIfNeeded()
 
-        }, completion: { finished in
-            self.searchBar.setShowsCancelButton(false, animated: true)
+        }, completion: { [weak self] _ in
+            self?.searchBar.setShowsCancelButton(false, animated: true)
         })
     }
 
