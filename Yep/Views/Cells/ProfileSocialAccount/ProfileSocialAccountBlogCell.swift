@@ -27,7 +27,7 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
 
-        iconImageView.image = UIImage(named: "icon_blog")
+        iconImageView.image = UIImage.yep_iconBlog
         nameLabel.text = "Blog"
         blogLabel.text = nil
 

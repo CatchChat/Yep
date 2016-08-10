@@ -241,12 +241,12 @@ final class FeedView: UIView {
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
     lazy var socialWorkHalfMaskImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
+        let imageView = UIImageView(image: UIImage.yep_socialMediaImageMask)
         return imageView
     }()
 
     lazy var socialWorkFullMaskImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
+        let imageView = UIImageView(image: UIImage.yep_socialMediaImageMaskFull)
         return imageView
     }()
     

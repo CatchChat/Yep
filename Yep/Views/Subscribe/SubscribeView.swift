@@ -20,7 +20,7 @@ final class SubscribeView: UIView {
 
     private lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_subscribe_notify")
+        imageView.image = UIImage.yep_iconSubscribeNotify
         return imageView
     }()
 
@@ -46,7 +46,7 @@ final class SubscribeView: UIView {
 
     private lazy var dismissButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "icon_subscribe_close"), forState: .Normal)
+        button.setImage(UIImage.yep_iconSubscribeClose, forState: .Normal)
 
         button.addTarget(self, action: #selector(SubscribeView.dismiss(_:)), forControlEvents: .TouchUpInside)
 

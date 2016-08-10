@@ -19,7 +19,7 @@ final class SearchContactsViewController: SegueViewController {
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
-            searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+            searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
             searchBar.returnKeyType = .Done
         }
     }

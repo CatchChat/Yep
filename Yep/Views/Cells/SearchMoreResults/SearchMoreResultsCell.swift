@@ -14,10 +14,10 @@ final class SearchMoreResultsCell: UITableViewCell {
         didSet {
             if fold {
                 showMoreLabel.text = NSLocalizedString("Show More", comment: "")
-                arrowImageView.image = UIImage(named: "icon_arrow_down")
+                arrowImageView.image = UIImage.yep_iconArrowDown
             } else {
                 showMoreLabel.text = NSLocalizedString("Hide", comment: "")
-                arrowImageView.image = UIImage(named: "icon_arrow_up")
+                arrowImageView.image = UIImage.yep_iconArrowUp
             }
         }
     }

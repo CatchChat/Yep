@@ -32,7 +32,7 @@ final class SearchedFeedLocationCell: SearchedFeedBasicCell {
 
         contentView.addSubview(locationContainerView)
 
-        locationContainerView.iconImageView.image = UIImage(named: "icon_location")
+        locationContainerView.iconImageView.image = UIImage.yep_iconLocation
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -61,8 +61,8 @@ final class MessageToolbar: UIToolbar {
                 messageTextView.hidden = false
                 voiceRecordButton.hidden = true
 
-                micButton.setImage(UIImage(named: "item_mic"), forState: .Normal)
-                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
+                micButton.setImage(UIImage.yep_itemMic, forState: .Normal)
+                moreButton.setImage(UIImage.yep_itemMore, forState: .Normal)
 
                 micButton.tintColor = UIColor.messageToolBarColor()
                 moreButton.tintColor = UIColor.messageToolBarColor()
@@ -73,7 +73,7 @@ final class MessageToolbar: UIToolbar {
                 moreButton.hidden = false
                 sendButton.hidden = true
 
-                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
+                moreButton.setImage(UIImage.yep_itemMore, forState: .Normal)
 
             case .TextInputing:
                 moreButton.hidden = true
@@ -93,8 +93,8 @@ final class MessageToolbar: UIToolbar {
 
                 messageTextView.text = ""
 
-                micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
-                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
+                micButton.setImage(UIImage.yep_iconKeyboard, forState: .Normal)
+                moreButton.setImage(UIImage.yep_itemMore, forState: .Normal)
 
                 micButton.tintColor = UIColor.messageToolBarColor()
                 moreButton.tintColor = UIColor.messageToolBarColor()
@@ -133,7 +133,7 @@ final class MessageToolbar: UIToolbar {
     
     lazy var micButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "item_mic"), forState: .Normal)
+        button.setImage(UIImage.yep_itemMic, forState: .Normal)
         button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: #selector(MessageToolbar.toggleRecordVoice), forControlEvents: UIControlEvents.TouchUpInside)
@@ -190,7 +190,7 @@ final class MessageToolbar: UIToolbar {
 
     lazy var moreButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "item_more"), forState: .Normal)
+        button.setImage(UIImage.yep_itemMore, forState: .Normal)
         button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: #selector(MessageToolbar.moreMessageTypes), forControlEvents: UIControlEvents.TouchUpInside)

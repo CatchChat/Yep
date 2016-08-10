@@ -14,7 +14,7 @@ final class FeedLocationContainerView: UIView {
 
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "feed_container_background")
+        imageView.image = UIImage.yep_feedContainerBackground
         return imageView
     }()
 
@@ -26,7 +26,7 @@ final class FeedLocationContainerView: UIView {
 
     lazy var pinImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_pin_shadow")
+        imageView.image = UIImage.yep_iconPinShadow
         return imageView
     }()
 

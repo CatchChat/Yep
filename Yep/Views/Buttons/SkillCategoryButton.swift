@@ -57,7 +57,7 @@ final class SkillCategoryButton: UIButton {
     lazy var arrowImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .Center
-        imageView.image = UIImage(named: "icon_skill_category_arrow")
+        imageView.image = UIImage.yep_iconSkillCategoryArrow
         imageView.tintColor = UIColor.whiteColor()
         imageView.tintAdjustmentMode = .Normal
         return imageView

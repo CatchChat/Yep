@@ -38,7 +38,7 @@ final class FeedGithubRepoCell: FeedBasicCell {
 
     lazy var socialWorkBorderImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "social_work_border")
+        imageView.image = UIImage.yep_socialWorkBorder
         return imageView
     }()
 

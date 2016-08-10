@@ -19,12 +19,12 @@ final class ChatRightVideoCell: ChatRightBaseCell {
     }()
 
     lazy var borderImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "right_tail_image_bubble_border"))
+        let imageView = UIImageView(image: UIImage.yep_rightTailImageBubbleBorder)
         return imageView
     }()
 
     lazy var playImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "icon_playvideo"))
+        let imageView = UIImageView(image: UIImage.yep_iconPlayvideo)
         return imageView
     }()
 

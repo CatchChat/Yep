@@ -59,7 +59,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
             layout.sectionInset = UIEdgeInsets(top: gap + 64, left: gap, bottom: gap, right: gap)
         }
         
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PickPhotosViewController.back(_:)))
+        let backBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconBack, style: .Plain, target: self, action: #selector(PickPhotosViewController.back(_:)))
         navigationItem.leftBarButtonItem = backBarButtonItem
         
         let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(PickPhotosViewController.done(_:)))

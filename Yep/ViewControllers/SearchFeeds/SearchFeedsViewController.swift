@@ -30,7 +30,7 @@ final class SearchFeedsViewController: SegueViewController {
     private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver<UIButton>?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
-            searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+            searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
             searchBar.returnKeyType = .Done
         }
     }

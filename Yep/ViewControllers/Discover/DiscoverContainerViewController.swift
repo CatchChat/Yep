@@ -86,7 +86,7 @@ class DiscoverContainerViewController: UIPageViewController {
 
     private lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
-        item.image = UIImage(named:"icon_list")
+        item.image = UIImage.yep_iconList
         item.rx_tap
             .subscribeNext({ [weak self] in self?.discoverViewController.changeLayoutMode() })
             .addDisposableTo(self.disposeBag)
@@ -99,11 +99,11 @@ class DiscoverContainerViewController: UIPageViewController {
 
             case .Card:
                 view.backgroundColor = UIColor.yepBackgroundColor()
-                discoveredUsersLayoutModeButtonItem.image = UIImage(named: "icon_list")
+                discoveredUsersLayoutModeButtonItem.image = UIImage.yep_iconList
 
             case .Normal:
                 view.backgroundColor = UIColor.whiteColor()
-                discoveredUsersLayoutModeButtonItem.image = UIImage(named: "icon_minicard")
+                discoveredUsersLayoutModeButtonItem.image = UIImage.yep_iconMinicard
             }
         }
     }

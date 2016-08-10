@@ -30,7 +30,7 @@ final class SearchedFeedURLCell: SearchedFeedBasicCell {
 
         contentView.addSubview(feedURLContainerView)
 
-        feedURLContainerView.iconImageView.image = UIImage(named: "icon_link")
+        feedURLContainerView.iconImageView.image = UIImage.yep_iconLink
     }
 
     required init?(coder aDecoder: NSCoder) {

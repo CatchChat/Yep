@@ -139,12 +139,14 @@ final class YepUITests: XCTestCase {
             return
         }
 
-        let textField = app.searchFields["Search"]
+        let textField = app.tables.searchFields["Search"]
         guard textField.exists else {
             return
         }
         textField.tap()
-        textField.typeText("app")
+
+        let textField2 = app.searchFields["Search"]
+        textField2.typeText("app")
         app.buttons["Done"].tap()
 
         app.buttons["Cancel"].tap()

@@ -21,7 +21,7 @@ final class ChatRightImageCell: ChatRightBaseCell {
     }()
 
     lazy var borderImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "right_tail_image_bubble_border"))
+        let imageView = UIImageView(image: UIImage.yep_rightTailImageBubbleBorder)
         return imageView
     }()
 
@@ -36,7 +36,7 @@ final class ChatRightImageCell: ChatRightBaseCell {
     var mediaTapAction: MediaTapAction?
 
     lazy var messageImageMaskImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "right_tail_image_bubble"))
+        let imageView = UIImageView(image: UIImage.yep_rightTailImageBubble)
         return imageView
     }()
 

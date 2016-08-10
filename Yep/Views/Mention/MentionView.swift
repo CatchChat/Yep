@@ -79,7 +79,7 @@ private class MentionUserCell: UITableViewCell {
         let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: picoAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         } else {
-            avatarImageView.image = UIImage(named: "default_avatar_30")
+            avatarImageView.image = UIImage.yep_defaultAvatar30
         }
 
         nicknameLabel.text = user.nickname

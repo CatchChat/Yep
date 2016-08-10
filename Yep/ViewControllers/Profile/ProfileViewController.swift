@@ -54,7 +54,7 @@ final class ProfileViewController: SegueViewController {
             } else {
                 sayHiView.hidden = true
 
-                let settingsBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_settings"), style: .Plain, target: self, action: #selector(ProfileViewController.showSettings(_:)))
+                let settingsBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconSettings, style: .Plain, target: self, action: #selector(ProfileViewController.showSettings(_:)))
 
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
 
@@ -753,7 +753,7 @@ final class ProfileViewController: SegueViewController {
     }
 
     func setBackButtonWithTitle() {
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ProfileViewController.back(_:)))
+        let backBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconBack, style: .Plain, target: self, action: #selector(ProfileViewController.back(_:)))
 
         customNavigationItem.leftBarButtonItem = backBarButtonItem
     }
