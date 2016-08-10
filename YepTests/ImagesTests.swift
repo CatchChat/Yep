@@ -13,7 +13,7 @@ final class ImagesTests: XCTestCase {
 
     // ls -l | awk '{print $9}' | awk -F"." '{print $1}' | awk -F"_" '{out=$0" ";for(i=1;i<=NF;i++){if(i==1){out=out""tolower($i)}else{out=out""toupper(substr($i,1,1))substr($i,2)}};print out}' | awk '{print "UIImage.yep_"$2","}'
 
-    func textImages() {
+    func testImages() {
 
         // MARK: Images
         do {
@@ -143,7 +143,7 @@ final class ImagesTests: XCTestCase {
                 UIImage.yep_yepIconSolo,
             ]
 
-            print(images)
+            print("Images: \(images.count)")
         }
 
         // MARK: Activities
@@ -153,7 +153,7 @@ final class ImagesTests: XCTestCase {
                 UIImage.yep_wechatTimeline,
             ]
 
-            print(images)
+            print("Activities: \(images.count)")
         }
 
         // MARK: Badges
@@ -177,7 +177,7 @@ final class ImagesTests: XCTestCase {
                 UIImage.yep_enabledBadgeBackground,
             ]
 
-            print(images)
+            print("Badges: \(images.count)")
         }
     }
 }
