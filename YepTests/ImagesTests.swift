@@ -155,6 +155,30 @@ final class ImagesTests: XCTestCase {
 
             print(images)
         }
+
+        // MARK: Badges
+        do {
+            let images = [
+                UIImage.yep_badgeAndroid,
+                UIImage.yep_badgeApple,
+                UIImage.yep_badgeBall,
+                UIImage.yep_badgeBubble,
+                UIImage.yep_badgeCamera,
+                UIImage.yep_badgeGame,
+                UIImage.yep_badgeHeart,
+                UIImage.yep_badgeMusic,
+                UIImage.yep_badgePalette,
+                UIImage.yep_badgePet,
+                UIImage.yep_badgePlane,
+                UIImage.yep_badgeStar,
+                UIImage.yep_badgeSteve,
+                UIImage.yep_badgeTech,
+                UIImage.yep_badgeWine,
+                UIImage.yep_enabledBadgeBackground,
+            ]
+
+            print(images)
+        }
     }
 }
 
