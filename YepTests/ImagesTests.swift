@@ -17,7 +17,7 @@ final class ImagesTests: XCTestCase {
 
         // MARK: Images
         do {
-            let images = [
+            let images: [UIImage] = [
                 UIImage.yep_bubbleBody,
                 UIImage.yep_bubbleLeftTail,
                 UIImage.yep_bubbleRightTail,
@@ -148,7 +148,7 @@ final class ImagesTests: XCTestCase {
 
         // MARK: Activities
         do {
-            let images = [
+            let images: [UIImage] = [
                 UIImage.yep_wechatSession,
                 UIImage.yep_wechatTimeline,
             ]
@@ -158,7 +158,7 @@ final class ImagesTests: XCTestCase {
 
         // MARK: Badges
         do {
-            let images = [
+            let images: [UIImage] = [
                 UIImage.yep_badgeAndroid,
                 UIImage.yep_badgeApple,
                 UIImage.yep_badgeBall,
