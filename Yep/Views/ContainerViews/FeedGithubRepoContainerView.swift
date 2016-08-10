@@ -42,7 +42,7 @@ final class FeedGithubRepoContainerView: UIView {
 
     var needShowAccessoryImageView: Bool = true
     lazy var accessoryImageView: UIImageView = {
-        let image = UIImage(named: "icon_accessory_mini")
+        let image = UIImage.yep_iconAccessoryMini
         let imageView = UIImageView(image: image)
         imageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
         return imageView
