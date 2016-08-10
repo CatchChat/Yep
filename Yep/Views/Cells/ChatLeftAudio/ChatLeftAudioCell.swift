@@ -23,9 +23,9 @@ final class ChatLeftAudioCell: ChatBaseCell {
         willSet {
             if newValue != playing {
                 if newValue {
-                    playButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
+                    playButton.setImage(UIImage.yep_iconPause, forState: .Normal)
                 } else {
-                    playButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
+                    playButton.setImage(UIImage.yep_iconPlay, forState: .Normal)
                 }
             }
         }
@@ -37,7 +37,7 @@ final class ChatLeftAudioCell: ChatBaseCell {
     }()
 
     lazy var bubbleImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "left_tail_bubble"))
+        let imageView = UIImageView(image: UIImage.yep_leftTailBubble)
         imageView.tintColor = UIColor.leftBubbleTintColor()
         return imageView
     }()
@@ -58,7 +58,7 @@ final class ChatLeftAudioCell: ChatBaseCell {
 
     lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "icon_play"), forState: .Normal)
+        button.setImage(UIImage.yep_iconPlay, forState: .Normal)
 
         button.userInteractionEnabled = false
         button.tintColor = UIColor.darkGrayColor()

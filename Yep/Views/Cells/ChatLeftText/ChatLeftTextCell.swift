@@ -15,7 +15,7 @@ class ChatLeftTextCell: ChatBaseCell {
     var tapFeedAction: ((feed: DiscoveredFeed?) -> Void)?
 
     lazy var bubbleTailImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "bubble_left_tail"))
+        let imageView = UIImageView(image: UIImage.yep_bubbleLeftTail)
         imageView.tintColor = UIColor.leftBubbleTintColor()
         return imageView
     }()
