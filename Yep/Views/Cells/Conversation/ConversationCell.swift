@@ -121,7 +121,7 @@ final class ConversationCell: UITableViewCell {
                         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
                     } else {
-                        avatarImageView.image = UIImage(named: "default_avatar_60")
+                        avatarImageView.image = UIImage.yep_defaultAvatar60
                     }
                 }
 

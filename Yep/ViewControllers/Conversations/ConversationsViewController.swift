@@ -23,7 +23,7 @@ final class ConversationsViewController: BaseViewController {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
         searchBar.placeholder = NSLocalizedString("Search", comment: "")
-        searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
         searchBar.delegate = self
         return searchBar
     }()
@@ -59,12 +59,12 @@ final class ConversationsViewController: BaseViewController {
         didSet {
             if haveUnreadMessages != oldValue {
                 if haveUnreadMessages {
-                    navigationController?.tabBarItem.image = UIImage(named: "icon_chat_unread")
-                    navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active_unread")
+                    navigationController?.tabBarItem.image = UIImage.yep_iconChatUnread
+                    navigationController?.tabBarItem.selectedImage = UIImage.yep_iconChatActiveUnread
 
                 } else {
-                    navigationController?.tabBarItem.image = UIImage(named: "icon_chat")
-                    navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active")
+                    navigationController?.tabBarItem.image = UIImage.yep_iconChat
+                    navigationController?.tabBarItem.selectedImage = UIImage.yep_iconChatActive
                 }
             }
         }

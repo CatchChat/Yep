@@ -34,7 +34,7 @@ final class ContactsViewController: BaseViewController {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
         searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
-        searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
         searchBar.delegate = self
         return searchBar
     }()

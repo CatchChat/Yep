@@ -184,7 +184,7 @@ final class ConversationViewController: BaseViewController {
         navigationItem.titleView = titleView
         view.tintAdjustmentMode = .Normal
 
-        let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
+        let moreBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconMore, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
         navigationItem.rightBarButtonItem = moreBarButtonItem
 
         realm = conversation.realm
