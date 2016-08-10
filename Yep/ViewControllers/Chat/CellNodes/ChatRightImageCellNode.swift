@@ -20,7 +20,7 @@ class ChatRightImageCellNode: ChatRightBaseCellNode {
 
     private lazy var imageMaskView: UIView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "right_tail_image_bubble")
+        imageView.image = UIImage.yep_rightTailImageBubble
         return imageView
     }()
 

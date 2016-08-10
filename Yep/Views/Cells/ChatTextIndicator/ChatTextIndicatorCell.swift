@@ -12,7 +12,7 @@ import YepKit
 final class ChatTextIndicatorCell: UICollectionViewCell {
 
     lazy var bubbleImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "skill_bubble"))
+        let imageView = UIImageView(image: UIImage.yep_skillBubble)
         imageView.tintColor = UIColor(white: 0.95, alpha: 1.0)
         imageView.tintAdjustmentMode = .Normal
         return imageView
