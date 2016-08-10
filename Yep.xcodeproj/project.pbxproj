@@ -181,6 +181,7 @@
 		5052620B1C51CDE600292C6A /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC40E321C47A8FE0024FC63 /* libz.tbd */; };
 		505262151C522A1E00292C6A /* Show.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505262131C522A1E00292C6A /* Show.storyboard */; };
 		505262171C522A3D00292C6A /* FeedConversations.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 505262161C522A3D00292C6A /* FeedConversations.storyboard */; };
+		5052D9331D5AC21D00D72EBD /* UIImage+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5052D9321D5AC21D00D72EBD /* UIImage+Yep.swift */; };
 		50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */; };
 		50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */; };
 		50535D201BCE43ED002FE1A4 /* ImageCacheController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */; };
@@ -951,6 +952,7 @@
 		505243AE1CD990750094B471 /* VerifyChangedMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VerifyChangedMobileViewController.swift; path = ViewControllers/VerifyChangedMobile/VerifyChangedMobileViewController.swift; sourceTree = "<group>"; };
 		505262141C522A1E00292C6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Show.storyboard; sourceTree = "<group>"; };
 		505262161C522A3D00292C6A /* FeedConversations.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = FeedConversations.storyboard; path = ViewControllers/FeedConversations/FeedConversations.storyboard; sourceTree = "<group>"; };
+		5052D9321D5AC21D00D72EBD /* UIImage+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImage+Yep.swift"; path = "Extensions/UIImage+Yep.swift"; sourceTree = "<group>"; };
 		50535D191BCD19AE002FE1A4 /* TouchClosuresView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TouchClosuresView.swift; path = Views/TouchClosures/TouchClosuresView.swift; sourceTree = "<group>"; };
 		50535D1C1BCE42BE002FE1A4 /* PickPhotosViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PickPhotosViewController.swift; path = ViewControllers/PickPhotos/PickPhotosViewController.swift; sourceTree = "<group>"; };
 		50535D1F1BCE43ED002FE1A4 /* ImageCacheController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCacheController.swift; path = ViewControllers/PickPhotos/ImageCacheController.swift; sourceTree = "<group>"; };
@@ -1993,6 +1995,7 @@
 				50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */,
 				50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */,
 				500EED951BF06AC900C6BABC /* NSURL+Yep.swift */,
+				5052D9321D5AC21D00D72EBD /* UIImage+Yep.swift */,
 				502C24821C1034000074A1BA /* UIImageView+Yep.swift */,
 				50BAED821D2B8E2C0046B4AB /* ASImageNode+Yep.swift */,
 				50BAED861D2B98050046B4AB /* Message+Yep.swift */,
@@ -4798,6 +4801,7 @@
 				50901DFD1D29FA160085BB7D /* ProfileViewController+Prepare.swift in Sources */,
 				5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */,
 				5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */,
+				5052D9331D5AC21D00D72EBD /* UIImage+Yep.swift in Sources */,
 				50512A921D2D00EB007BBBF3 /* ChatRightImageCellNode.swift in Sources */,
 				6A5632971BC9559100397B53 /* DiscoverFlowLayout.swift in Sources */,
 				50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */,
