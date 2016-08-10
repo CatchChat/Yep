@@ -76,7 +76,7 @@ final class BadgeView: UIView {
         }
 
         var image: UIImage? {
-            return UIImage(named: "badge_" + self.rawValue)
+            return UIImage.yep_badgeWithName(self.rawValue)
         }
     }
 
