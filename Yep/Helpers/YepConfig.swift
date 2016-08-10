@@ -249,11 +249,11 @@ final class YepConfig {
 
             static let sessionType = "com.Catch-Inc.Yep.WeChat.Session"
             static let sessionTitle = NSLocalizedString("WeChat Session", comment: "")
-            static let sessionImage = UIImage(named: "wechat_session")!
+            static let sessionImage = UIImage.yep_wechatSession
             
             static let timelineType = "com.Catch-Inc.Yep.WeChat.Timeline"
             static let timelineTitle = NSLocalizedString("WeChat Timeline", comment: "")
-            static let timelineImage = UIImage(named: "wechat_timeline")!
+            static let timelineImage = UIImage.yep_wechatTimeline
         }
     }
 }

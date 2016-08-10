@@ -8,12 +8,16 @@
 
 import UIKit
 
+// MARK: - Badges
+
 extension UIImage {
 
     static func yep_badgeWithName(name: String) -> UIImage {
         return UIImage(named: "badge_" + name)!
     }
 }
+
+// MARK: - Images
 
 // nix love awk, in Images.xcassets
 // $ ls -l | awk '{print $9}' | awk -F"." '{print $1}' | awk -F"_" '{out=$0" ";for(i=1;i<=NF;i++){if(i==1){out=out""tolower($i)}else{out=out""toupper(substr($i,1,1))substr($i,2)}};print out}' | awk '{print "static var yep_"$2": UIImage {\n\treturn UIImage(named: \""$1"\")!\n}\n"}' > ~/Downloads/images.swift
@@ -510,6 +514,19 @@ extension UIImage {
     
     static var yep_yepIconSolo: UIImage {
         return UIImage(named: "yep_icon_solo")!
+    }
+}
+
+// MARK: - Activities
+
+extension UIImage {
+
+    static var yep_wechatSession: UIImage {
+        return UIImage(named: "wechat_session")!
+    }
+
+    static var yep_wechatTimeline: UIImage {
+        return UIImage(named: "wechat_timeline")!
     }
 }
 
