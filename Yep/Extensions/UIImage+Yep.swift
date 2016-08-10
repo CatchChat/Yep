@@ -10,6 +10,10 @@ import UIKit
 
 extension UIImage {
 
+    static var yep_iconLocationCheckmark: UIImage {
+        return UIImage(named: "icon_location_checkmark")!
+    }
+
     static var yep_badgeAndroid: UIImage {
         return UIImage(named: "badge_android")!
     }
