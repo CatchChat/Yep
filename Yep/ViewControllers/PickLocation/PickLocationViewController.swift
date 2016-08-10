@@ -354,7 +354,7 @@ extension PickLocationViewController: MKMapViewDelegate {
 
             } else {
                 let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                annotationView.image = UIImage(named: "icon_pin_shadow")
+                annotationView.image = UIImage.yep_iconPinShadow
                 annotationView.enabled = false
                 annotationView.canShowCallout = false
 
@@ -487,13 +487,13 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.CurrentLocation.rawValue:
             cell.iconImageView.hidden = false
-            cell.iconImageView.image = UIImage(named: "icon_current_location")
+            cell.iconImageView.image = UIImage.yep_iconCurrentLocation
             cell.locationLabel.text = NSLocalizedString("My Current Location", comment: "")
             cell.checkImageView.hidden = false
 
         case Section.UserPickedLocation.rawValue:
             cell.iconImageView.hidden = false
-            cell.iconImageView.image = UIImage(named: "icon_pin")
+            cell.iconImageView.image = UIImage.yep_iconPin
             cell.locationLabel.text = NSLocalizedString("Picked Location", comment: "")
             cell.checkImageView.hidden = true
 
@@ -509,7 +509,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.SearchedLocation.rawValue:
             cell.iconImageView.hidden = false
-            cell.iconImageView.image = UIImage(named: "icon_pin")
+            cell.iconImageView.image = UIImage.yep_iconPin
 
             let placemark = searchedMapItems[indexPath.row].placemark
             cell.locationLabel.text = placemark.name
@@ -518,7 +518,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.FoursquareVenue.rawValue:
             cell.iconImageView.hidden = false
-            cell.iconImageView.image = UIImage(named: "icon_pin")
+            cell.iconImageView.image = UIImage.yep_iconPin
 
             let foursquareVenue = foursquareVenues[indexPath.row]
             cell.locationLabel.text = foursquareVenue.name

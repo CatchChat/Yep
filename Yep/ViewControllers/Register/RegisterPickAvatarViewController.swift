@@ -52,7 +52,7 @@ final class RegisterPickAvatarViewController: SegueViewController {
 
                 cameraPreviewView.hidden = true
                 avatarImageView.hidden = false
-                avatarImageView.image = UIImage(named: "default_avatar")
+                avatarImageView.image = UIImage.yep_defaultAvatar
                 nextButton.enabled = false
                 
             case .Captured:

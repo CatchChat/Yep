@@ -73,7 +73,7 @@ final class ProfileFeedsCell: UICollectionViewCell {
                     if let thumbnailImage = attachments[i]?.thumbnailImage {
                         imageViews[i].image = thumbnailImage
                     } else {
-                        imageViews[i].image = UIImage(named: "icon_feed_text")
+                        imageViews[i].image = UIImage.yep_iconFeedText
                     }
                 }
             }

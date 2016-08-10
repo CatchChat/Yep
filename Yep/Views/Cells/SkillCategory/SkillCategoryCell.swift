@@ -44,8 +44,6 @@ final class SkillCategoryCell: UICollectionViewCell {
 
         skillCategoryButtonWidthConstraint.constant = SkillCategoryCell.skillCategoryButtonWidth
         skillCategoryButtonHeightConstraint.constant = SkillCategoryCell.skillCategoryButtonHeight
-
-        //skillCategoryButton.setBackgroundImage(UIImage(named: "button_skill_category")!, forState: .Normal)
     }
-
 }
+

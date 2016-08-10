@@ -256,11 +256,11 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
             if let categoryImageName = categoryImageNames[skillCategory.name] {
                 cell.categoryImage = UIImage(named: categoryImageName)
             } else {
-                cell.categoryImage = UIImage(named: "icon_skill_art")
+                cell.categoryImage = UIImage.yep_iconSkillArt
             }
 
             let tintColor = skillCategoryTintColors[indexPath.item % skillCategoryTintColors.count]
-            cell.skillCategoryButton.setBackgroundImage(UIImage(named: "button_skill_category")!.imageWithGradientTintColor(tintColor).resizableImageWithCapInsets(UIEdgeInsets(top: 30, left: 40, bottom: 30, right: 40)), forState: .Normal)
+            cell.skillCategoryButton.setBackgroundImage(UIImage.yep_buttonSkillCategory.imageWithGradientTintColor(tintColor).resizableImageWithCapInsets(UIEdgeInsets(top: 30, left: 40, bottom: 30, right: 40)), forState: .Normal)
 
             cell.toggleSelectionStateAction = { [weak self, weak cell] inSelectionState in
 
