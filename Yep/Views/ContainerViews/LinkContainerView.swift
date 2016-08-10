@@ -14,7 +14,7 @@ final class LinkContainerView: UIView {
 
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_link")
+        imageView.image = UIImage.yep_iconLink
         imageView.tintColor = UIColor.yepIconImageViewTintColor()
         return imageView
     }()

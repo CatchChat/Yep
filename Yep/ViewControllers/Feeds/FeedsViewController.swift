@@ -59,7 +59,7 @@ final class FeedsViewController: BaseViewController {
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
-        searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
         searchBar.delegate = self
         return searchBar
     }()
@@ -427,7 +427,7 @@ final class FeedsViewController: BaseViewController {
                 navigationItem.rightBarButtonItem = nil
 
             } else {
-                let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.moreAction(_:)))
+                let moreBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconMore, style: .Plain, target: self, action: #selector(FeedsViewController.moreAction(_:)))
                 navigationItem.rightBarButtonItem = moreBarButtonItem
 
                 if let userID = profileUser?.userID {

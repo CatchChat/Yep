@@ -14,13 +14,13 @@ final class FeedGithubRepoContainerView: UIView {
 
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "feed_container_background")
+        imageView.image = UIImage.yep_feedContainerBackground
         return imageView
     }()
 
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_repo")
+        imageView.image = UIImage.yep_iconRepo
         imageView.tintColor = UIColor.yepIconImageViewTintColor()
         return imageView
     }()

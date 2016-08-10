@@ -21,7 +21,7 @@ final class FeedUploadingErrorContainerView: UIView {
     }()
 
     lazy var iconImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "icon_topic_reddot"))
+        let imageView = UIImageView(image: UIImage.yep_iconTopicReddot)
         return imageView
     }()
 

@@ -56,7 +56,7 @@ class FeedBasicCell: UITableViewCell {
 
     lazy var skillButton: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "skill_bubble_empty"), forState: .Normal)
+        button.setBackgroundImage(UIImage.yep_skillBubbleEmpty, forState: .Normal)
         button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
         button.titleLabel?.font = UIFont.feedSkillFont()
 
@@ -136,7 +136,7 @@ class FeedBasicCell: UITableViewCell {
 
     lazy var discussionImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_discussion")
+        imageView.image = UIImage.yep_iconDiscussion
         return imageView
     }()
 

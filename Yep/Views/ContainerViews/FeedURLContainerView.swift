@@ -17,9 +17,9 @@ final class FeedURLContainerView: UIView {
     var directionLeading = true { // set before compressionMode
         didSet {
             if directionLeading {
-                backgroundImageView.image = UIImage(named: "url_container_left_background")
+                backgroundImageView.image = UIImage.yep_urlContainerLeftBackground
             } else {
-                backgroundImageView.image = UIImage(named: "url_container_right_background")
+                backgroundImageView.image = UIImage.yep_urlContainerRightBackground
             }
         }
     }
@@ -35,7 +35,7 @@ final class FeedURLContainerView: UIView {
     
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "url_container_left_background")
+        imageView.image = UIImage.yep_urlContainerLeftBackground
         return imageView
     }()
 
