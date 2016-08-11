@@ -1351,12 +1351,12 @@ public func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conv
     switch conversationType {
 
     case .OneToOne:
-        let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
+        let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.invalidated = false AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
         return realm.objects(Message).filter(predicate).count
 
     case .Group: // Public for now
         let predicate = NSPredicate(format: "includeMe = true AND groupType = %d", GroupType.Public.rawValue)
-        let count = realm.objects(Group).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, combine: +)
+        let count = realm.objects(Group).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).filter({ !$0.invalidated }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, combine: +)
 
         return count
     }
