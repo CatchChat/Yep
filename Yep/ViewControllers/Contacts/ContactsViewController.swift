@@ -67,7 +67,7 @@ final class ContactsViewController: BaseViewController {
 
     private var noContacts = false {
         didSet {
-            contactsTableView.tableHeaderView = noContacts ? nil : searchBar
+            //contactsTableView.tableHeaderView = noContacts ? nil : searchBar
 
             if noContacts != oldValue {
                 contactsTableView.tableFooterView = noContacts ? noContactsFooterView : UIView()
@@ -90,10 +90,12 @@ final class ContactsViewController: BaseViewController {
 
         friendsNotificationToken?.stop()
 
+        /*
         // ref http://stackoverflow.com/a/33281648
         if let superView = searchController?.view.superview {
             superView.removeFromSuperview()
         }
+         */
 
         println("deinit Contacts")
     }
