@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 
 extension UICollectionView {
 
@@ -38,11 +39,15 @@ extension UICollectionView {
 
             case .ReloadData:
                 println("collectionView WayToUpdate: ReloadData")
-                collectionView.reloadData()
-                
+                SafeDispatch.async {
+                    collectionView.reloadData()
+                }
+
             case .Insert(let indexPaths):
                 println("collectionView WayToUpdate: Insert")
-                collectionView.insertItemsAtIndexPaths(indexPaths)
+                SafeDispatch.async {
+                    collectionView.insertItemsAtIndexPaths(indexPaths)
+                }
             }
         }
     }

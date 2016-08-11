@@ -553,7 +553,7 @@ extension FayeClient {
                 } else {
                     // No match for channel
                     #if DEBUG
-                    print("No match fayeMessage: \(fayeMessage)")
+                    print("fayeMessage: \(fayeMessage)")
                     #endif
 
                     if let messageID = fayeMessage.ID, handler = privateChannels[messageID] {
