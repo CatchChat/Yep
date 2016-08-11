@@ -1325,7 +1325,7 @@ public func filterValidMessages(messages: [Message]) -> [Message] {
 }
 
 public func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
-    let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
+    let predicate = NSPredicate(format: "invalidated = false AND withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
     let a = SortDescriptor(property: "mentionedMe", ascending: false)
     let b = SortDescriptor(property: "hasUnreadMessages", ascending: false)
     let c = SortDescriptor(property: "updatedUnixTime", ascending: false)
@@ -1333,16 +1333,16 @@ public func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
 }
 
 public func mentionedMeInFeedConversationsInRealm(realm: Realm) -> Bool {
-    let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d AND mentionedMe = true", GroupType.Public.rawValue)
+    let predicate = NSPredicate(format: "invalidated = false AND withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d AND mentionedMe = true", GroupType.Public.rawValue)
     return realm.objects(Conversation).filter(predicate).count > 0
 }
 
 public func countOfConversationsInRealm(realm: Realm) -> Int {
-    return realm.objects(Conversation).count
+    return realm.objects(Conversation).filter({ !$0.invalidated }).count
 }
 
 public func countOfConversationsInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
-    let predicate = NSPredicate(format: "type = %d", conversationType.rawValue)
+    let predicate = NSPredicate(format: "invalidated = false AND type = %d", conversationType.rawValue)
     return realm.objects(Conversation).filter(predicate).count
 }
 
@@ -1351,7 +1351,7 @@ public func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conv
     switch conversationType {
 
     case .OneToOne:
-        let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.invalidated = false AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
+        let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
         return realm.objects(Message).filter(predicate).count
 
     case .Group: // Public for now
