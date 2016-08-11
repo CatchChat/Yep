@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 
 extension UITableView {
 
@@ -41,15 +42,21 @@ extension UITableView {
 
             case .ReloadData:
                 println("tableView WayToUpdate: ReloadData")
-                tableView.reloadData()
+                SafeDispatch.async {
+                    tableView.reloadData()
+                }
 
             case .ReloadIndexPaths(let indexPaths):
                 println("tableView WayToUpdate: ReloadIndexPaths")
-                tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                SafeDispatch.async {
+                    tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                }
 
             case .Insert(let indexPaths):
                 println("tableView WayToUpdate: Insert")
-                tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                SafeDispatch.async {
+                    tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                }
             }
         }
     }

@@ -1318,7 +1318,7 @@ public func filterValidMessages(messages: [Message]) -> [Message] {
         .filter({ $0.hidden == false })
         .filter({ $0.isIndicator == false })
         .filter({ $0.isReal == true })
-        .filter({ !($0.fromFriend?.isMe ?? true)})
+        .filter({ !($0.fromFriend?.isMe ?? true) })
         .filter({ $0.conversation != nil })
 
     return validMessages
@@ -1338,7 +1338,7 @@ public func mentionedMeInFeedConversationsInRealm(realm: Realm) -> Bool {
 }
 
 public func countOfConversationsInRealm(realm: Realm) -> Int {
-    return realm.objects(Conversation).count
+    return realm.objects(Conversation).filter({ !$0.invalidated }).count
 }
 
 public func countOfConversationsInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
@@ -1356,7 +1356,7 @@ public func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conv
 
     case .Group: // Public for now
         let predicate = NSPredicate(format: "includeMe = true AND groupType = %d", GroupType.Public.rawValue)
-        let count = realm.objects(Group).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, combine: +)
+        let count = realm.objects(Group).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).filter({ !$0.invalidated }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, combine: +)
 
         return count
     }
