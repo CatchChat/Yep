@@ -146,6 +146,9 @@ final class YepUITests: XCTestCase {
         textField.tap()
 
         let textField2 = app.searchFields["Search"]
+        guard textField2.exists else {
+            return
+        }
         textField2.typeText("app")
         app.buttons["Done"].tap()
 
@@ -175,6 +178,9 @@ final class YepUITests: XCTestCase {
         search.tap()
 
         let textField = app.searchFields["Search Friend"]
+        guard textField.exists else {
+            return
+        }
         textField.tap()
         textField.typeText("test")
         app.buttons["Done"].tap()
@@ -213,6 +219,9 @@ final class YepUITests: XCTestCase {
         search.tap()
 
         let textField = app.searchFields["Search Feeds"]
+        guard textField.exists else {
+            return
+        }
         textField.tap()
         textField.typeText("Hello")
         app.buttons["Done"].tap()
