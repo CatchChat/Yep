@@ -28,7 +28,9 @@ final class DiscoverViewController: BaseViewController {
             didChangeLayoutModeAction?(layoutMode: layoutMode)
 
             layout.mode = layoutMode
-            discoveredUsersCollectionView.reloadData()
+            SafeDispatch.async { [weak self] in
+                self?.discoveredUsersCollectionView.reloadData()
+            }
         }
     }
     
@@ -41,12 +43,13 @@ final class DiscoverViewController: BaseViewController {
             didChangeSortStyleAction?(sortStyle: discoveredUserSortStyle)
 
             discoveredUsers = []
-            discoveredUsersCollectionView.reloadData()
+            SafeDispatch.async { [weak self] in
+                self?.discoveredUsersCollectionView.reloadData()
+            }
 
             updateDiscoverUsers(mode: .Static)
 
             // save discoveredUserSortStyle
-
             YepUserDefaults.discoveredUserSortStyle.value = discoveredUserSortStyle.rawValue
         }
     }
