@@ -1318,7 +1318,7 @@ public func filterValidMessages(messages: [Message]) -> [Message] {
         .filter({ $0.hidden == false })
         .filter({ $0.isIndicator == false })
         .filter({ $0.isReal == true })
-        .filter({ !($0.fromFriend?.isMe ?? true)})
+        .filter({ !($0.fromFriend?.isMe ?? true) })
         .filter({ $0.conversation != nil })
 
     return validMessages
