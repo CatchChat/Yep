@@ -382,7 +382,10 @@ final class ActionSheetView: UIView {
 
         UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { [weak self] _ in
             self?.containerView.backgroundColor = UIColor.clearColor()
-        }, completion: nil)
+
+        }, completion: { [weak self] _ in
+            self?.removeFromSuperview()
+        })
     }
 
     func hideAndDo(afterHideAction: (() -> Void)?) {
