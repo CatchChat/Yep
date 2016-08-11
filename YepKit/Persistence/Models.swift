@@ -1325,7 +1325,7 @@ public func filterValidMessages(messages: [Message]) -> [Message] {
 }
 
 public func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
-    let predicate = NSPredicate(format: "invalidated = false AND withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
+    let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
     let a = SortDescriptor(property: "mentionedMe", ascending: false)
     let b = SortDescriptor(property: "hasUnreadMessages", ascending: false)
     let c = SortDescriptor(property: "updatedUnixTime", ascending: false)
@@ -1333,7 +1333,7 @@ public func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
 }
 
 public func mentionedMeInFeedConversationsInRealm(realm: Realm) -> Bool {
-    let predicate = NSPredicate(format: "invalidated = false AND withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d AND mentionedMe = true", GroupType.Public.rawValue)
+    let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d AND mentionedMe = true", GroupType.Public.rawValue)
     return realm.objects(Conversation).filter(predicate).count > 0
 }
 
@@ -1342,7 +1342,7 @@ public func countOfConversationsInRealm(realm: Realm) -> Int {
 }
 
 public func countOfConversationsInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
-    let predicate = NSPredicate(format: "invalidated = false AND type = %d", conversationType.rawValue)
+    let predicate = NSPredicate(format: "type = %d", conversationType.rawValue)
     return realm.objects(Conversation).filter(predicate).count
 }
 
