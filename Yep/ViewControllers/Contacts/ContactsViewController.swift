@@ -140,10 +140,24 @@ final class ContactsViewController: BaseViewController {
 
         noContacts = friends.isEmpty
 
+        if friends.isEmpty {
+            contactsTableView.tableHeaderView = nil
+        } else {
+            contactsTableView.tableHeaderView = searchBar
+        }
+
         friendsNotificationToken = friends.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
 
-            guard let tableView = self?.contactsTableView else {
+            guard let strongSelf = self else {
                 return
+            }
+
+            let tableView = strongSelf.contactsTableView
+
+            if strongSelf.friends.isEmpty {
+                tableView.tableHeaderView = nil
+            } else {
+                tableView.tableHeaderView = strongSelf.searchBar
             }
 
             switch change {
