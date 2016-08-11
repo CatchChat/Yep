@@ -582,7 +582,7 @@ extension FayeClient: SRWebSocketDelegate {
 
         var _messageData: NSData?
         if let messageString = message as? String {
-            _messageData = messageString.dataUsingEncoding(NSUTF8StringEncoding)!
+            _messageData = messageString.dataUsingEncoding(NSUTF8StringEncoding)
         } else {
             _messageData = message as? NSData
         }
@@ -592,7 +592,7 @@ extension FayeClient: SRWebSocketDelegate {
         }
 
         do {
-            if let messages = try NSJSONSerialization.JSONObjectWithData(messageData, options: NSJSONReadingOptions(rawValue: 0)) as? [[String: AnyObject]] {
+            if let messages = try NSJSONSerialization.JSONObjectWithData(messageData, options: []) as? [[String: AnyObject]] {
                 handleFayeMessages(messages)
             }
 
