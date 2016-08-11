@@ -67,6 +67,8 @@ final class ContactsViewController: BaseViewController {
 
     private var noContacts = false {
         didSet {
+            contactsTableView.tableHeaderView = noContacts ? nil : searchBar
+
             if noContacts != oldValue {
                 contactsTableView.tableFooterView = noContacts ? noContactsFooterView : UIView()
             }
@@ -138,27 +140,15 @@ final class ContactsViewController: BaseViewController {
         }
          */
 
-        noContacts = friends.isEmpty
-
-        if friends.isEmpty {
-            contactsTableView.tableHeaderView = nil
-        } else {
-            contactsTableView.tableHeaderView = searchBar
-        }
-
         friendsNotificationToken = friends.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
 
             guard let strongSelf = self else {
                 return
             }
 
-            let tableView = strongSelf.contactsTableView
+            strongSelf.noContacts = strongSelf.friends.isEmpty
 
-            if strongSelf.friends.isEmpty {
-                tableView.tableHeaderView = nil
-            } else {
-                tableView.tableHeaderView = strongSelf.searchBar
-            }
+            let tableView = strongSelf.contactsTableView
 
             switch change {
 
