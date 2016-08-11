@@ -41,10 +41,6 @@ final class MessageToolbar: UIToolbar {
     var previousState: MessageToolbarState = .Default
     var state: MessageToolbarState = .Default {
         willSet {
-            guard newValue != state else {
-                return
-            }
-
             updateHeightOfMessageTextView()
 
             previousState = state
