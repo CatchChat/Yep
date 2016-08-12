@@ -22,7 +22,7 @@
 "subtitle.build_world_together" = "共建世界";
 "prompt.tap_next_agree_terms" = "点击下一步表示您同意我们的条款。";
 "button.call_me" = "呼叫我";
-"Calling" = "正在呼叫";
+"button.calling" = "正在呼叫";
 "Camera" = "拍摄";
 "Cancel recommended feed failed!" = "取消推荐话题失败！";
 "Cancel" = "取消";

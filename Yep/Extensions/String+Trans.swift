@@ -62,7 +62,9 @@ extension String {
         return NSLocalizedString("button.call_me", comment: "")
     }
 
-
+    static var trans_buttonCalling: String {
+        return NSLocalizedString("button.calling", comment: "")
+    }
 
 }
 

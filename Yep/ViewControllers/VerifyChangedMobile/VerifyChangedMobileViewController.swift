@@ -145,7 +145,7 @@ final class VerifyChangedMobileViewController: UIViewController {
         callMeTimer.invalidate()
 
         UIView.performWithoutAnimation { [weak self] in
-            self?.callMeButton.setTitle(NSLocalizedString("Calling", comment: ""), forState: .Normal)
+            self?.callMeButton.setTitle(String.trans_buttonCalling, forState: .Normal)
             self?.callMeButton.layoutIfNeeded()
             self?.callMeButton.enabled = false
         }
