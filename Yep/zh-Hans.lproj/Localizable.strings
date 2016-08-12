@@ -23,8 +23,8 @@
 "prompt.tap_next_agree_terms" = "点击下一步表示您同意我们的条款。";
 "button.call_me" = "呼叫我";
 "button.calling" = "正在呼叫";
-"Camera" = "拍摄";
-"Cancel recommended feed failed!" = "取消推荐话题失败！";
+"title.camera" = "拍摄";
+"prompt.cancel_recommended_feed_failed" = "取消推荐话题失败！";
 "Cancel" = "取消";
 "Cancel\nRecommended" = "取消\n推荐";
 "Catch Inc." = "Catch Inc.";

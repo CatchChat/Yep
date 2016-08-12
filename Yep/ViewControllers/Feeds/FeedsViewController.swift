@@ -1712,7 +1712,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 if feed.recommended {
                     cancelRecommendedFeedWithFeedID(feed.id, failureHandler: { [weak self] reason, errorMessage in
 
-                        let message = errorMessage ?? NSLocalizedString("Cancel recommended feed failed!", comment: "")
+                        let message = errorMessage ?? String.trans_promptCancelRecommendedFeedFailed
                         YepAlert.alertSorry(message: message, inViewController: self)
                         
                     }, completion: { [weak self] in

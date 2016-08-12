@@ -23,8 +23,8 @@
 "prompt.tap_next_agree_terms" = "By tapping Next you agree to our terms.";
 "button.call_me" = "Call me";
 "button.calling" = "Calling";
-"Camera" = "Camera";
-"Cancel recommended feed failed!" = "Cancel recommended feed failed!";
+"title.camera" = "Camera";
+"prompt.cancel_recommended_feed_failed" = "Cancel recommended feed failed!";
 "Cancel" = "Cancel";
 "Cancel\nRecommended" = "Cancel\nRecommended";
 "Catch Inc." = "Catch Inc.";

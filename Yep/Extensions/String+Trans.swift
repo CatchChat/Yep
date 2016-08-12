@@ -66,6 +66,15 @@ extension String {
         return NSLocalizedString("button.calling", comment: "")
     }
 
+    static var trans_titleCamera: String {
+        return NSLocalizedString("title.camera", comment: "")
+    }
+    
+    static var trans_promptCancelRecommendedFeedFailed: String {
+        return NSLocalizedString("prompt.cancel_recommended_feed_failed", comment: "")
+    }
+
+
 }
 
 extension String {
