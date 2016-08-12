@@ -497,7 +497,7 @@ extension ConversationViewController {
             if let friendRequestID = friendRequestView.state.friendRequestID {
 
                 acceptFriendRequestWithID(friendRequestID, failureHandler: { [weak self] reason, errorMessage in
-                    YepAlert.alertSorry(message: NSLocalizedString("prompt.accept_friend_request_failed", comment: ""), inViewController: self)
+                    YepAlert.alertSorry(message: String.trans_promptAcceptFriendRequestFailed, inViewController: self)
 
                 }, completion: { success in
                     println("acceptFriendRequestWithID: \(friendRequestID), \(success)")

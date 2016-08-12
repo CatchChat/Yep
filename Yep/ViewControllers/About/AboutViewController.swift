@@ -38,7 +38,7 @@ final class AboutViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("title.about", comment: "")
+        title = String.trans_titleAbout
 
         appLogoImageViewTopConstraint.constant = Ruler.iPhoneVertical(0, 20, 40, 60).value
         appNameLabelTopConstraint.constant = Ruler.iPhoneVertical(10, 20, 20, 20).value
