@@ -363,7 +363,7 @@ public enum MessageMediaType: Int, CustomStringConvertible {
         case .SocialWork:
             return NSLocalizedString("placeholder.socialWork", comment: "")
         default:
-            return NSLocalizedString("All messages read.", comment: "")
+            return NSLocalizedString("placeholder.all_messages_read", comment: "")
         }
     }
 }

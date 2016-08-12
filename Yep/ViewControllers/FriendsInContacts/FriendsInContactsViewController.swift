@@ -45,7 +45,7 @@ final class FriendsInContactsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Available Friends", comment: "")
+        title = String.trans_titleAvailableFriends
     }
 
     override func viewWillAppear(animated: Bool) {

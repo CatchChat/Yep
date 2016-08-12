@@ -1087,12 +1087,11 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             
             pickAlertController.addAction(cameraAction)
             
-            let albumAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Albums", comment: ""), style: .Default) { [weak self] _ in
+            let albumAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("title.albums", comment: ""), style: .Default) { [weak self] _ in
 
-                proposeToAccess(.Photos, agreed: {  [weak self] in
+                proposeToAccess(.Photos, agreed: { [weak self] in
                     self?.performSegueWithIdentifier("showPickPhotos", sender: nil)
 
-                    
                 }, rejected: { [weak self] in
                     self?.alertCanNotAccessCameraRoll()
                 })

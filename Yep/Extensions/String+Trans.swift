@@ -21,6 +21,14 @@ extension String {
     static func trans_promptSuccessfullyAddedSkill(skill: String, to set: String) -> String {
         return String(format: NSLocalizedString("prompt.added_skill%@_to_set%@_successfully", comment: ""), skill, set)
     }
+
+    static var trans_promptAlsoDeleteThisFeed: String {
+        return NSLocalizedString("prompt.also_delete_this_feed", comment: "")
+    }
+
+    static var trans_titleAvailableFriends: String {
+        return NSLocalizedString("title.available_friends", comment: "")
+    }
 }
 
 extension String {
