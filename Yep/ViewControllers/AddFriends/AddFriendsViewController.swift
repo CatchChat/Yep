@@ -24,7 +24,7 @@ final class AddFriendsViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Add Friends", comment: "")
+        title = NSLocalizedString("title.add_friends", comment: "")
     }
 
     private var isFirstAppear: Bool = true

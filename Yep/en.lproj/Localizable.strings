@@ -4,10 +4,10 @@
 "prompt.accept_friend_request_failed" = "Accept Friend Request failed!";
 "button.accept" = "Accept";
 "title.action" = "Action";
-"Add Friends" = "Add Friends";
-"Add Skills" = "Add Skills";
-"Add to Me" = "Add to Me";
-"Add" = "Add";
+"title.add_friends" = "Add Friends";
+"title.add_skills" = "Add Skills";
+"button.add_skill_to_me" = "Add to Me";
+"button.add" = "Add";
 "Added %@ to %@ successfully!" = "Added %1$@ to %2$@ successfully!";
 "Advertising" = "Advertising";
 "Albums" = "Albums";

@@ -4,10 +4,10 @@
 "prompt.accept_friend_request_failed" = "接受好友请求失败！";
 "button.accept" = "接受";
 "title.action" = "操作";
-"Add Friends" = "添加好友";
-"Add Skills" = "添加技能";
-"Add to Me" = "添加此技能";
-"Add" = "添加";
+"title.add_friends" = "添加好友";
+"title.add_skills" = "添加技能";
+"button.add_skill_to_me" = "添加此技能";
+"button.add" = "添加";
 "Added %@ to %@ successfully!" = "已成功将“%1$@”添加到“%2$@”！";
 "Advertising" = "广告";
 "Albums" = "相册";

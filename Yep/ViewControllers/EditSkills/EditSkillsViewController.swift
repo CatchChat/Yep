@@ -62,7 +62,7 @@ final class EditSkillsViewController: BaseViewController {
 
         // add skills view
 
-        addSkillsView.title = NSLocalizedString("Add Skills", comment: "")
+        addSkillsView.title = NSLocalizedString("title.add_skills", comment: "")
 
         addSkillsView.tapAction = { [weak self] in
 

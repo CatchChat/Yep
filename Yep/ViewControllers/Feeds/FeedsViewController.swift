@@ -407,7 +407,7 @@ final class FeedsViewController: BaseViewController {
                 let predicate = NSPredicate(format: "skillID = %@", skillID)
                 let notInMaster = me.masterSkills.filter(predicate).count == 0
                 if notInMaster && me.learningSkills.filter(predicate).count == 0 {
-                    let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(FeedsViewController.addSkillToMe(_:)))
+                    let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("button.add_skill_to_me", comment: ""), style: .Plain, target: self, action: #selector(FeedsViewController.addSkillToMe(_:)))
                     navigationItem.rightBarButtonItem = addSkillToMeButton
                 }
             }
