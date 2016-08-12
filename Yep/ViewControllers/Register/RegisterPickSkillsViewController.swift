@@ -58,7 +58,7 @@ final class RegisterPickSkillsViewController: BaseViewController {
         introlLabel.text = NSLocalizedString("You may meet different people and content depends on your skills", comment: "")
         
         if !isRegister {
-            navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Change Skills", comment: ""))
+            navigationItem.titleView = NavigationTitleLabel(title: String.trans_titleChangeSkills)
         } else {
             navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Pick some skills", comment: ""))
         }

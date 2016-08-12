@@ -363,7 +363,7 @@ public enum MessageMediaType: Int, CustomStringConvertible {
         case .SocialWork:
             return NSLocalizedString("placeholder.socialWork", comment: "")
         default:
-            return NSLocalizedString("All messages read.", comment: "")
+            return NSLocalizedString("placeholder.all_messages_read", comment: "")
         }
     }
 }
@@ -2084,7 +2084,7 @@ public func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, in
     }
     deleteAlertController.addAction(deleteAction)
 
-    let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { _ in
+    let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .Cancel) { _ in
 
         cancelled()
     }

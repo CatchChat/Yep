@@ -29,7 +29,7 @@ final class SearchedUserMessagesViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Chat Records", comment: "")
+        title = String.trans_titleChatRecords
     }
 
     // MARK: - Navigation

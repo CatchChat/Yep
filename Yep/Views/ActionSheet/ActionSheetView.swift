@@ -489,7 +489,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
         case .Cancel:
 
             let cell: ActionSheetDefaultCell = tableView.dequeueReusableCell()
-            cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
+            cell.colorTitleLabel.text = String.trans_cancel
             cell.colorTitleLabelTextColor = UIColor.yepTintColor()
 
             return cell

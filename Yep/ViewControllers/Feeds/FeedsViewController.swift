@@ -407,7 +407,7 @@ final class FeedsViewController: BaseViewController {
                 let predicate = NSPredicate(format: "skillID = %@", skillID)
                 let notInMaster = me.masterSkills.filter(predicate).count == 0
                 if notInMaster && me.learningSkills.filter(predicate).count == 0 {
-                    let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(FeedsViewController.addSkillToMe(_:)))
+                    let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("button.add_skill_to_me", comment: ""), style: .Plain, target: self, action: #selector(FeedsViewController.addSkillToMe(_:)))
                     navigationItem.rightBarButtonItem = addSkillToMeButton
                 }
             }
@@ -510,8 +510,9 @@ final class FeedsViewController: BaseViewController {
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
                     
                 }, completion: { [weak self] _ in
-                    
-                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+
+                    let message = String.trans_promptSuccessfullyAddedSkill(skillLocalName, to: skillSet.name)
+                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
                     
                     SafeDispatch.async {
                         self?.navigationItem.rightBarButtonItem = nil
@@ -524,7 +525,7 @@ final class FeedsViewController: BaseViewController {
             
             let alertController = UIAlertController(title: NSLocalizedString("Choose skill set", comment: ""), message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
             
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { action in
             }
             alertController.addAction(cancelAction)
             
@@ -1701,7 +1702,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             let recommendTitle: String
             if feed.recommended {
-                recommendTitle = NSLocalizedString("Cancel\nRecommended", comment: "")
+                recommendTitle = String.trans_titleCancelRecommended
             } else {
                 recommendTitle = NSLocalizedString("Recommend", comment: "")
             }
@@ -1711,7 +1712,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 if feed.recommended {
                     cancelRecommendedFeedWithFeedID(feed.id, failureHandler: { [weak self] reason, errorMessage in
 
-                        let message = errorMessage ?? NSLocalizedString("Cancel recommended feed failed!", comment: "")
+                        let message = errorMessage ?? String.trans_promptCancelRecommendedFeedFailed
                         YepAlert.alertSorry(message: message, inViewController: self)
                         
                     }, completion: { [weak self] in

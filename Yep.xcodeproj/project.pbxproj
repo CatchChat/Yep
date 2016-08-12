@@ -71,6 +71,7 @@
 		500EED981BF07A3000C6BABC /* ConversationViewController+Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */; };
 		500EED9A1BF1B81000C6BABC /* MediaPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500EED991BF1B81000C6BABC /* MediaPreviewViewController.swift */; };
 		500EED9D1BF1B84A00C6BABC /* MediaPreview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 500EED9C1BF1B84A00C6BABC /* MediaPreview.storyboard */; };
+		5010BD241D5D734200111342 /* String+Trans.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5010BD231D5D734200111342 /* String+Trans.swift */; };
 		501138261BCB59120055A014 /* FeedConversationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501138251BCB59120055A014 /* FeedConversationsViewController.swift */; };
 		5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5011382A1BCB5E150055A014 /* FeedConversationDockCell.swift */; };
 		5011382D1BCB5E150055A014 /* FeedConversationDockCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5011382B1BCB5E150055A014 /* FeedConversationDockCell.xib */; };
@@ -841,6 +842,7 @@
 		500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+Feed.swift"; path = "ViewControllers/Conversation/ConversationViewController+Feed.swift"; sourceTree = "<group>"; };
 		500EED991BF1B81000C6BABC /* MediaPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPreviewViewController.swift; path = ViewControllers/MediaPreview/MediaPreviewViewController.swift; sourceTree = "<group>"; };
 		500EED9C1BF1B84A00C6BABC /* MediaPreview.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MediaPreview.storyboard; path = ViewControllers/MediaPreview/MediaPreview.storyboard; sourceTree = "<group>"; };
+		5010BD231D5D734200111342 /* String+Trans.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Trans.swift"; path = "Extensions/String+Trans.swift"; sourceTree = "<group>"; };
 		501138251BCB59120055A014 /* FeedConversationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedConversationsViewController.swift; path = ViewControllers/FeedConversations/FeedConversationsViewController.swift; sourceTree = "<group>"; };
 		5011382A1BCB5E150055A014 /* FeedConversationDockCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedConversationDockCell.swift; path = Views/Cells/FeedConversationDock/FeedConversationDockCell.swift; sourceTree = "<group>"; };
 		5011382B1BCB5E150055A014 /* FeedConversationDockCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedConversationDockCell.xib; path = Views/Cells/FeedConversationDock/FeedConversationDockCell.xib; sourceTree = "<group>"; };
@@ -1989,6 +1991,7 @@
 				50B22E451C588B6200219625 /* CGImage+Yep.swift */,
 				506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */,
 				0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */,
+				5010BD231D5D734200111342 /* String+Trans.swift */,
 				50553F921ADBA50600F80B59 /* NSDate+Yep.swift */,
 				0AEB1CC51B0E742400178C9C /* Double+Yep.swift */,
 				504F8C031D49E8810046F6AA /* UIApplication+Yep.swift */,
@@ -4852,6 +4855,7 @@
 				504F41251ACE2D1D00FBB19A /* SampleView.swift in Sources */,
 				50E7C70B1CF6FC3B00E8D951 /* DiscoverContainerViewController.swift in Sources */,
 				50E392C01C22B30300C0CECB /* FeedGithubRepoCell.swift in Sources */,
+				5010BD241D5D734200111342 /* String+Trans.swift in Sources */,
 				50B9C5DF1D226B4500BCB8BD /* ConversationViewController+Views.swift in Sources */,
 				50A640EC1B6F4E420050E4A3 /* DoNotDisturbPeriodViewController.swift in Sources */,
 				50512A8E1D2CF9DC007BBBF3 /* ChatViewController+Preview.swift in Sources */,

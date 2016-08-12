@@ -139,7 +139,8 @@ final class SkillHomeViewController: BaseViewController {
         learningtTableView.tag = SkillSet.Learning.rawValue
 
         headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
-        
+
+        /*
         headerView.masterButton.addTarget(self, action: #selector(SkillHomeViewController.changeToMaster(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         headerView.learningButton.addTarget(self, action: #selector(SkillHomeViewController.changeToLearning(_:)), forControlEvents: UIControlEvents.TouchUpInside)
@@ -148,7 +149,7 @@ final class SkillHomeViewController: BaseViewController {
 
             let alertController = UIAlertController(title: NSLocalizedString("Change skill cover", comment: ""), message: nil, preferredStyle: .ActionSheet)
 
-            let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
+            let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { _ in
 
                 let openCameraRoll: ProposerAction = { [weak self] in
 
@@ -163,13 +164,13 @@ final class SkillHomeViewController: BaseViewController {
                     }
                 }
 
-                proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
                     self?.alertCanNotAccessCameraRoll()
                 })
             }
             alertController.addAction(choosePhotoAction)
 
-            let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
+            let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { _ in
 
                 let openCamera: ProposerAction = { [weak self] in
 
@@ -184,13 +185,13 @@ final class SkillHomeViewController: BaseViewController {
                     }
                 }
 
-                proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                proposeToAccess(.Camera, agreed: openCamera, rejected: { [weak self] in
                     self?.alertCanNotOpenCamera()
                 })
             }
             alertController.addAction(takePhotoAction)
 
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { [weak self] _ in
                 self?.dismissViewControllerAnimated(true, completion: nil)
             }
             alertController.addAction(cancelAction)
@@ -198,10 +199,11 @@ final class SkillHomeViewController: BaseViewController {
             self?.presentViewController(alertController, animated: true, completion: nil)
 
             // touch to create (if need) for faster appear
-            delay(0.2) {
+            delay(0.2) { [weak self] in
                 self?.imagePicker.hidesBarsOnTap = false
             }
         }
+         */
 
         automaticallyAdjustsScrollViewInsets = false
 
@@ -235,7 +237,7 @@ final class SkillHomeViewController: BaseViewController {
             let notInMaster = me.masterSkills.filter(predicate).count == 0
 
             if notInMaster && me.learningSkills.filter(predicate).count == 0 {
-                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(SkillHomeViewController.addSkillToMe(_:)))
+                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("button.add_skill_to_me", comment: ""), style: .Plain, target: self, action: #selector(SkillHomeViewController.addSkillToMe(_:)))
                 navigationItem.rightBarButtonItem = addSkillToMeButton
             }
         }
@@ -281,7 +283,8 @@ final class SkillHomeViewController: BaseViewController {
 
                 }, completion: { [weak self] _ in
 
-                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                    let message = String.trans_promptSuccessfullyAddedSkill(skillLocalName, to: skillSet.name)
+                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
 
                     SafeDispatch.async {
                         self?.navigationItem.rightBarButtonItem = nil
@@ -294,7 +297,7 @@ final class SkillHomeViewController: BaseViewController {
 
             let alertController = UIAlertController(title: NSLocalizedString("Choose Skill Set", comment: ""), message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
 
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { action in
             }
             alertController.addAction(cancelAction)
 

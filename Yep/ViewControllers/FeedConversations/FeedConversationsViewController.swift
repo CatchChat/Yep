@@ -299,7 +299,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
             if feedCreatorID == YepUserDefaults.userID.value {
 
-                YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: String.trans_promptAlsoDeleteThisFeed, confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
                     doDeleteConversation()
 

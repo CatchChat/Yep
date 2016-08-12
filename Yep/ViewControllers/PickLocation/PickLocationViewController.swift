@@ -98,7 +98,7 @@ final class PickLocationViewController: SegueViewController {
 
         title = NSLocalizedString("Pick Location", comment: "")
 
-        cancelButton.title = NSLocalizedString("Cancel", comment: "")
+        cancelButton.title = String.trans_cancel
 
         switch purpose {
         case .Message:

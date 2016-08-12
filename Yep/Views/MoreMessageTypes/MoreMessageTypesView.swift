@@ -189,7 +189,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
             case .Location:
                 return NSLocalizedString("Location", comment: "")
             case .Cancel:
-                return NSLocalizedString("Cancel", comment: "")
+                return String.trans_cancel
             }
         }
     }

@@ -871,12 +871,16 @@ public func friendsInContacts(contacts: [UploadContact], failureHandler: Failure
 }
 
 public enum ReportReason {
+
     case Porno
     case Advertising
     case Scams
     case Other(String)
+}
 
-    public var type: Int {
+extension ReportReason {
+
+    var type: Int {
         switch self {
         case .Porno:
             return 0
@@ -886,19 +890,6 @@ public enum ReportReason {
             return 2
         case .Other:
             return 3
-        }
-    }
-
-    public var description: String {
-        switch self {
-        case .Porno:
-            return NSLocalizedString("Porno", comment: "")
-        case .Advertising:
-            return NSLocalizedString("Advertising", comment: "")
-        case .Scams:
-            return NSLocalizedString("Scams", comment: "")
-        case .Other:
-            return NSLocalizedString("Other", comment: "")
         }
     }
 }

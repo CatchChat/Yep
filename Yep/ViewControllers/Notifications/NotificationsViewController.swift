@@ -323,7 +323,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
         case .BlackList:
 
             let cell: SettingsMoreCell = tableView.dequeueReusableCell()
-            cell.annotationLabel.text = NSLocalizedString("Blocked Users", comment: "")
+            cell.annotationLabel.text = String.trans_titleBlockedUsers
             return cell
 
         case .CreatorsOfBlockedFeeds:

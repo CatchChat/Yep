@@ -38,7 +38,7 @@ final class AlbumListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let cancelButton = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .Plain, target: self, action: #selector(AlbumListController.cancel(_:)))
+        let cancelButton = UIBarButtonItem(title: String.trans_cancel, style: .Plain, target: self, action: #selector(AlbumListController.cancel(_:)))
         navigationItem.rightBarButtonItem = cancelButton
         navigationItem.hidesBackButton = true
         

@@ -222,7 +222,7 @@ final class NewFeedViewController: SegueViewController {
         navigationItem.rightBarButtonItem = postButton
 
         if !attachment.needPrepare {
-            let cancleButton = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .Plain, target: self, action: #selector(NewFeedViewController.cancel(_:)))
+            let cancleButton = UIBarButtonItem(title: String.trans_cancel, style: .Plain, target: self, action: #selector(NewFeedViewController.cancel(_:)))
 
             navigationItem.leftBarButtonItem = cancleButton
         }
@@ -256,7 +256,7 @@ final class NewFeedViewController: SegueViewController {
             pickedSkill = preparedSkill
         }
         
-        channelLabel.text = NSLocalizedString("Channel:", comment: "")
+        channelLabel.text = String.trans_promptChannel
         choosePromptLabel.text = NSLocalizedString("Choose...", comment: "")
         
         channelViewTopConstraint.constant = 30
@@ -1066,7 +1066,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             
             let pickAlertController = UIAlertController(title: NSLocalizedString("Choose Source", comment: ""), message: nil, preferredStyle: .ActionSheet)
             
-            let cameraAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Camera", comment: ""), style: .Default) { action -> Void in
+            let cameraAction: UIAlertAction = UIAlertAction(title: String.trans_titleCamera, style: .Default) { _ in
 
                 proposeToAccess(.Camera, agreed: { [weak self] in
 
@@ -1087,12 +1087,11 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             
             pickAlertController.addAction(cameraAction)
             
-            let albumAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Albums", comment: ""), style: .Default) { [weak self] action -> Void in
+            let albumAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("title.albums", comment: ""), style: .Default) { [weak self] _ in
 
-                proposeToAccess(.Photos, agreed: {  [weak self] in
+                proposeToAccess(.Photos, agreed: { [weak self] in
                     self?.performSegueWithIdentifier("showPickPhotos", sender: nil)
 
-                    
                 }, rejected: { [weak self] in
                     self?.alertCanNotAccessCameraRoll()
                 })
@@ -1100,8 +1099,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         
             pickAlertController.addAction(albumAction)
             
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { _ in
             }
         
             pickAlertController.addAction(cancelAction)

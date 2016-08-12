@@ -182,7 +182,7 @@ final class EditProfileViewController: SegueViewController {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
-        let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
+        let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { _ in
 
             let openCameraRoll: ProposerAction = { [weak self] in
 
@@ -197,13 +197,13 @@ final class EditProfileViewController: SegueViewController {
                 }
             }
 
-            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
-                self.alertCanNotAccessCameraRoll()
+            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
+                self?.alertCanNotAccessCameraRoll()
             })
         }
         alertController.addAction(choosePhotoAction)
 
-        let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
+        let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { _ in
 
             let openCamera: ProposerAction = { [weak self] in
 
@@ -218,14 +218,14 @@ final class EditProfileViewController: SegueViewController {
                 }
             }
 
-            proposeToAccess(.Camera, agreed: openCamera, rejected: {
-                self.alertCanNotOpenCamera()
+            proposeToAccess(.Camera, agreed: openCamera, rejected: { [weak self] in
+                self?.alertCanNotOpenCamera()
             })
         }
         alertController.addAction(takePhotoAction)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
+        let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { [weak self] _ in
+            self?.dismissViewControllerAnimated(true, completion: nil)
         }
         alertController.addAction(cancelAction)
 
@@ -241,7 +241,7 @@ final class EditProfileViewController: SegueViewController {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
-        let changeMobileAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Change Mobile", comment: ""), style: .Default) { [weak self] action in
+        let changeMobileAction: UIAlertAction = UIAlertAction(title: String.trans_titleChangeMobile, style: .Default) { [weak self] action in
 
             self?.performSegueWithIdentifier("showChangeMobile", sender: nil)
         }
@@ -262,8 +262,8 @@ final class EditProfileViewController: SegueViewController {
 //        }
 //        alertController.addAction(uploadContactsAction)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
+        let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { [weak self] _ in
+            self?.dismissViewControllerAnimated(true, completion: nil)
         }
         alertController.addAction(cancelAction)
 
@@ -647,7 +647,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     break
                 }
                 
-                YepAlert.textInput(title: NSLocalizedString("Set Username", comment: ""), message: NSLocalizedString("Please note that you can only set username once.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+                YepAlert.textInput(title: NSLocalizedString("Set Username", comment: ""), message: NSLocalizedString("Please note that you can only set username once.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Set", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { text in
 
                     let newUsername = text
 
@@ -690,7 +690,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
         case .LogOut:
 
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to logout?", comment: ""), confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { () -> Void in
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to logout?", comment: ""), confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { () -> Void in
 
                 logout(failureHandler: { [weak self] reason, errorMessage in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)

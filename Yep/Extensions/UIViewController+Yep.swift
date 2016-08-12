@@ -44,6 +44,22 @@ extension UIViewController {
 
 // MAKR: - Report
 
+extension ReportReason {
+
+    var title: String {
+        switch self {
+        case .Porno:
+            return String.trans_reportPorno
+        case .Advertising:
+            return String.trans_reportAdvertising
+        case .Scams:
+            return String.trans_reportScams
+        case .Other:
+            return String.trans_reportOther
+        }
+    }
+}
+
 extension UIViewController {
 
     enum ReportObject {
@@ -95,30 +111,30 @@ extension UIViewController {
 
         let reportAlertController = UIAlertController(title: NSLocalizedString("Report Reason", comment: ""), message: nil, preferredStyle: .ActionSheet)
 
-        let pornoReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Porno.description, style: .Default) { action -> Void in
+        let pornoReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Porno.title, style: .Default) { _ in
             reportWithReason(.Porno)
         }
         reportAlertController.addAction(pornoReasonAction)
 
-        let advertisingReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Advertising.description, style: .Default) { action -> Void in
+        let advertisingReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Advertising.title, style: .Default) { _ in
             reportWithReason(.Advertising)
         }
         reportAlertController.addAction(advertisingReasonAction)
 
-        let scamsReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Scams.description, style: .Default) { action -> Void in
+        let scamsReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Scams.title, style: .Default) { _ in
             reportWithReason(.Scams)
         }
         reportAlertController.addAction(scamsReasonAction)
 
-        let otherReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Other("").description, style: .Default) { [weak self] action -> Void in
-            YepAlert.textInput(title: NSLocalizedString("Other Reason", comment: ""), message: nil, placeholder: nil, oldText: nil, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+        let otherReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Other("").title, style: .Default) { [weak self] _ in
+            YepAlert.textInput(title: NSLocalizedString("Other Reason", comment: ""), message: nil, placeholder: nil, oldText: nil, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { text in
                 reportWithReason(.Other(text))
             }, cancelAction: nil)
         }
         reportAlertController.addAction(otherReasonAction)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
+        let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { [weak self] _ in
+            self?.dismissViewControllerAnimated(true, completion: nil)
         }
         reportAlertController.addAction(cancelAction)
         

@@ -401,7 +401,7 @@ extension ConversationViewController {
                 } else if let friend = strongSelf.conversation.withFriend {
                     titleView.stateInfoLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
                 } else {
-                    titleView.stateInfoLabel.text = NSLocalizedString("Begin chat just now", comment: "")
+                    titleView.stateInfoLabel.text = String.trans_infoBeginChatJustNow
                 }
 
                 titleView.stateInfoLabel.textColor = UIColor.grayColor()
@@ -497,7 +497,7 @@ extension ConversationViewController {
             if let friendRequestID = friendRequestView.state.friendRequestID {
 
                 acceptFriendRequestWithID(friendRequestID, failureHandler: { [weak self] reason, errorMessage in
-                    YepAlert.alertSorry(message: NSLocalizedString("Accept Friend Request failed!", comment: ""), inViewController: self)
+                    YepAlert.alertSorry(message: String.trans_promptAcceptFriendRequestFailed, inViewController: self)
 
                 }, completion: { success in
                     println("acceptFriendRequestWithID: \(friendRequestID), \(success)")
@@ -543,7 +543,7 @@ extension ConversationViewController {
             }
 
             YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to reject this friend request?", comment: "")
-                , confirmTitle: NSLocalizedString("Reject", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction:confirmAction, cancelAction: {
+                , confirmTitle: NSLocalizedString("Reject", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction:confirmAction, cancelAction: {
             })
         }
     }
