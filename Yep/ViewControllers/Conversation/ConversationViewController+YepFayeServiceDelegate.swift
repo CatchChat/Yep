@@ -16,9 +16,9 @@ extension ConversationViewController: YepFayeServiceDelegate {
 
             if userID == withFriend.userID {
 
-                let content = NSLocalizedString(" is ", comment: "正在") + "\(instantStateType)"
+                let content = String(format: NSLocalizedString("doing%@", comment: ""), "\(instantStateType)")
 
-                titleView.stateInfoLabel.text = "\(content)..."
+                titleView.stateInfoLabel.text = content
                 titleView.stateInfoLabel.textColor = UIColor.yepTintColor()
 
                 switch instantStateType {
