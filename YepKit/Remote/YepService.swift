@@ -871,12 +871,16 @@ public func friendsInContacts(contacts: [UploadContact], failureHandler: Failure
 }
 
 public enum ReportReason {
+
     case Porno
     case Advertising
     case Scams
     case Other(String)
+}
 
-    public var type: Int {
+extension ReportReason {
+
+    var type: Int {
         switch self {
         case .Porno:
             return 0

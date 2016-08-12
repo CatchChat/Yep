@@ -46,7 +46,7 @@ extension UIViewController {
 
 extension ReportReason {
 
-    var description: String {
+    var title: String {
         switch self {
         case .Porno:
             return String.trans_reportPorno
@@ -111,22 +111,22 @@ extension UIViewController {
 
         let reportAlertController = UIAlertController(title: NSLocalizedString("Report Reason", comment: ""), message: nil, preferredStyle: .ActionSheet)
 
-        let pornoReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Porno.description, style: .Default) { action -> Void in
+        let pornoReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Porno.title, style: .Default) { action -> Void in
             reportWithReason(.Porno)
         }
         reportAlertController.addAction(pornoReasonAction)
 
-        let advertisingReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Advertising.description, style: .Default) { action -> Void in
+        let advertisingReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Advertising.title, style: .Default) { action -> Void in
             reportWithReason(.Advertising)
         }
         reportAlertController.addAction(advertisingReasonAction)
 
-        let scamsReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Scams.description, style: .Default) { action -> Void in
+        let scamsReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Scams.title, style: .Default) { action -> Void in
             reportWithReason(.Scams)
         }
         reportAlertController.addAction(scamsReasonAction)
 
-        let otherReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Other("").description, style: .Default) { [weak self] action -> Void in
+        let otherReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Other("").title, style: .Default) { [weak self] action -> Void in
             YepAlert.textInput(title: NSLocalizedString("Other Reason", comment: ""), message: nil, placeholder: nil, oldText: nil, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
                 reportWithReason(.Other(text))
             }, cancelAction: nil)
