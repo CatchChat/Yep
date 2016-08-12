@@ -35,7 +35,7 @@ final class SettingsViewController: BaseViewController {
             "segue": "showFeedback",
         ],
         [
-            "name": NSLocalizedString("About", comment: ""),
+            "name": NSLocalizedString("title.about", comment: ""),
             "segue": "showAbout",
         ],
     ]
