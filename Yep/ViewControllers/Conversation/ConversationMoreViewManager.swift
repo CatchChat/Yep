@@ -171,7 +171,7 @@ final class ConversationMoreViewManager {
 
     private func makeBlockItem(blocked blocked: Bool) -> ActionSheetView.Item {
         return .Default(
-            title: blocked ? NSLocalizedString("Unblock", comment: "") : NSLocalizedString("Block", comment: ""),
+            title: blocked ? NSLocalizedString("Unblock", comment: "") : String.trans_titleBlock,
             titleColor: UIColor.redColor(),
             action: { [weak self] in
                 self?.toggleBlockAction?()

@@ -38,7 +38,7 @@ final class BlackListViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Blocked Users", comment: "")
+        title = String.trans_titleBlockedUsers
 
         activityIndicator.startAnimating()
 

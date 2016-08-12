@@ -401,7 +401,7 @@ extension ConversationViewController {
                 } else if let friend = strongSelf.conversation.withFriend {
                     titleView.stateInfoLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
                 } else {
-                    titleView.stateInfoLabel.text = NSLocalizedString("Begin chat just now", comment: "")
+                    titleView.stateInfoLabel.text = String.trans_infoBeginChatJustNow
                 }
 
                 titleView.stateInfoLabel.textColor = UIColor.grayColor()

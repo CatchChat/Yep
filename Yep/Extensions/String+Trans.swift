@@ -29,6 +29,34 @@ extension String {
     static var trans_titleAvailableFriends: String {
         return NSLocalizedString("title.available_friends", comment: "")
     }
+
+    static var trans_buttonBack: String {
+        return NSLocalizedString("button.back", comment: "")
+    }
+
+    static var trans_infoBeginChatJustNow: String {
+        return NSLocalizedString("info.begin_chat_just_now", comment: "")
+    }
+
+    static var trans_titleBlock: String {
+        return NSLocalizedString("title.block", comment: "")
+    }
+
+    static var trans_titleBlockedCreators: String {
+        return NSLocalizedString("title.blocked_creators", comment: "")
+    }
+
+    static var trans_titleBlockedUsers: String {
+        return NSLocalizedString("title.blocked_users", comment: "")
+    }
+
+    static var trans_subtitleBuildWorldTogether: String {
+        return NSLocalizedString("subtitle.build_world_together", comment: "")
+    }
+
+    static var trans_promptTapNextAgreeTerms: String {
+        return NSLocalizedString("prompt.tap_next_agree_terms", comment: "")
+    }
 }
 
 extension String {

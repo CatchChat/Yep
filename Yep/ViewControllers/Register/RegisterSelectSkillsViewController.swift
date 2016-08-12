@@ -51,7 +51,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
     @IBOutlet weak var backButton: UIButton! {
         didSet {
-            backButton.setTitle(NSLocalizedString("Back", comment: ""), forState: .Normal)
+            backButton.setTitle(String.trans_buttonBack, forState: .Normal)
             backButton.alpha = 0
         }
     }

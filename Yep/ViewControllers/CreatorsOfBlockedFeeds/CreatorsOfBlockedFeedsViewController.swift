@@ -36,7 +36,7 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Blocked Creators", comment: "")
+        title = String.trans_titleBlockedCreators
 
         activityIndicator.startAnimating()
 
