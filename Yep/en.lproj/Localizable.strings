@@ -8,7 +8,7 @@
 "title.add_skills" = "Add Skills";
 "button.add_skill_to_me" = "Add to Me";
 "button.add" = "Add";
-"Added %@ to %@ successfully!" = "Added %1$@ to %2$@ successfully!";
+"prompt.added_skill%@_to_set%@_successfully" = "Added %1$@ to %2$@ successfully!";
 "Advertising" = "Advertising";
 "Albums" = "Albums";
 "All messages read." = "All messages read.";

@@ -8,7 +8,7 @@
 "title.add_skills" = "添加技能";
 "button.add_skill_to_me" = "添加此技能";
 "button.add" = "添加";
-"Added %@ to %@ successfully!" = "已成功将“%1$@”添加到“%2$@”！";
+"prompt.added_skill%@_to_set%@_successfully" = "已成功将“%1$@”添加到“%2$@”！";
 "Advertising" = "广告";
 "Albums" = "相册";
 "All messages read." = "没有未读消息";

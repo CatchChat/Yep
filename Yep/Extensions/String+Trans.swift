@@ -17,5 +17,9 @@ extension String {
     static var trans_promptAcceptFriendRequestFailed: String {
         return NSLocalizedString("prompt.accept_friend_request_failed", comment: "")
     }
+
+    static func trans_promptSuccessfullyAddedSkill(skill: String, to set: String) -> String {
+        return String(format: NSLocalizedString("prompt.added_skill%@_to_set%@_successfully", comment: ""), skill, set)
+    }
 }
 
