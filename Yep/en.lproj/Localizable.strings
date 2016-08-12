@@ -1,7 +1,7 @@
 
 "doing%@" = " is %@...";
 "title.about" = "About";
-"Accept Friend Request failed!" = "Accept Friend Request failed!";
+"prompt.accept_friend_request_failed" = "Accept Friend Request failed!";
 "Accept" = "Accept";
 "Action" = "Action";
 "Add Friends" = "Add Friends";

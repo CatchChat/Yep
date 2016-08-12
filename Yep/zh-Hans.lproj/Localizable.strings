@@ -1,7 +1,7 @@
 
 "doing%@" = "正在%@...";
 "title.about" = "关于";
-"Accept Friend Request failed!" = "接受好友请求失败！";
+"prompt.accept_friend_request_failed" = "接受好友请求失败！";
 "Accept" = "接受";
 "Action" = "操作";
 "Add Friends" = "添加好友";
