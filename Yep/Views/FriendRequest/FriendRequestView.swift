@@ -106,7 +106,7 @@ final class FriendRequestView: UIView {
 
     lazy var acceptButton: UIButton = {
         let button = self.baseButton()
-        button.setTitle(NSLocalizedString("Accept", comment: ""), forState: .Normal)
+        button.setTitle(NSLocalizedString("button.accept", comment: ""), forState: .Normal)
         button.backgroundColor = UIColor.yepTintColor()
         button.addTarget(self, action: #selector(FriendRequestView.tryAcceptAction), forControlEvents: .TouchUpInside)
         return button
