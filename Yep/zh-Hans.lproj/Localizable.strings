@@ -3,7 +3,7 @@
 "title.about" = "关于";
 "prompt.accept_friend_request_failed" = "接受好友请求失败！";
 "button.accept" = "接受";
-"Action" = "操作";
+"title.action" = "操作";
 "Add Friends" = "添加好友";
 "Add Skills" = "添加技能";
 "Add to Me" = "添加此技能";

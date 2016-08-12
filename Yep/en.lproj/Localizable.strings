@@ -3,7 +3,7 @@
 "title.about" = "About";
 "prompt.accept_friend_request_failed" = "Accept Friend Request failed!";
 "button.accept" = "Accept";
-"Action" = "Action";
+"title.action" = "Action";
 "Add Friends" = "Add Friends";
 "Add Skills" = "Add Skills";
 "Add to Me" = "Add to Me";
