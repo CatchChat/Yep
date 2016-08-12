@@ -498,7 +498,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             case .Friend:
                 cell.sectionTitleLabel.text = NSLocalizedString("Friends", comment: "")
             case .MessageRecord:
-                cell.sectionTitleLabel.text = NSLocalizedString("Chat Records", comment: "")
+                cell.sectionTitleLabel.text = String.trans_titleChatRecords
             case .Feed:
                 cell.sectionTitleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
             }

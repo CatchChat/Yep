@@ -27,7 +27,7 @@ final class WelcomeViewController: UIViewController {
         registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), forState: .Normal)
         loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)
 
-        companyLabel.text = NSLocalizedString("Catch Inc.", comment: "")
+        companyLabel.text = "Catch Inc."
     }
 
     override func viewWillAppear(animated: Bool) {

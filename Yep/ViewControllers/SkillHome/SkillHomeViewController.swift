@@ -139,7 +139,8 @@ final class SkillHomeViewController: BaseViewController {
         learningtTableView.tag = SkillSet.Learning.rawValue
 
         headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
-        
+
+        /*
         headerView.masterButton.addTarget(self, action: #selector(SkillHomeViewController.changeToMaster(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         headerView.learningButton.addTarget(self, action: #selector(SkillHomeViewController.changeToLearning(_:)), forControlEvents: UIControlEvents.TouchUpInside)
@@ -202,6 +203,7 @@ final class SkillHomeViewController: BaseViewController {
                 self?.imagePicker.hidesBarsOnTap = false
             }
         }
+         */
 
         automaticallyAdjustsScrollViewInsets = false
 

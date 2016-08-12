@@ -24,7 +24,7 @@ final class YepTabBarController: UITabBarController {
 
             switch self {
             case .Conversations:
-                return NSLocalizedString("Chats", comment: "")
+                return String.trans_titleChats
             case .Contacts:
                 return NSLocalizedString("Contacts", comment: "")
             case .Feeds:

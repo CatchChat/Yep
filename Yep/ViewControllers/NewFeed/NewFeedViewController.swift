@@ -256,7 +256,7 @@ final class NewFeedViewController: SegueViewController {
             pickedSkill = preparedSkill
         }
         
-        channelLabel.text = NSLocalizedString("Channel:", comment: "")
+        channelLabel.text = String.trans_promptChannel
         choosePromptLabel.text = NSLocalizedString("Choose...", comment: "")
         
         channelViewTopConstraint.constant = 30

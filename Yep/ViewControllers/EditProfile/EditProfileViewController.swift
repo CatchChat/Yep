@@ -241,7 +241,7 @@ final class EditProfileViewController: SegueViewController {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
-        let changeMobileAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Change Mobile", comment: ""), style: .Default) { [weak self] action in
+        let changeMobileAction: UIAlertAction = UIAlertAction(title: String.trans_titleChangeMobile, style: .Default) { [weak self] action in
 
             self?.performSegueWithIdentifier("showChangeMobile", sender: nil)
         }

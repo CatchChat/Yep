@@ -78,6 +78,37 @@ extension String {
         return NSLocalizedString("cancel", comment: "")
     }
 
+    static var trans_titleCancelRecommended: String {
+        return NSLocalizedString("title.cancel_recommended", comment: "")
+    }
+
+    static var trans_titleChangeMobile: String {
+        return NSLocalizedString("title.change_mobile", comment: "")
+    }
+
+    static var trans_titleChangeSkills: String {
+        return NSLocalizedString("title.change_skills", comment: "")
+    }
+
+    static var trans_titleChangeItNow: String {
+        return NSLocalizedString("title.change_it_now", comment: "")
+    }
+
+    static var trans_promptChannel: String {
+        return NSLocalizedString("prompt.channel", comment: "")
+    }
+
+    static var trans_titleChatRecords: String {
+        return NSLocalizedString("title.chat_records", comment: "")
+    }
+
+    static var trans_titleChat: String {
+        return NSLocalizedString("title.chat", comment: "")
+    }
+
+    static var trans_titleChats: String {
+        return NSLocalizedString("title.chats", comment: "")
+    }
 }
 
 extension String {

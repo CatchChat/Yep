@@ -1702,7 +1702,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             let recommendTitle: String
             if feed.recommended {
-                recommendTitle = NSLocalizedString("Cancel\nRecommended", comment: "")
+                recommendTitle = String.trans_titleCancelRecommended
             } else {
                 recommendTitle = NSLocalizedString("Recommend", comment: "")
             }

@@ -379,7 +379,7 @@ final class ProfileViewController: SegueViewController {
                 if let user = userWithUserID(profileUser.userID, inRealm: realm) {
                     
                     if user.friendState == UserFriendState.Normal.rawValue {
-                        sayHiView.title = NSLocalizedString("Chat", comment: "")
+                        sayHiView.title = String.trans_titleChat
                     }
                 }
                 

@@ -43,7 +43,7 @@ final class ChangeMobileViewController: UIViewController {
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 
-        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Change Mobile", comment: ""))
+        navigationItem.titleView = NavigationTitleLabel(title: String.trans_titleChangeMobile)
 
         navigationItem.rightBarButtonItem = nextButton
 
