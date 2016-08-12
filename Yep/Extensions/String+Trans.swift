@@ -57,6 +57,13 @@ extension String {
     static var trans_promptTapNextAgreeTerms: String {
         return NSLocalizedString("prompt.tap_next_agree_terms", comment: "")
     }
+
+    static var trans_buttonCallMe: String {
+        return NSLocalizedString("button.call_me", comment: "")
+    }
+
+
+
 }
 
 extension String {

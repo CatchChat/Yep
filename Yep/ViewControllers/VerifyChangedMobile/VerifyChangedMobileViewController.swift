@@ -81,7 +81,7 @@ final class VerifyChangedMobileViewController: UIViewController {
             .addDisposableTo(disposeBag)
 
         callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
-        callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+        callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
 
         verifyMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         verifyCodeTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
@@ -118,7 +118,7 @@ final class VerifyChangedMobileViewController: UIViewController {
     @objc private func tryCallMe(timer: NSTimer) {
         if !haveAppropriateInput {
             if callMeInSeconds > 1 {
-                let callMeInSecondsString = NSLocalizedString("Call me", comment: "") + " (\(callMeInSeconds))"
+                let callMeInSecondsString = String.trans_buttonCallMe + " (\(callMeInSeconds))"
 
                 UIView.performWithoutAnimation { [weak self] in
                     self?.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
@@ -127,7 +127,7 @@ final class VerifyChangedMobileViewController: UIViewController {
 
             } else {
                 UIView.performWithoutAnimation { [weak self] in
-                    self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                    self?.callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
                     self?.callMeButton.layoutIfNeeded()
                 }
 
@@ -152,7 +152,7 @@ final class VerifyChangedMobileViewController: UIViewController {
 
         delay(10) {
             UIView.performWithoutAnimation { [weak self] in
-                self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                self?.callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
                 self?.callMeButton.layoutIfNeeded()
                 self?.callMeButton.enabled = true
             }
@@ -167,7 +167,7 @@ final class VerifyChangedMobileViewController: UIViewController {
 
             SafeDispatch.async {
                 UIView.performWithoutAnimation { [weak self] in
-                    self?.callMeButton.setTitle(NSLocalizedString("Call me", comment: ""), forState: .Normal)
+                    self?.callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
                     self?.callMeButton.layoutIfNeeded()
                 }
             }

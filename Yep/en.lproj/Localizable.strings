@@ -21,7 +21,7 @@
 "title.blocked_users" = "Blocked Users";
 "subtitle.build_world_together" = "Build world together";
 "prompt.tap_next_agree_terms" = "By tapping Next you agree to our terms.";
-"Call me" = "Call me";
+"button.call_me" = "Call me";
 "Calling" = "Calling";
 "Camera" = "Camera";
 "Cancel recommended feed failed!" = "Cancel recommended feed failed!";
