@@ -25,7 +25,7 @@
 "button.calling" = "Calling";
 "title.camera" = "Camera";
 "prompt.cancel_recommended_feed_failed" = "Cancel recommended feed failed!";
-"Cancel" = "Cancel";
+"cancel" = "Cancel";
 "Cancel\nRecommended" = "Cancel\nRecommended";
 "Catch Inc." = "Catch Inc.";
 "Change Mobile" = "Change Mobile";

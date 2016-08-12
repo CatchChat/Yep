@@ -190,7 +190,7 @@ final class SkillHomeViewController: BaseViewController {
             }
             alertController.addAction(takePhotoAction)
 
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { [weak self] _ in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { [weak self] _ in
                 self?.dismissViewControllerAnimated(true, completion: nil)
             }
             alertController.addAction(cancelAction)
@@ -295,7 +295,7 @@ final class SkillHomeViewController: BaseViewController {
 
             let alertController = UIAlertController(title: NSLocalizedString("Choose Skill Set", comment: ""), message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
 
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { action in
             }
             alertController.addAction(cancelAction)
 

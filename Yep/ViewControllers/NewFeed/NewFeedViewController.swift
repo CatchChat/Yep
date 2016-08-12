@@ -222,7 +222,7 @@ final class NewFeedViewController: SegueViewController {
         navigationItem.rightBarButtonItem = postButton
 
         if !attachment.needPrepare {
-            let cancleButton = UIBarButtonItem(title: NSLocalizedString("Cancel", comment: ""), style: .Plain, target: self, action: #selector(NewFeedViewController.cancel(_:)))
+            let cancleButton = UIBarButtonItem(title: String.trans_cancel, style: .Plain, target: self, action: #selector(NewFeedViewController.cancel(_:)))
 
             navigationItem.leftBarButtonItem = cancleButton
         }
@@ -1099,7 +1099,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         
             pickAlertController.addAction(albumAction)
             
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { _ in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { _ in
             }
         
             pickAlertController.addAction(cancelAction)

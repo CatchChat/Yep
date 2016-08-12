@@ -25,7 +25,7 @@
 "button.calling" = "正在呼叫";
 "title.camera" = "拍摄";
 "prompt.cancel_recommended_feed_failed" = "取消推荐话题失败！";
-"Cancel" = "取消";
+"cancel" = "取消";
 "Cancel\nRecommended" = "取消\n推荐";
 "Catch Inc." = "Catch Inc.";
 "Change Mobile" = "修改手机号";

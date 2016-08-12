@@ -74,6 +74,9 @@ extension String {
         return NSLocalizedString("prompt.cancel_recommended_feed_failed", comment: "")
     }
 
+    static var trans_cancel: String {
+        return NSLocalizedString("cancel", comment: "")
+    }
 
 }
 

@@ -708,7 +708,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
-                            YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend image?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend image?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                 resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -752,7 +752,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
-                            YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend audio?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend audio?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                 resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -787,7 +787,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
-                            YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend video?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend video?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                 resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -828,7 +828,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                         if message.sendState == MessageSendState.Failed.rawValue {
 
-                            YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend location?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+                            YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend location?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                 resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -870,7 +870,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             return
                         }
 
-                        YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+                        YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                             resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -1305,7 +1305,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if message.sendState == MessageSendState.Failed.rawValue {
 
-                                YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend image?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+                                YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend image?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -1346,7 +1346,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if message.sendState == MessageSendState.Failed.rawValue {
 
-                                YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend audio?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+                                YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend audio?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -1379,7 +1379,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if message.sendState == MessageSendState.Failed.rawValue {
 
-                                YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend video?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+                                YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend video?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -1418,7 +1418,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
                             if message.sendState == MessageSendState.Failed.rawValue {
 
-                                YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend location?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+                                YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend location?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                     resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -1459,7 +1459,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             return
                         }
 
-                        YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: {
+                        YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                             resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
                                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)

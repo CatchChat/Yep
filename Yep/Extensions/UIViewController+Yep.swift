@@ -127,13 +127,13 @@ extension UIViewController {
         reportAlertController.addAction(scamsReasonAction)
 
         let otherReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Other("").title, style: .Default) { [weak self] _ in
-            YepAlert.textInput(title: NSLocalizedString("Other Reason", comment: ""), message: nil, placeholder: nil, oldText: nil, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Cancel", comment: ""), inViewController: self, withConfirmAction: { text in
+            YepAlert.textInput(title: NSLocalizedString("Other Reason", comment: ""), message: nil, placeholder: nil, oldText: nil, confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { text in
                 reportWithReason(.Other(text))
             }, cancelAction: nil)
         }
         reportAlertController.addAction(otherReasonAction)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { [weak self] _ in
+        let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { [weak self] _ in
             self?.dismissViewControllerAnimated(true, completion: nil)
         }
         reportAlertController.addAction(cancelAction)
