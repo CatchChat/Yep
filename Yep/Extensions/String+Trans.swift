@@ -23,3 +23,22 @@ extension String {
     }
 }
 
+extension String {
+
+    static var trans_reportAdvertising: String {
+        return NSLocalizedString("report.advertising", comment: "")
+    }
+
+    static var trans_reportPorno: String {
+        return NSLocalizedString("report.porno", comment: "")
+    }
+
+    static var trans_reportScams: String {
+        return NSLocalizedString("report.scams", comment: "")
+    }
+
+    static var trans_reportOther: String {
+        return NSLocalizedString("report.other", comment: "")
+    }
+}
+

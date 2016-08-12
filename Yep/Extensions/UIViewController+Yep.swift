@@ -44,6 +44,22 @@ extension UIViewController {
 
 // MAKR: - Report
 
+extension ReportReason {
+
+    var description: String {
+        switch self {
+        case .Porno:
+            return String.trans_reportPorno
+        case .Advertising:
+            return String.trans_reportAdvertising
+        case .Scams:
+            return String.trans_reportScams
+        case .Other:
+            return String.trans_reportOther
+        }
+    }
+}
+
 extension UIViewController {
 
     enum ReportObject {

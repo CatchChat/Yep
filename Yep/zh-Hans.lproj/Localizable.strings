@@ -9,7 +9,7 @@
 "button.add_skill_to_me" = "添加此技能";
 "button.add" = "添加";
 "prompt.added_skill%@_to_set%@_successfully" = "已成功将“%1$@”添加到“%2$@”！";
-"Advertising" = "广告";
+"report.advertising" = "广告";
 "Albums" = "相册";
 "All messages read." = "没有未读消息";
 "Also delete this feed?" = "同时删除此话题？";
@@ -165,7 +165,7 @@
 "Open Source of Yep" = "Yep 的开源";
 "Open Source" = "开源";
 "Other Reason" = "其它原因";
-"Other" = "其它";
+"report.other" = "其它";
 "People with this skill" = "与此技能相关的用户";
 "Pick Location" = "选择位置";
 "Pick Photos" = "相册";
@@ -177,7 +177,7 @@
 "Please wait while the image is not ready!" = "正在准备图片，请稍等！";
 "Please wait while the video is not ready!" = "正在准备视频，请稍等！";
 "Popular in " = "流行于";
-"Porno" = "色情";
+"report.porno" = "色情";
 "Post" = "发布";
 "Preview" = "查看";
 "Profile" = "个人主页";
@@ -206,7 +206,7 @@
 "Review Yep" = "评价 Yep";
 "Review now" = "马上评价";
 "Say Hi" = "打个招呼";
-"Scams" = "诈骗";
+"report.scams" = "诈骗";
 "Search Feeds" = "搜索话题";
 "Search Friend" = "搜索好友";
 "Search User" = "用户名/昵称/手机号";

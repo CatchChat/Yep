@@ -888,19 +888,6 @@ public enum ReportReason {
             return 3
         }
     }
-
-    public var description: String {
-        switch self {
-        case .Porno:
-            return NSLocalizedString("Porno", comment: "")
-        case .Advertising:
-            return NSLocalizedString("Advertising", comment: "")
-        case .Scams:
-            return NSLocalizedString("Scams", comment: "")
-        case .Other:
-            return NSLocalizedString("Other", comment: "")
-        }
-    }
 }
 
 public func reportProfileUser(profileUser: ProfileUser, forReason reason: ReportReason, failureHandler: FailureHandler?, completion: () -> Void) {

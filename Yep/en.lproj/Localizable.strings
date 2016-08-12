@@ -9,7 +9,7 @@
 "button.add_skill_to_me" = "Add to Me";
 "button.add" = "Add";
 "prompt.added_skill%@_to_set%@_successfully" = "Added %1$@ to %2$@ successfully!";
-"Advertising" = "Advertising";
+"report.advertising" = "Advertising";
 "Albums" = "Albums";
 "All messages read." = "All messages read.";
 "Also delete this feed?" = "Also delete this feed?";
@@ -165,7 +165,7 @@
 "Open Source of Yep" = "Open Source of Yep";
 "Open Source" = "Open Source";
 "Other Reason" = "Other Reason";
-"Other" = "Other";
+"report.other" = "Other";
 "People with this skill" = "People with this skill";
 "Pick Location" = "Pick Location";
 "Pick Photos" = "Pick Photos";
@@ -177,7 +177,7 @@
 "Please wait while the image is not ready!" = "Please wait while the image is not ready!";
 "Please wait while the video is not ready!" = "Please wait while the video is not ready!";
 "Popular in " = "Popular in ";
-"Porno" = "Porno";
+"report.porno" = "Porno";
 "Post" = "Post";
 "Preview" = "Preview";
 "Profile" = "Profile";
@@ -206,7 +206,7 @@
 "Review Yep" = "Review Yep";
 "Review now" = "Review now";
 "Say Hi" = "Say Hi";
-"Scams" = "Scams";
+"report.scams" = "Scams";
 "Search Feeds" = "Search Feeds";
 "Search Friend" = "Search Friend";
 "Search User" = "Search User";
