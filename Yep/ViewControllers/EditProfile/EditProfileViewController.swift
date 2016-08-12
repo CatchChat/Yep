@@ -182,7 +182,7 @@ final class EditProfileViewController: SegueViewController {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
-        let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
+        let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { _ in
 
             let openCameraRoll: ProposerAction = { [weak self] in
 
@@ -197,13 +197,13 @@ final class EditProfileViewController: SegueViewController {
                 }
             }
 
-            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
-                self.alertCanNotAccessCameraRoll()
+            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
+                self?.alertCanNotAccessCameraRoll()
             })
         }
         alertController.addAction(choosePhotoAction)
 
-        let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
+        let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { _ in
 
             let openCamera: ProposerAction = { [weak self] in
 
@@ -218,14 +218,14 @@ final class EditProfileViewController: SegueViewController {
                 }
             }
 
-            proposeToAccess(.Camera, agreed: openCamera, rejected: {
-                self.alertCanNotOpenCamera()
+            proposeToAccess(.Camera, agreed: openCamera, rejected: { [weak self] in
+                self?.alertCanNotOpenCamera()
             })
         }
         alertController.addAction(takePhotoAction)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
+        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { [weak self] _ in
+            self?.dismissViewControllerAnimated(true, completion: nil)
         }
         alertController.addAction(cancelAction)
 
@@ -262,8 +262,8 @@ final class EditProfileViewController: SegueViewController {
 //        }
 //        alertController.addAction(uploadContactsAction)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-            self.dismissViewControllerAnimated(true, completion: nil)
+        let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { [weak self] _ in
+            self?.dismissViewControllerAnimated(true, completion: nil)
         }
         alertController.addAction(cancelAction)
 

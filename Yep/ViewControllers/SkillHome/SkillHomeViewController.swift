@@ -148,7 +148,7 @@ final class SkillHomeViewController: BaseViewController {
 
             let alertController = UIAlertController(title: NSLocalizedString("Change skill cover", comment: ""), message: nil, preferredStyle: .ActionSheet)
 
-            let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
+            let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { _ in
 
                 let openCameraRoll: ProposerAction = { [weak self] in
 
@@ -163,13 +163,13 @@ final class SkillHomeViewController: BaseViewController {
                     }
                 }
 
-                proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
                     self?.alertCanNotAccessCameraRoll()
                 })
             }
             alertController.addAction(choosePhotoAction)
 
-            let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
+            let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { _ in
 
                 let openCamera: ProposerAction = { [weak self] in
 
@@ -184,13 +184,13 @@ final class SkillHomeViewController: BaseViewController {
                     }
                 }
 
-                proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                proposeToAccess(.Camera, agreed: openCamera, rejected: { [weak self] in
                     self?.alertCanNotOpenCamera()
                 })
             }
             alertController.addAction(takePhotoAction)
 
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { [weak self] _ in
                 self?.dismissViewControllerAnimated(true, completion: nil)
             }
             alertController.addAction(cancelAction)
@@ -198,7 +198,7 @@ final class SkillHomeViewController: BaseViewController {
             self?.presentViewController(alertController, animated: true, completion: nil)
 
             // touch to create (if need) for faster appear
-            delay(0.2) {
+            delay(0.2) { [weak self] in
                 self?.imagePicker.hidesBarsOnTap = false
             }
         }

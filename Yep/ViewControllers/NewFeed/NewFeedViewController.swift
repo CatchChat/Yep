@@ -1066,7 +1066,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             
             let pickAlertController = UIAlertController(title: NSLocalizedString("Choose Source", comment: ""), message: nil, preferredStyle: .ActionSheet)
             
-            let cameraAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Camera", comment: ""), style: .Default) { action -> Void in
+            let cameraAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Camera", comment: ""), style: .Default) { _ in
 
                 proposeToAccess(.Camera, agreed: { [weak self] in
 
@@ -1087,7 +1087,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             
             pickAlertController.addAction(cameraAction)
             
-            let albumAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Albums", comment: ""), style: .Default) { [weak self] action -> Void in
+            let albumAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Albums", comment: ""), style: .Default) { [weak self] _ in
 
                 proposeToAccess(.Photos, agreed: {  [weak self] in
                     self?.performSegueWithIdentifier("showPickPhotos", sender: nil)
@@ -1100,8 +1100,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         
             pickAlertController.addAction(albumAction)
             
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
-
+            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { _ in
             }
         
             pickAlertController.addAction(cancelAction)
