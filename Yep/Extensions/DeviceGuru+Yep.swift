@@ -8,19 +8,6 @@
 
 import DeviceGuru
 
-extension Hardware {
-
-    var yep_supportQuickAction: Bool {
-
-        switch self {
-        case .IPHONE_6S, .IPHONE_6S_PLUS:
-            return true
-        default:
-            return false
-        }
-    }
-}
-
 extension DeviceGuru {
 
     static var yep_isLowEndDevice: Bool {
