@@ -122,7 +122,7 @@ final class ServiceTests: XCTestCase {
                 }
             }
         })
-        expectation.fulfill() // tmp workaround
+        //expectation.fulfill() // tmp workaround
 
         waitForExpectationsWithTimeout(30, handler: nil)
     }
