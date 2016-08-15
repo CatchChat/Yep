@@ -43,6 +43,11 @@ final class AboutViewController: SegueViewController {
         appLogoImageViewTopConstraint.constant = Ruler.iPhoneVertical(0, 20, 40, 60).value
         appNameLabelTopConstraint.constant = Ruler.iPhoneVertical(10, 20, 20, 20).value
 
+        let motionEffect = UIMotionEffect.yep_twoAxesShift(Ruler.iPhoneHorizontal(20, 30, 40).value)
+        appLogoImageView.addMotionEffect(motionEffect)
+        appNameLabel.addMotionEffect(motionEffect)
+        appVersionLabel.addMotionEffect(motionEffect)
+
         appNameLabel.textColor = UIColor.yepTintColor()
 
         if let

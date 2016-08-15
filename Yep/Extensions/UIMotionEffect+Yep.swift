@@ -22,7 +22,7 @@ extension UIInterpolatingMotionEffectType {
 
 extension UIMotionEffect {
 
-    class func twoAxesShift(strength: Float) -> UIMotionEffect {
+    class func yep_twoAxesShift(strength: Float) -> UIMotionEffect {
 
         func motion(type: UIInterpolatingMotionEffectType) -> UIInterpolatingMotionEffect {
             let keyPath = type.yep_centerKeyPath
