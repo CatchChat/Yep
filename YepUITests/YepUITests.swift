@@ -6,6 +6,7 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
+#if UI_TESTS
 import XCTest
 
 final class YepUITests: XCTestCase {
@@ -217,4 +218,5 @@ final class YepUITests: XCTestCase {
         app.buttons["Cancel"].tap()
     }
 }
+#endif
 
