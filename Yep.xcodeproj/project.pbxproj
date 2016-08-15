@@ -197,8 +197,6 @@
 		5053AD551AF83B0F00B3CBFA /* ChatRightLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD531AF83B0F00B3CBFA /* ChatRightLocationCell.swift */; };
 		5053AD5A1AF83B4200B3CBFA /* ChatLeftLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5053AD581AF83B4200B3CBFA /* ChatLeftLocationCell.swift */; };
 		5054CCB11D3F0D15000CFA92 /* NextRunloopJob.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5054CCB01D3F0D15000CFA92 /* NextRunloopJob.swift */; };
-		505509861D0679D000F08992 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106891D0669C3002EAB5C /* Realm.framework */; };
-		505509871D0679D400F08992 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; };
 		50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */; };
 		50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */; };
 		50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F921ADBA50600F80B59 /* NSDate+Yep.swift */; };
@@ -235,8 +233,6 @@
 		506C3A3C1D0D6CAB0021B164 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8DA7F41D07072000A3CEE4 /* libxml2.tbd */; };
 		506C3A3D1D0D6E700021B164 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8DA7F41D07072000A3CEE4 /* libxml2.tbd */; };
 		506C3A3E1D0D6ED80021B164 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106861D06693A002EAB5C /* Kanna.framework */; };
-		506C3A3F1D0D6F570021B164 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106891D0669C3002EAB5C /* Realm.framework */; };
-		506C3A401D0D6F5B0021B164 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; };
 		506D01F11CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01EF1CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift */; };
 		506D01F21CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 506D01F01CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.xib */; };
 		506D01F91CE029B100B3867D /* UploadContactsMaker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506D01F81CE029B100B3867D /* UploadContactsMaker.swift */; };
@@ -383,15 +379,9 @@
 		50C090A11ADE391600CC6389 /* AddSkillsReusableView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50C0909F1ADE391600CC6389 /* AddSkillsReusableView.xib */; };
 		50C090A41ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C090A31ADE46D500CC6389 /* RegisterSelectSkillsViewController.swift */; };
 		50C106871D06693A002EAB5C /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106861D06693A002EAB5C /* Kanna.framework */; };
-		50C1068A1D0669C3002EAB5C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106891D0669C3002EAB5C /* Realm.framework */; };
-		50C1068C1D0669C8002EAB5C /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; };
 		50C106901D0669F2002EAB5C /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068F1D0669F2002EAB5C /* Alamofire.framework */; };
 		50C106921D066A1A002EAB5C /* Navi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106911D066A1A002EAB5C /* Navi.framework */; };
 		50C106941D066A27002EAB5C /* KeyboardMan.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106931D066A27002EAB5C /* KeyboardMan.framework */; };
-		50C1069B1D066AB4002EAB5C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106891D0669C3002EAB5C /* Realm.framework */; };
-		50C1069C1D066AB8002EAB5C /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; };
-		50C106A11D066B62002EAB5C /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106891D0669C3002EAB5C /* Realm.framework */; };
-		50C106A21D066B65002EAB5C /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; };
 		50C106A31D066B85002EAB5C /* Navi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106911D066A1A002EAB5C /* Navi.framework */; };
 		50C106A41D066BAA002EAB5C /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068F1D0669F2002EAB5C /* Alamofire.framework */; };
 		50CB05761CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05751CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift */; };
@@ -578,8 +568,6 @@
 		6A5632931BC911CB00397B53 /* DiscoverNormalUserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632911BC911CB00397B53 /* DiscoverNormalUserCell.swift */; };
 		6A5632941BC911CB00397B53 /* DiscoverNormalUserCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A5632921BC911CB00397B53 /* DiscoverNormalUserCell.xib */; };
 		6A5632971BC9559100397B53 /* DiscoverFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5632961BC9559100397B53 /* DiscoverFlowLayout.swift */; };
-		6A6F0A661D073B2B00C247CB /* RealmSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		6A6F0A671D073B2B00C247CB /* Realm.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106891D0669C3002EAB5C /* Realm.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6A6F0A691D073B3800C247CB /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068F1D0669F2002EAB5C /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6A6F0A6A1D073B4900C247CB /* Navi.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106911D066A1A002EAB5C /* Navi.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6A6F0A6E1D073B7300C247CB /* Kanna.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106861D06693A002EAB5C /* Kanna.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -759,8 +747,6 @@
 				6A6F0A6E1D073B7300C247CB /* Kanna.framework in Embed Frameworks */,
 				6A6F0A6A1D073B4900C247CB /* Navi.framework in Embed Frameworks */,
 				6A6F0A691D073B3800C247CB /* Alamofire.framework in Embed Frameworks */,
-				6A6F0A661D073B2B00C247CB /* RealmSwift.framework in Embed Frameworks */,
-				6A6F0A671D073B2B00C247CB /* Realm.framework in Embed Frameworks */,
 				50D84EDE1CF2CB120018D91F /* OpenGraph.framework in Embed Frameworks */,
 				50D3A35A1CEE9A2000E59470 /* FayeClient.framework in Embed Frameworks */,
 				50D3A3301CEDB1C600E59470 /* YepNetworking.framework in Embed Frameworks */,
@@ -1399,8 +1385,6 @@
 				50D3A32F1CEDB1C600E59470 /* YepNetworking.framework in Frameworks */,
 				50D3A3591CEE9A2000E59470 /* FayeClient.framework in Frameworks */,
 				50D84EDD1CF2CB120018D91F /* OpenGraph.framework in Frameworks */,
-				50C1068A1D0669C3002EAB5C /* Realm.framework in Frameworks */,
-				50C1068C1D0669C8002EAB5C /* RealmSwift.framework in Frameworks */,
 				50C106901D0669F2002EAB5C /* Alamofire.framework in Frameworks */,
 				507902361D06813300D846F5 /* Kanna.framework in Frameworks */,
 				50C106921D066A1A002EAB5C /* Navi.framework in Frameworks */,
@@ -1416,8 +1400,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				161BAAEC95E9A42987E9FF3E /* Pods_YepTests.framework in Frameworks */,
-				505509861D0679D000F08992 /* Realm.framework in Frameworks */,
-				505509871D0679D400F08992 /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1426,8 +1408,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5056EABA1CF2C73300FDE07E /* YepNetworking.framework in Frameworks */,
-				50C106A11D066B62002EAB5C /* Realm.framework in Frameworks */,
-				50C106A21D066B65002EAB5C /* RealmSwift.framework in Frameworks */,
 				50C106A41D066BAA002EAB5C /* Alamofire.framework in Frameworks */,
 				50C106A31D066B85002EAB5C /* Navi.framework in Frameworks */,
 			);
@@ -1438,8 +1418,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5056EA951CF2C55200FDE07E /* YepKit.framework in Frameworks */,
-				506C3A3F1D0D6F570021B164 /* Realm.framework in Frameworks */,
-				506C3A401D0D6F5B0021B164 /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1451,8 +1429,6 @@
 				50CE7BD01CF3FEE000488E5B /* YepKit.framework in Frameworks */,
 				50D84EF21CF2CC460018D91F /* YepNetworking.framework in Frameworks */,
 				50D84EF31CF2CC4A0018D91F /* OpenGraph.framework in Frameworks */,
-				50C1069B1D066AB4002EAB5C /* Realm.framework in Frameworks */,
-				50C1069C1D066AB8002EAB5C /* RealmSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4519,8 +4495,6 @@
 			files = (
 			);
 			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Kingfisher.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Alamofire.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Navi.framework",
