@@ -405,6 +405,7 @@
 		50CB05881CC60F400024BE06 /* SearchedFeedCellLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05871CC60F400024BE06 /* SearchedFeedCellLayout.swift */; };
 		50CC4FA21C1AC0EE00B6A263 /* UITableView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */; };
 		50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */; };
+		50CDAC261D61A4710039333B /* UIMotionEffect+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDAC251D61A4710039333B /* UIMotionEffect+Yep.swift */; };
 		50CDBE421ACA9B4200459CE0 /* ChatRightImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */; };
 		50CDBE461ACA9F2200459CE0 /* ImageCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE451ACA9F2200459CE0 /* ImageCache.swift */; };
 		50CDBE491ACBAD3200459CE0 /* ChatLeftImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */; };
@@ -1162,6 +1163,7 @@
 		50CB05871CC60F400024BE06 /* SearchedFeedCellLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedCellLayout.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedCellLayout.swift; sourceTree = "<group>"; };
 		50CC4FA11C1AC0EE00B6A263 /* UITableView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UITableView+Yep.swift"; path = "Extensions/UITableView+Yep.swift"; sourceTree = "<group>"; };
 		50CC4FA31C1AC58700B6A263 /* UICollectionView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UICollectionView+Yep.swift"; path = "Extensions/UICollectionView+Yep.swift"; sourceTree = "<group>"; };
+		50CDAC251D61A4710039333B /* UIMotionEffect+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIMotionEffect+Yep.swift"; path = "Extensions/UIMotionEffect+Yep.swift"; sourceTree = "<group>"; };
 		50CDBE401ACA9B4200459CE0 /* ChatRightImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightImageCell.swift; path = Views/Cells/ChatRightImage/ChatRightImageCell.swift; sourceTree = "<group>"; };
 		50CDBE451ACA9F2200459CE0 /* ImageCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageCache.swift; path = Caches/ImageCache.swift; sourceTree = "<group>"; };
 		50CDBE471ACBAD3200459CE0 /* ChatLeftImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftImageCell.swift; path = Views/Cells/ChatLeftImage/ChatLeftImageCell.swift; sourceTree = "<group>"; };
@@ -2014,6 +2016,7 @@
 				507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */,
 				50B801511D51DB2600F42938 /* UISegmentedControl+Yep.swift */,
 				504FDFC51D5965BC00E1FE86 /* UIStoryboard+Yep.swift */,
+				50CDAC251D61A4710039333B /* UIMotionEffect+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -4825,6 +4828,7 @@
 				50A6A7B31D23643100E01190 /* ConversationViewController+YepFayeServiceDelegate.swift in Sources */,
 				501C156E1D34DD5600FAAF5E /* InterviewRepresentation.swift in Sources */,
 				508A08501C16B810000A3305 /* RecordButton.swift in Sources */,
+				50CDAC261D61A4710039333B /* UIMotionEffect+Yep.swift in Sources */,
 				50858EBF1C224DA900EDE492 /* FeedBiggerImageCell.swift in Sources */,
 				508D17401ACCD2740092D666 /* YepButton.swift in Sources */,
 				506BB7F51AE4E0A500C1A2A0 /* SkillAnnotationHeader.swift in Sources */,
@@ -5337,7 +5341,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING_";
+				OTHER_SWIFT_FLAGS = "-D DEBUG -D STAGING";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
