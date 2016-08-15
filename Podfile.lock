@@ -12,15 +12,20 @@ PODS:
   - AutoReview (0.1.0)
   - Base64 (1.1.2)
   - DeviceGuru (1.3.7)
-  - Fabric (1.6.7)
+  - Fabric (1.6.8)
   - FXBlurView (1.6.4)
   - JPush (2.1.8)
-  - PINCache (3.0.0-beta)
+  - PINCache (3.0.1-beta)
   - PINRemoteImage/Core (3.0.0-beta.3):
     - PINCache (>= 3.0.0-beta)
   - PINRemoteImage/iOS (3.0.0-beta.3):
     - PINRemoteImage/Core
   - pop (1.0.9)
+  - Realm (1.0.2):
+    - Realm/Headers (= 1.0.2)
+  - Realm/Headers (1.0.2)
+  - RealmSwift (1.0.2):
+    - Realm (= 1.0.2)
   - SocketRocket (0.5.1)
   - TPKeyboardAvoiding (1.3)
 
@@ -35,6 +40,7 @@ DEPENDENCIES:
   - FXBlurView
   - JPush
   - pop
+  - RealmSwift
   - SocketRocket
   - TPKeyboardAvoiding
 
@@ -45,15 +51,17 @@ SPEC CHECKSUMS:
   AutoReview: 4110767f3fcfc1ea5bf0398b4f7b6a882dc2d73c
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   DeviceGuru: f847629dc0da0145ba48a9fc314e613ca4aa9caf
-  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
   JPush: 2d1286494eae216433f6d7709b2721565b4babc9
-  PINCache: 9b66261ade3d4feb272df4b4dd2e035469909448
+  PINCache: 6911fe422a633e18b3d3ddf2bd4f0e55e36e2892
   PINRemoteImage: 308731aa6534500e58fc211b9cc2bb7252df25ba
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
+  Realm: 9d5c46a4d7d27958530a8dfc58f63a99e5c2cba3
+  RealmSwift: 82f3ac5e24530143dddfde2033acc0d308f27d96
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
 
-PODFILE CHECKSUM: 06808c48662dcaada4a29b7856a582d886b36474
+PODFILE CHECKSUM: 594e44887becb02dc743cc0dcf5cfec09e72a085
 
 COCOAPODS: 1.0.1

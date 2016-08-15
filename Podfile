@@ -4,6 +4,7 @@ platform :ios, '9.0'
 use_frameworks!
 
 def pods
+    pod 'RealmSwift'
     pod 'AutoReview'
     pod 'AudioBot'
     pod 'AsyncDisplayKit'
@@ -24,6 +25,14 @@ target 'Yep' do
     target 'YepTests' do
         inherit! :search_paths
     end
+end
+
+target 'YepKit' do
+    pod 'RealmSwift'
+end
+
+target 'YepShare' do
+    pod 'RealmSwift'
 end
 
 target 'FayeClient' do
