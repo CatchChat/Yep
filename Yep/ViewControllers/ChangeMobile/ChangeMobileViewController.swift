@@ -49,7 +49,7 @@ final class ChangeMobileViewController: UIViewController {
 
         changeMobileNumberPromptLabel.text = NSLocalizedString("What's your new number?", comment: "")
 
-        currentMobileNumberPromptLabel.text = NSLocalizedString("Current number:", comment: "")
+        currentMobileNumberPromptLabel.text = String.trans_promptCurrentNumber
         currentMobileNumberLabel.text = YepUserDefaults.fullPhoneNumber
 
         areaCodeTextField.text = NSTimeZone.areaCode
