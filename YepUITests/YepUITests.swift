@@ -149,8 +149,6 @@ final class YepUITests: XCTestCase {
         guard textField2.exists else {
             return
         }
-        textField2.typeText("app")
-        app.buttons["Done"].tap()
 
         app.buttons["Cancel"].tap()
     }
@@ -184,16 +182,6 @@ final class YepUITests: XCTestCase {
         textField.tap()
         textField.typeText("test")
         app.buttons["Done"].tap()
-
-        let test = app.tables.staticTexts["test"]
-        guard test.exists else {
-            return
-        }
-        test.tap()
-
-        app.navigationBars["test"].buttons["icon back"].tap()
-
-        app.buttons["Cancel"].tap()
     }
 
     func testSearchInFeeds() {
