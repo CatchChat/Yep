@@ -691,14 +691,15 @@ final class ProfileViewController: SegueViewController {
             tryShareProfile()
 
         } else {
-            YepAlert.textInput(title: NSLocalizedString("Create a username", comment: ""), message: NSLocalizedString("In order to share your profile, create a unique username first.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: NSLocalizedString("Create", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { text in
+            YepAlert.textInput(title: String.trans_titleCreateUsername, message: NSLocalizedString("In order to share your profile, create a unique username first.", comment: ""), placeholder: NSLocalizedString("use letters, numbers, and underscore", comment: ""), oldText: nil, confirmTitle: String.trans_titleCreate, cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { text in
 
                 let newUsername = text
 
                 updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                    YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Create username failed!", comment: ""), inViewController: self)
+                    let message = errorMessage ?? String.trans_promptCreateUsernameFailed
+                    YepAlert.alertSorry(message: message, inViewController: self)
 
                 }, completion: { success in
                     SafeDispatch.async { [weak self] in

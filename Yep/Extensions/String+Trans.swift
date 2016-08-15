@@ -116,21 +116,58 @@ extension String {
     static var trans_titleChoosePhoto: String {
         return NSLocalizedString("title.choose_photo", comment: "")
     }
-static var trans_titleChooseSkillSet: String {
+
+    static var trans_titleChooseSkillSet: String {
         return NSLocalizedString("title.choose_skill_set", comment: "")
     }
-static var trans_titleChooseSource: String {
+
+    static var trans_titleChooseSource: String {
         return NSLocalizedString("title.choose_source", comment: "")
     }
-static var trans_buttonChooseFromLibrary: String {
+
+    static var trans_buttonChooseFromLibrary: String {
         return NSLocalizedString("button.choose_from_library", comment: "")
     }
+    
     static var trans_promptChoose: String {
         return NSLocalizedString("prompt.choose", comment: "")
     }
 
+    static var trans_titleClearHistory: String {
+        return NSLocalizedString("title.clear_history", comment: "")
+    }
 
+    static var trans_confirm: String {
+        return NSLocalizedString("confirm", comment: "")
+    }
 
+    static var trans_titleContacts: String {
+        return NSLocalizedString("title.contacts", comment: "")
+    }
+
+    static var trans_titleCreateUsername: String {
+        return NSLocalizedString("title.create_username", comment: "")
+    }
+
+    static var trans_promptCreateFeedFailed: String {
+        return NSLocalizedString("prompt.create_feed_failed", comment: "")
+    }
+
+    static var trans_promptCreateUsernameFailed: String {
+        return NSLocalizedString("prompt.create_username_failed", comment: "")
+    }
+
+    static var trans_titleCreate: String {
+        return NSLocalizedString("title.create", comment: "")
+    }
+
+    static var trans_promptCreatorsOfBlockedFeeds: String {
+        return NSLocalizedString("prompt.creators_of_blocked_feeds", comment: "")
+    }
+
+    static var trans_promptCurrentNumber: String {
+        return NSLocalizedString("prompt.current_number", comment: "")
+    }
 }
 
 extension String {

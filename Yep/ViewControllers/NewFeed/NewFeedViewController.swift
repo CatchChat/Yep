@@ -674,7 +674,7 @@ final class NewFeedViewController: SegueViewController {
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     SafeDispatch.async { [weak self] in
-                        let message = errorMessage ?? NSLocalizedString("Create feed failed!", comment: "")
+                        let message = errorMessage ?? String.trans_promptCreateFeedFailed
                         self?.uploadState = .Failed(message: message)
                     }
 
