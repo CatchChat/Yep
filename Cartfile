@@ -1,5 +1,4 @@
 
-github "realm/realm-cocoa"
 github "onevcat/Kingfisher"
 github "tid-kijyun/Kanna"
 github "Alamofire/Alamofire"
