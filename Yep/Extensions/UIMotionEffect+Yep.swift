@@ -8,12 +8,24 @@
 
 import UIKit
 
+extension UIInterpolatingMotionEffectType {
+
+    var yep_centerKeyPath: String {
+        switch self {
+        case .TiltAlongHorizontalAxis:
+            return "center.x"
+        case .TiltAlongVerticalAxis:
+            return "center.y"
+        }
+    }
+}
+
 extension UIMotionEffect {
 
     class func twoAxesShift(strength: Float) -> UIMotionEffect {
 
         func motion(type: UIInterpolatingMotionEffectType) -> UIInterpolatingMotionEffect {
-            let keyPath = type == .TiltAlongHorizontalAxis ? "center.x" : "center.y"
+            let keyPath = type.yep_centerKeyPath
             let motion = UIInterpolatingMotionEffect(keyPath: keyPath, type: type)
             motion.minimumRelativeValue = -strength
             motion.maximumRelativeValue = strength
