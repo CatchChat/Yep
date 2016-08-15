@@ -34,11 +34,11 @@
 "title.chat_records" = "聊天记录";
 "title.chat" = "聊天";
 "title.chats" = "聊天";
-"Choose Photo" = "选择照片";
-"Choose Skill Set" = "选择技能集合";
-"Choose Source" = "选择";
-"Choose from Library" = "从相册选取";
-"Choose..." = "选择…";
+"title.choose_photo" = "选择照片";
+"title.choose_skill_set" = "选择技能集合";
+"title.choose_source" = "选择";
+"button.choose_from_library" = "从相册选取";
+"prompt.choose" = "选择…";
 "Clear history" = "清除历史记录";
 "Confirm" = "确定";
 "Contacts" = "联系人";

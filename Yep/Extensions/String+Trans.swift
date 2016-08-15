@@ -112,6 +112,25 @@ extension String {
     static var trans_titleChats: String {
         return NSLocalizedString("title.chats", comment: "")
     }
+
+    static var trans_titleChoosePhoto: String {
+        return NSLocalizedString("title.choose_photo", comment: "")
+    }
+static var trans_titleChooseSkillSet: String {
+        return NSLocalizedString("title.choose_skill_set", comment: "")
+    }
+static var trans_titleChooseSource: String {
+        return NSLocalizedString("title.choose_source", comment: "")
+    }
+static var trans_buttonChooseFromLibrary: String {
+        return NSLocalizedString("button.choose_from_library", comment: "")
+    }
+    static var trans_promptChoose: String {
+        return NSLocalizedString("prompt.choose", comment: "")
+    }
+
+
+
 }
 
 extension String {

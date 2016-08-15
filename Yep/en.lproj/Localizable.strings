@@ -34,11 +34,11 @@
 "title.chat_records" = "Chat Records";
 "title.chat" = "Chat";
 "title.chats" = "Chats";
-"Choose Photo" = "Choose Photo";
-"Choose Skill Set" = "Choose Skill Set";
-"Choose Source" = "Choose Source";
-"Choose from Library" = "Choose from Library";
-"Choose..." = "Choose...";
+"title.choose_photo" = "Choose Photo";
+"title.choose_skill_set" = "Choose Skill Set";
+"title.choose_source" = "Choose Source";
+"button.choose_from_library" = "Choose from Library";
+"prompt.choose" = "Choose...";
 "Clear history" = "Clear history";
 "Confirm" = "Confirm";
 "Contacts" = "Contacts";

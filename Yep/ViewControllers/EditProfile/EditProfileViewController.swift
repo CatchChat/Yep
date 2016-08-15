@@ -182,7 +182,7 @@ final class EditProfileViewController: SegueViewController {
 
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
-        let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { _ in
+        let choosePhotoAction: UIAlertAction = UIAlertAction(title: String.trans_titleChoosePhoto, style: .Default) { _ in
 
             let openCameraRoll: ProposerAction = { [weak self] in
 

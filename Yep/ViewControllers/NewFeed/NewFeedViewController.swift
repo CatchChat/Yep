@@ -19,7 +19,7 @@ import RealmSwift
 import Kingfisher
 import MapKit
 
-let generalSkill = Skill(category: nil, id: "", name: "general", localName: NSLocalizedString("Choose...", comment: ""), coverURLString: nil)
+let generalSkill = Skill(category: nil, id: "", name: "general", localName: String.trans_promptChoose, coverURLString: nil)
 
 struct FeedVoice {
 
@@ -257,7 +257,7 @@ final class NewFeedViewController: SegueViewController {
         }
         
         channelLabel.text = String.trans_promptChannel
-        choosePromptLabel.text = NSLocalizedString("Choose...", comment: "")
+        choosePromptLabel.text = String.trans_promptChoose
         
         channelViewTopConstraint.constant = 30
         
@@ -1064,7 +1064,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
                 return
             }
             
-            let pickAlertController = UIAlertController(title: NSLocalizedString("Choose Source", comment: ""), message: nil, preferredStyle: .ActionSheet)
+            let pickAlertController = UIAlertController(title: String.trans_titleChooseSource, message: nil, preferredStyle: .ActionSheet)
             
             let cameraAction: UIAlertAction = UIAlertAction(title: String.trans_titleCamera, style: .Default) { _ in
 

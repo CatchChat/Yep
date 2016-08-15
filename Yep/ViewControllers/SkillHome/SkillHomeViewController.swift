@@ -149,7 +149,7 @@ final class SkillHomeViewController: BaseViewController {
 
             let alertController = UIAlertController(title: NSLocalizedString("Change skill cover", comment: ""), message: nil, preferredStyle: .ActionSheet)
 
-            let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { _ in
+            let choosePhotoAction: UIAlertAction = UIAlertAction(title: String.trans_titleChoosePhoto, style: .Default) { _ in
 
                 let openCameraRoll: ProposerAction = { [weak self] in
 
@@ -295,7 +295,7 @@ final class SkillHomeViewController: BaseViewController {
                 })
             }
 
-            let alertController = UIAlertController(title: NSLocalizedString("Choose Skill Set", comment: ""), message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
+            let alertController = UIAlertController(title: String.trans_titleChooseSkillSet, message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
 
             let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { action in
             }
