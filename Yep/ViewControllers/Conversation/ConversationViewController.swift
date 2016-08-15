@@ -675,7 +675,7 @@ final class ConversationViewController: BaseViewController {
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
 
-        if conversationIsDirty {
+        if conversationIsDirty && !conversation.invalidated {
             if let groupID = conversation.withGroup?.groupID {
                 conversationDirtyAction?(groupID: groupID)
             }
