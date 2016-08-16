@@ -23,8 +23,6 @@ final class RegisterVerifyMobileViewController: BaseVerifyMobileViewController {
         super.viewDidLoad()
 
         navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign Up", comment: ""))
-
-        verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
     }
 
     // MARK: Actions
@@ -42,6 +40,7 @@ final class RegisterVerifyMobileViewController: BaseVerifyMobileViewController {
     }
 
     override func next() {
+
         verifyRegisterMobile()
     }
 

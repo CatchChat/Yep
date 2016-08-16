@@ -25,8 +25,6 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
         navigationItem.titleView = NavigationTitleLabel(title: String.trans_titleChangeMobile)
 
         nextButton.title = NSLocalizedString("Submit", comment: "")
-
-        verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
     }
 
     override func requestCallMe() {
@@ -42,6 +40,7 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
     }
 
     override func next() {
+
         confirmNewMobile()
     }
 

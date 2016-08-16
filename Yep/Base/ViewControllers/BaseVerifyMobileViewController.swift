@@ -13,14 +13,14 @@ import Ruler
 import RxSwift
 import RxCocoa
 
-class BaseVerifyMobileViewController: UIViewController {
+class BaseVerifyMobileViewController: SegueViewController {
 
     var mobile: String!
     var areaCode: String!
 
     private lazy var disposeBag = DisposeBag()
 
-    @IBOutlet weak var verifyMobileNumberPromptLabel: UILabel!
+    @IBOutlet private weak var verifyMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
     @IBOutlet private weak var phoneNumberLabel: UILabel!
@@ -71,8 +71,6 @@ class BaseVerifyMobileViewController: UIViewController {
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 
-        //navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Login", comment: ""))
-
         navigationItem.rightBarButtonItem = nextButton
 
         NSNotificationCenter.defaultCenter()
@@ -80,7 +78,7 @@ class BaseVerifyMobileViewController: UIViewController {
             .subscribeNext({ [weak self] _ in self?.verifyCodeTextField.becomeFirstResponder() })
             .addDisposableTo(disposeBag)
 
-        //verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
+        verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
 
         phoneNumberLabel.text = "+" + areaCode + " " + mobile
 
@@ -188,9 +186,12 @@ class BaseVerifyMobileViewController: UIViewController {
 
     func requestCallMe() {
 
+        println("Subclass requestCallMe")
     }
 
     func next() {
+
+        println("Subclass next")
     }
 }
 
