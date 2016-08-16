@@ -218,7 +218,12 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
         let transitionViews: [UIView?] = (0..<attachments.count).map({
             let indexPath = NSIndexPath(forItem: $0, inSection: indexPath.section)
             let node = mediaCollectionNode.view.nodeForItemAtIndexPath(indexPath) as? FeedImageCellNode
-            return node?.imageNode.view
+
+            if node?.view.superview == nil {
+                return nil
+            } else {
+                return node?.imageNode.view
+            }
         })
         tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: node.imageNode.image, index: indexPath.item)
     }
