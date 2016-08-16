@@ -41,10 +41,10 @@ final class LoginVerifyMobileViewController: BaseVerifyMobileViewController {
 
     override func next() {
 
-        login()
+        tryLogin()
     }
 
-    private func login() {
+    private func tryLogin() {
 
         view.endEditing(true)
 

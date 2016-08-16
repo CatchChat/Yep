@@ -41,10 +41,10 @@ final class RegisterVerifyMobileViewController: BaseVerifyMobileViewController {
 
     override func next() {
 
-        verifyRegisterMobile()
+        tryVerifyRegisterMobile()
     }
 
-    private func verifyRegisterMobile() {
+    private func tryVerifyRegisterMobile() {
 
         view.endEditing(true)
 
@@ -59,16 +59,16 @@ final class RegisterVerifyMobileViewController: BaseVerifyMobileViewController {
 
             YepHUD.hideActivityIndicator()
 
-            if let errorMessage = errorMessage {
-                SafeDispatch.async { [weak self] in
-                    self?.nextButton.enabled = false
 
-                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { [weak self] in
-                        self?.verifyCodeTextField.text = nil
-                        self?.verifyCodeTextField.becomeFirstResponder()
-                    })
-                }
+            SafeDispatch.async { [weak self] in
+                self?.nextButton.enabled = false
             }
+
+            let message = errorMessage ?? "Register verify mobile failed!"
+            YepAlert.alertSorry(message: message, inViewController: self, withDismissAction: { [weak self] in
+                self?.verifyCodeTextField.text = nil
+                self?.verifyCodeTextField.becomeFirstResponder()
+            })
 
         }, completion: { loginUser in
 

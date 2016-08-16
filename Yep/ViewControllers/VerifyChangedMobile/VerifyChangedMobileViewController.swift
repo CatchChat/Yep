@@ -41,10 +41,10 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
 
     override func next() {
 
-        confirmNewMobile()
+        tryConfirmNewMobile()
     }
 
-    private func confirmNewMobile() {
+    private func tryConfirmNewMobile() {
 
         view.endEditing(true)
 
@@ -54,7 +54,7 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
 
         YepHUD.showActivityIndicator()
 
-        comfirmNewMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
+        confirmNewMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
@@ -63,9 +63,8 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
                 self?.nextButton.enabled = false
             }
 
-            let errorMessage = errorMessage ?? ""
-
-            YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: {
+            let message = errorMessage ?? "Confirm new mobile failed!"
+            YepAlert.alertSorry(message: message, inViewController: self, withDismissAction: {
                 SafeDispatch.async { [weak self] in
                     self?.verifyCodeTextField.text = nil
                     self?.verifyCodeTextField.becomeFirstResponder()
