@@ -59,7 +59,10 @@ final class RegisterVerifyMobileViewController: SegueViewController {
     private var callMeInSeconds = YepConfig.callMeInSeconds()
 
     deinit {
+        callMeTimer.invalidate()
+
         NSNotificationCenter.defaultCenter().removeObserver(self)
+
         println("deinit RegisterVerifyMobile")
     }
     

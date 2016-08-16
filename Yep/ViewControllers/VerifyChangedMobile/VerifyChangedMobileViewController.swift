@@ -57,7 +57,15 @@ final class VerifyChangedMobileViewController: UIViewController {
     }
 
     private var callMeInSeconds = YepConfig.callMeInSeconds()
-    
+
+    deinit {
+        callMeTimer.invalidate()
+
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        println("deinit VerifyChangedMobile")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
