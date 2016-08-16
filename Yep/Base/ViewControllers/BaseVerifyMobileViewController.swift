@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepNetworking
 import Ruler
 import RxSwift
 import RxCocoa
@@ -144,7 +145,46 @@ class BaseVerifyMobileViewController: UIViewController {
         }
     }
 
-    private func next() {
+    @IBAction private func callMe(sender: UIButton) {
+
+        callMeTimer.invalidate()
+
+        UIView.performWithoutAnimation { [weak self] in
+            self?.callMeButton.setTitle(String.trans_buttonCalling, forState: .Normal)
+            self?.callMeButton.layoutIfNeeded()
+            self?.callMeButton.enabled = false
+        }
+
+        delay(10) {
+            UIView.performWithoutAnimation { [weak self] in
+                self?.callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
+                self?.callMeButton.layoutIfNeeded()
+                self?.callMeButton.enabled = true
+            }
+        }
+
+        requestCallMe()
+    }
+
+    func requestCallMeFailed(errorMessage: String?) {
+
+        let message = errorMessage ?? "Call me failed!"
+        YepAlert.alertSorry(message: message, inViewController: self)
+
+        SafeDispatch.async {
+            UIView.performWithoutAnimation { [weak self] in
+                self?.callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
+                self?.callMeButton.layoutIfNeeded()
+                self?.callMeButton.enabled = true
+            }
+        }
+    }
+
+    func requestCallMe() {
+
+    }
+
+    func next() {
     }
 }
 
