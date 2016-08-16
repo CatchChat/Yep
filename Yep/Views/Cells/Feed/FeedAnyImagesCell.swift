@@ -10,6 +10,32 @@ import UIKit
 import YepKit
 import AsyncDisplayKit
 
+class FeedImageCellNode: ASCellNode {
+
+    lazy var imageNode: ASImageNode = {
+        let node = ASImageNode()
+        node.contentMode = .ScaleAspectFill
+        return node
+    }()
+
+    override init() {
+        super.init()
+
+        addSubnode(imageNode)
+    }
+
+    override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
+
+        return YepConfig.FeedNormalImagesCell.imageSize
+    }
+
+    override func layout() {
+        super.layout()
+
+        imageNode.frame = CGRect(origin: CGPointZero, size: YepConfig.FeedNormalImagesCell.imageSize)
+    }
+}
+
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 typealias FeedTapMediaAction = (transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void
@@ -142,9 +168,7 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
     func collectionView(collectionView: ASCollectionView, nodeForItemAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
 
         let node = ASCellNode()
-        node.view.backgroundColor = UIColor.redColor()
-        node.borderWidth = 1
-        node.borderColor = UIColor.blueColor().CGColor
+        node.backgroundColor = UIColor.redColor()
         return node
     }
 
