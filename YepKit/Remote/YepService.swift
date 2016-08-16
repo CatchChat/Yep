@@ -499,7 +499,7 @@ public func sendVerifyCodeOfNewMobile(mobile: String, withAreaCode areaCode: Str
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func comfirmNewMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: () -> Void) {
+public func confirmNewMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let requestParameters: JSONDictionary = [
         "mobile": mobile,

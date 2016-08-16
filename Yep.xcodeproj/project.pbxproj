@@ -22,7 +22,6 @@
 		0A8F54BB1AB67D11004AD60E /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A8F54B91AB67D11004AD60E /* LaunchScreen.xib */; };
 		0A90187E1B01152800AE4B7F /* ProfileSocialAccountCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A90187C1B01152800AE4B7F /* ProfileSocialAccountCell.swift */; };
 		0A90187F1B01152800AE4B7F /* ProfileSocialAccountCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0A90187D1B01152800AE4B7F /* ProfileSocialAccountCell.xib */; };
-		0A943A7B1B0F8EAE0022DD67 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A943A7A1B0F8EAE0022DD67 /* BaseViewController.swift */; };
 		0A944C251AC8BB2F00037A06 /* YepStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A944C241AC8BB2F00037A06 /* YepStorageService.swift */; };
 		0AAFCFF91AC8CA5B00EB0EF8 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */; };
 		0AB8F79A1B15D1DC00F4AF09 /* YepNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AB8F7991B15D1DC00F4AF09 /* YepNavigationController.swift */; };
@@ -65,7 +64,6 @@
 		50098D521CB397A5009275FE /* SearchSectionTitleCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50098D501CB397A5009275FE /* SearchSectionTitleCell.xib */; };
 		500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */; };
 		500A0B1F1B451A6F00D49358 /* BadgeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500A0B1E1B451A6F00D49358 /* BadgeView.swift */; };
-		500D35DF1C3A00D2006D17E3 /* SegueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D35DE1C3A00D2006D17E3 /* SegueViewController.swift */; };
 		500D35E11C3A5134006D17E3 /* PHImageRequestOptions+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D35E01C3A5134006D17E3 /* PHImageRequestOptions+Yep.swift */; };
 		500EED961BF06AC900C6BABC /* NSURL+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500EED951BF06AC900C6BABC /* NSURL+Yep.swift */; };
 		500EED981BF07A3000C6BABC /* ConversationViewController+Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */; };
@@ -139,6 +137,9 @@
 		502B60681BD6252B00D9C17E /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B60671BD6252B00D9C17E /* UserAvatar.swift */; };
 		502B606C1BD63C7B00D9C17E /* PlainAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */; };
 		502B606E1BD6567600D9C17E /* AvatarStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B606D1BD6567600D9C17E /* AvatarStyles.swift */; };
+		502C22351D62ACE000724368 /* BaseVerifyMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C22341D62ACE000724368 /* BaseVerifyMobileViewController.swift */; };
+		502C22381D62C07F00724368 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C22361D62C07F00724368 /* BaseViewController.swift */; };
+		502C22391D62C07F00724368 /* SegueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C22371D62C07F00724368 /* SegueViewController.swift */; };
 		502C24831C1034000074A1BA /* UIImageView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C24821C1034000074A1BA /* UIImageView+Yep.swift */; };
 		503075FC1CEC0E51007E7E90 /* YepFayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503075FB1CEC0E51007E7E90 /* YepFayeService.swift */; };
 		503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503315951AC1017E0008A209 /* ChatLeftTextCell.swift */; };
@@ -783,7 +784,6 @@
 		0A8F54BA1AB67D11004AD60E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		0A90187C1B01152800AE4B7F /* ProfileSocialAccountCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountCell.swift; sourceTree = "<group>"; };
 		0A90187D1B01152800AE4B7F /* ProfileSocialAccountCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountCell.xib; sourceTree = "<group>"; };
-		0A943A7A1B0F8EAE0022DD67 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = ViewControllers/Base/BaseViewController.swift; sourceTree = "<group>"; };
 		0A944C241AC8BB2F00037A06 /* YepStorageService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepStorageService.swift; path = Services/YepStorageService.swift; sourceTree = "<group>"; };
 		0AAFCFF81AC8CA5B00EB0EF8 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		0AB8F7991B15D1DC00F4AF09 /* YepNavigationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepNavigationController.swift; path = ViewControllers/Nav/YepNavigationController.swift; sourceTree = "<group>"; };
@@ -828,7 +828,6 @@
 		50098D501CB397A5009275FE /* SearchSectionTitleCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchSectionTitleCell.xib; path = Views/Cells/SearchSectionTitle/SearchSectionTitleCell.xib; sourceTree = "<group>"; };
 		500A0B1B1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EditNicknameAndBadgeViewController.swift; path = ViewControllers/EditNicknameAndBadge/EditNicknameAndBadgeViewController.swift; sourceTree = "<group>"; };
 		500A0B1E1B451A6F00D49358 /* BadgeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BadgeView.swift; path = Views/Badge/BadgeView.swift; sourceTree = "<group>"; };
-		500D35DE1C3A00D2006D17E3 /* SegueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegueViewController.swift; path = ViewControllers/Base/SegueViewController.swift; sourceTree = "<group>"; };
 		500D35E01C3A5134006D17E3 /* PHImageRequestOptions+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PHImageRequestOptions+Yep.swift"; path = "Extensions/PHImageRequestOptions+Yep.swift"; sourceTree = "<group>"; };
 		500EED951BF06AC900C6BABC /* NSURL+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+Yep.swift"; path = "Extensions/NSURL+Yep.swift"; sourceTree = "<group>"; };
 		500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+Feed.swift"; path = "ViewControllers/Conversation/ConversationViewController+Feed.swift"; sourceTree = "<group>"; };
@@ -905,6 +904,9 @@
 		502B60671BD6252B00D9C17E /* UserAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserAvatar.swift; path = Caches/UserAvatar.swift; sourceTree = "<group>"; };
 		502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlainAvatar.swift; path = Caches/PlainAvatar.swift; sourceTree = "<group>"; };
 		502B606D1BD6567600D9C17E /* AvatarStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AvatarStyles.swift; path = Caches/AvatarStyles.swift; sourceTree = "<group>"; };
+		502C22341D62ACE000724368 /* BaseVerifyMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseVerifyMobileViewController.swift; path = Base/ViewControllers/BaseVerifyMobileViewController.swift; sourceTree = "<group>"; };
+		502C22361D62C07F00724368 /* BaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseViewController.swift; path = Base/ViewControllers/BaseViewController.swift; sourceTree = "<group>"; };
+		502C22371D62C07F00724368 /* SegueViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SegueViewController.swift; path = Base/ViewControllers/SegueViewController.swift; sourceTree = "<group>"; };
 		502C24821C1034000074A1BA /* UIImageView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImageView+Yep.swift"; path = "Extensions/UIImageView+Yep.swift"; sourceTree = "<group>"; };
 		503075FB1CEC0E51007E7E90 /* YepFayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepFayeService.swift; path = Services/YepFayeService.swift; sourceTree = "<group>"; };
 		503315951AC1017E0008A209 /* ChatLeftTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCell.swift; path = Views/Cells/ChatLeftText/ChatLeftTextCell.swift; sourceTree = "<group>"; };
@@ -1595,6 +1597,7 @@
 				848806B21B7B0230000C5424 /* Yep.entitlements */,
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
+				502C22321D62AC4400724368 /* Base */,
 				507813171CD1AFB000F193AB /* Shortcuts */,
 				50AFBF4F1BB3A5A1007D19DA /* Sounds */,
 				502AE53B1AB871C5005BD199 /* Helpers */,
@@ -1645,15 +1648,6 @@
 				5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */,
 			);
 			name = ProfileSocialAccount;
-			sourceTree = "<group>";
-		};
-		0A943A7C1B0F8EB10022DD67 /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				500D35DE1C3A00D2006D17E3 /* SegueViewController.swift */,
-				0A943A7A1B0F8EAE0022DD67 /* BaseViewController.swift */,
-			);
-			name = Base;
 			sourceTree = "<group>";
 		};
 		0AB8F79B1B15D1DF00F4AF09 /* Nav */ = {
@@ -1906,7 +1900,6 @@
 				0A1CAC6C1AFA3D8C00826B45 /* SkillHome */,
 				507CF1691AFC84AA00E261B4 /* CustomNavigationBar */,
 				508F8FCD1B01C80500461B0B /* SocialWorks */,
-				0A943A7C1B0F8EB10022DD67 /* Base */,
 				0AB8F79B1B15D1DF00F4AF09 /* Nav */,
 				848806B71B7B4F58000C5424 /* Show */,
 				50AFBF601BB4F33A007D19DA /* Feeds */,
@@ -2305,6 +2298,24 @@
 				502B60631BD1208E00D9C17E /* CameraCell.xib */,
 			);
 			name = Camera;
+			sourceTree = "<group>";
+		};
+		502C22321D62AC4400724368 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				502C22331D62AC5400724368 /* ViewControllers */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		502C22331D62AC5400724368 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				502C22371D62C07F00724368 /* SegueViewController.swift */,
+				502C22341D62ACE000724368 /* BaseVerifyMobileViewController.swift */,
+				502C22361D62C07F00724368 /* BaseViewController.swift */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		503315991AC101830008A209 /* ChatLeftText */ = {
@@ -4685,7 +4696,6 @@
 				500EED9A1BF1B81000C6BABC /* MediaPreviewViewController.swift in Sources */,
 				50FA9A441B661698009BF2A0 /* UIViewController+Yep.swift in Sources */,
 				0AC25F061B1105D5009E6E13 /* YepChildScrollView.swift in Sources */,
-				0A943A7B1B0F8EAE0022DD67 /* BaseViewController.swift in Sources */,
 				50165C451AC2860900C7AEBE /* ConversationLayout.swift in Sources */,
 				50AFBF491BB2830E007D19DA /* EdgeBorderButton.swift in Sources */,
 				50CE7BCA1CF3ECBA00488E5B /* NSDate+Extension.swift in Sources */,
@@ -4742,6 +4752,7 @@
 				5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */,
 				5052D9331D5AC21D00D72EBD /* UIImage+Yep.swift in Sources */,
 				50512A921D2D00EB007BBBF3 /* ChatRightImageCellNode.swift in Sources */,
+				502C22381D62C07F00724368 /* BaseViewController.swift in Sources */,
 				6A5632971BC9559100397B53 /* DiscoverFlowLayout.swift in Sources */,
 				50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */,
 				50E3488E1B905C0100A8E699 /* AboutViewController.swift in Sources */,
@@ -4777,6 +4788,7 @@
 				50CB057C1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				50390F131CE2D71B0090A08C /* FeedFilterCell.swift in Sources */,
+				502C22351D62ACE000724368 /* BaseVerifyMobileViewController.swift in Sources */,
 				505EC8131ADE607D001D27E0 /* SkillCategoryButton.swift in Sources */,
 				5064F6591B0B14420089FAD4 /* AddFriendMoreCell.swift in Sources */,
 				50117AAC1D4F479C0042B65C /* ShowProfileWithUsername.swift in Sources */,
@@ -4832,7 +4844,6 @@
 				505A48401B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift in Sources */,
 				5011382C1BCB5E150055A014 /* FeedConversationDockCell.swift in Sources */,
 				845E1A661B788EF3001E0789 /* EditSkillsViewController.swift in Sources */,
-				500D35DF1C3A00D2006D17E3 /* SegueViewController.swift in Sources */,
 				50B33A671CFE9ADB00517EE4 /* ChatTextCellLayout.swift in Sources */,
 				50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */,
 				50E34C331CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift in Sources */,
@@ -4889,6 +4900,7 @@
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
 				50BAED891D2BA7D00046B4AB /* ChatRightTextCellNode.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
+				502C22391D62C07F00724368 /* SegueViewController.swift in Sources */,
 				50BAED7F1D2B59040046B4AB /* ChatBaseCellNode.swift in Sources */,
 				50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */,
 				50FD753D1C1FB4AC0050A382 /* FPSLabel.swift in Sources */,
