@@ -73,6 +73,27 @@ final class FeedAnyImagesCell: FeedBasicCell {
         node.dataSource = self
         node.delegate = self
 
+        let backgroundView = TouchClosuresView(frame: node.view.bounds)
+        backgroundView.touchesBeganAction = { [weak self] in
+            if let strongSelf = self {
+                strongSelf.touchesBeganAction?(strongSelf)
+            }
+        }
+        backgroundView.touchesEndedAction = { [weak self] in
+            if let strongSelf = self {
+                if strongSelf.editing {
+                    return
+                }
+                strongSelf.touchesEndedAction?(strongSelf)
+            }
+        }
+        backgroundView.touchesCancelledAction = { [weak self] in
+            if let strongSelf = self {
+                strongSelf.touchesCancelledAction?(strongSelf)
+            }
+        }
+        node.view.backgroundView = backgroundView
+
         return node
     }()
 
