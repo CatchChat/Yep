@@ -25,7 +25,6 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
         navigationItem.titleView = NavigationTitleLabel(title: String.trans_titleChangeMobile)
 
         nextButton.title = NSLocalizedString("Submit", comment: "")
-        navigationItem.rightBarButtonItem = nextButton
 
         verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
     }
