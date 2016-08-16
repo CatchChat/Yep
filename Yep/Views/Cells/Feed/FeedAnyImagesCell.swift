@@ -21,14 +21,26 @@ final class FeedAnyImagesCell: FeedBasicCell {
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
-
         return ceil(height)
     }
 
     lazy var mediaCollectionNode: ASCollectionNode = {
-        let node = ASCollectionNode()
+
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 5
+        layout.scrollDirection = .Horizontal
+        layout.itemSize = YepConfig.FeedNormalImagesCell.imageSize
+
+        let node = ASCollectionNode(collectionViewLayout: layout)
+
+        node.view.scrollsToTop = false
+        node.view.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
+        node.view.showsHorizontalScrollIndicator = false
+        node.view.backgroundColor = UIColor.clearColor()
+
         node.dataSource = self
         node.delegate = self
+
         return node
     }()
 
@@ -112,6 +124,7 @@ final class FeedAnyImagesCell: FeedBasicCell {
         let anyImagesLayout = layout.anyImagesLayout!
         //mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
         mediaCollectionNode.frame = anyImagesLayout.mediaCollectionViewFrame
+        mediaCollectionNode.view.backgroundColor = UIColor.greenColor()
     }
 }
 
@@ -129,7 +142,9 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
     func collectionView(collectionView: ASCollectionView, nodeForItemAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
 
         let node = ASCellNode()
-        node.backgroundColor = UIColor.redColor()
+        node.view.backgroundColor = UIColor.redColor()
+        node.borderWidth = 1
+        node.borderColor = UIColor.blueColor().CGColor
         return node
     }
 }
