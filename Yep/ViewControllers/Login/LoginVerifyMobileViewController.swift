@@ -36,7 +36,7 @@ final class LoginVerifyMobileViewController: UIViewController {
         let button = UIBarButtonItem()
         button.title = NSLocalizedString("Next", comment: "")
         button.rx_tap
-            .subscribeNext({ [weak self] in self?.login() })
+            .subscribeNext({ [weak self] in self?.next() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
@@ -179,6 +179,10 @@ final class LoginVerifyMobileViewController: UIViewController {
         }, completion: { success in
             println("resendVoiceVerifyCode \(success)")
         })
+    }
+
+    private func next() {
+        login()
     }
 
     private func login() {

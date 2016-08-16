@@ -36,7 +36,7 @@ final class VerifyChangedMobileViewController: UIViewController {
         let button = UIBarButtonItem()
         button.title = NSLocalizedString("Submit", comment: "")
         button.rx_tap
-            .subscribeNext({ [weak self] in self?.confirmNewMobile() })
+            .subscribeNext({ [weak self] in self?.next() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
@@ -183,6 +183,10 @@ final class VerifyChangedMobileViewController: UIViewController {
         }, completion: { success in
             println("sendVerifyCodeOfNewMobile .Call \(success)")
         })
+    }
+
+    private func next() {
+        confirmNewMobile()
     }
 
     private func confirmNewMobile() {

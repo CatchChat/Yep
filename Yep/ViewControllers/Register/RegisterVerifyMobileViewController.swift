@@ -36,7 +36,7 @@ final class RegisterVerifyMobileViewController: SegueViewController {
         let button = UIBarButtonItem()
         button.title = NSLocalizedString("Next", comment: "")
         button.rx_tap
-            .subscribeNext({ [weak self] in self?.verifyRegisterMobile() })
+            .subscribeNext({ [weak self] in self?.next() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
@@ -178,6 +178,10 @@ final class RegisterVerifyMobileViewController: SegueViewController {
         }, completion: { success in
             println("resendVoiceVerifyCode \(success)")
         })
+    }
+
+    private func next() {
+        verifyRegisterMobile()
     }
 
     private func verifyRegisterMobile() {
