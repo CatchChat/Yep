@@ -204,6 +204,24 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
         let size = YepConfig.FeedNormalImagesCell.imageSize
         return ASSizeRange(min: size, max: size)
     }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
+        guard let firstAttachment = attachments.first where !firstAttachment.isTemporary else {
+            return
+        }
+
+        guard let node = mediaCollectionNode.view.nodeForItemAtIndexPath(indexPath) as? FeedImageCellNode else {
+            return
+        }
+
+        let transitionViews: [UIView?] = (0..<attachments.count).map({
+            let indexPath = NSIndexPath(forItem: $0, inSection: indexPath.section)
+            let node = mediaCollectionNode.view.nodeForItemAtIndexPath(indexPath) as? FeedImageCellNode
+            return node?.imageNode.view
+        })
+        tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: node.imageNode.image, index: indexPath.item)
+    }
 }
 
 /*
