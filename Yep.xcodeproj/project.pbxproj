@@ -139,6 +139,7 @@
 		502B60681BD6252B00D9C17E /* UserAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B60671BD6252B00D9C17E /* UserAvatar.swift */; };
 		502B606C1BD63C7B00D9C17E /* PlainAvatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */; };
 		502B606E1BD6567600D9C17E /* AvatarStyles.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502B606D1BD6567600D9C17E /* AvatarStyles.swift */; };
+		502C22351D62ACE000724368 /* BaseVerifyMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C22341D62ACE000724368 /* BaseVerifyMobileViewController.swift */; };
 		502C24831C1034000074A1BA /* UIImageView+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502C24821C1034000074A1BA /* UIImageView+Yep.swift */; };
 		503075FC1CEC0E51007E7E90 /* YepFayeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503075FB1CEC0E51007E7E90 /* YepFayeService.swift */; };
 		503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503315951AC1017E0008A209 /* ChatLeftTextCell.swift */; };
@@ -905,6 +906,7 @@
 		502B60671BD6252B00D9C17E /* UserAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UserAvatar.swift; path = Caches/UserAvatar.swift; sourceTree = "<group>"; };
 		502B606B1BD63C7B00D9C17E /* PlainAvatar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PlainAvatar.swift; path = Caches/PlainAvatar.swift; sourceTree = "<group>"; };
 		502B606D1BD6567600D9C17E /* AvatarStyles.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AvatarStyles.swift; path = Caches/AvatarStyles.swift; sourceTree = "<group>"; };
+		502C22341D62ACE000724368 /* BaseVerifyMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseVerifyMobileViewController.swift; path = Base/ViewControllers/BaseVerifyMobileViewController.swift; sourceTree = "<group>"; };
 		502C24821C1034000074A1BA /* UIImageView+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIImageView+Yep.swift"; path = "Extensions/UIImageView+Yep.swift"; sourceTree = "<group>"; };
 		503075FB1CEC0E51007E7E90 /* YepFayeService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepFayeService.swift; path = Services/YepFayeService.swift; sourceTree = "<group>"; };
 		503315951AC1017E0008A209 /* ChatLeftTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCell.swift; path = Views/Cells/ChatLeftText/ChatLeftTextCell.swift; sourceTree = "<group>"; };
@@ -1592,6 +1594,7 @@
 		0A8F54AD1AB67D11004AD60E /* Yep */ = {
 			isa = PBXGroup;
 			children = (
+				502C22321D62AC4400724368 /* Base */,
 				848806B21B7B0230000C5424 /* Yep.entitlements */,
 				0AD7EA581AC3EAF300617758 /* Yep-Bridging-Header.h */,
 				0A8F54B01AB67D11004AD60E /* AppDelegate.swift */,
@@ -2305,6 +2308,22 @@
 				502B60631BD1208E00D9C17E /* CameraCell.xib */,
 			);
 			name = Camera;
+			sourceTree = "<group>";
+		};
+		502C22321D62AC4400724368 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				502C22331D62AC5400724368 /* ViewControllers */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		502C22331D62AC5400724368 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				502C22341D62ACE000724368 /* BaseVerifyMobileViewController.swift */,
+			);
+			name = ViewControllers;
 			sourceTree = "<group>";
 		};
 		503315991AC101830008A209 /* ChatLeftText */ = {
@@ -4777,6 +4796,7 @@
 				50CB057C1CC5DBA90024BE06 /* SearchedFeedDribbbleShotCell.swift in Sources */,
 				508D17441ACCDC9F0092D666 /* VoiceRecordButton.swift in Sources */,
 				50390F131CE2D71B0090A08C /* FeedFilterCell.swift in Sources */,
+				502C22351D62ACE000724368 /* BaseVerifyMobileViewController.swift in Sources */,
 				505EC8131ADE607D001D27E0 /* SkillCategoryButton.swift in Sources */,
 				5064F6591B0B14420089FAD4 /* AddFriendMoreCell.swift in Sources */,
 				50117AAC1D4F479C0042B65C /* ShowProfileWithUsername.swift in Sources */,
