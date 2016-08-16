@@ -72,3 +72,107 @@ extension ASImageNode {
         })
     }
 }
+
+// MARK: - ActivityIndicator
+
+private var activityIndicatorAssociatedKey: Void?
+private var showActivityIndicatorWhenLoadingAssociatedKey: Void?
+
+extension ASImageNode {
+
+    private var yep_activityIndicator: UIActivityIndicatorView? {
+        return objc_getAssociatedObject(self, &activityIndicatorAssociatedKey) as? UIActivityIndicatorView
+    }
+
+    private func yep_setActivityIndicator(activityIndicator: UIActivityIndicatorView?) {
+        objc_setAssociatedObject(self, &activityIndicatorAssociatedKey, activityIndicator, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+
+    public var yep_showActivityIndicatorWhenLoading: Bool {
+        get {
+            guard let result = objc_getAssociatedObject(self, &showActivityIndicatorWhenLoadingAssociatedKey) as? NSNumber else {
+                return false
+            }
+
+            return result.boolValue
+        }
+
+        set {
+            if yep_showActivityIndicatorWhenLoading == newValue {
+                return
+
+            } else {
+                if newValue {
+                    let indicatorStyle = UIActivityIndicatorViewStyle.Gray
+                    let indicator = UIActivityIndicatorView(activityIndicatorStyle: indicatorStyle)
+                    indicator.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds))
+
+                    indicator.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin, .FlexibleTopMargin]
+                    indicator.hidden = true
+                    indicator.hidesWhenStopped = true
+
+                    self.view.addSubview(indicator)
+
+                    yep_setActivityIndicator(indicator)
+
+                } else {
+                    yep_activityIndicator?.removeFromSuperview()
+                    yep_setActivityIndicator(nil)
+                }
+
+                objc_setAssociatedObject(self, &showActivityIndicatorWhenLoadingAssociatedKey, NSNumber(bool: newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+            }
+        }
+    }
+}
+
+// MARK: - AttachmentURL
+
+private var attachmentURLAssociatedKey: Void?
+
+extension ASImageNode {
+
+    private var yep_attachmentURL: NSURL? {
+        return objc_getAssociatedObject(self, &attachmentURLAssociatedKey) as? NSURL
+    }
+
+    private func yep_setAttachmentURL(URL: NSURL) {
+        objc_setAssociatedObject(self, &attachmentURLAssociatedKey, URL, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+
+    func yep_setImageOfAttachment(attachment: DiscoveredAttachment, withSize size: CGSize) {
+
+        guard let attachmentURL = NSURL(string: attachment.URLString) else {
+            return
+        }
+
+        let showActivityIndicatorWhenLoading = yep_showActivityIndicatorWhenLoading
+        var activityIndicator: UIActivityIndicatorView? = nil
+
+        if showActivityIndicatorWhenLoading {
+            activityIndicator = yep_activityIndicator
+            activityIndicator?.hidden = false
+            activityIndicator?.startAnimating()
+        }
+
+        yep_setAttachmentURL(attachmentURL)
+
+        ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: size.width, completion: { [weak self] (url, image, cacheType) in
+
+            guard let strongSelf = self, yep_attachmentURL = strongSelf.yep_attachmentURL where yep_attachmentURL == url else {
+                return
+            }
+
+            if cacheType != .Memory {
+                UIView.transitionWithView(strongSelf.view, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
+                    self?.image = image
+                }, completion: nil)
+
+            } else {
+                strongSelf.image = image
+            }
+            
+            activityIndicator?.stopAnimating()
+        })
+    }
+}

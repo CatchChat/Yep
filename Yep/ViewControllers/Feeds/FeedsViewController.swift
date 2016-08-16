@@ -646,8 +646,13 @@ final class FeedsViewController: BaseViewController {
 
                     case .Top:
                         strongSelf.feeds = newFeeds
-                        
-                        wayToUpdate = .ReloadData
+
+                        if Set(oldFeeds.map({ $0.id })) == Set(newFeeds.map({ $0.id })) {
+                            wayToUpdate = .None
+
+                        } else {
+                            wayToUpdate = .ReloadData
+                        }
 
                     case .LoadMore:
                         let oldFeedsCount = strongSelf.feeds.count

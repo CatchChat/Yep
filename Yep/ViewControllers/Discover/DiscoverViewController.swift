@@ -258,8 +258,17 @@ final class DiscoverViewController: BaseViewController {
                     }
 
                 } else {
-                    strongSelf.discoveredUsers = discoveredUsers
-                    wayToUpdate = .ReloadData
+                    let oldDiscoveredUsers = strongSelf.discoveredUsers
+                    let newDiscoveredUsers = discoveredUsers
+
+                    strongSelf.discoveredUsers = newDiscoveredUsers
+
+                    if Set(oldDiscoveredUsers.map({ $0.id })) == Set(newDiscoveredUsers.map({ $0.id })) {
+                        wayToUpdate = .None
+
+                    } else {
+                        wayToUpdate = .ReloadData
+                    }
                 }
 
                 strongSelf.activityIndicator.stopAnimating()

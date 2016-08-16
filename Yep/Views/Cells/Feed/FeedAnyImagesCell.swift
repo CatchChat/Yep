@@ -8,6 +8,39 @@
 
 import UIKit
 import YepKit
+import AsyncDisplayKit
+
+class FeedImageCellNode: ASCellNode {
+
+    lazy var imageNode: ASImageNode = {
+        let node = ASImageNode()
+        node.contentMode = .ScaleAspectFill
+        node.backgroundColor = YepConfig.FeedMedia.backgroundColor
+        node.borderWidth = 1
+        node.borderColor = UIColor.yepBorderColor().CGColor
+        return node
+    }()
+
+    override init() {
+        super.init()
+
+        addSubnode(imageNode)
+    }
+
+    func configureWithAttachment(attachment: DiscoveredAttachment, bigger: Bool) {
+
+        let size = bigger ? YepConfig.FeedBiggerImageCell.imageSize : YepConfig.FeedNormalImagesCell.imageSize
+        imageNode.frame = CGRect(origin: CGPointZero, size: size)
+
+        if attachment.isTemporary {
+            imageNode.image = attachment.image
+
+        } else {
+            imageNode.yep_showActivityIndicatorWhenLoading = true
+            imageNode.yep_setImageOfAttachment(attachment, withSize: size)
+        }
+    }
+}
 
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
@@ -20,10 +53,51 @@ final class FeedAnyImagesCell: FeedBasicCell {
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
-
         return ceil(height)
     }
 
+    lazy var mediaCollectionNode: ASCollectionNode = {
+
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 5
+        layout.scrollDirection = .Horizontal
+        layout.itemSize = YepConfig.FeedNormalImagesCell.imageSize
+
+        let node = ASCollectionNode(collectionViewLayout: layout)
+
+        node.view.scrollsToTop = false
+        node.view.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
+        node.view.showsHorizontalScrollIndicator = false
+        node.view.backgroundColor = UIColor.clearColor()
+
+        node.dataSource = self
+        node.delegate = self
+
+        let backgroundView = TouchClosuresView(frame: node.view.bounds)
+        backgroundView.touchesBeganAction = { [weak self] in
+            if let strongSelf = self {
+                strongSelf.touchesBeganAction?(strongSelf)
+            }
+        }
+        backgroundView.touchesEndedAction = { [weak self] in
+            if let strongSelf = self {
+                if strongSelf.editing {
+                    return
+                }
+                strongSelf.touchesEndedAction?(strongSelf)
+            }
+        }
+        backgroundView.touchesCancelledAction = { [weak self] in
+            if let strongSelf = self {
+                strongSelf.touchesCancelledAction?(strongSelf)
+            }
+        }
+        node.view.backgroundView = backgroundView
+
+        return node
+    }()
+
+    /*
     lazy var mediaCollectionView: UICollectionView = {
 
         let layout = UICollectionViewFlowLayout()
@@ -64,20 +138,22 @@ final class FeedAnyImagesCell: FeedBasicCell {
 
         return collectionView
     }()
+     */
 
     var tapImagesAction: FeedTapImagesAction?
 
     var attachments = [DiscoveredAttachment]() {
         didSet {
-
-            mediaCollectionView.reloadData()
+            //mediaCollectionView.reloadData()
+            mediaCollectionNode.reloadData()
         }
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        contentView.addSubview(mediaCollectionView)
+        //contentView.addSubview(mediaCollectionView)
+        contentView.addSubview(mediaCollectionNode.view)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -99,10 +175,61 @@ final class FeedAnyImagesCell: FeedBasicCell {
         }
 
         let anyImagesLayout = layout.anyImagesLayout!
-        mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
+        //mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
+        mediaCollectionNode.frame = anyImagesLayout.mediaCollectionViewFrame
     }
 }
 
+extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
+
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return attachments.count
+    }
+
+    func collectionView(collectionView: ASCollectionView, nodeForItemAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
+
+        let node = FeedImageCellNode()
+        if let attachment = attachments[safe: indexPath.item] {
+            node.configureWithAttachment(attachment, bigger: (attachments.count == 1))
+        }
+        return node
+    }
+
+    func collectionView(collectionView: ASCollectionView, constrainedSizeForNodeAtIndexPath indexPath: NSIndexPath) -> ASSizeRange {
+
+        let size = YepConfig.FeedNormalImagesCell.imageSize
+        return ASSizeRange(min: size, max: size)
+    }
+
+    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+
+        guard let firstAttachment = attachments.first where !firstAttachment.isTemporary else {
+            return
+        }
+
+        guard let node = mediaCollectionNode.view.nodeForItemAtIndexPath(indexPath) as? FeedImageCellNode else {
+            return
+        }
+
+        let transitionViews: [UIView?] = (0..<attachments.count).map({
+            let indexPath = NSIndexPath(forItem: $0, inSection: indexPath.section)
+            let node = mediaCollectionNode.view.nodeForItemAtIndexPath(indexPath) as? FeedImageCellNode
+
+            if node?.view.superview == nil {
+                return nil
+            } else {
+                return node?.imageNode.view
+            }
+        })
+        tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: node.imageNode.image, index: indexPath.item)
+    }
+}
+
+/*
 extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -148,4 +275,4 @@ extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegat
         tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: cell.imageView.image, index: indexPath.item)
     }
 }
-
+*/
