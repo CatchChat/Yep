@@ -57,6 +57,65 @@ class BaseVerifyMobileViewController: UIViewController {
         }
     }
 
+    deinit {
+        callMeTimer.invalidate()
+
+        NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        println("deinit BaseVerifyMobile")
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        view.backgroundColor = UIColor.yepViewBackgroundColor()
+
+        //navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Login", comment: ""))
+
+        navigationItem.rightBarButtonItem = nextButton
+
+        NSNotificationCenter.defaultCenter()
+            .rx_notification(AppDelegate.Notification.applicationDidBecomeActive)
+            .subscribeNext({ [weak self] _ in self?.verifyCodeTextField.becomeFirstResponder() })
+            .addDisposableTo(disposeBag)
+
+        //verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
+
+        phoneNumberLabel.text = "+" + areaCode + " " + mobile
+
+        verifyCodeTextField.placeholder = " "
+        verifyCodeTextField.backgroundColor = UIColor.whiteColor()
+        verifyCodeTextField.textColor = UIColor.yepInputTextColor()
+        verifyCodeTextField.rx_text
+            .map({ $0.characters.count == YepConfig.verifyCodeLength() })
+            .subscribeNext({ [weak self] in self?.haveAppropriateInput = $0 })
+            .addDisposableTo(disposeBag)
+
+        callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
+        callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
+
+        verifyMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
+        verifyCodeTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
+        callMeButtonTopConstraint.constant = Ruler.iPhoneVertical(10, 20, 40, 40).value
+    }
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        nextButton.enabled = false
+        callMeButton.enabled = false
+
+        verifyCodeTextField.text = nil
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        verifyCodeTextField.becomeFirstResponder()
+        
+        callMeTimer.fire()
+    }
+
     // MARK: Actions
 
     @objc private func tryCallMe(timer: NSTimer) {
