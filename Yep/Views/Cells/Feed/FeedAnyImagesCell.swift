@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import AsyncDisplayKit
 
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
@@ -24,6 +25,12 @@ final class FeedAnyImagesCell: FeedBasicCell {
         return ceil(height)
     }
 
+    lazy var mediaCollectionNode: ASCollectionNode = {
+        let node = ASCollectionNode()
+        return node
+    }()
+
+    /*
     lazy var mediaCollectionView: UICollectionView = {
 
         let layout = UICollectionViewFlowLayout()
@@ -64,6 +71,7 @@ final class FeedAnyImagesCell: FeedBasicCell {
 
         return collectionView
     }()
+     */
 
     var tapImagesAction: FeedTapImagesAction?
 
@@ -77,7 +85,8 @@ final class FeedAnyImagesCell: FeedBasicCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        contentView.addSubview(mediaCollectionView)
+        //contentView.addSubview(mediaCollectionView)
+        contentView.addSubview(mediaCollectionNode.view)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -99,10 +108,12 @@ final class FeedAnyImagesCell: FeedBasicCell {
         }
 
         let anyImagesLayout = layout.anyImagesLayout!
-        mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
+        //mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
+        mediaCollectionNode.frame = anyImagesLayout.mediaCollectionViewFrame
     }
 }
 
+/*
 extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
@@ -148,4 +159,4 @@ extension FeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegat
         tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: cell.imageView.image, index: indexPath.item)
     }
 }
-
+*/
