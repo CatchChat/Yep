@@ -20,19 +20,19 @@ class BaseVerifyMobileViewController: UIViewController {
 
     private lazy var disposeBag = DisposeBag()
 
-    @IBOutlet private weak var verifyMobileNumberPromptLabel: UILabel!
+    @IBOutlet weak var verifyMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
     @IBOutlet private weak var phoneNumberLabel: UILabel!
 
-    @IBOutlet private weak var verifyCodeTextField: BorderTextField!
+    @IBOutlet weak var verifyCodeTextField: BorderTextField!
     @IBOutlet private weak var verifyCodeTextFieldTopConstraint: NSLayoutConstraint!
 
     @IBOutlet private weak var callMePromptLabel: UILabel!
     @IBOutlet private weak var callMeButton: UIButton!
     @IBOutlet private weak var callMeButtonTopConstraint: NSLayoutConstraint!
 
-    private lazy var nextButton: UIBarButtonItem = {
+    lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.title = NSLocalizedString("Next", comment: "")
         button.rx_tap
@@ -115,6 +115,12 @@ class BaseVerifyMobileViewController: UIViewController {
         verifyCodeTextField.becomeFirstResponder()
         
         callMeTimer.fire()
+    }
+
+    override func viewWillDisappear(animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        view.endEditing(true)
     }
 
     // MARK: Actions
