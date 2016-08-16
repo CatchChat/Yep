@@ -15,6 +15,7 @@ class FeedImageCellNode: ASCellNode {
     lazy var imageNode: ASImageNode = {
         let node = ASImageNode()
         node.contentMode = .ScaleAspectFill
+        node.backgroundColor = YepConfig.FeedMedia.backgroundColor
         node.borderWidth = 1
         node.borderColor = UIColor.yepBorderColor().CGColor
         return node
@@ -26,25 +27,15 @@ class FeedImageCellNode: ASCellNode {
         addSubnode(imageNode)
     }
 
-    override func calculateSizeThatFits(constrainedSize: CGSize) -> CGSize {
-
-        return YepConfig.FeedNormalImagesCell.imageSize
-    }
-
-    override func layout() {
-        super.layout()
-
-        imageNode.frame = CGRect(origin: CGPointZero, size: YepConfig.FeedNormalImagesCell.imageSize)
-    }
-
     func configureWithAttachment(attachment: DiscoveredAttachment, bigger: Bool) {
+
+        let size = bigger ? YepConfig.FeedBiggerImageCell.imageSize : YepConfig.FeedNormalImagesCell.imageSize
+        imageNode.frame = CGRect(origin: CGPointZero, size: size)
 
         if attachment.isTemporary {
             imageNode.image = attachment.image
 
         } else {
-            let size = bigger ? YepConfig.FeedBiggerImageCell.imageSize : YepConfig.FeedNormalImagesCell.imageSize
-
             imageNode.yep_showActivityIndicatorWhenLoading = true
             imageNode.yep_setImageOfAttachment(attachment, withSize: size)
         }
