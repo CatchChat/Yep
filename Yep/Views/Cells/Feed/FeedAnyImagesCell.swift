@@ -15,6 +15,8 @@ class FeedImageCellNode: ASCellNode {
     lazy var imageNode: ASImageNode = {
         let node = ASImageNode()
         node.contentMode = .ScaleAspectFill
+        node.borderWidth = 1
+        node.borderColor = UIColor.yepBorderColor().CGColor
         return node
     }()
 
@@ -33,6 +35,19 @@ class FeedImageCellNode: ASCellNode {
         super.layout()
 
         imageNode.frame = CGRect(origin: CGPointZero, size: YepConfig.FeedNormalImagesCell.imageSize)
+    }
+
+    func configureWithAttachment(attachment: DiscoveredAttachment, bigger: Bool) {
+
+        if attachment.isTemporary {
+            imageNode.image = attachment.image
+
+        } else {
+            let size = bigger ? YepConfig.FeedBiggerImageCell.imageSize : YepConfig.FeedNormalImagesCell.imageSize
+
+            imageNode.yep_showActivityIndicatorWhenLoading = true
+            imageNode.yep_setImageOfAttachment(attachment, withSize: size)
+        }
     }
 }
 
@@ -150,7 +165,6 @@ final class FeedAnyImagesCell: FeedBasicCell {
         let anyImagesLayout = layout.anyImagesLayout!
         //mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
         mediaCollectionNode.frame = anyImagesLayout.mediaCollectionViewFrame
-        mediaCollectionNode.view.backgroundColor = UIColor.greenColor()
     }
 }
 
@@ -164,11 +178,12 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
         return attachments.count
     }
 
-
     func collectionView(collectionView: ASCollectionView, nodeForItemAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
 
-        let node = ASCellNode()
-        node.backgroundColor = UIColor.redColor()
+        let node = FeedImageCellNode()
+        if let attachment = attachments[safe: indexPath.item] {
+            node.configureWithAttachment(attachment, bigger: (attachments.count == 1))
+        }
         return node
     }
 
