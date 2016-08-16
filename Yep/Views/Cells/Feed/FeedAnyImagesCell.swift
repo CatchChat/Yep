@@ -147,6 +147,12 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
         node.borderColor = UIColor.blueColor().CGColor
         return node
     }
+
+    func collectionView(collectionView: ASCollectionView, constrainedSizeForNodeAtIndexPath indexPath: NSIndexPath) -> ASSizeRange {
+
+        let size = YepConfig.FeedNormalImagesCell.imageSize
+        return ASSizeRange(min: size, max: size)
+    }
 }
 
 /*
