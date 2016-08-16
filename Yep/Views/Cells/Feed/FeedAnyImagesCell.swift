@@ -27,6 +27,8 @@ final class FeedAnyImagesCell: FeedBasicCell {
 
     lazy var mediaCollectionNode: ASCollectionNode = {
         let node = ASCollectionNode()
+        node.dataSource = self
+        node.delegate = self
         return node
     }()
 
@@ -77,8 +79,8 @@ final class FeedAnyImagesCell: FeedBasicCell {
 
     var attachments = [DiscoveredAttachment]() {
         didSet {
-
-            mediaCollectionView.reloadData()
+            //mediaCollectionView.reloadData()
+            mediaCollectionNode.reloadData()
         }
     }
 
@@ -110,6 +112,25 @@ final class FeedAnyImagesCell: FeedBasicCell {
         let anyImagesLayout = layout.anyImagesLayout!
         //mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
         mediaCollectionNode.frame = anyImagesLayout.mediaCollectionViewFrame
+    }
+}
+
+extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
+
+    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+        return 1
+    }
+
+    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return attachments.count
+    }
+
+
+    func collectionView(collectionView: ASCollectionView, nodeForItemAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
+
+        let node = ASCellNode()
+        node.backgroundColor = UIColor.redColor()
+        return node
     }
 }
 
