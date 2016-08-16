@@ -151,7 +151,12 @@ class MeetGeniusViewController: UIViewController {
                 case .Top:
                     strongSelf.geniusInterviews = newGeniusInterviews
 
-                    wayToUpdate = .ReloadData
+                    if Set(oldGeniusInterviews.map({ $0.number })) == Set(newGeniusInterviews.map({ $0.number })) {
+                        wayToUpdate = .None
+
+                    } else {
+                        wayToUpdate = .ReloadData
+                    }
 
                 case .LoadMore:
                     let oldGeniusInterviewsCount = oldGeniusInterviews.count
