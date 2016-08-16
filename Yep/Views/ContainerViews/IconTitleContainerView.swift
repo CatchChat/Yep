@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepConfig
 
 final class IconTitleContainerView: UIView {
 
@@ -15,7 +14,7 @@ final class IconTitleContainerView: UIView {
     
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_link")
+        imageView.image = UIImage.yep_iconLink
         imageView.tintColor = UIColor.yep_mangmorGrayColor()
         return imageView
     }()

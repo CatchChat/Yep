@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 class SearchedFeedBasicCell: UITableViewCell {
 
@@ -56,7 +55,7 @@ class SearchedFeedBasicCell: UITableViewCell {
     lazy var skillButton: UIButton = {
         let button = UIButton()
         let tintColor = UIColor.yep_mangmorGrayColor()
-        button.setBackgroundImage(UIImage(named: "skill_bubble_empty_gray"), forState: .Normal)
+        button.setBackgroundImage(UIImage.yep_skillBubbleEmptyGray, forState: .Normal)
         button.setTitleColor(tintColor, forState: .Normal)
         button.titleLabel?.font = UIFont.feedSkillFont()
 
@@ -128,12 +127,6 @@ class SearchedFeedBasicCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -194,3 +187,4 @@ class SearchedFeedBasicCell: UITableViewCell {
         tapAvatarAction?(self)
     }
 }
+

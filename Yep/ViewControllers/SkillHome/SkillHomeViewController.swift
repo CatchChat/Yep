@@ -10,7 +10,6 @@ import UIKit
 import MobileCoreServices.UTType
 import RealmSwift
 import YepKit
-import YepConfig
 import YepNetworking
 import Proposer
 import Navi
@@ -107,9 +106,6 @@ final class SkillHomeViewController: BaseViewController {
         }
     }
 
-    private let cellIdentifier = "ContactsCell"
-    private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -121,8 +117,9 @@ final class SkillHomeViewController: BaseViewController {
         masterTableView.separatorColor = UIColor.yepCellSeparatorColor()
         masterTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-        masterTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        masterTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
+        masterTableView.registerNibOf(ContactsCell)
+        masterTableView.registerNibOf(LoadMoreTableViewCell)
+
         masterTableView.rowHeight = 80
         masterTableView.tableFooterView = UIView()
         masterTableView.dataSource = self
@@ -132,8 +129,9 @@ final class SkillHomeViewController: BaseViewController {
         learningtTableView.separatorColor = UIColor.yepCellSeparatorColor()
         learningtTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-        learningtTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        learningtTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
+        learningtTableView.registerNibOf(ContactsCell)
+        learningtTableView.registerNibOf(LoadMoreTableViewCell)
+
         learningtTableView.rowHeight = 80
         learningtTableView.tableFooterView = UIView()
         learningtTableView.dataSource = self
@@ -141,7 +139,8 @@ final class SkillHomeViewController: BaseViewController {
         learningtTableView.tag = SkillSet.Learning.rawValue
 
         headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
-        
+
+        /*
         headerView.masterButton.addTarget(self, action: #selector(SkillHomeViewController.changeToMaster(_:)), forControlEvents: UIControlEvents.TouchUpInside)
         
         headerView.learningButton.addTarget(self, action: #selector(SkillHomeViewController.changeToLearning(_:)), forControlEvents: UIControlEvents.TouchUpInside)
@@ -150,7 +149,7 @@ final class SkillHomeViewController: BaseViewController {
 
             let alertController = UIAlertController(title: NSLocalizedString("Change skill cover", comment: ""), message: nil, preferredStyle: .ActionSheet)
 
-            let choosePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Choose Photo", comment: ""), style: .Default) { action -> Void in
+            let choosePhotoAction: UIAlertAction = UIAlertAction(title: String.trans_titleChoosePhoto, style: .Default) { _ in
 
                 let openCameraRoll: ProposerAction = { [weak self] in
 
@@ -165,13 +164,13 @@ final class SkillHomeViewController: BaseViewController {
                     }
                 }
 
-                proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+                proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
                     self?.alertCanNotAccessCameraRoll()
                 })
             }
             alertController.addAction(choosePhotoAction)
 
-            let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { action -> Void in
+            let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { _ in
 
                 let openCamera: ProposerAction = { [weak self] in
 
@@ -186,13 +185,13 @@ final class SkillHomeViewController: BaseViewController {
                     }
                 }
 
-                proposeToAccess(.Camera, agreed: openCamera, rejected: {
+                proposeToAccess(.Camera, agreed: openCamera, rejected: { [weak self] in
                     self?.alertCanNotOpenCamera()
                 })
             }
             alertController.addAction(takePhotoAction)
 
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action -> Void in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { [weak self] _ in
                 self?.dismissViewControllerAnimated(true, completion: nil)
             }
             alertController.addAction(cancelAction)
@@ -200,10 +199,11 @@ final class SkillHomeViewController: BaseViewController {
             self?.presentViewController(alertController, animated: true, completion: nil)
 
             // touch to create (if need) for faster appear
-            delay(0.2) {
+            delay(0.2) { [weak self] in
                 self?.imagePicker.hidesBarsOnTap = false
             }
         }
+         */
 
         automaticallyAdjustsScrollViewInsets = false
 
@@ -230,19 +230,15 @@ final class SkillHomeViewController: BaseViewController {
 
         // Add to Me
 
-        if let skillID = skill?.ID {
-            if let
-                myUserID = YepUserDefaults.userID.value,
-                realm = try? Realm(),
-                me = userWithUserID(myUserID, inRealm: realm) {
+        if let skillID = skill?.ID, let me = me() {
 
-                    let predicate = NSPredicate(format: "skillID = %@", skillID)
+            let predicate = NSPredicate(format: "skillID = %@", skillID)
 
-                    if me.masterSkills.filter(predicate).count == 0
-                        && me.learningSkills.filter(predicate).count == 0 {
-                            let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(SkillHomeViewController.addSkillToMe(_:)))
-                            navigationItem.rightBarButtonItem = addSkillToMeButton
-                    }
+            let notInMaster = me.masterSkills.filter(predicate).count == 0
+
+            if notInMaster && me.learningSkills.filter(predicate).count == 0 {
+                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("button.add_skill_to_me", comment: ""), style: .Plain, target: self, action: #selector(SkillHomeViewController.addSkillToMe(_:)))
+                navigationItem.rightBarButtonItem = addSkillToMeButton
             }
         }
     }
@@ -287,9 +283,10 @@ final class SkillHomeViewController: BaseViewController {
 
                 }, completion: { [weak self] _ in
 
-                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                    let message = String.trans_promptSuccessfullyAddedSkill(skillLocalName, to: skillSet.name)
+                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         self?.navigationItem.rightBarButtonItem = nil
                     }
 
@@ -298,9 +295,9 @@ final class SkillHomeViewController: BaseViewController {
                 })
             }
 
-            let alertController = UIAlertController(title: NSLocalizedString("Choose skill set", comment: ""), message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
+            let alertController = UIAlertController(title: String.trans_titleChooseSkillSet, message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
 
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { action in
             }
             alertController.addAction(cancelAction)
 
@@ -347,12 +344,12 @@ final class SkillHomeViewController: BaseViewController {
         discoverUsersWithSkill(skillID, ofSkillSet: .Master, inPage: masterPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }
 
         }, completion: { [weak self] discoveredUsers in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 if isLoadMore {
                     self?.discoveredMasterUsers += discoveredUsers
@@ -392,12 +389,12 @@ final class SkillHomeViewController: BaseViewController {
         discoverUsersWithSkill(skillID, ofSkillSet: .Learning, inPage: learningPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }
 
         }, completion: { [weak self] discoveredUsers in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 if isLoadMore {
                     self?.discoveredLearningUsers += discoveredUsers
                 } else {
@@ -438,17 +435,10 @@ final class SkillHomeViewController: BaseViewController {
 
             if let indexPath = sender as? NSIndexPath {
 
-                let discoveredUser = discoveredUsersWithSkillSet(skillSet)[indexPath.row]
-                
                 let vc = segue.destinationViewController as! ProfileViewController
 
-                if discoveredUser.id != YepUserDefaults.userID.value {
-                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-                }
-                
-                vc.hidesBottomBarWhenPushed = true
-                
-                vc.setBackButtonWithTitle()
+                let discoveredUser = discoveredUsersWithSkillSet(skillSet)[indexPath.row]
+                vc.prepare(withDiscoveredUser: discoveredUser)
             }
         }
     }
@@ -493,27 +483,13 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
 
-                    let imageWidth = image.size.width
-                    let imageHeight = image.size.height
-
-                    let fixedImageWidth: CGFloat
-                    let fixedImageHeight: CGFloat
-
-                    if imageWidth > imageHeight {
-                        fixedImageWidth = min(imageWidth, YepConfig.Media.imageWidth)
-                        fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
-                    } else {
-                        fixedImageHeight = min(imageHeight, YepConfig.Media.imageHeight)
-                        fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
-                    }
-
-                    let fixedSize = CGSize(width: fixedImageWidth, height: fixedImageHeight)
+                    let fixedSize = image.yep_fixedSize
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: .Medium) {
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: .High) {
 
-                        let data = UIImageJPEGRepresentation(fixedImage, 0.7)
+                        let data = UIImageJPEGRepresentation(fixedImage, 0.95)
 
                         if let skillID = skill?.ID {
 
@@ -541,7 +517,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
                                     
                                 }, completion: { [weak self] success in
 
-                                    dispatch_async(dispatch_get_main_queue()) {
+                                    SafeDispatch.async {
                                         guard let realm = try? Realm() else {
                                             return
                                         }
@@ -605,7 +581,7 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
 
         case Section.Users.rawValue:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+            let cell: ContactsCell = tableView.dequeueReusableCell()
             
             let discoveredUser = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag))[indexPath.row]
 
@@ -615,7 +591,7 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
 
         case Section.LoadMore.rawValue:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+            let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
             return cell
 
         default:

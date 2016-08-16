@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import YepNetworking
 import KeyboardMan
 import DeviceGuru
@@ -115,7 +114,7 @@ final class FeedbackViewController: UIViewController {
 
             YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Thanks! Your feedback has been recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: {
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     self?.navigationController?.popViewControllerAnimated(true)
                 }
             })

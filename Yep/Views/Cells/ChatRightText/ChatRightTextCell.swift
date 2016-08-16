@@ -8,15 +8,14 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 class ChatRightTextCell: ChatRightBaseCell {
 
     var tapUsernameAction: ((username: String) -> Void)?
-    var tapFeedAction: ((feed: DiscoveredFeed) -> Void)?
+    var tapFeedAction: ((feed: DiscoveredFeed?) -> Void)?
 
     lazy var bubbleTailImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "bubble_right_tail"))
+        let imageView = UIImageView(image: UIImage.yep_bubbleRightTail)
         imageView.tintColor = UIColor.rightBubbleTintColor()
         return imageView
     }()
@@ -82,9 +81,10 @@ class ChatRightTextCell: ChatRightBaseCell {
             contentView.layer.insertSublayer(bubbleBodyShapeLayer, atIndex: UInt32(bubblePosition.count))
         }
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         textContainerView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatRightTextCell.tapMediaView))
@@ -103,58 +103,63 @@ class ChatRightTextCell: ChatRightBaseCell {
         mediaTapAction?()
     }
 
-    func configureWithMessage(message: Message, textContentLabelWidth: CGFloat, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
+    func configureWithMessage(message: Message, layoutCache: ChatTextCellLayoutCache, mediaTapAction: MediaTapAction?) {
 
         self.message = message
         self.user = message.fromFriend
 
         self.mediaTapAction = mediaTapAction
 
-        textContentTextView.text = message.textContent
-        //textContentTextView.attributedText = NSAttributedString(string: message.textContent, attributes: textAttributes)
+        textContentTextView.setAttributedTextWithMessage(message)
 
-        //textContentTextView.textAlignment = textContentLabelWidth < YepConfig.minMessageTextLabelWidth ? .Center : .Left
+        func adjustedTextContentTextViewWidth() -> CGFloat {
+            
+            // 用 sizeThatFits 来对比，不需要 magicWidth 的时候就可以避免了
+            var textContentTextViewWidth = layoutCache.textContentTextViewWidth
+            let size = textContentTextView.sizeThatFits(CGSize(width: textContentTextViewWidth, height: CGFloat.max))
 
-        // 用 sizeThatFits 来对比，不需要 magicWidth 的时候就可以避免了
-        var textContentLabelWidth = textContentLabelWidth
-        let size = textContentTextView.sizeThatFits(CGSize(width: textContentLabelWidth, height: CGFloat.max))
+            // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
+            textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
 
-        // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
-        textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
-
-        if ceil(size.width) != textContentLabelWidth {
-
-            //println("right ceil(size.width): \(ceil(size.width)), textContentLabelWidth: \(textContentLabelWidth)")
-            //println(">>>\(message.textContent)<<<")
-
-            //textContentLabelWidth += YepConfig.ChatCell.magicWidth
-
-            if abs(ceil(size.width) - textContentLabelWidth) >= YepConfig.ChatCell.magicWidth {
-                textContentLabelWidth += YepConfig.ChatCell.magicWidth
+            if ceil(size.width) != textContentTextViewWidth {
+                if abs(ceil(size.width) - textContentTextViewWidth) >= YepConfig.ChatCell.magicWidth {
+                    textContentTextViewWidth += YepConfig.ChatCell.magicWidth
+                }
             }
+
+            textContentTextViewWidth = max(textContentTextViewWidth, YepConfig.ChatCell.minTextWidth)
+
+            return textContentTextViewWidth
         }
 
-        textContentLabelWidth = max(textContentLabelWidth, YepConfig.ChatCell.minTextWidth)
+        UIView.setAnimationsEnabled(false); do {
 
-        UIView.performWithoutAnimation { [weak self] in
+            makeUI()
 
-            if let strongSelf = self {
+            let textContentTextViewFrame: CGRect
+            if let _textContentTextViewFrame = layoutCache.textContentTextViewFrame {
+                textContentTextViewFrame = _textContentTextViewFrame
 
-                strongSelf.makeUI()
-                
-                strongSelf.textContainerView.frame = CGRect(x: CGRectGetMinX(strongSelf.avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentLabelWidth, y: 3, width: textContentLabelWidth, height: strongSelf.bounds.height - 3 * 2 - strongSelf.bottomGap)
+            } else {
+                let textContentTextViewWidth = adjustedTextContentTextViewWidth()
 
-                strongSelf.textContentTextView.frame = strongSelf.textContainerView.bounds
-                
-                let bubbleBodyFrame = CGRectInset(strongSelf.textContainerView.frame, -12, -3)
-                
-                strongSelf.bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
+                textContentTextViewFrame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() - textContentTextViewWidth, y: 3, width: textContentTextViewWidth, height: bounds.height - 3 * 2 - bottomGap)
 
-                strongSelf.bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(bubbleBodyFrame), y: CGRectGetMidY(strongSelf.avatarImageView.frame))
-                
-                strongSelf.dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(strongSelf.textContainerView.frame))
+                layoutCache.update(textContentTextViewFrame: textContentTextViewFrame)
             }
+            
+            textContainerView.frame = textContentTextViewFrame
+            textContentTextView.frame = textContainerView.bounds
+
+            let bubbleBodyFrame = CGRectInset(textContainerView.frame, -12, -3)
+
+            bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
+
+            bubbleTailImageView.center = CGPoint(x: CGRectGetMaxX(bubbleBodyFrame), y: CGRectGetMidY(avatarImageView.frame))
+
+            dotImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(textContainerView.frame))
         }
+        UIView.setAnimationsEnabled(true)
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)

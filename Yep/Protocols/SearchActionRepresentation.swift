@@ -25,6 +25,13 @@ extension SearchActionRepresentation where Self: UIViewController {
         }
     }
 
+    func moveUpSearchBar() {
+        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            self?.searchBarTopConstraint.constant = 20
+            self?.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+
     func prepareOriginalNavigationControllerDelegate() {
         // 记录原始的 searchTransition 以便 pop 后恢复
         searchTransition = navigationController?.delegate as? SearchTransition

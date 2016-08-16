@@ -108,7 +108,7 @@ final class VoiceRecordButton: UIView {
         self.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let leftVoiceImageView = UIImageView(image: UIImage(named: "icon_voice_left"))
+        let leftVoiceImageView = UIImageView(image: UIImage.yep_iconVoiceLeft)
         leftVoiceImageView.contentMode = .Center
         leftVoiceImageView.tintColor = self.tintColor
 
@@ -117,7 +117,7 @@ final class VoiceRecordButton: UIView {
         self.addSubview(leftVoiceImageView)
         leftVoiceImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let rightVoiceImageView = UIImageView(image: UIImage(named: "icon_voice_right"))
+        let rightVoiceImageView = UIImageView(image: UIImage.yep_iconVoiceRight)
         rightVoiceImageView.contentMode = .Center
         rightVoiceImageView.tintColor = self.tintColor
 

@@ -14,13 +14,13 @@ final class FeedGithubRepoContainerView: UIView {
 
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "feed_container_background")
+        imageView.image = UIImage.yep_feedContainerBackground
         return imageView
     }()
 
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_repo")
+        imageView.image = UIImage.yep_iconRepo
         imageView.tintColor = UIColor.yepIconImageViewTintColor()
         return imageView
     }()
@@ -42,8 +42,8 @@ final class FeedGithubRepoContainerView: UIView {
 
     var needShowAccessoryImageView: Bool = true
     lazy var accessoryImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_accessory_mini")
+        let image = UIImage.yep_iconAccessoryMini
+        let imageView = UIImageView(image: image)
         imageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
         return imageView
     }()

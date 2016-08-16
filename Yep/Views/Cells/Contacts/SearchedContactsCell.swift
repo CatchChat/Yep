@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 final class SearchedContactsCell: UITableViewCell {
 
@@ -27,12 +26,6 @@ final class SearchedContactsCell: UITableViewCell {
         super.awakeFromNib()
 
         separatorInset = YepConfig.ContactsCell.separatorInset
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     func configureWithUser(user: User) {
@@ -65,3 +58,4 @@ final class SearchedContactsCell: UITableViewCell {
         infoLabel.text = discoveredUser.introduction
     }
 }
+

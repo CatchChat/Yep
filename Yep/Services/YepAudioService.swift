@@ -10,7 +10,6 @@ import UIKit
 import AVFoundation
 import AudioToolbox
 import YepKit
-import YepConfig
 import Proposer
 
 extension AVPlayer {
@@ -205,41 +204,35 @@ final class YepAudioService: NSObject {
             }
         }
 
-        let fileName = message.localAttachmentName
+        if let audioFileURL = message.audioFileURL {
+            do {
+                let audioPlayer = try AVAudioPlayer(contentsOfURL: audioFileURL)
+                self.audioPlayer = audioPlayer
+                audioPlayer.delegate = delegate
+                audioPlayer.prepareToPlay()
 
-        if !fileName.isEmpty {
-            
-            if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
+                audioPlayer.currentTime = time
 
-                do {
-                    let audioPlayer = try AVAudioPlayer(contentsOfURL: fileURL)
-                    self.audioPlayer = audioPlayer
-                    audioPlayer.delegate = delegate
-                    audioPlayer.prepareToPlay()
+                if audioPlayer.play() {
+                    println("do play audio")
 
-                    audioPlayer.currentTime = time
+                    playingItem = .MessageType(message)
 
-                    if audioPlayer.play() {
-                        println("do play audio")
+                    UIDevice.currentDevice().proximityMonitoringEnabled = true
 
-                        playingItem = .MessageType(message)
-
-                        UIDevice.currentDevice().proximityMonitoringEnabled = true
-
-                        if !message.mediaPlayed {
-                            if let realm = message.realm {
-                                let _ = try? realm.write {
-                                    message.mediaPlayed = true
-                                }
+                    if !message.mediaPlayed {
+                        if let realm = message.realm {
+                            let _ = try? realm.write {
+                                message.mediaPlayed = true
                             }
                         }
-
-                        success()
                     }
 
-                } catch let error {
-                    println("play audio error: \(error)")
+                    success()
                 }
+
+            } catch let error {
+                println("play audio error: \(error)")
             }
 
         } else {
@@ -257,33 +250,27 @@ final class YepAudioService: NSObject {
             }
         }
 
-        let fileName = feedAudio.fileName
+        if let audioFileURL = feedAudio.audioFileURL {
+            do {
+                let audioPlayer = try AVAudioPlayer(contentsOfURL: audioFileURL)
+                self.audioPlayer = audioPlayer
+                audioPlayer.delegate = delegate
+                audioPlayer.prepareToPlay()
 
-        if !fileName.isEmpty {
+                audioPlayer.currentTime = time
 
-            if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
+                if audioPlayer.play() {
+                    println("do play audio")
 
-                do {
-                    let audioPlayer = try AVAudioPlayer(contentsOfURL: fileURL)
-                    self.audioPlayer = audioPlayer
-                    audioPlayer.delegate = delegate
-                    audioPlayer.prepareToPlay()
+                    playingItem = .FeedAudioType(feedAudio)
 
-                    audioPlayer.currentTime = time
-
-                    if audioPlayer.play() {
-                        println("do play audio")
-
-                        playingItem = .FeedAudioType(feedAudio)
-
-                        success()
-                    }
-
-                } catch let error {
-                    println("play audio error: \(error)")
+                    success()
                 }
+
+            } catch let error {
+                println("play audio error: \(error)")
             }
-            
+
         } else {
             println("please wait for download") // TODO: Download feed audio, check first
         }
@@ -334,7 +321,7 @@ final class YepAudioService: NSObject {
 
         // hack, wait for all observers of AVPlayerItemDidPlayToEndTimeNotification
         // to handle feedAudioDidFinishPlaying (check playingFeedAudio need playingItem)
-        delay(0) { [weak self] in
+        doInNextRunLoop { [weak self] in
             self?.playingItem = nil
         }
     }

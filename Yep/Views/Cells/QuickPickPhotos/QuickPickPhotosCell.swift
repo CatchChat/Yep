@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import YepKit
 import Proposer
 
 final class QuickPickPhotosCell: UITableViewCell {
@@ -19,7 +20,7 @@ final class QuickPickPhotosCell: UITableViewCell {
     var pickedPhotosAction: (Set<PHAsset> -> Void)?
 
     var images: PHFetchResult?
-    let imageManager = PHCachingImageManager()
+    lazy var imageManager = PHCachingImageManager()
     var imageCacheController: ImageCacheController!
 
     var pickedImageSet = Set<PHAsset>() {
@@ -29,19 +30,16 @@ final class QuickPickPhotosCell: UITableViewCell {
     }
     var completion: ((images: [UIImage], imageAssetSet: Set<PHAsset>) -> Void)?
 
-    let cameraCellID = "CameraCell"
-    let photoCellID = "PhotoCell"
-
     override func awakeFromNib() {
         super.awakeFromNib()
 
         selectionStyle = .None
 
         photosCollectionView.backgroundColor = UIColor.clearColor()
-        photosCollectionView.registerNib(UINib(nibName: cameraCellID, bundle: nil), forCellWithReuseIdentifier: cameraCellID)
-        photosCollectionView.registerNib(UINib(nibName: photoCellID, bundle: nil), forCellWithReuseIdentifier: photoCellID)
-        photosCollectionView.dataSource = self
-        photosCollectionView.delegate = self
+
+        photosCollectionView.registerNibOf(CameraCell)
+        photosCollectionView.registerNibOf(PhotoCell)
+
         photosCollectionView.showsHorizontalScrollIndicator = false
 
         if let layout = photosCollectionView.collectionViewLayout as? UICollectionViewFlowLayout {
@@ -53,7 +51,7 @@ final class QuickPickPhotosCell: UITableViewCell {
         }
 
         proposeToAccess(.Photos, agreed: {
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 if let strongSelf = self {
                     let options = PHFetchOptions()
                     options.sortDescriptors = [
@@ -62,6 +60,9 @@ final class QuickPickPhotosCell: UITableViewCell {
                     let images = PHAsset.fetchAssetsWithMediaType(.Image, options: options)
                     strongSelf.images = images
                     strongSelf.imageCacheController = ImageCacheController(imageManager: strongSelf.imageManager, images: images, preheatSize: 1)
+
+                    strongSelf.photosCollectionView.dataSource = self
+                    strongSelf.photosCollectionView.delegate = self
 
                     strongSelf.photosCollectionView.reloadData()
 
@@ -72,12 +73,6 @@ final class QuickPickPhotosCell: UITableViewCell {
         }, rejected: { [weak self] in
             self?.alertCanNotAccessCameraRollAction?()
         })
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 }
 
@@ -91,7 +86,7 @@ extension QuickPickPhotosCell: PHPhotoLibraryChangeObserver {
             _images = images,
             changeDetails = changeInstance.changeDetailsForFetchResult(_images) {
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
                     self?.images = changeDetails.fetchResultAfterChanges
                     self?.photosCollectionView.reloadData()
                 }
@@ -123,11 +118,11 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
         switch indexPath.section {
 
         case 0:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cameraCellID, forIndexPath: indexPath) as! CameraCell
+            let cell: CameraCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
 
         case 1:
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(photoCellID, forIndexPath: indexPath) as! PhotoCell
+            let cell: PhotoCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
 
         default:

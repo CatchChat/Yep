@@ -8,15 +8,16 @@
 
 import Foundation
 import CoreLocation
-import YepConfig
 import YepNetworking
 import RealmSwift
 import Alamofire
 
 #if STAGING
+public let yepHost = "park-staging.catchchatchina.com"
 public let yepBaseURL = NSURL(string: "https://park-staging.catchchatchina.com/api")!
 public let fayeBaseURL = NSURL(string: "wss://faye-staging.catchchatchina.com/faye")!
 #else
+public let yepHost = "soyep.com"
 public let yepBaseURL = NSURL(string: "https://api.soyep.com")!
 public let fayeBaseURL = NSURL(string: "wss://faye.catchchatchina.com/faye")!
 #endif
@@ -38,7 +39,7 @@ public struct LoginUser: CustomStringConvertible {
     public let pusherID: String
 
     public var description: String {
-        return "LoginUser(accessToken: \(accessToken), userID: \(userID), nickname: \(nickname), avatarURLString: \(avatarURLString), \(pusherID))"
+        return "LoginUser(accessToken: \(accessToken), userID: \(userID), username: \(username), nickname: \(nickname), avatarURLString: \(avatarURLString), pusherID: \(pusherID))"
     }
 }
 
@@ -123,7 +124,7 @@ public func verifyMobile(mobile: String, withAreaCode areaCode: String, verifyCo
         "mobile": mobile,
         "phone_code": areaCode,
         "token": verifyCode,
-        "client": YepConfig.clientType(),
+        "client": Config.clientType(),
         "expiring": 0, // 永不过期
     ]
 
@@ -234,7 +235,6 @@ public func skillsFromSkillsData(skillsData: [JSONDictionary]) -> [Skill] {
 public func allSkillCategories(failureHandler failureHandler: FailureHandler?, completion: [SkillCategory] -> Void) {
 
     let parse: JSONDictionary -> [SkillCategory]? = { data in
-        //println("skillCategories \(data)")
 
         if let categoriesData = data["categories"] as? [JSONDictionary] {
 
@@ -375,7 +375,6 @@ public func discoverUserByUsername(username: String, failureHandler: FailureHand
 
     let parse: JSONDictionary -> DiscoveredUser? = { data in
 
-        //println("discoverUserByUsernamedata: \(data)")
         return parseDiscoveredUser(data)
     }
 
@@ -404,7 +403,6 @@ public func updateMyselfWithInfo(info: JSONDictionary, failureHandler: FailureHa
     // longitude
 
     let parse: JSONDictionary -> Bool? = { data in
-        //println("updateMyself \(data)")
         return true
     }
     
@@ -431,7 +429,6 @@ public func updateAvatarWithImageData(imageData: NSData, failureHandler: Failure
         multipartFormData.appendBodyPart(data: imageData, name: "avatar", fileName: filename, mimeType: "image/jpeg")
 
     }, encodingCompletion: { encodingResult in
-        //println("encodingResult: \(encodingResult)")
 
         switch encodingResult {
 
@@ -454,7 +451,11 @@ public func updateAvatarWithImageData(imageData: NSData, failureHandler: Failure
 
         case .Failure(let encodingError):
 
-            failureHandler?(reason: .Other(nil), errorMessage: "\(encodingError)")
+            if let failureHandler = failureHandler {
+                failureHandler(reason: .Other(nil), errorMessage: "\(encodingError)")
+            } else {
+                defaultFailureHandler(reason: .Other(nil), errorMessage: "\(encodingError)")
+            }
         }
     })
 }
@@ -517,19 +518,17 @@ public func comfirmNewMobile(mobile: String, withAreaCode areaCode: String, veri
 
 public func loginByMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
 
-    println("User login type is \(YepConfig.clientType())")
+    println("User login type is \(Config.clientType())")
     
     let requestParameters: JSONDictionary = [
         "mobile": mobile,
         "phone_code": areaCode,
         "verify_code": verifyCode,
-        "client": YepConfig.clientType(),
+        "client": Config.clientType(),
         "expiring": 0, // 永不过期
     ]
 
     let parse: JSONDictionary -> LoginUser? = { data in
-
-        //println("loginByMobile: \(data)")
 
         if let accessToken = data["access_token"] as? String {
             if let user = data["user"] as? [String: AnyObject] {
@@ -786,13 +785,24 @@ public func myConversations(maxMessageID maxMessageID: String?, failureHandler: 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
+public func clearHistoryOfConversationWithRecipient(recipient: Recipient, failureHandler: FailureHandler?, completion: () -> Void) {
+
+    let parse: JSONDictionary -> Void? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/clear_history", method: .DELETE, requestParameters: [:], parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 public func deleteConversationWithRecipient(recipient: Recipient, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let parse: JSONDictionary -> Void? = { data in
         return
     }
 
-    let resource = authJsonResource(path: "/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/delete_history", method: .DELETE, requestParameters: [:], parse: parse)
+    let resource = authJsonResource(path: "/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages/delete_conversation", method: .DELETE, requestParameters: [:], parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
@@ -832,8 +842,6 @@ public func friendsInContacts(contacts: [UploadContact], failureHandler: Failure
             let parse: JSONDictionary -> [DiscoveredUser]? = { data in
                 if let registeredContacts = data["registered_users"] as? [JSONDictionary] {
 
-                    //println("registeredContacts: \(registeredContacts)")
-                    
                     var discoveredUsers = [DiscoveredUser]()
 
                     for registeredContact in registeredContacts {
@@ -863,12 +871,16 @@ public func friendsInContacts(contacts: [UploadContact], failureHandler: Failure
 }
 
 public enum ReportReason {
+
     case Porno
     case Advertising
     case Scams
     case Other(String)
+}
 
-    public var type: Int {
+extension ReportReason {
+
+    var type: Int {
         switch self {
         case .Porno:
             return 0
@@ -878,19 +890,6 @@ public enum ReportReason {
             return 2
         case .Other:
             return 3
-        }
-    }
-
-    public var description: String {
-        switch self {
-        case .Porno:
-            return NSLocalizedString("Porno", comment: "")
-        case .Advertising:
-            return NSLocalizedString("Advertising", comment: "")
-        case .Scams:
-            return NSLocalizedString("Scams", comment: "")
-        case .Other:
-            return NSLocalizedString("Other", comment: "")
         }
     }
 }
@@ -991,7 +990,6 @@ public func sendFriendRequestToUser(user: User, failureHandler: FailureHandler?,
     ]
 
     let parse: JSONDictionary -> FriendRequest.State? = { data in
-        //println("sendFriendRequestToUser: \(data)")
 
         if let state = data["state"] as? String {
             return FriendRequest.State(rawValue: state)
@@ -1163,7 +1161,7 @@ public enum DiscoveredUserSortStyle: String {
     }
 
     public var nameWithArrow: String {
-        return name + " ▾"
+        return name.yep_appendArrow()
     }
 }
 
@@ -1289,8 +1287,6 @@ public let parseDiscoveredUser: JSONDictionary -> DiscoveredUser? = { userInfo i
 }
 
 public let parseDiscoveredUsers: JSONDictionary -> [DiscoveredUser]? = { data in
-
-    //println("discoverUsers: \(data)")
 
     if let usersData = data["users"] as? [JSONDictionary] {
 
@@ -1426,6 +1422,21 @@ public func friendships(failureHandler failureHandler: FailureHandler?, completi
     }
 }
 
+public func unfriend(withUserID userID: String, failureHandler: FailureHandler?, completion: () -> Void) {
+
+    let requestParameters: JSONDictionary = [
+        "friend_id": userID,
+    ]
+
+    let parse: JSONDictionary -> Void? = { data in
+        return
+    }
+
+    let resource = authJsonResource(path: "/v1/unfriend_requests", method: .POST, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
 // MARK: - Groups
 
 public func shareURLStringOfGroupWithGroupID(groupID: String, failureHandler: FailureHandler?, completion: String -> Void) {
@@ -1491,95 +1502,6 @@ public func meIsMemberOfGroup(groupID groupID: String, failureHandler: FailureHa
     let resource = authJsonResource(path: "/v1/circles/\(groupID)/check_me_exist", method: .GET, requestParameters: [:], parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-}
-
-public func headGroups(failureHandler failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-
-    let requestParameters: JSONDictionary = [
-        "page": 1,
-        "per_page": 100,
-    ]
-
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
-    }
-
-    let resource = authJsonResource(path: "/v1/circles", method: .GET, requestParameters: requestParameters, parse: parse)
-
-    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-}
-
-public func moreGroups(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: JSONDictionary -> Void) {
-
-    let requestParameters: JSONDictionary = [
-        "page": page,
-        "per_page": perPage,
-    ]
-
-    let parse: JSONDictionary -> JSONDictionary? = { data in
-        return data
-    }
-
-    let resource = authJsonResource(path: "/v1/circles", method: .GET, requestParameters: requestParameters, parse: parse)
-
-    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-}
-
-public func groups(failureHandler failureHandler: FailureHandler?, completion: [JSONDictionary] -> Void) {
-
-    headGroups(failureHandler: failureHandler, completion: { result in
-
-        guard let page1Groups = result["circles"] as? [JSONDictionary] else {
-            println("headGroups result have NOT circles: \(result)")
-            completion([])
-            return
-        }
-
-        guard let count = result["count"] as? Int, currentPage = result["current_page"] as? Int, perPage = result["per_page"] as? Int else {
-            println("groups not paging info.")
-            completion(page1Groups)
-            return
-        }
-
-        if count <= currentPage * perPage {
-            completion(page1Groups)
-
-        } else {
-            var groups = [JSONDictionary]()
-
-            groups += page1Groups
-
-            // We have more groups
-
-            var allGood = true
-            let downloadGroup = dispatch_group_create()
-
-            for page in 2..<((count / perPage) + ((count % perPage) > 0 ? 2 : 1)) {
-                dispatch_group_enter(downloadGroup)
-
-                moreGroups(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
-                    failureHandler?(reason: reason, errorMessage: errorMessage)
-
-                    allGood = false
-                    dispatch_group_leave(downloadGroup)
-
-                }, completion: { result in
-                    if let currentPageGroups = result["circles"] as? [JSONDictionary] {
-                        groups += currentPageGroups
-                    }
-                    dispatch_group_leave(downloadGroup)
-                })
-            }
-
-            dispatch_group_notify(downloadGroup, dispatch_get_main_queue()) {
-                if allGood {
-                    completion(groups)
-                } else {
-                    println("get groups NOT allGood")
-                }
-            }
-        }
-    })
 }
 
 // MARK: - UploadAttachment
@@ -1654,7 +1576,6 @@ public func tryUploadAttachment(uploadAttachment: UploadAttachment, failureHandl
         }
 
     }, encodingCompletion: { encodingResult in
-        //println("encodingResult: \(encodingResult)")
 
         switch encodingResult {
 
@@ -1912,7 +1833,6 @@ public func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler:
         }
 
         if count <= currentPage * perPage {
-            //println("page1UnreadMessagesData: \(page1UnreadMessagesData)")
             completion(page1UnreadMessagesData)
 
         } else {
@@ -1946,61 +1866,6 @@ public func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler:
         }
     })
 }
-
-/*
-func unreadMessages(failureHandler failureHandler: ((Reason, String?) -> Void)?, completion: [JSONDictionary] -> Void) {
-
-    let parse: JSONDictionary -> [JSONDictionary]? = { data in
-
-        //println("unreadMessages data: \(data)")
-
-        guard let conversationsData = data["conversations"] as? [JSONDictionary] else {
-            return nil
-        }
-
-        guard let realm = try? Realm() else {
-            return nil
-        }
-
-        var messages = [JSONDictionary]()
-
-        for conversationInfo in conversationsData {
-            if let type = conversationInfo["conversation_type"] as? String, recipientInfo = conversationInfo["conversation"] as? JSONDictionary, unreadMessagesCount = conversationInfo["count"] as? Int  {
-
-                var recipient: Recipient?
-                switch type {
-                case ConversationType.OneToOne.nameForServer:
-                    if let userID = recipientInfo["id"] as? String {
-                        recipient = Recipient(type: .OneToOne, ID: userID)
-                    }
-                case ConversationType.Group.nameForServer:
-                    if let groupID = recipientInfo["id"] as? String {
-                        recipient = Recipient(type: .Group, ID: groupID)
-                    }
-                default:
-                    break
-                }
-
-                if let recipient = recipient, conversation = recipient.conversationInRealm(realm) {
-                    let _ = try? realm.write {
-                        conversation.unreadMessagesCount = unreadMessagesCount
-                    }
-                }
-            }
-
-            if let messagesData = conversationInfo["messages"] as? [JSONDictionary] {
-                messages += messagesData
-            }
-        }
-
-        return messages
-    }
-
-    let resource = authJsonResource(path: "/v1/messages/unread", method: .GET, requestParameters: [:], parse: parse)
-
-    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-}
-*/
 
 public struct Recipient {
 
@@ -2042,7 +1907,7 @@ public enum TimeDirection {
     }
 }
 
-public func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: FailureHandler?, completion: (messageIDs: [String]) -> Void) {
+public func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDirection: TimeDirection, failureHandler: FailureHandler?, completion: (messageIDs: [String], noMore: Bool) -> Void) {
 
     var requestParameters: JSONDictionary = [
         "recipient_type": recipient.type.nameForServer,
@@ -2058,17 +1923,19 @@ public func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDi
         break
     }
 
-    let parse: JSONDictionary -> [String]? = { data in
-
-        //println("messagesFromRecipient: \(data)")
+    let parse: JSONDictionary -> ([String], Bool)? = { data in
 
         guard let
             unreadMessagesData = data["messages"] as? [JSONDictionary],
             realm = try? Realm() else {
-                return []
+                return ([], true)
         }
 
-        //println("messagesFromRecipient: \(recipient), \(unreadMessagesData.count)")
+        let count = unreadMessagesData.count
+        let perPage = (data["per_page"] as? Int) ?? 100
+        let noMore = (count == 0) || (count < perPage)
+
+        println("messagesFromRecipient: \(recipient), \(unreadMessagesData.count)")
 
         var messageIDs = [String]()
 
@@ -2082,7 +1949,7 @@ public func messagesFromRecipient(recipient: Recipient, withTimeDirection timeDi
 
         let _ = try? realm.commitWrite()
 
-        return messageIDs
+        return (messageIDs, noMore)
     }
 
     let resource = authJsonResource(path: "/v1/\(recipient.type.nameForServer)/\(recipient.ID)/messages", method: .GET, requestParameters: requestParameters, parse: parse )
@@ -2240,7 +2107,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
     // 确保本地刚创建的消息比任何已有的消息都要新
     if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
         if message.createdUnixTime < latestMessage.createdUnixTime {
-            message.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
+            message.createdUnixTime = latestMessage.createdUnixTime + Config.Message.localNewerTimeInterval
             println("adjust message.createdUnixTime")
         }
     }
@@ -2308,8 +2175,8 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
 
             conversation.updatedUnixTime = NSDate().timeIntervalSince1970
 
-            dispatch_async(dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+            SafeDispatch.async {
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
             }
         }
     }
@@ -2352,7 +2219,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
 
         failureHandler?(reason: reason, errorMessage: errorMessage)
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
 
             let realm = message.realm
 
@@ -2360,7 +2227,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
                 message.sendState = MessageSendState.Failed.rawValue
             }
 
-            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
         }
 
     }, completion: completion)
@@ -2392,7 +2259,7 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
 
                 println("send messageID: \(messageID), \(NSDate().timeIntervalSince1970)")
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     let realm = message.realm
 
                     let _ = try? realm?.write {
@@ -2400,11 +2267,9 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
                         message.sendState = MessageSendState.Successed.rawValue
                     }
 
-                    //println("new messageID: \(messageID)")
-
                     completion(success: true)
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
                 }
             })
 
@@ -2426,7 +2291,7 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
 
                 let doCreateMessage = {
                     createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             let realm = message.realm
                             let _ = try? realm?.write {
                                 message.messageID = messageID
@@ -2435,7 +2300,7 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
 
                             completion(success: true)
 
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
+                            NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
                         }
                     })
                 }
@@ -2469,7 +2334,7 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
 
             // before resend, recover MessageSendState
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 let realm = message.realm
 
@@ -2477,7 +2342,7 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
                     message.sendState = MessageSendState.NotSend.rawValue
                 }
 
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
             }
 
             // also, if resend failed, we need set MessageSendState
@@ -2486,7 +2351,7 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
 
                 failureHandler?(reason: reason, errorMessage: errorMessage)
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
 
                     let realm = message.realm
 
@@ -2494,7 +2359,7 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
                         message.sendState = MessageSendState.Failed.rawValue
                     }
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageStateChanged, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
                 }
             }
 
@@ -2511,17 +2376,17 @@ public func resendMessage(message: Message, failureHandler: FailureHandler?, com
                 sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
             case .Image:
-                let filePath = NSFileManager.yepMessageImageURLWithName(message.localAttachmentName)?.path
+                let filePath = message.imageFileURL?.path
 
                 sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
             case .Video:
-                let filePath = NSFileManager.yepMessageVideoURLWithName(message.localAttachmentName)?.path
+                let filePath = message.videoFileURL?.path
 
                 sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
             case .Audio:
-                let filePath = NSFileManager.yepMessageAudioURLWithName(message.localAttachmentName)?.path
+                let filePath = message.audioFileURL?.path
 
                 sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
 
@@ -2611,7 +2476,7 @@ public enum FeedSortStyle: String {
     }
     
     public var nameWithArrow: String {
-        return name + " ▾"
+        return name.yep_appendArrow()
     }
 
     public var needPageFeedID: Bool {
@@ -2654,7 +2519,7 @@ public struct DiscoveredAttachment {
 
         if let data = metadata.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
             if let metaDataInfo = decodeJSON(data) {
-                if let thumbnailString = metaDataInfo[YepConfig.MetaData.thumbnailString] as? String {
+                if let thumbnailString = metaDataInfo[Config.MetaData.thumbnailString] as? String {
                     let imageData = NSData(base64EncodedString: thumbnailString, options: NSDataBase64DecodingOptions(rawValue: 0))
                     return imageData
                 }
@@ -2803,8 +2668,8 @@ public struct DiscoveredFeed: Hashable {
                 if let metaDataInfo = decodeJSON(metaData) {
 
                     guard let
-                        duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? NSTimeInterval,
-                        sampleValues = metaDataInfo[YepConfig.MetaData.audioSamples] as? [CGFloat] else {
+                        duration = metaDataInfo[Config.MetaData.audioDuration] as? NSTimeInterval,
+                        sampleValues = metaDataInfo[Config.MetaData.audioSamples] as? [CGFloat] else {
                             return nil
                     }
 
@@ -2940,8 +2805,6 @@ public struct DiscoveredFeed: Hashable {
 
     public static func fromFeedInfo(feedInfo: JSONDictionary, groupInfo: JSONDictionary?) -> DiscoveredFeed? {
 
-        //println("feedInfo: \(feedInfo)")
-
         guard let
             id = feedInfo["id"] as? String,
             allowComment = feedInfo["allow_comment"] as? Bool,
@@ -3039,22 +2902,7 @@ public struct DiscoveredFeed: Hashable {
     }
 }
 
-/*
 public let parseFeed: JSONDictionary -> DiscoveredFeed? = { data in
-    
-    //println("parseFeed Data: \(data)")
-    
-    if let feedInfo = data["topic"] as? JSONDictionary, groupInfo = data["circle"] as? JSONDictionary {
-        return DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo)
-    }
-    
-    return nil
-}
-*/
-
-public let parseFeed: JSONDictionary -> DiscoveredFeed? = { data in
-
-    //println("parseFeed Data: \(data)")
 
     if let feedInfo = data["topic"] as? JSONDictionary {
         return DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: data)
@@ -3063,18 +2911,16 @@ public let parseFeed: JSONDictionary -> DiscoveredFeed? = { data in
     return nil
 }
 
-public let parseFeeds: JSONDictionary -> [DiscoveredFeed]? = { data in
-
-    //println("feedsData: \(data)")
+public let parseFeeds: JSONDictionary -> (validFeeds: [DiscoveredFeed], originalFeedsCount: Int)? = { data in
 
     if let feedsData = data["topics"] as? [JSONDictionary] {
-        return feedsData.map({ DiscoveredFeed.fromFeedInfo($0, groupInfo: nil) }).flatMap({ $0 })
+        return (validFeeds: feedsData.map({ DiscoveredFeed.fromFeedInfo($0, groupInfo: nil) }).flatMap({ $0 }), originalFeedsCount: feedsData.count)
     }
 
-    return []
+    return nil
 }
 
-public func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageIndex: Int, perPage: Int, maxFeedID: String?, failureHandler: ((Reason, String?) -> Void)?, completion: [DiscoveredFeed] -> Void) {
+public func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageIndex: Int, perPage: Int, maxFeedID: String?, failureHandler: ((Reason, String?) -> Void)?, completion: (validFeeds: [DiscoveredFeed], originalFeedsCount: Int) -> Void) {
 
     var requestParameters: JSONDictionary = [
         "sort": sortStyle.rawValue,
@@ -3090,7 +2936,7 @@ public func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, 
         requestParameters["max_id"] = maxFeedID
     }
 
-    let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
+    let parse: JSONDictionary -> (validFeeds: [DiscoveredFeed], originalFeedsCount: Int)? = { data in
 
         // 只离线第一页，且无 skill
         if pageIndex == 1 && skill == nil {
@@ -3115,10 +2961,10 @@ public func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func feedsWithKeyword(keyword: String, skillID: String?, userID: String?, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
+public func feedsWithKeyword(keyword: String, skillID: String?, userID: String?, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: (validFeeds: [DiscoveredFeed], originalFeedsCount: Int) -> Void) {
 
     guard !keyword.isEmpty else {
-        completion([])
+        completion(validFeeds: [], originalFeedsCount: 0)
         return
     }
 
@@ -3136,8 +2982,7 @@ public func feedsWithKeyword(keyword: String, skillID: String?, userID: String?,
         requestParameters["user_id"] = userID
     }
 
-    let parse: JSONDictionary -> [DiscoveredFeed]? = { data in
-        //println("feedsWithKeyword \(requestParameters): \(data)")
+    let parse: JSONDictionary -> (validFeeds: [DiscoveredFeed], originalFeedsCount: Int)? = { data in
         return parseFeeds(data)
     }
 
@@ -3149,7 +2994,6 @@ public func feedsWithKeyword(keyword: String, skillID: String?, userID: String?,
 public func hotWordsOfSearchFeeds(failureHandler failureHandler: FailureHandler?, completion: [String] -> Void) {
 
     let parse: JSONDictionary -> [String]? = { data in
-        //println("hotWordsOfSearchFeeds: \(data)")
         let hotWords = data["hot_words"] as? [String]
         return hotWords
     }
@@ -3172,7 +3016,7 @@ public func feedWithSharedToken(token: String, failureHandler: FailureHandler?, 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
+public func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: (validFeeds: [DiscoveredFeed], originalFeedsCount: Int) -> Void) {
 
     let requestParameters: JSONDictionary = [
         "page": pageIndex,
@@ -3186,7 +3030,7 @@ public func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: Fai
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: [DiscoveredFeed] -> Void) {
+public func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: (validFeeds: [DiscoveredFeed], originalFeedsCount: Int) -> Void) {
 
     let requestParameters: JSONDictionary = [
         "page": pageIndex,
@@ -3459,8 +3303,6 @@ public func tokensOfSocialAccounts(failureHandler failureHandler: ((Reason, Stri
 
     let parse: JSONDictionary -> TokensOfSocialAccounts? = { data in
 
-        //println("tokensOfSocialAccounts data: \(data)")
-
         let githubToken = data["github"] as? String
         let dribbbleToken = data["dribbble"] as? String
         let instagramToken = data["instagram"] as? String
@@ -3523,8 +3365,6 @@ public func githubWorkOfUserWithUserID(userID: String, failureHandler: FailureHa
     let parse: JSONDictionary -> GithubWork? = { data in
 
         if let reposData = data["repos"] as? [JSONDictionary], userInfo = data["user"] as? JSONDictionary {
-
-            //println("reposData: \(reposData)")
 
             var repos = Array<GithubWork.Repo>()
 
@@ -3595,8 +3435,6 @@ public func dribbbleWorkOfUserWithUserID(userID: String, failureHandler: Failure
 
     let parse: JSONDictionary -> DribbbleWork? = { data in
 
-        //println("dribbbleData:\(data)")
-
         if let
             shotsData = data["shots"] as? [JSONDictionary],
             userInfo = data["user"] as? JSONDictionary,
@@ -3666,7 +3504,6 @@ public struct InstagramWork {
 public func instagramWorkOfUserWithUserID(userID: String, failureHandler: FailureHandler?, completion: InstagramWork -> Void) {
 
     let parse: JSONDictionary -> InstagramWork? = { data in
-        //println("instagramData:\(data)")
 
         if let mediaData = data["media"] as? [JSONDictionary] {
 
@@ -3774,7 +3611,6 @@ public func foursquareVenuesNearby(coordinate coordinate: CLLocationCoordinate2D
     ]
 
     let parse: JSONDictionary -> [FoursquareVenue]? = { data in
-        //println("foursquarePlacesNearby: \(data)")
 
         if let
             response = data["response"] as? JSONDictionary,
@@ -3842,7 +3678,6 @@ public func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler:
     ]
 
     let parse: JSONDictionary -> [UsernamePrefixMatchedUser]? = { data in
-        //println("usersMatchWithUsernamePrefix: \(data)")
 
         if let usersData = data["users"] as? [JSONDictionary] {
             let users: [UsernamePrefixMatchedUser] = usersData.map({ userInfo in
@@ -3867,6 +3702,129 @@ public func usersMatchWithUsernamePrefix(usernamePrefix: String, failureHandler:
     }
 
     let resource = authJsonResource(path: "/v1/users/typeahead", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+// MARK: - GeniusInterview
+
+public struct GeniusInterview {
+
+    public let user: DiscoveredUser
+
+    public let number: Int
+    public let title: String
+    public let detail: String
+    public let url: NSURL
+
+    public init?(_ info: JSONDictionary) {
+
+        guard let
+            userInfo = info["user"] as? JSONDictionary,
+            number = info["no"] as? Int,
+            title = info["title"] as? String,
+            detail = info["description"] as? String,
+            urlString = info["link"] as? String else {
+            return nil
+        }
+
+        guard let user = parseDiscoveredUser(userInfo) else {
+            return nil
+        }
+
+        guard let url = NSURL(string: urlString) else {
+            return nil
+        }
+
+        self.user = user
+        self.number = number
+        self.title = title
+        self.detail = detail
+        self.url = url
+    }
+}
+
+public func geniusInterviewsWithCount(count: Int, afterNumber number: Int?, failureHandler: FailureHandler?, completion: ([GeniusInterview]) -> Void) {
+
+    var requestParameters: JSONDictionary = [
+        "count": count,
+    ]
+    if let number = number {
+        requestParameters["max_no"] = number
+    }
+
+    let parse: JSONDictionary -> [GeniusInterview]? = { data in
+
+        if number == nil {
+            if let realm = try? Realm() {
+                if let offlineData = try? NSJSONSerialization.dataWithJSONObject(data, options: []) {
+
+                    let offlineJSON = OfflineJSON(name: OfflineJSONName.GeniusInterviews.rawValue, data: offlineData)
+
+                    let _ = try? realm.write {
+                        realm.add(offlineJSON, update: true)
+                        println("offline geniusInterviews")
+                    }
+                }
+            }
+        }
+
+        if let geniusInterviewsData = data["genius_interviews"] as? [JSONDictionary] {
+
+            let geniusInterviews: [GeniusInterview] = geniusInterviewsData.map({ GeniusInterview($0) }).flatMap({ $0 })
+            return geniusInterviews
+        }
+        
+        return nil
+    }
+
+    let resource = authJsonResource(path: "/v1/genius_interviews", method: .GET, requestParameters: requestParameters, parse: parse)
+
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
+}
+
+public struct GeniusInterviewBanner {
+
+    public let user: DiscoveredUser
+    public let imageURL: NSURL
+    public let linkURL: NSURL
+
+    public init?(_ info: JSONDictionary) {
+
+        guard let
+            userInfo = info["user"] as? JSONDictionary,
+            imageURLString = info["url"] as? String,
+            linkURLString = info["link"] as? String else {
+            return nil
+        }
+
+        guard let user = parseDiscoveredUser(userInfo) else {
+            return nil
+        }
+
+        guard let imageURL = NSURL(string: imageURLString) else {
+            return nil
+        }
+
+        guard let linkURL = NSURL(string: linkURLString) else {
+            return nil
+        }
+
+        self.user = user
+        self.imageURL = imageURL
+        self.linkURL = linkURL
+    }
+}
+
+public func latestGeniusInterviewBanner(failureHandler failureHandler: FailureHandler?, completion: (GeniusInterviewBanner) -> Void) {
+
+    let parse: JSONDictionary -> GeniusInterviewBanner? = { data in
+
+        let banner = GeniusInterviewBanner(data)
+        return banner
+    }
+
+    let resource = authJsonResource(path: "/v1/genius_interview_banners/current", method: .GET, requestParameters: [:], parse: parse)
 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }

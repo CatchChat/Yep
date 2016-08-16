@@ -28,8 +28,6 @@ final class SocialWorkDribbbleViewController: BaseViewController {
     
     @IBOutlet private weak var dribbbleCollectionView: UICollectionView!
 
-    private let dribbbleShotCellIdentifier = "DribbbleShotCell"
-
     private lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.dribbbleCollectionView.bounds)
     }()
@@ -48,8 +46,6 @@ final class SocialWorkDribbbleViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        animatedOnNavigationBar = false
-        
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
             accountImageView.tintColor = socialAccount.tintColor
@@ -61,8 +57,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
 
         navigationItem.rightBarButtonItem = shareButton
         
-
-        dribbbleCollectionView.registerNib(UINib(nibName: dribbbleShotCellIdentifier, bundle: nil), forCellWithReuseIdentifier: dribbbleShotCellIdentifier)
+        dribbbleCollectionView.registerNibOf(DribbbleShotCell)
 
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -101,7 +96,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
                 }, completion: { dribbbleWork in
                     println("dribbbleWork: \(dribbbleWork.shots.count)")
 
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                    SafeDispatch.async { [weak self] in
                         self?.dribbbleWork = dribbbleWork
                         self?.dribbbleShots = dribbbleWork.shots
 
@@ -115,7 +110,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
     // MARK: Actions
 
     private func updateDribbbleCollectionView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.dribbbleCollectionView.reloadData()
         }
     }
@@ -124,7 +119,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
 
         if let dribbbleWork = dribbbleWork, profileURL = NSURL(string: dribbbleWork.userURLString) {
 
-            let title = String(format: NSLocalizedString("%@'s Dribbble", comment: ""), dribbbleWork.username)
+            let title = String(format: NSLocalizedString("whosDribbble%@", comment: ""), dribbbleWork.username)
 
             var thumbnail: UIImage?
             if let socialAccount = socialAccount {
@@ -178,7 +173,7 @@ extension SocialWorkDribbbleViewController: UICollectionViewDataSource, UICollec
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(dribbbleShotCellIdentifier, forIndexPath: indexPath) as! DribbbleShotCell
+        let cell: DribbbleShotCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
         let shot = dribbbleShots[indexPath.item]
 

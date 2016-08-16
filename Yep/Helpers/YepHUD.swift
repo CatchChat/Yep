@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import YepConfig
+import YepKit
 
 final class YepHUD: NSObject {
 
@@ -33,45 +33,46 @@ final class YepHUD: NSObject {
 
     class func showActivityIndicatorWhileBlockingUI(blockingUI: Bool) {
 
-        if self.sharedInstance.isShowing {
+        if sharedInstance.isShowing {
             return // TODO: 或者用新的取代旧的
         }
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             if
                 let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
                 let window = appDelegate.window {
 
-                    self.sharedInstance.isShowing = true
+                    sharedInstance.isShowing = true
 
-                    self.sharedInstance.containerView.userInteractionEnabled = blockingUI
+                    sharedInstance.containerView.userInteractionEnabled = blockingUI
 
-                    self.sharedInstance.containerView.alpha = 0
-                    window.addSubview(self.sharedInstance.containerView)
-                    self.sharedInstance.containerView.frame = window.bounds
+                    sharedInstance.containerView.alpha = 0
+                    window.addSubview(sharedInstance.containerView)
+                    sharedInstance.containerView.frame = window.bounds
 
-                    UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
-                        self.sharedInstance.containerView.alpha = 1
+                    UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: {
+                        sharedInstance.containerView.alpha = 1
 
-                    }, completion: { (finished) -> Void in
-                        self.sharedInstance.containerView.addSubview(self.sharedInstance.activityIndicator)
-                        self.sharedInstance.activityIndicator.center = self.sharedInstance.containerView.center
-                        self.sharedInstance.activityIndicator.startAnimating()
+                    }, completion: { _ in
 
-                        self.sharedInstance.activityIndicator.alpha = 0
-                        self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
-                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
-                            self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(1.0, 1.0)
-                            self.sharedInstance.activityIndicator.alpha = 1
+                        sharedInstance.containerView.addSubview(sharedInstance.activityIndicator)
+                        sharedInstance.activityIndicator.center = sharedInstance.containerView.center
+                        sharedInstance.activityIndicator.startAnimating()
 
-                        }, completion: { (finished) -> Void in
-                            self.sharedInstance.activityIndicator.transform = CGAffineTransformIdentity
+                        sharedInstance.activityIndicator.alpha = 0
+                        sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
+                        UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: {
+                            sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(1.0, 1.0)
+                            sharedInstance.activityIndicator.alpha = 1
 
-                            if let dismissTimer = self.sharedInstance.dismissTimer {
+                        }, completion: { _ in
+                            sharedInstance.activityIndicator.transform = CGAffineTransformIdentity
+
+                            if let dismissTimer = sharedInstance.dismissTimer {
                                 dismissTimer.invalidate()
                             }
-                            
-                            self.sharedInstance.dismissTimer = NSTimer.scheduledTimerWithTimeInterval(YepConfig.forcedHideActivityIndicatorTimeInterval, target: self, selector: #selector(YepHUD.forcedHideActivityIndicator), userInfo: nil, repeats: false)
+
+                            sharedInstance.dismissTimer = NSTimer.scheduledTimerWithTimeInterval(YepConfig.forcedHideActivityIndicatorTimeInterval, target: self, selector: #selector(YepHUD.forcedHideActivityIndicator), userInfo: nil, repeats: false)
                         })
                     })
             }
@@ -95,31 +96,31 @@ final class YepHUD: NSObject {
 
     class func hideActivityIndicator(completion: () -> Void) {
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
 
-            if self.sharedInstance.isShowing {
+            if sharedInstance.isShowing {
 
-                self.sharedInstance.activityIndicator.transform = CGAffineTransformIdentity
+                sharedInstance.activityIndicator.transform = CGAffineTransformIdentity
 
-                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
-                    self.sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
-                    self.sharedInstance.activityIndicator.alpha = 0
+                UIView.animateWithDuration(0.2, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: {
+                    sharedInstance.activityIndicator.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
+                    sharedInstance.activityIndicator.alpha = 0
 
-                }, completion: { (finished) -> Void in
-                    self.sharedInstance.activityIndicator.removeFromSuperview()
+                }, completion: { _ in
+                    sharedInstance.activityIndicator.removeFromSuperview()
 
-                    UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { () -> Void in
-                        self.sharedInstance.containerView.alpha = 0
+                    UIView.animateWithDuration(0.1, delay: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: {
+                        sharedInstance.containerView.alpha = 0
 
-                    }, completion: { (finished) -> Void in
-                        self.sharedInstance.containerView.removeFromSuperview()
+                    }, completion: { _ in
+                        sharedInstance.containerView.removeFromSuperview()
 
                         completion()
                     })
                 })
             }
             
-            self.sharedInstance.isShowing = false
+            sharedInstance.isShowing = false
         }
     }
 }

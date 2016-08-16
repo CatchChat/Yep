@@ -117,10 +117,9 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
                     self.badgeEnabledImageViewAppearInCenter(badgeView.center)
 
                 } else {
-                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { _ in
-                        self.badgeEnabledImageView.center = badgeView.center
-                    }, completion: { finished in
-                    })
+                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+                        self?.badgeEnabledImageView.center = badgeView.center
+                    }, completion: nil)
                 }
 
                 // try save online & local
@@ -130,14 +129,14 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
                 updateMyselfWithInfo(["badge": newBadgeName], failureHandler: { [weak self] (reason, errorMessage) in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         badgeView.enabled = false
                     }
 
                     YepAlert.alertSorry(message: NSLocalizedString("Set badge failed!", comment: ""), inViewController: self)
 
                 }, completion: { success in
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         YepUserDefaults.badge.value = newBadgeName
                     }
                 })
@@ -153,12 +152,12 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
 
         badgeEnabledImageView.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
 
-        UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { _ in
-            self.badgeEnabledImageView.alpha = 1
-            self.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+        UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+            self?.badgeEnabledImageView.alpha = 1
+            self?.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
 
-        }, completion: { finished in
-            self.badgeEnabledImageView.transform = CGAffineTransformIdentity
+        }, completion: { [weak self] _ in
+            self?.badgeEnabledImageView.transform = CGAffineTransformIdentity
         })
     }
 
@@ -190,7 +189,7 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
         if newNickname != YepUserDefaults.nickname.value {
 
             updateMyselfWithInfo(["nickname": newNickname], failureHandler: nil, completion: { success in
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     YepUserDefaults.nickname.value = newNickname
                 }
             })
@@ -212,7 +211,7 @@ extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
 
             if newNickname.isEmpty {
                 YepAlert.alertSorry(message: NSLocalizedString("You did not enter any nickname!", comment: ""), inViewController: self, withDismissAction: {
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         textField.text = YepUserDefaults.nickname.value
                     }
                 })
@@ -226,7 +225,7 @@ extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
                         YepAlert.alertSorry(message: NSLocalizedString("Update nickname failed!", comment: ""), inViewController: self)
 
                     }, completion: { success in
-                        dispatch_async(dispatch_get_main_queue()) {
+                        SafeDispatch.async {
                             YepUserDefaults.nickname.value = newNickname
                         }
                     })

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepConfig
 
 final class SearchSectionTitleCell: UITableViewCell {
 
@@ -23,11 +22,5 @@ final class SearchSectionTitleCell: UITableViewCell {
         selectionStyle = .None
         separatorInset = YepConfig.SearchedItemCell.separatorInset
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
 }
+    

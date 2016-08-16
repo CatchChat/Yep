@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 final class ChatRightAudioCell: ChatRightBaseCell {
 
@@ -22,9 +21,9 @@ final class ChatRightAudioCell: ChatRightBaseCell {
         willSet {
             if newValue != playing {
                 if newValue {
-                    playButton.setImage(UIImage(named: "icon_pause"), forState: .Normal)
+                    playButton.setImage(UIImage.yep_iconPause, forState: .Normal)
                 } else {
-                    playButton.setImage(UIImage(named: "icon_play"), forState: .Normal)
+                    playButton.setImage(UIImage.yep_iconPlay, forState: .Normal)
                 }
             }
         }
@@ -36,7 +35,7 @@ final class ChatRightAudioCell: ChatRightBaseCell {
     }()
 
     lazy var bubbleImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "right_tail_bubble"))
+        let imageView = UIImageView(image: UIImage.yep_rightTailBubble)
         imageView.tintColor = UIColor.rightBubbleTintColor()
         return imageView
     }()
@@ -57,7 +56,7 @@ final class ChatRightAudioCell: ChatRightBaseCell {
 
     lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "icon_play"), forState: .Normal)
+        button.setImage(UIImage.yep_iconPlay, forState: .Normal)
 
         button.userInteractionEnabled = false
         button.tintColor = UIColor.whiteColor()
@@ -87,9 +86,10 @@ final class ChatRightAudioCell: ChatRightBaseCell {
         audioContainerView.addSubview(sampleView)
         audioContainerView.addSubview(audioDurationLabel)
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         bubbleImageView.userInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatRightAudioCell.tapMediaView))
@@ -108,7 +108,7 @@ final class ChatRightAudioCell: ChatRightBaseCell {
         audioBubbleTapAction?()
     }
 
-    func configureWithMessage(message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
+    func configureWithMessage(message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?) {
 
         self.message = message
         self.user = message.fromFriend
@@ -119,9 +119,10 @@ final class ChatRightAudioCell: ChatRightBaseCell {
 
         YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { _, _ in })
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.makeUI()
+        UIView.setAnimationsEnabled(false); do {
+            makeUI()
         }
+        UIView.setAnimationsEnabled(true)
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
@@ -134,9 +135,10 @@ final class ChatRightAudioCell: ChatRightBaseCell {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        UIView.performWithoutAnimation { [weak self] in
-            self?.updateAudioInfoViews()
+        UIView.setAnimationsEnabled(false); do {
+            updateAudioInfoViews()
         }
+        UIView.setAnimationsEnabled(true)
     }
 
     func updateAudioInfoViews() {

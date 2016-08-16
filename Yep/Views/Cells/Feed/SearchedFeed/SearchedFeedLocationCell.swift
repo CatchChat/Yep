@@ -32,17 +32,11 @@ final class SearchedFeedLocationCell: SearchedFeedBasicCell {
 
         contentView.addSubview(locationContainerView)
 
-        locationContainerView.iconImageView.image = UIImage(named: "icon_location")
+        locationContainerView.iconImageView.image = UIImage.yep_iconLocation
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {

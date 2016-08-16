@@ -1,0 +1,12 @@
+
+github "realm/realm-cocoa"
+github "onevcat/Kingfisher"
+github "tid-kijyun/Kanna"
+github "Alamofire/Alamofire"
+github "ReactiveX/RxSwift"
+github "nixzhu/Navi"
+github "nixzhu/KeyboardMan"
+github "nixzhu/Ruler"
+github "nixzhu/Proposer"
+github "nixzhu/MonkeyKing" ~> 0.0.2
+

@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 final class SearchedFeedCell: UITableViewCell {
 
@@ -19,12 +18,6 @@ final class SearchedFeedCell: UITableViewCell {
         super.awakeFromNib()
 
         separatorInset = YepConfig.SearchedItemCell.separatorInset
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     override func prepareForReuse() {
@@ -50,5 +43,5 @@ final class SearchedFeedCell: UITableViewCell {
         })
         mediaView.setImagesWithAttachments(attachments)
     }
-
 }
+

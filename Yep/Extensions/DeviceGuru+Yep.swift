@@ -8,15 +8,24 @@
 
 import DeviceGuru
 
-extension Hardware {
+extension DeviceGuru {
 
-    var yep_supportQuickAction: Bool {
+    static var yep_isLowEndDevice: Bool {
 
-        switch self {
-        case .IPHONE_6S, .IPHONE_6_PLUS:
-            return true
+        switch UIDevice.currentDevice().userInterfaceIdiom {
+        case .Phone:
+            if DeviceGuru.hardwareNumber() < 6 {
+                return true
+            }
+        case .Pad:
+            if DeviceGuru.hardwareNumber() < 4 {
+                return true
+            }
         default:
             return false
         }
+ 
+        return false
     }
 }
+

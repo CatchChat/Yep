@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepConfig
 
 final class ProfileSeparationLineCell: UICollectionViewCell {
 

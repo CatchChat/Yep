@@ -8,27 +8,43 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import RealmSwift
 
 final class FeedConversationsViewController: SegueViewController {
 
-    @IBOutlet weak var feedConversationsTableView: UITableView!
+    @IBOutlet weak var feedConversationsTableView: UITableView! {
+        didSet {
+            feedConversationsTableView.registerNibOf(FeedConversationCell)
+            feedConversationsTableView.registerNibOf(DeletedFeedConversationCell)
+        }
+    }
 
-    var realm: Realm!
+    private lazy var clearUnreadBarButtonItem: UIBarButtonItem = {
+        let item = UIBarButtonItem(title: NSLocalizedString("FeedConversationsViewController.ClearUnread", comment: ""), style: .Plain, target: self, action: #selector(FeedConversationsViewController.clearUnread(_:)))
+        return item
+    }()
 
-    var haveUnreadMessages = false {
+    private var realm: Realm!
+
+    private var haveUnreadMessages = false {
         didSet {
             reloadFeedConversationsTableView()
         }
     }
 
-    lazy var feedConversations: Results<Conversation> = {
+    private lazy var feedConversations: Results<Conversation> = {
         return feedConversationsInRealm(self.realm)
     }()
-
-    let feedConversationCellID = "FeedConversationCell"
-    let deletedFeedConversationCellID = "DeletedFeedConversationCell"
+    private var unreadFeedConversations: Results<Conversation>? {
+        didSet {
+            if let unreadFeedConversations = unreadFeedConversations {
+                navigationItem.rightBarButtonItem = unreadFeedConversations.count > 3 ? clearUnreadBarButtonItem : nil
+            } else {
+                navigationItem.rightBarButtonItem = nil
+            }
+        }
+    }
+    private var feedConversationsNotificationToken: NotificationToken?
 
     deinit {
 
@@ -36,22 +52,46 @@ final class FeedConversationsViewController: SegueViewController {
 
         feedConversationsTableView?.delegate = nil
 
+        feedConversationsNotificationToken?.stop()
+
         println("deinit FeedConversations")
+    }
+
+    @objc private func clearUnread(sender: UIBarButtonItem) {
+
+        realm.beginWrite()
+
+        unreadFeedConversations?.forEach({ conversation in
+
+            conversation.hasUnreadMessages = false
+
+            conversation.messages.forEach({ message in
+                if !message.readed {
+                    message.readed = true
+                }
+            })
+        })
+
+        _ = try? realm.commitWrite()
+
+        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Feeds", comment: "")
-
         realm = try! Realm()
 
-        feedConversationsTableView.registerNib(UINib(nibName: feedConversationCellID, bundle: nil), forCellReuseIdentifier: feedConversationCellID)
-        feedConversationsTableView.registerNib(UINib(nibName: deletedFeedConversationCellID, bundle: nil), forCellReuseIdentifier: deletedFeedConversationCellID)
+        title = NSLocalizedString("Feeds", comment: "")
 
         feedConversationsTableView.rowHeight = 80
         feedConversationsTableView.tableFooterView = UIView()
-        
+
+        feedConversationsNotificationToken = feedConversations.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
+            let predicate = NSPredicate(format: "hasUnreadMessages = true")
+            self?.unreadFeedConversations = self?.feedConversations.filter(predicate)
+        })
+
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
                 if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
@@ -62,11 +102,15 @@ final class FeedConversationsViewController: SegueViewController {
             }
         }
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: YepConfig.Notification.newMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.Notification.newMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: YepConfig.Notification.deletedMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.Notification.deletedMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: YepConfig.Notification.changedFeedConversation, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.Notification.changedFeedConversation, object: nil)
+
+        if traitCollection.forceTouchCapability == .Available {
+            registerForPreviewingWithDelegate(self, sourceView: feedConversationsTableView)
+        }
     }
 
     var isFirstAppear = true
@@ -84,7 +128,7 @@ final class FeedConversationsViewController: SegueViewController {
     // MARK: Actions
 
     func reloadFeedConversationsTableView() {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.feedConversationsTableView.reloadData()
         }
     }
@@ -92,10 +136,17 @@ final class FeedConversationsViewController: SegueViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "showConversation" {
             let vc = segue.destinationViewController as! ConversationViewController
-            vc.conversation = sender as! Conversation
+            let conversation = sender as! Conversation
+            prepareConversationViewController(vc, withConversation: conversation)
         }
+    }
+
+    private func prepareConversationViewController(vc: ConversationViewController, withConversation conversation: Conversation) {
+
+        vc.conversation = conversation
     }
 }
 
@@ -116,16 +167,16 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
         if let feed = conversation.withGroup?.withFeed {
 
             if feed.deleted {
-                let cell = tableView.dequeueReusableCellWithIdentifier(deletedFeedConversationCellID) as! DeletedFeedConversationCell
+                let cell: DeletedFeedConversationCell = tableView.dequeueReusableCell()
                 return cell
 
             } else {
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
+                let cell: FeedConversationCell = tableView.dequeueReusableCell()
                 return cell
             }
 
         } else {
-            let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationCellID) as! FeedConversationCell
+            let cell: FeedConversationCell = tableView.dequeueReusableCell()
             return cell
         }
     }
@@ -238,7 +289,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
                 // 延迟一些再发通知，避免影响 tableView 的删除
                 delay(0.5) {
-                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
                 }
 
                 deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
@@ -248,7 +299,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
             if feedCreatorID == YepUserDefaults.userID.value {
 
-                YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: NSLocalizedString("Also delete this feed?", comment: ""), confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: String.trans_promptAlsoDeleteThisFeed, confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
                     doDeleteConversation()
 
@@ -266,6 +317,33 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
         }
 
         return [deleteAction]
+    }
+}
+
+// MARK: - UIViewControllerPreviewingDelegate
+
+extension FeedConversationsViewController: UIViewControllerPreviewingDelegate {
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+
+        guard let indexPath = feedConversationsTableView.indexPathForRowAtPoint(location), cell = feedConversationsTableView.cellForRowAtIndexPath(indexPath) else {
+            return nil
+        }
+
+        previewingContext.sourceRect = cell.frame
+
+        let vc = UIStoryboard.Scene.conversation
+        let conversation = feedConversations[indexPath.row]
+        prepareConversationViewController(vc, withConversation: conversation)
+
+        vc.isPreviewed = true
+
+        return vc
+    }
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        
+        showViewController(viewControllerToCommit, sender: self)
     }
 }
 

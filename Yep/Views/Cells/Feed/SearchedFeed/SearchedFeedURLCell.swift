@@ -30,17 +30,11 @@ final class SearchedFeedURLCell: SearchedFeedBasicCell {
 
         contentView.addSubview(feedURLContainerView)
 
-        feedURLContainerView.iconImageView.image = UIImage(named: "icon_link")
+        feedURLContainerView.iconImageView.image = UIImage.yep_iconLink
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
@@ -62,3 +56,4 @@ final class SearchedFeedURLCell: SearchedFeedBasicCell {
         feedURLContainerView.frame = _URLLayout.URLContainerViewFrame
     }
 }
+

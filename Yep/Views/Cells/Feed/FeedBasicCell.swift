@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
@@ -57,7 +56,7 @@ class FeedBasicCell: UITableViewCell {
 
     lazy var skillButton: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage(named: "skill_bubble_empty"), forState: .Normal)
+        button.setBackgroundImage(UIImage.yep_skillBubbleEmpty, forState: .Normal)
         button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
         button.titleLabel?.font = UIFont.feedSkillFont()
 
@@ -137,7 +136,7 @@ class FeedBasicCell: UITableViewCell {
 
     lazy var discussionImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "icon_discussion")
+        imageView.image = UIImage.yep_iconDiscussion
         return imageView
     }()
 
@@ -191,12 +190,6 @@ class FeedBasicCell: UITableViewCell {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     override func prepareForReuse() {

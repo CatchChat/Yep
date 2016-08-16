@@ -9,18 +9,17 @@
 import UIKit
 import RealmSwift
 import YepKit
-import YepConfig
 
 final class SearchContactsViewController: SegueViewController {
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     var searchTransition: SearchTransition?
 
-    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver?
+    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver<UIButton>?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
-            searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+            searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
             searchBar.returnKeyType = .Done
         }
     }
@@ -31,20 +30,15 @@ final class SearchContactsViewController: SegueViewController {
     }
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
-    private let headerIdentifier = "TableSectionTitleView"
-    private let searchSectionTitleCellID = "SearchSectionTitleCell"
-    private let searchedUserCellID = "SearchedUserCell"
-    private let searchedDiscoveredUserCellID = "SearchedDiscoveredUserCell"
-
     @IBOutlet weak var contactsTableView: UITableView! {
         didSet {
             //contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor // not work here
             contactsTableView.backgroundColor = YepConfig.SearchTableView.backgroundColor
 
-            contactsTableView.registerClass(TableSectionTitleView.self, forHeaderFooterViewReuseIdentifier: headerIdentifier)
-            contactsTableView.registerNib(UINib(nibName: searchSectionTitleCellID, bundle: nil), forCellReuseIdentifier: searchSectionTitleCellID)
-            contactsTableView.registerNib(UINib(nibName: searchedUserCellID, bundle: nil), forCellReuseIdentifier: searchedUserCellID)
-            contactsTableView.registerNib(UINib(nibName: searchedDiscoveredUserCellID, bundle: nil), forCellReuseIdentifier: searchedDiscoveredUserCellID)
+            contactsTableView.registerHeaderFooterClassOf(TableSectionTitleView)
+            contactsTableView.registerNibOf(SearchSectionTitleCell)
+            contactsTableView.registerNibOf(SearchedUserCell)
+            contactsTableView.registerNibOf(SearchedDiscoveredUserCell)
 
             contactsTableView.sectionHeaderHeight = 0
             contactsTableView.sectionFooterHeight = 0
@@ -82,6 +76,8 @@ final class SearchContactsViewController: SegueViewController {
     }
 
     deinit {
+        searchBarCancelButtonEnabledObserver = nil
+
         println("deinit SearchContacts")
     }
 
@@ -119,10 +115,7 @@ final class SearchContactsViewController: SegueViewController {
 
         recoverSearchTransition()
 
-        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
-            self?.searchBarTopConstraint.constant = 0
-            self?.view.layoutIfNeeded()
-        }, completion: nil)
+        moveUpSearchBar()
 
         isFirstAppear = false
     }
@@ -130,7 +123,7 @@ final class SearchContactsViewController: SegueViewController {
     // MARK: Private
 
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.contactsTableView.reloadData()
 
             if scrollsToTop {
@@ -158,17 +151,11 @@ final class SearchContactsViewController: SegueViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             if let user = sender as? User {
-                if user.userID != YepUserDefaults.userID.value {
-                    vc.profileUser = .UserType(user)
-                }
+                vc.prepare(withUser: user)
 
             } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                vc.profileUser = .DiscoveredUserType(discoveredUser)
+                vc.prepare(withDiscoveredUser: discoveredUser)
             }
-
-            vc.hidesBottomBarWhenPushed = true
-            
-            vc.setBackButtonWithTitle()
 
             prepareOriginalNavigationControllerDelegate()
 
@@ -270,7 +257,7 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
             //println("searchUsersByQ users: \(users)")
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 guard let filteredFriends = self?.filteredFriends else {
                     return
@@ -341,8 +328,8 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             return nil
         }
 
-        let header = tableView.dequeueReusableHeaderFooterViewWithIdentifier(headerIdentifier) as? TableSectionTitleView
-        header?.titleLabel.text = nil
+        let header: TableSectionTitleView = tableView.dequeueReusableHeaderFooter()
+        header.titleLabel.text = nil
 
         return header
     }
@@ -373,7 +360,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
         if indexPath.row == 0 {
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchSectionTitleCellID) as! SearchSectionTitleCell
+            let cell: SearchSectionTitleCell = tableView.dequeueReusableCell()
 
             switch section {
             case .Local:
@@ -388,11 +375,11 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         switch section {
 
         case .Local:
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchedUserCellID) as! SearchedUserCell
+            let cell: SearchedUserCell = tableView.dequeueReusableCell()
             return cell
 
         case .Online:
-            let cell = tableView.dequeueReusableCellWithIdentifier(searchedDiscoveredUserCellID) as! SearchedDiscoveredUserCell
+            let cell: SearchedDiscoveredUserCell = tableView.dequeueReusableCell()
             return cell
         }
     }

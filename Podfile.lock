@@ -1,71 +1,59 @@
 PODS:
-  - 1PasswordExtension (1.8.1)
-  - Alamofire (3.4.0)
   - Appsee (2.2)
+  - AsyncDisplayKit (1.9.81):
+    - AsyncDisplayKit/PINRemoteImage (= 1.9.81)
+  - AsyncDisplayKit/ASDealloc2MainObject (1.9.81)
+  - AsyncDisplayKit/Core (1.9.81):
+    - AsyncDisplayKit/ASDealloc2MainObject
+  - AsyncDisplayKit/PINRemoteImage (1.9.81):
+    - AsyncDisplayKit/Core
+    - PINRemoteImage/iOS (>= 3.0.0-beta.2)
+  - AudioBot (0.4.1)
+  - AutoReview (0.1.0)
   - Base64 (1.1.2)
   - DeviceGuru (1.3.7)
-  - Fabric (1.6.7)
+  - Fabric (1.6.8)
   - FXBlurView (1.6.4)
-  - JPush (2.1.6)
-  - Kanna (1.0.2)
-  - KeyboardMan (0.6.0)
-  - Kingfisher (2.4.1)
-  - MonkeyKing (0.0.2)
-  - Navi (0.4.2)
+  - JPush (2.1.8)
+  - PINCache (3.0.1-beta)
+  - PINRemoteImage/Core (3.0.0-beta.3):
+    - PINCache (>= 3.0.0-beta)
+  - PINRemoteImage/iOS (3.0.0-beta.3):
+    - PINRemoteImage/Core
   - pop (1.0.9)
-  - Proposer (0.9.0)
-  - Realm (0.103.1):
-    - Realm/Headers (= 0.103.1)
-  - Realm/Headers (0.103.1)
-  - RealmSwift (0.103.1):
-    - Realm (= 0.103.1)
-  - Ruler (0.7.0)
   - SocketRocket (0.5.1)
   - TPKeyboardAvoiding (1.3)
 
 DEPENDENCIES:
-  - 1PasswordExtension
-  - Alamofire
   - Appsee
+  - AsyncDisplayKit
+  - AudioBot
+  - AutoReview
   - Base64
   - DeviceGuru
   - Fabric
   - FXBlurView
   - JPush
-  - Kanna (= 1.0.2)
-  - KeyboardMan
-  - Kingfisher
-  - MonkeyKing (= 0.0.2)
-  - Navi
   - pop
-  - Proposer
-  - RealmSwift
-  - Ruler
   - SocketRocket
   - TPKeyboardAvoiding
 
 SPEC CHECKSUMS:
-  1PasswordExtension: 00d6f4caae77c19ba33045b8569fbeb9689f0d1d
-  Alamofire: c19a627cefd6a95f840401c49ab1f124e07f54ee
   Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
+  AsyncDisplayKit: 011ea22a76a79a5bbfc14501fede6e0196a3c2f0
+  AudioBot: 196817a463e5993722566527845f6a13b19a5865
+  AutoReview: 4110767f3fcfc1ea5bf0398b4f7b6a882dc2d73c
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   DeviceGuru: f847629dc0da0145ba48a9fc314e613ca4aa9caf
-  Fabric: caf7580c725e64db144f610ac65cd60956911dc7
+  Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  JPush: 9732a2a9e6a34729f660d6275704a5803d661e83
-  Kanna: 059afb193a9f8ea34f46cb55a8b11bf4257efad8
-  KeyboardMan: 665211f180093f5bb3c6ff7e8b7f858c432c6ccf
-  Kingfisher: 41aed5b6c1ed8fa98cf6d75283ce89cf7890f517
-  MonkeyKing: 9be24307843a80f4cd3eca66adc12c67aefb83bb
-  Navi: f743d94c9879e646ee399b404d0b53100c66a8bd
+  JPush: 2d1286494eae216433f6d7709b2721565b4babc9
+  PINCache: 6911fe422a633e18b3d3ddf2bd4f0e55e36e2892
+  PINRemoteImage: 308731aa6534500e58fc211b9cc2bb7252df25ba
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
-  Proposer: 231565a8b6bbb1816f3670d6471e6a84e582c80c
-  Realm: 9ed57109332e95bdc48a7caedff80b70c51d5ef4
-  RealmSwift: 56629adb4acd2dc33eb2c8199fe856585dfd3ba3
-  Ruler: 51bd16cc00638702ef71713f80073588a6c7e682
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
 
-PODFILE CHECKSUM: 1ac70f51fa51e777ab4c3534d6b49b4f8c6a892e
+PODFILE CHECKSUM: 06808c48662dcaada4a29b7856a582d886b36474
 
-COCOAPODS: 1.0.0
+COCOAPODS: 1.0.1

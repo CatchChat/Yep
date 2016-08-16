@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 class ProfileSocialAccountBlogCell: UICollectionViewCell {
 
@@ -28,8 +27,8 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
 
-        iconImageView.image = UIImage(named: "icon_blog")
-        nameLabel.text = NSLocalizedString("Blog", comment: "")
+        iconImageView.image = UIImage.yep_iconBlog
+        nameLabel.text = "Blog"
         blogLabel.text = nil
 
         accessoryImageView.hidden = true

@@ -43,7 +43,17 @@ final class MediaView: UIView {
 
         recenterImage(image)
 
-        scrollView.scrollEnabled = false
+        setNormalScrollViewScrollEnabled()
+    }
+
+    private func setNormalScrollViewScrollEnabled() {
+
+        guard let image = image else {
+            return
+        }
+
+        let isVerticalLong = (image.size.height / image.size.width) > (bounds.height / bounds.width)
+        scrollView.scrollEnabled = isVerticalLong
     }
 
     var image: UIImage? {
@@ -139,7 +149,7 @@ final class MediaView: UIView {
                 isZoomIn = false
                 scrollView.yep_zoomToPoint(zoomPoint, withScale: zoomScale, animated: true)
 
-                scrollView.scrollEnabled = false
+                setNormalScrollViewScrollEnabled()
             }
         }
     }
@@ -261,7 +271,13 @@ extension MediaView: UIScrollViewDelegate {
 
             zoomScaleBeforeZoomIn = scrollView.minimumZoomScale
             isZoomIn = !(scrollView.zoomScale == scrollView.minimumZoomScale)
-            scrollView.scrollEnabled = isZoomIn
+
+            if isZoomIn {
+                scrollView.scrollEnabled = true
+
+            } else {
+                setNormalScrollViewScrollEnabled()
+            }
         }
     }
 }

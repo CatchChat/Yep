@@ -8,11 +8,9 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import RealmSwift
 import Navi
 import Kingfisher
-import Proposer
 
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
@@ -25,7 +23,7 @@ final class ConversationsViewController: BaseViewController {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
         searchBar.placeholder = NSLocalizedString("Search", comment: "")
-        searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
         searchBar.delegate = self
         return searchBar
     }()
@@ -34,9 +32,6 @@ final class ConversationsViewController: BaseViewController {
     lazy var searchTransition: SearchTransition = {
         return SearchTransition()
     }()
-
-    private let feedConversationDockCellID = "FeedConversationDockCell"
-    private let cellIdentifier = "ConversationCell"
 
     @IBOutlet weak var conversationsTableView: UITableView! {
         didSet {
@@ -48,11 +43,10 @@ final class ConversationsViewController: BaseViewController {
             conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-            conversationsTableView.registerNib(UINib(nibName: feedConversationDockCellID, bundle: nil), forCellReuseIdentifier: feedConversationDockCellID)
-            conversationsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            conversationsTableView.registerNibOf(FeedConversationDockCell)
+            conversationsTableView.registerNibOf(ConversationCell)
 
             conversationsTableView.rowHeight = 80
-
             conversationsTableView.tableFooterView = UIView()
         }
     }
@@ -65,12 +59,12 @@ final class ConversationsViewController: BaseViewController {
         didSet {
             if haveUnreadMessages != oldValue {
                 if haveUnreadMessages {
-                    navigationController?.tabBarItem.image = UIImage(named: "icon_chat_unread")
-                    navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active_unread")
+                    navigationController?.tabBarItem.image = UIImage.yep_iconChatUnread
+                    navigationController?.tabBarItem.selectedImage = UIImage.yep_iconChatActiveUnread
 
                 } else {
-                    navigationController?.tabBarItem.image = UIImage(named: "icon_chat")
-                    navigationController?.tabBarItem.selectedImage = UIImage(named: "icon_chat_active")
+                    navigationController?.tabBarItem.image = UIImage.yep_iconChat
+                    navigationController?.tabBarItem.selectedImage = UIImage.yep_iconChatActive
                 }
             }
         }
@@ -78,7 +72,7 @@ final class ConversationsViewController: BaseViewController {
 
     private var unreadMessagesCount: Int = 0 {
         willSet {
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 if newValue > 0 {
                     self?.navigationItem.title = "Yep(\(newValue))"
                 } else {
@@ -138,29 +132,29 @@ final class ConversationsViewController: BaseViewController {
 
         realm = try! Realm()
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Notification.newMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.newMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Notification.deletedMessages, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.deletedMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Notification.changedConversation, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.changedConversation, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadFeedConversationsDock), name: YepConfig.Notification.changedFeedConversation, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadFeedConversationsDock), name: Config.Notification.changedFeedConversation, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Notification.markAsReaded, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.markAsReaded, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Notification.updatedUser, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.updatedUser, object: nil)
         
         // 确保自己发送消息的时候，会话列表也会刷新，避免时间戳不一致
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: YepConfig.Message.Notification.MessageStateChanged, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Message.Notification.MessageStateChanged, object: nil)
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.reloadConversationsTableView()
             }
         }
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.reloadConversationsTableView()
             }
         }
@@ -168,7 +162,7 @@ final class ConversationsViewController: BaseViewController {
         navigationItem.titleView = activityIndicatorTitleView
 
         isFetchingUnreadMessages.bindListener(Listener.isFetchingUnreadMessages) { [weak self] isFetching in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.activityIndicatorTitleView.state = isFetching ? .Active : .Normal
             }
         }
@@ -190,11 +184,11 @@ final class ConversationsViewController: BaseViewController {
             }
         }
 
-        if PrivateResource.Location(.WhenInUse).isAuthorized {
-            YepLocationService.turnOn()
-        }
-
         cacheInAdvance()
+
+        if traitCollection.forceTouchCapability == .Available {
+            registerForPreviewingWithDelegate(self, sourceView: conversationsTableView)
+        }
 
         #if DEBUG
             //view.addSubview(conversationsFPSLabel)
@@ -205,9 +199,9 @@ final class ConversationsViewController: BaseViewController {
 
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
 
-            // 最近一天活跃的好友
+            // 最近两天活跃的好友
 
-            for user in normalFriends().filter("lastSignInUnixTime > %@", NSDate().timeIntervalSince1970 - 60*60*24) {
+            for user in normalFriends().filter("lastSignInUnixTime > %@", NSDate().timeIntervalSince1970 - 60*60*48) {
 
                 do {
                     let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
@@ -219,77 +213,6 @@ final class ConversationsViewController: BaseViewController {
                     AvatarPod.wakeAvatar(userAvatar, completion: { _, _, _ in })
                 }
             }
-
-            /*
-            // 每个对话的最近 10 条消息（image or thumbnail）
-
-            guard let realm = try? Realm() else {
-                return
-            }
-
-            for conversation in realm.objects(Conversation) {
-
-                let messages = messagesOfConversation(conversation, inRealm: realm)
-
-                let latestBatch = min(10, messages.count)
-
-                let messageImagePreferredWidth = YepConfig.ChatCell.mediaPreferredWidth
-                let messageImagePreferredHeight = YepConfig.ChatCell.mediaPreferredHeight
-
-                for i in (messages.count - latestBatch)..<messages.count {
-
-                    let message = messages[i]
-
-                    if let user = message.fromFriend {
-
-                        let tailDirection: MessageImageTailDirection = user.friendState != UserFriendState.Me.rawValue ? .Left : .Right
-
-                        switch message.mediaType {
-
-                        case MessageMediaType.Image.rawValue:
-
-                            if let (imageWidth, imageHeight) = imageMetaOfMessage(message) {
-
-                                let aspectRatio = imageWidth / imageHeight
-
-                                let messageImagePreferredWidth = max(messageImagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
-                                let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-
-                                if aspectRatio >= 1 {
-                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: tailDirection, completion: { _ in
-                                    })
-
-                                } else {
-                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: tailDirection, completion: { _ in
-                                    })
-                                }
-                            }
-
-                        case MessageMediaType.Video.rawValue:
-
-                            if let (videoWidth, videoHeight) = videoMetaOfMessage(message) {
-                                let aspectRatio = videoWidth / videoHeight
-
-                                let messageImagePreferredWidth = max(messageImagePreferredWidth, ceil(YepConfig.ChatCell.mediaMinHeight * aspectRatio))
-                                let messageImagePreferredHeight = max(messageImagePreferredHeight, ceil(YepConfig.ChatCell.mediaMinWidth / aspectRatio))
-
-                                if aspectRatio >= 1 {
-                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredWidth, height: ceil(messageImagePreferredWidth / aspectRatio)), tailDirection: tailDirection, completion: { _ in
-                                    })
-
-                                } else {
-                                    ImageCache.sharedInstance.imageOfMessage(message, withSize: CGSize(width: messageImagePreferredHeight * aspectRatio, height: messageImagePreferredHeight), tailDirection: tailDirection, completion: { _ in
-                                    })
-                                }
-                            }
-
-                        default:
-                            break
-                        }
-                    }
-                }
-            }
-            */
         }
     }
 
@@ -357,25 +280,16 @@ final class ConversationsViewController: BaseViewController {
         case "showConversation":
 
             let vc = segue.destinationViewController as! ConversationViewController
+            let conversation = sender as! Conversation
+            prepareConversationViewController(vc, withConversation: conversation)
 
+            recoverOriginalNavigationDelegate()
+
+        case "showChat":
+
+            let vc = segue.destinationViewController as! ChatViewController
             let conversation = sender as! Conversation
             vc.conversation = conversation
-
-            vc.afterSentMessageAction = { // 自己发送消息后，更新 Cell
-
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-
-                    guard let row = self?.conversations.indexOf(conversation) else {
-                        return
-                    }
-
-                    let indexPath = NSIndexPath(forRow: row, inSection: Section.Conversation.rawValue)
-
-                    if let cell = self?.conversationsTableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                        cell.updateInfoLabels()
-                    }
-                }
-            }
 
             recoverOriginalNavigationDelegate()
 
@@ -384,9 +298,7 @@ final class ConversationsViewController: BaseViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             let user = sender as! User
-            vc.profileUser = ProfileUser.UserType(user)
-
-            vc.setBackButtonWithTitle()
+            vc.prepare(withUser: user)
 
             recoverOriginalNavigationDelegate()
             
@@ -395,18 +307,42 @@ final class ConversationsViewController: BaseViewController {
         }
     }
 
+    private func prepareConversationViewController(vc: ConversationViewController, withConversation conversation: Conversation) {
+
+        vc.conversation = conversation
+
+        vc.afterSentMessageAction = { // 自己发送消息后，更新 Cell
+
+            SafeDispatch.async { [weak self] in
+
+                guard let row = self?.conversations.indexOf(conversation) else {
+                    return
+                }
+
+                let indexPath = NSIndexPath(forRow: row, inSection: Section.Conversation.rawValue)
+
+                if let cell = self?.conversationsTableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                    cell.updateInfoLabels()
+                }
+            }
+        }
+    }
+
     // MARK: Actions
 
     @objc private func reloadConversationsTableView() {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+        SafeDispatch.async { [weak self] in
             self?.conversationsTableView.reloadData()
         }
     }
 
     @objc private func reloadFeedConversationsDock() {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+
+        SafeDispatch.async { [weak self] in
             let sectionIndex = Section.FeedConversation.rawValue
-            guard self?.conversationsTableView.numberOfSections ?? 0 > sectionIndex else {
+            guard (self?.conversationsTableView.numberOfSections ?? 0) > sectionIndex else {
+                self?.conversationsTableView.reloadData()
                 return
             }
 
@@ -457,11 +393,11 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         switch indexPath.section {
 
         case Section.FeedConversation.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(feedConversationDockCellID) as! FeedConversationDockCell
+            let cell: FeedConversationDockCell = tableView.dequeueReusableCell()
             return cell
 
         case Section.Conversation.rawValue:
-            let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ConversationCell
+            let cell: ConversationCell = tableView.dequeueReusableCell()
             return cell
             
         default:
@@ -560,7 +496,17 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         case Section.Conversation.rawValue:
             if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                performSegueWithIdentifier("showConversation", sender: cell.conversation)
+
+                #if ASYNC_DISPLAY
+                    let conversation = cell.conversation
+                    if conversation.withFriend?.username == "init" || conversation.withFriend?.username == "nixzhu" {
+                        performSegueWithIdentifier("showChat", sender: cell.conversation)
+                    } else {
+                        performSegueWithIdentifier("showConversation", sender: cell.conversation)
+                    }
+                #else
+                    performSegueWithIdentifier("showConversation", sender: cell.conversation)
+                #endif
             }
 
         default:
@@ -582,21 +528,26 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
     func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
 
         if editingStyle == .Delete {
-            
+
             guard let conversation = conversations[safe: indexPath.row] else {
                 tableView.setEditing(false, animated: true)
                 return
             }
 
+            let conversationsCountBeforeDelete = conversations.count
+
             tryDeleteOrClearHistoryOfConversation(conversation, inViewController: self, whenAfterClearedHistory: {
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async { [weak self, weak tableView] in
+
+                    guard let tableView = tableView else { return }
+
                     tableView.setEditing(false, animated: true)
 
                     // update cell
 
                     if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
-                        if let conversation = self.conversations[safe: indexPath.row] {
+                        if let conversation = self?.conversations[safe: indexPath.row] {
                             let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
                             cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
                         }
@@ -604,16 +555,66 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 }
 
             }, afterDeleted: {
-                dispatch_async(dispatch_get_main_queue()) {
-                    tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                SafeDispatch.async { [weak self, weak tableView] in
+
+                    guard let strongSelf = self else { return }
+
+                    // double check
+                    // NOTICE: conversations.count less than conversationsCountBeforeDelete by 1
+                    guard conversationsCountBeforeDelete == (strongSelf.conversations.count + 1) else {
+                        tableView?.reloadData()
+                        return
+                    }
+
+                    tableView?.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                 }
 
             }, orCanceled: {
-                dispatch_async(dispatch_get_main_queue()) {
-                    tableView.setEditing(false, animated: true)
+                SafeDispatch.async { [weak tableView] in
+                    tableView?.setEditing(false, animated: true)
                 }
             })
         }
     }
 }
 
+// MARK: - UIViewControllerPreviewingDelegate
+
+extension ConversationsViewController: UIViewControllerPreviewingDelegate {
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+
+        guard let indexPath = conversationsTableView.indexPathForRowAtPoint(location), cell = conversationsTableView.cellForRowAtIndexPath(indexPath) else {
+            return nil
+        }
+
+        previewingContext.sourceRect = cell.frame
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            return nil
+        }
+
+        switch section {
+
+        case .FeedConversation:
+            return nil
+
+        case .Conversation:
+
+            let vc = UIStoryboard.Scene.conversation
+            let conversation = conversations[indexPath.row]
+            prepareConversationViewController(vc, withConversation: conversation)
+
+            recoverOriginalNavigationDelegate()
+
+            vc.isPreviewed = true
+
+            return vc
+        }
+    }
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+
+        showViewController(viewControllerToCommit, sender: self)
+    }
+}

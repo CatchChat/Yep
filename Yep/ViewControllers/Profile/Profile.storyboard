@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="vX9-dx-mws">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Profile-->
+        <scene sceneID="icK-Ky-prE">
+            <objects>
+                <viewController storyboardIdentifier="ProfileViewController" id="hEp-Gj-1U7" userLabel="Profile" customClass="ProfileViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="4B9-hj-Rzy"/>
+                        <viewControllerLayoutGuide type="bottom" id="1E2-ua-X33"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TYQ-Wc-QT4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Sjk-lT-1tx" userLabel="Profile Collection View">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="c0Z-cH-TdG" customClass="ProfileLayout" customModule="Yep" customModuleProvider="target">
+                                    <size key="itemSize" width="141" height="116"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                                <connections>
+                                    <outlet property="dataSource" destination="hEp-Gj-1U7" id="02d-9R-tme"/>
+                                    <outlet property="delegate" destination="hEp-Gj-1U7" id="oWZ-L5-zgj"/>
+                                </connections>
+                            </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wbb-HU-8ON" userLabel="Say Hi View" customClass="BottomButtonView" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="430" width="320" height="50"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Rgi-rz-qHO"/>
+                                </constraints>
+                            </view>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="top_shadow" translatesAutoresizingMaskIntoConstraints="NO" id="8Hs-5W-Gey" userLabel="Shadow Image View">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="80" id="eg5-RY-1kg"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Sjk-lT-1tx" firstAttribute="top" secondItem="TYQ-Wc-QT4" secondAttribute="top" id="2Je-KA-12b"/>
+                            <constraint firstAttribute="trailing" secondItem="wbb-HU-8ON" secondAttribute="trailing" id="7BQ-6G-LbB"/>
+                            <constraint firstItem="Sjk-lT-1tx" firstAttribute="leading" secondItem="TYQ-Wc-QT4" secondAttribute="leading" id="91K-Xz-HmI"/>
+                            <constraint firstItem="8Hs-5W-Gey" firstAttribute="top" secondItem="TYQ-Wc-QT4" secondAttribute="top" id="DhR-8T-Emc"/>
+                            <constraint firstItem="8Hs-5W-Gey" firstAttribute="leading" secondItem="TYQ-Wc-QT4" secondAttribute="leading" id="EOW-7t-D6D"/>
+                            <constraint firstAttribute="bottom" secondItem="wbb-HU-8ON" secondAttribute="bottom" id="Em4-7I-y5C"/>
+                            <constraint firstAttribute="trailing" secondItem="Sjk-lT-1tx" secondAttribute="trailing" id="Kdm-JK-1wV"/>
+                            <constraint firstAttribute="trailing" secondItem="8Hs-5W-Gey" secondAttribute="trailing" id="Mif-yD-gxq"/>
+                            <constraint firstItem="wbb-HU-8ON" firstAttribute="leading" secondItem="TYQ-Wc-QT4" secondAttribute="leading" id="VXc-Yb-ANs"/>
+                            <constraint firstAttribute="bottom" secondItem="Sjk-lT-1tx" secondAttribute="bottom" id="kvT-t0-dxb"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Profile" id="usA-Jr-ae1">
+                        <barButtonItem key="rightBarButtonItem" image="icon_settings" id="kBP-Eo-i2l">
+                            <connections>
+                                <segue destination="VfL-Ot-quC" kind="show" identifier="showSettings" id="KYS-IM-wkb">
+                                    <nil key="action"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="profileCollectionView" destination="Sjk-lT-1tx" id="bCk-ku-rE4"/>
+                        <outlet property="sayHiView" destination="wbb-HU-8ON" id="Jq8-yU-TfE"/>
+                        <outlet property="topShadowImageView" destination="8Hs-5W-Gey" id="wQk-ni-Im5"/>
+                        <segue destination="quj-U2-nJH" kind="show" identifier="showFeedsWithSkill" id="zyq-EF-fYA">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="RfL-7b-Vf7" kind="show" identifier="showSocialWorkGithub" id="Q6b-3t-VIg">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="rY6-VM-9Os" kind="show" identifier="showSocialWorkDribbble" id="DCo-YT-2rh">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="WCu-SO-xkn" kind="show" identifier="showSocialWorkInstagram" id="cMC-8n-aWR">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="ujB-i0-csk" kind="show" identifier="showEditSkills" id="pJm-XD-WVe">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="HTl-qc-aE1" kind="show" identifier="showConversation" id="1mV-V1-js8">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="k8Y-pk-mBi" kind="show" identifier="showFeedsOfProfileUser" id="xcE-0c-QO8">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="VI4-az-Skx" kind="show" identifier="showProfileWithUsername" id="TLK-Sn-i7n"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8ng-15-xbs" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="253" y="1901"/>
+        </scene>
+        <!--SettingsViewController-->
+        <scene sceneID="gFO-HQ-ogY">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Settings" referencedIdentifier="SettingsViewController" id="VfL-Ot-quC" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n8l-ad-fAO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="633.5" y="1581"/>
+        </scene>
+        <!--EditSkillsViewController-->
+        <scene sceneID="tC1-S2-xZd">
+            <objects>
+                <viewControllerPlaceholder storyboardName="EditSkills" referencedIdentifier="EditSkillsViewController" id="ujB-i0-csk" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nbk-09-oXz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="803" y="1694"/>
+        </scene>
+        <!--FeedsViewController-->
+        <scene sceneID="tFd-9e-04m">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Feeds" referencedIdentifier="FeedsViewController" id="quj-U2-nJH" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Ta-Os-g1f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="843" y="1759"/>
+        </scene>
+        <!--SocialWorkGithubViewController-->
+        <scene sceneID="zkX-nG-seE">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkGithubViewController" id="RfL-7b-Vf7" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="vBf-su-n7r" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="945" y="1992"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="vAn-Tz-RhC">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="HTl-qc-aE1" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="jp9-fa-PYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="931" y="1901"/>
+        </scene>
+        <!--SocialWorkDribbbleViewController-->
+        <scene sceneID="xIu-vn-sx3">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkDribbbleViewController" id="rY6-VM-9Os" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0Zz-Kk-M9f" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="859" y="2120"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="fuW-cf-KOP">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="VI4-az-Skx" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dLz-lt-WOK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="728" y="1643"/>
+        </scene>
+        <!--FeedsViewController-->
+        <scene sceneID="KPa-zg-OjV">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Feeds" referencedIdentifier="FeedsViewController" id="k8Y-pk-mBi" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xQ4-kg-GlW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="880" y="1820"/>
+        </scene>
+        <!--SocialWorkInstagramViewController-->
+        <scene sceneID="kyW-wT-a0y">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SocialWorks" referencedIdentifier="SocialWorkInstagramViewController" id="WCu-SO-xkn" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="WWu-rh-8Ql" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="921.5" y="2061"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="bTJ-7G-JWJ">
+            <objects>
+                <navigationController storyboardIdentifier="ProfileNavigationViewController" automaticallyAdjustsScrollViewInsets="NO" id="vX9-dx-mws" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="rXJ-gg-8zC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="hEp-Gj-1U7" kind="relationship" relationship="rootViewController" id="G9C-j2-eQJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lu3-gu-qhn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-173" y="1901"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="icon_settings" width="30" height="30"/>
+        <image name="top_shadow" width="375" height="80"/>
+    </resources>
+</document>

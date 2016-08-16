@@ -10,7 +10,6 @@ import UIKit
 import AVFoundation
 import MapKit
 import YepKit
-import YepConfig
 import RealmSwift
 import Kingfisher
 
@@ -41,7 +40,8 @@ final class FeedView: UIView {
         }
     }
 
-    var tapMediaAction: ((transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void)?
+    var tapImagesAction: ((transitionViews: [UIView?], attachments: [DiscoveredAttachment], image: UIImage?, index: Int) -> Void)?
+
     var tapGithubRepoAction: (NSURL -> Void)?
     var tapDribbbleShotAction: (NSURL -> Void)?
     var tapLocationAction: ((locationName: String, locationCoordinate: CLLocationCoordinate2D) -> Void)?
@@ -241,12 +241,12 @@ final class FeedView: UIView {
     @IBOutlet weak var timeLabelTopConstraint: NSLayoutConstraint!
 
     lazy var socialWorkHalfMaskImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
+        let imageView = UIImageView(image: UIImage.yep_socialMediaImageMask)
         return imageView
     }()
 
     lazy var socialWorkFullMaskImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask_full"))
+        let imageView = UIImageView(image: UIImage.yep_socialMediaImageMaskFull)
         return imageView
     }()
     
@@ -260,9 +260,7 @@ final class FeedView: UIView {
     static let messageTextViewMaxWidth: CGFloat = {
         let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
-        }()
-
-    let feedMediaCellID = "FeedMediaCell"
+    }()
 
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -309,7 +307,9 @@ final class FeedView: UIView {
         mediaCollectionView.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
         mediaCollectionView.showsHorizontalScrollIndicator = false
         mediaCollectionView.backgroundColor = UIColor.clearColor()
-        mediaCollectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
+
+        mediaCollectionView.registerNibOf(FeedMediaCell)
+
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
 
@@ -758,7 +758,7 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
+        let cell: FeedMediaCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
         let attachment = attachments[indexPath.item]
 
@@ -782,8 +782,14 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
 
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
 
-        let transitionView = cell.imageView
-        tapMediaAction?(transitionView: transitionView, image: cell.imageView.image, attachments: attachments, index: indexPath.item)
+//        let transitionView = cell.imageView
+//        tapMediaAction?(transitionView: transitionView, image: cell.imageView.image, attachments: attachments, index: indexPath.item)
+
+        let transitionViews: [UIView?] = (0..<attachments.count).map({
+            let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
+            return cell?.imageView
+        })
+        tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: cell.imageView.image, index: indexPath.item)
     }
 }
 

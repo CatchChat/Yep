@@ -24,7 +24,7 @@ extension ConversationViewController {
     }
 
     private func indicateBlockedByRecipient() {
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             if let conversation = self?.conversation {
                 self?.indicateBlockedByRecipientInConversation(conversation)
             }

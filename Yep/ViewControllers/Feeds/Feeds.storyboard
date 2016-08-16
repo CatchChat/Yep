@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="aML-8C-E9A">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+    </dependencies>
+    <scenes>
+        <!--Feeds View Controller-->
+        <scene sceneID="Ijh-cH-gpa">
+            <objects>
+                <viewController storyboardIdentifier="FeedsViewController" id="uI0-xm-DZs" customClass="FeedsViewController" customModule="Yep" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="9gy-vW-cXw"/>
+                        <viewControllerLayoutGuide type="bottom" id="Czz-To-FY9"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="p9e-tm-2Xo">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="MRp-lr-ct1">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="uI0-xm-DZs" id="hoB-Cd-fhn"/>
+                                    <outlet property="delegate" destination="uI0-xm-DZs" id="oN2-IY-ppX"/>
+                                </connections>
+                            </tableView>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="lvE-Hf-oaf">
+                                <rect key="frame" x="150" y="184" width="20" height="20"/>
+                            </activityIndicatorView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="MRp-lr-ct1" firstAttribute="leading" secondItem="p9e-tm-2Xo" secondAttribute="leading" id="34Q-GG-ogx"/>
+                            <constraint firstItem="MRp-lr-ct1" firstAttribute="top" secondItem="p9e-tm-2Xo" secondAttribute="top" id="7Cl-ks-miY"/>
+                            <constraint firstItem="lvE-Hf-oaf" firstAttribute="centerX" secondItem="p9e-tm-2Xo" secondAttribute="centerX" id="E9U-Xj-9OR"/>
+                            <constraint firstAttribute="trailing" secondItem="MRp-lr-ct1" secondAttribute="trailing" id="RcV-JH-Qp7"/>
+                            <constraint firstAttribute="bottom" secondItem="MRp-lr-ct1" secondAttribute="bottom" id="ZQ6-ge-NcV"/>
+                            <constraint firstItem="lvE-Hf-oaf" firstAttribute="top" secondItem="9gy-vW-cXw" secondAttribute="bottom" constant="120" id="kE2-Yq-uus"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="EMq-Bk-FYo">
+                        <barButtonItem key="rightBarButtonItem" systemItem="add" id="mXq-rF-rhx">
+                            <connections>
+                                <action selector="createNewFeed:" destination="uI0-xm-DZs" id="mmD-MQ-MCc"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="activityIndicator" destination="lvE-Hf-oaf" id="S6d-hX-80e"/>
+                        <outlet property="activityIndicatorTopConstraint" destination="kE2-Yq-uus" id="38s-jc-Fo3"/>
+                        <outlet property="feedsTableView" destination="MRp-lr-ct1" id="isS-fM-T1z"/>
+                        <segue destination="EC4-13-l76" kind="show" identifier="showFeedsWithSkill" id="fPO-h6-vAb">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="ZzZ-dB-ryv" kind="show" identifier="showSkillHome" id="eIo-RU-XAV">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="624-OU-1Xr" kind="show" identifier="showConversation" id="B5z-Rc-jVn">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="7KC-JD-lKq" kind="show" identifier="showProfile" id="PgY-Zl-On7">
+                            <nil key="action"/>
+                        </segue>
+                        <segue destination="YAw-wz-CDB" kind="presentation" identifier="presentNewFeed" id="H5f-Sh-EvP"/>
+                        <segue destination="awM-dC-JSo" kind="presentation" identifier="presentNewFeedVoiceRecord" id="Ni6-wL-dqd"/>
+                        <segue destination="bRp-nz-lab" kind="presentation" identifier="presentPickLocation" id="tcb-PX-7gL"/>
+                        <segue destination="feI-pV-JOr" kind="show" identifier="showSearchFeeds" id="kNr-H8-EjG">
+                            <nil key="action"/>
+                        </segue>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FXu-54-nh6" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="354" y="220"/>
+        </scene>
+        <!--NewFeed-->
+        <scene sceneID="oKv-Nd-tP4">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewFeed" id="YAw-wz-CDB" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LZe-FP-43j" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="233" y="647"/>
+        </scene>
+        <!--NewFeedVoiceRecord-->
+        <scene sceneID="kzo-aI-kTe">
+            <objects>
+                <viewControllerPlaceholder storyboardName="NewFeedVoiceRecord" id="awM-dC-JSo" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ePZ-v4-48J" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="354" y="696"/>
+        </scene>
+        <!--PickLocation-->
+        <scene sceneID="6bC-CC-Scg">
+            <objects>
+                <viewControllerPlaceholder storyboardName="PickLocation" id="bRp-nz-lab" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k3A-JA-j4S" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="475" y="638"/>
+        </scene>
+        <!--ConversationViewController-->
+        <scene sceneID="9ND-aA-nal">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Conversation" referencedIdentifier="ConversationViewController" id="624-OU-1Xr" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Cqz-hm-TlK" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="924" y="220"/>
+        </scene>
+        <!--ProfileViewController-->
+        <scene sceneID="U4P-Dv-EK6">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="7KC-JD-lKq" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TK2-cU-LrQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="896" y="310"/>
+        </scene>
+        <!--SearchFeedsViewController-->
+        <scene sceneID="O1a-Pq-OJq">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SearchFeeds" referencedIdentifier="SearchFeedsViewController" id="feI-pV-JOr" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ws7-Vs-W2K" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="896" y="396"/>
+        </scene>
+        <!--SkillHomeViewController-->
+        <scene sceneID="gbh-SX-xdw">
+            <objects>
+                <viewControllerPlaceholder storyboardName="SkillHome" referencedIdentifier="SkillHomeViewController" id="ZzZ-dB-ryv" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qxi-ig-YBg" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="866.5" y="41"/>
+        </scene>
+        <!--FeedsViewController-->
+        <scene sceneID="urd-VG-0VX">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Feeds" referencedIdentifier="FeedsViewController" id="EC4-13-l76" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="llk-yt-XfA" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="894" y="126"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="fuY-KX-QZw">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="aML-8C-E9A" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LvZ-mW-g1v">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="uI0-xm-DZs" kind="relationship" relationship="rootViewController" id="zYe-jO-0bY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hFG-vz-Kss" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-93" y="220"/>
+        </scene>
+    </scenes>
+</document>

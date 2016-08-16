@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import YepKit
 import Ruler
 
 protocol ReturnPickedPhotosDelegate: class {
@@ -36,8 +37,6 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
     var completion: ((images: [UIImage], imageAssets: [PHAsset]) -> Void)?
     var imageLimit = 0
 
-    let photoCellID = "PhotoCell"
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "\(NSLocalizedString("Pick Photos", comment: "")) (\(imageLimit + pickedImages.count)/4)"
@@ -45,7 +44,9 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
         collectionView?.backgroundColor = UIColor.whiteColor()
         collectionView?.alwaysBounceVertical = true
         automaticallyAdjustsScrollViewInsets = false
-        collectionView?.registerNib(UINib(nibName: photoCellID, bundle: nil), forCellWithReuseIdentifier: photoCellID)
+
+        collectionView?.registerNibOf(PhotoCell)
+
         if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
 
             let width: CGFloat = Ruler<CGFloat>.iPhoneVertical(77.5, 77.5, 92.5, 102).value
@@ -58,7 +59,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
             layout.sectionInset = UIEdgeInsets(top: gap + 64, left: gap, bottom: gap, right: gap)
         }
         
-        let backBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_back"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(PickPhotosViewController.back(_:)))
+        let backBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconBack, style: .Plain, target: self, action: #selector(PickPhotosViewController.back(_:)))
         navigationItem.leftBarButtonItem = backBarButtonItem
         
         let doneButton = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(PickPhotosViewController.done(_:)))
@@ -178,7 +179,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(photoCellID, forIndexPath: indexPath) as! PhotoCell
+        let cell: PhotoCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
         return cell
     }
 
@@ -237,7 +238,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
 
         self.images = changeDetails.fetchResultAfterChanges
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             // Loop through the visible cell indices
             guard let
                 indexPaths = self.collectionView?.indexPathsForVisibleItems(),

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepConfig
 import Ruler
 
 final class AboutViewController: SegueViewController {
@@ -19,28 +18,35 @@ final class AboutViewController: SegueViewController {
     @IBOutlet private weak var appNameLabelTopConstraint: NSLayoutConstraint!
     @IBOutlet private weak var appVersionLabel: UILabel!
     
-    @IBOutlet private weak var aboutTableView: UITableView!
+    @IBOutlet private weak var aboutTableView: UITableView! {
+        didSet {
+            aboutTableView.registerNibOf(AboutCell)
+        }
+    }
     @IBOutlet private weak var aboutTableViewHeightConstraint: NSLayoutConstraint!
 
     @IBOutlet private weak var copyrightLabel: UILabel!
 
-    private let aboutCellID = "AboutCell"
-
     private let rowHeight: CGFloat = Ruler.iPhoneVertical(50, 60, 60, 60).value
 
     private let aboutAnnotations: [String] = [
-        NSLocalizedString("Pods helps Yep", comment: ""),
-        NSLocalizedString("Rate Yep on App Store", comment: ""),
+        NSLocalizedString("Open Source of Yep", comment: ""),
+        NSLocalizedString("Review Yep on the App Store", comment: ""),
         NSLocalizedString("Terms of Service", comment: ""),
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("About", comment: "")
+        title = String.trans_titleAbout
 
         appLogoImageViewTopConstraint.constant = Ruler.iPhoneVertical(0, 20, 40, 60).value
         appNameLabelTopConstraint.constant = Ruler.iPhoneVertical(10, 20, 20, 20).value
+
+        let motionEffect = UIMotionEffect.yep_twoAxesShift(Ruler.iPhoneHorizontal(20, 30, 40).value)
+        appLogoImageView.addMotionEffect(motionEffect)
+        appNameLabel.addMotionEffect(motionEffect)
+        appVersionLabel.addMotionEffect(motionEffect)
 
         appNameLabel.textColor = UIColor.yepTintColor()
 
@@ -49,8 +55,6 @@ final class AboutViewController: SegueViewController {
             buildVersionNumber = NSBundle.buildVersionNumber {
                 appVersionLabel.text = NSLocalizedString("Version", comment: "") + " " + releaseVersionNumber + " (\(buildVersionNumber))"
         }
-
-        aboutTableView.registerNib(UINib(nibName: aboutCellID, bundle: nil), forCellReuseIdentifier: aboutCellID)
 
         aboutTableViewHeightConstraint.constant = rowHeight * CGFloat(aboutAnnotations.count) + 1
     }
@@ -62,7 +66,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
 
     private enum Row: Int {
         case Pods = 1
-        case Rate
+        case Review
         case Terms
     }
 
@@ -76,7 +80,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         case 0:
             return UITableViewCell()
         default:
-            let cell = tableView.dequeueReusableCellWithIdentifier(aboutCellID) as! AboutCell
+            let cell: AboutCell = tableView.dequeueReusableCell()
             let annotation = aboutAnnotations[indexPath.row - 1]
             cell.annotationLabel.text = annotation
             return cell
@@ -101,8 +105,8 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         switch indexPath.row {
         case Row.Pods.rawValue:
             performSegueWithIdentifier("showPodsHelpYep", sender: nil)
-        case Row.Rate.rawValue:
-            UIApplication.sharedApplication().openURL(NSURL(string: YepConfig.appURLString)!)
+        case Row.Review.rawValue:
+            UIApplication.sharedApplication().yep_reviewOnTheAppStore()
         case Row.Terms.rawValue:
             if let URL = NSURL(string: YepConfig.termsURLString) {
                 yep_openURL(URL)

@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepConfig
 
 @IBDesignable
 final class SampleView: UIView {

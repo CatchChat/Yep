@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import Kingfisher
 
 final class ChatLeftSocialWorkCell: UICollectionViewCell {
@@ -28,7 +27,7 @@ final class ChatLeftSocialWorkCell: UICollectionViewCell {
     @IBOutlet weak var centerLineImageView: UIImageView!
 
     lazy var maskImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
+        let imageView = UIImageView(image: UIImage.yep_socialMediaImageMask)
         return imageView
     }()
 

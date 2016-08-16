@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import Ruler
 
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
@@ -42,12 +41,12 @@ final class FeedDribbbleShotCell: FeedBasicCell {
 
     lazy var socialWorkBorderImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "social_work_border")
+        imageView.image = UIImage.yep_socialWorkBorder
         return imageView
     }()
 
     lazy var halfMaskImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "social_media_image_mask"))
+        let imageView = UIImageView(image: UIImage.yep_socialMediaImageMask)
         return imageView
     }()
 
@@ -61,12 +60,6 @@ final class FeedDribbbleShotCell: FeedBasicCell {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     override func prepareForReuse() {

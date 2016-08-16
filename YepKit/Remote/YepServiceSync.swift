@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import YepConfig
 import YepNetworking
 import RealmSwift
 
@@ -19,12 +18,12 @@ public enum MessageAge: String {
 public func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], messageAge: MessageAge) {
 
     if !messageIDs.isEmpty {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             let object = [
                 "messageIDs": messageIDs,
                 "messageAge": messageAge.rawValue,
             ]
-            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.newMessages, object: object)
+            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.newMessages, object: object)
         }
     }
 }
@@ -359,37 +358,30 @@ public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                     YepUserDefaults.admin.value = (friendInfo["admin"] as? Bool)
 
-                    if let nickname = friendInfo["nickname"] as? String {
-                        YepUserDefaults.nickname.value = nickname
-                    }
+                    let nickname = friendInfo["nickname"] as? String
+                    YepUserDefaults.nickname.value = nickname
 
-                    if let introduction = friendInfo["introduction"] as? String where !introduction.isEmpty {
-                        YepUserDefaults.introduction.value = introduction
-                    }
+                    let introduction = friendInfo["introduction"] as? String
+                    YepUserDefaults.introduction.value = introduction
 
-                    if let avatarInfo = friendInfo["avatar"] as? JSONDictionary, avatarURLString = avatarInfo["url"] as? String {
-                        YepUserDefaults.avatarURLString.value = avatarURLString
-                    }
+                    let avatarInfo = friendInfo["avatar"] as? JSONDictionary
+                    let avatarURLString = avatarInfo?["url"] as? String
+                    YepUserDefaults.avatarURLString.value = avatarURLString
 
-                    if let badge = friendInfo["badge"] as? String {
-                        YepUserDefaults.badge.value = badge
-                    }
+                    let badge = friendInfo["badge"] as? String
+                    YepUserDefaults.badge.value = badge
 
-                    if let blogURLString = friendInfo["website_url"] as? String where !blogURLString.isEmpty {
-                        YepUserDefaults.blogURLString.value = blogURLString
-                    }
+                    let blogURLString = friendInfo["website_url"] as? String
+                    YepUserDefaults.blogURLString.value = blogURLString
 
-                    if let blogTitle = friendInfo["website_title"] as? String where !blogTitle.isEmpty {
-                        YepUserDefaults.blogTitle.value = blogTitle
-                    }
+                    let blogTitle = friendInfo["website_title"] as? String
+                    YepUserDefaults.blogTitle.value = blogTitle
 
-                    if let areaCode = friendInfo["phone_code"] as? String {
-                        YepUserDefaults.areaCode.value = areaCode
-                    }
+                    let areaCode = friendInfo["phone_code"] as? String
+                    YepUserDefaults.areaCode.value = areaCode
 
-                    if let mobile = friendInfo["mobile"] as? String {
-                        YepUserDefaults.mobile.value = mobile
-                    }
+                    let mobile = friendInfo["mobile"] as? String
+                    YepUserDefaults.mobile.value = mobile
                 }
             }
 
@@ -398,7 +390,7 @@ public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
     })
 }
 
-public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
+public func syncMyConversations(maxMessageID maxMessageID: String? = nil, afterSynced: (() -> Void)? = nil) {
 
     myConversations(maxMessageID: maxMessageID, failureHandler: nil) { result in
 
@@ -416,8 +408,8 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
                 _ = conversationWithDiscoveredUser($0, inRealm: realm)
             })
 
-            dispatch_async(dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            SafeDispatch.async {
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
             }
         }
 
@@ -427,8 +419,8 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
                 syncFeedGroupWithGroupInfo($0, inRealm: realm)
             })
 
-            dispatch_async(dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+            SafeDispatch.async {
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
             }
         }
 
@@ -455,9 +447,9 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
 
         let _ = try? realm.commitWrite()
 
-        dispatch_async(dispatch_get_main_queue()) {
-            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
+        SafeDispatch.async {
+            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
         }
 
         if let lastMessageID =  lastMessageID {
@@ -469,6 +461,8 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil) {
         }
 
         YepUserDefaults.syncedConversations.value = true
+
+        afterSynced?()
     }
 }
 
@@ -576,90 +570,6 @@ public func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
             
             // do further action
 
-            furtherAction()
-        }
-    }
-}
-
-public func syncGroupsAndDoFurtherAction(furtherAction: () -> Void) {
-
-    groups(failureHandler: nil) { allGroups in
-
-        //println("allGroups: \(allGroups)")
-        println("allGroups.count: \(allGroups.count)")
-        
-        dispatch_async(realmQueue) {
-
-            // 先整理出所有的 group 的 groupID
-
-            var remoteGroupIDSet = Set<String>()
-            for groupInfo in allGroups {
-                if let groupID = groupInfo["id"] as? String {
-                    remoteGroupIDSet.insert(groupID)
-                }
-            }
-
-            // 再在本地去除远端没有的 Group
-
-            guard let realm = try? Realm() else {
-                return
-            }
-
-            let localGroups = realm.objects(Group)
-
-            // 一个大的写入，尽量减少 realm 发通知
-
-            realm.beginWrite()
-
-            var groupsToDelete = [Group]()
-            for i in 0..<localGroups.count {
-                let localGroup = localGroups[i]
-
-                if !remoteGroupIDSet.contains(localGroup.groupID) {
-                    groupsToDelete.append(localGroup)
-                }
-            }
-
-            do {
-                let feedIDs = groupsToDelete.map({ $0.withFeed?.feedID }).flatMap({ $0 })
-                deleteSearchableItems(searchableItemType: .Feed, itemIDs: feedIDs)
-            }
-
-            for group in groupsToDelete {
-
-                // 有关联的 Feed 时就标记，不然删除
-
-                if let feed = group.withFeed {
-
-                    if group.includeMe {
-
-                        feed.deleted = true
-
-                        // 确保被删除的 Feed 的所有消息都被标记已读，重置 mentionedMe
-                        group.conversation?.messages.forEach { $0.readed = true }
-                        group.conversation?.mentionedMe = false
-                        group.conversation?.hasUnreadMessages = false
-                    }
-
-                } else {
-                    group.cascadeDeleteInRealm(realm)
-                }
-            }
-
-            // 增加本地没有的 Group
-
-            for groupInfo in allGroups {
-                syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
-            }
-
-            let _ = try? realm.commitWrite()
-
-            dispatch_async(dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
-            }
-
-            // do further action
-            
             furtherAction()
         }
     }
@@ -844,7 +754,7 @@ public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [St
 
     isFetchingUnreadMessages.value = true
 
-    dispatch_async(dispatch_get_main_queue()) {
+    SafeDispatch.async {
     
         println("Begin fetching")
         
@@ -852,7 +762,7 @@ public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [St
 
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 isFetchingUnreadMessages.value = false
 
                 furtherAction(messageIDs: [])
@@ -887,7 +797,7 @@ public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [St
 
                 let _ = try? realm.commitWrite()
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     isFetchingUnreadMessages.value = false
 
                     furtherAction(messageIDs: messageIDs)
@@ -994,6 +904,116 @@ public func recordMessageWithMessageID(messageID: String, detailInfo messageInfo
     }
 }
 
+enum ServiceMessageActionType: String {
+
+    case groupCreate = "CircleCreate"
+    case feedDelete = "TopicDelete"
+    case groupAddUser = "CircleAddUser"
+    case groupDeleteUser = "CircleDeleteUser"
+}
+
+public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm) -> Bool {
+
+    guard let actionInfo = messageInfo["action"] as? JSONDictionary else {
+        return false
+    }
+
+    //println("actionInfo: \(actionInfo)")
+
+    guard let typeRawValue = actionInfo["type"] as? String, type = ServiceMessageActionType(rawValue: typeRawValue) else {
+        return false
+    }
+
+    func tryDeleteGroup(totally totally: Bool = false) {
+
+        if let groupID = messageInfo["recipient_id"] as? String, group = groupWithGroupID(groupID, inRealm: realm) {
+
+            if let feedID = group.withFeed?.feedID {
+                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
+            }
+
+            // 有关联的 Feed 时就标记，不然删除
+
+            if !totally, let feed = group.withFeed {
+
+                if group.includeMe {
+
+                    feed.deleted = true
+
+                    // 确保被删除的 Feed 的所有消息都被标记已读，重置 mentionedMe
+                    group.conversation?.messages.forEach { $0.readed = true }
+                    group.conversation?.mentionedMe = false
+                    group.conversation?.hasUnreadMessages = false
+                }
+
+            } else {
+                group.cascadeDeleteInRealm(realm)
+            }
+
+            delay(1) {
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+            }
+        }
+    }
+
+    switch type {
+
+    case .groupCreate:
+
+        if let groupID = messageInfo["recipient_id"] as? String {
+            syncGroupWithGroupID(groupID)
+        }
+
+    case .feedDelete:
+
+         tryDeleteGroup()
+
+    case .groupAddUser:
+
+        guard let userID = actionInfo["user_id"] as? String else {
+            break
+        }
+
+        if userID == YepUserDefaults.userID.value {
+            if let groupID = messageInfo["recipient_id"] as? String {
+                syncGroupWithGroupID(groupID)
+            }
+        }
+
+    case .groupDeleteUser:
+
+        guard let userID = actionInfo["user_id"] as? String else {
+            break
+        }
+
+        if userID == YepUserDefaults.userID.value {
+            tryDeleteGroup(totally: true)
+        }
+    }
+
+    return true
+}
+
+public func syncGroupWithGroupID(groupID: String) {
+
+    groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
+
+        guard let realm = try? Realm() else {
+            return
+        }
+
+        realm.beginWrite()
+        syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
+        _ = try? realm.commitWrite()
+
+        delay(0.5) {
+            SafeDispatch.async {
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+            }
+        }
+    })
+}
+
 public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)?) {
 
     if let messageID = messageInfo["id"] as? String {
@@ -1015,6 +1035,11 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
             }
         }
 
+        // Service 消息
+        if isServiceMessageAndHandleMessageInfo(messageInfo, inRealm: realm) {
+            return
+        }
+
         if message == nil {
             let newMessage = Message()
             newMessage.messageID = messageID
@@ -1030,7 +1055,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                         // 只考虑最近的消息，过了可能混乱的时机就不再考虑
                         if abs(newMessage.createdUnixTime - latestMessage.createdUnixTime) < 60 {
                             println("xbefore newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
-                            newMessage.createdUnixTime = latestMessage.createdUnixTime + YepConfig.Message.localNewerTimeInterval
+                            newMessage.createdUnixTime = latestMessage.createdUnixTime + Config.Message.localNewerTimeInterval
                             println("xadjust newMessage.createdUnixTime: \(newMessage.createdUnixTime)")
                         }
                     }
@@ -1095,32 +1120,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                         
                                         // 若提及我，才同步group进而得到feed
                                         if let textContent = messageInfo["text_content"] as? String where textContent.yep_mentionedMeInRealm(realm) {
-                                            groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { (groupInfo) -> Void in
-                                                dispatch_async(realmQueue) {
-
-                                                    guard let realm = try? Realm() else {
-                                                        return
-                                                    }
-
-                                                    realm.beginWrite()
-
-                                                    if let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm) {
-                                                        if let
-                                                            feedInfo = groupInfo["topic"] as? JSONDictionary,
-                                                            feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) {
-                                                                saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
-                                                        }
-                                                    }
-
-                                                    let _ = try? realm.commitWrite()
-
-                                                    delay(1) {
-                                                        dispatch_async(dispatch_get_main_queue()) {
-                                                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedFeedConversation, object: nil)
-                                                        }
-                                                    }
-                                                }
-                                            })
+                                            syncGroupWithGroupID(groupID)
                                         }
                                     }
                                 }
@@ -1161,14 +1161,14 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                     
                                     userInfoOfUserWithUserID(userID, failureHandler: nil, completion: { userInfo in
 
-                                        dispatch_async(dispatch_get_main_queue()) {
+                                        SafeDispatch.async {
                                             guard let realm = try? Realm() else { return }
 
                                             realm.beginWrite()
                                             updateUserWithUserID(userID, useUserInfo: userInfo, inRealm: realm)
                                             let _ = try? realm.commitWrite()
 
-                                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.updatedUser, object: nil)
+                                            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.updatedUser, object: nil)
                                         }
                                     })
                                 }
@@ -1236,8 +1236,8 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
 
                             if createdNewConversation {
 
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+                                SafeDispatch.async {
+                                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
                                 }
                             }
 

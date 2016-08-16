@@ -9,12 +9,15 @@
 import UIKit
 import AVFoundation
 import YepKit
-import YepConfig
 import YepNetworking
 import Proposer
 import Navi
+import RxSwift
+import RxCocoa
 
 final class RegisterPickAvatarViewController: SegueViewController {
+
+    private lazy var disposeBag = DisposeBag()
     
     @IBOutlet private weak var avatarImageView: UIImageView!
     @IBOutlet private weak var cameraPreviewView: CameraPreviewView!
@@ -22,8 +25,12 @@ final class RegisterPickAvatarViewController: SegueViewController {
     @IBOutlet private weak var openCameraButton: BorderButton!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(RegisterPickAvatarViewController.next(_:)))
-            button.enabled = false
+        let button = UIBarButtonItem()
+        button.title = NSLocalizedString("Next", comment: "")
+        button.enabled = false
+        button.rx_tap
+            .subscribeNext({ [weak self] in self?.uploadAvatarAndGotoPickSkills() })
+            .addDisposableTo(self.disposeBag)
         return button
     }()
 
@@ -45,7 +52,7 @@ final class RegisterPickAvatarViewController: SegueViewController {
 
                 cameraPreviewView.hidden = true
                 avatarImageView.hidden = false
-                avatarImageView.image = UIImage(named: "default_avatar")
+                avatarImageView.image = UIImage.yep_defaultAvatar
                 nextButton.enabled = false
                 
             case .Captured:
@@ -57,30 +64,9 @@ final class RegisterPickAvatarViewController: SegueViewController {
         }
     }
 
-    private lazy var sessionQueue: dispatch_queue_t = dispatch_queue_create("session_queue", DISPATCH_QUEUE_SERIAL)
-
-    private lazy var session: AVCaptureSession = {
-        let _session = AVCaptureSession()
-        _session.sessionPreset = AVCaptureSessionPreset640x480
-
-        return _session
-    }()
-
-    private let mediaType = AVMediaTypeVideo
-
-    private lazy var videoDeviceInput: AVCaptureDeviceInput? = {
-        guard let videoDevice = self.deviceWithMediaType(self.mediaType, preferringPosition: .Front) else {
-            return nil
-        }
-
-        return try? AVCaptureDeviceInput(device: videoDevice)
-    }()
-
-    private lazy var stillImageOutput: AVCaptureStillImageOutput = {
-        let _stillImageOutput = AVCaptureStillImageOutput()
-        _stillImageOutput.outputSettings = [AVVideoCodecKey: AVVideoCodecJPEG]
-        return _stillImageOutput
-    }()
+    deinit {
+        println("deinit RegisterPickAvatar")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -97,35 +83,17 @@ final class RegisterPickAvatarViewController: SegueViewController {
 
         pickAvatarState = .Default
 
-        openCameraButton.setTitle(NSLocalizedString("Choose from Library", comment: ""), forState: .Normal)
+        openCameraButton.setTitle(String.trans_buttonChooseFromLibrary, forState: .Normal)
         openCameraButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
         openCameraButton.backgroundColor = UIColor.yepTintColor()
-        openCameraButton.addTarget(self, action: #selector(RegisterPickAvatarViewController.openPhotoLibraryPicker), forControlEvents: .TouchUpInside)
-
-    }
-    
-    // MARK: Helpers
-    
-    private func deviceWithMediaType(mediaType: String, preferringPosition position: AVCaptureDevicePosition) -> AVCaptureDevice? {
-        let devices = AVCaptureDevice.devicesWithMediaType(mediaType)
-        var captureDevice = devices.first as? AVCaptureDevice
-        for device in devices as! [AVCaptureDevice] {
-            if device.position == position {
-                captureDevice = device
-                break
-            }
-        }
-
-        return captureDevice
+        openCameraButton.rx_tap
+            .subscribeNext({ [weak self] in self?.openPhotoLibraryPicker() })
+            .addDisposableTo(disposeBag)
     }
 
     // MARK: Actions
 
-    @objc private func next(sender: UIBarButtonItem) {
-        uploadAvatarAndGotoPickSkills()
-    }
-
-    @objc private func openPhotoLibraryPicker() {
+    private func openPhotoLibraryPicker() {
         
         let openCameraRoll: ProposerAction = { [weak self] in
             
@@ -142,8 +110,8 @@ final class RegisterPickAvatarViewController: SegueViewController {
             self?.presentViewController(imagePicker, animated: true, completion: nil)
         }
         
-        proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
-            self.alertCanNotAccessCameraRoll()
+        proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
+            self?.alertCanNotAccessCameraRoll()
         })
     }
     
@@ -153,7 +121,7 @@ final class RegisterPickAvatarViewController: SegueViewController {
 
         let image = avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
 
-        let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())
+        let imageData = UIImageJPEGRepresentation(image, Config.avatarCompressionQuality())
 
         if let imageData = imageData {
 
@@ -166,16 +134,15 @@ final class RegisterPickAvatarViewController: SegueViewController {
             }, completion: { newAvatarURLString in
                 YepHUD.hideActivityIndicator()
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async { [weak self] in
 
                     YepUserDefaults.avatarURLString.value = newAvatarURLString
 
-                    self.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)
+                    self?.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)
                 }
             })
         }
     }
-
 }
 
 // MARK: UIImagePicker
@@ -184,7 +151,7 @@ extension RegisterPickAvatarViewController: UIImagePickerControllerDelegate, UIN
 
     func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.avatar = image
             self?.pickAvatarState = .Captured
         }

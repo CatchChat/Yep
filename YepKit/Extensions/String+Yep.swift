@@ -21,7 +21,7 @@ public extension String {
 
     public func yep_mentionedMeInRealm(realm: Realm) -> Bool {
 
-        guard let myUserID = YepUserDefaults.userID.value, me = userWithUserID(myUserID, inRealm: realm) else {
+        guard let me = meInRealm(realm) else {
             return false
         }
 
@@ -36,3 +36,11 @@ public extension String {
         return false
     }
 }
+
+public extension String {
+
+    public func yep_appendArrow() -> String {
+        return self + " ▾"
+    }
+}
+

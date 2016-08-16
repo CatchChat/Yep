@@ -8,13 +8,16 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import Ruler
+import RxSwift
+import RxCocoa
 
 final class RegisterPickNameViewController: BaseViewController {
 
     var mobile: String?
     var areaCode: String?
+
+    private lazy var disposeBag = DisposeBag()
 
     @IBOutlet private weak var pickNamePromptLabel: UILabel!
     @IBOutlet private weak var pickNamePromptLabelTopConstraint: NSLayoutConstraint!
@@ -25,7 +28,11 @@ final class RegisterPickNameViewController: BaseViewController {
     @IBOutlet private weak var nameTextFieldTopConstraint: NSLayoutConstraint!
     
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(RegisterPickNameViewController.next(_:)))
+        let button = UIBarButtonItem()
+        button.title = NSLocalizedString("Next", comment: "")
+        button.rx_tap
+            .subscribeNext({ [weak self] in self?.showRegisterPickMobile() })
+            .addDisposableTo(self.disposeBag)
         return button
     }()
 
@@ -36,6 +43,10 @@ final class RegisterPickNameViewController: BaseViewController {
         }
     }
 
+    deinit {
+        println("deinit RegisterPickName")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -43,13 +54,13 @@ final class RegisterPickNameViewController: BaseViewController {
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 
-        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign up", comment: ""))
+        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign Up", comment: ""))
 
         navigationItem.rightBarButtonItem = nextButton
 
         pickNamePromptLabel.text = NSLocalizedString("What's your name?", comment: "")
 
-        let text = NSLocalizedString("By tapping Next you agree to our terms.", comment: "")
+        let text = String.trans_promptTapNextAgreeTerms
         let textAttributes: [String: AnyObject] = [
             NSFontAttributeName: UIFont.systemFontOfSize(14),
             NSForegroundColorAttributeName: UIColor.grayColor(),
@@ -72,19 +83,17 @@ final class RegisterPickNameViewController: BaseViewController {
 
         nameTextField.backgroundColor = UIColor.whiteColor()
         nameTextField.textColor = UIColor.yepInputTextColor()
-        nameTextField.placeholder = " "//NSLocalizedString("Nickname", comment: "")
+        nameTextField.placeholder = " "
         nameTextField.delegate = self
-        nameTextField.addTarget(self, action: #selector(RegisterPickNameViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        nameTextField.rx_text
+            .map({ !$0.isEmpty })
+            .subscribeNext({ [weak self] in self?.isDirty = $0 })
+            .addDisposableTo(disposeBag)
 
         pickNamePromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         nameTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
 
         nextButton.enabled = false
-    }
-
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
     }
 
     override func viewDidAppear(animated: Bool) {
@@ -99,18 +108,6 @@ final class RegisterPickNameViewController: BaseViewController {
         if let URL = NSURL(string: YepConfig.termsURLString) {
             yep_openURL(URL)
         }
-    }
-
-    @objc private func textFieldDidChange(textField: UITextField) {
-        guard let text = textField.text else {
-            return
-        }
-
-        isDirty = !text.isEmpty
-    }
-
-    @objc private func next(sender: UIBarButtonItem) {
-        showRegisterPickMobile()
     }
 
     private func showRegisterPickMobile() {

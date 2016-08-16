@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 final class FeedBiggerImageCell: FeedBasicCell {
 
@@ -19,7 +18,7 @@ final class FeedBiggerImageCell: FeedBasicCell {
         return ceil(height)
     }
 
-    var tapMediaAction: FeedTapMediaAction?
+    var tapImagesAction: FeedTapImagesAction?
 
     lazy var biggerImageView: UIImageView = {
         let imageView = UIImageView()
@@ -44,12 +43,6 @@ final class FeedBiggerImageCell: FeedBasicCell {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     override func prepareForReuse() {
@@ -84,7 +77,7 @@ final class FeedBiggerImageCell: FeedBasicCell {
         }
 
         if let attachments = feed?.imageAttachments {
-            tapMediaAction?(transitionView: biggerImageView, image: biggerImageView.image, attachments: attachments, index: 0)
+            tapImagesAction?(transitionViews: [biggerImageView], attachments: attachments, image: biggerImageView.image, index: 0)
         }
     }
 }

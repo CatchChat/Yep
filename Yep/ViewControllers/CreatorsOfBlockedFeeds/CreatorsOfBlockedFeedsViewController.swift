@@ -8,20 +8,27 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import RealmSwift
 
 final class CreatorsOfBlockedFeedsViewController: BaseViewController {
 
-    @IBOutlet private weak var blockedCreatorsTableView: UITableView!
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var blockedCreatorsTableView: UITableView! {
+        didSet {
+            blockedCreatorsTableView.separatorColor = UIColor.yepCellSeparatorColor()
+            blockedCreatorsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-    private let cellIdentifier = "ContactsCell"
+            blockedCreatorsTableView.rowHeight = 80
+            blockedCreatorsTableView.tableFooterView = UIView()
+
+            blockedCreatorsTableView.registerNibOf(ContactsCell)
+        }
+    }
+    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     private var blockedCreators = [DiscoveredUser]() {
         willSet {
             if newValue.count == 0 {
-                blockedCreatorsTableView.tableFooterView = InfoView(NSLocalizedString("No blocked creators.", comment: ""))
+                blockedCreatorsTableView.tableFooterView = InfoView(NSLocalizedString("No Blocked Creators", comment: ""))
             }
         }
     }
@@ -29,27 +36,20 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Blocked Creators", comment: "")
-
-        blockedCreatorsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        blockedCreatorsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
-
-        blockedCreatorsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
-        blockedCreatorsTableView.rowHeight = 80
-        blockedCreatorsTableView.tableFooterView = UIView()
+        title = String.trans_titleBlockedCreators
 
         activityIndicator.startAnimating()
 
         creatorsOfBlockedFeeds(failureHandler: { [weak self] reason, errorMessage in
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }
 
-            let errorMessage = errorMessage ?? NSLocalizedString("Netword Error: Faild to get blocked creator!", comment: "")
+            let errorMessage = errorMessage ?? NSLocalizedString("Network Error: Failed to get blocked creator!", comment: "")
             YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
         }, completion: { blockedCreators in
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
 
                 self?.blockedCreators = blockedCreators
@@ -71,13 +71,8 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
         case "showProfile":
             let vc = segue.destinationViewController as! ProfileViewController
 
-            if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                vc.profileUser = .DiscoveredUserType(discoveredUser)
-            }
-
-            vc.hidesBottomBarWhenPushed = true
-
-            vc.setBackButtonWithTitle()
+            let discoveredUser = (sender as! Box<DiscoveredUser>).value
+            vc.prepare(withDiscoveredUser: discoveredUser)
 
         default:
             break
@@ -96,7 +91,8 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+
+        let cell: ContactsCell = tableView.dequeueReusableCell()
 
         cell.selectionStyle = .None
 
@@ -132,7 +128,7 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
             unblockFeedsFromCreator(userID: discoveredUser.id, failureHandler: nil, completion: { success in
                 println("unblockFeedsFromCreator \(success)")
 
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
+                SafeDispatch.async { [weak self] in
 
                     if let strongSelf = self {
                         if let index = strongSelf.blockedCreators.indexOf(discoveredUser)  {

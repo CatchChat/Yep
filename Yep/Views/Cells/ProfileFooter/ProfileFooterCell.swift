@@ -9,10 +9,11 @@
 import UIKit
 import CoreLocation
 import YepKit
-import YepConfig
 import RealmSwift
 
 final class ProfileFooterCell: UICollectionViewCell {
+
+    var tapUsernameAction: ((username: String) -> Void)?
 
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -20,9 +21,9 @@ final class ProfileFooterCell: UICollectionViewCell {
     @IBOutlet weak var locationContainerView: UIView!
     @IBOutlet weak var locationLabel: UILabel!
 
-    @IBOutlet weak var introductionLabel: UILabel!
-    @IBOutlet weak var instroductionLabelLeftConstraint: NSLayoutConstraint!
-    @IBOutlet weak var instroductionLabelRightConstraint: NSLayoutConstraint!
+    @IBOutlet weak var introductionTextView: ChatTextView!
+    @IBOutlet weak var introductionTextViewLeftConstraint: NSLayoutConstraint!
+    @IBOutlet weak var introductionTextViewRightConstraint: NSLayoutConstraint!
 
     private struct Listener {
         let userLocationName: String
@@ -91,11 +92,24 @@ final class ProfileFooterCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        instroductionLabelLeftConstraint.constant = YepConfig.Profile.leftEdgeInset
-        instroductionLabelRightConstraint.constant = YepConfig.Profile.rightEdgeInset
+        introductionTextViewLeftConstraint.constant = YepConfig.Profile.leftEdgeInset
+        introductionTextViewRightConstraint.constant = YepConfig.Profile.rightEdgeInset
 
-        introductionLabel.font = YepConfig.Profile.introductionLabelFont
-        introductionLabel.textColor = UIColor.yepGrayColor()
+        introductionTextView.scrollEnabled = false
+        introductionTextView.showsVerticalScrollIndicator = false
+        introductionTextView.showsHorizontalScrollIndicator = false
+
+        introductionTextView.textContainer.lineFragmentPadding = 0
+        introductionTextView.font = YepConfig.Profile.introductionFont
+        introductionTextView.textColor = UIColor.yepGrayColor()
+        introductionTextView.backgroundColor = UIColor.clearColor()
+        introductionTextView.tintColor = UIColor.blackColor()
+        introductionTextView.linkTextAttributes = [
+            NSForegroundColorAttributeName: UIColor.yepTintColor(),
+        ]
+        introductionTextView.tapMentionAction = { [weak self] username in
+            self?.tapUsernameAction?(username: username)
+        }
 
         newLocationName = nil
     }
@@ -125,37 +139,39 @@ final class ProfileFooterCell: UICollectionViewCell {
             usernameLabel.text = NSLocalizedString("No username", comment: "")
         }
 
-        introductionLabel.text = introduction
+        let attributedString = introductionTextView.createAttributedStringWithString(introduction)
+        introductionTextView.attributedText = attributedString
     }
 
     var location: CLLocation? {
         didSet {
-            if let location = location {
+            guard let location = location else {
+                return
+            }
 
-                // 优化，减少反向查询
-                if let oldLocation = oldValue {
-                    let distance = location.distanceFromLocation(oldLocation)
-                    if distance < YepConfig.Location.distanceThreshold {
-                        return
+            // 优化，减少反向查询
+            if let oldLocation = oldValue {
+                let distance = location.distanceFromLocation(oldLocation)
+                if distance < YepConfig.Location.distanceThreshold {
+                    return
+                }
+            }
+
+            CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
+
+                SafeDispatch.async { [weak self] in
+                    if (error != nil) {
+                        println("\(location) reverse geodcode fail: \(error?.localizedDescription)")
+                        self?.location = nil
+
+                    } else {
+                        if let placemarks = placemarks, let firstPlacemark = placemarks.first {
+                            self?.newLocationName = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
+                        }
                     }
                 }
-
-                CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
-
-                    dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                        if (error != nil) {
-                            println("\(location) reverse geodcode fail: \(error?.localizedDescription)")
-                            self?.location = nil
-                        }
-
-                        if let placemarks = placemarks {
-                            if let firstPlacemark = placemarks.first {
-                                self?.newLocationName = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
-                            }
-                        }
-                    }
-                })
-            }
+            })
         }
     }
 }
+

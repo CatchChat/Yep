@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 final class SearchedMessageCell: UITableViewCell {
 
@@ -21,12 +20,6 @@ final class SearchedMessageCell: UITableViewCell {
         super.awakeFromNib()
 
         separatorInset = YepConfig.SearchedItemCell.separatorInset
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     override func prepareForReuse() {
@@ -74,7 +67,7 @@ final class SearchedMessageCell: UITableViewCell {
 
             if count > 1 {
                 messageLabel.textColor = UIColor.yepTintColor()
-                messageLabel.text = String(format: NSLocalizedString("%d messages", comment: ""), count)
+                messageLabel.text = String(format: NSLocalizedString("countMessages%d", comment: ""), count)
 
                 timeLabel.hidden = true
                 timeLabel.text = nil
@@ -95,3 +88,4 @@ final class SearchedMessageCell: UITableViewCell {
         }
     }
 }
+

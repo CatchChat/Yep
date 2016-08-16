@@ -9,7 +9,6 @@
 import Foundation
 import RealmSwift
 import YepKit
-import YepConfig
 import YepNetworking
 import FayeClient
 
@@ -109,10 +108,28 @@ extension YepFayeService {
                 return
             }
 
-            self?.fayeClient.subscribeToChannel(personalChannel) { data in
-                println("subscribeToChannel: \(data)")
+            self?.fayeClient.subscribeToChannel(personalChannel) { [weak self] data in
+
+                println("receive faye data: \(data)")
 
                 let messageInfo: JSONDictionary = data
+
+                // Service 消息
+                if let _messageInfo = messageInfo["message"] as? JSONDictionary {
+
+                    guard let realm = try? Realm() else {
+                        return
+                    }
+
+                    realm.beginWrite()
+                    let isServiceMessage = isServiceMessageAndHandleMessageInfo(_messageInfo, inRealm: realm)
+                    _ = try? realm.commitWrite()
+
+                    if isServiceMessage {
+                        return
+                    }
+                }
+
                 guard let
                     messageTypeString = messageInfo["message_type"] as? String,
                     messageType = MessageType(rawValue: messageTypeString)
@@ -158,7 +175,7 @@ extension YepFayeService {
                             recipientType = messageDataInfo["recipient_type"] as? String,
                             recipientID = messageDataInfo["recipient_id"] as? String {
 
-                            dispatch_async(dispatch_get_main_queue()) {
+                            SafeDispatch.async {
 
                                 let object = [
                                     "last_read_at": lastReadAt,
@@ -167,7 +184,7 @@ extension YepFayeService {
                                     "recipient_id": recipientID,
                                 ]
 
-                                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Message.Notification.MessageBatchMarkAsRead, object: object)
+                                NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageBatchMarkAsRead, object: object)
                                 //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
                             }
                         }
@@ -177,8 +194,7 @@ extension YepFayeService {
                     
                     guard let
                         messageInfo = messageInfo["message"] as? JSONDictionary,
-                        messageID = messageInfo["id"] as? String
-                        else {
+                        messageID = messageInfo["id"] as? String else {
                             break
                     }
                     
@@ -205,8 +221,6 @@ extension YepFayeService {
             ]
 
             self.fayeClient.sendMessage(data, toChannel: self.instantChannel(), usingExtension: extensionData, usingBlock: { message  in
-
-                println("sendInstantMessage \(message.successful)")
 
                 if message.successful {
                     completion(success: true)
@@ -280,7 +294,7 @@ extension YepFayeService {
             }
         }
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
 
             guard let realm = try? Realm() else {
                 return

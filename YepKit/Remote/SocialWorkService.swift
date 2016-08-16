@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import RealmSwift
 import YepNetworking
+import RealmSwift
 
 private let githubBaseURL = NSURL(string: "https://api.github.com")!
 private let dribbbleBaseURL = NSURL(string: "https://api.dribbble.com")!
@@ -344,7 +344,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
     tokensOfSocialAccounts(failureHandler: nil, completion: { tokensOfSocialAccounts in
         //println("tokensOfSocialAccounts: \(tokensOfSocialAccounts)")
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
 
             guard let realm = try? Realm() else {
                 return
@@ -485,7 +485,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                 githubReposWithToken(githubToken, failureHandler: nil, completion: { githubRepos in
                     println("githubRepos count: \(githubRepos.count)")
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
 
                         guard let realm = try? Realm() else {
                             return
@@ -509,7 +509,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
 
                             } else {
                                 discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
-                                    dispatch_async(dispatch_get_main_queue()) {
+                                    SafeDispatch.async {
 
                                         guard let realm = try? Realm() else {
                                             return
@@ -545,7 +545,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                 dribbbleShotsWithToken(dribbbleToken, failureHandler: nil, completion: { dribbbleShots in
                     println("dribbbleShots count: \(dribbbleShots.count)")
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
 
                         guard let realm = try? Realm() else {
                             return
@@ -569,7 +569,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
 
                             } else {
                                 discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
-                                    dispatch_async(dispatch_get_main_queue()) {
+                                    SafeDispatch.async {
 
                                         guard let realm = try? Realm() else {
                                             return

@@ -8,14 +8,9 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import Navi
 
 private class MentionUserCell: UITableViewCell {
-
-    static var reuseIdentifier: String {
-        return NSStringFromClass(self)
-    }
 
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -84,7 +79,7 @@ private class MentionUserCell: UITableViewCell {
         let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: picoAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         } else {
-            avatarImageView.image = UIImage(named: "default_avatar_30")
+            avatarImageView.image = UIImage.yep_defaultAvatar30
         }
 
         nicknameLabel.text = user.nickname
@@ -126,7 +121,7 @@ final class MentionView: UIView {
 
         tableView.separatorEffect = UIVibrancyEffect(forBlurEffect: effect)
 
-        tableView.registerClass(MentionUserCell.self, forCellReuseIdentifier: MentionUserCell.reuseIdentifier)
+        tableView.registerClassOf(MentionUserCell)
 
         tableView.rowHeight = MentionView.tableViewRowHeight
 
@@ -201,7 +196,7 @@ extension MentionView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(MentionUserCell.reuseIdentifier, forIndexPath: indexPath) as! MentionUserCell
+        let cell: MentionUserCell = tableView.dequeueReusableCell()
         let user = users[indexPath.row]
         cell.configureWithUsernamePrefixMatchedUser(user)
         return cell

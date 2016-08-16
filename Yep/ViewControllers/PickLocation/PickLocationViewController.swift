@@ -83,8 +83,6 @@ final class PickLocationViewController: SegueViewController {
         }
     }
 
-    private let pickLocationCellIdentifier = "PickLocationCell"
-
     private var location: PickLocationViewControllerLocation? {
         willSet {
             if let _ = newValue {
@@ -100,7 +98,7 @@ final class PickLocationViewController: SegueViewController {
 
         title = NSLocalizedString("Pick Location", comment: "")
 
-        cancelButton.title = NSLocalizedString("Cancel", comment: "")
+        cancelButton.title = String.trans_cancel
 
         switch purpose {
         case .Message:
@@ -111,7 +109,7 @@ final class PickLocationViewController: SegueViewController {
 
         searchBar.placeholder = NSLocalizedString("Search", comment: "")
 
-        tableView.registerNib(UINib(nibName: pickLocationCellIdentifier, bundle: nil), forCellReuseIdentifier: pickLocationCellIdentifier)
+        tableView.registerNibOf(PickLocationCell)
         tableView.rowHeight = 50
 
         doneButton.enabled = false
@@ -271,7 +269,7 @@ final class PickLocationViewController: SegueViewController {
     }
 
     private func reloadTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.tableView.reloadData()
         }
     }
@@ -356,7 +354,7 @@ extension PickLocationViewController: MKMapViewDelegate {
 
             } else {
                 let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-                annotationView.image = UIImage(named: "icon_pin_shadow")
+                annotationView.image = UIImage.yep_iconPinShadow
                 annotationView.enabled = false
                 annotationView.canShowCallout = false
 
@@ -376,12 +374,14 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         navigationController?.setNavigationBarHidden(true, animated: true)
 
-        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            self.searchBarTopToSuperBottomConstraint.constant = CGRectGetHeight(self.view.bounds) - 20
-            self.view.layoutIfNeeded()
+        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            guard let strongSelf = self else { return }
 
-        }, completion: { finished in
-            self.searchBar.setShowsCancelButton(true, animated: true)
+            strongSelf.searchBarTopToSuperBottomConstraint.constant = CGRectGetHeight(strongSelf.view.bounds) - 20
+            strongSelf.view.layoutIfNeeded()
+
+        }, completion: { [weak self] _ in
+            self?.searchBar.setShowsCancelButton(true, animated: true)
         })
 
         return true
@@ -396,12 +396,12 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         navigationController?.setNavigationBarHidden(false, animated: true)
 
-        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            self.searchBarTopToSuperBottomConstraint.constant = 250
-            self.view.layoutIfNeeded()
+        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            self?.searchBarTopToSuperBottomConstraint.constant = 250
+            self?.view.layoutIfNeeded()
 
-        }, completion: { finished in
-            self.searchBar.setShowsCancelButton(false, animated: true)
+        }, completion: { [weak self] _ in
+            self?.searchBar.setShowsCancelButton(false, animated: true)
         })
     }
 
@@ -480,19 +480,20 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(pickLocationCellIdentifier) as! PickLocationCell
+
+        let cell: PickLocationCell = tableView.dequeueReusableCell()
 
         switch indexPath.section {
 
         case Section.CurrentLocation.rawValue:
             cell.iconImageView.hidden = false
-            cell.iconImageView.image = UIImage(named: "icon_current_location")
+            cell.iconImageView.image = UIImage.yep_iconCurrentLocation
             cell.locationLabel.text = NSLocalizedString("My Current Location", comment: "")
             cell.checkImageView.hidden = false
 
         case Section.UserPickedLocation.rawValue:
             cell.iconImageView.hidden = false
-            cell.iconImageView.image = UIImage(named: "icon_pin")
+            cell.iconImageView.image = UIImage.yep_iconPin
             cell.locationLabel.text = NSLocalizedString("Picked Location", comment: "")
             cell.checkImageView.hidden = true
 
@@ -508,7 +509,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.SearchedLocation.rawValue:
             cell.iconImageView.hidden = false
-            cell.iconImageView.image = UIImage(named: "icon_pin")
+            cell.iconImageView.image = UIImage.yep_iconPin
 
             let placemark = searchedMapItems[indexPath.row].placemark
             cell.locationLabel.text = placemark.name
@@ -517,7 +518,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.FoursquareVenue.rawValue:
             cell.iconImageView.hidden = false
-            cell.iconImageView.image = UIImage(named: "icon_pin")
+            cell.iconImageView.image = UIImage.yep_iconPin
 
             let foursquareVenue = foursquareVenues[indexPath.row]
             cell.locationLabel.text = foursquareVenue.name

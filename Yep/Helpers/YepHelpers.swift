@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import YepKit
 import RealmSwift
 import Navi
 
@@ -15,13 +16,6 @@ final class Box<T> {
 
     init(_ value: T) {
         self.value = value
-    }
-}
-
-func unregisterThirdPartyPush() {
-    dispatch_async(dispatch_get_main_queue()) {
-        JPUSHService.setAlias(nil, callbackSelector: nil, object: nil)
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
     }
 }
 
@@ -63,7 +57,7 @@ func cleanRealmAndCaches() {
 
     clearDynamicShortcuts()
 
-    dispatch_async(dispatch_get_main_queue()) {
+    SafeDispatch.async {
         NSNotificationCenter.defaultCenter().postNotificationName(EditProfileViewController.Notification.Logout, object: nil)
     }
 }

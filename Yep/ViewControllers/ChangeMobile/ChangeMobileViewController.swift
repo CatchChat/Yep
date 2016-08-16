@@ -10,23 +10,31 @@ import UIKit
 import YepKit
 import YepNetworking
 import Ruler
+import RxSwift
+import RxCocoa
 
 final class ChangeMobileViewController: UIViewController {
 
+    private lazy var disposeBag = DisposeBag()
+    
     @IBOutlet private weak var changeMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var changeMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
     @IBOutlet private weak var currentMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var currentMobileNumberLabel: UILabel!
 
-    @IBOutlet private weak var areaCodeTextField: BorderTextField!
-    @IBOutlet private weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
+    @IBOutlet weak var areaCodeTextField: BorderTextField!
+    @IBOutlet weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var mobileNumberTextField: BorderTextField!
+    @IBOutlet weak var mobileNumberTextField: BorderTextField!
     @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Next", comment: ""), style: .Plain, target: self, action: #selector(ChangeMobileViewController.next(_:)))
+        let button = UIBarButtonItem()
+        button.title = NSLocalizedString("Next", comment: "")
+        button.rx_tap
+            .subscribeNext({ [weak self] in self?.tryShowVerifyChangedMobile() })
+            .addDisposableTo(self.disposeBag)
         return button
     }()
 
@@ -35,26 +43,31 @@ final class ChangeMobileViewController: UIViewController {
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 
-        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Change Mobile", comment: ""))
+        navigationItem.titleView = NavigationTitleLabel(title: String.trans_titleChangeMobile)
 
         navigationItem.rightBarButtonItem = nextButton
 
         changeMobileNumberPromptLabel.text = NSLocalizedString("What's your new number?", comment: "")
 
-        currentMobileNumberPromptLabel.text = NSLocalizedString("Current number:", comment: "")
+        currentMobileNumberPromptLabel.text = String.trans_promptCurrentNumber
         currentMobileNumberLabel.text = YepUserDefaults.fullPhoneNumber
 
         areaCodeTextField.text = NSTimeZone.areaCode
         areaCodeTextField.backgroundColor = UIColor.whiteColor()
 
         areaCodeTextField.delegate = self
-        areaCodeTextField.addTarget(self, action: #selector(ChangeMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+        areaCodeTextField.rx_text
+            .subscribeNext({ [weak self] _ in self?.adjustAreaCodeTextFieldWidth() })
+            .addDisposableTo(disposeBag)
 
         mobileNumberTextField.placeholder = ""
         mobileNumberTextField.backgroundColor = UIColor.whiteColor()
         mobileNumberTextField.textColor = UIColor.yepInputTextColor()
         mobileNumberTextField.delegate = self
-        mobileNumberTextField.addTarget(self, action: #selector(ChangeMobileViewController.textFieldDidChange(_:)), forControlEvents: .EditingChanged)
+
+        Observable.combineLatest(areaCodeTextField.rx_text, mobileNumberTextField.rx_text) { !$0.isEmpty && !$1.isEmpty }
+            .bindTo(nextButton.rx_enabled)
+            .addDisposableTo(disposeBag)
 
         changeMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
@@ -80,40 +93,7 @@ final class ChangeMobileViewController: UIViewController {
 
     // MARK: Actions
 
-    private func adjustAreaCodeTextFieldWidth() {
-        guard let text = areaCodeTextField.text else {
-            return
-        }
-
-        let size = text.sizeWithAttributes(areaCodeTextField.editing ? areaCodeTextField.typingAttributes : areaCodeTextField.defaultTextAttributes)
-
-        let width = 32 + (size.width + 22) + 20
-
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-            self.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
-            self.view.layoutIfNeeded()
-        }, completion: { finished in
-        })
-    }
-
-    @objc private func textFieldDidChange(textField: UITextField) {
-
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
-            return
-        }
-
-        nextButton.enabled = !areaCode.isEmpty && !mobile.isEmpty
-
-        if textField == areaCodeTextField {
-            adjustAreaCodeTextFieldWidth()
-        }
-    }
-
-    @objc private func next(sender: UIBarButtonItem) {
-        tryShowVerifyChangedMobile()
-    }
-
-    private func tryShowVerifyChangedMobile() {
+    func tryShowVerifyChangedMobile() {
 
         view.endEditing(true)
 
@@ -130,7 +110,7 @@ final class ChangeMobileViewController: UIViewController {
 
             let errorMessage = errorMessage ?? NSLocalizedString("Failed to send verification code!", comment: "")
             YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     self?.mobileNumberTextField.becomeFirstResponder()
                 }
             })
@@ -139,7 +119,7 @@ final class ChangeMobileViewController: UIViewController {
 
             YepHUD.hideActivityIndicator()
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
                 self?.showVerifyChangedMobile()
             }
         })
@@ -167,44 +147,6 @@ final class ChangeMobileViewController: UIViewController {
                 vc.areaCode = info["areaCode"]
             }
         }
-    }
-}
-
-// MARK: - UITextFieldDelegate
-
-extension ChangeMobileViewController: UITextFieldDelegate {
-
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
-
-        if textField == areaCodeTextField {
-            adjustAreaCodeTextFieldWidth()
-        }
-
-        return true
-    }
-
-    func textFieldDidEndEditing(textField: UITextField) {
-
-        if textField == areaCodeTextField {
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { _ in
-                self.areaCodeTextFieldWidthConstraint.constant = 60
-                self.view.layoutIfNeeded()
-            }, completion: { finished in
-            })
-        }
-    }
-
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
-
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
-            return true
-        }
-
-        if !areaCode.isEmpty && !mobile.isEmpty {
-            tryShowVerifyChangedMobile()
-        }
-        
-        return true
     }
 }
 

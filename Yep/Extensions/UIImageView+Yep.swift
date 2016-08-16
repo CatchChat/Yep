@@ -9,26 +9,25 @@
 import UIKit
 import CoreLocation
 import YepKit
-import YepConfig
 
 // MARK: - ActivityIndicator
 
-private var activityIndicatorKey: Void?
-private var showActivityIndicatorWhenLoadingKey: Void?
+private var activityIndicatorAssociatedKey: Void?
+private var showActivityIndicatorWhenLoadingAssociatedKey: Void?
 
 extension UIImageView {
 
     private var yep_activityIndicator: UIActivityIndicatorView? {
-        return objc_getAssociatedObject(self, &activityIndicatorKey) as? UIActivityIndicatorView
+        return objc_getAssociatedObject(self, &activityIndicatorAssociatedKey) as? UIActivityIndicatorView
     }
 
     private func yep_setActivityIndicator(activityIndicator: UIActivityIndicatorView?) {
-        objc_setAssociatedObject(self, &activityIndicatorKey, activityIndicator, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, &activityIndicatorAssociatedKey, activityIndicator, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
     public var yep_showActivityIndicatorWhenLoading: Bool {
         get {
-            guard let result = objc_getAssociatedObject(self, &showActivityIndicatorWhenLoadingKey) as? NSNumber else {
+            guard let result = objc_getAssociatedObject(self, &showActivityIndicatorWhenLoadingAssociatedKey) as? NSNumber else {
                 return false
             }
 
@@ -58,24 +57,24 @@ extension UIImageView {
                     yep_setActivityIndicator(nil)
                 }
 
-                objc_setAssociatedObject(self, &showActivityIndicatorWhenLoadingKey, NSNumber(bool: newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                objc_setAssociatedObject(self, &showActivityIndicatorWhenLoadingAssociatedKey, NSNumber(bool: newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
 }
 
-// MARK: - Message
+// MARK: - Message Image
 
-private var messageKey: Void?
+private var messageImageAssociatedKey: Void?
 
 extension UIImageView {
 
     private var yep_messageImageKey: String? {
-        return objc_getAssociatedObject(self, &messageKey) as? String
+        return objc_getAssociatedObject(self, &messageImageAssociatedKey) as? String
     }
 
     private func yep_setMessageImageKey(messageImageKey: String) {
-        objc_setAssociatedObject(self, &messageKey, messageImageKey, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, &messageImageAssociatedKey, messageImageKey, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
     func yep_setImageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {
@@ -95,18 +94,52 @@ extension UIImageView {
     }
 }
 
+// MARK: - Message Map Image
+
+private var messageMapImageAssociatedKey: Void?
+
+extension UIImageView {
+
+    private var yep_messageMapImageKey: String? {
+        return objc_getAssociatedObject(self, &messageMapImageAssociatedKey) as? String
+    }
+
+    private func yep_setMessageMapImageKey(messageMapImageKey: String) {
+        objc_setAssociatedObject(self, &messageMapImageAssociatedKey, messageMapImageKey, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    }
+
+    func yep_setMapImageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection) {
+
+        let imageKey = message.mapImageKey
+
+        yep_setMessageMapImageKey(imageKey)
+
+        let locationName = message.textContent
+        ImageCache.sharedInstance.mapImageOfMessage(message, withSize: size, tailDirection: tailDirection, bottomShadowEnabled: !locationName.isEmpty) { [weak self] mapImage in
+
+            guard let strongSelf = self, _imageKey = strongSelf.yep_messageMapImageKey where _imageKey == imageKey else {
+                return
+            }
+
+            SafeDispatch.async { [weak self] in
+                self?.image = mapImage
+            }
+        }
+    }
+}
+
 // MARK: - AttachmentURL
 
-private var attachmentURLKey: Void?
+private var attachmentURLAssociatedKey: Void?
 
 extension UIImageView {
 
     private var yep_attachmentURL: NSURL? {
-        return objc_getAssociatedObject(self, &attachmentURLKey) as? NSURL
+        return objc_getAssociatedObject(self, &attachmentURLAssociatedKey) as? NSURL
     }
 
     private func yep_setAttachmentURL(URL: NSURL) {
-        objc_setAssociatedObject(self, &attachmentURLKey, URL, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, &attachmentURLAssociatedKey, URL, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
     func yep_setImageOfAttachment(attachment: DiscoveredAttachment, withSize size: CGSize) {
@@ -133,8 +166,8 @@ extension UIImageView {
             }
 
             if cacheType != .Memory {
-                UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
-                    strongSelf.image = image
+                UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
+                    self?.image = image
                 }, completion: nil)
 
             } else {
@@ -142,24 +175,22 @@ extension UIImageView {
             }
 
             activityIndicator?.stopAnimating()
-
-            //println("imageOfAttachment cacheType: \(cacheType)")
         })
     }
 }
 
 // MARK: - Location
 
-private var locationxKey: Void?
+private var locationAssociatedKey: Void?
 
 extension UIImageView {
 
     private var yep_location: CLLocation? {
-        return objc_getAssociatedObject(self, &locationxKey) as? CLLocation
+        return objc_getAssociatedObject(self, &locationAssociatedKey) as? CLLocation
     }
 
     private func yep_setLocation(location: CLLocation) {
-        objc_setAssociatedObject(self, &locationxKey, location, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+        objc_setAssociatedObject(self, &locationAssociatedKey, location, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
     func yep_setImageOfLocation(location: CLLocation, withSize size: CGSize) {
@@ -181,8 +212,8 @@ extension UIImageView {
                 return
             }
 
-            UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { () -> Void in
-                strongSelf.image = image
+            UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
+                self?.image = image
             }, completion: nil)
 
             activityIndicator?.stopAnimating()

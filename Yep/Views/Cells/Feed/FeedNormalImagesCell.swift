@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 final class FeedNormalImagesCell: FeedBasicCell {
 
@@ -19,7 +18,7 @@ final class FeedNormalImagesCell: FeedBasicCell {
         return ceil(height)
     }
 
-    var tapMediaAction: FeedTapMediaAction?
+    var tapImagesAction: FeedTapImagesAction?
 
     private func createImageViewWithFrame(frame: CGRect) -> UIImageView {
         let imageView = UIImageView()
@@ -86,12 +85,6 @@ final class FeedNormalImagesCell: FeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -140,7 +133,8 @@ final class FeedNormalImagesCell: FeedBasicCell {
         if let imageView = sender.view as? UIImageView, index = imageViews.indexOf(imageView) {
 
             if let attachments = feed?.imageAttachments {
-                tapMediaAction?(transitionView: imageView, image: imageView.image, attachments: attachments, index: index)
+                let transitionViews: [UIView?] = imageViews.map({ $0 })
+                tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: imageView.image, index: index)
             }
         }
     }

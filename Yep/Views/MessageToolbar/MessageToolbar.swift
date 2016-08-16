@@ -16,7 +16,6 @@ final class MessageToolbar: UIToolbar {
     var lastToolbarFrame: CGRect?
 
     var messageTextViewHeightConstraint: NSLayoutConstraint!
-    let messageTextViewHeightConstraintNormalConstant: CGFloat = 34
 
     let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15)]
 
@@ -42,7 +41,6 @@ final class MessageToolbar: UIToolbar {
     var previousState: MessageToolbarState = .Default
     var state: MessageToolbarState = .Default {
         willSet {
-
             updateHeightOfMessageTextView()
 
             previousState = state
@@ -59,8 +57,8 @@ final class MessageToolbar: UIToolbar {
                 messageTextView.hidden = false
                 voiceRecordButton.hidden = true
 
-                micButton.setImage(UIImage(named: "item_mic"), forState: .Normal)
-                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
+                micButton.setImage(UIImage.yep_itemMic, forState: .Normal)
+                moreButton.setImage(UIImage.yep_itemMore, forState: .Normal)
 
                 micButton.tintColor = UIColor.messageToolBarColor()
                 moreButton.tintColor = UIColor.messageToolBarColor()
@@ -71,7 +69,7 @@ final class MessageToolbar: UIToolbar {
                 moreButton.hidden = false
                 sendButton.hidden = true
 
-                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
+                moreButton.setImage(UIImage.yep_itemMore, forState: .Normal)
 
             case .TextInputing:
                 moreButton.hidden = true
@@ -89,10 +87,10 @@ final class MessageToolbar: UIToolbar {
                 messageTextView.hidden = true
                 voiceRecordButton.hidden = false
 
-                messageTextView.text = nil
+                messageTextView.text = ""
 
-                micButton.setImage(UIImage(named: "icon_keyboard"), forState: .Normal)
-                moreButton.setImage(UIImage(named: "item_more"), forState: .Normal)
+                micButton.setImage(UIImage.yep_iconKeyboard, forState: .Normal)
+                moreButton.setImage(UIImage.yep_itemMore, forState: .Normal)
 
                 micButton.tintColor = UIColor.messageToolBarColor()
                 moreButton.tintColor = UIColor.messageToolBarColor()
@@ -131,7 +129,7 @@ final class MessageToolbar: UIToolbar {
     
     lazy var micButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "item_mic"), forState: .Normal)
+        button.setImage(UIImage.yep_itemMic, forState: .Normal)
         button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: #selector(MessageToolbar.toggleRecordVoice), forControlEvents: UIControlEvents.TouchUpInside)
@@ -188,7 +186,7 @@ final class MessageToolbar: UIToolbar {
 
     lazy var moreButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "item_more"), forState: .Normal)
+        button.setImage(UIImage.yep_itemMore, forState: .Normal)
         button.tintColor = UIColor.messageToolBarColor()
         button.tintAdjustmentMode = .Normal
         button.addTarget(self, action: #selector(MessageToolbar.moreMessageTypes), forControlEvents: UIControlEvents.TouchUpInside)
@@ -215,6 +213,11 @@ final class MessageToolbar: UIToolbar {
         makeUI()
 
         state = .Default
+    }
+
+    var messageTextViewMinHeight: CGFloat {
+        let textContainerInset = messageTextView.textContainerInset
+        return ceil(messageTextView.font!.lineHeight + textContainerInset.top + textContainerInset.bottom)
     }
 
     func makeUI() {
@@ -249,10 +252,8 @@ final class MessageToolbar: UIToolbar {
 
         let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-7-[messageTextView]-8-|", options: [], metrics: nil, views: viewsDictionary)
 
-        let textContainerInset = messageTextView.textContainerInset
-        let constant = ceil(messageTextView.font!.lineHeight + textContainerInset.top + textContainerInset.bottom)
-        //println("messageTextViewHeight: \(constant)")
-        messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: constant)
+        println("messageTextViewMinHeight: \(messageTextViewMinHeight)")
+        messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: messageTextViewMinHeight)
         messageTextViewHeightConstraint.priority = UILayoutPriorityDefaultHigh
 
         let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton(48)][messageTextView][moreButton(==micButton)]|", options: [], metrics: nil, views: viewsDictionary)
@@ -279,8 +280,12 @@ final class MessageToolbar: UIToolbar {
 
         let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton][voiceRecordButton][moreButton]|", options: [], metrics: nil, views: viewsDictionary)
 
+        let voiceRecordButtonHeightConstraint = NSLayoutConstraint(item: voiceRecordButton, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: messageTextViewMinHeight)
+        voiceRecordButtonHeightConstraint.priority = UILayoutPriorityDefaultHigh
+
         NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsV)
         NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsH)
+        NSLayoutConstraint.activateConstraints([voiceRecordButtonHeightConstraint])
     }
 
     // MARK: Animations
@@ -302,7 +307,7 @@ final class MessageToolbar: UIToolbar {
 
         UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
             if let strongSelf = self {
-                strongSelf.messageTextViewHeightConstraint.constant = strongSelf.messageTextViewHeightConstraintNormalConstant
+                strongSelf.messageTextViewHeightConstraint.constant = strongSelf.messageTextViewMinHeight
                 strongSelf.layoutIfNeeded()
             }
         }, completion: { _ in })
@@ -337,9 +342,9 @@ final class MessageToolbar: UIToolbar {
 
         if newHeight != messageTextViewHeightConstraint.constant {
 
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: {
-                self.messageTextViewHeightConstraint.constant = limitedNewHeight
-                self.layoutIfNeeded()
+            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                self?.messageTextViewHeightConstraint.constant = limitedNewHeight
+                self?.layoutIfNeeded()
 
             }, completion: { [weak self] finished in
                 // hack for scrollEnabled when input lots of text
@@ -533,7 +538,7 @@ extension MessageToolbar: UITextViewDelegate {
                         self?.mentionUsernameRange = mentionRange
 
                         let wordString = markedText.yep_removeAllWhitespaces
-                        println("wordString from markedText: >\(wordString)<")
+                        //println("wordString from markedText: >\(wordString)<")
                         self?.tryMentionUserAction?(usernamePrefix: wordString)
 
                         return

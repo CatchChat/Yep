@@ -9,8 +9,8 @@
 import UIKit
 import RealmSwift
 import YepKit
-import YepConfig
 import YepNetworking
+import YepPreview
 import AVFoundation
 import MapKit
 import Ruler
@@ -59,7 +59,7 @@ final class FeedsViewController: BaseViewController {
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
-        searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
+        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
         searchBar.delegate = self
         return searchBar
     }()
@@ -69,20 +69,8 @@ final class FeedsViewController: BaseViewController {
         return SearchTransition()
     }()
 
-    private let feedSkillUsersCellID = "FeedSkillUsersCell"
-    private let feedFilterCellID = "FeedFilterCell"
-    private let feedBasicCellID = "FeedBasicCell"
-    private let feedBiggerImageCellID = "FeedBiggerImageCell"
-    private let feedNormalImagesCellID = "FeedNormalImagesCell"
-    private let feedAnyImagesCellID = "FeedAnyImagesCell"
-    private let feedGithubRepoCellID = "FeedGithubRepoCell"
-    private let feedDribbbleShotCellID = "FeedDribbbleShotCell"
-    private let feedVoiceCellID = "FeedVoiceCell"
-    private let feedLocationCellID = "FeedLocationCell"
-    private let feedURLCellID = "FeedURLCell"
-    private let loadMoreTableViewCellID = "LoadMoreTableViewCell"
-
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
+    private lazy var fetchFailedFooterView: InfoView = InfoView(NSLocalizedString("Fetch Failed!", comment: ""))
 
     @IBOutlet weak var feedsTableView: UITableView!  {
         didSet {
@@ -93,23 +81,25 @@ final class FeedsViewController: BaseViewController {
             feedsTableView.tableFooterView = UIView()
             feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
 
-            feedsTableView.registerNib(UINib(nibName: feedSkillUsersCellID, bundle: nil), forCellReuseIdentifier: feedSkillUsersCellID)
-            feedsTableView.registerNib(UINib(nibName: feedFilterCellID, bundle: nil), forCellReuseIdentifier: feedFilterCellID)
+            feedsTableView.registerNibOf(FeedSkillUsersCell)
+            feedsTableView.registerNibOf(FeedFilterCell)
 
-            feedsTableView.registerClass(FeedBasicCell.self, forCellReuseIdentifier: feedBasicCellID)
-            feedsTableView.registerClass(FeedBiggerImageCell.self, forCellReuseIdentifier: feedBiggerImageCellID)
-            feedsTableView.registerClass(FeedNormalImagesCell.self, forCellReuseIdentifier: feedNormalImagesCellID)
-            feedsTableView.registerClass(FeedAnyImagesCell.self, forCellReuseIdentifier: feedAnyImagesCellID)
-            feedsTableView.registerClass(FeedGithubRepoCell.self, forCellReuseIdentifier: feedGithubRepoCellID)
-            feedsTableView.registerClass(FeedDribbbleShotCell.self, forCellReuseIdentifier: feedDribbbleShotCellID)
-            feedsTableView.registerClass(FeedVoiceCell.self, forCellReuseIdentifier: feedVoiceCellID)
-            feedsTableView.registerClass(FeedLocationCell.self, forCellReuseIdentifier: feedLocationCellID)
-            feedsTableView.registerClass(FeedURLCell.self, forCellReuseIdentifier: feedURLCellID)
+            feedsTableView.registerClassOf(FeedBasicCell)
+            feedsTableView.registerClassOf(FeedBiggerImageCell)
+            feedsTableView.registerClassOf(FeedNormalImagesCell)
+            feedsTableView.registerClassOf(FeedAnyImagesCell)
 
-            feedsTableView.registerNib(UINib(nibName: loadMoreTableViewCellID, bundle: nil), forCellReuseIdentifier: loadMoreTableViewCellID)
+            feedsTableView.registerClassOf(FeedGithubRepoCell)
+            feedsTableView.registerClassOf(FeedDribbbleShotCell)
+            feedsTableView.registerClassOf(FeedVoiceCell)
+            feedsTableView.registerClassOf(FeedLocationCell)
+            feedsTableView.registerClassOf(FeedURLCell)
+
+            feedsTableView.registerNibOf(LoadMoreTableViewCell)
         }
     }
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet private weak var activityIndicatorTopConstraint: NSLayoutConstraint!
 
     private var selectedIndexPathForMenu: NSIndexPath?
 
@@ -357,7 +347,11 @@ final class FeedsViewController: BaseViewController {
 
     //var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
     //var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    
+
+    private var previewTransitionViews: [UIView?]?
+    private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
+    private var previewDribbblePhotos: [PreviewDribbblePhoto] = []
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
         feedsTableView?.delegate = nil
@@ -379,12 +373,13 @@ final class FeedsViewController: BaseViewController {
             }
         }
 
-        title = NSLocalizedString("Feeds", comment: "")
+        navigationItem.title = NSLocalizedString("Feeds", comment: "")
 
         searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
 
         if skill != nil {
             searchBar.placeholder = NSLocalizedString("Search feeds in channel", comment: "")
+            //activityIndicatorTopConstraint.constant = 200
         }
 
         if profileUser != nil {
@@ -407,19 +402,13 @@ final class FeedsViewController: BaseViewController {
 
             // Add to Me
             
-            if let skillID = skill?.id {
-                if let
-                    myUserID = YepUserDefaults.userID.value,
-                    realm = try? Realm(),
-                    me = userWithUserID(myUserID, inRealm: realm) {
-                        
-                        let predicate = NSPredicate(format: "skillID = %@", skillID)
-                        
-                        if me.masterSkills.filter(predicate).count == 0
-                            && me.learningSkills.filter(predicate).count == 0 {
-                                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("Add to Me", comment: ""), style: .Plain, target: self, action: #selector(FeedsViewController.addSkillToMe(_:)))
-                                navigationItem.rightBarButtonItem = addSkillToMeButton
-                        }
+            if let skillID = skill?.id, let me = me() {
+
+                let predicate = NSPredicate(format: "skillID = %@", skillID)
+                let notInMaster = me.masterSkills.filter(predicate).count == 0
+                if notInMaster && me.learningSkills.filter(predicate).count == 0 {
+                    let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("button.add_skill_to_me", comment: ""), style: .Plain, target: self, action: #selector(FeedsViewController.addSkillToMe(_:)))
+                    navigationItem.rightBarButtonItem = addSkillToMeButton
                 }
             }
 
@@ -438,7 +427,7 @@ final class FeedsViewController: BaseViewController {
                 navigationItem.rightBarButtonItem = nil
 
             } else {
-                let moreBarButtonItem = UIBarButtonItem(image: UIImage(named: "icon_more"), style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.moreAction(_:)))
+                let moreBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconMore, style: .Plain, target: self, action: #selector(FeedsViewController.moreAction(_:)))
                 navigationItem.rightBarButtonItem = moreBarButtonItem
 
                 if let userID = profileUser?.userID {
@@ -463,7 +452,7 @@ final class FeedsViewController: BaseViewController {
 
             if skill == nil {
                 if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
-                    if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
+                    if let JSON = offlineJSON.JSON, (feeds, _) = parseFeeds(JSON) {
                         self.feeds = feeds
                         activityIndicator.stopAnimating()
                     }
@@ -475,6 +464,10 @@ final class FeedsViewController: BaseViewController {
             currentPageIndex = 2
         } else {
             updateFeeds()
+        }
+
+        if traitCollection.forceTouchCapability == .Available {
+            registerForPreviewingWithDelegate(self, sourceView: feedsTableView)
         }
 
         #if DEBUG
@@ -517,10 +510,11 @@ final class FeedsViewController: BaseViewController {
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
                     
                 }, completion: { [weak self] _ in
+
+                    let message = String.trans_promptSuccessfullyAddedSkill(skillLocalName, to: skillSet.name)
+                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
                     
-                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: String(format: NSLocalizedString("Added %@ to %@ successfully!", comment: ""), skillLocalName, skillSet.name), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
-                    
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         self?.navigationItem.rightBarButtonItem = nil
                     }
                     
@@ -529,9 +523,9 @@ final class FeedsViewController: BaseViewController {
                 })
             }
             
-            let alertController = UIAlertController(title: NSLocalizedString("Choose skill set", comment: ""), message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
+            let alertController = UIAlertController(title: String.trans_titleChooseSkillSet, message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
             
-            let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { action in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { action in
             }
             alertController.addAction(cancelAction)
             
@@ -598,7 +592,9 @@ final class FeedsViewController: BaseViewController {
 
         let failureHandler: FailureHandler = { reason, errorMessage in
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
+
+                self?.feedsTableView.tableFooterView = self?.fetchFailedFooterView
 
                 self?.isFetchingFeeds = false
 
@@ -612,19 +608,19 @@ final class FeedsViewController: BaseViewController {
 
         let perPage = 20
 
-        let completion: [DiscoveredFeed] -> Void = { feeds in
+        let completion: ([DiscoveredFeed], Int) -> Void = { validFeeds, originalFeedsCount in
 
-            println("new feeds.count: \(feeds.count)")
+            println("new feeds.count: \(validFeeds.count)")
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
-                if case .Top = mode where feeds.isEmpty {
+                if case .Top = mode where validFeeds.isEmpty {
                     self?.feedsTableView.tableFooterView = self?.noFeedsFooterView
                 } else {
                     self?.feedsTableView.tableFooterView = UIView()
                 }
 
-                self?.canLoadMore = (feeds.count == perPage)
+                self?.canLoadMore = (originalFeedsCount == perPage)
 
                 self?.isFetchingFeeds = false
 
@@ -633,11 +629,11 @@ final class FeedsViewController: BaseViewController {
                 finish?()
             }
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
 
                 if let strongSelf = self {
 
-                    let newFeeds = feeds
+                    let newFeeds = validFeeds
                     let oldFeeds = strongSelf.feeds
 
                     var wayToUpdate: UITableView.WayToUpdate = .None
@@ -719,17 +715,18 @@ final class FeedsViewController: BaseViewController {
             var feedSortStyle = self.feedSortStyle
 
             if skill != nil {
-                if let filterOption = filterOption {
-                    switch filterOption {
-                    case .Recommended:
-                        feedSortStyle = .Recommended
-                    case .Lately:
-                        feedSortStyle = .Time
-                    }
-
-                } else {
-                    feedSortStyle = .Time
-                }
+//                if let filterOption = filterOption {
+//                    switch filterOption {
+//                    case .Recommended:
+//                        feedSortStyle = .Recommended
+//                    case .Lately:
+//                        feedSortStyle = .Time
+//                    }
+//
+//                } else {
+//                    feedSortStyle = .Time
+//                }
+                feedSortStyle = .Time
             }
 
             let maxFeedID = (mode == .LoadMore && (feedSortStyle.needPageFeedID)) ? feeds.last?.id : nil
@@ -742,6 +739,13 @@ final class FeedsViewController: BaseViewController {
     }
 
     @IBAction private func createNewFeed(sender: AnyObject) {
+
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value where !avatarURLString.isEmpty else {
+
+            YepAlert.alertSorry(message: NSLocalizedString("You have no avatar! Please set up one first.", comment: ""), inViewController: self)
+
+            return
+        }
 
         if let window = view.window {
             newFeedTypesView.showInView(window)
@@ -812,7 +816,7 @@ final class FeedsViewController: BaseViewController {
             println("hideFeedsByCreator: \(userID)")
 
             feeds = feeds.filter({ $0.creator.userID != userID })
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 self?.feedsTableView.reloadData()
             }
         }
@@ -832,7 +836,7 @@ final class FeedsViewController: BaseViewController {
 
             self?.newFeedViewController = newFeedViewController
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 if let strongSelf = self {
 
@@ -854,7 +858,7 @@ final class FeedsViewController: BaseViewController {
 
             self?.newFeedViewController = nil
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 if let strongSelf = self {
 
@@ -915,19 +919,14 @@ final class FeedsViewController: BaseViewController {
                     break
                 case .UploadingFeed:
                     let discoveredUser = uploadingFeeds[indexPath.row].creator
-                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                    vc.prepare(withDiscoveredUser: discoveredUser)
                 case .Feed:
                     let discoveredUser = feeds[indexPath.row].creator
-                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                    vc.prepare(withDiscoveredUser: discoveredUser)
                 case .LoadMore:
                     break
                 }
             }
-
-            vc.fromType = .None
-            vc.setBackButtonWithTitle()
-
-            vc.hidesBottomBarWhenPushed = true
 
             recoverOriginalNavigationDelegate()
 
@@ -978,81 +977,7 @@ final class FeedsViewController: BaseViewController {
                     return
             }
 
-            realm.beginWrite()
-            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
-            let _ = try? realm.commitWrite()
-
-            vc.conversation = feedConversation
-            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
-
-            vc.afterDeletedFeedAction = { feedID in
-                dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                    if let strongSelf = self {
-                        var deletedFeed: DiscoveredFeed?
-                        for feed in strongSelf.feeds {
-                            if feed.id == feedID {
-                                deletedFeed = feed
-                                break
-                            }
-                        }
-
-                        if let deletedFeed = deletedFeed, index = strongSelf.feeds.indexOf(deletedFeed) {
-                            strongSelf.feeds.removeAtIndex(index)
-
-                            let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
-                            strongSelf.feedsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
-
-                            return
-                        }
-                    }
-
-                    // 若不能单项删除，给点时间给服务器，防止请求回来的 feeds 包含被删除的
-                    delay(1) {
-                        self?.updateFeeds()
-                    }
-
-                    println("afterDeletedFeedAction")
-                }
-            }
-
-            vc.conversationDirtyAction = { [weak self] groupID in
-
-                groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { [weak self] groupInfo in
-
-                    if let feedInfo = groupInfo["topic"] as? JSONDictionary {
-
-                        guard let strongSelf = self, feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) else {
-                            return
-                        }
-
-                        if let index = strongSelf.feeds.indexOf(feed) {
-                            if strongSelf.feeds[index].messagesCount != feed.messagesCount {
-                                strongSelf.feeds[index].messagesCount = feed.messagesCount
-
-                                let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
-                                let wayToUpdate: UITableView.WayToUpdate = .ReloadIndexPaths([indexPath])
-                                dispatch_async(dispatch_get_main_queue()) {
-                                    wayToUpdate.performWithTableView(strongSelf.feedsTableView)
-                                }
-                            }
-                        }
-                    }
-                })
-
-                println("conversationDirtyAction")
-            }
-
-            /*
-            vc.syncPlayFeedAudioAction = { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: "updateAudioPlaybackProgress:", userInfo: nil, repeats: true)
-            }
-            */
-
-            vc.syncPlayFeedAudioAction = { [weak self] in
-                guard let strongSelf = self else { return }
-                strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
-            }
+            prepareConversationViewController(vc, withDiscoveredFeed: feed, inRealm: realm)
 
             recoverOriginalNavigationDelegate()
 
@@ -1111,6 +1036,78 @@ final class FeedsViewController: BaseViewController {
             break
         }
     }
+
+    private func prepareConversationViewController(vc: ConversationViewController, withDiscoveredFeed feed: DiscoveredFeed, inRealm realm: Realm) {
+
+        realm.beginWrite()
+        let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+        let _ = try? realm.commitWrite()
+
+        vc.conversation = feedConversation
+        vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+
+        vc.afterDeletedFeedAction = { feedID in
+            SafeDispatch.async { [weak self] in
+                if let strongSelf = self {
+                    var deletedFeed: DiscoveredFeed?
+                    for feed in strongSelf.feeds {
+                        if feed.id == feedID {
+                            deletedFeed = feed
+                            break
+                        }
+                    }
+
+                    if let deletedFeed = deletedFeed, index = strongSelf.feeds.indexOf(deletedFeed) {
+                        strongSelf.feeds.removeAtIndex(index)
+
+                        let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+                        strongSelf.feedsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+
+                        return
+                    }
+                }
+
+                // 若不能单项删除，给点时间给服务器，防止请求回来的 feeds 包含被删除的
+                delay(1) {
+                    self?.updateFeeds()
+                }
+
+                println("afterDeletedFeedAction")
+            }
+        }
+
+        vc.conversationDirtyAction = { [weak self] groupID in
+
+            groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { [weak self] groupInfo in
+
+                if let feedInfo = groupInfo["topic"] as? JSONDictionary {
+
+                    guard let strongSelf = self, feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) else {
+                        return
+                    }
+
+                    if let index = strongSelf.feeds.indexOf(feed) {
+                        if strongSelf.feeds[index].messagesCount != feed.messagesCount {
+                            strongSelf.feeds[index].messagesCount = feed.messagesCount
+
+                            let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+                            let wayToUpdate: UITableView.WayToUpdate = .ReloadIndexPaths([indexPath])
+                            SafeDispatch.async {
+                                wayToUpdate.performWithTableView(strongSelf.feedsTableView)
+                            }
+                        }
+                    }
+                }
+            })
+
+            println("conversationDirtyAction")
+        }
+
+        vc.syncPlayFeedAudioAction = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+        }
+    }
 }
 
 // MARK: - UISearchBarDelegate
@@ -1131,15 +1128,15 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     private enum Section: Int {
         case SkillUsers
-        case Filter
         case UploadingFeed
         case Feed
         case LoadMore
+        case Filter
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
 
-        return 5
+        return 4
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -1173,45 +1170,45 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             switch feed.kind {
 
             case .Text:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
+                let cell: FeedBasicCell = tableView.dequeueReusableCell()
                 return cell
 
             case .URL:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedURLCellID) as! FeedURLCell
+                let cell: FeedURLCell = tableView.dequeueReusableCell()
                 return cell
 
             case .Image:
                 if feed.imageAttachmentsCount == 1 {
-                    let cell = tableView.dequeueReusableCellWithIdentifier(feedBiggerImageCellID) as! FeedBiggerImageCell
+                    let cell: FeedBiggerImageCell = tableView.dequeueReusableCell()
                     return cell
 
                 } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
-                    let cell = tableView.dequeueReusableCellWithIdentifier(feedNormalImagesCellID) as! FeedNormalImagesCell
+                    let cell: FeedNormalImagesCell = tableView.dequeueReusableCell()
                     return cell
 
                 } else {
-                    let cell = tableView.dequeueReusableCellWithIdentifier(feedAnyImagesCellID) as! FeedAnyImagesCell
+                    let cell: FeedAnyImagesCell = tableView.dequeueReusableCell()
                     return cell
                 }
 
             case .GithubRepo:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedGithubRepoCellID) as! FeedGithubRepoCell
+                let cell: FeedGithubRepoCell = tableView.dequeueReusableCell()
                 return cell
 
             case .DribbbleShot:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedDribbbleShotCellID) as! FeedDribbbleShotCell
+                let cell: FeedDribbbleShotCell = tableView.dequeueReusableCell()
                 return cell
 
             case .Audio:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedVoiceCellID) as! FeedVoiceCell
+                let cell: FeedVoiceCell = tableView.dequeueReusableCell()
                 return cell
 
             case .Location:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedLocationCellID) as! FeedLocationCell
+                let cell: FeedLocationCell = tableView.dequeueReusableCell()
                 return cell
 
             default:
-                let cell = tableView.dequeueReusableCellWithIdentifier(feedBasicCellID) as! FeedBasicCell
+                let cell: FeedBasicCell = tableView.dequeueReusableCell()
                 return cell
             }
         }
@@ -1220,12 +1217,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .SkillUsers:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(feedSkillUsersCellID) as! FeedSkillUsersCell
+            let cell: FeedSkillUsersCell = tableView.dequeueReusableCell()
             return cell
 
         case .Filter:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(feedFilterCellID) as! FeedFilterCell
+            let cell: FeedFilterCell = tableView.dequeueReusableCell()
             return cell
 
         case .UploadingFeed:
@@ -1240,7 +1237,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .LoadMore:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(loadMoreTableViewCellID) as! LoadMoreTableViewCell
+            let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
             return cell
         }
     }
@@ -1319,35 +1316,20 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             case .Image:
 
-                let tapMediaAction: FeedTapMediaAction = { [weak self] transitionView, image, attachments, index in
+                let tapImagesAction: FeedTapImagesAction = { [weak self] transitionViews, attachments, image, index in
 
-                    guard image != nil else {
-                        return
-                    }
+                    self?.previewTransitionViews = transitionViews
 
-                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+                    let previewAttachmentPhotos = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
+                    previewAttachmentPhotos[index].image = image
 
-                    vc.previewMedias = attachments.map({ PreviewMedia.AttachmentType(attachment: $0) })
-                    vc.startIndex = index
+                    self?.previewAttachmentPhotos = previewAttachmentPhotos
 
-                    let transitionView = transitionView
-                    let frame = transitionView.convertRect(transitionView.bounds, toView: self?.view)
-                    vc.previewImageViewInitalFrame = frame
-                    vc.bottomPreviewImage = image
+                    let photos: [Photo] = previewAttachmentPhotos.map({ $0 })
+                    let initialPhoto = photos[index]
 
-                    vc.transitionView = transitionView
-
-                    delay(0) {
-                        transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                    }
-                    vc.afterDismissAction = { [weak self] in
-                        transitionView.alpha = 1
-                        self?.view.window?.makeKeyAndVisible()
-                    }
-
-                    mediaPreviewWindow.rootViewController = vc
-                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-                    mediaPreviewWindow.makeKeyAndVisible()
+                    let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+                    self?.presentViewController(photosViewController, animated: true, completion: nil)
                 }
 
                 if feed.imageAttachmentsCount == 1 {
@@ -1357,7 +1339,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
-                    cell.tapMediaAction = tapMediaAction
+                    cell.tapImagesAction = tapImagesAction
 
                 } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
 
@@ -1367,7 +1349,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
-                    cell.tapMediaAction = tapMediaAction
+                    cell.tapImagesAction = tapImagesAction
 
                 } else {
                     guard let cell = cell as? FeedAnyImagesCell else {
@@ -1376,7 +1358,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
-                    cell.tapMediaAction = tapMediaAction
+                    cell.tapImagesAction = tapImagesAction
                 }
 
             case .GithubRepo:
@@ -1409,27 +1391,19 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                         return
                     }
 
-                    let vc = UIStoryboard(name: "MediaPreview", bundle: nil).instantiateViewControllerWithIdentifier("MediaPreviewViewController") as! MediaPreviewViewController
+                    self?.previewTransitionViews = [transitionView]
 
-                    vc.previewMedias = [PreviewMedia.WebImage(imageURL: imageURL, linkURL: linkURL)]
-                    vc.startIndex = 0
+                    let previewDribbblePhoto = PreviewDribbblePhoto(imageURL: imageURL)
+                    previewDribbblePhoto.image = image
 
-                    let transitionView = transitionView
-                    let frame = transitionView.convertRect(transitionView.bounds, toView: self?.view)
-                    vc.previewImageViewInitalFrame = frame
-                    vc.bottomPreviewImage = image
+                    let previewDribbblePhotos = [previewDribbblePhoto]
+                    self?.previewDribbblePhotos = previewDribbblePhotos
 
-                    delay(0) {
-                        transitionView.alpha = 0 // 放到下一个 Runloop 避免太快消失产生闪烁
-                    }
-                    vc.afterDismissAction = { [weak self] in
-                        transitionView.alpha = 1
-                        self?.view.window?.makeKeyAndVisible()
-                    }
+                    let photos: [Photo] = previewDribbblePhotos.map({ $0 })
+                    let initialPhoto = photos[0]
 
-                    mediaPreviewWindow.rootViewController = vc
-                    mediaPreviewWindow.windowLevel = UIWindowLevelAlert - 1
-                    mediaPreviewWindow.makeKeyAndVisible()
+                    let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+                    self?.presentViewController(photosViewController, animated: true, completion: nil)
                 }
 
             case .Audio:
@@ -1601,8 +1575,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.isLoading = true
             }
 
-            updateFeeds(mode: .LoadMore, finish: { [weak cell] in
-                cell?.isLoading = false
+            updateFeeds(mode: .LoadMore, finish: {
+                delay(0.5) { [weak cell] in
+                    cell?.isLoading = false
+                }
             })
         }
     }
@@ -1726,7 +1702,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             let recommendTitle: String
             if feed.recommended {
-                recommendTitle = NSLocalizedString("Cancel\nRecommended", comment: "")
+                recommendTitle = String.trans_titleCancelRecommended
             } else {
                 recommendTitle = NSLocalizedString("Recommend", comment: "")
             }
@@ -1736,7 +1712,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 if feed.recommended {
                     cancelRecommendedFeedWithFeedID(feed.id, failureHandler: { [weak self] reason, errorMessage in
 
-                        let message = errorMessage ?? NSLocalizedString("Cancel recommended feed failed!", comment: "")
+                        let message = errorMessage ?? String.trans_promptCancelRecommendedFeedFailed
                         YepAlert.alertSorry(message: message, inViewController: self)
                         
                     }, completion: { [weak self] in
@@ -1774,9 +1750,6 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         return nil
-    }
-
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
     }
 
     // MARK: Copy Message
@@ -1919,6 +1892,95 @@ extension FeedsViewController: AVAudioPlayerDelegate {
         println("audioPlayerDidFinishPlaying \(flag)")
 
         feedAudioDidFinishPlaying()
+    }
+}
+
+// MARK: - UIViewControllerPreviewingDelegate
+
+extension FeedsViewController: UIViewControllerPreviewingDelegate {
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+
+        guard let indexPath = feedsTableView.indexPathForRowAtPoint(location), cell = feedsTableView.cellForRowAtIndexPath(indexPath) else {
+            return nil
+        }
+
+        previewingContext.sourceRect = cell.frame
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            return nil
+        }
+
+        switch section {
+
+        case .Feed:
+
+            guard let
+                feed = feeds[safe: indexPath.row],
+                realm = try? Realm() else {
+                    return nil
+            }
+
+            let vc = UIStoryboard.Scene.conversation
+
+            prepareConversationViewController(vc, withDiscoveredFeed: feed, inRealm: realm)
+
+            recoverOriginalNavigationDelegate()
+
+            vc.isPreviewed = true
+
+            return vc
+
+        default:
+            return nil
+        }
+    }
+
+    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+        
+        showViewController(viewControllerToCommit, sender: self)
+    }
+}
+
+// MARK: - PhotosViewControllerDelegate
+
+extension FeedsViewController: PhotosViewControllerDelegate {
+
+    func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
+
+        println("photosViewController:referenceViewForPhoto:\(photo)")
+
+        if let previewAttachmentPhoto = photo as? PreviewAttachmentPhoto {
+            if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
+                return previewTransitionViews?[index]
+            }
+
+        } else if let previewDribbblePhoto = photo as? PreviewDribbblePhoto {
+            if let index = previewDribbblePhotos.indexOf(previewDribbblePhoto) {
+                return previewTransitionViews?[index]
+            }
+        }
+
+        return nil
+    }
+
+    func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
+
+        println("photosViewController:didNavigateToPhoto:\(photo):atIndex:\(index)")
+    }
+
+    func photosViewControllerWillDismiss(vc: PhotosViewController) {
+
+        println("photosViewControllerWillDismiss")
+    }
+
+    func photosViewControllerDidDismiss(vc: PhotosViewController) {
+
+        println("photosViewControllerDidDismiss")
+
+        previewTransitionViews = nil
+        previewAttachmentPhotos = []
+        previewDribbblePhotos = []
     }
 }
 

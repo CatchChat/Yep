@@ -13,6 +13,28 @@ import Ruler
 
 public extension UIImage {
 
+    public var yep_fixedSize: CGSize {
+
+        let imageWidth = self.size.width
+        let imageHeight = self.size.height
+
+        let fixedImageWidth: CGFloat
+        let fixedImageHeight: CGFloat
+
+        if imageWidth > imageHeight {
+            fixedImageHeight = min(imageHeight, Config.Media.imageHeight)
+            fixedImageWidth = imageWidth * (fixedImageHeight / imageHeight)
+        } else {
+            fixedImageWidth = min(imageWidth, Config.Media.imageWidth)
+            fixedImageHeight = imageHeight * (fixedImageWidth / imageWidth)
+        }
+
+        return CGSize(width: fixedImageWidth, height: fixedImageHeight)
+    }
+}
+
+public extension UIImage {
+
     public func largestCenteredSquareImage() -> UIImage {
         let scale = self.scale
 

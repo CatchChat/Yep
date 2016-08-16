@@ -8,32 +8,28 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 final class SearchedUserMessagesViewController: BaseViewController {
 
     var messages: [Message] = []
     var keyword: String? = nil
 
-    private let searchedMessageCellID = "SearchedMessageCell"
-
     @IBOutlet weak var messagesTableView: UITableView! {
         didSet {
             messagesTableView.separatorColor = YepConfig.SearchTableView.separatorColor
             messagesTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
-            messagesTableView.registerNib(UINib(nibName: searchedMessageCellID, bundle: nil), forCellReuseIdentifier: searchedMessageCellID)
-
             messagesTableView.rowHeight = 70
-
             messagesTableView.tableFooterView = UIView()
+
+            messagesTableView.registerNibOf(SearchedMessageCell)
         }
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Chat Records", comment: "")
+        title = String.trans_titleChatRecords
     }
 
     // MARK: - Navigation
@@ -71,7 +67,7 @@ extension SearchedUserMessagesViewController: UITableViewDataSource, UITableView
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(searchedMessageCellID) as! SearchedMessageCell
+        let cell: SearchedMessageCell = tableView.dequeueReusableCell()
         return cell
     }
 

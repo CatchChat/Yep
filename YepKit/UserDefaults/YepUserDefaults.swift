@@ -8,7 +8,7 @@
 
 import UIKit
 import CoreSpotlight
-import YepConfig
+import CoreLocation
 import RealmSwift
 
 private let v1AccessTokenKey = "v1AccessToken"
@@ -30,10 +30,14 @@ private let feedSortStyleKey = "feedSortStyle"
 
 private let latitudeShiftKey = "latitudeShift"
 private let longitudeShiftKey = "longitudeShift"
-
+private let userCoordinateLatitudeKey = "userCoordinateLatitude"
+private let userCoordinateLongitudeKey = "userCoordinateLongitude"
 private let userLocationNameKey = "userLocationName"
 
 private let syncedConversationsKey = "syncedConversations"
+
+private let appLaunchCountKey = "appLaunchCount"
+private let tabBarItemTextEnabledKey = "tabBarItemTextEnabled"
 
 public struct Listener<T>: Hashable {
 
@@ -101,7 +105,9 @@ final public class Listenable<T> {
 
 final public class YepUserDefaults {
 
-    static let defaults = NSUserDefaults(suiteName: YepConfig.appGroupID)!
+    static let defaults = NSUserDefaults(suiteName: Config.appGroupID)!
+
+    public static let appLaunchCountThresholdForTabBarItemTextEnabled: Int = 30
 
     public static var isLogined: Bool {
 
@@ -140,33 +146,71 @@ final public class YepUserDefaults {
         return nil
     }
 
+    public static var userCoordinate: CLLocationCoordinate2D? {
+
+        guard let latitude = YepUserDefaults.userCoordinateLatitude.value, longitude = YepUserDefaults.userCoordinateLongitude.value else {
+            return nil
+        }
+
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+    }
+
     // MARK: ReLogin
 
     public class func cleanAllUserDefaults() {
 
-        v1AccessToken.removeAllListeners()
-        userID.removeAllListeners()
-        nickname.removeAllListeners()
-        introduction.removeAllListeners()
-        avatarURLString.removeAllListeners()
-        badge.removeAllListeners()
-        blogURLString.removeAllListeners()
-        blogTitle.removeAllListeners()
-        pusherID.removeAllListeners()
-        admin.removeAllListeners()
-        areaCode.removeAllListeners()
-        mobile.removeAllListeners()
-        discoveredUserSortStyle.removeAllListeners()
-        feedSortStyle.removeAllListeners()
-        latitudeShift.removeAllListeners()
-        longitudeShift.removeAllListeners()
-        userLocationName.removeAllListeners()
-        syncedConversations.removeAllListeners()
+        do {
+            v1AccessToken.removeAllListeners()
+            userID.removeAllListeners()
+            nickname.removeAllListeners()
+            introduction.removeAllListeners()
+            avatarURLString.removeAllListeners()
+            badge.removeAllListeners()
+            blogURLString.removeAllListeners()
+            blogTitle.removeAllListeners()
+            pusherID.removeAllListeners()
+            admin.removeAllListeners()
+            areaCode.removeAllListeners()
+            mobile.removeAllListeners()
+            discoveredUserSortStyle.removeAllListeners()
+            feedSortStyle.removeAllListeners()
+            latitudeShift.removeAllListeners()
+            longitudeShift.removeAllListeners()
+            userCoordinateLatitude.removeAllListeners()
+            userCoordinateLongitude.removeAllListeners()
+            userLocationName.removeAllListeners()
+            syncedConversations.removeAllListeners()
+            appLaunchCount.removeAllListeners()
+            tabBarItemTextEnabled.removeAllListeners()
+        }
 
+        do { // Manually reset
+            YepUserDefaults.v1AccessToken.value = nil
+            YepUserDefaults.userID.value = nil
+            YepUserDefaults.nickname.value = nil
+            YepUserDefaults.introduction.value = nil
+            YepUserDefaults.badge.value = nil
+            YepUserDefaults.blogURLString.value = nil
+            YepUserDefaults.blogTitle.value = nil
+            YepUserDefaults.pusherID.value = nil
+            YepUserDefaults.admin.value = nil
+            YepUserDefaults.areaCode.value = nil
+            YepUserDefaults.mobile.value = nil
+            YepUserDefaults.discoveredUserSortStyle.value = nil
+            YepUserDefaults.feedSortStyle.value = nil
+            // No reset Location related
+            YepUserDefaults.syncedConversations.value = false
+            YepUserDefaults.appLaunchCount.value = 0
+            YepUserDefaults.tabBarItemTextEnabled.value = nil
+            defaults.synchronize()
+        }
+
+        /*
         // reset suite
 
         let dict = defaults.dictionaryRepresentation()
         dict.keys.forEach({
+            println("removeObjectForKey defaults key: \($0)")
             defaults.removeObjectForKey($0)
         })
         defaults.synchronize()
@@ -176,6 +220,7 @@ final public class YepUserDefaults {
         let standardUserDefaults = NSUserDefaults.standardUserDefaults()
         standardUserDefaults.removePersistentDomainForName(NSBundle.mainBundle().bundleIdentifier!)
         standardUserDefaults.synchronize()
+         */
     }
 
     public class func maybeUserNeedRelogin(prerequisites prerequisites: () -> Bool, confirm: () -> Void) {
@@ -223,14 +268,11 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                nickname = nickname,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                    let _ = try? realm.write {
-//                        me.nickname = nickname
-//                    }
-//            }
+            if let nickname = nickname, let me = meInRealm(realm) {
+                let _ = try? realm.write {
+                    me.nickname = nickname
+                }
+            }
         }
     }()
 
@@ -244,14 +286,11 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                introduction = introduction,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                    let _ = try? realm.write {
-//                        me.introduction = introduction
-//                    }
-//            }
+            if let introduction = introduction, let me = meInRealm(realm) {
+                let _ = try? realm.write {
+                    me.introduction = introduction
+                }
+            }
         }
     }()
 
@@ -265,14 +304,11 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                avatarURLString = avatarURLString,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                    let _ = try? realm.write {
-//                        me.avatarURLString = avatarURLString
-//                    }
-//            }
+            if let avatarURLString = avatarURLString, let me = meInRealm(realm) {
+                let _ = try? realm.write {
+                    me.avatarURLString = avatarURLString
+                }
+            }
         }
     }()
 
@@ -286,14 +322,11 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                badge = badge,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                    let _ = try? realm.write {
-//                        me.badge = badge
-//                    }
-//            }
+            if let badge = badge, let me = meInRealm(realm) {
+                let _ = try? realm.write {
+                    me.badge = badge
+                }
+            }
         }
     }()
 
@@ -307,14 +340,11 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                blogURLString = blogURLString,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                let _ = try? realm.write {
-//                    me.blogURLString = blogURLString
-//                }
-//            }
+            if let blogURLString = blogURLString, let me = meInRealm(realm) {
+                let _ = try? realm.write {
+                    me.blogURLString = blogURLString
+                }
+            }
         }
     }()
 
@@ -328,14 +358,11 @@ final public class YepUserDefaults {
                 return
             }
 
-//            if let
-//                blogTitle = blogTitle,
-//                myUserID = YepUserDefaults.userID.value,
-//                me = userWithUserID(myUserID, inRealm: realm) {
-//                let _ = try? realm.write {
-//                    me.blogTitle = blogTitle
-//                }
-//            }
+            if let blogTitle = blogTitle, let me = meInRealm(realm) {
+                let _ = try? realm.write {
+                    me.blogTitle = blogTitle
+                }
+            }
         }
     }()
 
@@ -416,6 +443,22 @@ final public class YepUserDefaults {
         }
     }()
 
+    public static var userCoordinateLatitude: Listenable<Double?> = {
+        let userCoordinateLatitude = defaults.doubleForKey(userCoordinateLatitudeKey)
+
+        return Listenable<Double?>(userCoordinateLatitude) { userCoordinateLatitude in
+            defaults.setObject(userCoordinateLatitude, forKey: userCoordinateLatitudeKey)
+        }
+    }()
+
+    public static var userCoordinateLongitude: Listenable<Double?> = {
+        let userCoordinateLongitude = defaults.doubleForKey(userCoordinateLongitudeKey)
+
+        return Listenable<Double?>(userCoordinateLongitude) { userCoordinateLongitude in
+            defaults.setObject(userCoordinateLongitude, forKey: userCoordinateLongitudeKey)
+        }
+    }()
+
     public static var userLocationName: Listenable<String?> = {
         let userLocationName = defaults.stringForKey(userLocationNameKey)
 
@@ -429,6 +472,22 @@ final public class YepUserDefaults {
 
         return Listenable<Bool?>(syncedConversations) { syncedConversations in
             defaults.setObject(syncedConversations, forKey: syncedConversationsKey)
+        }
+    }()
+
+    public static var appLaunchCount: Listenable<Int> = {
+        let appLaunchCount = defaults.integerForKey(appLaunchCountKey) ?? 0
+
+        return Listenable<Int>(appLaunchCount) { appLaunchCount in
+            defaults.setObject(appLaunchCount, forKey: appLaunchCountKey)
+        }
+    }()
+
+    public static var tabBarItemTextEnabled: Listenable<Bool?> = {
+        let tabBarItemTextEnabled = defaults.objectForKey(tabBarItemTextEnabledKey) as? Bool
+
+        return Listenable<Bool?>(tabBarItemTextEnabled) { tabBarItemTextEnabled in
+            defaults.setObject(tabBarItemTextEnabled, forKey: tabBarItemTextEnabledKey)
         }
     }()
 }

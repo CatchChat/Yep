@@ -9,9 +9,10 @@
 import UIKit
 import MapKit
 import YepKit
-import YepConfig
 
 final class ChatRightLocationCell: ChatRightBaseCell {
+
+    static private let mapSize = CGSize(width: 192, height: 108)
 
     lazy var mapImageView: UIImageView = {
         let imageView = UIImageView()
@@ -28,7 +29,7 @@ final class ChatRightLocationCell: ChatRightBaseCell {
     }()
 
     lazy var borderImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "right_tail_image_bubble_border"))
+        let imageView = UIImageView(image: UIImage.yep_rightTailImageBubbleBorder)
         return imageView
     }()
 
@@ -81,7 +82,7 @@ final class ChatRightLocationCell: ChatRightBaseCell {
         mediaTapAction?()
     }
 
-    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?, collectionView: UICollectionView, indexPath: NSIndexPath) {
+    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?) {
 
         self.message = message
         self.user = message.fromFriend
@@ -101,13 +102,7 @@ final class ChatRightLocationCell: ChatRightBaseCell {
         
         locationNameLabel.text = locationName
 
-        ImageCache.sharedInstance.mapImageOfMessage(message, withSize: CGSize(width: 192, height: 108), tailDirection: .Right, bottomShadowEnabled: !locationName.isEmpty) { mapImage in
-            dispatch_async(dispatch_get_main_queue()) {
-                if let _ = collectionView.cellForItemAtIndexPath(indexPath) {
-                    self.mapImageView.image = mapImage
-                }
-            }
-        }
+        mapImageView.yep_setMapImageOfMessage(message, withSize: ChatRightLocationCell.mapSize, tailDirection: .Right)
     }
 }
 

@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import Kingfisher
 
 final class ConversationCell: UITableViewCell {
@@ -48,12 +47,6 @@ final class ConversationCell: UITableViewCell {
         avatarImageViewWidthConstraint.constant = YepConfig.ConversationCell.avatarSize
 
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIButAvatar:", name: YepConfig.Notification.newMessages, object: nil)
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     override func prepareForReuse() {
@@ -128,7 +121,7 @@ final class ConversationCell: UITableViewCell {
                         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
                     } else {
-                        avatarImageView.image = UIImage(named: "default_avatar_60")
+                        avatarImageView.image = UIImage.yep_defaultAvatar60
                     }
                 }
 

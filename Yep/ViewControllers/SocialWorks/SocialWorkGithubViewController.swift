@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import YepNetworking
 import MonkeyKing
 import Navi
@@ -34,8 +33,6 @@ final class SocialWorkGithubViewController: BaseViewController {
     @IBOutlet private weak var followingCountLabel: UILabel!
 
     @IBOutlet private weak var githubTableView: UITableView!
-
-    private let githubRepoCellIdentifier = "GithubRepoCell"
 
     private var githubUser: GithubWork.User? {
         didSet {
@@ -76,8 +73,6 @@ final class SocialWorkGithubViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-//        animatedOnNavigationBar = false
-
         if let socialAccount = socialAccount {
             let accountImageView = UIImageView(image: UIImage(named: socialAccount.iconName)!)
             accountImageView.tintColor = socialAccount.tintColor
@@ -90,10 +85,9 @@ final class SocialWorkGithubViewController: BaseViewController {
         shareButton.enabled = false
         navigationItem.rightBarButtonItem = shareButton
 
-        githubTableView.registerNib(UINib(nibName: githubRepoCellIdentifier, bundle: nil), forCellReuseIdentifier: githubRepoCellIdentifier)
+        githubTableView.registerNibOf(GithubRepoCell)
 
         githubTableView.rowHeight = 100
-
         githubTableView.contentInset.bottom = YepConfig.SocialWorkGithub.Repo.rightEdgeInset - 10
         
         if let gestures = navigationController?.view.gestureRecognizers {
@@ -105,7 +99,6 @@ final class SocialWorkGithubViewController: BaseViewController {
                 }
             }
         }
-
 
         // 获取 Github Work，如果必要的话
 
@@ -135,7 +128,7 @@ final class SocialWorkGithubViewController: BaseViewController {
                 }, completion: { githubWork in
                     println("githubWork: \(githubWork)")
 
-                    dispatch_async(dispatch_get_main_queue()) {
+                    SafeDispatch.async {
                         self.githubUser = githubWork.user
                         self.githubRepos = githubWork.repos
 
@@ -149,7 +142,7 @@ final class SocialWorkGithubViewController: BaseViewController {
     // MARK: Actions
 
     private func updateGithubTableView() {
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
             self.githubTableView.reloadData()
         }
     }
@@ -160,7 +153,7 @@ final class SocialWorkGithubViewController: BaseViewController {
 
             var title: String?
             if let githubUser = githubUser {
-                title = String(format: NSLocalizedString("%@'s GitHub", comment: ""), githubUser.loginName)
+                title = String(format: NSLocalizedString("whosGitHub%@", comment: ""), githubUser.loginName)
             }
 
             var thumbnail: UIImage?
@@ -219,7 +212,7 @@ extension SocialWorkGithubViewController: UITableViewDataSource, UITableViewDele
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCellWithIdentifier(githubRepoCellIdentifier) as! GithubRepoCell
+        let cell: GithubRepoCell = tableView.dequeueReusableCell()
 
         let repo = githubRepos[indexPath.row]
 

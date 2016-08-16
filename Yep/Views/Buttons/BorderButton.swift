@@ -35,7 +35,8 @@ final class BorderButton: UIButton {
     }
 
     lazy var accessoryImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "icon_accessory_mini"))
+        let image = UIImage.yep_iconAccessoryMini
+        let imageView = UIImageView(image: image)
         return imageView
     }()
 

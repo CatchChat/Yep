@@ -13,11 +13,6 @@ import DeviceGuru
 
 func configureDynamicShortcuts() {
 
-    guard DeviceGuru.hardware().yep_supportQuickAction else {
-        UIApplication.sharedApplication().shortcutItems = nil
-        return
-    }
-
     var shortcutItems = [UIApplicationShortcutItem]()
 
     do {

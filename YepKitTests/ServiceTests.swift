@@ -7,7 +7,6 @@
 //
 
 import XCTest
-import YepConfig
 @testable import YepKit
 
 final class ServiceTests: XCTestCase {
@@ -37,7 +36,7 @@ final class ServiceTests: XCTestCase {
 
         let expectation = expectationWithDescription("get feeds with keyword")
 
-        feedsWithKeyword("hello", skillID: nil, userID: nil, pageIndex: 1, perPage: 30, failureHandler: nil) { feeds in
+        feedsWithKeyword("hello", skillID: nil, userID: nil, pageIndex: 1, perPage: 30, failureHandler: nil) { feeds, _ in
             if !feeds.isEmpty {
                 expectation.fulfill()
             }
@@ -54,7 +53,7 @@ final class ServiceTests: XCTestCase {
 
         let expectation = expectationWithDescription("join and leave group")
 
-        feedsWithKeyword("iOS", skillID: nil, userID: nil, pageIndex: 1, perPage: 1, failureHandler: nil) { feeds in
+        feedsWithKeyword("iOS", skillID: nil, userID: nil, pageIndex: 1, perPage: 1, failureHandler: nil) { feeds, _ in
             if let firstFeed = feeds.first {
                 let groupID = firstFeed.groupID
                 joinGroup(groupID: groupID, failureHandler: nil, completion: {
@@ -76,12 +75,12 @@ final class ServiceTests: XCTestCase {
 
         let expectation = expectationWithDescription("send message to group")
 
-        feedsWithKeyword("Yep", skillID: nil, userID: nil, pageIndex: 1, perPage: 1, failureHandler: nil) { feeds in
+        feedsWithKeyword("Yep", skillID: nil, userID: nil, pageIndex: 1, perPage: 1, failureHandler: nil) { feeds, _ in
 
             if let firstFeed = feeds.first {
                 let groupID = firstFeed.groupID
 
-                dispatch_async(dispatch_get_main_queue()) {
+                SafeDispatch.async {
                     sendText("How do you do?", toRecipient: groupID, recipientType: "Circle", afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
 
                         if success {
@@ -112,7 +111,7 @@ final class ServiceTests: XCTestCase {
 
         let bundle = NSBundle(forClass: ServiceTests.self)
         let image = UIImage(named: "coolie", inBundle: bundle, compatibleWithTraitCollection: nil)!
-        let imageData = UIImageJPEGRepresentation(image, YepConfig.avatarCompressionQuality())!
+        let imageData = UIImageJPEGRepresentation(image, Config.avatarCompressionQuality())!
 
         updateAvatarWithImageData(imageData, failureHandler: nil, completion: { newAvatarURLString in
             userInfo(failureHandler: nil) { myUserInfo in
@@ -123,8 +122,9 @@ final class ServiceTests: XCTestCase {
                 }
             }
         })
+        //expectation.fulfill() // tmp workaround
 
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectationsWithTimeout(30, handler: nil)
     }
 
     func testGetCreatorsOfBlockedFeeds() {

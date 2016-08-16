@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="9531" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -13,32 +12,26 @@
             <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                 <rect key="frame" x="0.0" y="0.0" width="320" height="180"/>
                 <subviews>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Yw-Z7-Wv4" userLabel="Introduction Label">
-                        <rect key="frame" x="38" y="66" width="244" height="29"/>
-                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
-                        <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="NIX" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NxA-Mj-WGn">
-                        <rect key="frame" x="38" y="10" width="32.5" height="24"/>
+                        <rect key="frame" x="38" y="10" width="33" height="24"/>
                         <fontDescription key="fontDescription" type="system" pointSize="20"/>
                         <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="@nixzhu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jnP-ym-ZBH">
-                        <rect key="frame" x="38" y="38" width="58.5" height="18"/>
+                        <rect key="frame" x="38" y="38" width="59" height="18"/>
                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                         <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="q7V-Cn-Anl">
-                        <rect key="frame" x="184.5" y="8" width="97.5" height="27"/>
+                        <rect key="frame" x="182" y="8" width="98" height="27"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="icon_pin_mini_gray" translatesAutoresizingMaskIntoConstraints="NO" id="jsS-4E-7vx">
                                 <rect key="frame" x="0.0" y="6" width="12" height="15"/>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="GuangZhou" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="azE-9R-4mk">
-                                <rect key="frame" x="17" y="5" width="80.5" height="18"/>
+                                <rect key="frame" x="17" y="5" width="81" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
@@ -54,26 +47,33 @@
                             <constraint firstAttribute="height" constant="27" id="tYV-wG-GDr"/>
                         </constraints>
                     </view>
+                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="I would like to learn Design or Speech, I can teach you iOS Dev in return. 😃" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="8FD-pw-Oxk" customClass="ChatTextView" customModule="Yep" customModuleProvider="target">
+                        <rect key="frame" x="38" y="56" width="242" height="124"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="12"/>
+                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    </textView>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
-                <constraint firstItem="q7V-Cn-Anl" firstAttribute="trailing" secondItem="5Yw-Z7-Wv4" secondAttribute="trailing" id="BCY-lQ-RaB"/>
+                <constraint firstItem="8FD-pw-Oxk" firstAttribute="trailing" secondItem="azE-9R-4mk" secondAttribute="trailing" id="920-22-Yy1"/>
                 <constraint firstItem="q7V-Cn-Anl" firstAttribute="centerY" secondItem="NxA-Mj-WGn" secondAttribute="centerY" id="C9L-QR-7ua"/>
                 <constraint firstItem="jnP-ym-ZBH" firstAttribute="top" secondItem="NxA-Mj-WGn" secondAttribute="bottom" constant="4" id="G2q-tX-3IP"/>
-                <constraint firstAttribute="trailing" secondItem="5Yw-Z7-Wv4" secondAttribute="trailing" constant="38" id="Grg-4P-8QR"/>
-                <constraint firstItem="5Yw-Z7-Wv4" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="38" id="HPJ-WR-pZU"/>
-                <constraint firstItem="jnP-ym-ZBH" firstAttribute="leading" secondItem="5Yw-Z7-Wv4" secondAttribute="leading" id="HjV-WR-RVa"/>
                 <constraint firstItem="q7V-Cn-Anl" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="NxA-Mj-WGn" secondAttribute="trailing" id="Lbh-4Z-tcy"/>
+                <constraint firstItem="8FD-pw-Oxk" firstAttribute="top" secondItem="jnP-ym-ZBH" secondAttribute="bottom" id="T0j-9r-Dm8"/>
+                <constraint firstItem="8FD-pw-Oxk" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="38" id="TPP-A6-JEV"/>
+                <constraint firstItem="8FD-pw-Oxk" firstAttribute="leading" secondItem="jnP-ym-ZBH" secondAttribute="leading" id="WiD-AM-Rq6"/>
                 <constraint firstItem="jnP-ym-ZBH" firstAttribute="leading" secondItem="NxA-Mj-WGn" secondAttribute="leading" id="cPb-4n-LbM"/>
-                <constraint firstItem="5Yw-Z7-Wv4" firstAttribute="top" secondItem="jnP-ym-ZBH" secondAttribute="bottom" constant="10" id="hD9-Ye-HHX"/>
+                <constraint firstAttribute="trailing" secondItem="8FD-pw-Oxk" secondAttribute="trailing" constant="40" id="nf2-ok-QnL"/>
                 <constraint firstItem="NxA-Mj-WGn" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="10" id="uPe-lC-dCc"/>
+                <constraint firstAttribute="bottom" secondItem="8FD-pw-Oxk" secondAttribute="bottom" id="x0R-yz-HCi"/>
             </constraints>
             <size key="customSize" width="320" height="180"/>
             <connections>
-                <outlet property="instroductionLabelLeftConstraint" destination="HPJ-WR-pZU" id="jFC-zO-l0X"/>
-                <outlet property="instroductionLabelRightConstraint" destination="Grg-4P-8QR" id="UCI-Hb-Phd"/>
-                <outlet property="introductionLabel" destination="5Yw-Z7-Wv4" id="2To-TB-hWM"/>
+                <outlet property="introductionTextView" destination="8FD-pw-Oxk" id="8Mi-Ua-jVT"/>
+                <outlet property="introductionTextViewLeftConstraint" destination="TPP-A6-JEV" id="U5b-Mr-5dm"/>
+                <outlet property="introductionTextViewRightConstraint" destination="nf2-ok-QnL" id="O3t-rM-371"/>
                 <outlet property="locationContainerView" destination="q7V-Cn-Anl" id="gd6-24-ezX"/>
                 <outlet property="locationLabel" destination="azE-9R-4mk" id="ei5-vp-90U"/>
                 <outlet property="nicknameLabel" destination="NxA-Mj-WGn" id="KJe-zP-OW6"/>

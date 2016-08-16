@@ -8,7 +8,6 @@
 
 import UIKit
 import MapKit
-import YepConfig
 import YepNetworking
 import RealmSwift
 
@@ -261,8 +260,8 @@ public class Group: Object {
         if let conversation = conversation {
             realm.delete(conversation)
 
-            dispatch_async(dispatch_get_main_queue()) {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.changedConversation, object: nil)
+            SafeDispatch.async {
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
             }
         }
 
@@ -352,19 +351,19 @@ public enum MessageMediaType: Int, CustomStringConvertible {
         case .Text:
             return nil
         case .Image:
-            return NSLocalizedString("[Image]", comment: "")
+            return NSLocalizedString("placeholder.image", comment: "")
         case .Video:
-            return NSLocalizedString("[Video]", comment: "")
+            return NSLocalizedString("placeholder.video", comment: "")
         case .Audio:
-            return NSLocalizedString("[Audio]", comment: "")
+            return NSLocalizedString("placeholder.audio", comment: "")
         case .Sticker:
-            return NSLocalizedString("[Sticker]", comment: "")
+            return NSLocalizedString("placeholder.sticker", comment: "")
         case .Location:
-            return NSLocalizedString("[Location]", comment: "")
+            return NSLocalizedString("placeholder.location", comment: "")
         case .SocialWork:
-            return NSLocalizedString("[Social Work]", comment: "")
+            return NSLocalizedString("placeholder.socialWork", comment: "")
         default:
-            return NSLocalizedString("All messages read.", comment: "")
+            return NSLocalizedString("placeholder.all_messages_read", comment: "")
         }
     }
 }
@@ -525,7 +524,7 @@ public class Message: Object {
 
     public var recalledTextContent: String {
         let nickname = fromFriend?.nickname ?? ""
-        return String(format: NSLocalizedString("%@ recalled a message.", comment: ""), nickname)
+        return String(format: NSLocalizedString("recalledMessage%@", comment: ""), nickname)
     }
 
     public var blockedTextContent: String {
@@ -545,13 +544,45 @@ public class Message: Object {
     public dynamic var attachmentID: String = ""
     public dynamic var attachmentExpiresUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 + (6 * 60 * 60 * 24) // 6天，过期时间s3为7天，客户端防止误差减去1天
 
+    public var imageFileURL: NSURL? {
+        if !localAttachmentName.isEmpty {
+            return NSFileManager.yepMessageImageURLWithName(localAttachmentName)
+        }
+        return nil
+    }
+    
+    public var videoFileURL: NSURL? {
+        if !localAttachmentName.isEmpty {
+            return NSFileManager.yepMessageVideoURLWithName(localAttachmentName)
+        }
+        return nil
+    }
+
+    public var videoThumbnailFileURL: NSURL? {
+        if !localThumbnailName.isEmpty {
+            return NSFileManager.yepMessageImageURLWithName(localThumbnailName)
+        }
+        return nil
+    }
+
+    public var audioFileURL: NSURL? {
+        if !localAttachmentName.isEmpty {
+            return NSFileManager.yepMessageAudioURLWithName(localAttachmentName)
+        }
+        return nil
+    }
+
     public var imageKey: String {
         return "image-\(messageID)-\(localAttachmentName)-\(attachmentURLString)"
     }
 
+    public var mapImageKey: String {
+        return "mapImage-\(messageID)"
+    }
+
     public var nicknameWithTextContent: String {
         if let nickname = fromFriend?.nickname {
-            return String(format: NSLocalizedString("%@: %@", comment: ""), nickname, textContent)
+            return String(format: NSLocalizedString("nicknameWithTextContent_%@_%@", comment: ""), nickname, textContent)
         } else {
             return textContent
         }
@@ -560,11 +591,11 @@ public class Message: Object {
     public var thumbnailImage: UIImage? {
         switch mediaType {
         case MessageMediaType.Image.rawValue:
-            if let imageFileURL = NSFileManager.yepMessageImageURLWithName(localAttachmentName) {
+            if let imageFileURL = imageFileURL {
                 return UIImage(contentsOfFile: imageFileURL.path!)
             }
         case MessageMediaType.Video.rawValue:
-            if let imageFileURL = NSFileManager.yepMessageImageURLWithName(localThumbnailName) {
+            if let imageFileURL = videoThumbnailFileURL {
                 return UIImage(contentsOfFile: imageFileURL.path!)
             }
         default:
@@ -719,11 +750,11 @@ public class Conversation: Object {
         switch type {
         case ConversationType.OneToOne.rawValue:
             if let withFriend = withFriend {
-                return "user" + withFriend.userID
+                return "user_" + withFriend.userID
             }
         case ConversationType.Group.rawValue:
             if let withGroup = withGroup {
-                return "group" + withGroup.groupID
+                return "group_" + withGroup.groupID
             }
         default:
             return nil
@@ -761,7 +792,7 @@ public class Conversation: Object {
 
     public var mentionInitUsers: [UsernamePrefixMatchedUser] {
 
-        let users = messages.flatMap({ $0.fromFriend }).filter({ !$0.username.isEmpty && !$0.isMe })
+        let users = messages.flatMap({ $0.fromFriend }).filter({ !$0.invalidated }).filter({ !$0.username.isEmpty && !$0.isMe })
 
         let usernamePrefixMatchedUser = users.map({
             UsernamePrefixMatchedUser(
@@ -769,7 +800,8 @@ public class Conversation: Object {
                 username: $0.username,
                 nickname: $0.nickname,
                 avatarURLString: $0.avatarURLString,
-                lastSignInUnixTime: $0.lastSignInUnixTime)
+                lastSignInUnixTime: $0.lastSignInUnixTime
+            )
         })
 
         let uniqueSortedUsers = Array(Set(usernamePrefixMatchedUser)).sort({
@@ -793,6 +825,7 @@ public class Conversation: Object {
     public dynamic var hasUnreadMessages: Bool = false
     public dynamic var mentionedMe: Bool = false
     public dynamic var lastMentionedMeUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 - 60*60*12 // 默认为此Conversation创建时间之前半天
+    public dynamic var hasOlderMessages: Bool = true
 
     public var latestValidMessage: Message? {
         return messages.filter({ ($0.hidden == false) && ($0.isIndicator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
@@ -844,6 +877,15 @@ public class FeedAudio: Object {
         return LinkingObjects(fromType: Feed.self, property: "audio").first
     }
 
+    public var audioFileURL: NSURL? {
+        if !fileName.isEmpty {
+            if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
+                return fileURL
+            }
+        }
+        return nil
+    }
+
     public class func feedAudioWithFeedID(feedID: String, inRealm realm: Realm) -> FeedAudio? {
         let predicate = NSPredicate(format: "feedID = %@", feedID)
         return realm.objects(FeedAudio).filter(predicate).first
@@ -853,8 +895,8 @@ public class FeedAudio: Object {
 
         if let metaDataInfo = decodeJSON(metadata) {
             if let
-                duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? NSTimeInterval,
-                samples = metaDataInfo[YepConfig.MetaData.audioSamples] as? [CGFloat] {
+                duration = metaDataInfo[Config.MetaData.audioDuration] as? NSTimeInterval,
+                samples = metaDataInfo[Config.MetaData.audioSamples] as? [CGFloat] {
                     return (duration, samples)
             }
         }
@@ -1005,6 +1047,7 @@ public enum OfflineJSONName: String {
 
     case Feeds
     case DiscoveredUsers
+    case GeniusInterviews
 }
 
 public class OfflineJSON: Object {
@@ -1118,6 +1161,20 @@ public func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
     #endif
 
     return realm.objects(User).filter(predicate).first
+}
+
+public func meInRealm(realm: Realm) -> User? {
+    guard let myUserID = YepUserDefaults.userID.value else {
+        return nil
+    }
+    return userWithUserID(myUserID, inRealm: realm)
+}
+
+public func me() -> User? {
+    guard let realm = try? Realm() else {
+        return nil
+    }
+    return meInRealm(realm)
 }
 
 public func userWithUsername(username: String, inRealm realm: Realm) -> User? {
@@ -1261,7 +1318,7 @@ public func filterValidMessages(messages: [Message]) -> [Message] {
         .filter({ $0.hidden == false })
         .filter({ $0.isIndicator == false })
         .filter({ $0.isReal == true })
-        .filter({ !($0.fromFriend?.isMe ?? true)})
+        .filter({ !($0.fromFriend?.isMe ?? true) })
         .filter({ $0.conversation != nil })
 
     return validMessages
@@ -1281,7 +1338,7 @@ public func mentionedMeInFeedConversationsInRealm(realm: Realm) -> Bool {
 }
 
 public func countOfConversationsInRealm(realm: Realm) -> Int {
-    return realm.objects(Conversation).count
+    return realm.objects(Conversation).filter({ !$0.invalidated }).count
 }
 
 public func countOfConversationsInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
@@ -1299,7 +1356,7 @@ public func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conv
 
     case .Group: // Public for now
         let predicate = NSPredicate(format: "includeMe = true AND groupType = %d", GroupType.Public.rawValue)
-        let count = realm.objects(Group).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, combine: +)
+        let count = realm.objects(Group).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).filter({ !$0.invalidated }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, combine: +)
 
         return count
     }
@@ -1314,6 +1371,21 @@ public func countOfUnreadMessagesInConversation(conversation: Conversation) -> I
             return false
         }
     }).count
+}
+
+public func firstValidMessageInMessageResults(results: Results<Message>) -> (message: Message, headInvalidMessageIDSet: Set<String>)? {
+
+    var headInvalidMessageIDSet: Set<String> = []
+
+    for message in results {
+        if !message.deletedByCreator && (message.mediaType != MessageMediaType.SectionDate.rawValue) {
+            return (message, headInvalidMessageIDSet)
+        } else {
+            headInvalidMessageIDSet.insert(message.messageID)
+        }
+    }
+
+    return nil
 }
 
 public func latestValidMessageInRealm(realm: Realm) -> Message? {
@@ -1544,35 +1616,34 @@ public func avatarWithAvatarURLString(avatarURLString: String, inRealm realm: Re
 }
 
 public func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
-    if let userID = YepUserDefaults.userID.value {
 
-        if let me = userWithUserID(userID, inRealm: realm) {
-            return me
-
-        } else {
-
-            let me = User()
-
-            me.userID = userID
-            me.friendState = UserFriendState.Me.rawValue
-
-            if let nickname = YepUserDefaults.nickname.value {
-                me.nickname = nickname
-            }
-
-            if let avatarURLString = YepUserDefaults.avatarURLString.value {
-                me.avatarURLString = avatarURLString
-            }
-
-            let _ = try? realm.write {
-                realm.add(me)
-            }
-
-            return me
-        }
+    guard let userID = YepUserDefaults.userID.value else {
+        return nil
     }
 
-    return nil
+    if let me = userWithUserID(userID, inRealm: realm) {
+        return me
+
+    } else {
+        let me = User()
+
+        me.userID = userID
+        me.friendState = UserFriendState.Me.rawValue
+
+        if let nickname = YepUserDefaults.nickname.value {
+            me.nickname = nickname
+        }
+
+        if let avatarURLString = YepUserDefaults.avatarURLString.value {
+            me.avatarURLString = avatarURLString
+        }
+
+        let _ = try? realm.write {
+            realm.add(me)
+        }
+
+        return me
+    }
 }
 
 public func mediaMetaDataFromString(metaDataString: String, inRealm realm: Realm) -> MediaMetaData? {
@@ -1641,8 +1712,8 @@ public func handleMessageDeletedFromServer(messageID messageID: String) {
 
     let messageIDs: [String] = [message.messageID]
 
-    dispatch_async(dispatch_get_main_queue()) {
-        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedMessages, object: ["messageIDs": messageIDs])
+    SafeDispatch.async {
+        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.deletedMessages, object: ["messageIDs": messageIDs])
     }
 }
 
@@ -1661,7 +1732,7 @@ public func tryCreateSectionDateMessageInConversation(conversation: Conversation
             if message.createdUnixTime - prevMessage.createdUnixTime > 180 { // TODO: Time Section
 
                 // 比新消息早一点点即可
-                let sectionDateMessageCreatedUnixTime = message.createdUnixTime - YepConfig.Message.sectionOlderTimeInterval
+                let sectionDateMessageCreatedUnixTime = message.createdUnixTime - Config.Message.sectionOlderTimeInterval
                 let sectionDateMessageID = "sectionDate-\(sectionDateMessageCreatedUnixTime)"
 
                 if let _ = messageWithMessageID(sectionDateMessageID, inRealm: realm) {
@@ -1745,7 +1816,7 @@ public func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
 
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
-            if let blurredThumbnailString = metaDataInfo[YepConfig.MetaData.blurredThumbnailString] as? String {
+            if let blurredThumbnailString = metaDataInfo[Config.MetaData.blurredThumbnailString] as? String {
                 if let data = NSData(base64EncodedString: blurredThumbnailString, options: NSDataBase64DecodingOptions(rawValue: 0)) {
                     return UIImage(data: data)
                 }
@@ -1765,8 +1836,8 @@ public func audioMetaOfMessage(message: Message) -> (duration: Double, samples: 
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
-                duration = metaDataInfo[YepConfig.MetaData.audioDuration] as? Double,
-                samples = metaDataInfo[YepConfig.MetaData.audioSamples] as? [CGFloat] {
+                duration = metaDataInfo[Config.MetaData.audioDuration] as? Double,
+                samples = metaDataInfo[Config.MetaData.audioSamples] as? [CGFloat] {
                     return (duration, samples)
             }
         }
@@ -1784,8 +1855,8 @@ public func imageMetaOfMessage(message: Message) -> (width: CGFloat, height: CGF
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
-                width = metaDataInfo[YepConfig.MetaData.imageWidth] as? CGFloat,
-                height = metaDataInfo[YepConfig.MetaData.imageHeight] as? CGFloat {
+                width = metaDataInfo[Config.MetaData.imageWidth] as? CGFloat,
+                height = metaDataInfo[Config.MetaData.imageHeight] as? CGFloat {
                     return (width, height)
             }
         }
@@ -1803,8 +1874,8 @@ public func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGF
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
-                width = metaDataInfo[YepConfig.MetaData.videoWidth] as? CGFloat,
-                height = metaDataInfo[YepConfig.MetaData.videoHeight] as? CGFloat {
+                width = metaDataInfo[Config.MetaData.videoWidth] as? CGFloat,
+                height = metaDataInfo[Config.MetaData.videoHeight] as? CGFloat {
                     return (width, height)
             }
         }
@@ -1914,6 +1985,10 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
 
 public func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLeaveGroup: Bool = true, afterLeaveGroup: (() -> Void)? = nil) {
 
+    defer {
+        realm.refresh()
+    }
+
     clearMessagesOfConversation(conversation, inRealm: realm, keepHiddenMessages: false)
 
     // delete conversation from server
@@ -1968,22 +2043,32 @@ public func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, in
     }
 
     let clearMessages: () -> Void = {
+
+        // clear from server
+        if let recipient = conversation.recipient {
+            clearHistoryOfConversationWithRecipient(recipient, failureHandler: nil, completion: {
+                println("clearHistoryOfConversationWithRecipient \(recipient)")
+            })
+        }
+
         realm.beginWrite()
         clearMessagesOfConversation(conversation, inRealm: realm, keepHiddenMessages: true)
-        let _ = try? realm.commitWrite()
+        _ = try? realm.commitWrite()
     }
 
     let delete: () -> Void = {
         realm.beginWrite()
         deleteConversation(conversation, inRealm: realm)
-        let _ = try? realm.commitWrite()
+        _ = try? realm.commitWrite()
+
+        realm.refresh()
     }
 
     // show ActionSheet before delete
 
     let deleteAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
 
-    let clearHistoryAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Clear history", comment: ""), style: .Default) { _ in
+    let clearHistoryAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("title.clear_history", comment: ""), style: .Default) { _ in
 
         clearMessages()
 
@@ -1999,7 +2084,7 @@ public func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, in
     }
     deleteAlertController.addAction(deleteAction)
 
-    let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .Cancel) { _ in
+    let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .Cancel) { _ in
 
         cancelled()
     }
@@ -2014,6 +2099,10 @@ public func clearUselessRealmObjects() {
 
         guard let realm = try? Realm() else {
             return
+        }
+
+        defer {
+            realm.refresh()
         }
 
         println("do clearUselessRealmObjects")

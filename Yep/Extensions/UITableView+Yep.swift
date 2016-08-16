@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import YepKit
 
 extension UITableView {
 
@@ -41,17 +42,60 @@ extension UITableView {
 
             case .ReloadData:
                 println("tableView WayToUpdate: ReloadData")
-                tableView.reloadData()
+                SafeDispatch.async {
+                    tableView.reloadData()
+                }
 
             case .ReloadIndexPaths(let indexPaths):
                 println("tableView WayToUpdate: ReloadIndexPaths")
-                tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                SafeDispatch.async {
+                    tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                }
 
             case .Insert(let indexPaths):
                 println("tableView WayToUpdate: Insert")
-                tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                SafeDispatch.async {
+                    tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                }
             }
         }
+    }
+}
+
+extension UITableView {
+
+    func registerClassOf<T: UITableViewCell where T: Reusable>(_: T.Type) {
+
+        registerClass(T.self, forCellReuseIdentifier: T.yep_reuseIdentifier)
+    }
+
+    func registerNibOf<T: UITableViewCell where T: Reusable, T: NibLoadable>(_: T.Type) {
+
+        let nib = UINib(nibName: T.yep_nibName, bundle: nil)
+        registerNib(nib, forCellReuseIdentifier: T.yep_reuseIdentifier)
+    }
+
+    func registerHeaderFooterClassOf<T: UITableViewHeaderFooterView where T: Reusable>(_: T.Type) {
+
+        registerClass(T.self, forHeaderFooterViewReuseIdentifier: T.yep_reuseIdentifier)
+    }
+
+    func dequeueReusableCell<T: UITableViewCell where T: Reusable>() -> T {
+
+        guard let cell = dequeueReusableCellWithIdentifier(T.yep_reuseIdentifier) as? T else {
+            fatalError("Could not dequeue cell with identifier: \(T.yep_reuseIdentifier)")
+        }
+        
+        return cell
+    }
+
+    func dequeueReusableHeaderFooter<T: UITableViewHeaderFooterView where T: Reusable>() -> T {
+
+        guard let view = dequeueReusableHeaderFooterViewWithIdentifier(T.yep_reuseIdentifier) as? T else {
+            fatalError("Could not dequeue HeaderFooter with identifier: \(T.yep_reuseIdentifier)")
+        }
+
+        return view
     }
 }
 

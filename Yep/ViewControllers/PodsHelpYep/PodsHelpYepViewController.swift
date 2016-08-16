@@ -13,7 +13,7 @@ final class PodsHelpYepViewController: UITableViewController {
     private let pods: [[String: String]] = [
         [
             "name": "RealmSwift",
-            "URLString": "https://realm.io",
+            "URLString": "https://github.com/realm/realm-cocoa",
         ],
         [
             "name": "Proposer",
@@ -36,8 +36,12 @@ final class PodsHelpYepViewController: UITableViewController {
             "URLString": "https://github.com/nixzhu/Navi",
         ],
         [
-            "name": "1PasswordExtension",
-            "URLString": "https://github.com/AgileBits/onepassword-app-extension",
+            "name": "AudioBot",
+            "URLString": "https://github.com/nixzhu/AudioBot",
+        ],
+        [
+            "name": "AutoReview",
+            "URLString": "https://github.com/nixzhu/AutoReview",
         ],
         [
             "name": "Kingfisher",
@@ -60,15 +64,17 @@ final class PodsHelpYepViewController: UITableViewController {
             "URLString": "https://github.com/Alamofire/Alamofire",
         ],
         [
-            "name": "pop",
+            "name": "Pop",
             "URLString": "https://github.com/facebook/pop",
         ],
-    ].sort({ a, b in
-        if let
-            nameA = a["name"],
-            nameB = b["name"] {
+        [
+            "name": "RxSwift",
+            "URLString": "https://github.com/ReactiveX/RxSwift",
+        ],
 
-                return nameA < nameB
+    ].sort({ a, b in
+        if let nameA = a["name"], nameB = b["name"] {
+            return nameA < nameB
         }
 
         return true
@@ -77,7 +83,7 @@ final class PodsHelpYepViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Pods", comment: "")
+        title = NSLocalizedString("Open Source", comment: "")
 
         tableView.tableFooterView = UIView()
     }
@@ -87,6 +93,15 @@ final class PodsHelpYepViewController: UITableViewController {
     enum Section: Int {
         case Yep
         case Pods
+
+        var headerTitle: String {
+            switch self {
+            case .Yep:
+                return NSLocalizedString("Yep", comment: "")
+            case .Pods:
+                return NSLocalizedString("Third Party", comment: "")
+            }
+        }
     }
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -108,6 +123,15 @@ final class PodsHelpYepViewController: UITableViewController {
         }
     }
 
+    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
+        return section.headerTitle
+    }
+
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         guard let section = Section(rawValue: indexPath.section) else {
@@ -118,8 +142,8 @@ final class PodsHelpYepViewController: UITableViewController {
 
         case .Yep:
             let cell = tableView.dequeueReusableCellWithIdentifier("YepCell", forIndexPath: indexPath)
-            cell.textLabel?.text = "Yep on GitHub"
-            cell.detailTextLabel?.text = "Welcome contributions!"
+            cell.textLabel?.text = NSLocalizedString("Yep on GitHub", comment: "")
+            cell.detailTextLabel?.text = NSLocalizedString("Welcome contributions!", comment: "")
             return cell
 
         case .Pods:
@@ -157,15 +181,13 @@ final class PodsHelpYepViewController: UITableViewController {
         switch section {
 
         case .Yep:
-            let URL = NSURL(string: "https://github.com/CatchChat/Yep")!
-            yep_openURL(URL)
+            if let URL = NSURL(string: "https://github.com/CatchChat/Yep") {
+                yep_openURL(URL)
+            }
 
         case .Pods:
             let pod = pods[indexPath.row]
-
-            if let
-                URLString = pod["URLString"],
-                URL = NSURL(string: URLString) {
+            if let URLString = pod["URLString"], URL = NSURL(string: URLString) {
                 yep_openURL(URL)
             }
         }

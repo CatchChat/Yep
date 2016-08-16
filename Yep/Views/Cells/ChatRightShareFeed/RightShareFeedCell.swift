@@ -8,11 +8,10 @@
 
 import UIKit
 import YepKit
-import YepConfig
 
 final class RightShareFeedCell: ChatBaseCell {
     
-    var mediaView:FeedMediaView?
+    var mediaView: FeedMediaView?
     
     lazy var feedKindImageView: UIImageView = {
         let imageView = UIImageView(frame: CGRect(x: 10, y: 10, width: 42, height: 42))
@@ -26,8 +25,8 @@ final class RightShareFeedCell: ChatBaseCell {
     }()
     
     var accessoryView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "icon_accessory_mini"))
-
+        let image = UIImage.yep_iconAccessoryMini
+        let imageView = UIImageView(image: image)
         return imageView
     }()
     
@@ -44,7 +43,7 @@ final class RightShareFeedCell: ChatBaseCell {
     
     let cellBackgroundImageView: UIImageView = {
         // TODO: WRONG IMAGE
-        let imageView = UIImageView(image: UIImage(named: "share_feed_bubble_left"))
+        let imageView = UIImageView(image: UIImage.yep_shareFeedBubbleLeft)
         imageView.userInteractionEnabled = true
         return imageView
     }()
@@ -102,9 +101,9 @@ final class RightShareFeedCell: ChatBaseCell {
         if let feed = conversation.withGroup?.withFeed, let feedKind = FeedKind(rawValue:feed.kind) {
             switch  feedKind {
             case .DribbbleShot:
-                return UIImage(named:"icon_dribbble")
+                return UIImage.yep_iconDribbble
             case .GithubRepo:
-                return UIImage(named:"icon_github")
+                return UIImage.yep_iconGithub
             case .Image:
                 var discoveredAttachments = [DiscoveredAttachment]()
                 feed.attachments.forEach({ (attachment) in
@@ -123,9 +122,9 @@ final class RightShareFeedCell: ChatBaseCell {
                 }
                 break
             case .Location:
-                return UIImage(named:"icon_pin_shadow")
+                return UIImage.yep_iconPinShadow
             default :
-                return UIImage(named: "icon_topic_text")
+                return UIImage.yep_iconTopicText
             }
         }
        return nil

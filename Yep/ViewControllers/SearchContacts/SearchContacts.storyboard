@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -47,10 +47,10 @@
                             <constraint firstAttribute="trailing" secondItem="4hO-Qg-96f" secondAttribute="trailing" constant="-39" id="2xG-j1-PiQ"/>
                             <constraint firstItem="4hO-Qg-96f" firstAttribute="top" secondItem="Jve-rS-vtc" secondAttribute="bottom" id="3Db-ff-4uv"/>
                             <constraint firstAttribute="trailing" secondItem="k5R-sz-Ltl" secondAttribute="trailing" id="J46-ok-MdL"/>
-                            <constraint firstItem="Jve-rS-vtc" firstAttribute="top" secondItem="YVm-C0-FOr" secondAttribute="bottom" constant="44" id="JH7-1h-kd4"/>
                             <constraint firstItem="k5R-sz-Ltl" firstAttribute="top" secondItem="Jve-rS-vtc" secondAttribute="bottom" id="LIp-ks-OM6"/>
                             <constraint firstAttribute="bottom" secondItem="k5R-sz-Ltl" secondAttribute="bottom" id="Pzg-PV-tq1"/>
                             <constraint firstAttribute="trailing" secondItem="Jve-rS-vtc" secondAttribute="trailing" id="WkE-L9-E5u"/>
+                            <constraint firstItem="Jve-rS-vtc" firstAttribute="top" secondItem="zgh-J5-BVq" secondAttribute="top" constant="64" id="jwT-HZ-Qyn"/>
                             <constraint firstItem="Jve-rS-vtc" firstAttribute="leading" secondItem="zgh-J5-BVq" secondAttribute="leading" id="pfQ-dj-n85"/>
                             <constraint firstItem="k5R-sz-Ltl" firstAttribute="leading" secondItem="zgh-J5-BVq" secondAttribute="leading" id="q8N-Aa-xRG"/>
                             <constraint firstItem="4hO-Qg-96f" firstAttribute="leading" secondItem="zgh-J5-BVq" secondAttribute="leading" constant="-241" id="yt4-pB-nnd"/>
@@ -61,7 +61,7 @@
                         <outlet property="contactsTableView" destination="k5R-sz-Ltl" id="uVy-2j-FWD"/>
                         <outlet property="searchBar" destination="Jve-rS-vtc" id="Wzc-eE-f05"/>
                         <outlet property="searchBarBottomLineView" destination="4hO-Qg-96f" id="n35-Di-zur"/>
-                        <outlet property="searchBarTopConstraint" destination="JH7-1h-kd4" id="ulD-C9-XwN"/>
+                        <outlet property="searchBarTopConstraint" destination="jwT-HZ-Qyn" id="H35-Xj-p31"/>
                         <segue destination="tlo-MP-6no" kind="show" identifier="showProfile" id="Imv-aW-t5g"/>
                     </connections>
                 </viewController>
@@ -72,7 +72,7 @@
         <!--ProfileViewController-->
         <scene sceneID="1Pg-At-NxY">
             <objects>
-                <viewControllerPlaceholder storyboardName="Main" referencedIdentifier="ProfileViewController" id="tlo-MP-6no" sceneMemberID="viewController"/>
+                <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="tlo-MP-6no" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cdV-Xz-zhD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1002" y="373"/>

@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import YepNetworking
 
 final class FriendsInContactsViewController: BaseViewController {
@@ -17,14 +16,12 @@ final class FriendsInContactsViewController: BaseViewController {
         static let NewFriends = "NewFriendsInContactsNotification"
     }
 
-    private let cellIdentifier = "ContactsCell"
-
     @IBOutlet private weak var friendsTableView: UITableView! {
         didSet {
             friendsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             friendsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-            friendsTableView.registerNib(UINib(nibName: cellIdentifier, bundle: nil), forCellReuseIdentifier: cellIdentifier)
+            friendsTableView.registerNibOf(ContactsCell)
             friendsTableView.rowHeight = 80
             friendsTableView.tableFooterView = UIView()
         }
@@ -48,7 +45,7 @@ final class FriendsInContactsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Available Friends", comment: "")
+        title = String.trans_titleAvailableFriends
     }
 
     override func viewWillAppear(animated: Bool) {
@@ -66,19 +63,19 @@ final class FriendsInContactsViewController: BaseViewController {
         //println("uploadContacts: \(uploadContacts)")
         println("uploadContacts.count: \(uploadContacts.count)")
 
-        dispatch_async(dispatch_get_main_queue()) { [weak self] in
+        SafeDispatch.async { [weak self] in
             self?.activityIndicator.startAnimating()
         }
 
         friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
             }
 
         }, completion: { discoveredUsers in
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
+            SafeDispatch.async { [weak self] in
                 self?.discoveredUsers = discoveredUsers
 
                 self?.activityIndicator.stopAnimating()
@@ -98,17 +95,11 @@ final class FriendsInContactsViewController: BaseViewController {
 
         if segue.identifier == "showProfile" {
             if let indexPath = sender as? NSIndexPath {
-                let discoveredUser = discoveredUsers[indexPath.row]
 
                 let vc = segue.destinationViewController as! ProfileViewController
 
-                if discoveredUser.id != YepUserDefaults.userID.value {
-                    vc.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
-                }
-
-                vc.setBackButtonWithTitle()
-
-                vc.hidesBottomBarWhenPushed = true
+                let discoveredUser = discoveredUsers[indexPath.row]
+                vc.prepare(withDiscoveredUser: discoveredUser)
             }
         }
     }
@@ -123,7 +114,8 @@ extension FriendsInContactsViewController: UITableViewDataSource, UITableViewDel
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier(cellIdentifier) as! ContactsCell
+
+        let cell: ContactsCell = tableView.dequeueReusableCell()
 
         let discoveredUser = discoveredUsers[indexPath.row]
 

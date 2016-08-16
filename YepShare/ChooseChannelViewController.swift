@@ -12,7 +12,9 @@ import RealmSwift
 
 class ChooseChannelViewController: UITableViewController {
 
-    var pickedSkillAction: ((skill: Skill) -> Void)?
+    var currentPickedSkill: Skill?
+
+    var pickedSkillAction: ((skill: Skill?) -> Void)?
 
     @IBOutlet weak var doneButton: UIBarButtonItem! {
         didSet {
@@ -27,17 +29,12 @@ class ChooseChannelViewController: UITableViewController {
     }()
 
     private let skills: [Skill] = {
-        if let
-            myUserID = YepUserDefaults.userID.value,
-            realm = try? Realm(),
-            me = userWithUserID(myUserID, inRealm: realm) {
-
-            let skills = skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
-
-            return skills
+        guard let me = me() else {
+            return []
         }
 
-        return []
+        let skills = skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
+        return skills
     }()
 
     override func viewDidLoad() {
@@ -57,34 +54,70 @@ class ChooseChannelViewController: UITableViewController {
 
     @IBAction func done(sender: UIBarButtonItem) {
 
-        if let indexPath = tableView.indexPathForSelectedRow {
-            let skill = skills[indexPath.row]
-            pickedSkillAction?(skill: skill)
-        }
+        pickedSkillAction?(skill: currentPickedSkill)
 
         dismissViewControllerAnimated(true, completion: nil)
     }
 
     // MARK: - Table view data source
 
+    enum Section: Int {
+        case DefaultSkill
+        case Skills
+    }
+
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 1
+        return 2
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return skills.count
+
+        guard let section = Section(rawValue: section) else {
+            fatalError()
+        }
+
+        switch section {
+        case .DefaultSkill:
+            return 1
+        case .Skills:
+            return skills.count
+        }
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath)
-        let skill = skills[indexPath.row]
-        cell.textLabel?.text = skill.localName
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
+
+        switch section {
+        case .DefaultSkill:
+            currentPickedSkill = nil
+            cell.textLabel?.text = NSLocalizedString("Default", comment: "")
+        case .Skills:
+            let skill = skills[indexPath.row]
+            cell.textLabel?.text = skill.localName
+        }
+
         cell.selectedBackgroundView = selectedBackgroundView
+
         return cell
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError()
+        }
+
+        switch section {
+        case .DefaultSkill:
+            currentPickedSkill = nil
+        case .Skills:
+            currentPickedSkill = skills[indexPath.row]
+        }
 
         doneButton.enabled = true
     }

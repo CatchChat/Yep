@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepConfig
 
 final class SearchedUserCell: UITableViewCell {
 
@@ -20,12 +19,6 @@ final class SearchedUserCell: UITableViewCell {
         super.awakeFromNib()
 
         separatorInset = YepConfig.SearchedItemCell.separatorInset
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     override func prepareForReuse() {
@@ -70,3 +63,4 @@ final class SearchedUserCell: UITableViewCell {
         }
     }
 }
+

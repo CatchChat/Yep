@@ -7,13 +7,14 @@
 //
 
 import UIKit
+import YepKit
 import Proposer
 
 final class YepAlert {
 
     class func alert(title title: String, message: String?, dismissTitle: String, inViewController viewController: UIViewController?, withDismissAction dismissAction: (() -> Void)?) {
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
 
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
@@ -29,16 +30,18 @@ final class YepAlert {
     }
 
     class func alertSorry(message message: String?, inViewController viewController: UIViewController?, withDismissAction dismissAction: () -> Void) {
+
         alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: viewController, withDismissAction: dismissAction)
     }
 
     class func alertSorry(message message: String?, inViewController viewController: UIViewController?) {
+
         alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: viewController, withDismissAction: nil)
     }
 
     class func textInput(title title: String, placeholder: String?, oldText: String?, dismissTitle: String, inViewController viewController: UIViewController?, withFinishedAction finishedAction: ((text: String) -> Void)?) {
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
 
             let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
 
@@ -64,7 +67,7 @@ final class YepAlert {
     
     class func textInput(title title: String, message: String?, placeholder: String?, oldText: String?, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: ((text: String) -> Void)?, cancelAction: (() -> Void)?) {
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
 
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
@@ -102,7 +105,7 @@ final class YepAlert {
     
     class func confirmOrCancel(title title: String, message: String, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: () -> Void, cancelAction: () -> Void) {
 
-        dispatch_async(dispatch_get_main_queue()) {
+        SafeDispatch.async {
 
             let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
 
@@ -125,8 +128,8 @@ extension UIViewController {
 
     func alertCanNotAccessCameraRoll() {
 
-        dispatch_async(dispatch_get_main_queue()) {
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+        SafeDispatch.async {
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: String.trans_titleChangeItNow, cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
 
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
 
@@ -137,8 +140,8 @@ extension UIViewController {
 
     func alertCanNotOpenCamera() {
 
-        dispatch_async(dispatch_get_main_queue()) {
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not open your Camera!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+        SafeDispatch.async {
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not open your Camera!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: String.trans_titleChangeItNow, cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
 
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
 
@@ -149,8 +152,8 @@ extension UIViewController {
 
     func alertCanNotAccessMicrophone() {
 
-        dispatch_async(dispatch_get_main_queue()) {
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Microphone!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+        SafeDispatch.async {
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Microphone!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: String.trans_titleChangeItNow, cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
 
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
 
@@ -161,8 +164,8 @@ extension UIViewController {
 
     func alertCanNotAccessContacts() {
 
-        dispatch_async(dispatch_get_main_queue()) {
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not read your Contacts!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+        SafeDispatch.async {
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not read your Contacts!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: String.trans_titleChangeItNow, cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
 
             UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
 
@@ -173,8 +176,8 @@ extension UIViewController {
 
     func alertCanNotAccessLocation() {
 
-        dispatch_async(dispatch_get_main_queue()) {
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not get your Location!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: NSLocalizedString("Change it now", comment: ""), cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
+        SafeDispatch.async {
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not get your Location!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: String.trans_titleChangeItNow, cancelTitle: NSLocalizedString("Dismiss", comment: ""), inViewController: self, withConfirmAction: {
 
                 UIApplication.sharedApplication().openURL(NSURL(string: UIApplicationOpenSettingsURLString)!)
 
@@ -187,7 +190,7 @@ extension UIViewController {
 
         if PrivateResource.Contacts.isNotDeterminedAuthorization {
 
-            dispatch_async(dispatch_get_main_queue()) {
+            SafeDispatch.async {
 
                 YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Yep need to read your Contacts to continue this operation.\nIs that OK?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 

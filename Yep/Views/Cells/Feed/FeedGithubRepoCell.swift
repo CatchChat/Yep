@@ -38,7 +38,7 @@ final class FeedGithubRepoCell: FeedBasicCell {
 
     lazy var socialWorkBorderImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: "social_work_border")
+        imageView.image = UIImage.yep_socialWorkBorder
         return imageView
     }()
 
@@ -52,12 +52,6 @@ final class FeedGithubRepoCell: FeedBasicCell {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {

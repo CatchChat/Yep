@@ -49,7 +49,7 @@ final class OpenGraphTests: XCTestCase {
 
     func testGetTitleOfURL() {
 
-        let URL = NSURL(string: "https://github.com")!
+        let URL = NSURL(string: "https://www.apple.com")!
 
         let expectation = expectationWithDescription("get title of URL: \(URL)")
 

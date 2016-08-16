@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
 import Navi
 
 let skillTextAttributes = [NSFontAttributeName: UIFont.skillDiscoverTextFont()]
@@ -82,28 +81,30 @@ final class DiscoverCardUserCell: UICollectionViewCell {
         }
     }
     
-    func prepareSkillImage() {
-        if let discoveredUser = self.discoveredUser {
+    private func prepareSkillImage() {
 
+        guard let discoveredUser = discoveredUser else {
+            return
+        }
+
+        var skillImage: UIImage?
+    
+        if let image = skillCardCache[discoveredUser.id] {
+            skillImage = image
+
+        } else {
             let skills = discoveredUser.masterSkills.count > 0 ? discoveredUser.masterSkills : discoveredUser.learningSkills
-            
-            var skillImage: UIImage?
+            let processedImage = genSkillImageWithSkills(skills)
+            skillImage = processedImage
+            skillCardCache[discoveredUser.id] = processedImage
+        }
         
-            if let image = skillCardCache[discoveredUser.id] {
-                skillImage = image
-            } else {
-                let processedImage = genSkillImageWithSkills(skills)
-                skillImage = processedImage
-                skillCardCache[discoveredUser.id] = processedImage
-            }
-            
-            dispatch_async(dispatch_get_main_queue()) { [weak self] in
-                self?.skillImageView.image = skillImage
-            }
+        SafeDispatch.async { [weak self] in
+            self?.skillImageView.image = skillImage
         }
     }
     
-    func genSkillImageWithSkills(skills: [Skill]) -> UIImage {
+    private func genSkillImageWithSkills(skills: [Skill]) -> UIImage {
         
         let maxWidth:CGFloat = 170
         

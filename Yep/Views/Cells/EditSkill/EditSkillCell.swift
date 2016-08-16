@@ -25,7 +25,6 @@ final class EditSkillCell: UITableViewCell {
     @IBOutlet weak var removeButton: UIButton!
     @IBOutlet weak var removeButtonTrailingConstraint: NSLayoutConstraint!
 
-
     override func awakeFromNib() {
         super.awakeFromNib()
 
@@ -33,12 +32,6 @@ final class EditSkillCell: UITableViewCell {
         removeButtonTrailingConstraint.constant = Ruler.iPhoneHorizontal(15, 20, 25).value
 
         removeButton.addTarget(self, action: #selector(EditSkillCell.tryRemoveSkill), forControlEvents: .TouchUpInside)
-    }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
 
     // MARK: Actions

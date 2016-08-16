@@ -8,9 +8,6 @@
 
 import UIKit
 import YepKit
-import YepConfig
-
-private let feedMediaCellID = "FeedMediaCell"
 
 final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
@@ -32,7 +29,9 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 10)
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.backgroundColor = UIColor.clearColor()
-        collectionView.registerNib(UINib(nibName: feedMediaCellID, bundle: nil), forCellWithReuseIdentifier: feedMediaCellID)
+
+        collectionView.registerNibOf(FeedMediaCell)
+
         collectionView.dataSource = self
         collectionView.delegate = self
 
@@ -60,7 +59,7 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
         return collectionView
     }()
 
-    var tapMediaAction: FeedTapMediaAction?
+    var tapImagesAction: FeedTapImagesAction?
 
     var attachments = [DiscoveredAttachment]() {
         didSet {
@@ -110,12 +109,9 @@ extension SearchedFeedAnyImagesCell: UICollectionViewDataSource, UICollectionVie
 
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
 
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(feedMediaCellID, forIndexPath: indexPath) as! FeedMediaCell
+        let cell: FeedMediaCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
         if let attachment = attachments[safe: indexPath.item] {
-
-            //println("attachment imageURL: \(imageURL)")
-
             cell.configureWithAttachment(attachment, bigger: (attachments.count == 1))
         }
 
@@ -139,7 +135,10 @@ extension SearchedFeedAnyImagesCell: UICollectionViewDataSource, UICollectionVie
 
         let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
 
-        let transitionView = cell.imageView
-        tapMediaAction?(transitionView: transitionView, image: cell.imageView.image, attachments: attachments, index: indexPath.item)
+        let transitionViews: [UIView?] = (0..<attachments.count).map({
+            let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
+            return cell?.imageView
+        })
+        tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: cell.imageView.image, index: indexPath.item)
     }
 }

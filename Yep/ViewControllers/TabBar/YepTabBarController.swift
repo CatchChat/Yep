@@ -7,7 +7,8 @@
 //
 
 import UIKit
-import YepConfig
+import YepKit
+import Proposer
 
 final class YepTabBarController: UITabBarController {
 
@@ -23,9 +24,9 @@ final class YepTabBarController: UITabBarController {
 
             switch self {
             case .Conversations:
-                return NSLocalizedString("Chats", comment: "")
+                return String.trans_titleChats
             case .Contacts:
-                return NSLocalizedString("Contacts", comment: "")
+                return String.trans_titleContacts
             case .Feeds:
                 return NSLocalizedString("Feeds", comment: "")
             case .Discover:
@@ -48,12 +49,11 @@ final class YepTabBarController: UITabBarController {
     private var checkDoubleTapOnFeedsTimer: NSTimer?
     private var hasFirstTapOnFeedsWhenItIsAtTop = false {
         willSet {
+            checkDoubleTapOnFeedsTimer?.invalidate()
+
             if newValue {
                 let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(YepTabBarController.checkDoubleTapOnFeeds(_:)), userInfo: nil, repeats: false)
                 checkDoubleTapOnFeedsTimer = timer
-
-            } else {
-                checkDoubleTapOnFeedsTimer?.invalidate()
             }
         }
     }
@@ -67,10 +67,16 @@ final class YepTabBarController: UITabBarController {
         static let lauchStyle = "YepTabBarController.lauchStyle"
     }
 
+    private let tabBarItemTextEnabledListenerName = "YepTabBarController.tabBarItemTextEnabled"
+
     deinit {
+        checkDoubleTapOnFeedsTimer?.invalidate()
+
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
             appDelegate.lauchStyle.removeListenerWithName(Listener.lauchStyle)
         }
+
+        YepUserDefaults.tabBarItemTextEnabled.removeListenerWithName(tabBarItemTextEnabledListenerName)
 
         println("deinit YepTabBar")
     }
@@ -82,23 +88,8 @@ final class YepTabBarController: UITabBarController {
 
         view.backgroundColor = UIColor.whiteColor()
 
-        // 将 UITabBarItem 的 image 下移一些，也不显示 title 了
-        /*
-        if let items = tabBar.items as? [UITabBarItem] {
-            for item in items {
-                item.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
-                item.title = nil
-            }
-        }
-        */
-
-        // Set Titles
-
-        if let items = tabBar.items {
-            for i in 0..<items.count {
-                let item = items[i]
-                item.title = Tab(rawValue: i)?.title
-            }
+        YepUserDefaults.tabBarItemTextEnabled.bindAndFireListener(tabBarItemTextEnabledListenerName) { [weak self] _ in
+            self?.adjustTabBarItems()
         }
 
         // 处理启动切换
@@ -107,6 +98,42 @@ final class YepTabBarController: UITabBarController {
             appDelegate.lauchStyle.bindListener(Listener.lauchStyle) { [weak self] style in
                 if style == .Message {
                     self?.selectedIndex = 0
+                }
+            }
+        }
+
+        delay(3) {
+            if PrivateResource.Location(.WhenInUse).isAuthorized {
+                YepLocationService.turnOn()
+            }
+        }
+    }
+
+    func adjustTabBarItems() {
+
+        let noNeedTitle: Bool
+        if let tabBarItemTextEnabled = YepUserDefaults.tabBarItemTextEnabled.value {
+            noNeedTitle = !tabBarItemTextEnabled
+        } else {
+            noNeedTitle = YepUserDefaults.appLaunchCount.value > YepUserDefaults.appLaunchCountThresholdForTabBarItemTextEnabled
+        }
+
+        if noNeedTitle {
+            // 将 UITabBarItem 的 image 下移一些，也不显示 title 了
+            if let items = tabBar.items {
+                for item in items {
+                    item.imageInsets = UIEdgeInsetsMake(6, 0, -6, 0)
+                    item.title = nil
+                }
+            }
+
+        } else {
+            // Set Titles
+            if let items = tabBar.items {
+                for i in 0..<items.count {
+                    let item = items[i]
+                    item.imageInsets = UIEdgeInsetsZero
+                    item.title = Tab(rawValue: i)?.title
                 }
             }
         }
@@ -127,9 +154,12 @@ final class YepTabBarController: UITabBarController {
 
         let duration = (animated ? 0.25 : 0.0)
 
-        UIView.animateWithDuration(duration, animations: {
-            let frame = self.tabBar.frame
-            self.tabBar.frame = CGRectOffset(frame, 0, offsetY);
+        UIView.animateWithDuration(duration, animations: { [weak self] in
+            guard let strongSelf = self else {
+                return
+            }
+            let frame = strongSelf.tabBar.frame
+            strongSelf.tabBar.frame = CGRectOffset(frame, 0, offsetY)
         }, completion: nil)
     }
 }
@@ -231,8 +261,14 @@ extension YepTabBarController: UITabBarControllerDelegate {
             }
 
         case .Discover:
-            if let vc = nvc.topViewController as? DiscoverViewController {
-                guard let scrollView = vc.discoveredUsersCollectionView else {
+            if let vc = nvc.topViewController as? DiscoverContainerViewController {
+                var _scrollView: UIScrollView?
+                if let mvc = vc.viewControllers?.first as? MeetGeniusViewController {
+                    _scrollView = mvc.tableView
+                } else if let dvc = vc.viewControllers?.first as? DiscoverViewController {
+                    _scrollView = dvc.discoveredUsersCollectionView
+                }
+                guard let scrollView = _scrollView else {
                     break
                 }
                 if !scrollView.yep_isAtTop {
@@ -250,18 +286,6 @@ extension YepTabBarController: UITabBarControllerDelegate {
                 }
             }
         }
-
-        /*
-        if selectedIndex == 1 {
-            if let nvc = viewController as? UINavigationController, vc = nvc.topViewController as? ContactsViewController {
-                syncFriendshipsAndDoFurtherAction {
-                    dispatch_async(dispatch_get_main_queue()) { [weak vc] in
-                        vc?.updateContactsTableView()
-                    }
-                }
-            }
-        }
-        */
     }
 }
 

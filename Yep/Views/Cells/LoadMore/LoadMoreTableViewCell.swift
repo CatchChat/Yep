@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepConfig
 
 final class LoadMoreTableViewCell: UITableViewCell {
 
@@ -38,11 +37,5 @@ final class LoadMoreTableViewCell: UITableViewCell {
         separatorInset = UIEdgeInsets(top: 0, left: UIScreen.mainScreen().bounds.width, bottom: 0, right: 0)
         noMoreResultsLabel.hidden = true
     }
-
-    override func setSelected(selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
-    }
-    
 }
+    

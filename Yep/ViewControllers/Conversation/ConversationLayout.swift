@@ -7,8 +7,6 @@
 //
 
 import UIKit
-import QuartzCore
-import YepConfig
 
 final class ConversationLayout: UICollectionViewFlowLayout {
 

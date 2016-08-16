@@ -13,10 +13,6 @@ import YepKit
 
 final private class ActionSheetDefaultCell: UITableViewCell {
 
-    class var reuseIdentifier: String {
-        return "\(self)"
-    }
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -57,10 +53,6 @@ final private class ActionSheetDefaultCell: UITableViewCell {
 
 final private class ActionSheetDetailCell: UITableViewCell {
 
-    class var reuseIdentifier: String {
-        return "\(self)"
-    }
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -81,10 +73,6 @@ final private class ActionSheetDetailCell: UITableViewCell {
 // MARK: - ActionSheetSwitchCell
 
 final private class ActionSheetSwitchCell: UITableViewCell {
-
-    class var reuseIdentifier: String {
-        return "\(self)"
-    }
 
     var action: (Bool -> Void)?
 
@@ -128,10 +116,6 @@ final private class ActionSheetSwitchCell: UITableViewCell {
 // MARK: - ActionSheetSubtitleSwitchCell
 
 final private class ActionSheetSubtitleSwitchCell: UITableViewCell {
-
-    class var reuseIdentifier: String {
-        return "\(self)"
-    }
 
     var action: (Bool -> Void)?
 
@@ -207,10 +191,6 @@ final private class ActionSheetSubtitleSwitchCell: UITableViewCell {
 
 final private class ActionSheetCheckCell: UITableViewCell {
 
-    class var reuseIdentifier: String {
-        return "\(self)"
-    }
-
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
@@ -228,7 +208,8 @@ final private class ActionSheetCheckCell: UITableViewCell {
     }()
 
     lazy var checkImageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "icon_location_checkmark"))
+        let image = UIImage.yep_iconLocationCheckmark
+        let imageView = UIImageView(image: image)
         return imageView
     }()
 
@@ -302,11 +283,11 @@ final class ActionSheetView: UIView {
         view.rowHeight = self.rowHeight
         view.scrollEnabled = false
 
-        view.registerClass(ActionSheetDefaultCell.self, forCellReuseIdentifier: ActionSheetDefaultCell.reuseIdentifier)
-        view.registerClass(ActionSheetDetailCell.self, forCellReuseIdentifier: ActionSheetDetailCell.reuseIdentifier)
-        view.registerClass(ActionSheetSwitchCell.self, forCellReuseIdentifier: ActionSheetSwitchCell.reuseIdentifier)
-        view.registerClass(ActionSheetSubtitleSwitchCell.self, forCellReuseIdentifier: ActionSheetSubtitleSwitchCell.reuseIdentifier)
-        view.registerClass(ActionSheetCheckCell.self, forCellReuseIdentifier: ActionSheetCheckCell.reuseIdentifier)
+        view.registerClassOf(ActionSheetDefaultCell)
+        view.registerClassOf(ActionSheetDetailCell)
+        view.registerClassOf(ActionSheetSwitchCell)
+        view.registerClassOf(ActionSheetSubtitleSwitchCell)
+        view.registerClassOf(ActionSheetCheckCell)
 
         return view
     }()
@@ -381,50 +362,44 @@ final class ActionSheetView: UIView {
 
         containerView.alpha = 1
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
-            self.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { [weak self] _ in
+            self?.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        }, completion: nil)
 
-            }, completion: { _ in
-        })
-
-        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
-            self.tableViewBottomConstraint?.constant = 0
-
-            self.layoutIfNeeded()
-
-            }, completion: { _ in
-        })
+        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { [weak self] _ in
+            self?.tableViewBottomConstraint?.constant = 0
+            self?.layoutIfNeeded()
+        }, completion: nil)
     }
 
     func hide() {
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { _ in
-            self.tableViewBottomConstraint?.constant = self.totalHeight
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.tableViewBottomConstraint?.constant = strongSelf.totalHeight
+            strongSelf.layoutIfNeeded()
+        }, completion: nil)
 
-            self.layoutIfNeeded()
+        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { [weak self] _ in
+            self?.containerView.backgroundColor = UIColor.clearColor()
 
-            }, completion: { _ in
-        })
-
-        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { _ in
-            self.containerView.backgroundColor = UIColor.clearColor()
-
-            }, completion: { _ in
-                self.removeFromSuperview()
+        }, completion: { [weak self] _ in
+            self?.removeFromSuperview()
         })
     }
 
     func hideAndDo(afterHideAction: (() -> Void)?) {
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveLinear, animations: { _ in
-            self.containerView.alpha = 0
+        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveLinear, animations: { [weak self] _ in
+            guard let strongSelf = self else { return }
+            strongSelf.containerView.alpha = 0
 
-            self.tableViewBottomConstraint?.constant = self.totalHeight
+            strongSelf.tableViewBottomConstraint?.constant = strongSelf.totalHeight
 
-            self.layoutIfNeeded()
+            strongSelf.layoutIfNeeded()
             
-            }, completion: { finished in
-                self.removeFromSuperview()
+        }, completion: { [weak self] _ in
+            self?.removeFromSuperview()
         })
         
         delay(0.1) {
@@ -466,7 +441,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case let .Default(title, titleColor, _):
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetDefaultCell.reuseIdentifier) as! ActionSheetDefaultCell
+            let cell: ActionSheetDefaultCell = tableView.dequeueReusableCell()
             cell.colorTitleLabel.text = title
             cell.colorTitleLabelTextColor = titleColor
 
@@ -474,7 +449,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case let .Detail(title, titleColor, _):
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetDetailCell.reuseIdentifier) as! ActionSheetDetailCell
+            let cell: ActionSheetDetailCell = tableView.dequeueReusableCell()
             cell.textLabel?.text = title
             cell.textLabel?.textColor = titleColor
 
@@ -482,7 +457,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case let .Switch(title, titleColor, switchOn, action):
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetSwitchCell.reuseIdentifier) as! ActionSheetSwitchCell
+            let cell: ActionSheetSwitchCell = tableView.dequeueReusableCell()
             cell.textLabel?.text = title
             cell.textLabel?.textColor = titleColor
             cell.checkedSwitch.on = switchOn
@@ -492,7 +467,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case let .SubtitleSwitch(title, titleColor, subtitle, subtitleColor, switchOn, action):
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetSubtitleSwitchCell.reuseIdentifier) as! ActionSheetSubtitleSwitchCell
+            let cell: ActionSheetSubtitleSwitchCell = tableView.dequeueReusableCell()
             cell.titleLabel.text = title
             cell.titleLabel.textColor = titleColor
             cell.subtitleLabel.text = subtitle
@@ -504,7 +479,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case let .Check(title, titleColor, checked, _):
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetCheckCell.reuseIdentifier) as! ActionSheetCheckCell
+            let cell: ActionSheetCheckCell = tableView.dequeueReusableCell()
             cell.colorTitleLabel.text = title
             cell.colorTitleLabelTextColor = titleColor
             cell.checkImageView.hidden = !checked
@@ -513,8 +488,8 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
 
         case .Cancel:
 
-            let cell = tableView.dequeueReusableCellWithIdentifier(ActionSheetDefaultCell.reuseIdentifier) as! ActionSheetDefaultCell
-            cell.colorTitleLabel.text = NSLocalizedString("Cancel", comment: "")
+            let cell: ActionSheetDefaultCell = tableView.dequeueReusableCell()
+            cell.colorTitleLabel.text = String.trans_cancel
             cell.colorTitleLabelTextColor = UIColor.yepTintColor()
 
             return cell
