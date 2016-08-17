@@ -27,6 +27,11 @@ final class FeedNormalImagesCell: FeedBasicCell {
         node.backgroundColor = YepConfig.FeedMedia.backgroundColor
         node.borderWidth = 1
         node.borderColor = UIColor.yepBorderColor().CGColor
+
+        node.userInteractionEnabled = true
+        let tap = UITapGestureRecognizer(target: self, action: #selector(FeedNormalImagesCell.tap(_:)))
+        node.view.addGestureRecognizer(tap)
+
         return node
     }
 
@@ -164,6 +169,27 @@ final class FeedNormalImagesCell: FeedBasicCell {
         imageNode2.frame = normalImagesLayout.imageView2Frame
         imageNode3.frame = normalImagesLayout.imageView3Frame
         imageNode4.frame = normalImagesLayout.imageView4Frame
+    }
+
+    @objc private func tap(sender: UITapGestureRecognizer) {
+
+        guard let attachments = feed?.imageAttachments else {
+            return
+        }
+
+        guard let firstAttachment = attachments.first where !firstAttachment.isTemporary else {
+            return
+        }
+
+        let views = imageNodes.map({ $0.view })
+
+        guard let view = sender.view, index = views.indexOf(view) else {
+            return
+        }
+
+        let transitionViews: [UIView?] = views.map({ $0 })
+        let image = imageNodes[index].image
+        tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: image, index: index)
     }
 
     /*
