@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import AsyncDisplayKit
 
 final class FeedNormalImagesCell: FeedBasicCell {
 
@@ -20,6 +21,34 @@ final class FeedNormalImagesCell: FeedBasicCell {
 
     var tapImagesAction: FeedTapImagesAction?
 
+    private func createImageNode() -> ASImageNode {
+        let node = ASImageNode()
+        node.contentMode = .ScaleAspectFill
+        node.backgroundColor = YepConfig.FeedMedia.backgroundColor
+        node.borderWidth = 1
+        node.borderColor = UIColor.yepBorderColor().CGColor
+        return node
+    }
+
+    lazy var imageNode1: ASImageNode = {
+        return self.createImageNode()
+    }()
+
+    lazy var imageNode2: ASImageNode = {
+        return self.createImageNode()
+    }()
+
+    lazy var imageNode3: ASImageNode = {
+        return self.createImageNode()
+    }()
+
+    lazy var imageNode4: ASImageNode = {
+        return self.createImageNode()
+    }()
+
+    var imageNodes: [ASImageNode] = []
+
+    /*
     private func createImageViewWithFrame(frame: CGRect) -> UIImageView {
         let imageView = UIImageView()
         imageView.contentMode = .ScaleAspectFill
@@ -68,16 +97,26 @@ final class FeedNormalImagesCell: FeedBasicCell {
     }()
 
     var imageViews: [UIImageView] = []
+     */
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
+        /*
         contentView.addSubview(imageView1)
         contentView.addSubview(imageView2)
         contentView.addSubview(imageView3)
         contentView.addSubview(imageView4)
 
         imageViews = [imageView1, imageView2, imageView3, imageView4]
+         */
+
+        contentView.addSubview(imageNode1.view)
+        contentView.addSubview(imageNode2.view)
+        contentView.addSubview(imageNode3.view)
+        contentView.addSubview(imageNode4.view)
+
+        imageNodes = [imageNode1, imageNode2, imageNode3, imageNode4]
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -87,12 +126,47 @@ final class FeedNormalImagesCell: FeedBasicCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
+        /*
         imageView1.image = nil
         imageView2.image = nil
         imageView3.image = nil
         imageView4.image = nil
+         */
+
+        imageNodes.forEach({ $0.image = nil })
     }
 
+    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
+
+        super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
+
+        if let attachments = feed.imageAttachments {
+            for i in 0..<imageNodes.count {
+                if let attachment = attachments[safe: i] {
+                    if attachment.isTemporary {
+                        imageNodes[i].image = attachment.image
+
+                    } else {
+                        imageNodes[i].yep_showActivityIndicatorWhenLoading = true
+                        imageNodes[i].yep_setImageOfAttachment(attachment, withSize: YepConfig.FeedNormalImagesCell.imageSize)
+                    }
+
+                    imageNodes[i].hidden = false
+
+                } else {
+                    imageNodes[i].hidden = true
+                }
+            }
+        }
+
+        let normalImagesLayout = layout.normalImagesLayout!
+        imageNode1.frame = normalImagesLayout.imageView1Frame
+        imageNode2.frame = normalImagesLayout.imageView2Frame
+        imageNode3.frame = normalImagesLayout.imageView3Frame
+        imageNode4.frame = normalImagesLayout.imageView4Frame
+    }
+
+    /*
     override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
@@ -137,5 +211,6 @@ final class FeedNormalImagesCell: FeedBasicCell {
             }
         }
     }
+     */
 }
 
