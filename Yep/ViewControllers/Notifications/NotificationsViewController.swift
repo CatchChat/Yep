@@ -149,7 +149,7 @@ final class NotificationsViewController: SegueViewController {
         updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            YepAlert.alertSorry(message: NSLocalizedString("Enable Do Not Disturb Failed!", comment: ""), inViewController: self)
+            YepAlert.alertSorry(message: String.trans_promptEnableDoNotDisturbFailed, inViewController: self)
 
             failed()
 
@@ -186,7 +186,7 @@ final class NotificationsViewController: SegueViewController {
             updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                YepAlert.alertSorry(message: NSLocalizedString("Disable Do Not Disturb Failed!", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: String.trans_promptDisableDoNotDisturbFailed, inViewController: self)
 
                 failed()
 
@@ -263,7 +263,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
                 let cell: DoNotDisturbSwitchCell = tableView.dequeueReusableCell()
 
-                cell.promptLabel.text = NSLocalizedString("Do Not Disturb", comment: "")
+                cell.promptLabel.text = String.trans_titleDoNotDisturb
                 cell.toggleSwitch.on = doNotDisturbPeriod.isOn
 
                 cell.toggleAction = { [weak self] isOn in

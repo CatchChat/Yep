@@ -39,7 +39,7 @@ extension ConversationViewController {
                 self?.promptSendMessageFailed(
                     reason: reason,
                     errorMessage: errorMessage,
-                    reserveErrorMessage: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: "")
+                    reserveErrorMessage: String.trans_promptSendTextFailed
                 )
 
             }, completion: { [weak self] success in
@@ -61,7 +61,7 @@ extension ConversationViewController {
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     SafeDispatch.async {
-                        YepAlert.alertSorry(message: NSLocalizedString("Failed to send text!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                        YepAlert.alertSorry(message: String.trans_promptSendTextFailed, inViewController: self)
                     }
 
                 }, completion: { [weak self] success in
@@ -146,7 +146,7 @@ extension ConversationViewController {
                 self?.promptSendMessageFailed(
                     reason: reason,
                     errorMessage: errorMessage,
-                    reserveErrorMessage: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: "")
+                    reserveErrorMessage: String.trans_promptSendAudioFailed
                 )
 
             }, completion: { [weak self] success in
@@ -176,7 +176,7 @@ extension ConversationViewController {
             }, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                YepAlert.alertSorry(message: NSLocalizedString("Failed to send audio!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: String.trans_promptSendAudioFailed, inViewController: self)
 
             }, completion: { [weak self] success in
                 println("send audio to group: \(success)")
@@ -234,7 +234,7 @@ extension ConversationViewController {
                 self?.promptSendMessageFailed(
                     reason: reason,
                     errorMessage: errorMessage,
-                    reserveErrorMessage: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: "")
+                    reserveErrorMessage: String.trans_promptSendImageFailed
                 )
 
             }, completion: { [weak self] success in
@@ -270,7 +270,7 @@ extension ConversationViewController {
             }, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                YepAlert.alertSorry(message: NSLocalizedString("Failed to send image!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: String.trans_promptSendImageFailed, inViewController: self)
 
             }, completion: { [weak self] success in
                 println("send image to group: \(success)")
@@ -391,7 +391,7 @@ extension ConversationViewController {
                 self?.promptSendMessageFailed(
                     reason: reason,
                     errorMessage: errorMessage,
-                    reserveErrorMessage: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: "")
+                    reserveErrorMessage: String.trans_promptSendVideoFailed
                 )
 
             }, completion: { [weak self] success in
@@ -405,7 +405,7 @@ extension ConversationViewController {
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: String.trans_promptSendVideoFailed, inViewController: self)
 
             }, completion: { [weak self] success in
                 println("send video to group: \(success)")
@@ -435,7 +435,7 @@ extension ConversationViewController {
             self?.promptSendMessageFailed(
                 reason: reason,
                 errorMessage: errorMessage,
-                reserveErrorMessage: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: "")
+                reserveErrorMessage: String.trans_promptSendLocationFailed
             )
 
         }, completion: { [weak self] success in
@@ -456,7 +456,7 @@ extension ConversationViewController {
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            YepAlert.alertSorry(message: NSLocalizedString("Failed to send location!\nTry tap on message to resend.", comment: ""), inViewController: self)
+            YepAlert.alertSorry(message: String.trans_promptSendLocationFailed, inViewController: self)
 
         }, completion: { [weak self] success in
             println("send location to group: \(success)")

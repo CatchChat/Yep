@@ -465,7 +465,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
             tableView?.setEditing(false, animated: true)
 
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Unfriend", comment: ""), message: String(format: NSLocalizedString("Do you want to unfriend with %@?", comment: ""), nickname), confirmTitle: String.trans_confirm, cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Unfriend", comment: ""), message: String.trans_promptTryUnfriendWith(nickname), confirmTitle: String.trans_confirm, cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                 unfriend(withUserID: userID, failureHandler: { [weak self] (reason, errorMessage) in
                     let message = errorMessage ?? NSLocalizedString("Unfriend failed!", comment: "")

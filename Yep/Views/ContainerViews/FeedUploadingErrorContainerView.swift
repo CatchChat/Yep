@@ -42,7 +42,7 @@ final class FeedUploadingErrorContainerView: UIView {
 
     lazy var deleteButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Delete", comment: ""), forState: .Normal)
+        button.setTitle(String.trans_titleDelete, forState: .Normal)
         button.setTitleColor(UIColor.redColor(), forState: .Normal)
         button.addTarget(self, action: #selector(FeedUploadingErrorContainerView.deleteUploadingFeed(_:)), forControlEvents: .TouchUpInside)
         return button

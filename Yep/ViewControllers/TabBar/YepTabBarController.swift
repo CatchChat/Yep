@@ -30,7 +30,7 @@ final class YepTabBarController: UITabBarController {
             case .Feeds:
                 return NSLocalizedString("Feeds", comment: "")
             case .Discover:
-                return NSLocalizedString("Discover", comment: "")
+                return String.trans_titleDiscover
             case .Profile:
                 return NSLocalizedString("Profile", comment: "")
             }

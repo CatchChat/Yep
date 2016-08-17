@@ -13,6 +13,10 @@ extension String {
     static func trans_promptSuccessfullyAddedSkill(skill: String, to set: String) -> String {
         return String(format: NSLocalizedString("prompt.added_skill%@_to_set%@_successfully", comment: ""), skill, set)
     }
+
+    static func trans_promptTryUnfriendWith(name: String) -> String {
+        return String(format: NSLocalizedString("prompt.try_unfriend_with_%@", comment: ""), name)
+    }
 }
 
 extension String {
@@ -167,6 +171,106 @@ extension String {
 
     static var trans_promptCurrentNumber: String {
         return NSLocalizedString("prompt.current_number", comment: "")
+    }
+
+    static var trans_titleDefault: String {
+        return NSLocalizedString("title.default", comment: "")
+    }
+
+    static var trans_titleDelete: String {
+        return NSLocalizedString("title.delete", comment: "")
+    }
+
+    static var trans_promptDidNotGetIt: String {
+        return NSLocalizedString("prompt.did_not_get_it", comment: "")
+    }
+
+    static var trans_promptDisableDoNotDisturbFailed: String {
+        return NSLocalizedString("prompt.disable_do_not_disturb_failed", comment: "")
+    }
+
+    static var trans_showDiscoverThem: String {
+        return NSLocalizedString("show.discover_them", comment: "")
+    }
+
+    static var trans_titleDiscover: String {
+        return NSLocalizedString("title.discover", comment: "")
+    }
+
+    static var trans_titleDismiss: String {
+        return NSLocalizedString("title.dismiss", comment: "")
+    }
+
+    static var trans_titleDoNotDisturb: String {
+        return NSLocalizedString("title.do_not_disturb", comment: "")
+    }
+
+    static var trans_titleDoNotRemindMeInThisVersion: String {
+        return NSLocalizedString("title.do_not_remind_me_in_this_version", comment: "")
+    }
+
+    static var trans_promptAskForReview: String {
+        return NSLocalizedString("prompt.ask_for_review", comment: "")
+    }
+
+    static var trans_promptTryLogout: String {
+        return NSLocalizedString("prompt.try_logout", comment: "")
+    }
+
+    static var trans_promptTryRejectFriendRequest: String {
+        return NSLocalizedString("prompt.try_reject_friend_request", comment: "")
+    }
+
+    static var trans_titleDone: String {
+        return NSLocalizedString("title.done", comment: "")
+    }
+
+    static var trans_titleEditProfile: String {
+        return NSLocalizedString("title.edit_profile", comment: "")
+    }
+
+    static var trans_promptEnableDoNotDisturbFailed: String {
+        return NSLocalizedString("prompt.enable_do_not_disturb_failed", comment: "")
+    }
+
+    static var trans_promptResendAudioFailed: String {
+        return NSLocalizedString("prompt.resend_audio_failed", comment: "")
+    }
+
+    static var trans_promptResendImageFailed: String {
+        return NSLocalizedString("prompt.resend_image_failed", comment: "")
+    }
+
+    static var trans_promptResendLocationFailed: String {
+        return NSLocalizedString("prompt.resend_location_failed", comment: "")
+    }
+
+    static var trans_promptResendTextFailed: String {
+        return NSLocalizedString("prompt.resend_text_failed", comment: "")
+    }
+
+    static var trans_promptResendVideoFailed: String {
+        return NSLocalizedString("prompt.resend_video_failed", comment: "")
+    }
+
+    static var trans_promptSendAudioFailed: String {
+        return NSLocalizedString("prompt.send_audio_failed", comment: "")
+    }
+
+    static var trans_promptSendImageFailed: String {
+        return NSLocalizedString("prompt.send_image_failed", comment: "")
+    }
+
+    static var trans_promptSendLocationFailed: String {
+        return NSLocalizedString("prompt.send_location_failed", comment: "")
+    }
+
+    static var trans_promptSendTextFailed: String {
+        return NSLocalizedString("prompt.send_text_failed", comment: "")
+    }
+
+    static var trans_promptSendVideoFailed: String {
+        return NSLocalizedString("prompt.send_video_failed", comment: "")
     }
 }
 

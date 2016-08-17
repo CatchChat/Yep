@@ -23,7 +23,7 @@ class ShareViewController: SLComposeServiceViewController {
             if let skill = skill {
                 channelItem.value = skill.localName
             } else {
-                channelItem.value = NSLocalizedString("Default", comment: "")
+                channelItem.value = NSLocalizedString("title.default", comment: "")
             }
         }
     }
