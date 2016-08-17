@@ -64,12 +64,11 @@
 "title.done" = "完成";
 "title.edit_profile" = "编辑个人主页";
 "prompt.enable_do_not_disturb_failed" = "开启“免打扰”失败！";
-"Face to Face" = "面对面";
-"Failed to resend audio!\nPlease make sure your device is connected to the Internet." = "重发音频失败！\n请确保您的设备已连接到互联网。";
-"Failed to resend image!\nPlease make sure your device is connected to the Internet." = "重发图片失败！\n请确保您的设备已连接到互联网。";
-"Failed to resend location!\nPlease make sure your device is connected to the Internet." = "重发位置失败！\n请确保您的设备已连接到互联网。";
-"Failed to resend text!\nPlease make sure your device is connected to the Internet." = "重发文字失败！\n请确保您的设备已连接到互联网。";
-"Failed to resend video!\nPlease make sure your device is connected to the Internet." = "重发视频失败！\n请确保您的设备已连接到互联网。";
+"prompt.resend_audio_failed" = "重发音频失败！\n请确保您的设备已连接到互联网。";
+"prompt.resend_image_failed" = "重发图片失败！\n请确保您的设备已连接到互联网。";
+"prompt.resend_location_failed" = "重发位置失败！\n请确保您的设备已连接到互联网。";
+"prompt.resend_text_failed" = "重发文字失败！\n请确保您的设备已连接到互联网。";
+"prompt.resend_video_failed" = "重发视频失败！\n请确保您的设备已连接到互联网。";
 "Failed to send audio!\nTry tap on message to resend." = "发送音频失败！\n轻按消息气泡可以重发。";
 "Failed to send image!\nTry tap on message to resend." = "发送图片失败！\n轻按消息气泡可以重发。";
 "Failed to send location!\nTry tap on message to resend." = "发送位置失败！\n轻按消息气泡可以重发。";

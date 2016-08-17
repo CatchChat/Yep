@@ -716,7 +716,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.promptSendMessageFailed(
                                         reason: reason,
                                         errorMessage: errorMessage,
-                                        reserveErrorMessage: NSLocalizedString("Failed to resend image!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                        reserveErrorMessage: String.trans_promptResendImageFailed
                                     )
 
                                 }, completion: { success in
@@ -760,7 +760,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.promptSendMessageFailed(
                                         reason: reason,
                                         errorMessage: errorMessage,
-                                        reserveErrorMessage: NSLocalizedString("Failed to resend audio!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                        reserveErrorMessage: String.trans_promptResendAudioFailed
                                     )
 
                                 }, completion: { success in
@@ -795,7 +795,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.promptSendMessageFailed(
                                         reason: reason,
                                         errorMessage: errorMessage,
-                                        reserveErrorMessage: NSLocalizedString("Failed to resend video!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                        reserveErrorMessage: String.trans_promptResendVideoFailed
                                     )
 
                                 }, completion: { success in
@@ -836,7 +836,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                     self?.promptSendMessageFailed(
                                         reason: reason,
                                         errorMessage: errorMessage,
-                                        reserveErrorMessage: NSLocalizedString("Failed to resend location!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                        reserveErrorMessage: String.trans_promptResendLocationFailed
                                     )
 
                                 }, completion: { success in
@@ -878,7 +878,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 self?.promptSendMessageFailed(
                                     reason: reason,
                                     errorMessage: errorMessage,
-                                    reserveErrorMessage: NSLocalizedString("Failed to resend text!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                    reserveErrorMessage: String.trans_promptResendTextFailed
                                 )
 
                             }, completion: { success in
@@ -1313,7 +1313,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         self?.promptSendMessageFailed(
                                             reason: reason,
                                             errorMessage: errorMessage,
-                                            reserveErrorMessage: NSLocalizedString("Failed to resend image!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                            reserveErrorMessage: String.trans_promptResendImageFailed
                                         )
 
                                     }, completion: { success in
@@ -1354,7 +1354,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         self?.promptSendMessageFailed(
                                             reason: reason,
                                             errorMessage: errorMessage,
-                                            reserveErrorMessage: NSLocalizedString("Failed to resend audio!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                            reserveErrorMessage: String.trans_promptResendAudioFailed
                                         )
 
                                     }, completion: { success in
@@ -1387,7 +1387,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         self?.promptSendMessageFailed(
                                             reason: reason,
                                             errorMessage: errorMessage,
-                                            reserveErrorMessage: NSLocalizedString("Failed to resend video!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                            reserveErrorMessage: String.trans_promptResendVideoFailed
                                         )
 
                                     }, completion: { success in
@@ -1426,7 +1426,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                         self?.promptSendMessageFailed(
                                             reason: reason,
                                             errorMessage: errorMessage,
-                                            reserveErrorMessage: NSLocalizedString("Failed to resend location!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                            reserveErrorMessage: String.trans_promptResendLocationFailed
                                         )
 
                                     }, completion: { success in
@@ -1467,7 +1467,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 self?.promptSendMessageFailed(
                                     reason: reason,
                                     errorMessage: errorMessage,
-                                    reserveErrorMessage: NSLocalizedString("Failed to resend text!\nPlease make sure your device is connected to the Internet.", comment: "")
+                                    reserveErrorMessage: String.trans_promptResendTextFailed
                                 )
 
                             }, completion: { success in

@@ -233,8 +233,25 @@ extension String {
         return NSLocalizedString("prompt.enable_do_not_disturb_failed", comment: "")
     }
 
+    static var trans_promptResendAudioFailed: String {
+        return NSLocalizedString("prompt.resend_audio_failed", comment: "")
+    }
 
+    static var trans_promptResendImageFailed: String {
+        return NSLocalizedString("prompt.resend_image_failed", comment: "")
+    }
 
+    static var trans_promptResendLocationFailed: String {
+        return NSLocalizedString("prompt.resend_location_failed", comment: "")
+    }
+
+    static var trans_promptResendTextFailed: String {
+        return NSLocalizedString("prompt.resend_text_failed", comment: "")
+    }
+
+    static var trans_promptResendVideoFailed: String {
+        return NSLocalizedString("prompt.resend_video_failed", comment: "")
+    }
 
 }
 

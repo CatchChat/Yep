@@ -64,12 +64,11 @@
 "title.done" = "Done";
 "title.edit_profile" = "Edit Profile";
 "prompt.enable_do_not_disturb_failed" = "Enable Do Not Disturb failed!";
-"Face to Face" = "Face to Face";
-"Failed to resend audio!\nPlease make sure your device is connected to the Internet." = "Failed to resend audio!\nPlease make sure your device is connected to the Internet.";
-"Failed to resend image!\nPlease make sure your device is connected to the Internet." = "Failed to resend image!\nPlease make sure your device is connected to the Internet.";
-"Failed to resend location!\nPlease make sure your device is connected to the Internet." = "Failed to resend location!\nPlease make sure your device is connected to the Internet.";
-"Failed to resend text!\nPlease make sure your device is connected to the Internet." = "Failed to resend text!\nPlease make sure your device is connected to the Internet.";
-"Failed to resend video!\nPlease make sure your device is connected to the Internet." = "Failed to resend video!\nPlease make sure your device is connected to the Internet.";
+"prompt.resend_audio_failed" = "Failed to resend audio!\nPlease make sure your device is connected to the Internet.";
+"prompt.resend_image_failed" = "Failed to resend image!\nPlease make sure your device is connected to the Internet.";
+"prompt.resend_location_failed" = "Failed to resend location!\nPlease make sure your device is connected to the Internet.";
+"prompt.resend_text_failed" = "Failed to resend text!\nPlease make sure your device is connected to the Internet.";
+"prompt.resend_video_failed" = "Failed to resend video!\nPlease make sure your device is connected to the Internet.";
 "Failed to send audio!\nTry tap on message to resend." = "Failed to send audio!\nTry tap on message to resend.";
 "Failed to send image!\nTry tap on message to resend." = "Failed to send image!\nTry tap on message to resend.";
 "Failed to send location!\nTry tap on message to resend." = "Failed to send location!\nTry tap on message to resend.";
