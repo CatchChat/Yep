@@ -173,8 +173,8 @@ extension UIViewController {
             let info = AutoReview.Info(
                 appID: "983891256",
                 title: NSLocalizedString("Review Yep", comment: ""),
-                message: NSLocalizedString("Do you like Yep?\nWould you like to review it on the App Store?", comment: ""),
-                doNotRemindMeInThisVersionTitle: NSLocalizedString("Do not remind me in this version", comment: ""),
+                message: String.trans_promptAskForReview,
+                doNotRemindMeInThisVersionTitle: String.trans_titleDoNotRemindMeInThisVersion,
                 maybeNextTimeTitle: NSLocalizedString("Maybe next time", comment: ""),
                 confirmTitle: NSLocalizedString("Review now", comment: "")
             )

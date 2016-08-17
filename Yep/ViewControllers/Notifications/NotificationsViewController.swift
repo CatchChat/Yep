@@ -263,7 +263,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
                 let cell: DoNotDisturbSwitchCell = tableView.dequeueReusableCell()
 
-                cell.promptLabel.text = NSLocalizedString("Do Not Disturb", comment: "")
+                cell.promptLabel.text = String.trans_titleDoNotDisturb
                 cell.toggleSwitch.on = doNotDisturbPeriod.isOn
 
                 cell.toggleAction = { [weak self] isOn in

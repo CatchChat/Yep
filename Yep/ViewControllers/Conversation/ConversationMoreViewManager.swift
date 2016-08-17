@@ -149,7 +149,7 @@ final class ConversationMoreViewManager {
 
     private func makeDoNotDisturbItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
         return .Switch(
-            title: NSLocalizedString("Do Not Disturb", comment: ""),
+            title: String.trans_titleDoNotDisturb,
             titleColor: UIColor.darkGrayColor(),
             switchOn: !notificationEnabled,
             action: { [weak self] switchOn in

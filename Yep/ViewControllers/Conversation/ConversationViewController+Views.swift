@@ -542,8 +542,7 @@ extension ConversationViewController {
                 }
             }
 
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("Do you want to reject this friend request?", comment: "")
-                , confirmTitle: NSLocalizedString("Reject", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction:confirmAction, cancelAction: {
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: String.trans_promptTryRejectFriendRequest, confirmTitle: NSLocalizedString("Reject", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction:confirmAction, cancelAction: {
             })
         }
     }

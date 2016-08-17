@@ -44,7 +44,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
     @IBOutlet weak var cancelButton: UIButton! {
         didSet {
-            cancelButton.setTitle(NSLocalizedString("Done", comment: ""), forState: .Normal)
+            cancelButton.setTitle(String.trans_titleDone, forState: .Normal)
             cancelButton.alpha = 1
         }
     }
