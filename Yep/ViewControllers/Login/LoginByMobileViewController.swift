@@ -96,7 +96,7 @@ final class LoginByMobileViewController: BaseViewController {
 
         YepHUD.showActivityIndicator()
         
-        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .SMS, failureHandler: { [weak self] reason, errorMessage in
+        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .SMS, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
@@ -112,8 +112,8 @@ final class LoginByMobileViewController: BaseViewController {
 
             } else {
                 if let errorMessage = errorMessage {
-                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                        SafeDispatch.async {
+                    YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: {
+                        SafeDispatch.async { [weak self] in
                             self?.mobileNumberTextField.becomeFirstResponder()
                         }
                     })
@@ -130,7 +130,7 @@ final class LoginByMobileViewController: BaseViewController {
                 }
 
             } else {
-                YepAlert.alertSorry(message: NSLocalizedString("Failed to send verification code!", comment: ""), inViewController: self, withDismissAction: { [weak self] in
+                YepAlert.alertSorry(message: String.trans_promptRequestSendVerificationCodeFailed, inViewController: self, withDismissAction: { [weak self] in
                     self?.mobileNumberTextField.becomeFirstResponder()
                 })
             }

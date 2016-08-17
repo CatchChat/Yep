@@ -272,6 +272,10 @@ extension String {
     static var trans_promptSendVideoFailed: String {
         return NSLocalizedString("prompt.send_video_failed", comment: "")
     }
+
+    static var trans_promptRequestSendVerificationCodeFailed: String {
+        return NSLocalizedString("prompt.request_send_verification_code_failed", comment: "")
+    }
 }
 
 extension String {

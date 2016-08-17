@@ -73,7 +73,7 @@
 "prompt.send_image_failed" = "发送图片失败！\n轻按消息气泡可以重发。";
 "prompt.send_location_failed" = "发送位置失败！\n轻按消息气泡可以重发。";
 "prompt.send_text_failed" = "发送文字失败！\n轻按消息气泡可以重发。";
-"Failed to send verification code!" = "发送验证短信失败！";
+"prompt.request_send_verification_code_failed" = "请求发送验证短信失败！";
 "prompt.send_video_failed" = "发送视频失败！\n轻按消息气泡可以重发。";
 "Feed can only has 4 photos." = "话题只能选择 4 张图片";
 "Feed has been deleted by creator." = "此话题已被创建者删除。";
