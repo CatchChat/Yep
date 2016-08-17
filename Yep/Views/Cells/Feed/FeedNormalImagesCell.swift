@@ -15,7 +15,6 @@ final class FeedNormalImagesCell: FeedBasicCell {
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
-
         return ceil(height)
     }
 
@@ -35,28 +34,34 @@ final class FeedNormalImagesCell: FeedBasicCell {
         return node
     }
 
-    lazy var imageNode1: ASImageNode = {
+    private lazy var imageNode1: ASImageNode = {
         return self.createImageNode()
     }()
 
-    lazy var imageNode2: ASImageNode = {
+    private lazy var imageNode2: ASImageNode = {
         return self.createImageNode()
     }()
 
-    lazy var imageNode3: ASImageNode = {
+    private lazy var imageNode3: ASImageNode = {
         return self.createImageNode()
     }()
 
-    lazy var imageNode4: ASImageNode = {
+    private lazy var imageNode4: ASImageNode = {
         return self.createImageNode()
     }()
 
-    var imageNodes: [ASImageNode] = []
+    private var imageNodes: [ASImageNode] = []
+
+    private let needAllImageNodes: Bool = FeedsViewController.feedNormalImagesCountThreshold == 4
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        imageNodes = [imageNode1, imageNode2, imageNode3, imageNode4]
+        if needAllImageNodes {
+            imageNodes = [imageNode1, imageNode2, imageNode3, imageNode4]
+        } else {
+            imageNodes = [imageNode1, imageNode2, imageNode3]
+        }
 
         imageNodes.forEach({
             contentView.addSubview($0.view)
@@ -100,7 +105,9 @@ final class FeedNormalImagesCell: FeedBasicCell {
         imageNode1.frame = normalImagesLayout.imageView1Frame
         imageNode2.frame = normalImagesLayout.imageView2Frame
         imageNode3.frame = normalImagesLayout.imageView3Frame
-        imageNode4.frame = normalImagesLayout.imageView4Frame
+        if needAllImageNodes {
+            imageNode4.frame = normalImagesLayout.imageView4Frame
+        }
     }
 
     @objc private func tap(sender: UITapGestureRecognizer) {
