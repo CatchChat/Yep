@@ -56,12 +56,11 @@ final class FeedNormalImagesCell: FeedBasicCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        contentView.addSubview(imageNode1.view)
-        contentView.addSubview(imageNode2.view)
-        contentView.addSubview(imageNode3.view)
-        contentView.addSubview(imageNode4.view)
-
         imageNodes = [imageNode1, imageNode2, imageNode3, imageNode4]
+
+        imageNodes.forEach({
+            contentView.addSubview($0.view)
+        })
     }
 
     required init?(coder aDecoder: NSCoder) {
