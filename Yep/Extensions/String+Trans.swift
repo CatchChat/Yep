@@ -253,6 +253,25 @@ extension String {
         return NSLocalizedString("prompt.resend_video_failed", comment: "")
     }
 
+    static var trans_promptSendAudioFailed: String {
+        return NSLocalizedString("prompt.send_audio_failed", comment: "")
+    }
+
+    static var trans_promptSendImageFailed: String {
+        return NSLocalizedString("prompt.send_image_failed", comment: "")
+    }
+
+    static var trans_promptSendLocationFailed: String {
+        return NSLocalizedString("prompt.send_location_failed", comment: "")
+    }
+
+    static var trans_promptSendTextFailed: String {
+        return NSLocalizedString("prompt.send_text_failed", comment: "")
+    }
+
+    static var trans_promptSendVideoFailed: String {
+        return NSLocalizedString("prompt.send_video_failed", comment: "")
+    }
 }
 
 extension String {

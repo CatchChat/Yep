@@ -69,12 +69,12 @@
 "prompt.resend_location_failed" = "Failed to resend location!\nPlease make sure your device is connected to the Internet.";
 "prompt.resend_text_failed" = "Failed to resend text!\nPlease make sure your device is connected to the Internet.";
 "prompt.resend_video_failed" = "Failed to resend video!\nPlease make sure your device is connected to the Internet.";
-"Failed to send audio!\nTry tap on message to resend." = "Failed to send audio!\nTry tap on message to resend.";
-"Failed to send image!\nTry tap on message to resend." = "Failed to send image!\nTry tap on message to resend.";
-"Failed to send location!\nTry tap on message to resend." = "Failed to send location!\nTry tap on message to resend.";
-"Failed to send text!\nTry tap on message to resend." = "Failed to send text!\nTry tap on message to resend.";
+"prompt.send_audio_failed" = "Failed to send audio!\nTry tap on message to resend.";
+"prompt.send_image_failed" = "Failed to send image!\nTry tap on message to resend.";
+"prompt.send_location_failed" = "Failed to send location!\nTry tap on message to resend.";
+"prompt.send_text_failed" = "Failed to send text!\nTry tap on message to resend.";
 "Failed to send verification code!" = "Failed to send verification code!";
-"Failed to send video!\nTry tap on message to resend." = "Failed to send video!\nTry tap on message to resend.";
+"prompt.send_video_failed" = "Failed to send video!\nTry tap on message to resend.";
 "Feed can only has 4 photos." = "Feed can only has 4 photos.";
 "Feed has been deleted by creator." = "Feed has been deleted by creator.";
 "Feed info is too long!\nUp to %d letters." = "Feed info is too long!\nUp to %d letters.";

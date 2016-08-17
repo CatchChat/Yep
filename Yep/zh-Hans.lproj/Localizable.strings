@@ -69,12 +69,12 @@
 "prompt.resend_location_failed" = "重发位置失败！\n请确保您的设备已连接到互联网。";
 "prompt.resend_text_failed" = "重发文字失败！\n请确保您的设备已连接到互联网。";
 "prompt.resend_video_failed" = "重发视频失败！\n请确保您的设备已连接到互联网。";
-"Failed to send audio!\nTry tap on message to resend." = "发送音频失败！\n轻按消息气泡可以重发。";
-"Failed to send image!\nTry tap on message to resend." = "发送图片失败！\n轻按消息气泡可以重发。";
-"Failed to send location!\nTry tap on message to resend." = "发送位置失败！\n轻按消息气泡可以重发。";
-"Failed to send text!\nTry tap on message to resend." = "发送文字失败！\n轻按消息气泡可以重发。";
+"prompt.send_audio_failed" = "发送音频失败！\n轻按消息气泡可以重发。";
+"prompt.send_image_failed" = "发送图片失败！\n轻按消息气泡可以重发。";
+"prompt.send_location_failed" = "发送位置失败！\n轻按消息气泡可以重发。";
+"prompt.send_text_failed" = "发送文字失败！\n轻按消息气泡可以重发。";
 "Failed to send verification code!" = "发送验证短信失败！";
-"Failed to send video!\nTry tap on message to resend." = "发送视频失败！\n轻按消息气泡可以重发。";
+"prompt.send_video_failed" = "发送视频失败！\n轻按消息气泡可以重发。";
 "Feed can only has 4 photos." = "话题只能选择 4 张图片";
 "Feed has been deleted by creator." = "此话题已被创建者删除。";
 "Feed info is too long!\nUp to %d letters." = "话题介绍字数过多！\n最多%d个字符。";
