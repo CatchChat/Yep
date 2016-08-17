@@ -21,7 +21,9 @@ final class FeedNormalImagesCell: FeedBasicCell {
     var tapImagesAction: FeedTapImagesAction?
 
     private func createImageNode() -> ASImageNode {
+
         let node = ASImageNode()
+        node.frame = CGRect(origin: CGPointZero, size: YepConfig.FeedNormalImagesCell.imageSize)
         node.contentMode = .ScaleAspectFill
         node.backgroundColor = YepConfig.FeedMedia.backgroundColor
         node.borderWidth = 1
