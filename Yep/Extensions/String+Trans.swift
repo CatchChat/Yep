@@ -224,6 +224,18 @@ extension String {
     static var trans_titleDone: String {
         return NSLocalizedString("title.done", comment: "")
     }
+
+    static var trans_titleEditProfile: String {
+        return NSLocalizedString("title.edit_profile", comment: "")
+    }
+
+    static var trans_promptEnableDoNotDisturbFailed: String {
+        return NSLocalizedString("prompt.enable_do_not_disturb_failed", comment: "")
+    }
+
+
+
+
 }
 
 extension String {

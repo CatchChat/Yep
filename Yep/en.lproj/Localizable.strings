@@ -62,8 +62,8 @@
 "prompt.try_reject_friend_request" = "Do you want to reject this friend request?";
 "prompt.try_unfriend_with_%@" = "Do you want to unfriend with %@?";
 "title.done" = "Done";
-"Edit Profile" = "Edit Profile";
-"Enable Do Not Disturb Failed!" = "Enable Do Not Disturb Failed!";
+"title.edit_profile" = "Edit Profile";
+"prompt.enable_do_not_disturb_failed" = "Enable Do Not Disturb failed!";
 "Face to Face" = "Face to Face";
 "Failed to resend audio!\nPlease make sure your device is connected to the Internet." = "Failed to resend audio!\nPlease make sure your device is connected to the Internet.";
 "Failed to resend image!\nPlease make sure your device is connected to the Internet." = "Failed to resend image!\nPlease make sure your device is connected to the Internet.";

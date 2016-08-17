@@ -110,7 +110,7 @@ final class EditProfileViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Edit Profile", comment: "")
+        title = String.trans_titleEditProfile
 
         let avatarSize = YepConfig.editProfileAvatarSize()
         avatarImageViewWidthConstraint.constant = avatarSize

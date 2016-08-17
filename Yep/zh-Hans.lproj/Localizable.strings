@@ -62,8 +62,8 @@
 "prompt.try_reject_friend_request" = "您要拒绝此好友请求吗？";
 "prompt.try_unfriend_with_%@" = "您要与“%@”解除好友吗？";
 "title.done" = "完成";
-"Edit Profile" = "编辑个人主页";
-"Enable Do Not Disturb Failed!" = "开启“免打扰”失败";
+"title.edit_profile" = "编辑个人主页";
+"prompt.enable_do_not_disturb_failed" = "开启“免打扰”失败！";
 "Face to Face" = "面对面";
 "Failed to resend audio!\nPlease make sure your device is connected to the Internet." = "重发音频失败！\n请确保您的设备已连接到互联网。";
 "Failed to resend image!\nPlease make sure your device is connected to the Internet." = "重发图片失败！\n请确保您的设备已连接到互联网。";
