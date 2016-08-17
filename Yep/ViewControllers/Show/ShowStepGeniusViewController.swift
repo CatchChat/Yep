@@ -28,7 +28,7 @@ final class ShowStepGeniusViewController: ShowStepViewController {
         super.viewDidLoad()
 
         titleLabel.text = NSLocalizedString("Genius", comment: "")
-        subTitleLabel.text = NSLocalizedString("Discover them around you", comment: "")
+        subTitleLabel.text = String.trans_showDiscoverThem
     }
 
     override func viewDidAppear(animated: Bool) {

@@ -90,7 +90,7 @@ class BaseVerifyMobileViewController: SegueViewController {
             .subscribeNext({ [weak self] in self?.haveAppropriateInput = $0 })
             .addDisposableTo(disposeBag)
 
-        callMePromptLabel.text = NSLocalizedString("Didn't get it?", comment: "")
+        callMePromptLabel.text = String.trans_promptDidNotGetIt
         callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
 
         verifyMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value

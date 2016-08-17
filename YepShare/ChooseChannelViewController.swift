@@ -95,7 +95,7 @@ class ChooseChannelViewController: UITableViewController {
         switch section {
         case .DefaultSkill:
             currentPickedSkill = nil
-            cell.textLabel?.text = NSLocalizedString("Default", comment: "")
+            cell.textLabel?.text = String.trans_titleDefault
         case .Skills:
             let skill = skills[indexPath.row]
             cell.textLabel?.text = skill.localName

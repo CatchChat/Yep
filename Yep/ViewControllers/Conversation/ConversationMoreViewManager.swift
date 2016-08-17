@@ -187,7 +187,7 @@ final class ConversationMoreViewManager {
 
         let groupActionTitle: String
         if isMyFeed {
-            groupActionTitle = NSLocalizedString("Delete", comment: "")
+            groupActionTitle = String.trans_titleDelete
         } else {
             if includeMe {
                 groupActionTitle = NSLocalizedString("Unsubscribe", comment: "")

@@ -108,7 +108,7 @@ final class DiscoverViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Discover", comment: "")
+        title = String.trans_titleDiscover
 
         view.backgroundColor = UIColor.whiteColor()
 

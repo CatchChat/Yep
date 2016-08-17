@@ -144,7 +144,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     canReport = true
                 }
             } else {
-                title = NSLocalizedString("Delete", comment: "")
+                title = String.trans_titleDelete
             }
 
             var menuItems = [

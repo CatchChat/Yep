@@ -244,10 +244,10 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
         var title: String = NSLocalizedString("Unsubscribe", comment: "")
         if let feed = conversation.withGroup?.withFeed {
             if feed.deleted {
-                title = NSLocalizedString("Delete", comment: "")
+                title = String.trans_titleDelete
             }
             if let creator = feed.creator where creator.isMe {
-                title = NSLocalizedString("Delete", comment: "")
+                title = String.trans_titleDelete
             }
         }
         */
@@ -299,7 +299,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
             if feedCreatorID == YepUserDefaults.userID.value {
 
-                YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: String.trans_promptAlsoDeleteThisFeed, confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+                YepAlert.confirmOrCancel(title: String.trans_titleDelete, message: String.trans_promptAlsoDeleteThisFeed, confirmTitle: String.trans_titleDelete, cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
 
                     doDeleteConversation()
 

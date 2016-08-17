@@ -168,6 +168,33 @@ extension String {
     static var trans_promptCurrentNumber: String {
         return NSLocalizedString("prompt.current_number", comment: "")
     }
+
+    static var trans_titleDefault: String {
+        return NSLocalizedString("title.default", comment: "")
+    }
+
+    static var trans_titleDelete: String {
+        return NSLocalizedString("title.delete", comment: "")
+    }
+
+    static var trans_promptDidNotGetIt: String {
+        return NSLocalizedString("prompt.did_not_get_it", comment: "")
+    }
+
+    static var trans_promptDisableDoNotDisturbFailed: String {
+        return NSLocalizedString("prompt.disable_do_not_disturb_failed", comment: "")
+    }
+    static var trans_showDiscoverThem: String {
+        return NSLocalizedString("show.discover_them", comment: "")
+    }
+    static var trans_titleDiscover: String {
+        return NSLocalizedString("title.discover", comment: "")
+    }
+    static var trans_titleDismiss: String {
+        return NSLocalizedString("title.dismiss", comment: "")
+    }
+
+
 }
 
 extension String {

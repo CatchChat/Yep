@@ -2076,7 +2076,7 @@ public func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, in
     }
     deleteAlertController.addAction(clearHistoryAction)
 
-    let deleteAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .Destructive) { _ in
+    let deleteAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("title.delete", comment: ""), style: .Destructive) { _ in
 
         delete()
 
