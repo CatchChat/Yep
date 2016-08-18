@@ -15,7 +15,6 @@ final class SearchedFeedNormalImagesCell: SearchedFeedBasicCell {
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + (10 + YepConfig.SearchedFeedNormalImagesCell.imageSize.height)
-
         return ceil(height)
     }
 
@@ -24,7 +23,7 @@ final class SearchedFeedNormalImagesCell: SearchedFeedBasicCell {
     private func createImageNode() -> ASImageNode {
 
         let node = ASImageNode()
-        node.frame = CGRect(origin: CGPointZero, size: YepConfig.FeedNormalImagesCell.imageSize)
+        node.frame = CGRect(origin: CGPointZero, size: YepConfig.SearchedFeedNormalImagesCell.imageSize)
         node.contentMode = .ScaleAspectFill
         node.backgroundColor = YepConfig.FeedMedia.backgroundColor
         node.borderWidth = 1
