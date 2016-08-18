@@ -10,38 +10,6 @@ import UIKit
 import YepKit
 import AsyncDisplayKit
 
-class FeedImageCellNode: ASCellNode {
-
-    lazy var imageNode: ASImageNode = {
-        let node = ASImageNode()
-        node.contentMode = .ScaleAspectFill
-        node.backgroundColor = YepConfig.FeedMedia.backgroundColor
-        node.borderWidth = 1
-        node.borderColor = UIColor.yepBorderColor().CGColor
-        return node
-    }()
-
-    override init() {
-        super.init()
-
-        addSubnode(imageNode)
-    }
-
-    func configureWithAttachment(attachment: DiscoveredAttachment, bigger: Bool) {
-
-        let size = bigger ? YepConfig.FeedBiggerImageCell.imageSize : YepConfig.FeedNormalImagesCell.imageSize
-        imageNode.frame = CGRect(origin: CGPointZero, size: size)
-
-        if attachment.isTemporary {
-            imageNode.image = attachment.image
-
-        } else {
-            imageNode.yep_showActivityIndicatorWhenLoading = true
-            imageNode.yep_setImageOfAttachment(attachment, withSize: size)
-        }
-    }
-}
-
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
 typealias FeedTapMediaAction = (transitionView: UIView, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void
@@ -148,7 +116,7 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
 
         let node = FeedImageCellNode()
         if let attachment = attachments[safe: indexPath.item] {
-            node.configureWithAttachment(attachment, bigger: (attachments.count == 1))
+            node.configureWithAttachment(attachment, imageSize: YepConfig.FeedNormalImagesCell.imageSize)
         }
         return node
     }

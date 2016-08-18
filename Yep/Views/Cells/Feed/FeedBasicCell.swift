@@ -264,7 +264,9 @@ class FeedBasicCell: UITableViewCell {
                     }
                 }
 
-                contentView.addSubview(uploadingErrorContainerView)
+                if uploadingErrorContainerView.superview == nil {
+                    contentView.addSubview(uploadingErrorContainerView)
+                }
 
             } else {
                 hasUploadingErrorMessage = false
