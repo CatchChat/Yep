@@ -19,10 +19,12 @@ public func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: 
 
         guard error == nil else {
 
+            let errorMessage = String.trans_errorGetTitleOfURLFailed
+
             if let failureHandler = failureHandler {
-                failureHandler(reason: .Other(error), errorMessage: NSLocalizedString("Get title of URL failed!", comment: ""))
+                failureHandler(reason: .Other(error), errorMessage: errorMessage)
             } else {
-                defaultFailureHandler(reason: .Other(error), errorMessage: NSLocalizedString("Get title of URL failed!", comment: ""))
+                defaultFailureHandler(reason: .Other(error), errorMessage: errorMessage)
             }
 
             return

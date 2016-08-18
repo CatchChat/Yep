@@ -27,7 +27,7 @@ final class SubscribeView: UIView {
     private lazy var promptLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFontOfSize(14)
-        label.text = NSLocalizedString("Get notified.", comment: "")
+        label.text = String.trans_promptGetNotifiedWithSubscribe
         label.textColor = UIColor.darkGrayColor()
         return label
     }()
