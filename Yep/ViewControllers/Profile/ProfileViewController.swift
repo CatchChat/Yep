@@ -654,7 +654,7 @@ final class ProfileViewController: SegueViewController {
 
         let info = MonkeyKing.Info(
             title: nickname,
-            description: NSLocalizedString("From Yep, with Skills.", comment: ""),
+            description: String.trans_shareFromYepWithSkills,
             thumbnail: thumbnail,
             media: .URL(profileURL)
         )
@@ -679,7 +679,7 @@ final class ProfileViewController: SegueViewController {
             }
         )
         
-        let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(NSLocalizedString("From Yep, with Skills.", comment: "")) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
+        let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(String.trans_shareFromYepWithSkills) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
         activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
 
         self.presentViewController(activityViewController, animated: true, completion: nil)

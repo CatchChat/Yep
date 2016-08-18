@@ -83,7 +83,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
         var description: String {
             switch self {
             case .Contacts:
-                return NSLocalizedString("Friends in Contacts", comment: "")
+                return String.trans_titleFriendsInContacts
             }
         }
     }

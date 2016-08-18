@@ -90,7 +90,7 @@ final class ActivityIndicatorTitleView: UIView {
             helperView.addSubview(activityIndicator)
 
             let label = UILabel()
-            label.text = NSLocalizedString("Fetching", comment: "")
+            label.text = String.trans_promptFetching
             label.textColor = UIColor.yepNavgationBarTitleColor()
 
             label.translatesAutoresizingMaskIntoConstraints = false

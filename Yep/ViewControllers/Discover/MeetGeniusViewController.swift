@@ -48,7 +48,7 @@ class MeetGeniusViewController: UIViewController {
     }()
 
     private lazy var noGeniusInterviewsFooterView: InfoView = InfoView(NSLocalizedString("No Interviews.", comment: ""))
-    private lazy var fetchFailedFooterView: InfoView = InfoView(NSLocalizedString("Fetch Failed!", comment: ""))
+    private lazy var fetchFailedFooterView: InfoView = InfoView(String.trans_errorFetchFailed)
 
     var geniusInterviews: [GeniusInterview] = []
 

@@ -82,7 +82,7 @@ final class FeedConversationsViewController: SegueViewController {
 
         realm = try! Realm()
 
-        title = NSLocalizedString("Feeds", comment: "")
+        title = String.trans_titleFeeds
 
         feedConversationsTableView.rowHeight = 80
         feedConversationsTableView.tableFooterView = UIView()

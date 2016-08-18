@@ -203,7 +203,7 @@ extension ConversationViewController {
             }
         )
 
-        let shareText = "\(description) \(groupShareURLString)\n\(NSLocalizedString("From Yep", comment: ""))"
+        let shareText = "\(description) \(groupShareURLString)\n\(String.trans_shareFromYep)"
 
         let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
         activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]

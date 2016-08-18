@@ -70,7 +70,7 @@ final class FeedsViewController: BaseViewController {
     }()
 
     private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
-    private lazy var fetchFailedFooterView: InfoView = InfoView(NSLocalizedString("Fetch Failed!", comment: ""))
+    private lazy var fetchFailedFooterView: InfoView = InfoView(String.trans_errorFetchFailed)
 
     @IBOutlet weak var feedsTableView: UITableView!  {
         didSet {
@@ -373,7 +373,7 @@ final class FeedsViewController: BaseViewController {
             }
         }
 
-        navigationItem.title = NSLocalizedString("Feeds", comment: "")
+        navigationItem.title = String.trans_titleFeeds
 
         searchBar.placeholder = NSLocalizedString("Search Feeds", comment: "")
 
