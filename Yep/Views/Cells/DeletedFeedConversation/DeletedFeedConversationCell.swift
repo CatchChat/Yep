@@ -32,6 +32,6 @@ final class DeletedFeedConversationCell: UITableViewCell {
         }
 
         nameLabel.text = feed.body
-        chatLabel.text = NSLocalizedString("Feed has been deleted by creator.", comment: "")
+        chatLabel.text = String.trans_promptFeedDeletedByCreator
     }
 }

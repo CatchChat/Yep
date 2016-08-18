@@ -58,7 +58,7 @@ final class FeedbackViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Feedback", comment: "")
+        title = String.trans_titleFeedback
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 

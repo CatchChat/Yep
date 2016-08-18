@@ -20,7 +20,7 @@ final class FeedConversationsViewController: SegueViewController {
     }
 
     private lazy var clearUnreadBarButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem(title: NSLocalizedString("FeedConversationsViewController.ClearUnread", comment: ""), style: .Plain, target: self, action: #selector(FeedConversationsViewController.clearUnread(_:)))
+        let item = UIBarButtonItem(title: String.trans_titleClearUnread, style: .Plain, target: self, action: #selector(FeedConversationsViewController.clearUnread(_:)))
         return item
     }()
 
