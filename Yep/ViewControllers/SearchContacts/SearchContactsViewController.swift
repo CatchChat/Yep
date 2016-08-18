@@ -364,7 +364,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
             switch section {
             case .Local:
-                cell.sectionTitleLabel.text = NSLocalizedString("Friends", comment: "")
+                cell.sectionTitleLabel.text = String.trans_titleFriends
             case .Online:
                 cell.sectionTitleLabel.text = NSLocalizedString("Users", comment: "")
             }

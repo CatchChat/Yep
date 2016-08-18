@@ -627,9 +627,8 @@ final class NewFeedViewController: SegueViewController {
         let messageLength = (messageTextView.text as NSString).length
 
         guard messageLength <= YepConfig.maxFeedTextLength else {
-            let message = String(format: NSLocalizedString("Feed info is too long!\nUp to %d letters.", comment: ""), YepConfig.maxFeedTextLength)
+            let message = String.trans_promptFeedInfoTooLong(YepConfig.maxFeedTextLength)
             YepAlert.alertSorry(message: message, inViewController: self)
-
             return
         }
 
@@ -1060,7 +1059,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             messageTextView.resignFirstResponder()
             
             if mediaImages.count == 4 {
-                YepAlert.alertSorry(message: NSLocalizedString("Feed can only has 4 photos.", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: String.trans_promptFeedCanOnlyHasXPhotos, inViewController: self)
                 return
             }
             

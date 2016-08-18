@@ -22,7 +22,7 @@ extension ConversationViewController {
             performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
 
         } else {
-            YepAlert.alertSorry(message: NSLocalizedString("Feed not found!", comment: ""), inViewController: self)
+            YepAlert.alertSorry(message: String.trans_promptFeedNotFound, inViewController: self)
         }
     }
 }

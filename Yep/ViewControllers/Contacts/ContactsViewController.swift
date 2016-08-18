@@ -337,7 +337,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch section {
             case .Local:
-                return NSLocalizedString("Friends", comment: "")
+                return String.trans_titleFriends
             case .Online:
                 return NSLocalizedString("Users", comment: "")
             }

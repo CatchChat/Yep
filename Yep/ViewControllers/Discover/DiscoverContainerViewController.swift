@@ -25,7 +25,7 @@ class DiscoverContainerViewController: UIPageViewController {
             case .MeetGenius:
                 return NSLocalizedString("Meet Genius", comment: "")
             case .FindAll:
-                return NSLocalizedString("Find All", comment: "")
+                return String.trans_titleFindAll
             }
         }
     }

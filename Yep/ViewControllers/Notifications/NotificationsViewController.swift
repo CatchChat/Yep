@@ -308,7 +308,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
                 let cell: DoNotDisturbPeriodCell = tableView.dequeueReusableCell()
 
-                cell.fromPromptLabel.text = NSLocalizedString("From", comment: "")
+                cell.fromPromptLabel.text = String.trans_timeFrom
                 cell.toPromptLabel.text = NSLocalizedString("To", comment: "")
 
                 cell.fromLabel.text = doNotDisturbPeriod.localFromString

@@ -17,6 +17,10 @@ extension String {
     static func trans_promptTryUnfriendWith(name: String) -> String {
         return String(format: NSLocalizedString("prompt.try_unfriend_with_%@", comment: ""), name)
     }
+
+    static func trans_promptFeedInfoTooLong(count: Int) -> String {
+        return String(format: NSLocalizedString("prompt.feed_info_too_long_%d", comment: ""), count)
+    }
 }
 
 extension String {
@@ -276,6 +280,73 @@ extension String {
     static var trans_promptRequestSendVerificationCodeFailed: String {
         return NSLocalizedString("prompt.request_send_verification_code_failed", comment: "")
     }
+
+    static var trans_promptFeedCanOnlyHasXPhotos: String {
+        return NSLocalizedString("prompt.feed_can_only_has_x_photos", comment: "")
+    }
+
+    static var trans_promptFeedDeletedByCreator: String {
+        return NSLocalizedString("prpmpt.feed_deleted_by_creator", comment: "")
+    }
+
+    static var trans_promptFeedNotFound: String {
+        return NSLocalizedString("prompt.feed_not_found", comment: "")
+    }
+
+    static var trans_titleClearUnread: String {
+        return NSLocalizedString("title.clear_unread", comment: "")
+    }
+
+    static var trans_titleFeedback: String {
+        return NSLocalizedString("title.feedback", comment: "")
+    }
+
+    static var trans_promptFeedsByThisCreatorWillNotAppear: String {
+        return NSLocalizedString("prompt.feeds_by_this_creator_will_not_appear", comment: "")
+    }
+    static var trans_titleFeeds: String {
+        return NSLocalizedString("title.feeds", comment: "")
+    }
+
+    static var trans_errorFetchFailed: String {
+        return NSLocalizedString("error.fetch_failed", comment: "")
+    }
+
+    static var trans_promptFetching: String {
+        return NSLocalizedString("prompt.fetching", comment: "")
+    }
+
+    static var trans_titleFindAll: String {
+        return NSLocalizedString("title.find_all", comment: "")
+    }
+
+    static var trans_titleFriendsInContacts: String {
+        return NSLocalizedString("title.friends_in_contacts", comment: "")
+    }
+    static var trans_titleFriends: String {
+        return NSLocalizedString("title.friends", comment: "")
+    }
+
+    static var trans_shareFromYep: String {
+        return NSLocalizedString("share.from_yep", comment: "")
+    }
+
+    static var trans_shareFromYepWithSkills: String {
+        return NSLocalizedString("share.from_yep_with_skills", comment: "")
+    }
+
+    static var trans_timeFrom: String {
+        return NSLocalizedString("time.from", comment: "")
+    }
+    static var trans_showGenius: String {
+        return NSLocalizedString("show.genius", comment: "")
+    }
+    static var trans_promptGetNotifiedWithSubscribe: String {
+        return NSLocalizedString("prompt.get_notified_with_subscribe", comment: "")
+    }
+
+
+
 }
 
 extension String {

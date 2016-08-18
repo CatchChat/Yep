@@ -31,7 +31,7 @@ final class SettingsViewController: BaseViewController {
             "segue": "showNotifications",
         ],
         [
-            "name": NSLocalizedString("Feedback", comment: ""),
+            "name": String.trans_titleFeedback,
             "segue": "showFeedback",
         ],
         [

@@ -126,7 +126,7 @@ final class DoNotDisturbPeriodViewController: UIViewController {
     }
 
     private func updateFromButton() {
-        fromButton.setTitle(NSLocalizedString("From", comment: "") + " " + doNotDisturbPeriod.localFromString, forState: .Normal)
+        fromButton.setTitle(String.trans_timeFrom + " " + doNotDisturbPeriod.localFromString, forState: .Normal)
     }
 
     private func updateToButton() {

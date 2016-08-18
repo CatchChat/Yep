@@ -85,7 +85,7 @@ final class ProfileFeedsCell: UICollectionViewCell {
 
         enabled = false
 
-        nameLabel.text = NSLocalizedString("Feeds", comment: "")
+        nameLabel.text = String.trans_titleFeeds
 
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
