@@ -27,17 +27,16 @@ class FeedImageCellNode: ASCellNode {
         addSubnode(imageNode)
     }
 
-    func configureWithAttachment(attachment: DiscoveredAttachment, bigger: Bool) {
+    func configureWithAttachment(attachment: DiscoveredAttachment, imageSize: CGSize) {
 
-        let size = bigger ? YepConfig.FeedBiggerImageCell.imageSize : YepConfig.FeedNormalImagesCell.imageSize
-        imageNode.frame = CGRect(origin: CGPointZero, size: size)
+        imageNode.frame = CGRect(origin: CGPointZero, size: imageSize)
 
         if attachment.isTemporary {
             imageNode.image = attachment.image
 
         } else {
             imageNode.yep_showActivityIndicatorWhenLoading = true
-            imageNode.yep_setImageOfAttachment(attachment, withSize: size)
+            imageNode.yep_setImageOfAttachment(attachment, withSize: imageSize)
         }
     }
 }
@@ -148,7 +147,7 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
 
         let node = FeedImageCellNode()
         if let attachment = attachments[safe: indexPath.item] {
-            node.configureWithAttachment(attachment, bigger: (attachments.count == 1))
+            node.configureWithAttachment(attachment, imageSize: YepConfig.FeedNormalImagesCell.imageSize)
         }
         return node
     }

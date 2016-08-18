@@ -15,7 +15,6 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + YepConfig.SearchedFeedNormalImagesCell.imageSize.height + 10
-
         return ceil(height)
     }
 
@@ -168,7 +167,7 @@ extension SearchedFeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegat
 
         let node = FeedImageCellNode()
         if let attachment = attachments[safe: indexPath.item] {
-            node.configureWithAttachment(attachment, bigger: (attachments.count == 1))
+            node.configureWithAttachment(attachment, imageSize: YepConfig.SearchedFeedNormalImagesCell.imageSize)
         }
         return node
     }
@@ -199,6 +198,7 @@ extension SearchedFeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegat
                 return node?.imageNode.view
             }
         })
+        transitionViews.forEach({ println("xxx: \($0?.frame)")})
         tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: node.imageNode.image, index: indexPath.item)
     }
 }
