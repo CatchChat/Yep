@@ -86,20 +86,17 @@ class ShareViewController: SLComposeServiceViewController {
 
         webURLsFromExtensionContext(extensionContext!) { [weak self] webURLs in
             self?.webURLs = webURLs
-
-            print("webURLs: \(self?.webURLs)")
+            //print("webURLs: \(self?.webURLs)")
         }
 
         imagesFromExtensionContext(extensionContext!) { [weak self] images in
             self?.images = images
-
-            print("images: \(self?.images)")
+            //print("images: \(self?.images)")
         }
 
         fileURLsFromExtensionContext(extensionContext!) { [weak self] fileURLs in
             self?.fileURLs = fileURLs
-
-            print("fileURLs: \(self?.fileURLs)")
+            //print("fileURLs: \(self?.fileURLs)")
         }
     }
 
@@ -125,9 +122,7 @@ class ShareViewController: SLComposeServiceViewController {
         }
 
         postFeed(shareType) { [weak self] finish in
-
-            print("postFeed \(shareType) finish: \(finish)")
-
+            //print("postFeed \(shareType) finish: \(finish)")
             self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
         }
     }
