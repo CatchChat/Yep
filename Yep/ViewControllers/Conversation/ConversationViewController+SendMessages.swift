@@ -21,10 +21,49 @@ extension ConversationViewController {
             return
         }
 
-        guard let recipient = recipient else {
+        guard let recipient = conversation.recipient else {
             return
         }
 
+        guard let conversationType = ConversationType(rawValue: conversation.type) else {
+            return
+        }
+
+        println("try sendText to recipient: \(recipient)")
+
+        sendText(text, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
+
+            SafeDispatch.async {
+                self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+                })
+            }
+
+        }, failureHandler: { [weak self] reason, errorMessage in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            switch conversationType {
+            case .OneToOne:
+                self?.promptSendMessageFailed(
+                    reason: reason,
+                    errorMessage: errorMessage,
+                    reserveErrorMessage: String.trans_promptSendTextFailed
+                )
+            case .Group:
+                YepAlert.alertSorry(message: String.trans_promptSendTextFailed, inViewController: self)
+            }
+
+        }, completion: { [weak self] success in
+            println("sendText: \(success)")
+
+            switch conversationType {
+            case .OneToOne:
+                self?.showFriendRequestViewIfNeed()
+            case .Group:
+                self?.updateGroupToIncludeMe()
+            }
+        })
+
+        /*
         if let withFriend = conversation.withFriend {
 
             println("try sendText to User: \(withFriend.userID)")
@@ -74,6 +113,7 @@ extension ConversationViewController {
                     self?.updateGroupToIncludeMe()
                 })
         }
+         */
 
         if needDetectMention {
             mentionView.hide()
