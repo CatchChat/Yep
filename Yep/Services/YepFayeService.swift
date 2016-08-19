@@ -71,6 +71,15 @@ final class YepFayeService: NSObject {
 
 // MARK: - Public
 
+struct LastRead {
+
+    let unixTime: NSTimeInterval
+    let messageID: String
+    let recipientType: String
+    let recipientID: String
+}
+
+
 extension YepFayeService {
 
     func prepareForChannel(channel: String) {
