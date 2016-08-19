@@ -17,7 +17,11 @@ extension ConversationViewController {
 
     func send(text: String) {
 
-        if text.isEmpty {
+        guard !text.isEmpty else {
+            return
+        }
+
+        guard let recipient = recipient else {
             return
         }
 
@@ -26,7 +30,7 @@ extension ConversationViewController {
             println("try sendText to User: \(withFriend.userID)")
             println("my userID: \(YepUserDefaults.userID.value)")
 
-            sendText(text, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
+            sendText(text, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
                 SafeDispatch.async {
                     self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
@@ -50,7 +54,7 @@ extension ConversationViewController {
 
         } else if let withGroup = conversation.withGroup {
 
-            sendText(text, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+            sendText(text, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
                 SafeDispatch.async {
                     self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in

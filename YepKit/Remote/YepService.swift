@@ -1882,10 +1882,10 @@ public struct Recipient: Equatable {
     }
 
     public init?(info: JSONDictionary) {
-        guard let typeName = info["recipient_type"] as? String else {
+        guard let typeNameForServer = info["recipient_type"] as? String else {
             return nil
         }
-        guard let conversationType = ConversationType(nameForServer: typeName) else {
+        guard let conversationType = ConversationType(nameForServer: typeNameForServer) else {
             return nil
         }
         guard let ID = info["recipient_id"] as? String else {
@@ -2076,14 +2076,14 @@ public func createMessageWithMessageInfo(messageInfo: JSONDictionary, failureHan
     */
 }
 
-public func sendText(text: String, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
+public func sendText(text: String, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
     let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
         var moreInfo = info
         moreInfo["text_content"] = text
         return moreInfo
     }
-    createAndSendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 public func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {

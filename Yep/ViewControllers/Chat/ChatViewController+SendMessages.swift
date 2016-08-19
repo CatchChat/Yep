@@ -23,7 +23,7 @@ extension ChatViewController {
 
         println("try sendText to recipient: \(recipient)")
 
-        sendText(text, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: { message in
+        sendText(text, toRecipient: recipient, afterCreatedMessage: { message in
 
              SafeDispatch.async { [weak self] in
                 self?.update(withMessageIDs: nil, messageAge: .New, scrollToBottom: true, success: { _ in

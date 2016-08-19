@@ -700,6 +700,18 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func tryReplyText(text: String, withUserInfo userInfo: [NSObject: AnyObject]) {
 
+        guard let info = userInfo as? JSONDictionary else {
+            return
+        }
+        guard let recipient = Recipient(info: info) else {
+            return
+        }
+
+        sendText(text, toRecipient: recipient, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
+            println("reply to \(recipient), \(success)")
+        })
+
+        /*
         guard let
             recipientType = userInfo["recipient_type"] as? String,
             recipientID = userInfo["recipient_id"] as? String else {
@@ -711,6 +723,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         sendText(text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
             println("reply to [\(recipientType): \(recipientID)], \(success)")
         })
+         */
     }
 
     private func indexUserSearchableItems() {
