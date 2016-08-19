@@ -1881,6 +1881,20 @@ public struct Recipient: Equatable {
         self.ID = ID
     }
 
+    public init?(info: JSONDictionary) {
+        guard let typeName = info["recipient_type"] as? String else {
+            return nil
+        }
+        guard let conversationType = ConversationType(nameForServer: typeName) else {
+            return nil
+        }
+        guard let ID = info["recipient_id"] as? String else {
+            return nil
+        }
+        self.type = conversationType
+        self.ID = ID
+    }
+
     public func conversationInRealm(realm: Realm) -> Conversation? {
 
         switch type {
