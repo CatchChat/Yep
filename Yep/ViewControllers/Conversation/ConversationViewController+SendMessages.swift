@@ -31,10 +31,8 @@ extension ConversationViewController {
 
         sendText(text, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            SafeDispatch.async {
-                self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                })
-            }
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+            })
 
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -165,30 +163,28 @@ extension ConversationViewController {
 
         sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            SafeDispatch.async {
-                let audioFileName = NSUUID().UUIDString
-                if let audioURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
-                    do {
-                        try NSFileManager.defaultManager().copyItemAtURL(fileURL, toURL: audioURL)
+            let audioFileName = NSUUID().UUIDString
+            if let audioURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
+                do {
+                    try NSFileManager.defaultManager().copyItemAtURL(fileURL, toURL: audioURL)
 
-                        if let realm = message.realm {
-                            let _ = try? realm.write {
-                                message.localAttachmentName = audioFileName
-                                message.mediaType = MessageMediaType.Audio.rawValue
-                                if let metaDataString = metaData {
-                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                }
+                    if let realm = message.realm {
+                        let _ = try? realm.write {
+                            message.localAttachmentName = audioFileName
+                            message.mediaType = MessageMediaType.Audio.rawValue
+                            if let metaDataString = metaData {
+                                message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                             }
                         }
-
-                    } catch let error {
-                        println(error)
                     }
-                }
 
-                self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                })
+                } catch let error {
+                    println(error)
+                }
             }
+
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+            })
 
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -319,27 +315,25 @@ extension ConversationViewController {
 
         sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            SafeDispatch.async {
-                let messageImageName = NSUUID().UUIDString
+            let messageImageName = NSUUID().UUIDString
 
-                if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
-                    if let realm = message.realm {
-                        let _ = try? realm.write {
-                            message.localAttachmentName = messageImageName
-                            message.mediaType = MessageMediaType.Image.rawValue
-                            if let metaDataString = metaDataString {
-                                message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                            }
+            if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
+                if let realm = message.realm {
+                    let _ = try? realm.write {
+                        message.localAttachmentName = messageImageName
+                        message.mediaType = MessageMediaType.Image.rawValue
+                        if let metaDataString = metaDataString {
+                            message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                         }
                     }
-
-                } else {
-                    self?.alertSaveFileFailed()
                 }
 
-                self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                })
+            } else {
+                self?.alertSaveFileFailed()
             }
+
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+            })
 
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -519,42 +513,40 @@ extension ConversationViewController {
 
         let afterCreatedMessageAction = { [weak self] (message: Message) in
 
-            SafeDispatch.async {
+            guard let videoData = NSData(contentsOfURL: videoURL) else {
+                return
+            }
 
-                if let videoData = NSData(contentsOfURL: videoURL) {
+            let messageVideoName = NSUUID().UUIDString
 
-                    let messageVideoName = NSUUID().UUIDString
+            if let _ = NSFileManager.saveMessageVideoData(videoData, withName: messageVideoName) {
+                if let realm = message.realm {
+                    let _ = try? realm.write {
 
-                    if let _ = NSFileManager.saveMessageVideoData(videoData, withName: messageVideoName) {
-                        if let realm = message.realm {
-                            let _ = try? realm.write {
+                        if let thumbnailData = thumbnailData {
+                            if let _ = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
+                                message.localThumbnailName = messageVideoName
 
-                                if let thumbnailData = thumbnailData {
-                                    if let _ = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
-                                        message.localThumbnailName = messageVideoName
-
-                                    } else {
-                                        self?.alertSaveFileFailed()
-                                    }
-                                }
-
-                                message.localAttachmentName = messageVideoName
-
-                                message.mediaType = MessageMediaType.Video.rawValue
-                                if let metaDataString = metaData {
-                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                }
+                            } else {
+                                self?.alertSaveFileFailed()
                             }
                         }
 
-                    } else {
-                        self?.alertSaveFileFailed()
-                    }
+                        message.localAttachmentName = messageVideoName
 
-                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                    })
+                        message.mediaType = MessageMediaType.Video.rawValue
+                        if let metaDataString = metaData {
+                            message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                        }
+                    }
                 }
+
+            } else {
+                self?.alertSaveFileFailed()
             }
+
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+            })
         }
 
         sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
@@ -632,12 +624,10 @@ extension ConversationViewController {
 
         println("try sendLocationInfo to recipient: \(recipient)")
 
-        sendLocationWithLocationInfo(locationInfo, toRecipient: recipient, afterCreatedMessage: { message in
+        sendLocationWithLocationInfo(locationInfo, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            SafeDispatch.async { [weak self] in
-                self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                })
-            }
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+            })
 
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
