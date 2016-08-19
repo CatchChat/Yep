@@ -1222,6 +1222,18 @@ final class ConversationViewController: BaseViewController {
 
     @objc private func messagesMarkAsReadByRecipient(notification: NSNotification) {
 
+        guard let lastRead = (notification.object as? Box<LastRead>)?.value else {
+            println("Error: messagesMarkAsReadByRecipient: \(notification.object)")
+            return
+        }
+
+        guard lastRead.recipientID == recipient?.ID && lastRead.recipientType == recipient?.type.nameForServer else {
+            return
+        }
+
+        markAsReadAllSentMesagesBeforeUnixTime(lastRead.atUnixTime, lastReadMessageID: lastRead.messageID)
+
+        /*
         guard let
             messageDataInfo = notification.object as? [String: AnyObject],
             lastReadUnixTime = messageDataInfo["last_read_at"] as? NSTimeInterval,
@@ -1234,6 +1246,7 @@ final class ConversationViewController: BaseViewController {
         if recipientID == recipient?.ID && recipientType == recipient?.type.nameForServer {
             markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
         }
+         */
     }
 
     @objc private func tapToCollapseMessageToolBar(sender: UITapGestureRecognizer) {

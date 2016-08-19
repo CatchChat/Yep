@@ -185,9 +185,23 @@ extension YepFayeService {
 
                 case .Read:
 
+                    guard let messageDataInfo = messageInfo["message"] as? JSONDictionary else {
+                        println("Error: Faye Read not messageDataInfo!")
+                        break
+                    }
+
+                    guard let lastRead = LastRead(info: messageDataInfo) else {
+                        break
+                    }
+
+                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageBatchMarkAsRead, object: Box<LastRead>(lastRead))
+                    //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
+
+                    /*
                     if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
 
                         //println("Faye Read: \(messageDataInfo)")
+
 
                         if let
                             lastReadAt = messageDataInfo["last_read_at"] as? NSTimeInterval,
@@ -209,6 +223,7 @@ extension YepFayeService {
                             }
                         }
                     }
+                     */
 
                 case .MessageDeleted:
                     
