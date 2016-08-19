@@ -2236,7 +2236,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
     Config.sentMessageSoundEffectAction?()
 
     // 下面开始真正的消息发送
-    sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, failureHandler: { (reason, errorMessage) in
+    sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipient, failureHandler: { (reason, errorMessage) in
 
         failureHandler?(reason: reason, errorMessage: errorMessage)
 
@@ -2254,178 +2254,171 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
     }, completion: completion)
 }
 
-public func sendMessage(message: Message, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, recipientType: String, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
+public func sendMessage(message: Message, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipient: Recipient, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
-    if let mediaType = MessageMediaType(rawValue: message.mediaType) {
+    guard let mediaType = MessageMediaType(rawValue: message.mediaType) else {
+        return
+    }
 
-        let tempMessageID = NSUUID().UUIDString
-        SendingMessagePool.addMessage(tempMesssageID: tempMessageID)
+    let tempMessageID = NSUUID().UUIDString
+    SendingMessagePool.addMessage(tempMesssageID: tempMessageID)
 
-        var messageInfo: JSONDictionary = [
-            "recipient_id": recipientID,
-            "recipient_type": recipientType,
-            "media_type": mediaType.description,
-            "random_id": tempMessageID,
-        ]
+    var messageInfo: JSONDictionary = [
+        "recipient_id": recipient.ID,
+        "recipient_type": recipient.type.nameForServer,
+        "media_type": mediaType.description,
+        "random_id": tempMessageID,
+    ]
 
-        if let fillMoreInfo = fillMoreInfo {
-            messageInfo = fillMoreInfo(messageInfo)
+    if let fillMoreInfo = fillMoreInfo {
+        messageInfo = fillMoreInfo(messageInfo)
+    }
+
+    switch mediaType {
+
+    case .Text, .Location:
+
+        createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
+
+            println("send messageID: \(messageID), \(NSDate().timeIntervalSince1970)")
+
+            SafeDispatch.async {
+                let realm = message.realm
+
+                let _ = try? realm?.write {
+                    message.messageID = messageID
+                    message.sendState = MessageSendState.Successed.rawValue
+                }
+
+                completion(success: true)
+
+                NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
+            }
+        })
+
+    default:
+
+        var source: UploadAttachment.Source! // TODO: refactor
+        if let filePath = filePath {
+            source = .FilePath(filePath)
+        }
+        if let fileData = fileData {
+            source = .Data(fileData)
         }
 
-        switch mediaType {
+        let uploadAttachment = UploadAttachment(type: .Message, source: source, fileExtension: mediaType.fileExtension!, metaDataString: metaData)
 
-        case .Text, .Location:
+        tryUploadAttachment(uploadAttachment, failureHandler: failureHandler, completion: { uploadedAttachment in
 
-            createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
+            messageInfo["attachment_id"] = uploadedAttachment.ID
 
-                println("send messageID: \(messageID), \(NSDate().timeIntervalSince1970)")
-
-                SafeDispatch.async {
-                    let realm = message.realm
-
-                    let _ = try? realm?.write {
-                        message.messageID = messageID
-                        message.sendState = MessageSendState.Successed.rawValue
-                    }
-
-                    completion(success: true)
-
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
-                }
-            })
-
-        default:
-
-            var source: UploadAttachment.Source! // TODO: refactor
-            if let filePath = filePath {
-                source = .FilePath(filePath)
-            }
-            if let fileData = fileData {
-                source = .Data(fileData)
-            }
-
-            let uploadAttachment = UploadAttachment(type: .Message, source: source, fileExtension: mediaType.fileExtension!, metaDataString: metaData)
-
-            tryUploadAttachment(uploadAttachment, failureHandler: failureHandler, completion: { uploadedAttachment in
-
-                messageInfo["attachment_id"] = uploadedAttachment.ID
-
-                let doCreateMessage = {
-                    createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
-                        SafeDispatch.async {
-                            let realm = message.realm
-                            let _ = try? realm?.write {
-                                message.messageID = messageID
-                                message.sendState = MessageSendState.Successed.rawValue
-                            }
-
-                            completion(success: true)
-
-                            NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
+            let doCreateMessage = {
+                createMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: { messageID in
+                    SafeDispatch.async {
+                        let realm = message.realm
+                        let _ = try? realm?.write {
+                            message.messageID = messageID
+                            message.sendState = MessageSendState.Successed.rawValue
                         }
-                    })
-                }
 
-                doCreateMessage()
-            })
-        }
+                        completion(success: true)
+
+                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
+                    }
+                })
+            }
+
+            doCreateMessage()
+        })
     }
 }
 
 public func resendMessage(message: Message, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
-    var recipientID: String?
-    var recipientType: String?
+    guard let conversation = message.conversation else {
+        return
+    }
 
-    if let conversation = message.conversation {
-        if conversation.type == ConversationType.OneToOne.rawValue {
-            recipientID = conversation.withFriend?.userID
-            recipientType = ConversationType.OneToOne.nameForServer
+    guard let recipient = conversation.recipient else {
+        return
+    }
 
-        } else if conversation.type == ConversationType.Group.rawValue {
-            recipientID = conversation.withGroup?.groupID
-            recipientType = ConversationType.Group.nameForServer
+    guard let messageMediaType = MessageMediaType(rawValue: message.mediaType) else {
+        return
+    }
+
+    // before resend, recover MessageSendState
+
+    SafeDispatch.async {
+
+        let realm = message.realm
+
+        let _ = try? realm?.write {
+            message.sendState = MessageSendState.NotSend.rawValue
+        }
+
+        NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
+    }
+
+    // also, if resend failed, we need set MessageSendState
+
+    let resendFailureHandler: FailureHandler = { reason, errorMessage in
+
+        failureHandler?(reason: reason, errorMessage: errorMessage)
+
+        SafeDispatch.async {
+
+            let realm = message.realm
+
+            let _ = try? realm?.write {
+                message.sendState = MessageSendState.Failed.rawValue
+            }
+
+            NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
         }
     }
 
-    if let
-        recipientID = recipientID,
-        recipientType = recipientType,
-        messageMediaType = MessageMediaType(rawValue: message.mediaType) {
+    switch messageMediaType {
 
-            // before resend, recover MessageSendState
+    case .Text:
 
-            SafeDispatch.async {
+        let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
+            var moreInfo = info
+            moreInfo["text_content"] = message.textContent
+            return moreInfo
+        }
 
-                let realm = message.realm
+        sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipient, failureHandler: resendFailureHandler, completion: completion)
 
-                let _ = try? realm?.write {
-                    message.sendState = MessageSendState.NotSend.rawValue
-                }
+    case .Image:
+        let filePath = message.imageFileURL?.path
 
-                NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
+        sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipient, failureHandler: resendFailureHandler, completion: completion)
+
+    case .Video:
+        let filePath = message.videoFileURL?.path
+
+        sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipient, failureHandler: resendFailureHandler, completion: completion)
+
+    case .Audio:
+        let filePath = message.audioFileURL?.path
+
+        sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipient, failureHandler: resendFailureHandler, completion: completion)
+
+    case .Location:
+        if let coordinate = message.coordinate {
+            let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
+                var moreInfo = info
+                moreInfo["longitude"] = coordinate.longitude
+                moreInfo["latitude"] = coordinate.latitude
+                return moreInfo
             }
-
-            // also, if resend failed, we need set MessageSendState
-
-            let resendFailureHandler: FailureHandler = { reason, errorMessage in
-
-                failureHandler?(reason: reason, errorMessage: errorMessage)
-
-                SafeDispatch.async {
-
-                    let realm = message.realm
-
-                    let _ = try? realm?.write {
-                        message.sendState = MessageSendState.Failed.rawValue
-                    }
-
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
-                }
-            }
-
-            switch messageMediaType {
-
-            case .Text:
-
-                let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
-                    var moreInfo = info
-                    moreInfo["text_content"] = message.textContent
-                    return moreInfo
-                }
-
-                sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
-
-            case .Image:
-                let filePath = message.imageFileURL?.path
-
-                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
-
-            case .Video:
-                let filePath = message.videoFileURL?.path
-
-                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
-
-            case .Audio:
-                let filePath = message.audioFileURL?.path
-
-                sendMessage(message, inFilePath: filePath, orFileData: nil, metaData: message.mediaMetaData?.string, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
-
-            case .Location:
-                if let coordinate = message.coordinate {
-                    let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
-                        var moreInfo = info
-                        moreInfo["longitude"] = coordinate.longitude
-                        moreInfo["latitude"] = coordinate.latitude
-                        return moreInfo
-                    }
-                    
-                    sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: resendFailureHandler, completion: completion)
-                }
-                
-            default:
-                break
-            }
+            
+            sendMessage(message, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipient, failureHandler: resendFailureHandler, completion: completion)
+        }
+        
+    default:
+        break
     }
 }
 
