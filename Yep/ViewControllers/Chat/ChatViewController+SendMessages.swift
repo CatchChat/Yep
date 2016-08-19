@@ -154,6 +154,10 @@ extension ChatViewController {
 
     func send(videoWithVideoURL videoURL: NSURL) {
 
+        guard let recipient = conversation.recipient else {
+            return
+        }
+
         // Prepare meta data
 
         var metaData: String? = nil
@@ -244,9 +248,9 @@ extension ChatViewController {
             }
         }
 
-        if let withFriend = conversation.withFriend {
+        if let _ = conversation.withFriend {
 
-            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { reason, errorMessage in
+            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 /*
@@ -262,9 +266,9 @@ extension ChatViewController {
                 //self?.showFriendRequestViewIfNeed()
             })
             
-        } else if let withGroup = conversation.withGroup {
+        } else if let _ = conversation.withGroup {
             
-            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
+            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
                 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)

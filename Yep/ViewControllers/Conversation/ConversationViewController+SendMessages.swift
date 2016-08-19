@@ -517,13 +517,13 @@ extension ConversationViewController {
             thumbnailData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())
         }
 
-        let messageVideoName = NSUUID().UUIDString
-
         let afterCreatedMessageAction = { [weak self] (message: Message) in
 
             SafeDispatch.async {
 
                 if let videoData = NSData(contentsOfURL: videoURL) {
+
+                    let messageVideoName = NSUUID().UUIDString
 
                     if let _ = NSFileManager.saveMessageVideoData(videoData, withName: messageVideoName) {
                         if let realm = message.realm {
@@ -557,6 +557,32 @@ extension ConversationViewController {
             }
         }
 
+        sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            switch conversationType {
+            case .OneToOne:
+                self?.promptSendMessageFailed(
+                    reason: reason,
+                    errorMessage: errorMessage,
+                    reserveErrorMessage: String.trans_promptSendVideoFailed
+                )
+            case .Group:
+                YepAlert.alertSorry(message: String.trans_promptSendVideoFailed, inViewController: self)
+            }
+
+        }, completion: { [weak self] success in
+            println("sendVideo: \(success)")
+
+            switch conversationType {
+            case .OneToOne:
+                self?.showFriendRequestViewIfNeed()
+            case .Group:
+                self?.updateGroupToIncludeMe()
+            }
+        })
+
+        /*
         if let withFriend = conversation.withFriend {
 
             sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
@@ -587,6 +613,7 @@ extension ConversationViewController {
                 self?.updateGroupToIncludeMe()
             })
         }
+         */
     }
 }
 
