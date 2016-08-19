@@ -316,8 +316,57 @@ extension ConversationViewController {
 
         let imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())!
 
-        let messageImageName = NSUUID().UUIDString
 
+        sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
+
+            SafeDispatch.async {
+                let messageImageName = NSUUID().UUIDString
+
+                if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
+                    if let realm = message.realm {
+                        let _ = try? realm.write {
+                            message.localAttachmentName = messageImageName
+                            message.mediaType = MessageMediaType.Image.rawValue
+                            if let metaDataString = metaDataString {
+                                message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                            }
+                        }
+                    }
+
+                } else {
+                    self?.alertSaveFileFailed()
+                }
+
+                self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+                })
+            }
+
+        }, failureHandler: { [weak self] reason, errorMessage in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            switch conversationType {
+            case .OneToOne:
+                self?.promptSendMessageFailed(
+                    reason: reason,
+                    errorMessage: errorMessage,
+                    reserveErrorMessage: String.trans_promptSendImageFailed
+                )
+            case .Group:
+                YepAlert.alertSorry(message: String.trans_promptSendImageFailed, inViewController: self)
+            }
+
+        }, completion: { [weak self] success in
+            println("sendImage: \(success)")
+
+            switch conversationType {
+            case .OneToOne:
+                self?.showFriendRequestViewIfNeed()
+            case .Group:
+                self?.updateGroupToIncludeMe()
+            }
+        })
+
+        /*
         if let withFriend = conversation.withFriend {
 
             sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
@@ -393,6 +442,7 @@ extension ConversationViewController {
                 self?.updateGroupToIncludeMe()
             })
         }
+         */
     }
 }
 
