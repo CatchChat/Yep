@@ -73,12 +73,23 @@ final class YepFayeService: NSObject {
 
 struct LastRead {
 
-    let unixTime: NSTimeInterval
+    let atUnixTime: NSTimeInterval
     let messageID: String
     let recipientType: String
     let recipientID: String
-}
 
+    init?(info: JSONDictionary) {
+        guard let atUnixTime = info["last_read_at"] as? NSTimeInterval else { return nil }
+        guard let messageID = info["last_read_id"] as? String else { return nil }
+        guard let recipientType = info["recipient_type"] as? String else { return nil }
+        guard let recipientID = info["recipient_id"] as? String else { return nil }
+
+        self.atUnixTime = atUnixTime
+        self.messageID = messageID
+        self.recipientType = recipientType
+        self.recipientID = recipientID
+    }
+}
 
 extension YepFayeService {
 
