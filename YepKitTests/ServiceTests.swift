@@ -80,8 +80,9 @@ final class ServiceTests: XCTestCase {
             if let firstFeed = feeds.first {
                 let groupID = firstFeed.groupID
 
+                let recipient = Recipient(type: ConversationType.Group, ID: groupID)
                 SafeDispatch.async {
-                    sendText("How do you do?", toRecipient: groupID, recipientType: "Circle", afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
+                    sendText("How do you do?", toRecipient: recipient, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
 
                         if success {
                             meIsMemberOfGroup(groupID: groupID, failureHandler: nil, completion: { yes in
