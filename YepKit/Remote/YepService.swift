@@ -2083,22 +2083,22 @@ public func sendText(text: String, toRecipient recipient: Recipient, afterCreate
         moreInfo["text_content"] = text
         return moreInfo
     }
-    createAndSendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipient, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 public func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
-    createAndSendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipient, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 public func sendAudioInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
-    createAndSendMessageWithMediaType(.Audio, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Audio, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipient, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 public func sendVideoInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
-    createAndSendMessageWithMediaType(.Video, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Video, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipient, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 public func sendLocationWithLocationInfo(locationInfo: PickLocationViewControllerLocation.Info, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
@@ -2113,10 +2113,10 @@ public func sendLocationWithLocationInfo(locationInfo: PickLocationViewControlle
         return moreInfo
     }
 
-    createAndSendMessageWithMediaType(.Location, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Location, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipient, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
+public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
     // 因为 message_id 必须来自远端，线程无法切换，所以这里暂时没用 realmQueue // TOOD: 也许有办法
 
     guard let realm = try? Realm() else {
@@ -2157,13 +2157,13 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
 
     let _ = try? realm.write {
 
-        if recipientType == "User" {
-            if let withFriend = userWithUserID(recipientID, inRealm: realm) {
+        switch recipient.type {
+        case .OneToOne:
+            if let withFriend = userWithUserID(recipient.ID, inRealm: realm) {
                 conversation = withFriend.conversation
             }
-
-        } else {
-            if let withGroup = groupWithGroupID(recipientID, inRealm: realm) {
+        case .Group:
+            if let withGroup = groupWithGroupID(recipient.ID, inRealm: realm) {
                 conversation = withGroup.conversation
             }
         }
@@ -2171,17 +2171,15 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
         if conversation == nil {
             let newConversation = Conversation()
 
-            if recipientType == "User" {
-                newConversation.type = ConversationType.OneToOne.rawValue
+            newConversation.type = recipient.type.rawValue
 
-                if let withFriend = userWithUserID(recipientID, inRealm: realm) {
+            switch recipient.type {
+            case .OneToOne:
+                if let withFriend = userWithUserID(recipient.ID, inRealm: realm) {
                     newConversation.withFriend = withFriend
                 }
-
-            } else {
-                newConversation.type = ConversationType.Group.rawValue
-
-                if let withGroup = groupWithGroupID(recipientID, inRealm: realm) {
+            case .Group:
+                if let withGroup = groupWithGroupID(recipient.ID, inRealm: realm) {
                     newConversation.withGroup = withGroup
                 }
             }
@@ -2205,8 +2203,8 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
     }
 
     var messageInfo: JSONDictionary = [
-        "recipient_id": recipientID,
-        "recipient_type": recipientType,
+        "recipient_id": recipient.ID,
+        "recipient_type": recipient.type.nameForServer,
         "media_type": mediaType.description,
     ]
 
@@ -2238,7 +2236,7 @@ public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFil
     Config.sentMessageSoundEffectAction?()
 
     // 下面开始真正的消息发送
-    sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, failureHandler: { (reason, errorMessage) in
+    sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, failureHandler: { (reason, errorMessage) in
 
         failureHandler?(reason: reason, errorMessage: errorMessage)
 
