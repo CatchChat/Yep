@@ -71,6 +71,40 @@ final class YepFayeService: NSObject {
 
 // MARK: - Public
 
+struct LastRead {
+
+    let atUnixTime: NSTimeInterval
+    let messageID: String
+    let recipient: Recipient
+
+    init?(info: JSONDictionary) {
+        guard let atUnixTime = info["last_read_at"] as? NSTimeInterval else {
+            println("LastRead: Missing key: last_read_at")
+            return nil
+        }
+        guard let messageID = info["last_read_id"] as? String else {
+            println("LastRead: Missing key: last_read_id")
+            return nil
+        }
+        guard let recipientType = info["recipient_type"] as? String else {
+            println("LastRead: Missing key: recipient_type")
+            return nil
+        }
+        guard let recipientID = info["recipient_id"] as? String else {
+            println("LastRead: Missing key: recipient_id")
+            return nil
+        }
+        guard let conversationType = ConversationType(nameForServer: recipientType) else {
+            println("LastRead: Create conversationType failed!")
+            return nil
+        }
+
+        self.atUnixTime = atUnixTime
+        self.messageID = messageID
+        self.recipient = Recipient(type: conversationType, ID: recipientID)
+    }
+}
+
 extension YepFayeService {
 
     func prepareForChannel(channel: String) {
@@ -165,29 +199,18 @@ extension YepFayeService {
 
                 case .Read:
 
-                    if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+                    guard let messageDataInfo = messageInfo["message"] as? JSONDictionary else {
+                        println("Error: Faye Read not messageDataInfo!")
+                        break
+                    }
 
-                        //println("Faye Read: \(messageDataInfo)")
+                    guard let lastRead = LastRead(info: messageDataInfo) else {
+                        break
+                    }
 
-                        if let
-                            lastReadAt = messageDataInfo["last_read_at"] as? NSTimeInterval,
-                            lastReadMessageID = messageDataInfo["last_read_id"] as? String,
-                            recipientType = messageDataInfo["recipient_type"] as? String,
-                            recipientID = messageDataInfo["recipient_id"] as? String {
-
-                            SafeDispatch.async {
-
-                                let object = [
-                                    "last_read_at": lastReadAt,
-                                    "last_read_id": lastReadMessageID,
-                                    "recipient_type": recipientType,
-                                    "recipient_id": recipientID,
-                                ]
-
-                                NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageBatchMarkAsRead, object: object)
-                                //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
-                            }
-                        }
+                    SafeDispatch.async {
+                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageBatchMarkAsRead, object: Box<LastRead>(lastRead))
+                        //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
                     }
 
                 case .MessageDeleted:
