@@ -21,9 +21,11 @@ extension ConversationViewController {
             return
         }
         guard let recipient = conversation.recipient else {
+            println("Warning: No recipient")
             return
         }
         guard let conversationType = ConversationType(rawValue: conversation.type) else {
+            println("Warning: Can not create conversationType")
             return
         }
 
@@ -72,9 +74,11 @@ extension ConversationViewController {
     func sendAudioWithURL(fileURL: NSURL, compressedDecibelSamples: [Float]) {
 
         guard let recipient = conversation.recipient else {
+            println("Warning: No recipient")
             return
         }
         guard let conversationType = ConversationType(rawValue: conversation.type) else {
+            println("Warning: Can not create conversationType")
             return
         }
 
@@ -168,9 +172,11 @@ extension ConversationViewController {
     func sendImage(image: UIImage) {
 
         guard let recipient = conversation.recipient else {
+            println("Warning: No recipient")
             return
         }
         guard let conversationType = ConversationType(rawValue: conversation.type) else {
+            println("Warning: Can not create conversationType")
             return
         }
 
@@ -240,9 +246,11 @@ extension ConversationViewController {
     func sendVideoWithVideoURL(videoURL: NSURL) {
 
         guard let recipient = conversation.recipient else {
+            println("Warning: No recipient")
             return
         }
         guard let conversationType = ConversationType(rawValue: conversation.type) else {
+            println("Warning: Can not create conversationType")
             return
         }
 
@@ -376,9 +384,11 @@ extension ConversationViewController {
     func sendLocationInfo(locationInfo: PickLocationViewControllerLocation.Info) {
 
         guard let recipient = conversation.recipient else {
+            println("Warning: No recipient")
             return
         }
         guard let conversationType = ConversationType(rawValue: conversation.type) else {
+            println("Warning: Can not create conversationType")
             return
         }
 
