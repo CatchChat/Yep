@@ -20,11 +20,9 @@ extension ConversationViewController {
         guard !text.isEmpty else {
             return
         }
-
         guard let recipient = conversation.recipient else {
             return
         }
-
         guard let conversationType = ConversationType(rawValue: conversation.type) else {
             return
         }
@@ -130,6 +128,11 @@ extension ConversationViewController {
         guard let recipient = conversation.recipient else {
             return
         }
+        guard let conversationType = ConversationType(rawValue: conversation.type) else {
+            return
+        }
+
+        println("try sendAudioWithURL to recipient: \(recipient)")
 
         // Prepare meta data
 
@@ -146,7 +149,7 @@ extension ConversationViewController {
         let audioAsset = AVURLAsset(URL: fileURL, options: nil)
         let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
-        println("\nComporessed \(audioSamples)")
+        println("audioSamples: \(audioSamples)")
 
         let audioMetaDataInfo = [
             Config.MetaData.audioDuration: audioDuration,
@@ -160,6 +163,60 @@ extension ConversationViewController {
 
         // Do send
 
+        sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
+
+            SafeDispatch.async {
+                let audioFileName = NSUUID().UUIDString
+                if let audioURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
+                    do {
+                        try NSFileManager.defaultManager().copyItemAtURL(fileURL, toURL: audioURL)
+
+                        if let realm = message.realm {
+                            let _ = try? realm.write {
+                                message.localAttachmentName = audioFileName
+                                message.mediaType = MessageMediaType.Audio.rawValue
+                                if let metaDataString = metaData {
+                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
+                                }
+                            }
+                        }
+
+                    } catch let error {
+                        println(error)
+                    }
+                }
+
+                self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
+                })
+            }
+
+        }, failureHandler: { [weak self] reason, errorMessage in
+            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+
+            switch conversationType {
+            case .OneToOne:
+                self?.promptSendMessageFailed(
+                    reason: reason,
+                    errorMessage: errorMessage,
+                    reserveErrorMessage: String.trans_promptSendAudioFailed
+                )
+            case .Group:
+                YepAlert.alertSorry(message: String.trans_promptSendAudioFailed, inViewController: self)
+            }
+
+        }, completion: { [weak self] success in
+            println("sendAudio: \(success)")
+
+            switch conversationType {
+            case .OneToOne:
+                self?.showFriendRequestViewIfNeed()
+            case .Group:
+                self?.updateGroupToIncludeMe()
+            }
+        })
+
+
+        /*
         if let withFriend = conversation.withFriend {
             sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
@@ -232,6 +289,7 @@ extension ConversationViewController {
                 self?.updateGroupToIncludeMe()
             })
         }
+        */
     }
 }
 
