@@ -250,7 +250,7 @@ extension FayeClient {
     func sendBayeuxConnectMessage() {
 
         guard let clientID = clientID else {
-            didFailWithMessage("FayeClient no clientID.")
+            didFailWithMessage("FayeClient has not clientID!")
             return
         }
 
@@ -270,7 +270,7 @@ extension FayeClient {
     func sendBayeuxDisconnectMessage() {
 
         guard let clientID = clientID else {
-            didFailWithMessage("FayeClient no clientID.")
+            didFailWithMessage("FayeClient has not clientID!")
             return
         }
 
@@ -285,7 +285,7 @@ extension FayeClient {
     func sendBayeuxSubscribeMessageWithChannel(channel: String) {
 
         guard let clientID = clientID else {
-            didFailWithMessage("FayeClient no clientID.")
+            didFailWithMessage("FayeClient has not clientID!")
             return
         }
 
@@ -309,7 +309,7 @@ extension FayeClient {
     func sendBayeuxUnsubscribeMessageWithChannel(channel: String) {
 
         guard let clientID = clientID else {
-            didFailWithMessage("FayeClient no clientID.")
+            didFailWithMessage("FayeClient has not clientID!")
             return
         }
 
@@ -330,7 +330,7 @@ extension FayeClient {
         }
 
         guard let clientID = clientID else {
-            didFailWithMessage("FayeClient no clientID.")
+            didFailWithMessage("FayeClient has not clientID!")
             return
         }
 
