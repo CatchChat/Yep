@@ -876,13 +876,7 @@ final class ConversationViewController: BaseViewController {
             let vc = nvc.topViewController as! PickLocationViewController
 
             vc.sendLocationAction = { [weak self] locationInfo in
-
-                if let user = self?.conversation.withFriend {
-                    self?.sendLocationInfo(locationInfo, toUser: user)
-
-                } else if let group = self?.conversation.withGroup {
-                    self?.sendLocationInfo(locationInfo, toGroup: group)
-                }
+                self?.sendLocationInfo(locationInfo)
             }
 
         default:

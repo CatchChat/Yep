@@ -700,16 +700,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func tryReplyText(text: String, withUserInfo userInfo: [NSObject: AnyObject]) {
 
-        guard let
-            recipientType = userInfo["recipient_type"] as? String,
-            recipientID = userInfo["recipient_id"] as? String else {
-                return
+        guard let info = userInfo as? JSONDictionary else {
+            return
+        }
+        guard let recipient = Recipient(info: info) else {
+            return
         }
 
-        println("try reply \"\(text)\" to [\(recipientType): \(recipientID)]")
-        
-        sendText(text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
-            println("reply to [\(recipientType): \(recipientID)], \(success)")
+        sendText(text, toRecipient: recipient, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
+            println("reply to \(recipient), \(success)")
         })
     }
 

@@ -23,7 +23,7 @@ extension ChatViewController {
 
         println("try sendText to recipient: \(recipient)")
 
-        sendText(text, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: { message in
+        sendText(text, toRecipient: recipient, afterCreatedMessage: { message in
 
              SafeDispatch.async { [weak self] in
                 self?.update(withMessageIDs: nil, messageAge: .New, scrollToBottom: true, success: { _ in
@@ -61,6 +61,10 @@ extension ChatViewController {
 
     func send(image image: UIImage) {
 
+        guard let recipient = conversation.recipient else {
+            return
+        }
+
         // Prepare meta data
 
         let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: true)
@@ -71,9 +75,9 @@ extension ChatViewController {
 
         let messageImageName = NSUUID().UUIDString
 
-        if let withFriend = conversation.withFriend {
+        if let _ = conversation.withFriend {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
                 SafeDispatch.async {
 
@@ -109,9 +113,9 @@ extension ChatViewController {
                 //self?.showFriendRequestViewIfNeed()
             })
 
-        } else if let withGroup = conversation.withGroup {
+        } else if let _ = conversation.withGroup {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
                 SafeDispatch.async {
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
@@ -149,6 +153,10 @@ extension ChatViewController {
 extension ChatViewController {
 
     func send(videoWithVideoURL videoURL: NSURL) {
+
+        guard let recipient = conversation.recipient else {
+            return
+        }
 
         // Prepare meta data
 
@@ -240,9 +248,9 @@ extension ChatViewController {
             }
         }
 
-        if let withFriend = conversation.withFriend {
+        if let _ = conversation.withFriend {
 
-            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { reason, errorMessage in
+            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 /*
@@ -258,9 +266,9 @@ extension ChatViewController {
                 //self?.showFriendRequestViewIfNeed()
             })
             
-        } else if let withGroup = conversation.withGroup {
+        } else if let _ = conversation.withGroup {
             
-            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
+            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
                 
                 YepAlert.alertSorry(message: NSLocalizedString("Failed to send video!\nTry tap on message to resend.", comment: ""), inViewController: self)
@@ -280,7 +288,11 @@ extension ChatViewController {
 
     func send(locationInfo locationInfo: PickLocationViewControllerLocation.Info, toUser user: User) {
 
-        sendLocationWithLocationInfo(locationInfo, toRecipient: user.userID, recipientType: "User", afterCreatedMessage: { message in
+        guard let recipient = conversation.recipient else {
+            return
+        }
+
+        sendLocationWithLocationInfo(locationInfo, toRecipient: recipient, afterCreatedMessage: { message in
 
             SafeDispatch.async { [weak self] in
                 self?.update(withMessageIDs: nil, messageAge: .New, scrollToBottom: true, success: { _ in
@@ -306,7 +318,11 @@ extension ChatViewController {
 
     func send(locationInfo locationInfo: PickLocationViewControllerLocation.Info, toGroup group: Group) {
 
-        sendLocationWithLocationInfo(locationInfo, toRecipient: group.groupID, recipientType: "Circle", afterCreatedMessage: { message in
+        guard let recipient = conversation.recipient else {
+            return
+        }
+
+        sendLocationWithLocationInfo(locationInfo, toRecipient: recipient, afterCreatedMessage: { message in
             SafeDispatch.async { [weak self] in
                 self?.update(withMessageIDs: nil, messageAge: .New, scrollToBottom: true, success: { _ in
                 })
