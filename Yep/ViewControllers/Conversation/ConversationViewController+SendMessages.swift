@@ -127,6 +127,10 @@ extension ConversationViewController {
 
     func sendAudioWithURL(fileURL: NSURL, compressedDecibelSamples: [Float]) {
 
+        guard let recipient = conversation.recipient else {
+            return
+        }
+
         // Prepare meta data
 
         var metaData: String? = nil
@@ -157,7 +161,7 @@ extension ConversationViewController {
         // Do send
 
         if let withFriend = conversation.withFriend {
-            sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
+            sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
                 SafeDispatch.async {
                     let audioFileName = NSUUID().UUIDString
@@ -200,7 +204,7 @@ extension ConversationViewController {
             })
 
         } else if let withGroup = conversation.withGroup {
-            sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+            sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
                 SafeDispatch.async {
                     if let realm = message.realm {
