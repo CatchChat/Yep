@@ -288,7 +288,11 @@ extension ChatViewController {
 
     func send(locationInfo locationInfo: PickLocationViewControllerLocation.Info, toUser user: User) {
 
-        sendLocationWithLocationInfo(locationInfo, toRecipient: user.userID, recipientType: "User", afterCreatedMessage: { message in
+        guard let recipient = conversation.recipient else {
+            return
+        }
+
+        sendLocationWithLocationInfo(locationInfo, toRecipient: recipient, afterCreatedMessage: { message in
 
             SafeDispatch.async { [weak self] in
                 self?.update(withMessageIDs: nil, messageAge: .New, scrollToBottom: true, success: { _ in
@@ -314,7 +318,11 @@ extension ChatViewController {
 
     func send(locationInfo locationInfo: PickLocationViewControllerLocation.Info, toGroup group: Group) {
 
-        sendLocationWithLocationInfo(locationInfo, toRecipient: group.groupID, recipientType: "Circle", afterCreatedMessage: { message in
+        guard let recipient = conversation.recipient else {
+            return
+        }
+
+        sendLocationWithLocationInfo(locationInfo, toRecipient: recipient, afterCreatedMessage: { message in
             SafeDispatch.async { [weak self] in
                 self?.update(withMessageIDs: nil, messageAge: .New, scrollToBottom: true, success: { _ in
                 })

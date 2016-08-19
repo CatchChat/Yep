@@ -2101,7 +2101,7 @@ public func sendVideoInFilePath(filePath: String?, orFileData fileData: NSData?,
     createAndSendMessageWithMediaType(.Video, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-public func sendLocationWithLocationInfo(locationInfo: PickLocationViewControllerLocation.Info, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
+public func sendLocationWithLocationInfo(locationInfo: PickLocationViewControllerLocation.Info, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
     let fillMoreInfo: JSONDictionary -> JSONDictionary = { info in
         var moreInfo = info
@@ -2113,7 +2113,7 @@ public func sendLocationWithLocationInfo(locationInfo: PickLocationViewControlle
         return moreInfo
     }
 
-    createAndSendMessageWithMediaType(.Location, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Location, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 public func createAndSendMessageWithMediaType(mediaType: MessageMediaType, inFilePath filePath: String?, orFileData fileData: NSData?, metaData: String?, fillMoreInfo: (JSONDictionary -> JSONDictionary)?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
