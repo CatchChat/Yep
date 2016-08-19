@@ -61,6 +61,10 @@ extension ChatViewController {
 
     func send(image image: UIImage) {
 
+        guard let recipient = conversation.recipient else {
+            return
+        }
+
         // Prepare meta data
 
         let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: true)
@@ -71,9 +75,9 @@ extension ChatViewController {
 
         let messageImageName = NSUUID().UUIDString
 
-        if let withFriend = conversation.withFriend {
+        if let _ = conversation.withFriend {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
                 SafeDispatch.async {
 
@@ -109,9 +113,9 @@ extension ChatViewController {
                 //self?.showFriendRequestViewIfNeed()
             })
 
-        } else if let withGroup = conversation.withGroup {
+        } else if let _ = conversation.withGroup {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
                 SafeDispatch.async {
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {

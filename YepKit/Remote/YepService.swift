@@ -2086,9 +2086,9 @@ public func sendText(text: String, toRecipient recipient: Recipient, afterCreate
     createAndSendMessageWithMediaType(.Text, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-public func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipientID: String, recipientType: String, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
+public func sendImageInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {
 
-    createAndSendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
+    createAndSendMessageWithMediaType(.Image, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipient.ID, recipientType: recipient.type.nameForServer, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
 public func sendAudioInFilePath(filePath: String?, orFileData fileData: NSData?, metaData: String?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (success: Bool) -> Void) {

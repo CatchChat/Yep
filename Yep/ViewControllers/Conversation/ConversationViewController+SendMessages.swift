@@ -299,6 +299,15 @@ extension ConversationViewController {
 
     func sendImage(image: UIImage) {
 
+        guard let recipient = conversation.recipient else {
+            return
+        }
+        guard let conversationType = ConversationType(rawValue: conversation.type) else {
+            return
+        }
+
+        println("try sendImage to recipient: \(recipient)")
+
         // Prepare meta data
 
         let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: true)
@@ -311,7 +320,7 @@ extension ConversationViewController {
 
         if let withFriend = conversation.withFriend {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: { [weak self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
                 SafeDispatch.async {
 
@@ -351,7 +360,7 @@ extension ConversationViewController {
 
         } else if let withGroup = conversation.withGroup {
 
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: { [weak self] message in
+            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
                 SafeDispatch.async {
                     if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
