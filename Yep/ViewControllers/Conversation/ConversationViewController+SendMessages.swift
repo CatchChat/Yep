@@ -452,6 +452,15 @@ extension ConversationViewController {
 
     func sendVideoWithVideoURL(videoURL: NSURL) {
 
+        guard let recipient = conversation.recipient else {
+            return
+        }
+        guard let conversationType = ConversationType(rawValue: conversation.type) else {
+            return
+        }
+
+        println("try sendVideoWithVideoURL to recipient: \(recipient)")
+
         // Prepare meta data
 
         var metaData: String? = nil
@@ -550,7 +559,7 @@ extension ConversationViewController {
 
         if let withFriend = conversation.withFriend {
 
-            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withFriend.userID, recipientType: "User", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
+            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 self?.promptSendMessageFailed(
@@ -567,7 +576,7 @@ extension ConversationViewController {
 
         } else if let withGroup = conversation.withGroup {
 
-            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: withGroup.groupID, recipientType: "Circle", afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
+            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 YepAlert.alertSorry(message: String.trans_promptSendVideoFailed, inViewController: self)
