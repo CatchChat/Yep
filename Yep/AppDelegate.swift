@@ -710,20 +710,6 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         sendText(text, toRecipient: recipient, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
             println("reply to \(recipient), \(success)")
         })
-
-        /*
-        guard let
-            recipientType = userInfo["recipient_type"] as? String,
-            recipientID = userInfo["recipient_id"] as? String else {
-                return
-        }
-
-        println("try reply \"\(text)\" to [\(recipientType): \(recipientID)]")
-        
-        sendText(text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
-            println("reply to [\(recipientType): \(recipientID)], \(success)")
-        })
-         */
     }
 
     private func indexUserSearchableItems() {

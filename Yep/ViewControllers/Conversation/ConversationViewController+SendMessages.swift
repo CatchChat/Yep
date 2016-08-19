@@ -59,58 +59,6 @@ extension ConversationViewController {
             }
         })
 
-        /*
-        if let withFriend = conversation.withFriend {
-
-            println("try sendText to User: \(withFriend.userID)")
-            println("my userID: \(YepUserDefaults.userID.value)")
-
-            sendText(text, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
-
-                SafeDispatch.async {
-                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                    })
-                }
-
-            }, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                self?.promptSendMessageFailed(
-                    reason: reason,
-                    errorMessage: errorMessage,
-                    reserveErrorMessage: String.trans_promptSendTextFailed
-                )
-
-            }, completion: { [weak self] success in
-                println("sendText to friend: \(success)")
-
-                self?.showFriendRequestViewIfNeed()
-            })
-
-        } else if let withGroup = conversation.withGroup {
-
-            sendText(text, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
-
-                SafeDispatch.async {
-                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                    })
-                }
-
-                }, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                    SafeDispatch.async {
-                        YepAlert.alertSorry(message: String.trans_promptSendTextFailed, inViewController: self)
-                    }
-
-                }, completion: { [weak self] success in
-                    println("sendText to group: \(success)")
-
-                    self?.updateGroupToIncludeMe()
-                })
-        }
-         */
-
         if needDetectMention {
             mentionView.hide()
         }
@@ -210,82 +158,6 @@ extension ConversationViewController {
                 self?.updateGroupToIncludeMe()
             }
         })
-
-
-        /*
-        if let withFriend = conversation.withFriend {
-            sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
-
-                SafeDispatch.async {
-                    let audioFileName = NSUUID().UUIDString
-                    if let audioURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
-                        do {
-                            try NSFileManager.defaultManager().copyItemAtURL(fileURL, toURL: audioURL)
-
-                            if let realm = message.realm {
-                                let _ = try? realm.write {
-                                    message.localAttachmentName = audioFileName
-                                    message.mediaType = MessageMediaType.Audio.rawValue
-                                    if let metaDataString = metaData {
-                                        message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                    }
-                                }
-                            }
-
-                        } catch let error {
-                            println(error)
-                        }
-                    }
-
-                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                    })
-                }
-
-            }, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                self?.promptSendMessageFailed(
-                    reason: reason,
-                    errorMessage: errorMessage,
-                    reserveErrorMessage: String.trans_promptSendAudioFailed
-                )
-
-            }, completion: { [weak self] success in
-                println("send audio to friend: \(success)")
-
-                self?.showFriendRequestViewIfNeed()
-            })
-
-        } else if let withGroup = conversation.withGroup {
-            sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
-
-                SafeDispatch.async {
-                    if let realm = message.realm {
-                        let _ = try? realm.write {
-                            message.localAttachmentName = fileURL.URLByDeletingPathExtension?.lastPathComponent ?? ""
-                            message.mediaType = MessageMediaType.Audio.rawValue
-                            if let metaDataString = metaData {
-                                message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                            }
-                        }
-
-                        self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                        })
-                    }
-                }
-
-            }, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                YepAlert.alertSorry(message: String.trans_promptSendAudioFailed, inViewController: self)
-
-            }, completion: { [weak self] success in
-                println("send audio to group: \(success)")
-
-                self?.updateGroupToIncludeMe()
-            })
-        }
-        */
     }
 }
 
@@ -311,7 +183,6 @@ extension ConversationViewController {
         // Do send
 
         let imageData = UIImageJPEGRepresentation(image, YepConfig.messageImageCompressionQuality())!
-
 
         sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
@@ -359,84 +230,6 @@ extension ConversationViewController {
                 self?.updateGroupToIncludeMe()
             }
         })
-
-        /*
-        if let withFriend = conversation.withFriend {
-
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
-
-                SafeDispatch.async {
-
-                    if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
-                        if let realm = message.realm {
-                            let _ = try? realm.write {
-                                message.localAttachmentName = messageImageName
-                                message.mediaType = MessageMediaType.Image.rawValue
-                                if let metaDataString = metaDataString {
-                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                }
-                            }
-                        }
-
-                    } else {
-                        self?.alertSaveFileFailed()
-                    }
-
-                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                    })
-                }
-
-            }, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                self?.promptSendMessageFailed(
-                    reason: reason,
-                    errorMessage: errorMessage,
-                    reserveErrorMessage: String.trans_promptSendImageFailed
-                )
-
-            }, completion: { [weak self] success in
-                println("send image to friend: \(success)")
-
-                self?.showFriendRequestViewIfNeed()
-            })
-
-        } else if let withGroup = conversation.withGroup {
-
-            sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
-
-                SafeDispatch.async {
-                    if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
-                        if let realm = message.realm {
-                            let _ = try? realm.write {
-                                message.localAttachmentName = messageImageName
-                                message.mediaType = MessageMediaType.Image.rawValue
-                                if let metaDataString = metaDataString {
-                                    message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
-                                }
-                            }
-                        }
-
-                    } else {
-                        self?.alertSaveFileFailed()
-                    }
-
-                    self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                    })
-                }
-
-            }, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                YepAlert.alertSorry(message: String.trans_promptSendImageFailed, inViewController: self)
-
-            }, completion: { [weak self] success in
-                println("send image to group: \(success)")
-
-                self?.updateGroupToIncludeMe()
-            })
-        }
-         */
     }
 }
 
@@ -573,39 +366,6 @@ extension ConversationViewController {
                 self?.updateGroupToIncludeMe()
             }
         })
-
-        /*
-        if let withFriend = conversation.withFriend {
-
-            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                self?.promptSendMessageFailed(
-                    reason: reason,
-                    errorMessage: errorMessage,
-                    reserveErrorMessage: String.trans_promptSendVideoFailed
-                )
-
-            }, completion: { [weak self] success in
-                println("send video to friend: \(success)")
-
-                self?.showFriendRequestViewIfNeed()
-            })
-
-        } else if let withGroup = conversation.withGroup {
-
-            sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                YepAlert.alertSorry(message: String.trans_promptSendVideoFailed, inViewController: self)
-
-            }, completion: { [weak self] success in
-                println("send video to group: \(success)")
-
-                self?.updateGroupToIncludeMe()
-            })
-        }
-         */
     }
 }
 
@@ -654,31 +414,5 @@ extension ConversationViewController {
             }
         })
     }
-
-    /*
-    func sendLocationInfo(locationInfo: PickLocationViewControllerLocation.Info, toGroup group: Group) {
-
-        guard let recipient = conversation.recipient else {
-            return
-        }
-
-        sendLocationWithLocationInfo(locationInfo, toRecipient: recipient, afterCreatedMessage: { message in
-            SafeDispatch.async { [weak self] in
-                self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-                })
-            }
-
-        }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-            YepAlert.alertSorry(message: String.trans_promptSendLocationFailed, inViewController: self)
-
-        }, completion: { [weak self] success in
-            println("send location to group: \(success)")
-
-            self?.updateGroupToIncludeMe()
-        })
-    }
-     */
 }
 
