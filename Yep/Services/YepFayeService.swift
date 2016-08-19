@@ -208,36 +208,10 @@ extension YepFayeService {
                         break
                     }
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageBatchMarkAsRead, object: Box<LastRead>(lastRead))
-                    //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
-
-                    /*
-                    if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-
-                        //println("Faye Read: \(messageDataInfo)")
-
-
-                        if let
-                            lastReadAt = messageDataInfo["last_read_at"] as? NSTimeInterval,
-                            lastReadMessageID = messageDataInfo["last_read_id"] as? String,
-                            recipientType = messageDataInfo["recipient_type"] as? String,
-                            recipientID = messageDataInfo["recipient_id"] as? String {
-
-                            SafeDispatch.async {
-
-                                let object = [
-                                    "last_read_at": lastReadAt,
-                                    "last_read_id": lastReadMessageID,
-                                    "recipient_type": recipientType,
-                                    "recipient_id": recipientID,
-                                ]
-
-                                NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageBatchMarkAsRead, object: object)
-                                //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
-                            }
-                        }
+                    SafeDispatch.async {
+                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageBatchMarkAsRead, object: Box<LastRead>(lastRead))
+                        //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
                     }
-                     */
 
                 case .MessageDeleted:
                     
