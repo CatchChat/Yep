@@ -621,9 +621,12 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-    func sendLocationInfo(locationInfo: PickLocationViewControllerLocation.Info, toUser user: User) {
+    func sendLocationInfo(locationInfo: PickLocationViewControllerLocation.Info) {
 
         guard let recipient = conversation.recipient else {
+            return
+        }
+        guard let conversationType = ConversationType(rawValue: conversation.type) else {
             return
         }
 
@@ -639,19 +642,30 @@ extension ConversationViewController {
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            self?.promptSendMessageFailed(
-                reason: reason,
-                errorMessage: errorMessage,
-                reserveErrorMessage: String.trans_promptSendLocationFailed
-            )
+            switch conversationType {
+            case .OneToOne:
+                self?.promptSendMessageFailed(
+                    reason: reason,
+                    errorMessage: errorMessage,
+                    reserveErrorMessage: String.trans_promptSendLocationFailed
+                )
+            case .Group:
+                YepAlert.alertSorry(message: String.trans_promptSendLocationFailed, inViewController: self)
+            }
 
         }, completion: { [weak self] success in
-            println("send location to friend: \(success)")
+            println("sendLocation: \(success)")
 
-            self?.showFriendRequestViewIfNeed()
+            switch conversationType {
+            case .OneToOne:
+                self?.showFriendRequestViewIfNeed()
+            case .Group:
+                self?.updateGroupToIncludeMe()
+            }
         })
     }
 
+    /*
     func sendLocationInfo(locationInfo: PickLocationViewControllerLocation.Info, toGroup group: Group) {
 
         guard let recipient = conversation.recipient else {
@@ -675,5 +689,6 @@ extension ConversationViewController {
             self?.updateGroupToIncludeMe()
         })
     }
+     */
 }
 
