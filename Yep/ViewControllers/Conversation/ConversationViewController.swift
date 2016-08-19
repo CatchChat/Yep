@@ -1227,7 +1227,7 @@ final class ConversationViewController: BaseViewController {
             return
         }
 
-        guard lastRead.recipientID == recipient?.ID && lastRead.recipientType == recipient?.type.nameForServer else {
+        guard lastRead.recipient == recipient else {
             return
         }
 

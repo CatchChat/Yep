@@ -75,8 +75,7 @@ struct LastRead {
 
     let atUnixTime: NSTimeInterval
     let messageID: String
-    let recipientType: String
-    let recipientID: String
+    let recipient: Recipient
 
     init?(info: JSONDictionary) {
         guard let atUnixTime = info["last_read_at"] as? NSTimeInterval else { return nil }
@@ -84,10 +83,13 @@ struct LastRead {
         guard let recipientType = info["recipient_type"] as? String else { return nil }
         guard let recipientID = info["recipient_id"] as? String else { return nil }
 
+        guard let conversationType = ConversationType(nameForServer: recipientType) else {
+            return nil
+        }
+
         self.atUnixTime = atUnixTime
         self.messageID = messageID
-        self.recipientType = recipientType
-        self.recipientID = recipientID
+        self.recipient = Recipient(type: conversationType, ID: recipientID)
     }
 }
 

@@ -1867,10 +1867,19 @@ public func unreadMessagesAfterMessageWithID(messageID: String?, failureHandler:
     })
 }
 
-public struct Recipient {
+public func ==(lhs: Recipient, rhs: Recipient) -> Bool {
+    return lhs.ID == rhs.ID && lhs.type == rhs.type
+}
+
+public struct Recipient: Equatable {
 
     public let type: ConversationType
     public let ID: String
+
+    public init(type: ConversationType, ID: String) {
+        self.type = type
+        self.ID = ID
+    }
 
     public func conversationInRealm(realm: Realm) -> Conversation? {
 

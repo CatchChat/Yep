@@ -737,6 +737,17 @@ public enum ConversationType: Int {
             return "circles"
         }
     }
+
+    public init?(nameForServer: String) {
+        switch nameForServer {
+        case "User":
+            self = .OneToOne
+        case "Circle":
+            self = .Group
+        default:
+            return nil
+        }
+    }
 }
 
 public class Conversation: Object {
