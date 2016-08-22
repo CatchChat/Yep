@@ -1291,6 +1291,13 @@ final class ConversationViewController: BaseViewController {
 
     private func handleRecievedNewMessages(messageIDs: [String], messageAge: MessageAge) {
 
+        if !isPreviewed {
+            //Make sure insert cell when in conversation viewcontroller
+            guard self.navigationController?.visibleViewController is ConversationViewController else {
+                return
+            }
+        }
+
         realm.refresh() // 确保是最新数据
 
         guard let conversation = conversation, let conversationID = conversation.fakeID else {
@@ -1366,12 +1373,12 @@ final class ConversationViewController: BaseViewController {
 
     func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
 
-        /*
         // 重要
-        guard navigationController?.topViewController == self else { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
-            return
+        if !isPreviewed {
+            guard navigationController?.topViewController == self else { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
+                return
+            }
         }
-         */
 
         if messageIDs != nil {
             batchMarkMessagesAsReaded()
