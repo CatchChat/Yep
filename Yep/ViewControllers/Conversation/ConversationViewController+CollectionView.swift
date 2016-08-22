@@ -426,16 +426,16 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         return
                     }
 
-                    let transitionViews: [UIView?] = mediaMessages.map({
+                    let references: [Reference?] = mediaMessages.map({
                         if let index = messages.indexOf($0) {
                             if index == messageIndex {
                                 let cellIndex = index - displayedMessagesRange.location
                                 let cell = conversationCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: cellIndex, inSection: Section.Message.rawValue))
 
                                 if let leftImageCell = cell as? ChatLeftImageCell {
-                                    return leftImageCell.messageImageView
+                                    return Reference(view: leftImageCell.messageImageView, image: leftImageCell.messageImageView.image)
                                 } else if let rightImageCell = cell as? ChatRightImageCell {
-                                    return rightImageCell.messageImageView
+                                    return Reference(view: rightImageCell.messageImageView, image: rightImageCell.messageImageView.image)
                                 }
                             } else {
                                 return nil
@@ -445,7 +445,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         return nil
                     })
 
-                    self.previewTransitionViews = transitionViews
+                    self.previewReferences = references
 
                     let previewMessagePhotos = mediaMessages.map({ PreviewMessagePhoto(message: $0) })
                     if let

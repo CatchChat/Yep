@@ -10,8 +10,8 @@ import UIKit
 
 class PhotoTransitionAnimator: NSObject {
 
-    var startingView: UIView?
-    var endingView: UIView?
+    var startingReference: Reference?
+    var endingReference: Reference?
 
     var startingViewForAnimation: UIView?
     var endingViewForAnimation: UIView?
@@ -28,7 +28,7 @@ class PhotoTransitionAnimator: NSObject {
     var zoomingAnimationSpringDamping: CGFloat = 0.9
 
     var shouldPerformZoomingAnimation: Bool {
-        return (startingView != nil) && (endingView != nil)
+        return (startingReference != nil) && (endingReference != nil)
     }
 
     private class func newViewFromView(view: UIView) -> UIView {
@@ -167,14 +167,16 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         var _endingViewForAnimation: UIView? = self.startingViewForAnimation
 
         if _startingViewForAnimation == nil {
-            if let startingView = startingView {
-                _startingViewForAnimation = PhotoTransitionAnimator.newAnimationViewFromView(startingView)
+            if let startingReference = startingReference {
+                let view = isDismissing ? startingReference.view : startingReference.imageView
+                _startingViewForAnimation = PhotoTransitionAnimator.newAnimationViewFromView(view)
             }
         }
 
         if _endingViewForAnimation == nil {
-            if let endingView = endingView {
-                _endingViewForAnimation = PhotoTransitionAnimator.newAnimationViewFromView(endingView)
+            if let endingReference = endingReference {
+                let view = isDismissing ? endingReference.imageView : endingReference.view
+                _endingViewForAnimation = PhotoTransitionAnimator.newAnimationViewFromView(view)
             }
         }
 
@@ -185,27 +187,34 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             return
         }
 
+        guard let originalStartingViewForAnimation = startingReference?.view else {
+            return
+        }
+        guard let originalEndingViewForAnimation = endingReference?.view else {
+            return
+        }
+
         startingViewForAnimation.clipsToBounds = true
         endingViewForAnimation.clipsToBounds = true
 
-        let endingViewForAnimationFinalFrame = endingViewForAnimation.frame
+        let endingViewForAnimationFinalFrame = originalEndingViewForAnimation.frame
 
-        endingViewForAnimation.frame = startingViewForAnimation.frame
+        endingViewForAnimation.frame = originalStartingViewForAnimation.frame
 
         var startingMaskView: UIView?
-        if let _startingMaskView = startingView?.maskView {
+        if let _startingMaskView = startingReference?.view.maskView {
             startingMaskView = PhotoTransitionAnimator.newViewFromView(_startingMaskView)
-            startingMaskView?.frame = startingViewForAnimation.bounds
+            startingMaskView?.frame = originalStartingViewForAnimation.bounds
         }
         var endingMaskView: UIView?
-        if let _endingMaskView = endingView?.maskView {
+        if let _endingMaskView = endingReference?.view.maskView {
             endingMaskView = PhotoTransitionAnimator.newViewFromView(_endingMaskView)
-            endingMaskView?.frame = endingViewForAnimation.bounds
+            endingMaskView?.frame = originalEndingViewForAnimation.bounds
         }
         startingViewForAnimation.maskView = startingMaskView
         endingViewForAnimation.maskView = endingMaskView
 
-        if let startingView = startingView {
+        if let startingView = startingReference?.view {
             let translatedStartingViewCenter = PhotoTransitionAnimator.centerPointForView(startingView, translatedToContainerView: containerView)
             startingViewForAnimation.center = translatedStartingViewCenter
             endingViewForAnimation.center = translatedStartingViewCenter
@@ -222,25 +231,25 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         containerView.addSubview(startingViewForAnimation)
         containerView.addSubview(endingViewForAnimation)
 
-        startingView?.alpha = 0
-        endingView?.alpha = 0
+        startingReference?.view.alpha = 0
+        endingReference?.view.alpha = 0
 
         var translatedEndingViewFinalCenter: CGPoint?
-        if let endingView = endingView {
+        if let endingView = endingReference?.view {
             translatedEndingViewFinalCenter = PhotoTransitionAnimator.centerPointForView(endingView, translatedToContainerView: containerView)
         }
 
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { [unowned self] in
 
             endingViewForAnimation.frame = endingViewForAnimationFinalFrame
-            endingMaskView?.frame = endingViewForAnimation.bounds
+            endingMaskView?.frame = originalEndingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 endingViewForAnimation.center = translatedEndingViewFinalCenter
             }
             
             startingViewForAnimation.frame = endingViewForAnimationFinalFrame
-            startingMaskView?.frame = startingViewForAnimation.bounds
+            startingMaskView?.frame = originalStartingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 startingViewForAnimation.center = translatedEndingViewFinalCenter
@@ -254,8 +263,8 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
         }, completion: { [unowned self] finished in
 
-            self.endingView?.alpha = 1
-            self.startingView?.alpha = 1
+            self.endingReference?.view.alpha = 1
+            self.startingReference?.view.alpha = 1
 
             startingViewForAnimation.removeFromSuperview()
             endingViewForAnimation.removeFromSuperview()

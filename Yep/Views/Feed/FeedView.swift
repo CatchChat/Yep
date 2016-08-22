@@ -10,6 +10,7 @@ import UIKit
 import AVFoundation
 import MapKit
 import YepKit
+import YepPreview
 import RealmSwift
 import Kingfisher
 
@@ -40,7 +41,7 @@ final class FeedView: UIView {
         }
     }
 
-    var tapImagesAction: ((transitionViews: [UIView?], attachments: [DiscoveredAttachment], image: UIImage?, index: Int) -> Void)?
+    var tapImagesAction: ((references: [Reference?], attachments: [DiscoveredAttachment], image: UIImage?, index: Int) -> Void)?
 
     var tapGithubRepoAction: (NSURL -> Void)?
     var tapDribbbleShotAction: (NSURL -> Void)?
@@ -785,11 +786,15 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
 //        let transitionView = cell.imageView
 //        tapMediaAction?(transitionView: transitionView, image: cell.imageView.image, attachments: attachments, index: indexPath.item)
 
-        let transitionViews: [UIView?] = (0..<attachments.count).map({
+        let references: [Reference?] = (0..<attachments.count).map({
             let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
-            return cell?.imageView
+            if let imageView = cell?.imageView {
+                return Reference(view: imageView, image: imageView.image)
+            } else {
+                return nil
+            }
         })
-        tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: cell.imageView.image, index: indexPath.item)
+        tapImagesAction?(references: references, attachments: attachments, image: cell.imageView.image, index: indexPath.item)
     }
 }
 

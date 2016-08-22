@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepPreview
 import Ruler
 
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
@@ -23,7 +24,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
     }
 
     var tapDribbbleShotLinkAction: (NSURL -> Void)?
-    var tapDribbbleShotMediaAction: ((transitionView: UIView, image: UIImage?, imageURL: NSURL, linkURL: NSURL) -> Void)?
+    var tapDribbbleShotMediaAction: ((transitionReference: Reference, image: UIImage?, imageURL: NSURL, linkURL: NSURL) -> Void)?
     
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -91,7 +92,8 @@ final class FeedDribbbleShotCell: FeedBasicCell {
 
             if case .DribbbleShot = feed.kind {
                 if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
-                    self?.tapDribbbleShotMediaAction?(transitionView: mediaImageView, image: mediaImageView.image, imageURL: imageURL, linkURL: linkURL)
+                    let reference = Reference(view: mediaImageView, image: mediaImageView.image)
+                    self?.tapDribbbleShotMediaAction?(transitionReference: reference, image: mediaImageView.image, imageURL: imageURL, linkURL: linkURL)
                 }
             }
         }

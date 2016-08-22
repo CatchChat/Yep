@@ -15,20 +15,20 @@ class PhotoTransitonController: NSObject {
 
     var forcesNonInteractiveDismissal = true
 
-    var startingView: UIView? {
-        return animator.startingView
+    var startingReference: Reference? {
+        return animator.startingReference
     }
 
-    func setStartingView(view: UIView?) {
-        animator.startingView = view
+    func setStartingReference(reference: Reference?) {
+        animator.startingReference = reference
     }
 
-    var endingView: UIView? {
-        return animator.endingView
+    var endingReference: Reference? {
+        return animator.endingReference
     }
 
-    func setEndingView(view: UIView?) {
-        animator.endingView = view
+    func setEndingReference(reference: Reference?) {
+        animator.endingReference = reference
     }
 
     func didPanWithPanGestureRecognizer(pan: UIPanGestureRecognizer, viewToPan: UIView, anchorPoint: CGPoint) {
@@ -59,13 +59,13 @@ extension PhotoTransitonController: UIViewControllerTransitioningDelegate {
             return nil
         }
 
-        if let endingView = endingView {
+        if let endingView = endingReference?.imageView {
             self.animator.endingViewForAnimation = PhotoTransitionAnimator.newAnimationViewFromView(endingView)
         }
 
         interactionController.animator = animator
-        interactionController.shouldAnimateUsingAnimator = (endingView != nil)
-        interactionController.viewToHideWhenBeginningTransition = (startingView == nil) ? nil : endingView
+        interactionController.shouldAnimateUsingAnimator = (endingReference?.view != nil)
+        interactionController.viewToHideWhenBeginningTransition = (startingReference?.view == nil) ? nil : endingReference?.view
 
         return interactionController
     }
