@@ -10,17 +10,17 @@ import UIKit
 
 public struct Reference {
 
-    let bounds: CGRect
+    let view: UIView
     let image: UIImage?
 
     var imageView: UIImageView {
-        let imageView = UIImageView(frame: bounds)
+        let imageView = UIImageView(frame: view.bounds)
         imageView.image = image
         return imageView
     }
 
-    public init(bounds: CGRect, image: UIImage?) {
-        self.bounds = bounds
+    public init(view: UIView, image: UIImage?) {
+        self.view = view
         self.image = image
     }
 }
