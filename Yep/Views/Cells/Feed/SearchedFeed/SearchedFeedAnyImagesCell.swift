@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepPreview
 import AsyncDisplayKit
 
 final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
@@ -131,17 +132,21 @@ extension SearchedFeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegat
             return
         }
 
-        let transitionViews: [UIView?] = (0..<attachments.count).map({
+        let references: [Reference?] = (0..<attachments.count).map({
             let indexPath = NSIndexPath(forItem: $0, inSection: indexPath.section)
             let node = mediaCollectionNode.view.nodeForItemAtIndexPath(indexPath) as? FeedImageCellNode
 
             if node?.view.superview == nil {
                 return nil
             } else {
-                return node?.imageNode.view
+                if let view = node?.imageNode.view {
+                    return Reference(view: view, image: node?.imageNode.image)
+                } else {
+                    return nil
+                }
             }
         })
-        tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: node.imageNode.image, index: indexPath.item)
+        tapImagesAction?(transitionReferences: references, attachments: attachments, image: node.imageNode.image, index: indexPath.item)
     }
 }
 
