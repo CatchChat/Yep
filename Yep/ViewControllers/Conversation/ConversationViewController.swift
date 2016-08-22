@@ -1616,8 +1616,10 @@ final class ConversationViewController: BaseViewController {
     }
 
     @objc private func reloadConversationCollectionView() {
-        SafeDispatch.async {
-            self.conversationCollectionView.reloadData()
+        SafeDispatch.async { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.conversationCollectionView.reloadData()
+            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
         }
     }
 
