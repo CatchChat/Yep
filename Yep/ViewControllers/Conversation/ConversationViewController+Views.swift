@@ -52,9 +52,9 @@ extension ConversationViewController {
             }
         }
 
-        feedView.tapImagesAction = { [weak self] transitionViews, attachments, image, index in
+        feedView.tapImagesAction = { [weak self] references, attachments, image, index in
 
-            self?.previewTransitionViews = transitionViews
+            self?.previewReferences = references
 
             let previewAttachmentPhotos = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
             previewAttachmentPhotos[index].image = image

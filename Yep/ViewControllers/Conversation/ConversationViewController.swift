@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import YepKit
 import YepNetworking
+import YepPreview
 import AVFoundation
 import MobileCoreServices.UTType
 import MapKit
@@ -161,7 +162,7 @@ final class ConversationViewController: BaseViewController {
         static let Avatar = "ConversationViewController"
     }
 
-    var previewTransitionViews: [UIView?]?
+    var previewReferences: [Reference?]?
     var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
     var previewMessagePhotos: [PreviewMessagePhoto] = []
 
