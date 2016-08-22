@@ -188,10 +188,14 @@ public class PhotosViewController: UIViewController {
         }
 
         do {
-            transitionController.setStartingView(referenceForCurrentPhoto?.view)
+            transitionController.setStartingReference(referenceForCurrentPhoto)
 
             if currentlyDisplayedPhoto?.image != nil {
-                transitionController.setEndingView(currentPhotoViewController?.scalingImageView.imageView)
+                var endingReference: Reference?
+                if let imageView = currentPhotoViewController?.scalingImageView.imageView {
+                    endingReference = Reference(view: imageView, image: imageView.image)
+                }
+                transitionController.setEndingReference(endingReference)
             }
         }
     }
@@ -265,9 +269,12 @@ public class PhotosViewController: UIViewController {
             return
         }
 
-        let startingView = currentPhotoViewController?.scalingImageView.imageView
-        transitionController.setStartingView(startingView)
-        transitionController.setEndingView(referenceForCurrentPhoto?.view)
+        var startingReference: Reference?
+        if let imageView = currentPhotoViewController?.scalingImageView.imageView {
+            startingReference = Reference(view: imageView, image: imageView.image)
+        }
+        transitionController.setStartingReference(startingReference)
+        transitionController.setEndingReference(referenceForCurrentPhoto)
 
         let overlayActionViewWasHidden = overlayActionView.hidden
         self.overlayActionViewWasHiddenBeforeTransition = overlayActionViewWasHidden
