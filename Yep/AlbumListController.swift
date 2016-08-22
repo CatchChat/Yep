@@ -8,6 +8,7 @@
 
 import UIKit
 import Photos
+import YepKit
 
 // @note use this model to store the album's 'result, 'count, 'name, 'startDate to avoid request and reserve too much times
 
@@ -71,12 +72,12 @@ final class AlbumListController: UITableViewController {
         }
     }
     
-    func fetchAlbumIdentifier() -> String? {
+    private func fetchAlbumIdentifier() -> String? {
         let string = NSUserDefaults.standardUserDefaults().objectForKey(defaultAlbumIdentifier) as? String
         return string
     }
     
-    func fetchAlbum() -> Album {
+    private func fetchAlbum() -> Album {
         let album = Album()
         let identifier = fetchAlbumIdentifier()
         guard identifier != nil else {
@@ -102,7 +103,7 @@ final class AlbumListController: UITableViewController {
         return album
     }
     
-    func fetchAlbumList() -> [Album]? {
+    private func fetchAlbumList() -> [Album]? {
         let userAlbumsOptions = PHFetchOptions()
         userAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
         userAlbumsOptions.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: true)]
@@ -154,7 +155,7 @@ final class AlbumListController: UITableViewController {
         return list
     }
 
-    func fetchImageWithAsset(asset: PHAsset?, targetSize: CGSize, imageResultHandler: (image: UIImage?)->Void) -> PHImageRequestID? {
+    private func fetchImageWithAsset(asset: PHAsset?, targetSize: CGSize, imageResultHandler: (image: UIImage?)->Void) -> PHImageRequestID? {
         guard let asset = asset else {
             return nil
         }
@@ -192,10 +193,17 @@ final class AlbumListController: UITableViewController {
         let cell: AlbumListCell = tableView.dequeueReusableCell()
         if let album = assetsCollection?[indexPath.row] {
             cell.countLabel.text = "(\(album.count))"
-            cell.titleLabel.text = album.name 
-            fetchImageWithAsset(album.results?.lastObject as? PHAsset, targetSize: CGSizeMake(60, 60), imageResultHandler: { (image) in
-                cell.posterImageView.image = image
-            })
+            cell.titleLabel.text = album.name
+
+            SafeDispatch.async(onQueue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] in
+
+                self?.fetchImageWithAsset(album.results?.lastObject as? PHAsset, targetSize: CGSizeMake(60, 60), imageResultHandler: { (image) in
+
+                    SafeDispatch.async {
+                        cell.posterImageView.image = image
+                    }
+                })
+            }
         }
         
         return cell
