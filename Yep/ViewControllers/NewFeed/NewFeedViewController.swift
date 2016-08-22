@@ -206,7 +206,7 @@ final class NewFeedViewController: SegueViewController {
         }
     }
 
-    private var previewTransitionViews: [UIView?]?
+    private var previewReferences: [Reference?]?
     private var previewNewFeedPhotos: [PreviewNewFeedPhoto] = []
 
     deinit {
@@ -1109,12 +1109,16 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
             let index = indexPath.row
 
-            let transitionViews: [UIView?] = (0..<mediaImages.count).map({
+            let references: [Reference?] = (0..<mediaImages.count).map({
                 let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
-                return cell?.imageView
+                if let imageView = cell?.imageView {
+                    return Reference(view: imageView, image: imageView.image)
+                } else {
+                    return nil
+                }
             })
 
-            self.previewTransitionViews = transitionViews
+            self.previewReferences = references
 
             let previewNewFeedPhotos = mediaImages.map({ PreviewNewFeedPhoto(image: $0) })
 
@@ -1247,13 +1251,13 @@ extension NewFeedViewController: ReturnPickedPhotosDelegate {
 
 extension NewFeedViewController: PhotosViewControllerDelegate {
 
-    func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
+    func photosViewController(vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference? {
 
         println("photosViewController:referenceViewForPhoto:\(photo)")
 
         if let previewNewFeedPhoto = photo as? PreviewNewFeedPhoto {
             if let index = previewNewFeedPhotos.indexOf(previewNewFeedPhoto) {
-                return previewTransitionViews?[index]
+                return previewReferences?[index]
             }
         }
 
@@ -1274,7 +1278,7 @@ extension NewFeedViewController: PhotosViewControllerDelegate {
 
         println("photosViewControllerDidDismiss")
 
-        previewTransitionViews = nil
+        previewReferences = nil
         previewNewFeedPhotos = []
     }
 }
