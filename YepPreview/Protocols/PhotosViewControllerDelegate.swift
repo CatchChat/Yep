@@ -6,12 +6,18 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 public struct Reference {
 
     let bounds: CGRect
     let image: UIImage?
+
+    var imageView: UIImageView {
+        let imageView = UIImageView(frame: bounds)
+        imageView.image = image
+        return imageView
+    }
 
     public init(bounds: CGRect, image: UIImage?) {
         self.bounds = bounds
@@ -21,7 +27,7 @@ public struct Reference {
 
 public protocol PhotosViewControllerDelegate: class {
 
-    func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView?
+    func photosViewController(vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference?
     func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int)
     func photosViewControllerWillDismiss(vc: PhotosViewController)
     func photosViewControllerDidDismiss(vc: PhotosViewController)

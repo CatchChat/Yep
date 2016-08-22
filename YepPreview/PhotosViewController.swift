@@ -66,7 +66,7 @@ public class PhotosViewController: UIViewController {
             return nil
         }
         
-        return delegate?.photosViewController(self, referenceViewForPhoto: photo)
+        return delegate?.photosViewController(self, referenceForPhoto: photo)?.imageView
     }
 
     private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
