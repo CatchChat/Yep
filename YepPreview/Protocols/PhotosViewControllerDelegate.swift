@@ -8,6 +8,17 @@
 
 import Foundation
 
+public struct Reference {
+
+    let bounds: CGRect
+    let image: UIImage?
+
+    public init(bounds: CGRect, image: UIImage?) {
+        self.bounds = bounds
+        self.image = image
+    }
+}
+
 public protocol PhotosViewControllerDelegate: class {
 
     func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView?
