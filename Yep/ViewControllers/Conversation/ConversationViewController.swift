@@ -1293,15 +1293,17 @@ final class ConversationViewController: BaseViewController {
 
         realm.refresh() // 确保是最新数据
 
+        guard let conversation = conversation, let conversationID = conversation.fakeID else {
+            return
+        }
+
         // 按照 conversation 过滤消息，匹配的才能考虑插入
         var filteredMessageIDs: [String] = []
-        if let conversation = conversation, let conversationID = conversation.fakeID {
-            for messageID in messageIDs {
-                if let message = messageWithMessageID(messageID, inRealm: realm) {
-                    if let messageInConversationID = message.conversation?.fakeID {
-                        if messageInConversationID == conversationID {
-                            filteredMessageIDs.append(messageID)
-                        }
+        for messageID in messageIDs {
+            if let message = messageWithMessageID(messageID, inRealm: realm) {
+                if let messageInConversationID = message.conversation?.fakeID {
+                    if messageInConversationID == conversationID {
+                        filteredMessageIDs.append(messageID)
                     }
                 }
             }
