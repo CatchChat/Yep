@@ -216,6 +216,7 @@
 		5056EAB41CF2C6B000FDE07E /* YepServiceSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */; };
 		5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056EAB61CF2C6BF00FDE07E /* YepUserDefaults.swift */; };
 		5056EABA1CF2C73300FDE07E /* YepNetworking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50D3A31A1CEDB1C500E59470 /* YepNetworking.framework */; };
+		505841561D6AFBE9009FE067 /* Reference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505841551D6AFBE9009FE067 /* Reference.swift */; };
 		505A48401B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */; };
 		505C338B1BAA92CA00E044E2 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 505C338D1BAA92CA00E044E2 /* InfoPlist.strings */; };
 		505EC8131ADE607D001D27E0 /* SkillCategoryButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 505EC8121ADE607D001D27E0 /* SkillCategoryButton.swift */; };
@@ -983,6 +984,7 @@
 		5056EAAF1CF2C6B000FDE07E /* YepService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepService.swift; path = Remote/YepService.swift; sourceTree = "<group>"; };
 		5056EAB01CF2C6B000FDE07E /* YepServiceSync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepServiceSync.swift; path = Remote/YepServiceSync.swift; sourceTree = "<group>"; };
 		5056EAB61CF2C6BF00FDE07E /* YepUserDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUserDefaults.swift; path = UserDefaults/YepUserDefaults.swift; sourceTree = "<group>"; };
+		505841551D6AFBE9009FE067 /* Reference.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Reference.swift; sourceTree = "<group>"; };
 		505A483F1B4E70CB00C3A301 /* RegisterSelectSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterSelectSkillsLayout.swift; path = ViewControllers/Register/RegisterSelectSkillsLayout.swift; sourceTree = "<group>"; };
 		505C338C1BAA92CA00E044E2 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		505C338E1BAA92CD00E044E2 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
@@ -3634,6 +3636,7 @@
 				50FE6F2F1D128B4C009BFEC7 /* YepPreview.h */,
 				50FE6F4A1D128DB9009BFEC7 /* ScalingImageView.swift */,
 				5087AFC91D1934FF005C180D /* OverlayActionView.swift */,
+				505841551D6AFBE9009FE067 /* Reference.swift */,
 				50FE6F4E1D13891F009BFEC7 /* Protocols */,
 				50FE6F5B1D13E3F7009BFEC7 /* Transiton */,
 				50FE6F4C1D138599009BFEC7 /* PhotoViewController.swift */,
@@ -5075,6 +5078,7 @@
 				50FE6F5A1D13DC64009BFEC7 /* PhotosViewControllerDelegate.swift in Sources */,
 				50FE6F581D13A1B3009BFEC7 /* PhotosViewControllerDataSource.swift in Sources */,
 				50FE6F541D139707009BFEC7 /* PhotosViewController.swift in Sources */,
+				505841561D6AFBE9009FE067 /* Reference.swift in Sources */,
 				50FE6F5D1D13E450009BFEC7 /* PhotoTransitonController.swift in Sources */,
 				50FE6F561D139EB3009BFEC7 /* PhotosDataSource.swift in Sources */,
 			);

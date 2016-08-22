@@ -6,26 +6,6 @@
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
-import UIKit
-
-public struct Reference {
-
-    let view: UIView
-    let image: UIImage?
-
-    var imageView: UIImageView {
-        let imageView = UIImageView(frame: view.bounds)
-        imageView.contentMode = .ScaleAspectFill
-        imageView.image = image
-        return imageView
-    }
-
-    public init(view: UIView, image: UIImage?) {
-        self.view = view
-        self.image = image
-    }
-}
-
 public protocol PhotosViewControllerDelegate: class {
 
     func photosViewController(vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference?
