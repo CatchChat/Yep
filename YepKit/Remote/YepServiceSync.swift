@@ -17,14 +17,16 @@ public enum MessageAge: String {
 
 public func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], messageAge: MessageAge) {
 
-    if !messageIDs.isEmpty {
-        SafeDispatch.async {
-            let object = [
-                "messageIDs": messageIDs,
-                "messageAge": messageAge.rawValue,
-            ]
-            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.newMessages, object: object)
-        }
+    guard !messageIDs.isEmpty else {
+        return
+    }
+
+    SafeDispatch.async {
+        let object = [
+            "messageIDs": messageIDs,
+            "messageAge": messageAge.rawValue,
+        ]
+        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.newMessages, object: object)
     }
 }
 
