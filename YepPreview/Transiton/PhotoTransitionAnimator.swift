@@ -187,22 +187,29 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             return
         }
 
+        guard let originalStartingViewForAnimation = startingReference?.view else {
+            return
+        }
+        guard let originalEndingViewForAnimation = endingReference?.view else {
+            return
+        }
+
         startingViewForAnimation.clipsToBounds = true
         endingViewForAnimation.clipsToBounds = true
 
-        let endingViewForAnimationFinalFrame = endingViewForAnimation.frame
+        let endingViewForAnimationFinalFrame = originalEndingViewForAnimation.frame
 
-        endingViewForAnimation.frame = startingViewForAnimation.frame
+        endingViewForAnimation.frame = originalStartingViewForAnimation.frame
 
         var startingMaskView: UIView?
         if let _startingMaskView = startingReference?.view.maskView {
             startingMaskView = PhotoTransitionAnimator.newViewFromView(_startingMaskView)
-            startingMaskView?.frame = startingViewForAnimation.bounds
+            startingMaskView?.frame = originalStartingViewForAnimation.bounds
         }
         var endingMaskView: UIView?
         if let _endingMaskView = endingReference?.view.maskView {
             endingMaskView = PhotoTransitionAnimator.newViewFromView(_endingMaskView)
-            endingMaskView?.frame = endingViewForAnimation.bounds
+            endingMaskView?.frame = originalEndingViewForAnimation.bounds
         }
         startingViewForAnimation.maskView = startingMaskView
         endingViewForAnimation.maskView = endingMaskView
@@ -235,14 +242,14 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { [unowned self] in
 
             endingViewForAnimation.frame = endingViewForAnimationFinalFrame
-            endingMaskView?.frame = endingViewForAnimation.bounds
+            endingMaskView?.frame = originalEndingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 endingViewForAnimation.center = translatedEndingViewFinalCenter
             }
             
             startingViewForAnimation.frame = endingViewForAnimationFinalFrame
-            startingMaskView?.frame = startingViewForAnimation.bounds
+            startingMaskView?.frame = originalStartingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 startingViewForAnimation.center = translatedEndingViewFinalCenter
