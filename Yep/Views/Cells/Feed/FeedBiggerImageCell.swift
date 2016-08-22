@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepPreview
 import AsyncDisplayKit
 
 final class FeedBiggerImageCell: FeedBasicCell {
@@ -82,7 +83,8 @@ final class FeedBiggerImageCell: FeedBasicCell {
         }
 
         if let attachments = feed?.imageAttachments {
-            tapImagesAction?(transitionViews: [imageNode.view], attachments: attachments, image: imageNode.image, index: 0)
+            let reference = Reference(view: imageNode.view, image: imageNode.image)
+            tapImagesAction?(transitionReferences: [reference], attachments: attachments, image: imageNode.image, index: 0)
         }
     }
 }

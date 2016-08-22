@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepPreview
 import AsyncDisplayKit
 
 final class FeedNormalImagesCell: FeedBasicCell {
@@ -123,14 +124,15 @@ final class FeedNormalImagesCell: FeedBasicCell {
         }
 
         let views = imageNodes.map({ $0.view })
-
         guard let view = sender.view, index = views.indexOf(view) else {
             return
         }
 
-        let transitionViews: [UIView?] = views.map({ $0 })
+        let transitionReferences: [Reference?] = imageNodes.map({
+            Reference(view: $0.view, image: $0.image)
+        })
         let image = imageNodes[index].image
-        tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: image, index: index)
+        tapImagesAction?(transitionReferences: transitionReferences, attachments: attachments, image: image, index: index)
     }
 }
 

@@ -348,7 +348,7 @@ final class FeedsViewController: BaseViewController {
     //var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
     //var originalNavigationControllerDelegate: UINavigationControllerDelegate?
 
-    private var previewTransitionViews: [UIView?]?
+    private var previewReferences: [Reference?]?
     private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
     private var previewDribbblePhotos: [PreviewDribbblePhoto] = []
 
@@ -1323,7 +1323,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 let tapImagesAction: FeedTapImagesAction = { [weak self] transitionViews, attachments, image, index in
 
-                    self?.previewTransitionViews = transitionViews
+                    self?.previewReferences = transitionViews
 
                     let previewAttachmentPhotos = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
                     previewAttachmentPhotos[index].image = image
@@ -1390,13 +1390,13 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     self?.yep_openURL(URL)
                 }
 
-                cell.tapDribbbleShotMediaAction = { [weak self] transitionView, image, imageURL, linkURL in
+                cell.tapDribbbleShotMediaAction = { [weak self] transitionReference, image, imageURL, linkURL in
 
                     guard image != nil else {
                         return
                     }
 
-                    self?.previewTransitionViews = [transitionView]
+                    self?.previewReferences = [transitionReference].map({ Optional($0) })
 
                     let previewDribbblePhoto = PreviewDribbblePhoto(imageURL: imageURL)
                     previewDribbblePhoto.image = image
@@ -1951,18 +1951,18 @@ extension FeedsViewController: UIViewControllerPreviewingDelegate {
 
 extension FeedsViewController: PhotosViewControllerDelegate {
 
-    func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
+    func photosViewController(vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference? {
 
         println("photosViewController:referenceViewForPhoto:\(photo)")
 
         if let previewAttachmentPhoto = photo as? PreviewAttachmentPhoto {
             if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
-                return previewTransitionViews?[index]
+                return previewReferences?[index]
             }
 
         } else if let previewDribbblePhoto = photo as? PreviewDribbblePhoto {
             if let index = previewDribbblePhotos.indexOf(previewDribbblePhoto) {
-                return previewTransitionViews?[index]
+                return previewReferences?[index]
             }
         }
 
@@ -1983,7 +1983,7 @@ extension FeedsViewController: PhotosViewControllerDelegate {
 
         println("photosViewControllerDidDismiss")
 
-        previewTransitionViews = nil
+        previewReferences = nil
         previewAttachmentPhotos = []
         previewDribbblePhotos = []
     }
