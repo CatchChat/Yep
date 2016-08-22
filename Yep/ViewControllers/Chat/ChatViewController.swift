@@ -10,6 +10,7 @@ import UIKit
 import MobileCoreServices.UTType
 import YepKit
 import YepNetworking
+import YepPreview
 import KeyboardMan
 import RealmSwift
 import AsyncDisplayKit
@@ -104,7 +105,7 @@ class ChatViewController: BaseViewController {
 
     var isLoadingPreviousMessages = false
 
-    var previewTransitionViews: [UIView?]?
+    var previewReferences: [Reference?]?
     var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
     var previewMessagePhotos: [PreviewMessagePhoto] = []
 

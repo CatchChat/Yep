@@ -29,10 +29,10 @@ extension ChatViewController {
                 return
             }
 
-            let transitionViews: [UIView?] = imageMessages.map({
+            let references: [Reference?] = imageMessages.map({
                 if let index = messages.indexOf($0) {
                     if index == messageIndex {
-                        return node.transitionView
+                        return Reference(view: node.transitionView, image: nil)
                     } else {
                         return nil
                     }
@@ -41,7 +41,7 @@ extension ChatViewController {
                 return nil
             })
 
-            self.previewTransitionViews = transitionViews
+            self.previewReferences = references
 
             let previewMessagePhotos = imageMessages.map({ PreviewMessagePhoto(message: $0) })
             if let
@@ -62,18 +62,18 @@ extension ChatViewController {
 
 extension ChatViewController: PhotosViewControllerDelegate {
 
-    func photosViewController(vc: PhotosViewController, referenceViewForPhoto photo: Photo) -> UIView? {
+    func photosViewController(vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference? {
 
         println("photosViewController:referenceViewForPhoto:\(photo)")
 
         if let previewAttachmentPhoto = photo as? PreviewAttachmentPhoto {
             if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
-                return previewTransitionViews?[index]
+                return previewReferences?[index]
             }
 
         } else if let previewMessagePhoto = photo as? PreviewMessagePhoto {
             if let index = previewMessagePhotos.indexOf(previewMessagePhoto) {
-                return previewTransitionViews?[index]
+                return previewReferences?[index]
             }
         }
 
@@ -94,7 +94,7 @@ extension ChatViewController: PhotosViewControllerDelegate {
 
         println("photosViewControllerDidDismiss")
 
-        previewTransitionViews = nil
+        previewReferences = nil
         previewAttachmentPhotos = []
         previewMessagePhotos = []
     }
