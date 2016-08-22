@@ -1291,17 +1291,26 @@ final class ConversationViewController: BaseViewController {
 
     private func handleRecievedNewMessages(messageIDs: [String], messageAge: MessageAge) {
 
+        if !isPreviewed {
+            //Make sure insert cell when in conversation viewcontroller
+            guard self.navigationController?.visibleViewController is ConversationViewController else {
+                return
+            }
+        }
+
         realm.refresh() // 确保是最新数据
+
+        guard let conversation = conversation, let conversationID = conversation.fakeID else {
+            return
+        }
 
         // 按照 conversation 过滤消息，匹配的才能考虑插入
         var filteredMessageIDs: [String] = []
-        if let conversation = conversation, let conversationID = conversation.fakeID {
-            for messageID in messageIDs {
-                if let message = messageWithMessageID(messageID, inRealm: realm) {
-                    if let messageInConversationID = message.conversation?.fakeID {
-                        if messageInConversationID == conversationID {
-                            filteredMessageIDs.append(messageID)
-                        }
+        for messageID in messageIDs {
+            if let message = messageWithMessageID(messageID, inRealm: realm) {
+                if let messageInConversationID = message.conversation?.fakeID {
+                    if messageInConversationID == conversationID {
+                        filteredMessageIDs.append(messageID)
                     }
                 }
             }
@@ -1364,12 +1373,12 @@ final class ConversationViewController: BaseViewController {
 
     func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
 
-        /*
         // 重要
-        guard navigationController?.topViewController == self else { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
-            return
+        if !isPreviewed {
+            guard navigationController?.topViewController == self else { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
+                return
+            }
         }
-         */
 
         if messageIDs != nil {
             batchMarkMessagesAsReaded()
@@ -1455,6 +1464,10 @@ final class ConversationViewController: BaseViewController {
                         return
                     }
                 }
+
+                indexPaths = indexPaths.filter({
+                    conversationCollectionView.cellForItemAtIndexPath($0) != nil
+                })
 
                 switch messageAge {
 
@@ -1607,8 +1620,10 @@ final class ConversationViewController: BaseViewController {
     }
 
     @objc private func reloadConversationCollectionView() {
-        SafeDispatch.async {
-            self.conversationCollectionView.reloadData()
+        SafeDispatch.async { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.conversationCollectionView.reloadData()
+            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
         }
     }
 
