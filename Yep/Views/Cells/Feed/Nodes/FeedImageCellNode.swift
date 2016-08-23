@@ -7,6 +7,7 @@
 //
 
 import YepKit
+import YepPreview
 import AsyncDisplayKit
 
 class FeedImageCellNode: ASCellNode {
@@ -37,6 +38,13 @@ class FeedImageCellNode: ASCellNode {
             imageNode.yep_showActivityIndicatorWhenLoading = true
             imageNode.yep_setImageOfAttachment(attachment, withSize: imageSize)
         }
+    }
+}
+
+extension FeedImageCellNode: Previewable {
+
+    var transitionReference: Reference {
+        return Reference(view: imageNode.view, image: imageNode.image)
     }
 }
 

@@ -204,12 +204,12 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         var startingMaskView: UIView?
         if let _startingMaskView = startingReference?.view.maskView {
             startingMaskView = PhotoTransitionAnimator.newViewFromView(_startingMaskView)
-            startingMaskView?.frame = originalStartingViewForAnimation.bounds
+            startingMaskView?.frame = startingViewForAnimation.bounds
         }
         var endingMaskView: UIView?
         if let _endingMaskView = endingReference?.view.maskView {
             endingMaskView = PhotoTransitionAnimator.newViewFromView(_endingMaskView)
-            endingMaskView?.frame = originalEndingViewForAnimation.bounds
+            endingMaskView?.frame = endingViewForAnimation.bounds
         }
         startingViewForAnimation.maskView = startingMaskView
         endingViewForAnimation.maskView = endingMaskView
@@ -242,14 +242,14 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { [unowned self] in
 
             endingViewForAnimation.frame = endingViewForAnimationFinalFrame
-            endingMaskView?.frame = originalEndingViewForAnimation.bounds
+            endingMaskView?.frame = endingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 endingViewForAnimation.center = translatedEndingViewFinalCenter
             }
             
             startingViewForAnimation.frame = endingViewForAnimationFinalFrame
-            startingMaskView?.frame = originalStartingViewForAnimation.bounds
+            startingMaskView?.frame = startingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 startingViewForAnimation.center = translatedEndingViewFinalCenter

@@ -84,7 +84,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
             }
         }
 
-        mediaContainerView.tapMediaAction = { [weak self] mediaImageView in
+        mediaContainerView.tapMediaAction = { [weak self] transitionReference in
 
             guard let attachment = feed.attachment else {
                 return
@@ -92,8 +92,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
 
             if case .DribbbleShot = feed.kind {
                 if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
-                    let reference = Reference(view: mediaImageView, image: mediaImageView.image)
-                    self?.tapDribbbleShotMediaAction?(transitionReference: reference, image: mediaImageView.image, imageURL: imageURL, linkURL: linkURL)
+                    self?.tapDribbbleShotMediaAction?(transitionReference: transitionReference, image: transitionReference.image, imageURL: imageURL, linkURL: linkURL)
                 }
             }
         }

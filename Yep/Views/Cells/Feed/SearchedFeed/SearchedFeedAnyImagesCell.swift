@@ -139,11 +139,7 @@ extension SearchedFeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegat
             if node?.view.superview == nil {
                 return nil
             } else {
-                if let view = node?.imageNode.view {
-                    return Reference(view: view, image: node?.imageNode.image)
-                } else {
-                    return nil
-                }
+                return node?.transitionReference
             }
         })
         tapImagesAction?(transitionReferences: references, attachments: attachments, image: node.imageNode.image, index: indexPath.item)

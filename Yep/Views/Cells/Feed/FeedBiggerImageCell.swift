@@ -11,7 +11,7 @@ import YepKit
 import YepPreview
 import AsyncDisplayKit
 
-final class FeedBiggerImageCell: FeedBasicCell {
+class FeedBiggerImageCell: FeedBasicCell {
 
     override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
 
@@ -83,9 +83,15 @@ final class FeedBiggerImageCell: FeedBasicCell {
         }
 
         if let attachments = feed?.imageAttachments {
-            let reference = Reference(view: imageNode.view, image: imageNode.image)
-            tapImagesAction?(transitionReferences: [reference], attachments: attachments, image: imageNode.image, index: 0)
+            tapImagesAction?(transitionReferences: [transitionReference], attachments: attachments, image: imageNode.image, index: 0)
         }
+    }
+}
+
+extension FeedBiggerImageCell: Previewable {
+
+    var transitionReference: Reference {
+        return Reference(view: imageNode.view, image: imageNode.image)
     }
 }
 

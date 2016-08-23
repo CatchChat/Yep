@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import YepPreview
 import Ruler
 
 final class FeedMediaContainerView: UIView {
 
-    var tapMediaAction: ((mediaImageView: UIImageView) -> Void)?
+    var tapMediaAction: ((transitionReference: Reference) -> Void)?
 
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -91,7 +92,13 @@ final class FeedMediaContainerView: UIView {
     }
 
     @objc private func tapMedia(sender: UITapGestureRecognizer) {
-        tapMediaAction?(mediaImageView: mediaImageView)
+        tapMediaAction?(transitionReference: transitionReference)
     }
 }
 
+extension FeedMediaContainerView: Previewable {
+
+    var transitionReference: Reference {
+        return Reference(view: mediaImageView, image: mediaImageView.image)
+    }
+}

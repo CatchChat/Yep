@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepPreview
 import AsyncDisplayKit
 
 class ChatLeftImageCellNode: ChatLeftBaseCellNode {
@@ -96,6 +97,13 @@ class ChatLeftImageCellNode: ChatLeftBaseCellNode {
     @objc private func tapImage(sender: UITapGestureRecognizer) {
 
         tapImageAction?(node: self)
+    }
+}
+
+extension ChatLeftImageCellNode: Previewable {
+
+    var transitionReference: Reference {
+        return Reference(view: imageNode.view, image: imageNode.image)
     }
 }
 
