@@ -186,12 +186,12 @@ class BaseVerifyMobileViewController: SegueViewController {
 
     func requestCallMe() {
 
-        println("Subclass requestCallMe")
+        fatalError("Must override requestCallMe")
     }
 
     func next() {
 
-        println("Subclass next")
+        fatalError("Must override next")
     }
 }
 
