@@ -145,7 +145,7 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
             if node?.view.superview == nil {
                 return nil
             } else {
-                return (node as? Previewable)?.reference
+                return (node as? Previewable)?.transitionReference
             }
         })
         tapImagesAction?(transitionReferences: references, attachments: attachments, image: node.imageNode.image, index: indexPath.item)

@@ -433,7 +433,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                                 let cellIndexPath = NSIndexPath(forItem: cellIndex, inSection: Section.Message.rawValue)
                                 let cell = conversationCollectionView.cellForItemAtIndexPath(cellIndexPath)
                                 if let previewableCell = cell as? Previewable {
-                                    return previewableCell.reference
+                                    return previewableCell.transitionReference
                                 }
 
                             } else {

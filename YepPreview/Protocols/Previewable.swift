@@ -10,6 +10,6 @@ import UIKit
 
 public protocol Previewable {
 
-    var reference: Reference { get }
+    var transitionReference: Reference { get }
 }
 

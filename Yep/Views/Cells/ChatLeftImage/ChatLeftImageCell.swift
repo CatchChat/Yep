@@ -10,7 +10,7 @@ import UIKit
 import YepKit
 import YepPreview
 
-final class ChatLeftImageCell: ChatBaseCell {
+final class ChatLeftImageCell: ChatBaseCell, Previewable {
 
     lazy var messageImageView: UIImageView = {
         let imageView = UIImageView()
@@ -195,11 +195,10 @@ final class ChatLeftImageCell: ChatBaseCell {
             UIView.setAnimationsEnabled(true)
         }
     }
-}
 
-extension ChatLeftImageCell: Previewable {
+    // MARK: Previewable
 
-    var reference: Reference {
+    var transitionReference: Reference {
         return Reference(view: messageImageView, image: messageImageView.image)
     }
 }

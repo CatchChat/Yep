@@ -32,7 +32,7 @@ extension ChatViewController {
             let references: [Reference?] = imageMessages.map({
                 if let index = messages.indexOf($0) {
                     if index == messageIndex {
-                        return node.reference
+                        return node.transitionReference
                     } else {
                         return nil
                     }

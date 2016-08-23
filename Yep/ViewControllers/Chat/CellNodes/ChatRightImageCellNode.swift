@@ -102,7 +102,7 @@ class ChatRightImageCellNode: ChatRightBaseCellNode {
 
 extension ChatRightImageCellNode: Previewable {
 
-    var reference: Reference {
+    var transitionReference: Reference {
         return Reference(view: imageNode.view, image: imageNode.image)
     }
 }
