@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepPreview
 
 final class ChatRightImageCell: ChatRightBaseCell {
 
@@ -159,6 +160,13 @@ final class ChatRightImageCell: ChatRightBaseCell {
             borderImageView.frame = messageImageView.frame
         }
         UIView.setAnimationsEnabled(true)
+    }
+}
+
+extension ChatRightImageCell: Previewable {
+
+    var reference: Reference {
+        return Reference(view: messageImageView, image: messageImageView.image)
     }
 }
 

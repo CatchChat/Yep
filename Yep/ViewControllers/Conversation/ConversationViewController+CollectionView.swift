@@ -431,12 +431,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             if index == messageIndex {
                                 let cellIndex = index - displayedMessagesRange.location
                                 let cell = conversationCollectionView.cellForItemAtIndexPath(NSIndexPath(forItem: cellIndex, inSection: Section.Message.rawValue))
-
-                                if let leftImageCell = cell as? ChatLeftImageCell {
-                                    return Reference(view: leftImageCell.messageImageView, image: leftImageCell.messageImageView.image)
-                                } else if let rightImageCell = cell as? ChatRightImageCell {
-                                    return Reference(view: rightImageCell.messageImageView, image: rightImageCell.messageImageView.image)
-                                }
+                                return (cell as? Previewable)?.reference
                             } else {
                                 return nil
                             }
