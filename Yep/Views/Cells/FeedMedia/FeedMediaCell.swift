@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import YepPreview
 
 final class FeedMediaCell: UICollectionViewCell {
 
@@ -66,3 +67,11 @@ final class FeedMediaCell: UICollectionViewCell {
         deleteImageView.hidden = true
     }
 }
+
+extension FeedMediaCell: Previewable {
+    
+    var transitionReference: Reference {
+        return Reference(view: imageView, image: imageView.image)
+    }
+}
+

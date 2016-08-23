@@ -788,11 +788,7 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
 
         let references: [Reference?] = (0..<attachments.count).map({
             let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
-            if let imageView = cell?.imageView {
-                return Reference(view: imageView, image: imageView.image)
-            } else {
-                return nil
-            }
+            return cell?.transitionReference
         })
         tapImagesAction?(references: references, attachments: attachments, image: cell.imageView.image, index: indexPath.item)
     }
