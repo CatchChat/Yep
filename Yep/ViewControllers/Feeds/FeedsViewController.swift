@@ -452,8 +452,8 @@ final class FeedsViewController: BaseViewController {
 
             if skill == nil {
                 if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
-                    if let JSON = offlineJSON.JSON, (feeds, _) = parseFeeds(JSON) {
-                        self.feeds = feeds
+                    if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
+                        self.feeds = feeds.flatMap({ $0 })
                         activityIndicator.stopAnimating()
                     }
                 }
@@ -608,9 +608,11 @@ final class FeedsViewController: BaseViewController {
 
         let perPage = 20
 
-        let completion: ([DiscoveredFeed], Int) -> Void = { validFeeds, originalFeedsCount in
+        let completion: ([DiscoveredFeed?]) -> Void = { feeds in
 
-            println("new feeds.count: \(validFeeds.count)")
+            let originalFeedsCount = feeds.count
+            println("new feeds.count: \(originalFeedsCount)")
+            let validFeeds = feeds.flatMap({ $0 })
 
             SafeDispatch.async { [weak self] in
 

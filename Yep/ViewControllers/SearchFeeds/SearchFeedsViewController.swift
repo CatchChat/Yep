@@ -381,7 +381,10 @@ final class SearchFeedsViewController: SegueViewController {
 
         let perPage: Int = 30
 
-        feedsWithKeyword(keyword, skillID: skill?.id, userID: profileUser?.userID, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler) { [weak self] validFeeds, originalFeedsCount  in
+        feedsWithKeyword(keyword, skillID: skill?.id, userID: profileUser?.userID, pageIndex: currentPageIndex, perPage: perPage, failureHandler: failureHandler) { [weak self] feeds in
+
+            let originalFeedsCount = feeds.count
+            let validFeeds = feeds.flatMap({ $0 })
 
             SafeDispatch.async { [weak self] in
 

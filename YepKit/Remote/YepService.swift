@@ -2925,16 +2925,16 @@ public let parseFeed: JSONDictionary -> DiscoveredFeed? = { data in
     return nil
 }
 
-public let parseFeeds: JSONDictionary -> (validFeeds: [DiscoveredFeed], originalFeedsCount: Int)? = { data in
+public let parseFeeds: JSONDictionary -> [DiscoveredFeed?]? = { data in
 
     if let feedsData = data["topics"] as? [JSONDictionary] {
-        return (validFeeds: feedsData.map({ DiscoveredFeed.fromFeedInfo($0, groupInfo: nil) }).flatMap({ $0 }), originalFeedsCount: feedsData.count)
+        return feedsData.map({ DiscoveredFeed.fromFeedInfo($0, groupInfo: nil) })
     }
 
     return nil
 }
 
-public func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageIndex: Int, perPage: Int, maxFeedID: String?, failureHandler: ((Reason, String?) -> Void)?, completion: (validFeeds: [DiscoveredFeed], originalFeedsCount: Int) -> Void) {
+public func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, pageIndex: Int, perPage: Int, maxFeedID: String?, failureHandler: ((Reason, String?) -> Void)?, completion: (feeds: [DiscoveredFeed?]) -> Void) {
 
     var requestParameters: JSONDictionary = [
         "sort": sortStyle.rawValue,
@@ -2950,7 +2950,7 @@ public func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, 
         requestParameters["max_id"] = maxFeedID
     }
 
-    let parse: JSONDictionary -> (validFeeds: [DiscoveredFeed], originalFeedsCount: Int)? = { data in
+    let parse: JSONDictionary -> ([DiscoveredFeed?])? = { data in
 
         // 只离线第一页，且无 skill
         if pageIndex == 1 && skill == nil {
@@ -2975,10 +2975,10 @@ public func discoverFeedsWithSortStyle(sortStyle: FeedSortStyle, skill: Skill?, 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func feedsWithKeyword(keyword: String, skillID: String?, userID: String?, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: (validFeeds: [DiscoveredFeed], originalFeedsCount: Int) -> Void) {
+public func feedsWithKeyword(keyword: String, skillID: String?, userID: String?, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: (feeds: [DiscoveredFeed?]) -> Void) {
 
     guard !keyword.isEmpty else {
-        completion(validFeeds: [], originalFeedsCount: 0)
+        completion(feeds: [])
         return
     }
 
@@ -2996,7 +2996,7 @@ public func feedsWithKeyword(keyword: String, skillID: String?, userID: String?,
         requestParameters["user_id"] = userID
     }
 
-    let parse: JSONDictionary -> (validFeeds: [DiscoveredFeed], originalFeedsCount: Int)? = { data in
+    let parse: JSONDictionary -> [DiscoveredFeed?]? = { data in
         return parseFeeds(data)
     }
 
@@ -3030,7 +3030,7 @@ public func feedWithSharedToken(token: String, failureHandler: FailureHandler?, 
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: (validFeeds: [DiscoveredFeed], originalFeedsCount: Int) -> Void) {
+public func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: (feeds: [DiscoveredFeed?]) -> Void) {
 
     let requestParameters: JSONDictionary = [
         "page": pageIndex,
@@ -3044,7 +3044,7 @@ public func myFeedsAtPageIndex(pageIndex: Int, perPage: Int, failureHandler: Fai
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: (validFeeds: [DiscoveredFeed], originalFeedsCount: Int) -> Void) {
+public func feedsOfUser(userID: String, pageIndex: Int, perPage: Int, failureHandler: FailureHandler?, completion: (feeds: [DiscoveredFeed?]) -> Void) {
 
     let requestParameters: JSONDictionary = [
         "page": pageIndex,
