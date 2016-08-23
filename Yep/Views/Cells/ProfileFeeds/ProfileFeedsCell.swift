@@ -117,7 +117,9 @@ final class ProfileFeedsCell: UICollectionViewCell {
                 return
             }
 
-            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { validFeeds, _ in
+            feedsOfUser(profileUser.userID, pageIndex: 1, perPage: 20, failureHandler: nil, completion: { feeds in
+
+                let validFeeds = feeds.flatMap({ $0 })
                 println("user's feeds: \(validFeeds.count)")
 
                 let feedAttachments = validFeeds.map({ feed -> DiscoveredAttachment? in
