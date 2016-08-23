@@ -11,7 +11,7 @@ import UIKit
 public struct Reference {
 
     let view: UIView
-    let image: UIImage?
+    public let image: UIImage?
 
     var imageView: UIImageView {
         let imageView = UIImageView(frame: view.bounds)
