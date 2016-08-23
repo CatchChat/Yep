@@ -39,41 +39,6 @@ final class ProfileHeaderCell: UICollectionViewCell {
         }
     }
 
-    /*
-    var location: CLLocation? {
-        didSet {
-            if let location = location {
-
-                // 优化，减少反向查询
-                if let oldLocation = oldValue {
-                    let distance = location.distanceFromLocation(oldLocation)
-                    if distance < YepConfig.Location.distanceThreshold {
-                        return
-                    }
-                }
-
-                locationLabel.text = ""
-
-                CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
-
-                    SafeDispatch.async { [weak self] in
-                        if (error != nil) {
-                            println("\(location) reverse geodcode fail: \(error?.localizedDescription)")
-                            self?.location = nil
-                        }
-
-                        if let placemarks = placemarks {
-                            if let firstPlacemark = placemarks.first {
-                                self?.locationLabel.text = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
-                            }
-                        }
-                    }
-                })
-            }
-        }
-    }
-    */
-
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
         updateAvatarWithAvatarURLString(discoveredUser.avatarURLString)
 
@@ -83,31 +48,6 @@ final class ProfileHeaderCell: UICollectionViewCell {
     func configureWithUser(user: User) {
 
         updateAvatarWithAvatarURLString(user.avatarURLString)
-
-        /*
-        if user.friendState == UserFriendState.Me.rawValue {
-
-            if !askedForPermission {
-                askedForPermission = true
-                proposeToAccess(.Location(.WhenInUse), agreed: {
-                    YepLocationService.turnOn()
-
-                    if user.isMe {
-                        YepLocationService.sharedManager.afterUpdatedLocationAction = { [weak self] newLocation in
-                            self?.location = newLocation
-                        }
-                    }
-
-                }, rejected: {
-                    println("Yep can NOT get Location. :[\n")
-                })
-            }
-
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
-        }
-
-        location = CLLocation(latitude: user.latitude, longitude: user.longitude)
-        */
     }
 
     func blurImage(image: UIImage, completion: UIImage -> Void) {
@@ -165,3 +105,4 @@ final class ProfileHeaderCell: UICollectionViewCell {
         locationLabel.text = YepLocationService.sharedManager.address
     }
 }
+
