@@ -18,7 +18,7 @@ class PhotoTransitionAnimator: NSObject {
 
     var isDismissing: Bool = false
 
-    var animationDurationWithZooming: NSTimeInterval = 0.4
+    var animationDurationWithZooming: NSTimeInterval = 4.4
     var animationDurationWithoutZooming: NSTimeInterval = 0.3
 
     var animationDurationFadeRatio: NSTimeInterval = 4.0 / 9.0
@@ -169,6 +169,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         if _startingViewForAnimation == nil {
             if let startingReference = startingReference {
                 let view = isDismissing ? startingReference.view : startingReference.imageView
+                //let view = startingReference.view
                 _startingViewForAnimation = PhotoTransitionAnimator.newAnimationViewFromView(view)
             }
         }
@@ -176,6 +177,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         if _endingViewForAnimation == nil {
             if let endingReference = endingReference {
                 let view = isDismissing ? endingReference.imageView : endingReference.view
+                //let view = endingReference.view
                 _endingViewForAnimation = PhotoTransitionAnimator.newAnimationViewFromView(view)
             }
         }
@@ -204,12 +206,14 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         var startingMaskView: UIView?
         if let _startingMaskView = startingReference?.view.maskView {
             startingMaskView = PhotoTransitionAnimator.newViewFromView(_startingMaskView)
-            startingMaskView?.frame = originalStartingViewForAnimation.bounds
+            startingMaskView?.frame = startingViewForAnimation.bounds
+            //startingMaskView?.frame = originalStartingViewForAnimation.bounds
         }
         var endingMaskView: UIView?
         if let _endingMaskView = endingReference?.view.maskView {
             endingMaskView = PhotoTransitionAnimator.newViewFromView(_endingMaskView)
-            endingMaskView?.frame = originalEndingViewForAnimation.bounds
+            endingMaskView?.frame = endingViewForAnimation.bounds
+            //endingMaskView?.frame = originalEndingViewForAnimation.bounds
         }
         startingViewForAnimation.maskView = startingMaskView
         endingViewForAnimation.maskView = endingMaskView
@@ -242,14 +246,16 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { [unowned self] in
 
             endingViewForAnimation.frame = endingViewForAnimationFinalFrame
-            endingMaskView?.frame = originalEndingViewForAnimation.bounds
+            endingMaskView?.frame = endingViewForAnimation.bounds
+            //endingMaskView?.frame = originalEndingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 endingViewForAnimation.center = translatedEndingViewFinalCenter
             }
             
             startingViewForAnimation.frame = endingViewForAnimationFinalFrame
-            startingMaskView?.frame = originalStartingViewForAnimation.bounds
+            startingMaskView?.frame = startingViewForAnimation.bounds
+            //startingMaskView?.frame = originalStartingViewForAnimation.bounds
 
             if let translatedEndingViewFinalCenter = translatedEndingViewFinalCenter {
                 startingViewForAnimation.center = translatedEndingViewFinalCenter
