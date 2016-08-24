@@ -32,7 +32,7 @@ final class AboutViewController: SegueViewController {
     private let aboutAnnotations: [String] = [
         NSLocalizedString("Open Source of Yep", comment: ""),
         NSLocalizedString("Review Yep on the App Store", comment: ""),
-        NSLocalizedString("Share Yep", comment: ""),
+        String.trans_aboutShareYep,
         NSLocalizedString("Terms of Service", comment: ""),
     ]
 
@@ -114,7 +114,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
 
         case Row.Share.rawValue:
             let yepAppStoreURLString = "https://appsto.re/cn/40pP6.i"
-            let shareString = "Yep: A community where geniuses meet \(yepAppStoreURLString)"
+            let shareString = String.trans_aboutShareYepLink(yepAppStoreURLString)
             let activityViewController = UIActivityViewController(activityItems: [shareString], applicationActivities: nil)
             presentViewController(activityViewController, animated: true, completion: nil)
 

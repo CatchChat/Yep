@@ -1,4 +1,6 @@
 
+"about.share_yep" = "Share Yep";
+"about.share_yep_link_%@" = "Yep: A community where geniuses meet %@";
 "doing%@" = " is %@...";
 "title.about" = "About";
 "prompt.accept_friend_request_failed" = "Accept Friend Request failed!";
