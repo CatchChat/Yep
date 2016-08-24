@@ -10,7 +10,7 @@
 			<key>UIApplicationShortcutItemIconFile</key>
 			<string>icon_feeds_active</string>
 			<key>UIApplicationShortcutItemType</key>
-			<string>$(PRODUCT_BUNDLE_IDENTIFIER).Shortcut.Feeds</string>
+			<string>Shortcut.Feeds</string>
 		</dict>
 	</array>
 	<key>CFBundleDevelopmentRegion</key>
