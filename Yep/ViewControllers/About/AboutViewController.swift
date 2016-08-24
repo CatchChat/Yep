@@ -27,7 +27,7 @@ final class AboutViewController: SegueViewController {
 
     @IBOutlet private weak var copyrightLabel: UILabel!
 
-    private let rowHeight: CGFloat = Ruler.iPhoneVertical(50, 60, 60, 60).value
+    private let rowHeight: CGFloat = Ruler.iPhoneVertical(45, 50, 55, 60).value
 
     private let aboutAnnotations: [String] = [
         NSLocalizedString("Open Source of Yep", comment: ""),
