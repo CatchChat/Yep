@@ -17,7 +17,7 @@ class GeniusInterviewViewController: BaseViewController {
 
     var interview: InterviewRepresentation!
 
-    private static let actionViewHeight: CGFloat = 50
+    private static let actionViewHeight: CGFloat = 49
 
     private lazy var disposeBag = DisposeBag()
 
