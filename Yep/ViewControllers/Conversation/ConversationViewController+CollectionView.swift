@@ -193,14 +193,9 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView, performAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
 
-        if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightTextCell {
-            if action == #selector(NSObject.copy(_:)) {
-                UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
-            }
-
-        } else if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftTextCell {
-            if action == #selector(NSObject.copy(_:)) {
-                UIPasteboard.generalPasteboard().string = cell.textContentTextView.text
+        if action == #selector(NSObject.copy(_:)) {
+            if let copyableCell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? Copyable {
+                UIPasteboard.generalPasteboard().string = copyableCell.text
             }
         }
     }

@@ -90,7 +90,6 @@
 		501C156E1D34DD5600FAAF5E /* InterviewRepresentation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C156D1D34DD5600FAAF5E /* InterviewRepresentation.swift */; };
 		501C15701D35D69200FAAF5E /* ChatLeftLocationCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C156F1D35D69200FAAF5E /* ChatLeftLocationCellNode.swift */; };
 		501C15721D35ED2A00FAAF5E /* ChatRightLocationCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15711D35ED2A00FAAF5E /* ChatRightLocationCellNode.swift */; };
-		501C15761D361EE600FAAF5E /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15741D361EE600FAAF5E /* Copyable.swift */; };
 		501C15791D36209300FAAF5E /* ChatViewController+Views.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C15781D36209300FAAF5E /* ChatViewController+Views.swift */; };
 		501C157B1D36219100FAAF5E /* ChatViewController+UIImagePickerControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 501C157A1D36219100FAAF5E /* ChatViewController+UIImagePickerControllerDelegate.swift */; };
 		502048241B0F1BB3002EBFC7 /* SearchedUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */; };
@@ -229,6 +228,7 @@
 		5064F6551B0B0E160089FAD4 /* AddFriendSearchCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5064F6531B0B0E160089FAD4 /* AddFriendSearchCell.xib */; };
 		5064F6591B0B14420089FAD4 /* AddFriendMoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5064F6571B0B14420089FAD4 /* AddFriendMoreCell.swift */; };
 		5064F65A1B0B14420089FAD4 /* AddFriendMoreCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5064F6581B0B14420089FAD4 /* AddFriendMoreCell.xib */; };
+		5067D5441D6D8EC600D3C010 /* Copyable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5067D5431D6D8EC600D3C010 /* Copyable.swift */; };
 		506923121ADE025200D27574 /* Waver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506923111ADE025200D27574 /* Waver.swift */; };
 		506923141ADE025F00D27574 /* YepRefreshView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 506923131ADE025F00D27574 /* YepRefreshView.swift */; };
 		5069AD7D1D6565110093DF24 /* FeedImageCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5069AD7C1D6565110093DF24 /* FeedImageCellNode.swift */; };
@@ -860,7 +860,6 @@
 		501C156D1D34DD5600FAAF5E /* InterviewRepresentation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = InterviewRepresentation.swift; path = Protocols/InterviewRepresentation.swift; sourceTree = "<group>"; };
 		501C156F1D35D69200FAAF5E /* ChatLeftLocationCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftLocationCellNode.swift; path = CellNodes/ChatLeftLocationCellNode.swift; sourceTree = "<group>"; };
 		501C15711D35ED2A00FAAF5E /* ChatRightLocationCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightLocationCellNode.swift; path = CellNodes/ChatRightLocationCellNode.swift; sourceTree = "<group>"; };
-		501C15741D361EE600FAAF5E /* Copyable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Copyable.swift; path = Protocols/Copyable.swift; sourceTree = "<group>"; };
 		501C15781D36209300FAAF5E /* ChatViewController+Views.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+Views.swift"; sourceTree = "<group>"; };
 		501C157A1D36219100FAAF5E /* ChatViewController+UIImagePickerControllerDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ChatViewController+UIImagePickerControllerDelegate.swift"; sourceTree = "<group>"; };
 		502048231B0F1BB3002EBFC7 /* SearchedUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedUsersViewController.swift; path = ViewControllers/SearchedUsers/SearchedUsersViewController.swift; sourceTree = "<group>"; };
@@ -998,6 +997,7 @@
 		5064F6531B0B0E160089FAD4 /* AddFriendSearchCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddFriendSearchCell.xib; path = Views/Cells/AddFriendSearch/AddFriendSearchCell.xib; sourceTree = "<group>"; };
 		5064F6571B0B14420089FAD4 /* AddFriendMoreCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddFriendMoreCell.swift; path = Views/Cells/AddFriendMore/AddFriendMoreCell.swift; sourceTree = "<group>"; };
 		5064F6581B0B14420089FAD4 /* AddFriendMoreCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = AddFriendMoreCell.xib; path = Views/Cells/AddFriendMore/AddFriendMoreCell.xib; sourceTree = "<group>"; };
+		5067D5431D6D8EC600D3C010 /* Copyable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Copyable.swift; path = Protocols/Copyable.swift; sourceTree = "<group>"; };
 		506923111ADE025200D27574 /* Waver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Waver.swift; path = Views/AudioWaves/Waver.swift; sourceTree = "<group>"; };
 		506923131ADE025F00D27574 /* YepRefreshView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepRefreshView.swift; path = Views/PullToRefresh/YepRefreshView.swift; sourceTree = "<group>"; };
 		5069AD7C1D6565110093DF24 /* FeedImageCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedImageCellNode.swift; path = Views/Cells/Feed/Nodes/FeedImageCellNode.swift; sourceTree = "<group>"; };
@@ -1833,14 +1833,6 @@
 				5017FC1E1CD095E100DFCB71 /* Info.plist */,
 			);
 			path = YepTests;
-			sourceTree = "<group>";
-		};
-		501C15731D361E9C00FAAF5E /* Protocols */ = {
-			isa = PBXGroup;
-			children = (
-				501C15741D361EE600FAAF5E /* Copyable.swift */,
-			);
-			name = Protocols;
 			sourceTree = "<group>";
 		};
 		502048251B0F1BB8002EBFC7 /* SearchedUsers */ = {
@@ -3117,7 +3109,6 @@
 			isa = PBXGroup;
 			children = (
 				50F47FC31D2F90DC0046DE53 /* Views */,
-				501C15731D361E9C00FAAF5E /* Protocols */,
 				50BAED7B1D2B57E70046B4AB /* CellNodes */,
 				50BAED781D2B4A4D0046B4AB /* ChatViewController.swift */,
 				501C157A1D36219100FAAF5E /* ChatViewController+UIImagePickerControllerDelegate.swift */,
@@ -3365,6 +3356,7 @@
 				50B3C9571CC9BA9000623E29 /* SearchTriggerRepresentation.swift */,
 				50B3C9591CC9BB2F00623E29 /* SearchActionRepresentation.swift */,
 				509220171D41B94600BA2C2A /* PhoneNumberRepresentation.swift */,
+				5067D5431D6D8EC600D3C010 /* Copyable.swift */,
 				50066AF91D0FAECA00EF1E0D /* Reusable.swift */,
 				50066AFB1D0FB3D800EF1E0D /* NibLoadable.swift */,
 				501C156D1D34DD5600FAAF5E /* InterviewRepresentation.swift */,
@@ -4662,6 +4654,7 @@
 				507813191CD1B01A00F193AB /* ShortcutItems.swift in Sources */,
 				508D174C1ACCF49B0092D666 /* ChatRightAudioCell.swift in Sources */,
 				50F5AF881BBBB2AE0033C9BC /* HorizontalLineView.swift in Sources */,
+				5067D5441D6D8EC600D3C010 /* Copyable.swift in Sources */,
 				50EB8CC41AE89F12001AC1EE /* ChatRightVideoCell.swift in Sources */,
 				50402F5C1C929A140071099F /* DiscoverCollectionView.swift in Sources */,
 				50AACECF1BB93336004DD54B /* FeedMediaView.swift in Sources */,
@@ -4853,7 +4846,6 @@
 				50A6A7B51D23676300E01190 /* ConversationViewController+SendMessages.swift in Sources */,
 				502B60641BD1208E00D9C17E /* CameraCell.swift in Sources */,
 				50066AFC1D0FB3D800EF1E0D /* NibLoadable.swift in Sources */,
-				501C15761D361EE600FAAF5E /* Copyable.swift in Sources */,
 				505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */,
 				6AB0DF5A1BE169000052BED1 /* ShareProfileView.swift in Sources */,
 				50B6A03B1CA27A6000C460E3 /* TableSectionTitleView.swift in Sources */,
