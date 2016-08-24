@@ -10,6 +10,10 @@ import Foundation
 
 extension String {
 
+    static func trans_aboutShareYepLink(link: String) -> String {
+        return String(format: NSLocalizedString("about.share_yep_link_%@", comment: ""), link)
+    }
+
     static func trans_promptSuccessfullyAddedSkill(skill: String, to set: String) -> String {
         return String(format: NSLocalizedString("prompt.added_skill%@_to_set%@_successfully", comment: ""), skill, set)
     }
@@ -24,6 +28,10 @@ extension String {
 }
 
 extension String {
+
+    static var trans_aboutShareYep: String {
+        return NSLocalizedString("about.share_yep", comment: "")
+    }
 
     static var trans_titleAbout: String {
         return NSLocalizedString("title.about", comment: "")

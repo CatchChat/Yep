@@ -27,11 +27,12 @@ final class AboutViewController: SegueViewController {
 
     @IBOutlet private weak var copyrightLabel: UILabel!
 
-    private let rowHeight: CGFloat = Ruler.iPhoneVertical(50, 60, 60, 60).value
+    private let rowHeight: CGFloat = Ruler.iPhoneVertical(45, 50, 55, 60).value
 
     private let aboutAnnotations: [String] = [
         NSLocalizedString("Open Source of Yep", comment: ""),
         NSLocalizedString("Review Yep on the App Store", comment: ""),
+        String.trans_aboutShareYep,
         NSLocalizedString("Terms of Service", comment: ""),
     ]
 
@@ -67,6 +68,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
     private enum Row: Int {
         case Pods = 1
         case Review
+        case Share
         case Terms
     }
 
@@ -103,10 +105,19 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         switch indexPath.row {
+
         case Row.Pods.rawValue:
             performSegueWithIdentifier("showPodsHelpYep", sender: nil)
+
         case Row.Review.rawValue:
             UIApplication.sharedApplication().yep_reviewOnTheAppStore()
+
+        case Row.Share.rawValue:
+            let yepAppStoreURLString = "https://appsto.re/cn/40pP6.i"
+            let shareString = String.trans_aboutShareYepLink(yepAppStoreURLString)
+            let activityViewController = UIActivityViewController(activityItems: [shareString], applicationActivities: nil)
+            presentViewController(activityViewController, animated: true, completion: nil)
+
         case Row.Terms.rawValue:
             if let URL = NSURL(string: YepConfig.termsURLString) {
                 yep_openURL(URL)

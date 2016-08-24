@@ -1,4 +1,6 @@
 
+"about.share_yep" = "分享 Yep";
+"about.share_yep_link_%@" = "Yep，能与天才相遇的社区 %@";
 "doing%@" = "正在%@...";
 "title.about" = "关于";
 "prompt.accept_friend_request_failed" = "接受好友请求失败！";
