@@ -105,12 +105,19 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         switch indexPath.row {
+
         case Row.Pods.rawValue:
             performSegueWithIdentifier("showPodsHelpYep", sender: nil)
+
         case Row.Review.rawValue:
             UIApplication.sharedApplication().yep_reviewOnTheAppStore()
+
         case Row.Share.rawValue:
-            UIApplication.sharedApplication().yep_reviewOnTheAppStore()
+            let yepAppStoreURLString = "https://appsto.re/cn/40pP6.i"
+            let shareString = "Yep: A community where geniuses meet \(yepAppStoreURLString)"
+            let activityViewController = UIActivityViewController(activityItems: [shareString], applicationActivities: nil)
+            presentViewController(activityViewController, animated: true, completion: nil)
+
         case Row.Terms.rawValue:
             if let URL = NSURL(string: YepConfig.termsURLString) {
                 yep_openURL(URL)
