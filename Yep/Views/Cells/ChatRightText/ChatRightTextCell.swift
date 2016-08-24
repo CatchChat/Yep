@@ -9,7 +9,7 @@
 import UIKit
 import YepKit
 
-class ChatRightTextCell: ChatRightBaseCell {
+class ChatRightTextCell: ChatRightBaseCell, Copyable {
 
     var tapUsernameAction: ((username: String) -> Void)?
     var tapFeedAction: ((feed: DiscoveredFeed?) -> Void)?
@@ -165,6 +165,12 @@ class ChatRightTextCell: ChatRightBaseCell {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
+    }
+
+    // MARK: Copyable
+
+    var text: String? {
+        return textContentTextView.text
     }
 }
 
