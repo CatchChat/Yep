@@ -15,19 +15,19 @@ func configureDynamicShortcuts() {
 
     var shortcutItems = [UIApplicationShortcutItem]()
 
-    do {
-        let type = ShortcutType.Feeds.rawValue
-
-        let item = UIApplicationShortcutItem(
-            type: type,
-            localizedTitle: String.trans_titleFeeds,
-            localizedSubtitle: nil,
-            icon: UIApplicationShortcutIcon(templateImageName: "icon_feeds_active"),
-            userInfo: nil
-        )
-
-        shortcutItems.append(item)
-    }
+//    do {
+//        let type = ShortcutType.Feeds.rawValue
+//
+//        let item = UIApplicationShortcutItem(
+//            type: type,
+//            localizedTitle: String.trans_titleFeeds,
+//            localizedSubtitle: nil,
+//            icon: UIApplicationShortcutIcon(templateImageName: "icon_feeds_active"),
+//            userInfo: nil
+//        )
+//
+//        shortcutItems.append(item)
+//    }
 
     do {
         if let realm = try? Realm() {
