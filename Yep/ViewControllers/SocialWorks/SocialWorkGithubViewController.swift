@@ -149,31 +149,28 @@ final class SocialWorkGithubViewController: BaseViewController {
 
     @objc private func share(sender: AnyObject) {
 
-        if let user = githubUser, githubURL = NSURL(string: user.htmlURLString) {
+        guard let githubUser = githubUser else { return }
+        guard let githubURL = NSURL(string: githubUser.htmlURLString) else { return }
 
-            var title: String?
-            if let githubUser = githubUser {
-                title = String(format: NSLocalizedString("whosGitHub%@", comment: ""), githubUser.loginName)
+        let title = String(format: NSLocalizedString("whosGitHub%@", comment: ""), githubUser.loginName)
+
+        var thumbnail: UIImage?
+        if let image = avatarImageView.image {
+            thumbnail = image
+
+        } else {
+            if let socialAccount = socialAccount {
+                thumbnail = UIImage(named: socialAccount.iconName)
             }
-
-            var thumbnail: UIImage?
-            if let image = avatarImageView.image {
-                thumbnail = image
-
-            } else {
-                if let socialAccount = socialAccount {
-                    thumbnail = UIImage(named: socialAccount.iconName)
-                }
-            }
-
-            let info = MonkeyKing.Info(
-                title: title,
-                description: nil,
-                thumbnail: thumbnail,
-                media: .URL(githubURL)
-            )
-            self.yep_share(info: info, defaultActivityItem: githubURL)
         }
+
+        let info = MonkeyKing.Info(
+            title: title,
+            description: nil,
+            thumbnail: thumbnail,
+            media: .URL(githubURL)
+        )
+        self.yep_share(info: info, defaultActivityItem: githubURL)
     }
 }
 

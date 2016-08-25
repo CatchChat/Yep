@@ -119,28 +119,24 @@ final class SocialWorkInstagramViewController: BaseViewController {
 
     @objc private func share(sender: AnyObject) {
 
-        if let firstMedia = instagramMedias.first {
+        guard let firstMedia = instagramMedias.first else { return}
+        let profileURLString = "https://instagram.com/" + firstMedia.username
+        guard let profileURL = NSURL(string: profileURLString) else { return }
 
-            let profileURLString = "https://instagram.com/" + firstMedia.username
+        let title = String(format: NSLocalizedString("whosInstagram%@", comment: ""), firstMedia.username)
 
-            if let profileURL = NSURL(string: profileURLString) {
-
-                let title = String(format: NSLocalizedString("whosInstagram%@", comment: ""), firstMedia.username)
-
-                var thumbnail: UIImage?
-                if let socialAccount = socialAccount {
-                    thumbnail = UIImage(named: socialAccount.iconName)
-                }
-
-                let info = MonkeyKing.Info(
-                    title: title,
-                    description: nil,
-                    thumbnail: thumbnail,
-                    media: .URL(profileURL)
-                )
-                self.yep_share(info: info, defaultActivityItem: profileURL)
-            }
+        var thumbnail: UIImage?
+        if let socialAccount = socialAccount {
+            thumbnail = UIImage(named: socialAccount.iconName)
         }
+
+        let info = MonkeyKing.Info(
+            title: title,
+            description: nil,
+            thumbnail: thumbnail,
+            media: .URL(profileURL)
+        )
+        self.yep_share(info: info, defaultActivityItem: profileURL)
     }
 }
 

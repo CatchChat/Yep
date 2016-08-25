@@ -117,25 +117,24 @@ final class SocialWorkDribbbleViewController: BaseViewController {
 
     @objc private func share(sender: AnyObject) {
 
-        if let dribbbleWork = dribbbleWork, profileURL = NSURL(string: dribbbleWork.userURLString) {
+        guard let dribbbleWork = dribbbleWork else { return }
+        guard let profileURL = NSURL(string: dribbbleWork.userURLString) else { return }
 
-            let title = String(format: NSLocalizedString("whosDribbble%@", comment: ""), dribbbleWork.username)
+        let title = String(format: NSLocalizedString("whosDribbble%@", comment: ""), dribbbleWork.username)
 
-            var thumbnail: UIImage?
-            if let socialAccount = socialAccount {
-                thumbnail = UIImage(named: socialAccount.iconName)
-            }
-
-            let info = MonkeyKing.Info(
-                title: title,
-                description: nil,
-                thumbnail: thumbnail,
-                media: .URL(profileURL)
-            )
-            self.yep_share(info: info, defaultActivityItem: profileURL)
+        var thumbnail: UIImage?
+        if let socialAccount = socialAccount {
+            thumbnail = UIImage(named: socialAccount.iconName)
         }
-    }
 
+        let info = MonkeyKing.Info(
+            title: title,
+            description: nil,
+            thumbnail: thumbnail,
+            media: .URL(profileURL)
+        )
+        self.yep_share(info: info, defaultActivityItem: profileURL)
+    }
 }
 
 extension SocialWorkDribbbleViewController: UICollectionViewDataSource, UICollectionViewDelegate {
