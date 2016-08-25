@@ -9,6 +9,7 @@
 import UIKit
 import YepKit
 import YepNetworking
+import YepPreview
 import Fabric
 import AVFoundation
 import RealmSwift
@@ -77,6 +78,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         configureYepKit()
         configureYepNetworking()
+        configureYepPreview()
 
         cacheInAdvance()
 
@@ -695,6 +697,20 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             SafeDispatch.async {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = (count > 0)
             }
+        }
+    }
+
+    private func configureYepPreview() {
+
+        YepPreview.Config.shareImageAction = { image, vc in
+
+            let info = MonkeyKing.Info(
+                title: nil,
+                description: nil,
+                thumbnail: image.navi_centerCropWithSize(CGSize(width: 100, height: 100)),
+                media: .Image(image)
+            )
+            vc.yep_share(info: info, defaultActivityItem: image)
         }
     }
 
