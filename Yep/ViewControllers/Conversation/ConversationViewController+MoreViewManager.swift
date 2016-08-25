@@ -174,14 +174,14 @@ extension ConversationViewController {
         }
 
         let info = MonkeyKing.Info(
-            title: NSLocalizedString("Join Us", comment: ""),
+            title: String.trans_titleShareFeed,
             description: description,
             thumbnail: feedView?.mediaView.imageView1.image,
             media: .URL(groupShareURL)
         )
 
         let timeLineinfo = MonkeyKing.Info(
-            title: "\(NSLocalizedString("Join Us", comment: "")) \(description)",
+            title: String.trans_shareFeedWithDescription(description),
             description: description,
             thumbnail: feedView?.mediaView.imageView1.image,
             media: .URL(groupShareURL)

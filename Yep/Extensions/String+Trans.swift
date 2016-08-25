@@ -21,6 +21,10 @@ extension String {
     static func trans_promptFeedInfoTooLong(count: Int) -> String {
         return String(format: NSLocalizedString("prompt.feed_info_too_long_%d", comment: ""), count)
     }
+
+    static func trans_shareFeedWithDescription(description: String) -> String {
+        return String(format: NSLocalizedString("title.share_feed_with_description_%@", comment: ""), description)
+    }
 }
 
 extension String {
@@ -342,15 +346,18 @@ extension String {
     static var trans_timeFrom: String {
         return NSLocalizedString("time.from", comment: "")
     }
+
     static var trans_showGenius: String {
         return NSLocalizedString("show.genius", comment: "")
     }
+
     static var trans_promptGetNotifiedWithSubscribe: String {
         return NSLocalizedString("prompt.get_notified_with_subscribe", comment: "")
     }
 
-
-
+    static var trans_titleShareFeed: String {
+        return NSLocalizedString("title.share_feed", comment: "")
+    }
 }
 
 extension String {

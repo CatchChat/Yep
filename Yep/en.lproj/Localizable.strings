@@ -105,7 +105,8 @@
 "Introduce yourself here." = "Introduce yourself here.";
 "Introduction" = "Introduction";
 "Invalid URL!" = "Invalid URL!";
-"Join Us" = "Join Us";
+"title.share_feed" = "Yep Feed";
+"title.share_feed_with_description_%@" = "Yep Feed: %@";
 "Joined Feeds" = "Joined Feeds";
 "Last seen %@" = "Last seen %@";
 "Lately" = "Lately";
