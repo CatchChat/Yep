@@ -227,15 +227,16 @@ extension UIViewController {
             )
         }
 
-        let activityViewController = UIActivityViewController(
-            activityItems: [activityItem],
-            applicationActivities: [
-                weChatSessionActivity(),
-                weChatTimelineActivity()
-            ]
-        )
-
-        self.presentViewController(activityViewController, animated: true, completion: nil)
+        SafeDispatch.async { [weak self] in
+            let activityViewController = UIActivityViewController(
+                activityItems: [activityItem],
+                applicationActivities: [
+                    weChatSessionActivity(),
+                    weChatTimelineActivity()
+                ]
+            )
+            self?.presentViewController(activityViewController, animated: true, completion: nil)
+        }
     }
 }
 

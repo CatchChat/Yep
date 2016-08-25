@@ -169,20 +169,27 @@ extension ConversationViewController {
 
     private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
 
+        guard let groupShareURL = NSURL(string: groupShareURLString) else {
+            return
+        }
+
         let info = MonkeyKing.Info(
             title: NSLocalizedString("Join Us", comment: ""),
             description: description,
             thumbnail: feedView?.mediaView.imageView1.image,
-            media: .URL(NSURL(string: groupShareURLString)!)
+            media: .URL(groupShareURL)
         )
 
         let timeLineinfo = MonkeyKing.Info(
             title: "\(NSLocalizedString("Join Us", comment: "")) \(description)",
             description: description,
             thumbnail: feedView?.mediaView.imageView1.image,
-            media: .URL(NSURL(string: groupShareURLString)!)
+            media: .URL(groupShareURL)
         )
 
+        self.yep_share(info: info, timelineInfo: timeLineinfo, defaultActivityItem: groupShareURL)
+
+        /*
         let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
 
         let weChatSessionActivity = WeChatActivity(
@@ -211,6 +218,7 @@ extension ConversationViewController {
         SafeDispatch.async { [weak self] in
             self?.presentViewController(activityViewController, animated: true, completion: nil)
         }
+         */
     }
 
     private func tryUpdateGroupAffair(afterSubscribed afterSubscribed: (() -> Void)? = nil) {
