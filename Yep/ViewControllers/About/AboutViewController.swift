@@ -121,7 +121,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
                 thumbnail: UIImage.yep_yepIconSolo,
                 media: .URL(yepURL)
             )
-            self.yep_share(info: info, defaultActivityItem: yepURL)
+            self.yep_share(info: info, defaultActivityItem: yepURL, description: String.trans_aboutYepDescription)
 
         case Row.Terms.rawValue:
             if let URL = NSURL(string: YepConfig.termsURLString) {

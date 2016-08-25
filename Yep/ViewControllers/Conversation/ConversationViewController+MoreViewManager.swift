@@ -187,7 +187,7 @@ extension ConversationViewController {
             media: .URL(groupShareURL)
         )
 
-        self.yep_share(info: info, timelineInfo: timeLineinfo, defaultActivityItem: groupShareURL)
+        self.yep_share(info: info, timelineInfo: timeLineinfo, defaultActivityItem: groupShareURL, description: description)
     }
 
     private func tryUpdateGroupAffair(afterSubscribed afterSubscribed: (() -> Void)? = nil) {

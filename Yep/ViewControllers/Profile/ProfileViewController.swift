@@ -657,7 +657,8 @@ final class ProfileViewController: SegueViewController {
             thumbnail: thumbnail,
             media: .URL(profileURL)
         )
-        self.yep_share(info: info, defaultActivityItem: profileURL)
+        let description = String.trans_shareUserFromYepWithSkills(nickname)
+        self.yep_share(info: info, defaultActivityItem: profileURL, description: description)
     }
 
     @objc private func tryShareMyProfile(sender: AnyObject?) {

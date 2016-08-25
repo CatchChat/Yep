@@ -25,6 +25,10 @@ extension String {
     static func trans_shareFeedWithDescription(description: String) -> String {
         return String(format: NSLocalizedString("title.share_feed_with_description_%@", comment: ""), description)
     }
+
+    static func trans_shareUserFromYepWithSkills(name: String) -> String {
+        return String(format: NSLocalizedString("share.user_%@_from_yep_with_skills", comment: ""), name)
+    }
 }
 
 extension String {

@@ -199,7 +199,7 @@ extension UIViewController {
 
 extension UIViewController {
 
-    func yep_share<T: AnyObject where T: Shareable>(info sessionInfo: MonkeyKing.Info, timelineInfo: MonkeyKing.Info? = nil, defaultActivityItem activityItem: T, discription: String? = nil) {
+    func yep_share<T: AnyObject where T: Shareable>(info sessionInfo: MonkeyKing.Info, timelineInfo: MonkeyKing.Info? = nil, defaultActivityItem activityItem: T, description: String? = nil) {
 
         func weChatSessionActivity() -> WeChatActivity {
 
@@ -229,8 +229,8 @@ extension UIViewController {
 
         SafeDispatch.async { [weak self] in
             var activityItems: [AnyObject] = [activityItem]
-            if let discription = discription {
-                activityItems.append(discription)
+            if let description = description {
+                activityItems.append(description)
             }
             let activityViewController = UIActivityViewController(
                 activityItems: activityItems,
