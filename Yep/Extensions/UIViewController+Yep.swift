@@ -199,11 +199,11 @@ extension UIViewController {
 
 extension UIViewController {
 
-    func yep_share(info info: MonkeyKing.Info, defaultActivityItem activityItem: AnyObject) {
+    func yep_share(info sessionInfo: MonkeyKing.Info, timelineInfo: MonkeyKing.Info? = nil, defaultActivityItem activityItem: AnyObject) {
 
         func weChatSessionActivity() -> WeChatActivity {
 
-            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
+            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: sessionInfo))
 
             return WeChatActivity(
                 type: .Session,
@@ -216,7 +216,7 @@ extension UIViewController {
 
         func weChatTimelineActivity() -> WeChatActivity {
 
-            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
+            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: timelineInfo ?? sessionInfo))
 
             return WeChatActivity(
                 type: .Timeline,
