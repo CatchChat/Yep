@@ -639,7 +639,6 @@ final class ProfileViewController: SegueViewController {
         }
 
         var thumbnail: UIImage?
-
         if let
             avatarURLString = profileUser?.avatarURLString,
             realm = try? Realm(),
@@ -659,40 +658,6 @@ final class ProfileViewController: SegueViewController {
             media: .URL(profileURL)
         )
         self.yep_share(info: info, defaultActivityItem: profileURL)
-
-        /*
-        let info = MonkeyKing.Info(
-            title: nickname,
-            description: String.trans_shareFromYepWithSkills,
-            thumbnail: thumbnail,
-            media: .URL(profileURL)
-        )
-
-        let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
-
-        let weChatSessionActivity = WeChatActivity(
-            type: .Session,
-            message: sessionMessage,
-            completionHandler: { success in
-                println("share Profile to WeChat Session success: \(success)")
-            }
-        )
-
-        let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
-
-        let weChatTimelineActivity = WeChatActivity(
-            type: .Timeline,
-            message: timelineMessage,
-            completionHandler: { success in
-                println("share Profile to WeChat Timeline success: \(success)")
-            }
-        )
-        
-        let activityViewController = UIActivityViewController(activityItems: ["\(nickname), \(String.trans_shareFromYepWithSkills) \(profileURL)"], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-        activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
-
-        self.presentViewController(activityViewController, animated: true, completion: nil)
-         */
     }
 
     @objc private func tryShareMyProfile(sender: AnyObject?) {

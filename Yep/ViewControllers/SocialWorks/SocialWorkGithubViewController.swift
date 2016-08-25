@@ -173,39 +173,6 @@ final class SocialWorkGithubViewController: BaseViewController {
                 media: .URL(githubURL)
             )
             self.yep_share(info: info, defaultActivityItem: githubURL)
-
-            /*
-            let info = MonkeyKing.Info(
-                title: title,
-                description: nil,
-                thumbnail: thumbnail,
-                media: .URL(githubURL)
-            )
-
-            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
-
-            let weChatSessionActivity = WeChatActivity(
-                type: .Session,
-                message: sessionMessage,
-                completionHandler: { success in
-                    println("share GitHub to WeChat Session success: \(success)")
-                }
-            )
-
-            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
-
-            let weChatTimelineActivity = WeChatActivity(
-                type: .Timeline,
-                message: timelineMessage,
-                completionHandler: { success in
-                    println("share GitHub to WeChat Timeline success: \(success)")
-                }
-            )
-
-            let activityViewController = UIActivityViewController(activityItems: [githubURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-            activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
-            presentViewController(activityViewController, animated: true, completion: nil)
-             */
         }
     }
 }
