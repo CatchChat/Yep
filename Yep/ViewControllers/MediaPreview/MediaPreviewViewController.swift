@@ -556,6 +556,20 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
                 mediaControlView.type = .Image
 
+                guard let imageFileURL = message.imageFileURL else { break }
+                guard let image = UIImage(contentsOfFile: imageFileURL.path!) else { break }
+
+                mediaControlView.shareAction = { [weak self] in
+                    let info = MonkeyKing.Info(
+                        title: nil,
+                        description: nil,
+                        thumbnail: nil,
+                        media: .Image(image)
+                    )
+                    self?.yep_share(info: info, defaultActivityItem: image)
+                }
+
+                /*
                 if let
                     imageFileURL = message.imageFileURL,
                     image = UIImage(contentsOfFile: imageFileURL.path!) {
@@ -595,6 +609,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                             self?.presentViewController(activityViewController, animated: true, completion: nil)
                         }
                 }
+                 */
 
             case .Video:
 
@@ -678,6 +693,15 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                     thumbnail: nil,
                     media: .Image(image)
                 )
+                self?.yep_share(info: info, defaultActivityItem: image)
+
+                /*
+                let info = MonkeyKing.Info(
+                    title: nil,
+                    description: nil,
+                    thumbnail: nil,
+                    media: .Image(image)
+                )
 
                 let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
 
@@ -703,12 +727,22 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 activityViewController.excludedActivityTypes = [UIActivityTypeMessage,UIActivityTypeMail]
                 
                 self?.presentViewController(activityViewController, animated: true, completion: nil)
+                 */
             }
 
         case .WebImage(_, let linkURL):
 
             mediaControlView.shareAction = { [weak self] in
 
+                let info = MonkeyKing.Info(
+                    title: nil,
+                    description: nil,
+                    thumbnail: nil,
+                    media: .URL(linkURL)
+                )
+                self?.yep_share(info: info, defaultActivityItem: linkURL)
+
+                /*
                 let info = MonkeyKing.Info(
                     title: nil,
                     description: nil,
@@ -739,6 +773,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 let activityViewController = UIActivityViewController(activityItems: [linkURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
                 activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
                 self?.presentViewController(activityViewController, animated: true, completion: nil)
+                 */
             }
         }
     }
