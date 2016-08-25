@@ -626,8 +626,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                     mediaControlView.shareAction = { [weak self] in
                         let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
 
-                        self?.presentViewController(activityViewController, animated: true, completion: { () -> Void in
-                        })
+                        self?.presentViewController(activityViewController, animated: true, completion: nil)
                     }
                 }
 
