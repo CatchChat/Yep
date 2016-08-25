@@ -11,8 +11,9 @@ import SafariServices
 import YepKit
 import YepNetworking
 import AutoReview
+import MonkeyKing
 
-// MAKR: - Heights
+// MARK: - Heights
 
 extension UIViewController {
 
@@ -42,7 +43,7 @@ extension UIViewController {
     }
 }
 
-// MAKR: - Report
+// MARK: - Report
 
 extension ReportReason {
 
@@ -142,7 +143,7 @@ extension UIViewController {
     }
 }
 
-// MAKR: - openURL
+// MARK: - openURL
 
 extension UIViewController {
 
@@ -191,6 +192,55 @@ extension UIViewController {
 
     func alertSaveFileFailed() {
         YepAlert.alertSorry(message: NSLocalizedString("Yep can not save files!\nProbably not enough storage space.", comment: ""), inViewController: self)
+    }
+}
+
+// MARK: - Share
+
+extension UIViewController {
+
+    func yep_share<T: AnyObject where T: Shareable>(info sessionInfo: MonkeyKing.Info, timelineInfo: MonkeyKing.Info? = nil, defaultActivityItem activityItem: T, description: String? = nil) {
+
+        func weChatSessionActivity() -> WeChatActivity {
+
+            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: sessionInfo))
+
+            return WeChatActivity(
+                type: .Session,
+                message: sessionMessage,
+                completionHandler: { success in
+                    println("share to WeChat Session success: \(success)")
+                }
+            )
+        }
+
+        func weChatTimelineActivity() -> WeChatActivity {
+
+            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: timelineInfo ?? sessionInfo))
+
+            return WeChatActivity(
+                type: .Timeline,
+                message: timelineMessage,
+                completionHandler: { success in
+                    println("share to WeChat Timeline success: \(success)")
+                }
+            )
+        }
+
+        SafeDispatch.async { [weak self] in
+            var activityItems: [AnyObject] = [activityItem]
+            if let description = description {
+                activityItems.append(description)
+            }
+            let activityViewController = UIActivityViewController(
+                activityItems: activityItems,
+                applicationActivities: [
+                    weChatSessionActivity(),
+                    weChatTimelineActivity()
+                ]
+            )
+            self?.presentViewController(activityViewController, animated: true, completion: nil)
+        }
     }
 }
 

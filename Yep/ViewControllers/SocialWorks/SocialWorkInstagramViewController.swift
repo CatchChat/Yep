@@ -119,51 +119,24 @@ final class SocialWorkInstagramViewController: BaseViewController {
 
     @objc private func share(sender: AnyObject) {
 
-        if let firstMedia = instagramMedias.first {
+        guard let firstMedia = instagramMedias.first else { return}
+        let profileURLString = "https://instagram.com/" + firstMedia.username
+        guard let profileURL = NSURL(string: profileURLString) else { return }
 
-            let profileURLString = "https://instagram.com/" + firstMedia.username
+        let title = String(format: NSLocalizedString("whosInstagram%@", comment: ""), firstMedia.username)
 
-            if let profileURL = NSURL(string: profileURLString) {
-
-                let title = String(format: NSLocalizedString("whosInstagram%@", comment: ""), firstMedia.username)
-
-                var thumbnail: UIImage?
-                if let socialAccount = socialAccount {
-                    thumbnail = UIImage(named: socialAccount.iconName)
-                }
-
-                let info = MonkeyKing.Info(
-                    title: title,
-                    description: nil,
-                    thumbnail: thumbnail,
-                    media: .URL(profileURL)
-                )
-
-                let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
-
-                let weChatSessionActivity = WeChatActivity(
-                    type: .Session,
-                    message: sessionMessage,
-                    finish: { success in
-                        println("share Instagram to WeChat Session success: \(success)")
-                    }
-                )
-
-                let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
-
-                let weChatTimelineActivity = WeChatActivity(
-                    type: .Timeline,
-                    message: timelineMessage,
-                    finish: { success in
-                        println("share Instagram to WeChat Timeline success: \(success)")
-                    }
-                )
-
-                let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-                activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
-                presentViewController(activityViewController, animated: true, completion: nil)
-            }
+        var thumbnail: UIImage?
+        if let socialAccount = socialAccount {
+            thumbnail = UIImage(named: socialAccount.iconName)
         }
+
+        let info = MonkeyKing.Info(
+            title: title,
+            description: nil,
+            thumbnail: thumbnail,
+            media: .URL(profileURL)
+        )
+        self.yep_share(info: info, defaultActivityItem: profileURL)
     }
 }
 

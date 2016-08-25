@@ -556,44 +556,17 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
                 mediaControlView.type = .Image
 
-                if let
-                    imageFileURL = message.imageFileURL,
-                    image = UIImage(contentsOfFile: imageFileURL.path!) {
+                guard let imageFileURL = message.imageFileURL else { break }
+                guard let image = UIImage(contentsOfFile: imageFileURL.path!) else { break }
 
-                        mediaControlView.shareAction = { [weak self] in
-
-                            let info = MonkeyKing.Info(
-                                title: nil,
-                                description: nil,
-                                thumbnail: nil,
-                                media: .Image(image)
-                            )
-
-                            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
-
-                            let weChatSessionActivity = WeChatActivity(
-                                type: .Session,
-                                message: sessionMessage,
-                                finish: { success in
-                                    println("share Image to WeChat Session success: \(success)")
-                                }
-                            )
-
-                            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
-
-                            let weChatTimelineActivity = WeChatActivity(
-                                type: .Timeline,
-                                message: timelineMessage,
-                                finish: { success in
-                                    println("share Image to WeChat Timeline success: \(success)")
-                                }
-                            )
-
-                            let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-                            activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
-                            
-                            self?.presentViewController(activityViewController, animated: true, completion: nil)
-                        }
+                mediaControlView.shareAction = { [weak self] in
+                    let info = MonkeyKing.Info(
+                        title: nil,
+                        description: nil,
+                        thumbnail: nil,
+                        media: .Image(image)
+                    )
+                    self?.yep_share(info: info, defaultActivityItem: image)
                 }
 
             case .Video:
@@ -653,8 +626,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                     mediaControlView.shareAction = { [weak self] in
                         let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
 
-                        self?.presentViewController(activityViewController, animated: true, completion: { () -> Void in
-                        })
+                        self?.presentViewController(activityViewController, animated: true, completion: nil)
                     }
                 }
 
@@ -678,31 +650,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                     thumbnail: nil,
                     media: .Image(image)
                 )
-
-                let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
-
-                let weChatSessionActivity = WeChatActivity(
-                    type: .Session,
-                    message: sessionMessage,
-                    finish: { success in
-                        println("share Image to WeChat Session success: \(success)")
-                    }
-                )
-                
-                let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
-                
-                let weChatTimelineActivity = WeChatActivity(
-                    type: .Timeline,
-                    message: timelineMessage,
-                    finish: { success in
-                        println("share Image to WeChat Timeline success: \(success)")
-                    }
-                )
-                
-                let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-                activityViewController.excludedActivityTypes = [UIActivityTypeMessage,UIActivityTypeMail]
-                
-                self?.presentViewController(activityViewController, animated: true, completion: nil)
+                self?.yep_share(info: info, defaultActivityItem: image)
             }
 
         case .WebImage(_, let linkURL):
@@ -715,30 +663,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                     thumbnail: nil,
                     media: .URL(linkURL)
                 )
-
-                let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
-
-                let weChatSessionActivity = WeChatActivity(
-                    type: .Session,
-                    message: sessionMessage,
-                    finish: { success in
-                        println("share WebImage URL to WeChat Session success: \(success)")
-                    }
-                )
-
-                let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
-
-                let weChatTimelineActivity = WeChatActivity(
-                    type: .Timeline,
-                    message: timelineMessage,
-                    finish: { success in
-                        println("share WebImage URL to WeChat Timeline success: \(success)")
-                    }
-                )
-
-                let activityViewController = UIActivityViewController(activityItems: [linkURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-                activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
-                self?.presentViewController(activityViewController, animated: true, completion: nil)
+                self?.yep_share(info: info, defaultActivityItem: linkURL)
             }
         }
     }
