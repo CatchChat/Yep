@@ -32,7 +32,7 @@ final class AboutViewController: SegueViewController {
     private let aboutAnnotations: [String] = [
         NSLocalizedString("Open Source of Yep", comment: ""),
         NSLocalizedString("Review Yep on the App Store", comment: ""),
-        String.trans_aboutShareYep,
+        String.trans_aboutRecommendYep,
         NSLocalizedString("Terms of Service", comment: ""),
     ]
 
