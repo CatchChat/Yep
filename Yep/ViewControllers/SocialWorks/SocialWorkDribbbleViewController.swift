@@ -132,6 +132,15 @@ final class SocialWorkDribbbleViewController: BaseViewController {
                 thumbnail: thumbnail,
                 media: .URL(profileURL)
             )
+            self.yep_share(info: info, defaultActivityItem: profileURL)
+
+            /*
+            let info = MonkeyKing.Info(
+                title: title,
+                description: nil,
+                thumbnail: thumbnail,
+                media: .URL(profileURL)
+            )
 
             let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
 
@@ -156,6 +165,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
             let activityViewController = UIActivityViewController(activityItems: [profileURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
             activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
             presentViewController(activityViewController, animated: true, completion: nil)
+             */
         }
     }
 
