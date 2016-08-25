@@ -172,6 +172,15 @@ final class SocialWorkGithubViewController: BaseViewController {
                 thumbnail: thumbnail,
                 media: .URL(githubURL)
             )
+            self.yep_share(info: info, defaultActivityItem: githubURL)
+
+            /*
+            let info = MonkeyKing.Info(
+                title: title,
+                description: nil,
+                thumbnail: thumbnail,
+                media: .URL(githubURL)
+            )
 
             let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
 
@@ -196,6 +205,7 @@ final class SocialWorkGithubViewController: BaseViewController {
             let activityViewController = UIActivityViewController(activityItems: [githubURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
             activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
             presentViewController(activityViewController, animated: true, completion: nil)
+             */
         }
     }
 }
