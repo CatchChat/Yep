@@ -23,12 +23,9 @@ public class PhotosViewController: UIViewController {
         view.backgroundColor = UIColor.clearColor()
 
         view.shareAction = { [weak self] in
-            guard let image = self?.currentlyDisplayedPhoto?.image else {
-                return
-            }
-
-            let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-            self?.presentViewController(activityViewController, animated: true, completion: nil)
+            guard let strongSelf = self else { return }
+            guard let image = strongSelf.currentlyDisplayedPhoto?.image else { return }
+            Config.shareImageAction?(image: image, fromViewController: strongSelf)
         }
 
         return view
