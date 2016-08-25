@@ -574,7 +574,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                             let weChatSessionActivity = WeChatActivity(
                                 type: .Session,
                                 message: sessionMessage,
-                                finish: { success in
+                                completionHandler: { success in
                                     println("share Image to WeChat Session success: \(success)")
                                 }
                             )
@@ -584,7 +584,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                             let weChatTimelineActivity = WeChatActivity(
                                 type: .Timeline,
                                 message: timelineMessage,
-                                finish: { success in
+                                completionHandler: { success in
                                     println("share Image to WeChat Timeline success: \(success)")
                                 }
                             )
@@ -684,7 +684,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 let weChatSessionActivity = WeChatActivity(
                     type: .Session,
                     message: sessionMessage,
-                    finish: { success in
+                    completionHandler: { success in
                         println("share Image to WeChat Session success: \(success)")
                     }
                 )
@@ -694,7 +694,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 let weChatTimelineActivity = WeChatActivity(
                     type: .Timeline,
                     message: timelineMessage,
-                    finish: { success in
+                    completionHandler: { success in
                         println("share Image to WeChat Timeline success: \(success)")
                     }
                 )
@@ -721,7 +721,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 let weChatSessionActivity = WeChatActivity(
                     type: .Session,
                     message: sessionMessage,
-                    finish: { success in
+                    completionHandler: { success in
                         println("share WebImage URL to WeChat Session success: \(success)")
                     }
                 )
@@ -731,7 +731,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 let weChatTimelineActivity = WeChatActivity(
                     type: .Timeline,
                     message: timelineMessage,
-                    finish: { success in
+                    completionHandler: { success in
                         println("share WebImage URL to WeChat Timeline success: \(success)")
                     }
                 )

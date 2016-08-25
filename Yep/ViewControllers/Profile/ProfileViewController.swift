@@ -664,7 +664,7 @@ final class ProfileViewController: SegueViewController {
         let weChatSessionActivity = WeChatActivity(
             type: .Session,
             message: sessionMessage,
-            finish: { success in
+            completionHandler: { success in
                 println("share Profile to WeChat Session success: \(success)")
             }
         )
@@ -674,7 +674,7 @@ final class ProfileViewController: SegueViewController {
         let weChatTimelineActivity = WeChatActivity(
             type: .Timeline,
             message: timelineMessage,
-            finish: { success in
+            completionHandler: { success in
                 println("share Profile to WeChat Timeline success: \(success)")
             }
         )

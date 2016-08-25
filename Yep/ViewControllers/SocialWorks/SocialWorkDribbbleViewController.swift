@@ -138,7 +138,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
             let weChatSessionActivity = WeChatActivity(
                 type: .Session,
                 message: sessionMessage,
-                finish: { success in
+                completionHandler: { success in
                     println("share Dribbble to WeChat Session success: \(success)")
                 }
             )
@@ -148,7 +148,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
             let weChatTimelineActivity = WeChatActivity(
                 type: .Timeline,
                 message: timelineMessage,
-                finish: { success in
+                completionHandler: { success in
                     println("share Dribbble to WeChat Timeline success: \(success)")
                 }
             )

@@ -188,7 +188,7 @@ extension ConversationViewController {
         let weChatSessionActivity = WeChatActivity(
             type: .Session,
             message: sessionMessage,
-            finish: { success in
+            completionHandler: { success in
                 println("share Feed to WeChat Session success: \(success)")
             }
         )
@@ -198,7 +198,7 @@ extension ConversationViewController {
         let weChatTimelineActivity = WeChatActivity(
             type: .Timeline,
             message: timelineMessage,
-            finish: { success in
+            completionHandler: { success in
                 println("share Feed to WeChat Timeline success: \(success)")
             }
         )

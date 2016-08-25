@@ -178,7 +178,7 @@ final class SocialWorkGithubViewController: BaseViewController {
             let weChatSessionActivity = WeChatActivity(
                 type: .Session,
                 message: sessionMessage,
-                finish: { success in
+                completionHandler: { success in
                     println("share GitHub to WeChat Session success: \(success)")
                 }
             )
@@ -188,7 +188,7 @@ final class SocialWorkGithubViewController: BaseViewController {
             let weChatTimelineActivity = WeChatActivity(
                 type: .Timeline,
                 message: timelineMessage,
-                finish: { success in
+                completionHandler: { success in
                     println("share GitHub to WeChat Timeline success: \(success)")
                 }
             )
