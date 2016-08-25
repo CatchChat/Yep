@@ -773,7 +773,7 @@ public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [St
         }, completion: { allUnreadMessages in
             
             //println("\n allUnreadMessages: \(allUnreadMessages)")
-            println("Got unread message: \(allUnreadMessages.count)")
+            println("Got unread message.count: \(allUnreadMessages.count)")
 
             /*
             for message in allUnreadMessages {

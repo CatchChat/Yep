@@ -184,7 +184,7 @@ final public class YepUserDefaults {
             tabBarItemTextEnabled.removeAllListeners()
         }
 
-        do { // Manually reset
+        do { // manually reset
             YepUserDefaults.v1AccessToken.value = nil
             YepUserDefaults.userID.value = nil
             YepUserDefaults.nickname.value = nil
@@ -198,29 +198,18 @@ final public class YepUserDefaults {
             YepUserDefaults.mobile.value = nil
             YepUserDefaults.discoveredUserSortStyle.value = nil
             YepUserDefaults.feedSortStyle.value = nil
-            // No reset Location related
+            // not reset Location related keys
             YepUserDefaults.syncedConversations.value = false
             YepUserDefaults.appLaunchCount.value = 0
             YepUserDefaults.tabBarItemTextEnabled.value = nil
             defaults.synchronize()
         }
 
-        /*
-        // reset suite
-
-        let dict = defaults.dictionaryRepresentation()
-        dict.keys.forEach({
-            println("removeObjectForKey defaults key: \($0)")
-            defaults.removeObjectForKey($0)
-        })
-        defaults.synchronize()
-
-        // reset standardUserDefaults
-
-        let standardUserDefaults = NSUserDefaults.standardUserDefaults()
-        standardUserDefaults.removePersistentDomainForName(NSBundle.mainBundle().bundleIdentifier!)
-        standardUserDefaults.synchronize()
-         */
+        do { // reset standardUserDefaults
+            let standardUserDefaults = NSUserDefaults.standardUserDefaults()
+            standardUserDefaults.removePersistentDomainForName(NSBundle.mainBundle().bundleIdentifier!)
+            standardUserDefaults.synchronize()
+        }
     }
 
     public class func maybeUserNeedRelogin(prerequisites prerequisites: () -> Bool, confirm: () -> Void) {
