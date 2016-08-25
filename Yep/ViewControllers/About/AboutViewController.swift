@@ -32,7 +32,7 @@ final class AboutViewController: SegueViewController {
     private let aboutAnnotations: [String] = [
         NSLocalizedString("Open Source of Yep", comment: ""),
         NSLocalizedString("Review Yep on the App Store", comment: ""),
-        String.trans_aboutShareYep,
+        String.trans_aboutRecommendYep,
         NSLocalizedString("Terms of Service", comment: ""),
     ]
 
@@ -113,15 +113,15 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
             UIApplication.sharedApplication().yep_reviewOnTheAppStore()
 
         case Row.Share.rawValue:
-            let yepAppStoreURLString = "https://appsto.re/cn/40pP6.i"
-            let shareString = String.trans_aboutShareYepLink(yepAppStoreURLString)
-            let activityViewController = UIActivityViewController(activityItems: [shareString], applicationActivities: nil)
+            let yepURL = NSURL(string: "https://soyep.com")!
+            let activityViewController = UIActivityViewController(activityItems: [yepURL], applicationActivities: nil)
             presentViewController(activityViewController, animated: true, completion: nil)
 
         case Row.Terms.rawValue:
             if let URL = NSURL(string: YepConfig.termsURLString) {
                 yep_openURL(URL)
             }
+
         default:
             break
         }

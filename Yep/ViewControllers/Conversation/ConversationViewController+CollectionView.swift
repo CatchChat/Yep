@@ -169,13 +169,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(collectionView: UICollectionView, canPerformAction action: Selector, forItemAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
 
-        if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightTextCell {
-            if action == #selector(NSObject.copy(_:)) {
-                return true
-            }
-
-        } else if let _ = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftTextCell {
-            if action == #selector(NSObject.copy(_:)) {
+        if action == #selector(NSObject.copy(_:)) {
+            if conversationCollectionView.cellForItemAtIndexPath(indexPath) is Copyable {
                 return true
             }
         }
