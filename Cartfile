@@ -8,5 +8,5 @@ github "nixzhu/Navi"
 github "nixzhu/KeyboardMan"
 github "nixzhu/Ruler"
 github "nixzhu/Proposer"
-github "nixzhu/MonkeyKing" ~> 0.0.2
+github "nixzhu/MonkeyKing"
 
