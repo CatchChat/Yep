@@ -8,6 +8,7 @@
 
 import UIKit
 import Ruler
+import MonkeyKing
 
 final class AboutViewController: SegueViewController {
 
@@ -114,8 +115,13 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
 
         case Row.Share.rawValue:
             let yepURL = NSURL(string: "https://soyep.com")!
-            let activityViewController = UIActivityViewController(activityItems: [yepURL], applicationActivities: nil)
-            presentViewController(activityViewController, animated: true, completion: nil)
+            let info = MonkeyKing.Info(
+                title: "Yep",
+                description: String.trans_aboutYepDescription,
+                thumbnail: UIImage.yep_yepIconSolo,
+                media: .URL(yepURL)
+            )
+            self.yep_share(info: info, defaultActivityItem: yepURL)
 
         case Row.Terms.rawValue:
             if let URL = NSURL(string: YepConfig.termsURLString) {

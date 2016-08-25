@@ -33,6 +33,10 @@ extension String {
         return NSLocalizedString("about.recommend_yep", comment: "")
     }
 
+    static var trans_aboutYepDescription: String {
+        return NSLocalizedString("about.yep_description", comment: "")
+    }
+
     static var trans_titleAbout: String {
         return NSLocalizedString("title.about", comment: "")
     }

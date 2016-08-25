@@ -1,5 +1,6 @@
 
 "about.recommend_yep" = "推荐 Yep 给朋友";
+"about.yep_description" = "与天才相遇";
 "doing%@" = "正在%@...";
 "title.about" = "关于";
 "prompt.accept_friend_request_failed" = "接受好友请求失败！";
