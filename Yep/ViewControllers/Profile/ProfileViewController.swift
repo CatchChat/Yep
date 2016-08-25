@@ -658,6 +658,15 @@ final class ProfileViewController: SegueViewController {
             thumbnail: thumbnail,
             media: .URL(profileURL)
         )
+        self.yep_share(info: info, defaultActivityItem: profileURL)
+
+        /*
+        let info = MonkeyKing.Info(
+            title: nickname,
+            description: String.trans_shareFromYepWithSkills,
+            thumbnail: thumbnail,
+            media: .URL(profileURL)
+        )
 
         let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
 
@@ -683,6 +692,7 @@ final class ProfileViewController: SegueViewController {
         activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
 
         self.presentViewController(activityViewController, animated: true, completion: nil)
+         */
     }
 
     @objc private func tryShareMyProfile(sender: AnyObject?) {
