@@ -199,7 +199,7 @@ extension UIViewController {
 
 extension UIViewController {
 
-    func yep_share(info sessionInfo: MonkeyKing.Info, timelineInfo: MonkeyKing.Info? = nil, defaultActivityItem activityItem: AnyObject, discription: String? = nil) {
+    func yep_share<T: AnyObject where T: Shareable>(info sessionInfo: MonkeyKing.Info, timelineInfo: MonkeyKing.Info? = nil, defaultActivityItem activityItem: T, discription: String? = nil) {
 
         func weChatSessionActivity() -> WeChatActivity {
 
