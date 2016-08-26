@@ -29,6 +29,15 @@ extension String {
     static func trans_shareUserFromYepWithSkills(name: String) -> String {
         return String(format: NSLocalizedString("share.user_%@_from_yep_with_skills", comment: ""), name)
     }
+
+    static func trans_promptLastSeenAt(timeString: String) -> String {
+        return String(format: NSLocalizedString("prompt.last_seen_at_%@", comment: ""), timeString)
+    }
+
+    static func trans_promptLastSeenAt(unixTime: NSTimeInterval) -> String {
+        let timeString = NSDate(timeIntervalSince1970: unixTime).timeAgo.lowercaseString
+        return trans_promptLastSeenAt(timeString)
+    }
 }
 
 extension String {

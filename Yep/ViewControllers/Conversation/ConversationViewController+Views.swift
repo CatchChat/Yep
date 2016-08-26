@@ -397,9 +397,11 @@ extension ConversationViewController {
                 }
 
                 if let timeAgo = lastSignDateOfConversation(strongSelf.conversation)?.timeAgo {
-                    titleView.stateInfoLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), timeAgo.lowercaseString)
+                    titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(timeAgo.lowercaseString)
+
                 } else if let friend = strongSelf.conversation.withFriend {
-                    titleView.stateInfoLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: friend.lastSignInUnixTime).timeAgo.lowercaseString)
+                    titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(friend.lastSignInUnixTime)
+
                 } else {
                     titleView.stateInfoLabel.text = String.trans_infoBeginChatJustNow
                 }

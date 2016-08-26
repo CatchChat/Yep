@@ -57,7 +57,7 @@ final class SearchedUserCell: UITableViewCell {
         }
 
         if showTime {
-            timeLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+            timeLabel.text = String.trans_promptLastSeenAt(user.lastSignInUnixTime)
         } else {
             timeLabel.text = nil
         }

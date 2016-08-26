@@ -110,7 +110,7 @@
 "title.share_feed" = "Yep Feed";
 "title.share_feed_with_description_%@" = "Yep Feed: %@";
 "title.joined_feeds" = "Joined Feeds";
-"Last seen %@" = "Last seen %@";
+"prompt.last_seen_at_%@" = "Last seen %@";
 "Lately" = "Lately";
 "Learning" = "Learning";
 "Location" = "Location";
