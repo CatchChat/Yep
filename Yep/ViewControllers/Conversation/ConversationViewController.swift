@@ -359,8 +359,9 @@ final class ConversationViewController: BaseViewController {
             switch change {
             case .Initial:
                 strongSelf.messagesUpdatedVersion = 0
-            case .Update:
-                strongSelf.messagesUpdatedVersion += 1
+             case .Update(_, let deletions, let insertions, _):
+                let x = (deletions.isEmpty && insertions.isEmpty) ? 0 : 1
+                strongSelf.messagesUpdatedVersion += x
             case .Error:
                 strongSelf.reloadConversationCollectionView()
             }
