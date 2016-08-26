@@ -1,13 +1,13 @@
 PODS:
   - Appsee (2.2)
-  - AsyncDisplayKit (1.9.81):
-    - AsyncDisplayKit/PINRemoteImage (= 1.9.81)
-  - AsyncDisplayKit/ASDealloc2MainObject (1.9.81)
-  - AsyncDisplayKit/Core (1.9.81):
+  - AsyncDisplayKit (1.9.90):
+    - AsyncDisplayKit/PINRemoteImage (= 1.9.90)
+  - AsyncDisplayKit/ASDealloc2MainObject (1.9.90)
+  - AsyncDisplayKit/Core (1.9.90):
     - AsyncDisplayKit/ASDealloc2MainObject
-  - AsyncDisplayKit/PINRemoteImage (1.9.81):
+  - AsyncDisplayKit/PINRemoteImage (1.9.90):
     - AsyncDisplayKit/Core
-    - PINRemoteImage/iOS (>= 3.0.0-beta.2)
+    - PINRemoteImage/iOS (>= 3.0.0-beta.3)
   - AudioBot (0.4.1)
   - AutoReview (0.1.0)
   - Base64 (1.1.2)
@@ -40,7 +40,7 @@ DEPENDENCIES:
 
 SPEC CHECKSUMS:
   Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
-  AsyncDisplayKit: 011ea22a76a79a5bbfc14501fede6e0196a3c2f0
+  AsyncDisplayKit: 926ded3ca3fb7026565e0e81f0e132fea4d3a6eb
   AudioBot: 196817a463e5993722566527845f6a13b19a5865
   AutoReview: 4110767f3fcfc1ea5bf0398b4f7b6a882dc2d73c
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
