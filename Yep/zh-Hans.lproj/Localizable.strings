@@ -109,7 +109,7 @@
 "Invalid URL!" = "无效的URL！";
 "title.share_feed" = "推荐话题";
 "title.share_feed_with_description_%@" = "推荐话题：%@";
-"Joined Feeds" = "参与的话题";
+"title.joined_feeds" = "参与的话题";
 "Last seen %@" = "上次见是%@";
 "Lately" = "最新";
 "Learning" = "正在学习";

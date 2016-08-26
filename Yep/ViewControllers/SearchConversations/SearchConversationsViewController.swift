@@ -500,7 +500,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             case .MessageRecord:
                 cell.sectionTitleLabel.text = String.trans_titleChatRecords
             case .Feed:
-                cell.sectionTitleLabel.text = NSLocalizedString("Joined Feeds", comment: "")
+                cell.sectionTitleLabel.text = String.trans_titleJoinedFeeds
             }
 
             return cell

@@ -366,6 +366,14 @@ extension String {
     static var trans_titleShareFeed: String {
         return NSLocalizedString("title.share_feed", comment: "")
     }
+
+    static var trans_titleJoinedFeeds: String {
+        return NSLocalizedString("title.joined_feeds", comment: "")
+    }
+
+
+
+
 }
 
 extension String {

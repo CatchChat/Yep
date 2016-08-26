@@ -109,7 +109,7 @@
 "Invalid URL!" = "Invalid URL!";
 "title.share_feed" = "Yep Feed";
 "title.share_feed_with_description_%@" = "Yep Feed: %@";
-"Joined Feeds" = "Joined Feeds";
+"title.joined_feeds" = "Joined Feeds";
 "Last seen %@" = "Last seen %@";
 "Lately" = "Lately";
 "Learning" = "Learning";
