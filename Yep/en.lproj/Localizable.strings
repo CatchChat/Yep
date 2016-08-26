@@ -111,11 +111,11 @@
 "title.share_feed_with_description_%@" = "Yep Feed: %@";
 "title.joined_feeds" = "Joined Feeds";
 "prompt.last_seen_at_%@" = "Last seen %@";
-"Lately" = "Lately";
+"title.lately" = "Lately";
 "Learning" = "Learning";
-"Location" = "Location";
-"Log out" = "Log out";
-"Login" = "Login";
+"title.location" = "Location";
+"title.log_out" = "Log Out";
+"title.login" = "Login";
 "Master" = "Master";
 "Match friends with your skills" = "Match friends with your skills";
 "Match me if you can" = "Match me if you can";

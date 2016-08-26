@@ -111,11 +111,11 @@
 "title.share_feed_with_description_%@" = "推荐话题：%@";
 "title.joined_feeds" = "参与的话题";
 "prompt.last_seen_at_%@" = "上次见是%@";
-"Lately" = "最新";
+"title.lately" = "最新";
 "Learning" = "正在学习";
-"Location" = "位置";
-"Log out" = "退出登录";
-"Login" = "登录";
+"title.location" = "位置";
+"title.log_out" = "退出登录";
+"title.login" = "登录";
 "Master" = "擅长";
 "Match friends with your skills" = "用技能匹配好友";
 "Match me if you can" = "以技能匹配你我";

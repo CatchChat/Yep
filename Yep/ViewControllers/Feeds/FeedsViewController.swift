@@ -157,7 +157,7 @@ final class FeedsViewController: BaseViewController {
                 }
             ),
             .Default(
-                title: NSLocalizedString("Location", comment: ""),
+                title: String.trans_titleLocation,
                 titleColor: UIColor.yepTintColor(),
                 action: { [weak self] in
                     self?.performSegueWithIdentifier("presentPickLocation", sender: nil)

@@ -22,7 +22,7 @@ final class LoginVerifyMobileViewController: BaseVerifyMobileViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Login", comment: ""))
+        navigationItem.titleView = NavigationTitleLabel(title: String.trans_titleLogin)
     }
 
     // MARK: Actions

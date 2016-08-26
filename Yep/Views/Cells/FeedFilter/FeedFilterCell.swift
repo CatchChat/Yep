@@ -29,7 +29,7 @@ class FeedFilterCell: UITableViewCell {
             case .Recommended:
                 return NSLocalizedString("Recommended", comment: "")
             case .Lately:
-                return NSLocalizedString("Lately", comment: "")
+                return String.trans_titleLately
             }
         }
     }

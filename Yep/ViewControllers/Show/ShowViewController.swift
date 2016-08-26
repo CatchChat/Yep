@@ -69,7 +69,7 @@ final class ShowViewController: UIViewController {
         pageControl.currentPageIndicatorTintColor = UIColor.yepTintColor()
 
         registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), forState: .Normal)
-        loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)
+        loginButton.setTitle(String.trans_titleLogin, forState: .Normal)
 
         registerButton.backgroundColor = UIColor.yepTintColor()
         loginButton.setTitleColor(UIColor.yepInputTextColor(), forState: .Normal)

@@ -46,7 +46,7 @@ final class LoginByMobileViewController: BaseViewController {
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 
-        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Login", comment: ""))
+        navigationItem.titleView = NavigationTitleLabel(title: String.trans_titleLogin)
    
         navigationItem.rightBarButtonItem = nextButton
 
