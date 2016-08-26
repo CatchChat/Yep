@@ -52,6 +52,7 @@ final class ConversationViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
+    private var messagesUpdatedVersion = 0
     private var messagesNotificationToken: NotificationToken?
 
     var indexOfSearchedMessage: Int?
@@ -354,6 +355,15 @@ final class ConversationViewController: BaseViewController {
         job.commit()
 
         messagesNotificationToken = messages.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
+            guard let strongSelf = self else { return }
+            switch change {
+            case .Initial:
+                strongSelf.messagesUpdatedVersion = 0
+            case .Update:
+                strongSelf.messagesUpdatedVersion += 1
+            case .Error:
+                strongSelf.reloadConversationCollectionView()
+            }
         })
 
         #if DEBUG
