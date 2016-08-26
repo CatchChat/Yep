@@ -1484,10 +1484,6 @@ final class ConversationViewController: BaseViewController {
                     }
                 }
 
-//                indexPaths = indexPaths.filter({
-//                    conversationCollectionView.cellForItemAtIndexPath($0) != nil
-//                })
-
                 switch messageAge {
 
                 case .New:
@@ -1510,18 +1506,6 @@ final class ConversationViewController: BaseViewController {
                         }
 
                         strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                        /*
-                        // double check
-                        if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
-                            strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                        } else {
-                            strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
-                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
-                            println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
-                        }
-                         */
 
                     }, completion: nil)
 
@@ -1550,18 +1534,6 @@ final class ConversationViewController: BaseViewController {
                         }
 
                         strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                        /*
-                        // double check
-                        if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
-                            strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                        } else {
-                            strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
-                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
-                            println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
-                        }
-                         */
 
                     }, completion: { [weak self] finished in
                         if let strongSelf = self {
@@ -1605,18 +1577,6 @@ final class ConversationViewController: BaseViewController {
                     }
 
                     strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                    /*
-                    // double check
-                    if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
-                        strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                    } else {
-                        strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
-                        strongSelf.lastTimeMessagesCount = strongSelf.messages.count
-                        println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
-                    }
-                     */
 
                 }, completion: nil)
 
