@@ -52,6 +52,9 @@ final class ConversationViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
+    internal private(set) var messagesUpdatedVersion = 0
+    private var messagesNotificationToken: NotificationToken?
+
     var indexOfSearchedMessage: Int?
     let messagesBunchCount = 20 // 分段载入的“一束”消息的数量
     var displayedMessagesRange = NSRange()
@@ -174,6 +177,8 @@ final class ConversationViewController: BaseViewController {
         conversationCollectionView?.delegate = nil
 
         checkTypingStatusTimer?.invalidate()
+
+        messagesNotificationToken?.stop()
 
         println("deinit ConversationViewController")
     }
@@ -348,6 +353,19 @@ final class ConversationViewController: BaseViewController {
 
         let job = FreeTimeJob(target: self, selector: #selector(ConversationViewController.prepareHeightOfMessagesInFreeTime))
         job.commit()
+
+        messagesNotificationToken = messages.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
+            guard let strongSelf = self else { return }
+            switch change {
+            case .Initial:
+                strongSelf.messagesUpdatedVersion = 0
+             case .Update(_, let deletions, let insertions, _):
+                let x = (deletions.isEmpty && insertions.isEmpty) ? 0 : 1
+                strongSelf.messagesUpdatedVersion += x
+            case .Error:
+                strongSelf.reloadConversationCollectionView()
+            }
+        })
 
         #if DEBUG
             //view.addSubview(conversationFPSLabel)
@@ -1415,6 +1433,8 @@ final class ConversationViewController: BaseViewController {
 
     private func adjustConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
 
+        let oldMessagesUpdatedVersion = self.messagesUpdatedVersion
+
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
 
@@ -1465,13 +1485,10 @@ final class ConversationViewController: BaseViewController {
                     }
                 }
 
-                indexPaths = indexPaths.filter({
-                    conversationCollectionView.cellForItemAtIndexPath($0) != nil
-                })
-
                 switch messageAge {
 
                 case .New:
+
                     conversationCollectionView.performBatchUpdates({ [weak self] in
                         guard let strongSelf = self else {
                             return
@@ -1482,15 +1499,14 @@ final class ConversationViewController: BaseViewController {
                             strongSelf.needReloadLoadPreviousSection = false
                         }
 
-                        // double check
-                        if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
-                            strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                        } else {
+                        guard strongSelf.messagesUpdatedVersion == oldMessagesUpdatedVersion else {
                             strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                             println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
+                            return
                         }
+
+                        strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
                     }, completion: nil)
 
@@ -1511,15 +1527,14 @@ final class ConversationViewController: BaseViewController {
                             strongSelf.needReloadLoadPreviousSection = false
                         }
 
-                        // double check
-                        if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
-                            strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                        } else {
+                        guard strongSelf.messagesUpdatedVersion == oldMessagesUpdatedVersion else {
                             strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                             println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
+                            return
                         }
+
+                        strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
                     }, completion: { [weak self] finished in
                         if let strongSelf = self {
@@ -1555,15 +1570,14 @@ final class ConversationViewController: BaseViewController {
                         strongSelf.needReloadLoadPreviousSection = false
                     }
 
-                    // double check
-                    if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
-                        strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                    } else {
+                    guard strongSelf.messagesUpdatedVersion == oldMessagesUpdatedVersion else {
                         strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
                         strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                         println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
+                        return
                     }
+
+                    strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
 
                 }, completion: nil)
 
@@ -1619,7 +1633,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    @objc private func reloadConversationCollectionView() {
+    @objc internal func reloadConversationCollectionView() {
         SafeDispatch.async { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.conversationCollectionView.reloadData()
