@@ -1533,6 +1533,8 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             return
         }
 
+        let oldMessagesUpdatedVersion = self.messagesUpdatedVersion
+
         openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
@@ -1565,13 +1567,22 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 // update UI
                 strongSelf.clearHeightOfMessageWithKey(message.messageID)
 
+                guard strongSelf.messagesUpdatedVersion == oldMessagesUpdatedVersion else {
+                    doInNextRunLoop { [weak self] in
+                        self?.reloadConversationCollectionView()
+                    }
+                    return
+                }
+
                 if let index = strongSelf.messages.indexOf(message) {
                     let realIndex = index - strongSelf.displayedMessagesRange.location
                     let indexPath = NSIndexPath(forItem: realIndex, inSection: Section.Message.rawValue)
 
-                    doInNextRunLoop {
-                        if strongSelf.conversationCollectionView.cellForItemAtIndexPath(indexPath) != nil {
-                            strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
+                    doInNextRunLoop { [weak self] in
+                        if self?.conversationCollectionView.cellForItemAtIndexPath(indexPath) != nil {
+                            self?.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
+                        } else {
+                            self?.reloadConversationCollectionView()
                         }
                     }
 

@@ -52,7 +52,7 @@ final class ConversationViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
-    private var messagesUpdatedVersion = 0
+    internal private(set) var messagesUpdatedVersion = 0
     private var messagesNotificationToken: NotificationToken?
 
     var indexOfSearchedMessage: Int?
@@ -1636,7 +1636,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    @objc private func reloadConversationCollectionView() {
+    @objc internal func reloadConversationCollectionView() {
         SafeDispatch.async { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.conversationCollectionView.reloadData()
