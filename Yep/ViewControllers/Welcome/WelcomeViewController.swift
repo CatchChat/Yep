@@ -25,7 +25,7 @@ final class WelcomeViewController: UIViewController {
         sloganLabel.text = NSLocalizedString("Meet Genius", comment: "")
 
         registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), forState: .Normal)
-        loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)
+        loginButton.setTitle(String.trans_titleLogin, forState: .Normal)
 
         companyLabel.text = "Catch Inc."
     }

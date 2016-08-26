@@ -579,7 +579,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
         case .LogOut:
             let cell: EditProfileColoredTitleCell = tableView.dequeueReusableCell()
-            cell.coloredTitleLabel.text = NSLocalizedString("Log out", comment: "")
+            cell.coloredTitleLabel.text = String.trans_titleLogOut
             cell.coloredTitleColor = UIColor.redColor()
             return cell
         }

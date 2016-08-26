@@ -25,7 +25,7 @@ final class FeedConversationDockCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        nameLabel.text = NSLocalizedString("Joined Feeds", comment: "")
+        nameLabel.text = String.trans_titleJoinedFeeds
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
 }

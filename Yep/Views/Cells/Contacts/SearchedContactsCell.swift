@@ -36,7 +36,7 @@ final class SearchedContactsCell: UITableViewCell {
         nicknameLabel.text = user.nickname
         usernameLabel.text = user.username.isEmpty ? nil : "@\(user.username)"
 
-        topRightLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+        topRightLabel.text = String.trans_promptLastSeenAt(user.lastSignInUnixTime)
 
         infoLabel.text = user.introduction
     }
@@ -53,7 +53,7 @@ final class SearchedContactsCell: UITableViewCell {
             usernameLabel.text = nil
         }
 
-        topRightLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo.lowercaseString)
+        topRightLabel.text = String.trans_promptLastSeenAt(discoveredUser.lastSignInUnixTime)
 
         infoLabel.text = discoveredUser.introduction
     }

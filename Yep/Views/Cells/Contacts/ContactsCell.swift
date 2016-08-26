@@ -49,7 +49,7 @@ final class ContactsCell: UITableViewCell {
         }
 
         joinedDateLabel.text = user.introduction
-        lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+        lastTimeSeenLabel.text = String.trans_promptLastSeenAt(user.lastSignInUnixTime)
     }
     
     @objc private func tapAvatar() {
@@ -71,7 +71,7 @@ final class ContactsCell: UITableViewCell {
         }
 
         joinedDateLabel.text = user.introduction
-        lastTimeSeenLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+        lastTimeSeenLabel.text = String.trans_promptLastSeenAt(user.lastSignInUnixTime)
     }
 
     func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {

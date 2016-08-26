@@ -29,6 +29,15 @@ extension String {
     static func trans_shareUserFromYepWithSkills(name: String) -> String {
         return String(format: NSLocalizedString("share.user_%@_from_yep_with_skills", comment: ""), name)
     }
+
+    static func trans_promptLastSeenAt(timeString: String) -> String {
+        return String(format: NSLocalizedString("prompt.last_seen_at_%@", comment: ""), timeString)
+    }
+
+    static func trans_promptLastSeenAt(unixTime: NSTimeInterval) -> String {
+        let timeString = NSDate(timeIntervalSince1970: unixTime).timeAgo.lowercaseString
+        return trans_promptLastSeenAt(timeString)
+    }
 }
 
 extension String {
@@ -365,6 +374,22 @@ extension String {
 
     static var trans_titleShareFeed: String {
         return NSLocalizedString("title.share_feed", comment: "")
+    }
+
+    static var trans_titleJoinedFeeds: String {
+        return NSLocalizedString("title.joined_feeds", comment: "")
+    }
+    static var trans_titleLately: String {
+        return NSLocalizedString("title.lately", comment: "")
+    }
+    static var trans_titleLocation: String {
+        return NSLocalizedString("title.location", comment: "")
+    }
+    static var trans_titleLogOut: String {
+        return NSLocalizedString("title.log_out", comment: "")
+    }
+    static var trans_titleLogin: String {
+        return NSLocalizedString("title.login", comment: "")
     }
 }
 
