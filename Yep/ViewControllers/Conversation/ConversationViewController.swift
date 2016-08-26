@@ -1432,6 +1432,8 @@ final class ConversationViewController: BaseViewController {
 
     private func adjustConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
 
+        let oldMessagesUpdatedVersion = self.messagesUpdatedVersion
+
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
 
@@ -1489,6 +1491,7 @@ final class ConversationViewController: BaseViewController {
                 switch messageAge {
 
                 case .New:
+
                     conversationCollectionView.performBatchUpdates({ [weak self] in
                         guard let strongSelf = self else {
                             return
@@ -1499,6 +1502,16 @@ final class ConversationViewController: BaseViewController {
                             strongSelf.needReloadLoadPreviousSection = false
                         }
 
+                        guard strongSelf.messagesUpdatedVersion == oldMessagesUpdatedVersion else {
+                            strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
+                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                            println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
+                            return
+                        }
+
+                        strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                        /*
                         // double check
                         if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
                             strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
@@ -1508,6 +1521,7 @@ final class ConversationViewController: BaseViewController {
                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                             println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
                         }
+                         */
 
                     }, completion: nil)
 
@@ -1528,6 +1542,16 @@ final class ConversationViewController: BaseViewController {
                             strongSelf.needReloadLoadPreviousSection = false
                         }
 
+                        guard strongSelf.messagesUpdatedVersion == oldMessagesUpdatedVersion else {
+                            strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
+                            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                            println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
+                            return
+                        }
+
+                        strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                        /*
                         // double check
                         if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
                             strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
@@ -1537,6 +1561,7 @@ final class ConversationViewController: BaseViewController {
                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                             println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
                         }
+                         */
 
                     }, completion: { [weak self] finished in
                         if let strongSelf = self {
@@ -1572,6 +1597,16 @@ final class ConversationViewController: BaseViewController {
                         strongSelf.needReloadLoadPreviousSection = false
                     }
 
+                    guard strongSelf.messagesUpdatedVersion == oldMessagesUpdatedVersion else {
+                        strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
+                        strongSelf.lastTimeMessagesCount = strongSelf.messages.count
+                        println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
+                        return
+                    }
+
+                    strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+
+                    /*
                     // double check
                     if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
                         strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
@@ -1581,6 +1616,7 @@ final class ConversationViewController: BaseViewController {
                         strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                         println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
                     }
+                     */
 
                 }, completion: nil)
 
