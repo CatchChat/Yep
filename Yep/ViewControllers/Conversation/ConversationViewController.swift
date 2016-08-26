@@ -52,6 +52,8 @@ final class ConversationViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
+    private var messagesNotificationToken: NotificationToken?
+
     var indexOfSearchedMessage: Int?
     let messagesBunchCount = 20 // 分段载入的“一束”消息的数量
     var displayedMessagesRange = NSRange()
@@ -174,6 +176,8 @@ final class ConversationViewController: BaseViewController {
         conversationCollectionView?.delegate = nil
 
         checkTypingStatusTimer?.invalidate()
+
+        messagesNotificationToken?.stop()
 
         println("deinit ConversationViewController")
     }
@@ -348,6 +352,9 @@ final class ConversationViewController: BaseViewController {
 
         let job = FreeTimeJob(target: self, selector: #selector(ConversationViewController.prepareHeightOfMessagesInFreeTime))
         job.commit()
+
+        messagesNotificationToken = messages.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
+        })
 
         #if DEBUG
             //view.addSubview(conversationFPSLabel)
