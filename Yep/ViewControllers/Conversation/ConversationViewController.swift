@@ -1484,9 +1484,9 @@ final class ConversationViewController: BaseViewController {
                     }
                 }
 
-                indexPaths = indexPaths.filter({
-                    conversationCollectionView.cellForItemAtIndexPath($0) != nil
-                })
+//                indexPaths = indexPaths.filter({
+//                    conversationCollectionView.cellForItemAtIndexPath($0) != nil
+//                })
 
                 switch messageAge {
 
