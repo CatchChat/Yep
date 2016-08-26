@@ -1568,7 +1568,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                 if let index = strongSelf.messages.indexOf(message) {
                     let realIndex = index - strongSelf.displayedMessagesRange.location
                     let indexPath = NSIndexPath(forItem: realIndex, inSection: Section.Message.rawValue)
-                    strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
+
+                    doInNextRunLoop {
+                        if strongSelf.conversationCollectionView.cellForItemAtIndexPath(indexPath) != nil {
+                            strongSelf.conversationCollectionView.reloadItemsAtIndexPaths([indexPath])
+                        }
+                    }
 
                     // only for latest one need to scroll
                     if index == (strongSelf.displayedMessagesRange.location + strongSelf.displayedMessagesRange.length - 1) {
