@@ -14,8 +14,7 @@ import RxCocoa
 
 final class RegisterPickNameViewController: BaseViewController {
 
-    var mobile: String?
-    var areaCode: String?
+    var mobilePhone: MobilePhone?
 
     private lazy var disposeBag = DisposeBag()
 
@@ -136,8 +135,7 @@ final class RegisterPickNameViewController: BaseViewController {
 
             let vc = segue.destinationViewController as! RegisterPickMobileViewController
 
-            vc.mobile = mobile
-            vc.areaCode = areaCode
+            vc.mobilePhone = mobilePhone
 
         default:
             break

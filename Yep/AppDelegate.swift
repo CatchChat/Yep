@@ -15,8 +15,14 @@ import AVFoundation
 import RealmSwift
 import MonkeyKing
 import Navi
+import ReSwift
 import Appsee
 import CoreSpotlight
+
+let mainStore = Store<AppState>(
+    reducer: MobilePhoneReducer(),
+    state: nil
+)
 
 @UIApplicationMain
 final class AppDelegate: UIResponder, UIApplicationDelegate {

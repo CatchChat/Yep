@@ -10,5 +10,9 @@ struct MobilePhone {
 
     let areaCode: String
     let number: String
+
+    var fullNumber: String {
+        return "+" + areaCode + " " + number
+    }
 }
 

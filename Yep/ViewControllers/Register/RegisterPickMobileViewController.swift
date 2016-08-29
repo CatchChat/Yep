@@ -15,8 +15,7 @@ import RxCocoa
 
 final class RegisterPickMobileViewController: SegueViewController {
 
-    var mobile: String?
-    var areaCode: String?
+    var mobilePhone: MobilePhone?
 
     private lazy var disposeBag = DisposeBag()
     
@@ -53,7 +52,7 @@ final class RegisterPickMobileViewController: SegueViewController {
 
         pickMobileNumberPromptLabel.text = NSLocalizedString("What's your number?", comment: "")
 
-        areaCodeTextField.text = areaCode ?? NSTimeZone.areaCode
+        areaCodeTextField.text = mobilePhone?.areaCode ?? NSTimeZone.areaCode
         areaCodeTextField.backgroundColor = UIColor.whiteColor()
         areaCodeTextField.delegate = self
         areaCodeTextField.rx_text
@@ -61,7 +60,7 @@ final class RegisterPickMobileViewController: SegueViewController {
             .addDisposableTo(disposeBag)
 
         //mobileNumberTextField.placeholder = ""
-        mobileNumberTextField.text = mobile
+        mobileNumberTextField.text = mobilePhone?.number
         mobileNumberTextField.backgroundColor = UIColor.whiteColor()
         mobileNumberTextField.textColor = UIColor.yepInputTextColor()
         mobileNumberTextField.delegate = self
@@ -73,7 +72,7 @@ final class RegisterPickMobileViewController: SegueViewController {
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
 
-        if mobile == nil {
+        if mobilePhone?.number == nil {
             nextButton.enabled = false
         }
     }
@@ -90,13 +89,16 @@ final class RegisterPickMobileViewController: SegueViewController {
         
         view.endEditing(true)
         
-        guard let mobile = mobileNumberTextField.text, areaCode = areaCodeTextField.text else {
+        guard let number = mobileNumberTextField.text, areaCode = areaCodeTextField.text else {
             return
         }
 
+        let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
+        mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
+
         YepHUD.showActivityIndicator()
         
-        validateMobile(mobile, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) in
+        validateMobile(mobilePhone.number, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
             
             YepHUD.hideActivityIndicator()
@@ -105,7 +107,7 @@ final class RegisterPickMobileViewController: SegueViewController {
             if available, let nickname = YepUserDefaults.nickname.value {
                 println("ValidateMobile: available")
 
-                registerMobile(mobile, withAreaCode: areaCode, nickname: nickname, failureHandler: { (reason, errorMessage) in
+                registerMobile(mobilePhone.number, withAreaCode: areaCode, nickname: nickname, failureHandler: { (reason, errorMessage) in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     YepHUD.hideActivityIndicator()
@@ -122,7 +124,7 @@ final class RegisterPickMobileViewController: SegueViewController {
 
                     if created {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self.performSegueWithIdentifier("showRegisterVerifyMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
+                            self.performSegueWithIdentifier("showRegisterVerifyMobile", sender: nil)
                         })
 
                     } else {
@@ -158,13 +160,8 @@ final class RegisterPickMobileViewController: SegueViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if segue.identifier == "showRegisterVerifyMobile" {
-
-            if let info = sender as? [String: String] {
-                let vc = segue.destinationViewController as! RegisterVerifyMobileViewController
-
-                vc.mobile = info["mobile"]
-                vc.areaCode = info["areaCode"]
-            }
+            let vc = segue.destinationViewController as! RegisterVerifyMobileViewController
+            vc.mobilePhone = mobilePhone
         }
     }
 }
