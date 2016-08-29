@@ -385,6 +385,7 @@
 		50BF404C1D741AD500DA1857 /* ReSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BF404B1D741AD500DA1857 /* ReSwift.framework */; };
 		50BF404F1D741BA200DA1857 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BF404E1D741BA200DA1857 /* AppState.swift */; };
 		50BF40511D741C6900DA1857 /* MobilePhone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BF40501D741C6900DA1857 /* MobilePhone.swift */; };
+		50BF40541D741E0A00DA1857 /* MobilePhoneReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BF40531D741E0A00DA1857 /* MobilePhoneReducer.swift */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1146,6 +1147,7 @@
 		50BF404B1D741AD500DA1857 /* ReSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReSwift.framework; path = Carthage/Build/iOS/ReSwift.framework; sourceTree = "<group>"; };
 		50BF404E1D741BA200DA1857 /* AppState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppState.swift; path = ReSwift/AppState.swift; sourceTree = "<group>"; };
 		50BF40501D741C6900DA1857 /* MobilePhone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobilePhone.swift; path = ReSwift/MobilePhone.swift; sourceTree = "<group>"; };
+		50BF40531D741E0A00DA1857 /* MobilePhoneReducer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobilePhoneReducer.swift; path = ReSwift/Reducers/MobilePhoneReducer.swift; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -3156,8 +3158,17 @@
 			children = (
 				50BF40501D741C6900DA1857 /* MobilePhone.swift */,
 				50BF404E1D741BA200DA1857 /* AppState.swift */,
+				50BF40521D741DCC00DA1857 /* Reducers */,
 			);
 			name = ReSwift;
+			sourceTree = "<group>";
+		};
+		50BF40521D741DCC00DA1857 /* Reducers */ = {
+			isa = PBXGroup;
+			children = (
+				50BF40531D741E0A00DA1857 /* MobilePhoneReducer.swift */,
+			);
+			name = Reducers;
 			sourceTree = "<group>";
 		};
 		50C090A21ADE391900CC6389 /* AddSkills */ = {
@@ -4882,6 +4893,7 @@
 				50B33A671CFE9ADB00517EE4 /* ChatTextCellLayout.swift in Sources */,
 				50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */,
 				50E34C331CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift in Sources */,
+				50BF40541D741E0A00DA1857 /* MobilePhoneReducer.swift in Sources */,
 				50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */,
 				50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */,
 				5078131B1CD1B04400F193AB /* ShortcutType.swift in Sources */,
