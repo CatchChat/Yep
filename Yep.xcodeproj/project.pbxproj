@@ -382,6 +382,7 @@
 		50BAED8B1D2BA8380046B4AB /* ChatRightBaseCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED8A1D2BA8380046B4AB /* ChatRightBaseCellNode.swift */; };
 		50BAED8D1D2BADAF0046B4AB /* ChatLeftBaseCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED8C1D2BADAF0046B4AB /* ChatLeftBaseCellNode.swift */; };
 		50BAED8F1D2BAEEE0046B4AB /* ChatLeftImageCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED8E1D2BAEEE0046B4AB /* ChatLeftImageCellNode.swift */; };
+		50BF40471D73E04D00DA1857 /* DiscoverUsersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BF40461D73E04D00DA1857 /* DiscoverUsersViewController.swift */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1140,6 +1141,7 @@
 		50BAED8A1D2BA8380046B4AB /* ChatRightBaseCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightBaseCellNode.swift; path = CellNodes/ChatRightBaseCellNode.swift; sourceTree = "<group>"; };
 		50BAED8C1D2BADAF0046B4AB /* ChatLeftBaseCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftBaseCellNode.swift; path = CellNodes/ChatLeftBaseCellNode.swift; sourceTree = "<group>"; };
 		50BAED8E1D2BAEEE0046B4AB /* ChatLeftImageCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftImageCellNode.swift; path = CellNodes/ChatLeftImageCellNode.swift; sourceTree = "<group>"; };
+		50BF40461D73E04D00DA1857 /* DiscoverUsersViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverUsersViewController.swift; path = ViewControllers/Discover/DiscoverUsersViewController.swift; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -1940,6 +1942,7 @@
 				50402F5B1C929A140071099F /* DiscoverCollectionView.swift */,
 				6A5632961BC9559100397B53 /* DiscoverFlowLayout.swift */,
 				5023DE2C1AB685ED00B3EE96 /* DiscoverViewController.swift */,
+				50BF40461D73E04D00DA1857 /* DiscoverUsersViewController.swift */,
 				50E7C7001CF6CEF500E8D951 /* Discover.storyboard */,
 			);
 			name = Discover;
@@ -4708,6 +4711,7 @@
 				503E101F1CF7F310000FA7C6 /* MeetGeniusViewController.swift in Sources */,
 				50A640E51B6F41E00050E4A3 /* DoNotDisturbSwitchCell.swift in Sources */,
 				50A0E3011C3E18A10025BEFC /* CLLocationCoordinate2D+Yep.swift in Sources */,
+				50BF40471D73E04D00DA1857 /* DiscoverUsersViewController.swift in Sources */,
 				50535D201BCE43ED002FE1A4 /* ImageCacheController.swift in Sources */,
 				5054CCB11D3F0D15000CFA92 /* NextRunloopJob.swift in Sources */,
 				500EED9A1BF1B81000C6BABC /* MediaPreviewViewController.swift in Sources */,
