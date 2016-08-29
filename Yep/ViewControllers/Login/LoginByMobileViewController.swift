@@ -90,22 +90,24 @@ final class LoginByMobileViewController: BaseViewController {
         
         view.endEditing(true)
 
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+        guard let areaCode = areaCodeTextField.text, number = mobileNumberTextField.text else {
             return
         }
+        let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
+        mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
         YepHUD.showActivityIndicator()
         
-        sendVerifyCodeOfMobile(mobile, withAreaCode: areaCode, useMethod: .SMS, failureHandler: { reason, errorMessage in
+        sendVerifyCodeOfMobile(mobilePhone.number, withAreaCode: mobilePhone.areaCode, useMethod: .SMS, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
 
             if case .NoSuccessStatusCode(_, let errorCode) = reason where errorCode == .NotYetRegistered {
 
-                YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: String(format: NSLocalizedString("This number (%@) not yet registered! Would you like to register it now?", comment: ""), "+\(areaCode) \(mobile)"), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { [weak self] in
+                YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: String(format: NSLocalizedString("This number (%@) not yet registered! Would you like to register it now?", comment: ""), mobilePhone.fullNumber), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { [weak self] in
 
-                    self?.performSegueWithIdentifier("showRegisterPickName", sender: ["mobile" : mobile, "areaCode": areaCode])
+                    self?.performSegueWithIdentifier("showRegisterPickName", sender: nil)
 
                 }, cancelAction: {
                 })
@@ -138,45 +140,14 @@ final class LoginByMobileViewController: BaseViewController {
     }
 
     private func showLoginVerifyMobile() {
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+
+        guard let areaCode = areaCodeTextField.text, number = mobileNumberTextField.text else {
             return
         }
+        let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
+        mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
-        self.performSegueWithIdentifier("showLoginVerifyMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
+        self.performSegueWithIdentifier("showLoginVerifyMobile", sender: nil)
     }
-
-    // MARK: Navigation
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        guard let identifier = segue.identifier else {
-            return
-        }
-
-        switch identifier {
-
-        case "showLoginVerifyMobile":
-
-            if let info = sender as? [String: String] {
-                let vc = segue.destinationViewController as! LoginVerifyMobileViewController
-
-                vc.mobile = info["mobile"]
-                vc.areaCode = info["areaCode"]
-            }
-
-        case "showRegisterPickName":
-
-            if let info = sender as? [String: String] {
-                let vc = segue.destinationViewController as! RegisterPickNameViewController
-
-                vc.mobile = info["mobile"]
-                vc.areaCode = info["areaCode"]
-            }
-
-        default:
-            break
-        }
-    }
-
 }
 
