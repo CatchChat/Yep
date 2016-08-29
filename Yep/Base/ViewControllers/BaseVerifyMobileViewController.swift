@@ -15,7 +15,9 @@ import RxCocoa
 
 class BaseVerifyMobileViewController: SegueViewController {
 
-    var mobilePhone: MobilePhone!
+    var mobilePhone: MobilePhone! {
+        return mainStore.state.mobilePhone
+    }
 
     private lazy var disposeBag = DisposeBag()
 
@@ -79,7 +81,7 @@ class BaseVerifyMobileViewController: SegueViewController {
 
         verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
 
-        phoneNumberLabel.text = mobilePhone.fullNumber
+        phoneNumberLabel.text = mobilePhone?.fullNumber
 
         verifyCodeTextField.placeholder = " "
         verifyCodeTextField.backgroundColor = UIColor.whiteColor()

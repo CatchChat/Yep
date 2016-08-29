@@ -15,8 +15,6 @@ import RxCocoa
 
 final class RegisterPickMobileViewController: SegueViewController {
 
-    var mobilePhone: MobilePhone?
-
     private lazy var disposeBag = DisposeBag()
     
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
@@ -51,6 +49,8 @@ final class RegisterPickMobileViewController: SegueViewController {
         navigationItem.rightBarButtonItem = nextButton
 
         pickMobileNumberPromptLabel.text = NSLocalizedString("What's your number?", comment: "")
+
+        let mobilePhone = mainStore.state.mobilePhone
 
         areaCodeTextField.text = mobilePhone?.areaCode ?? NSTimeZone.areaCode
         areaCodeTextField.backgroundColor = UIColor.whiteColor()
@@ -152,16 +152,6 @@ final class RegisterPickMobileViewController: SegueViewController {
                 }
             }
         })
-    }
-
-    // MARK: Navigation
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        if segue.identifier == "showRegisterVerifyMobile" {
-            let vc = segue.destinationViewController as! RegisterVerifyMobileViewController
-            vc.mobilePhone = mainStore.state.mobilePhone
-        }
     }
 }
 

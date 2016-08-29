@@ -135,15 +135,5 @@ final class ChangeMobileViewController: UIViewController {
 
         performSegueWithIdentifier("showVerifyChangedMobile", sender: nil)
     }
-
-    // MARK: Navigation
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        if segue.identifier == "showVerifyChangedMobile" {
-            let vc = segue.destinationViewController as! VerifyChangedMobileViewController
-            vc.mobilePhone = mainStore.state.mobilePhone
-        }
-    }
 }
 

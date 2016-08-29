@@ -118,25 +118,6 @@ final class RegisterPickNameViewController: BaseViewController {
 
         performSegueWithIdentifier("showRegisterPickMobile", sender: nil)
     }
-
-    // MARK: Navigation
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        guard let identifier = segue.identifier else {
-            return
-        }
-
-        switch identifier {
-
-        case "showRegisterPickMobile":
-            let vc = segue.destinationViewController as! RegisterPickMobileViewController
-            vc.mobilePhone = mainStore.state.mobilePhone
-
-        default:
-            break
-        }
-    }
 }
 
 extension RegisterPickNameViewController: UITextFieldDelegate {

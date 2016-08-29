@@ -147,28 +147,5 @@ final class LoginByMobileViewController: BaseViewController {
 
         self.performSegueWithIdentifier("showLoginVerifyMobile", sender: nil)
     }
-
-    // MARK: Navigation
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        guard let identifier = segue.identifier else {
-            return
-        }
-
-        switch identifier {
-
-        case "showLoginVerifyMobile":
-            let vc = segue.destinationViewController as! LoginVerifyMobileViewController
-            vc.mobilePhone = mainStore.state.mobilePhone
-
-        case "showRegisterPickName":
-            break
-
-        default:
-            break
-        }
-    }
-
 }
 
