@@ -29,7 +29,7 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
 
     override func requestCallMe() {
 
-        sendVerifyCodeOfNewMobile(mobile, withAreaCode: areaCode, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
+        sendVerifyCodeOfNewMobile(mobilePhone.number, withAreaCode: mobilePhone.areaCode, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             self?.requestCallMeFailed(errorMessage)
@@ -54,7 +54,7 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
 
         YepHUD.showActivityIndicator()
 
-        confirmNewMobile(mobile, withAreaCode: areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
+        confirmNewMobile(mobilePhone.number, withAreaCode: mobilePhone.areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
@@ -76,8 +76,8 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
 
             SafeDispatch.async { [weak self] in
                 if let strongSelf = self {
-                    YepUserDefaults.areaCode.value = strongSelf.areaCode
-                    YepUserDefaults.mobile.value = strongSelf.mobile
+                    YepUserDefaults.areaCode.value = strongSelf.mobilePhone.areaCode
+                    YepUserDefaults.mobile.value = strongSelf.mobilePhone.number
                 }
             }
 

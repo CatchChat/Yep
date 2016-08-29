@@ -92,7 +92,6 @@ final class RegisterPickMobileViewController: SegueViewController {
         guard let number = mobileNumberTextField.text, areaCode = areaCodeTextField.text else {
             return
         }
-
         let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
         mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
@@ -161,7 +160,7 @@ final class RegisterPickMobileViewController: SegueViewController {
 
         if segue.identifier == "showRegisterVerifyMobile" {
             let vc = segue.destinationViewController as! RegisterVerifyMobileViewController
-            vc.mobilePhone = mobilePhone
+            vc.mobilePhone = mainStore.state.mobilePhone
         }
     }
 }

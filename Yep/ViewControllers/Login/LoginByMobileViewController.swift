@@ -138,11 +138,14 @@ final class LoginByMobileViewController: BaseViewController {
     }
 
     private func showLoginVerifyMobile() {
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+
+        guard let areaCode = areaCodeTextField.text, number = mobileNumberTextField.text else {
             return
         }
+        let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
+        mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
-        self.performSegueWithIdentifier("showLoginVerifyMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
+        self.performSegueWithIdentifier("showLoginVerifyMobile", sender: nil)
     }
 
     // MARK: Navigation
@@ -156,22 +159,11 @@ final class LoginByMobileViewController: BaseViewController {
         switch identifier {
 
         case "showLoginVerifyMobile":
-
-            if let info = sender as? [String: String] {
-                let vc = segue.destinationViewController as! LoginVerifyMobileViewController
-
-                vc.mobile = info["mobile"]
-                vc.areaCode = info["areaCode"]
-            }
+            let vc = segue.destinationViewController as! LoginVerifyMobileViewController
+            vc.mobilePhone = mainStore.state.mobilePhone
 
         case "showRegisterPickName":
-
-            if let info = sender as? [String: String] {
-                let vc = segue.destinationViewController as! RegisterPickNameViewController
-
-                vc.mobile = info["mobile"]
-                vc.areaCode = info["areaCode"]
-            }
+            break
 
         default:
             break

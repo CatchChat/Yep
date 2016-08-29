@@ -14,8 +14,6 @@ import RxCocoa
 
 final class RegisterPickNameViewController: BaseViewController {
 
-    var mobilePhone: MobilePhone?
-
     private lazy var disposeBag = DisposeBag()
 
     @IBOutlet private weak var pickNamePromptLabel: UILabel!
@@ -132,10 +130,8 @@ final class RegisterPickNameViewController: BaseViewController {
         switch identifier {
 
         case "showRegisterPickMobile":
-
             let vc = segue.destinationViewController as! RegisterPickMobileViewController
-
-            vc.mobilePhone = mobilePhone
+            vc.mobilePhone = mainStore.state.mobilePhone
 
         default:
             break

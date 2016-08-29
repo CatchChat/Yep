@@ -127,11 +127,13 @@ final class ChangeMobileViewController: UIViewController {
 
     private func showVerifyChangedMobile() {
 
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+        guard let areaCode = areaCodeTextField.text, number = mobileNumberTextField.text else {
             return
         }
+        let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
+        mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
-        performSegueWithIdentifier("showVerifyChangedMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
+        performSegueWithIdentifier("showVerifyChangedMobile", sender: nil)
     }
 
     // MARK: Navigation
@@ -139,13 +141,8 @@ final class ChangeMobileViewController: UIViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if segue.identifier == "showVerifyChangedMobile" {
-
-            if let info = sender as? [String: String] {
-                let vc = segue.destinationViewController as! VerifyChangedMobileViewController
-
-                vc.mobile = info["mobile"]
-                vc.areaCode = info["areaCode"]
-            }
+            let vc = segue.destinationViewController as! VerifyChangedMobileViewController
+            vc.mobilePhone = mainStore.state.mobilePhone
         }
     }
 }
