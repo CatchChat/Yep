@@ -91,7 +91,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             #else
                 let apsForProduction = true
             #endif
-            JPUSHService.setupWithOption([:], appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
+            JPUSHService.setupWithOption(launchOptions, appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
         }
         
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
