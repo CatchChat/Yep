@@ -90,8 +90,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 let apsForProduction = false
             #else
                 let apsForProduction = true
+                JPUSHService.setLogOFF()
             #endif
-            JPUSHService.setupWithOption([:], appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
+            JPUSHService.setupWithOption(launchOptions, appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
         }
         
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
@@ -134,7 +135,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             startFaye()
         }
 
-        application.applicationIconBadgeNumber = -1
+        clearNotifications()
 
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.applicationDidBecomeActive, object: nil)
         
@@ -145,7 +146,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         println("Resign active")
 
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        clearNotifications()
 
         // dynamic shortcut items
 
@@ -591,8 +592,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func unregisterThirdPartyPush() {
 
         defer {
-            SafeDispatch.async {
-                UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+            SafeDispatch.async { [weak self] in
+                self?.clearNotifications()
             }
         }
 
@@ -614,7 +615,21 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Private
 
+    private func clearNotifications() {
+
+        let application = UIApplication.sharedApplication()
+
+        application.applicationIconBadgeNumber = 1
+        println("a badge: \(application.applicationIconBadgeNumber)")
+        defer {
+            application.applicationIconBadgeNumber = 0
+            println("b badge: \(application.applicationIconBadgeNumber)")
+        }
+        application.cancelAllLocalNotifications()
+    }
+
     private lazy var sendMessageSoundEffect: YepSoundEffect = {
+
         let bundle = NSBundle.mainBundle()
         guard let fileURL = bundle.URLForResource("bub3", withExtension: "caf") else {
             fatalError("YepSoundEffect: file no found!")
@@ -650,10 +665,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         YepKit.Config.timeAgoAction = { date in
+
             return date.timeAgo
         }
 
         YepKit.Config.isAppActive = {
+
             let state = UIApplication.sharedApplication().applicationState
             return state == .Active
         }
@@ -662,38 +679,48 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     private func configureYepNetworking() {
 
         YepNetworking.Manager.accessToken = {
+
             return YepUserDefaults.v1AccessToken.value
         }
 
         YepNetworking.Manager.authFailedAction = { statusCode, host in
-            if statusCode == 401 {
-                // 确保是自家服务
-                if host == yepBaseURL.host {
-                    SafeDispatch.async {
-                        YepUserDefaults.maybeUserNeedRelogin(prerequisites: {
-                            guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
-                                return false
-                            }
-                            return true
 
-                        }, confirm: { [weak self] in
-                            self?.unregisterThirdPartyPush()
+            // 确保是自家服务
+            guard host == yepBaseURL.host else {
+                return
+            }
 
-                            cleanRealmAndCaches()
+            switch statusCode {
 
-                            if let rootViewController = self?.window?.rootViewController {
-                                YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
-                                    
-                                    self?.startShowStory()
-                                })
-                            }
-                        })
-                    }
+            case 401:
+                SafeDispatch.async {
+                    YepUserDefaults.maybeUserNeedRelogin(prerequisites: {
+                        guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
+                            return false
+                        }
+                        return true
+
+                    }, confirm: { [weak self] in
+                        self?.unregisterThirdPartyPush()
+
+                        cleanRealmAndCaches()
+
+                        if let rootViewController = self?.window?.rootViewController {
+                            YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { [weak self] in
+                                
+                                self?.startShowStory()
+                            })
+                        }
+                    })
                 }
+
+            default:
+                break
             }
         }
 
         YepNetworking.Manager.networkActivityCountChangedAction = { count in
+
             SafeDispatch.async {
                 UIApplication.sharedApplication().networkActivityIndicatorVisible = (count > 0)
             }
