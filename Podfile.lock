@@ -11,7 +11,6 @@ PODS:
   - AudioBot (0.4.1)
   - AutoReview (0.1.0)
   - Base64 (1.1.2)
-  - ComponentKit (0.14)
   - DeviceGuru (1.3.7)
   - Fabric (1.6.8)
   - FXBlurView (1.6.4)
@@ -31,7 +30,6 @@ DEPENDENCIES:
   - AudioBot
   - AutoReview
   - Base64
-  - ComponentKit
   - DeviceGuru
   - Fabric
   - FXBlurView
@@ -46,7 +44,6 @@ SPEC CHECKSUMS:
   AudioBot: 196817a463e5993722566527845f6a13b19a5865
   AutoReview: 4110767f3fcfc1ea5bf0398b4f7b6a882dc2d73c
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
-  ComponentKit: 11d9177b5e9940c456e7486d8f5a25c26d9ca5f2
   DeviceGuru: f847629dc0da0145ba48a9fc314e613ca4aa9caf
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
@@ -57,6 +54,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
 
-PODFILE CHECKSUM: 3325e4d9ffc2414611e9b0f8338fc2d1011f60ff
+PODFILE CHECKSUM: 06808c48662dcaada4a29b7856a582d886b36474
 
 COCOAPODS: 1.0.1
