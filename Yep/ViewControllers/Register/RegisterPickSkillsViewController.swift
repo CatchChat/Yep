@@ -133,10 +133,12 @@ final class RegisterPickSkillsViewController: BaseViewController {
 
         dispatch_group_notify(addSkillsGroup, dispatch_get_main_queue()) { [weak self] in
 
-            guard let strongSelf = self else {
-                return
-            }
+            guard let strongSelf = self else { return }
+
             if strongSelf.isRegister {
+
+                mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: nil))
+
                 // 同步一下我的信息，因为 appDelegate.sync() 执行太早，导致初次注册 Profile 里不显示 skills
                 syncMyInfoAndDoFurtherAction {
 

@@ -77,6 +77,8 @@ final class LoginVerifyMobileViewController: BaseVerifyMobileViewController {
 
             YepHUD.hideActivityIndicator()
 
+            mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: nil))
+
             SafeDispatch.async {
 
                 saveTokenAndUserInfoOfLoginUser(loginUser)
