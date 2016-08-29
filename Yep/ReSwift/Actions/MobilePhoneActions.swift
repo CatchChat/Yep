@@ -8,8 +8,8 @@
 
 import ReSwift
 
-struct MobilePhoneChangedAction: Action {
+struct MobilePhoneUpdateAction: Action {
 
-    let updatedMobilePhone: MobilePhone
+    let mobilePhone: MobilePhone?
 }
 

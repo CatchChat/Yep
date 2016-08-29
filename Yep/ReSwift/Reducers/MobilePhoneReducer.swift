@@ -16,8 +16,8 @@ struct MobilePhoneReducer: Reducer {
 
         switch action {
 
-        case let x as MobilePhoneChangedAction:
-            state.mobilePhone = x.updatedMobilePhone
+        case let x as MobilePhoneUpdateAction:
+            state.mobilePhone = x.mobilePhone
 
         default:
             break
