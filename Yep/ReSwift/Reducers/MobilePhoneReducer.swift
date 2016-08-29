@@ -12,7 +12,16 @@ struct MobilePhoneReducer: Reducer {
 
     func handleAction(action: Action, state: AppState?) -> AppState {
 
-        let state = state ?? AppState()
+        var state = state ?? AppState()
+
+        switch action {
+
+        case let x as MobilePhoneChangedAction:
+            state.mobilePhone = x.updatedMobilePhone
+
+        default:
+            break
+        }
 
         return state
     }

@@ -152,6 +152,7 @@
 		50390F141CE2D71B0090A08C /* FeedFilterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50390F121CE2D71B0090A08C /* FeedFilterCell.xib */; };
 		50392CD11B393FF60009D647 /* SkillAddCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50392CCF1B393FF60009D647 /* SkillAddCell.swift */; };
 		50392CD21B393FF60009D647 /* SkillAddCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50392CD01B393FF60009D647 /* SkillAddCell.xib */; };
+		503956331D7420A2008E004D /* MobilePhoneActions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503956321D7420A2008E004D /* MobilePhoneActions.swift */; };
 		5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */; };
 		5039594F1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */; };
 		503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503CAB421AC00CB100DFE830 /* ConversationViewController.swift */; };
@@ -928,6 +929,7 @@
 		50390F121CE2D71B0090A08C /* FeedFilterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedFilterCell.xib; path = Views/Cells/FeedFilter/FeedFilterCell.xib; sourceTree = "<group>"; };
 		50392CCF1B393FF60009D647 /* SkillAddCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SkillAddCell.swift; path = Views/Cells/SkillAdd/SkillAddCell.swift; sourceTree = "<group>"; };
 		50392CD01B393FF60009D647 /* SkillAddCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SkillAddCell.xib; path = Views/Cells/SkillAdd/SkillAddCell.xib; sourceTree = "<group>"; };
+		503956321D7420A2008E004D /* MobilePhoneActions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MobilePhoneActions.swift; path = ReSwift/Actions/MobilePhoneActions.swift; sourceTree = "<group>"; };
 		5039594C1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountGithubCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.swift; sourceTree = "<group>"; };
 		5039594D1B05E6E000797A3E /* ProfileSocialAccountGithubCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountGithubCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountGithubCell.xib; sourceTree = "<group>"; };
 		503CAB421AC00CB100DFE830 /* ConversationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationViewController.swift; path = ViewControllers/Conversation/ConversationViewController.swift; sourceTree = "<group>"; };
@@ -2382,6 +2384,14 @@
 			name = SkillAdd;
 			sourceTree = "<group>";
 		};
+		503956311D742018008E004D /* Actions */ = {
+			isa = PBXGroup;
+			children = (
+				503956321D7420A2008E004D /* MobilePhoneActions.swift */,
+			);
+			name = Actions;
+			sourceTree = "<group>";
+		};
 		503CAB441AC00CB900DFE830 /* Conversation */ = {
 			isa = PBXGroup;
 			children = (
@@ -3159,6 +3169,7 @@
 				50BF40501D741C6900DA1857 /* MobilePhone.swift */,
 				50BF404E1D741BA200DA1857 /* AppState.swift */,
 				50BF40521D741DCC00DA1857 /* Reducers */,
+				503956311D742018008E004D /* Actions */,
 			);
 			name = ReSwift;
 			sourceTree = "<group>";
@@ -4680,6 +4691,7 @@
 				50B2CA941BD0EF7900668AC6 /* MoreMessageTypesView.swift in Sources */,
 				0A8F54B11AB67D11004AD60E /* AppDelegate.swift in Sources */,
 				508F8FC81B0161EF00461B0B /* ProfileSeparationLineCell.swift in Sources */,
+				503956331D7420A2008E004D /* MobilePhoneActions.swift in Sources */,
 				500A0B1C1B450C2100D49358 /* EditNicknameAndBadgeViewController.swift in Sources */,
 				0AEB1CC61B0E742400178C9C /* Double+Yep.swift in Sources */,
 				50B3C9521CC873F000623E29 /* SearchFeedsFooterView.swift in Sources */,
