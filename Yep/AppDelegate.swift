@@ -90,6 +90,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 let apsForProduction = false
             #else
                 let apsForProduction = true
+                JPUSHService.setLogOFF()
             #endif
             JPUSHService.setupWithOption(launchOptions, appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
         }
