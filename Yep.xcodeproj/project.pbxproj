@@ -382,6 +382,7 @@
 		50BAED8B1D2BA8380046B4AB /* ChatRightBaseCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED8A1D2BA8380046B4AB /* ChatRightBaseCellNode.swift */; };
 		50BAED8D1D2BADAF0046B4AB /* ChatLeftBaseCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED8C1D2BADAF0046B4AB /* ChatLeftBaseCellNode.swift */; };
 		50BAED8F1D2BAEEE0046B4AB /* ChatLeftImageCellNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50BAED8E1D2BAEEE0046B4AB /* ChatLeftImageCellNode.swift */; };
+		50BF404C1D741AD500DA1857 /* ReSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50BF404B1D741AD500DA1857 /* ReSwift.framework */; };
 		50C0909B1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */; };
 		50C0909D1ADE294800CC6389 /* RegisterPickSkillsLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */; };
 		50C090A01ADE391600CC6389 /* AddSkillsReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */; };
@@ -1140,6 +1141,7 @@
 		50BAED8A1D2BA8380046B4AB /* ChatRightBaseCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightBaseCellNode.swift; path = CellNodes/ChatRightBaseCellNode.swift; sourceTree = "<group>"; };
 		50BAED8C1D2BADAF0046B4AB /* ChatLeftBaseCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftBaseCellNode.swift; path = CellNodes/ChatLeftBaseCellNode.swift; sourceTree = "<group>"; };
 		50BAED8E1D2BAEEE0046B4AB /* ChatLeftImageCellNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftImageCellNode.swift; path = CellNodes/ChatLeftImageCellNode.swift; sourceTree = "<group>"; };
+		50BF404B1D741AD500DA1857 /* ReSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReSwift.framework; path = Carthage/Build/iOS/ReSwift.framework; sourceTree = "<group>"; };
 		50C0909A1ADE234F00CC6389 /* RegisterPickSkillsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsViewController.swift; path = ViewControllers/Register/RegisterPickSkillsViewController.swift; sourceTree = "<group>"; };
 		50C0909C1ADE294800CC6389 /* RegisterPickSkillsLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickSkillsLayout.swift; path = ViewControllers/Register/RegisterPickSkillsLayout.swift; sourceTree = "<group>"; };
 		50C0909E1ADE391600CC6389 /* AddSkillsReusableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AddSkillsReusableView.swift; path = Views/ReusableViews/AddSkills/AddSkillsReusableView.swift; sourceTree = "<group>"; };
@@ -1409,6 +1411,7 @@
 				50C106941D066A27002EAB5C /* KeyboardMan.framework in Frameworks */,
 				50E2B7D21D3F736E00098362 /* RxSwift.framework in Frameworks */,
 				50E2B7D41D3F737A00098362 /* RxCocoa.framework in Frameworks */,
+				50BF404C1D741AD500DA1857 /* ReSwift.framework in Frameworks */,
 				1E4A387E52032569E06443EB /* Pods_Yep.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3674,6 +3677,7 @@
 		67B708B60AAD1DEA82A6A682 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				50BF404B1D741AD500DA1857 /* ReSwift.framework */,
 				50E2B7D31D3F737A00098362 /* RxCocoa.framework */,
 				50E2B7D11D3F736E00098362 /* RxSwift.framework */,
 				6A8DA7F41D07072000A3CEE4 /* libxml2.tbd */,
