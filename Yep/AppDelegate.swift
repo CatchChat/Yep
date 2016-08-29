@@ -135,7 +135,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             startFaye()
         }
 
-        application.applicationIconBadgeNumber = -1
+        clearNotifications()
 
         NSNotificationCenter.defaultCenter().postNotificationName(Notification.applicationDidBecomeActive, object: nil)
         
@@ -146,7 +146,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         println("Resign active")
 
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        clearNotifications()
 
         // dynamic shortcut items
 
@@ -592,8 +592,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func unregisterThirdPartyPush() {
 
         defer {
-            SafeDispatch.async {
-                UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+            SafeDispatch.async { [weak self] in
+                self?.clearNotifications()
             }
         }
 
@@ -614,6 +614,19 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     // MARK: Private
+
+    private func clearNotifications() {
+
+        let application = UIApplication.sharedApplication()
+
+        application.applicationIconBadgeNumber = 1
+        println("a badge: \(application.applicationIconBadgeNumber)")
+        defer {
+            application.applicationIconBadgeNumber = 0
+            println("b badge: \(application.applicationIconBadgeNumber)")
+        }
+        application.cancelAllLocalNotifications()
+    }
 
     private lazy var sendMessageSoundEffect: YepSoundEffect = {
         let bundle = NSBundle.mainBundle()
