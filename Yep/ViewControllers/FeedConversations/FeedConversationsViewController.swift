@@ -88,7 +88,7 @@ final class FeedConversationsViewController: SegueViewController {
         feedConversationsTableView.tableFooterView = UIView()
 
         feedConversationsNotificationToken = feedConversations.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
-            let predicate = NSPredicate(format: "hasUnreadMessages = true")
+            let predicate = YepConfig.Conversation.hasUnreadMessagesPredicate
             self?.unreadFeedConversations = self?.feedConversations.filter(predicate)
         })
 
