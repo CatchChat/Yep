@@ -136,10 +136,11 @@ public func registerMobilePhone(mobilePhone: MobilePhone, nickname: String, fail
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func verifyMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
+public func verifyMobilePhone(mobilePhone: MobilePhone, verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
+
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
         "token": verifyCode,
         "client": Config.clientType(),
         "expiring": 0, // 永不过期
