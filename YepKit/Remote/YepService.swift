@@ -519,11 +519,11 @@ public func requestSendVerifyCodeOfNewMobilePhone(mobilePhone: MobilePhone, useM
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func confirmNewMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: () -> Void) {
+public func confirmNewMobilePhone(mobilePhone: MobilePhone, withVerifyCode verifyCode: String, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
         "token": verifyCode,
     ]
 
