@@ -176,9 +176,15 @@ final class ConversationsViewController: BaseViewController {
 
                 strongSelf.unreadMessagesCount = countOfUnreadMessagesInRealm(realm, withConversationType: .OneToOne)
 
+                /*
                 let haveOneToOneUnreadMessages = strongSelf.unreadMessagesCount > 0
 
                 strongSelf.haveUnreadMessages = haveOneToOneUnreadMessages || (countOfUnreadMessagesInRealm(realm, withConversationType: .Group) > 0)
+                 */
+                let predicate = NSPredicate(format: "hasUnreadMessages = true")
+                let haveUnreadMessages = (!strongSelf.conversations.filter(predicate).isEmpty)
+                    || (!feedConversationsInRealm(realm).filter(predicate).isEmpty)
+                strongSelf.haveUnreadMessages = haveUnreadMessages
 
                 strongSelf.noConversation = countOfConversationsInRealm(realm) == 0
             }
