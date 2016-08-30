@@ -31,6 +31,7 @@ func println(@autoclosure item: () -> Any) {
 // Models
 
 public struct LoginUser: CustomStringConvertible {
+
     public let accessToken: String
     public let userID: String
     public let username: String?
@@ -40,6 +41,21 @@ public struct LoginUser: CustomStringConvertible {
 
     public var description: String {
         return "LoginUser(accessToken: \(accessToken), userID: \(userID), username: \(username), nickname: \(nickname), avatarURLString: \(avatarURLString), pusherID: \(pusherID))"
+    }
+
+    static func fromJSONDictionary(data: JSONDictionary) -> LoginUser? {
+
+        guard let accessToken = data["access_token"] as? String else { return nil }
+
+        guard let user = data["user"] as? [String: AnyObject] else { return nil }
+        guard let userID = user["id"] as? String else { return nil }
+        guard let nickname = user["nickname"] as? String else { return nil }
+        guard let pusherID = user["pusher_id"] as? String else { return nil }
+
+        let username = user["username"] as? String
+        let avatarURLString = user["avatar_url"] as? String
+
+        return LoginUser(accessToken: accessToken, userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
     }
 }
 
@@ -147,21 +163,7 @@ public func verifyMobilePhone(mobilePhone: MobilePhone, verifyCode: String, fail
     ]
 
     let parse: JSONDictionary -> LoginUser? = { data in
-
-        if let accessToken = data["access_token"] as? String {
-            if let user = data["user"] as? [String: AnyObject] {
-                if
-                    let userID = user["id"] as? String,
-                    let nickname = user["nickname"] as? String,
-                    let pusherID = user["pusher_id"] as? String {
-                        let username = user["username"] as? String
-                        let avatarURLString = user["avatar_url"] as? String
-                        return LoginUser(accessToken: accessToken, userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
-                }
-            }
-        }
-
-        return nil
+        return LoginUser.fromJSONDictionary(data)
     }
 
     let resource = jsonResource(path: "/v1/registration/update", method: .PUT, requestParameters: requestParameters, parse: parse)
@@ -547,21 +549,7 @@ public func loginByMobile(mobile: String, withAreaCode areaCode: String, verifyC
     ]
 
     let parse: JSONDictionary -> LoginUser? = { data in
-
-        if let accessToken = data["access_token"] as? String {
-            if let user = data["user"] as? [String: AnyObject] {
-                if
-                    let userID = user["id"] as? String,
-                    let nickname = user["nickname"] as? String,
-                    let pusherID = user["pusher_id"] as? String {
-                        let username = user["username"] as? String
-                        let avatarURLString = user["avatar_url"] as? String
-                        return LoginUser(accessToken: accessToken, userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
-                }
-            }
-        }
-        
-        return nil
+        return LoginUser.fromJSONDictionary(data)
     }
 
     let resource = jsonResource(path: "/v1/auth/token_by_mobile", method: .POST, requestParameters: requestParameters, parse: parse)
