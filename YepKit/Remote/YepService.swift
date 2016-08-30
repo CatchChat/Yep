@@ -66,6 +66,21 @@ public func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
     YepUserDefaults.v1AccessToken.value = loginUser.accessToken
 }
 
+public struct MobilePhone {
+
+    public let areaCode: String
+    public let number: String
+
+    public var fullNumber: String {
+        return "+" + areaCode + " " + number
+    }
+
+    public init(areaCode: String, number: String) {
+        self.areaCode = areaCode
+        self.number = number
+    }
+}
+
 // MARK: - Register
 
 public func validateMobile(mobile: String, withAreaCode areaCode: String, failureHandler: FailureHandler?, completion: ((Bool, String)) -> Void) {
