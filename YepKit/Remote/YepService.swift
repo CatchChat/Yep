@@ -1772,13 +1772,15 @@ public func unreadMessages(failureHandler failureHandler: FailureHandler?, compl
 
     guard let realm = try? Realm() else { return }
 
-    let _latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
-
     let latestMessage = latestValidMessageInRealm(realm)
+
+    /*
+    let _latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: false).first
 
     println("_latestMessage: \(_latestMessage?.messageID), \(_latestMessage?.createdUnixTime)")
     println("+latestMessage: \(latestMessage?.messageID), \(latestMessage?.createdUnixTime)")
     println("*now: \(NSDate().timeIntervalSince1970)")
+     */
 
     unreadMessagesAfterMessageWithID(latestMessage?.messageID, failureHandler: failureHandler, completion: completion)
 }
