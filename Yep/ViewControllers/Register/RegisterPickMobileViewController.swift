@@ -97,7 +97,7 @@ final class RegisterPickMobileViewController: SegueViewController {
 
         YepHUD.showActivityIndicator()
         
-        validateMobile(mobilePhone.number, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) in
+        validateMobilePhone(mobilePhone, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
             
             YepHUD.hideActivityIndicator()

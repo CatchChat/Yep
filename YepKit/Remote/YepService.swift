@@ -83,15 +83,15 @@ public struct MobilePhone {
 
 // MARK: - Register
 
-public func validateMobile(mobile: String, withAreaCode areaCode: String, failureHandler: FailureHandler?, completion: ((Bool, String)) -> Void) {
+public func validateMobilePhone(mobilePhone: MobilePhone, failureHandler: FailureHandler?, completion: ((Bool, String)) -> Void) {
 
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
     ]
 
     let parse: JSONDictionary -> (Bool, String)? = { data in
-        println("data: \(data)")
+        println("validateMobilePhone: \(data)")
         if let available = data["available"] as? Bool {
             if available {
                 return (available, "")
