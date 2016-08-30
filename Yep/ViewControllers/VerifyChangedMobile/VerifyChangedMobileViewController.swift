@@ -29,7 +29,7 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
 
     override func requestCallMe() {
 
-        sendVerifyCodeOfNewMobile(mobilePhone.number, withAreaCode: mobilePhone.areaCode, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
+        requestSendVerifyCodeOfNewMobilePhone(mobilePhone, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             self?.requestCallMeFailed(errorMessage)

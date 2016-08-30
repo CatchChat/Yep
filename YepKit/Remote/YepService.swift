@@ -502,11 +502,11 @@ public func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func sendVerifyCodeOfNewMobile(mobile: String, withAreaCode areaCode: String, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: () -> Void) {
+public func requestSendVerifyCodeOfNewMobilePhone(mobilePhone: MobilePhone, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
         "method": method.rawValue,
     ]
 

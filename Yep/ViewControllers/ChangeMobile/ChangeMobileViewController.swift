@@ -97,13 +97,15 @@ final class ChangeMobileViewController: UIViewController {
 
         view.endEditing(true)
 
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+        guard let areaCode = areaCodeTextField.text, number = mobileNumberTextField.text else {
             return
         }
+        let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
+        mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
         YepHUD.showActivityIndicator()
 
-        sendVerifyCodeOfNewMobile(mobile, withAreaCode: areaCode, useMethod: .SMS, failureHandler: { reason, errorMessage in
+        requestSendVerifyCodeOfNewMobilePhone(mobilePhone, useMethod: .SMS, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
