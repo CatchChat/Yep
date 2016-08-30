@@ -98,7 +98,7 @@ final class LoginByMobileViewController: BaseViewController {
 
         YepHUD.showActivityIndicator()
         
-        sendVerifyCodeOfMobile(mobilePhone.number, withAreaCode: mobilePhone.areaCode, useMethod: .SMS, failureHandler: { reason, errorMessage in
+        requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .SMS, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
@@ -122,12 +122,12 @@ final class LoginByMobileViewController: BaseViewController {
                 }
             }
 
-        }, completion: { [weak self] success in
+        }, completion: { success in
 
             YepHUD.hideActivityIndicator()
 
             if success {
-                SafeDispatch.async {
+                SafeDispatch.async { [weak self] in
                     self?.showLoginVerifyMobile()
                 }
 

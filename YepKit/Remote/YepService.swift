@@ -31,6 +31,7 @@ func println(@autoclosure item: () -> Any) {
 // Models
 
 public struct LoginUser: CustomStringConvertible {
+
     public let accessToken: String
     public let userID: String
     public let username: String?
@@ -40,6 +41,21 @@ public struct LoginUser: CustomStringConvertible {
 
     public var description: String {
         return "LoginUser(accessToken: \(accessToken), userID: \(userID), username: \(username), nickname: \(nickname), avatarURLString: \(avatarURLString), pusherID: \(pusherID))"
+    }
+
+    static func fromJSONDictionary(data: JSONDictionary) -> LoginUser? {
+
+        guard let accessToken = data["access_token"] as? String else { return nil }
+
+        guard let user = data["user"] as? [String: AnyObject] else { return nil }
+        guard let userID = user["id"] as? String else { return nil }
+        guard let nickname = user["nickname"] as? String else { return nil }
+        guard let pusherID = user["pusher_id"] as? String else { return nil }
+
+        let username = user["username"] as? String
+        let avatarURLString = user["avatar_url"] as? String
+
+        return LoginUser(accessToken: accessToken, userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
     }
 }
 
@@ -66,17 +82,32 @@ public func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
     YepUserDefaults.v1AccessToken.value = loginUser.accessToken
 }
 
+public struct MobilePhone {
+
+    public let areaCode: String
+    public let number: String
+
+    public var fullNumber: String {
+        return "+" + areaCode + " " + number
+    }
+
+    public init(areaCode: String, number: String) {
+        self.areaCode = areaCode
+        self.number = number
+    }
+}
+
 // MARK: - Register
 
-public func validateMobile(mobile: String, withAreaCode areaCode: String, failureHandler: FailureHandler?, completion: ((Bool, String)) -> Void) {
+public func validateMobilePhone(mobilePhone: MobilePhone, failureHandler: FailureHandler?, completion: ((Bool, String)) -> Void) {
 
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
     ]
 
     let parse: JSONDictionary -> (Bool, String)? = { data in
-        println("data: \(data)")
+        println("validateMobilePhone: \(data)")
         if let available = data["available"] as? Bool {
             if available {
                 return (available, "")
@@ -95,13 +126,15 @@ public func validateMobile(mobile: String, withAreaCode areaCode: String, failur
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func registerMobile(mobile: String, withAreaCode areaCode: String, nickname: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
+public func registerMobilePhone(mobilePhone: MobilePhone, nickname: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
+
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
         "nickname": nickname,
-        "longitude": 0, // TODO: 注册时不好提示用户访问位置，或许设置技能或用户利用位置查找好友时再提示并更新位置信息
-        "latitude": 0
+        // 注册时不好提示用户访问位置，或许设置技能或用户利用位置查找好友时再提示并更新位置信息
+        "longitude": YepUserDefaults.userCoordinateLongitude.value ?? 0,
+        "latitude": YepUserDefaults.userCoordinateLatitude.value ?? 0,
     ]
 
     let parse: JSONDictionary -> Bool? = { data in
@@ -119,31 +152,18 @@ public func registerMobile(mobile: String, withAreaCode areaCode: String, nickna
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func verifyMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
+public func verifyMobilePhone(mobilePhone: MobilePhone, verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
+
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
         "token": verifyCode,
         "client": Config.clientType(),
         "expiring": 0, // 永不过期
     ]
 
     let parse: JSONDictionary -> LoginUser? = { data in
-
-        if let accessToken = data["access_token"] as? String {
-            if let user = data["user"] as? [String: AnyObject] {
-                if
-                    let userID = user["id"] as? String,
-                    let nickname = user["nickname"] as? String,
-                    let pusherID = user["pusher_id"] as? String {
-                        let username = user["username"] as? String
-                        let avatarURLString = user["avatar_url"] as? String
-                        return LoginUser(accessToken: accessToken, userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
-                }
-            }
-        }
-
-        return nil
+        return LoginUser.fromJSONDictionary(data)
     }
 
     let resource = jsonResource(path: "/v1/registration/update", method: .PUT, requestParameters: requestParameters, parse: parse)
@@ -465,12 +485,12 @@ public enum VerifyCodeMethod: String {
     case Call = "call"
 }
 
-public func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: Bool -> Void) {
+public func requestSendVerifyCodeOfMobilePhone(mobilePhone: MobilePhone, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
-        "method": method.rawValue
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
+        "method": method.rawValue,
     ]
 
     let parse: JSONDictionary -> Bool? = { data in
@@ -482,11 +502,11 @@ public func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func sendVerifyCodeOfNewMobile(mobile: String, withAreaCode areaCode: String, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: () -> Void) {
+public func requestSendVerifyCodeOfNewMobilePhone(mobilePhone: MobilePhone, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
         "method": method.rawValue,
     ]
 
@@ -499,11 +519,11 @@ public func sendVerifyCodeOfNewMobile(mobile: String, withAreaCode areaCode: Str
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func confirmNewMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: () -> Void) {
+public func confirmNewMobilePhone(mobilePhone: MobilePhone, withVerifyCode verifyCode: String, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
         "token": verifyCode,
     ]
 
@@ -516,34 +536,20 @@ public func confirmNewMobile(mobile: String, withAreaCode areaCode: String, veri
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func loginByMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
+public func loginByMobilePhone(mobilePhone: MobilePhone, withVerifyCode verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
 
     println("User login type is \(Config.clientType())")
     
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
         "verify_code": verifyCode,
         "client": Config.clientType(),
         "expiring": 0, // 永不过期
     ]
 
     let parse: JSONDictionary -> LoginUser? = { data in
-
-        if let accessToken = data["access_token"] as? String {
-            if let user = data["user"] as? [String: AnyObject] {
-                if
-                    let userID = user["id"] as? String,
-                    let nickname = user["nickname"] as? String,
-                    let pusherID = user["pusher_id"] as? String {
-                        let username = user["username"] as? String
-                        let avatarURLString = user["avatar_url"] as? String
-                        return LoginUser(accessToken: accessToken, userID: userID, username: username, nickname: nickname, avatarURLString: avatarURLString, pusherID: pusherID)
-                }
-            }
-        }
-        
-        return nil
+        return LoginUser.fromJSONDictionary(data)
     }
 
     let resource = jsonResource(path: "/v1/auth/token_by_mobile", method: .POST, requestParameters: requestParameters, parse: parse)

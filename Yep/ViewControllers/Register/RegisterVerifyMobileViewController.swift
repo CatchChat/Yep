@@ -29,7 +29,7 @@ final class RegisterVerifyMobileViewController: BaseVerifyMobileViewController {
 
     override func requestCallMe() {
 
-        sendVerifyCodeOfMobile(mobilePhone.number, withAreaCode: mobilePhone.areaCode, useMethod: .Call, failureHandler: { [weak self] (reason, errorMessage) in
+        requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .Call, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             self?.requestCallMeFailed(errorMessage)
@@ -54,11 +54,10 @@ final class RegisterVerifyMobileViewController: BaseVerifyMobileViewController {
 
         YepHUD.showActivityIndicator()
 
-        verifyMobile(mobilePhone.number, withAreaCode: mobilePhone.areaCode, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
+        verifyMobilePhone(mobilePhone, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             YepHUD.hideActivityIndicator()
-
 
             SafeDispatch.async { [weak self] in
                 self?.nextButton.enabled = false

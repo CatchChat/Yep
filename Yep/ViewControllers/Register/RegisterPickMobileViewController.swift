@@ -97,16 +97,17 @@ final class RegisterPickMobileViewController: SegueViewController {
 
         YepHUD.showActivityIndicator()
         
-        validateMobile(mobilePhone.number, withAreaCode: areaCode, failureHandler: { (reason, errorMessage) in
+        validateMobilePhone(mobilePhone, failureHandler: { (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
             
             YepHUD.hideActivityIndicator()
 
         }, completion: { (available, message) in
+
             if available, let nickname = YepUserDefaults.nickname.value {
                 println("ValidateMobile: available")
 
-                registerMobile(mobilePhone.number, withAreaCode: areaCode, nickname: nickname, failureHandler: { (reason, errorMessage) in
+                registerMobilePhone(mobilePhone, nickname: nickname, failureHandler: { (reason, errorMessage) in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                     YepHUD.hideActivityIndicator()
@@ -122,18 +123,18 @@ final class RegisterPickMobileViewController: SegueViewController {
                     YepHUD.hideActivityIndicator()
 
                     if created {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self.performSegueWithIdentifier("showRegisterVerifyMobile", sender: nil)
-                        })
+                        SafeDispatch.async { [weak self] in
+                            self?.performSegueWithIdentifier("showRegisterVerifyMobile", sender: nil)
+                        }
 
                     } else {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self.nextButton.enabled = false
+                        SafeDispatch.async { [weak self] in
+                            self?.nextButton.enabled = false
 
                             YepAlert.alertSorry(message: "registerMobile failed", inViewController: self, withDismissAction: { [weak self] in
                                 self?.mobileNumberTextField.becomeFirstResponder()
                             })
-                        })
+                        }
                     }
                 })
 
@@ -142,9 +143,8 @@ final class RegisterPickMobileViewController: SegueViewController {
 
                 YepHUD.hideActivityIndicator()
 
-                SafeDispatch.async {
-
-                    self.nextButton.enabled = false
+                SafeDispatch.async { [weak self] in
+                    self?.nextButton.enabled = false
 
                     YepAlert.alertSorry(message: message, inViewController: self, withDismissAction: { [weak self] in
                         self?.mobileNumberTextField.becomeFirstResponder()
