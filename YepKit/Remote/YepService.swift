@@ -110,13 +110,15 @@ public func validateMobilePhone(mobilePhone: MobilePhone, failureHandler: Failur
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func registerMobile(mobile: String, withAreaCode areaCode: String, nickname: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
+public func registerMobilePhone(mobilePhone: MobilePhone, nickname: String, failureHandler: FailureHandler?, completion: Bool -> Void) {
+
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
         "nickname": nickname,
-        "longitude": 0, // TODO: 注册时不好提示用户访问位置，或许设置技能或用户利用位置查找好友时再提示并更新位置信息
-        "latitude": 0
+        // 注册时不好提示用户访问位置，或许设置技能或用户利用位置查找好友时再提示并更新位置信息
+        "longitude": YepUserDefaults.userCoordinateLongitude.value ?? 0,
+        "latitude": YepUserDefaults.userCoordinateLatitude.value ?? 0,
     ]
 
     let parse: JSONDictionary -> Bool? = { data in
