@@ -1743,7 +1743,7 @@ public func officialMessages(completion completion: Int -> Void) {
                                 // 再设置 conversation，调节 hasUnreadMessages 需要判定 readed
                                 if message.conversation == nil && message.readed == false && message.createdUnixTime > conversation.updatedUnixTime {
                                     conversation.hasUnreadMessages = true
-                                    conversation.updatedUnixTime = NSDate().timeIntervalSince1970
+                                    conversation.updatedUnixTime = message.createdUnixTime
                                 }
                                 message.conversation = conversation
 
