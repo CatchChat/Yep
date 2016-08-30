@@ -485,12 +485,12 @@ public enum VerifyCodeMethod: String {
     case Call = "call"
 }
 
-public func sendVerifyCodeOfMobile(mobile: String, withAreaCode areaCode: String, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: Bool -> Void) {
+public func requestSendVerifyCodeOfMobilePhone(mobilePhone: MobilePhone, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: Bool -> Void) {
 
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
-        "method": method.rawValue
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
+        "method": method.rawValue,
     ]
 
     let parse: JSONDictionary -> Bool? = { data in
@@ -536,13 +536,13 @@ public func confirmNewMobilePhone(mobilePhone: MobilePhone, withVerifyCode verif
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func loginByMobile(mobile: String, withAreaCode areaCode: String, verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
+public func loginByMobilePhone(mobilePhone: MobilePhone, withVerifyCode verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
 
     println("User login type is \(Config.clientType())")
     
     let requestParameters: JSONDictionary = [
-        "mobile": mobile,
-        "phone_code": areaCode,
+        "phone_code": mobilePhone.areaCode,
+        "mobile": mobilePhone.number,
         "verify_code": verifyCode,
         "client": Config.clientType(),
         "expiring": 0, // 永不过期
