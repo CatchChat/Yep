@@ -13,6 +13,7 @@ import YepKit
 import YepPreview
 import RealmSwift
 import Kingfisher
+import RxSwift
 
 final class FeedView: UIView {
 
@@ -275,8 +276,13 @@ final class FeedView: UIView {
         }
     }
 
+    private var disposableTimer: Disposable?
+
     deinit {
         NSNotificationCenter.defaultCenter().removeObserver(self)
+
+        disposableTimer?.dispose()
+
         println("deinit FeedView")
     }
 
@@ -410,8 +416,16 @@ final class FeedView: UIView {
             }
         }
 
-        timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
-
+        let configureTimeLabel: () -> Void = { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.timeLabel.text = feed.timeString
+        }
+        configureTimeLabel()
+        disposableTimer = Observable<Int>
+            .interval(1, scheduler: MainScheduler.instance)
+            .subscribeNext({ _ in
+                configureTimeLabel()
+            })
 
         // social works
 

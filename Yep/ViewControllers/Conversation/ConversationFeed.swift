@@ -292,9 +292,19 @@ enum ConversationFeed {
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
             return discoveredFeed.createdUnixTime
-
         case .FeedType(let feed):
             return feed.createdUnixTime
+        }
+    }
+
+    var timeString: String {
+        switch self {
+        case .DiscoveredFeedType(let discoveredFeed):
+            return discoveredFeed.timeString
+        case .FeedType(let feed):
+            let date = NSDate(timeIntervalSince1970: feed.createdUnixTime)
+            let timeString = Config.timeAgoAction?(date: date) ?? ""
+            return timeString
         }
     }
 }

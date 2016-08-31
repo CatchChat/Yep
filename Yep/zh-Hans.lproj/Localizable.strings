@@ -316,3 +316,4 @@
 "whosDribbble%@" = "%@ 的 Dribbble";
 "whosGitHub%@" = "%@ 的 GitHub";
 "whosInstagram%@" = "%@ 的 Instagram";
+"prompt.uploading" = "正在上传…";
