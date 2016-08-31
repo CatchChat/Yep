@@ -69,7 +69,7 @@ public extension NSDate {
     public var timeAgo: String {
         
         let now = NSDate()
-        let deltaSeconds = Int(fabs(timeIntervalSinceDate(now)))
+        let deltaSeconds = max(Int(now.timeIntervalSinceDate(self)), 0)
         let deltaMinutes = deltaSeconds / 60
         
         var value: Int!
