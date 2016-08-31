@@ -16,7 +16,7 @@ import RxCocoa
 class BaseVerifyMobileViewController: SegueViewController {
 
     var mobilePhone: MobilePhone! {
-        return store.state.mobilePhone
+        return sharedStore().state.mobilePhone
     }
 
     private lazy var disposeBag = DisposeBag()

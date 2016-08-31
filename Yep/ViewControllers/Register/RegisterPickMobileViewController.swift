@@ -50,7 +50,7 @@ final class RegisterPickMobileViewController: SegueViewController {
 
         pickMobileNumberPromptLabel.text = NSLocalizedString("What's your number?", comment: "")
 
-        let mobilePhone = store.state.mobilePhone
+        let mobilePhone = sharedStore().state.mobilePhone
 
         areaCodeTextField.text = mobilePhone?.areaCode ?? NSTimeZone.areaCode
         areaCodeTextField.backgroundColor = UIColor.whiteColor()
@@ -93,7 +93,7 @@ final class RegisterPickMobileViewController: SegueViewController {
             return
         }
         let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
-        store.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
+        sharedStore().dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
         YepHUD.showActivityIndicator()
         
