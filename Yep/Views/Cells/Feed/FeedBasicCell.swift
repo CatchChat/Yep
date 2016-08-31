@@ -8,6 +8,7 @@
 
 import UIKit
 import YepKit
+import RxSwift
 
 private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
 
@@ -26,6 +27,8 @@ class FeedBasicCell: UITableViewCell {
 
         return ceil(height)
     }
+
+    private lazy var disposeBag = DisposeBag()
 
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
@@ -218,6 +221,15 @@ class FeedBasicCell: UITableViewCell {
         } else {
             leftBottomLabel.text = feed.timeString
         }
+
+        Observable<Int>.interval(1, scheduler: MainScheduler.instance).subscribeNext({ [weak self] _ in
+            guard let strongSelf = self else { return }
+            if strongSelf.needShowDistance {
+                strongSelf.leftBottomLabel.text = feed.timeAndDistanceString
+            } else {
+                strongSelf.leftBottomLabel.text = feed.timeString
+            }
+        }).addDisposableTo(disposeBag)
 
         let messagesCountString = feed.messagesCount > 99 ? "99+" : "\(feed.messagesCount)"
 
