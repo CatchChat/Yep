@@ -96,10 +96,10 @@
 "time.from" = "From";
 "show.genius" = "Genius";
 "prompt.get_notified_with_subscribe" = "Get notified.";
-"Have a nice day!" = "Have a nice day!";
-"Hide these feeds" = "Hide these feeds";
-"Hide" = "Hide";
-"Hold for Voice" = "Hold for Voice";
+"prompt.have_a_nice_day" = "Have a nice day!";
+"title.hide_feeds_from_this_user" = "Hide his/her feeds";
+"title.hide" = "Hide";
+"prompt.hold_for_voice" = "Hold for Voice";
 "In order to share your profile, create a unique username first." = "In order to share your profile, create a unique username first.";
 "Input verification code sent to" = "Input verification code sent to";
 "Input your blog's URL." = "Input your blog's URL.";

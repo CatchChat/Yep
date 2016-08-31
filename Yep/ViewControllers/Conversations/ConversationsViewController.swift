@@ -84,7 +84,7 @@ final class ConversationsViewController: BaseViewController {
         }
     }
 
-    private lazy var noConversationFooterView: InfoView = InfoView(NSLocalizedString("Have a nice day!", comment: ""))
+    private lazy var noConversationFooterView: InfoView = InfoView(String.trans_promptHaveANiceDay)
 
     private var noConversation = false {
         didSet {

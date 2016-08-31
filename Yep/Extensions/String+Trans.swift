@@ -399,6 +399,23 @@ extension String {
     static var trans_promptUploading: String {
         return NSLocalizedString("prompt.uploading", comment: "")
     }
+
+    static var trans_promptHoldForVoice: String {
+        return NSLocalizedString("prompt.hold_for_voice", comment: "")
+    }
+
+    static var trans_promptHaveANiceDay: String {
+        return NSLocalizedString("prompt.have_a_nice_day", comment: "")
+    }
+
+    static var trans_titleHideFeedsFromThisUser: String {
+        return NSLocalizedString("title.hide_feeds_from_this_user", comment: "")
+    }
+
+    static var trans_titleHide: String {
+        return NSLocalizedString("title.hide", comment: "")
+    }
+
 }
 
 extension String {
