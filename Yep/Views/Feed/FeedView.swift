@@ -418,7 +418,7 @@ final class FeedView: UIView {
 
         let configureTimeLabel: () -> Void = { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.timeLabel.text = "\(NSDate(timeIntervalSince1970: feed.createdUnixTime).timeAgo)"
+            strongSelf.timeLabel.text = feed.timeString
         }
         configureTimeLabel()
         disposableTimer = Observable<Int>
