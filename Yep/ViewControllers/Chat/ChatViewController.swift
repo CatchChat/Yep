@@ -586,7 +586,7 @@ extension ChatViewController: ASTableDataSource, ASTableDelegate {
         if isMyMessage {
             title = NSLocalizedString("Recall", comment: "")
         } else {
-            title = NSLocalizedString("Hide", comment: "")
+            title = String.trans_titleHide
             canReport = true
         }
 

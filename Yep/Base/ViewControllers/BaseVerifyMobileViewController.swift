@@ -79,7 +79,7 @@ class BaseVerifyMobileViewController: SegueViewController {
             .subscribeNext({ [weak self] _ in self?.verifyCodeTextField.becomeFirstResponder() })
             .addDisposableTo(disposeBag)
 
-        verifyMobileNumberPromptLabel.text = NSLocalizedString("Input verification code sent to", comment: "")
+        verifyMobileNumberPromptLabel.text = String.trans_promptInputVerificationCode
 
         phoneNumberLabel.text = mobilePhone?.fullNumber
 

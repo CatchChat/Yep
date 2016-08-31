@@ -154,7 +154,7 @@ extension UIViewController {
             presentViewController(safariViewController, animated: true, completion: nil)
 
         } else {
-            YepAlert.alertSorry(message: NSLocalizedString("Invalid URL!", comment: ""), inViewController: self)
+            YepAlert.alertSorry(message: String.trans_promptInvalidURL, inViewController: self)
         }
     }
 }

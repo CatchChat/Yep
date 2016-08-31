@@ -66,7 +66,7 @@ final class VoiceRecordButton: UIView {
         
         touchesEnded?(needAbort: abort)
 
-        titleLabel?.text = NSLocalizedString("Hold for Voice", comment: "")
+        titleLabel?.text = String.trans_promptHoldForVoice
     }
     
     override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
@@ -74,7 +74,7 @@ final class VoiceRecordButton: UIView {
         
         touchesCancelled?()
 
-        titleLabel?.text = NSLocalizedString("Hold for Voice", comment: "")
+        titleLabel?.text = String.trans_promptHoldForVoice
     }
     
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -99,7 +99,7 @@ final class VoiceRecordButton: UIView {
 
         let titleLabel = UILabel()
         titleLabel.font = UIFont.systemFontOfSize(15.0)
-        titleLabel.text = NSLocalizedString("Hold for Voice", comment: "")
+        titleLabel.text = String.trans_promptHoldForVoice
         titleLabel.textAlignment = .Center
         titleLabel.textColor = self.tintColor
 

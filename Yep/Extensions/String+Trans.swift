@@ -399,6 +399,50 @@ extension String {
     static var trans_promptUploading: String {
         return NSLocalizedString("prompt.uploading", comment: "")
     }
+
+    static var trans_promptHoldForVoice: String {
+        return NSLocalizedString("prompt.hold_for_voice", comment: "")
+    }
+
+    static var trans_promptHaveANiceDay: String {
+        return NSLocalizedString("prompt.have_a_nice_day", comment: "")
+    }
+
+    static var trans_titleHideFeedsFromThisUser: String {
+        return NSLocalizedString("title.hide_feeds_from_this_user", comment: "")
+    }
+
+    static var trans_titleHide: String {
+        return NSLocalizedString("title.hide", comment: "")
+    }
+
+    static var trans_promptCreateUsername: String {
+        return NSLocalizedString("prompt.create_username", comment: "")
+    }
+
+    static var trans_promptInputVerificationCode: String {
+        return NSLocalizedString("prompt.input_verification_code", comment: "")
+    }
+
+    static var trans_promptInputBlogURL: String {
+        return NSLocalizedString("prompt.input_blog_url", comment: "")
+    }
+
+    static var trans_promptNewFeedPlaceholder: String {
+        return NSLocalizedString("prompt.new_feed_placeholder", comment: "")
+    }
+
+    static var trans_promptUserIntroPlaceholder: String {
+        return NSLocalizedString("prompt.user_intro_placeholder", comment: "")
+    }
+    
+    static var trans_titleSelfIntroduction: String {
+        return NSLocalizedString("title.self_introduction", comment: "")
+    }
+
+    static var trans_promptInvalidURL: String {
+        return NSLocalizedString("prompt.invalid_url", comment: "")
+    }
 }
 
 extension String {
