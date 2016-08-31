@@ -28,8 +28,6 @@ class FeedBasicCell: UITableViewCell {
         return ceil(height)
     }
 
-    private lazy var disposeBag = DisposeBag()
-
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
 
@@ -195,6 +193,8 @@ class FeedBasicCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private var disposableTimer: Disposable?
+
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -202,6 +202,8 @@ class FeedBasicCell: UITableViewCell {
 
         messageTextView.text = nil
         messageTextView.attributedText = nil
+
+        disposableTimer?.dispose()
     }
 
     func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
@@ -222,14 +224,16 @@ class FeedBasicCell: UITableViewCell {
             leftBottomLabel.text = feed.timeString
         }
 
-        Observable<Int>.interval(1, scheduler: MainScheduler.instance).subscribeNext({ [weak self] _ in
-            guard let strongSelf = self else { return }
-            if strongSelf.needShowDistance {
-                strongSelf.leftBottomLabel.text = feed.timeAndDistanceString
-            } else {
-                strongSelf.leftBottomLabel.text = feed.timeString
-            }
-        }).addDisposableTo(disposeBag)
+        disposableTimer = Observable<Int>
+            .interval(1, scheduler: MainScheduler.instance)
+            .subscribeNext({ [weak self] _ in
+                guard let strongSelf = self else { return }
+                if strongSelf.needShowDistance {
+                    strongSelf.leftBottomLabel.text = feed.timeAndDistanceString
+                } else {
+                    strongSelf.leftBottomLabel.text = feed.timeString
+                }
+            })
 
         let messagesCountString = feed.messagesCount > 99 ? "99+" : "\(feed.messagesCount)"
 
