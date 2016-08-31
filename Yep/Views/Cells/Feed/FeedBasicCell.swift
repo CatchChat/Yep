@@ -195,6 +195,10 @@ class FeedBasicCell: UITableViewCell {
 
     private var disposableTimer: Disposable?
 
+    deinit {
+        disposableTimer?.dispose()
+    }
+
     override func prepareForReuse() {
         super.prepareForReuse()
 
@@ -218,21 +222,19 @@ class FeedBasicCell: UITableViewCell {
         messageTextView.text = "\u{200B}\(feed.body)" // ref http://stackoverflow.com/a/25994821
         //println("messageTextView.text: >>>\(messageTextView.text)<<<")
 
-        if needShowDistance {
-            leftBottomLabel.text = feed.timeAndDistanceString
-        } else {
-            leftBottomLabel.text = feed.timeString
+        let configureLeftBottomLabel: () -> Void = { [weak self] in
+            guard let strongSelf = self else { return }
+            if strongSelf.needShowDistance {
+                strongSelf.leftBottomLabel.text = feed.timeAndDistanceString
+            } else {
+                strongSelf.leftBottomLabel.text = feed.timeString
+            }
         }
-
+        configureLeftBottomLabel()
         disposableTimer = Observable<Int>
             .interval(1, scheduler: MainScheduler.instance)
-            .subscribeNext({ [weak self] _ in
-                guard let strongSelf = self else { return }
-                if strongSelf.needShowDistance {
-                    strongSelf.leftBottomLabel.text = feed.timeAndDistanceString
-                } else {
-                    strongSelf.leftBottomLabel.text = feed.timeString
-                }
+            .subscribeNext({ _ in
+                configureLeftBottomLabel()
             })
 
         let messagesCountString = feed.messagesCount > 99 ? "99+" : "\(feed.messagesCount)"
