@@ -94,7 +94,7 @@ final class LoginByMobileViewController: BaseViewController {
             return
         }
         let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
-        mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
+        store.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
         YepHUD.showActivityIndicator()
         
@@ -145,7 +145,7 @@ final class LoginByMobileViewController: BaseViewController {
             return
         }
         let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
-        mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
+        store.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
         self.performSegueWithIdentifier("showLoginVerifyMobile", sender: nil)
     }

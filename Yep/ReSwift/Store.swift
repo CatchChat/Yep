@@ -8,7 +8,7 @@
 
 import ReSwift
 
-let mainStore = Store<AppState>(
+let store = Store<AppState>(
     reducer: MobilePhoneReducer(),
     state: nil
 )

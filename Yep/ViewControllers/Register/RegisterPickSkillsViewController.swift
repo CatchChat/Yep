@@ -137,7 +137,7 @@ final class RegisterPickSkillsViewController: BaseViewController {
 
             if strongSelf.isRegister {
 
-                mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: nil))
+                store.dispatch(MobilePhoneUpdateAction(mobilePhone: nil))
 
                 // 同步一下我的信息，因为 appDelegate.sync() 执行太早，导致初次注册 Profile 里不显示 skills
                 syncMyInfoAndDoFurtherAction {

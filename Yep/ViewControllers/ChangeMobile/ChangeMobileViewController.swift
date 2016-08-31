@@ -101,7 +101,7 @@ final class ChangeMobileViewController: UIViewController {
             return
         }
         let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
-        mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
+        store.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
         YepHUD.showActivityIndicator()
 
@@ -133,7 +133,7 @@ final class ChangeMobileViewController: UIViewController {
             return
         }
         let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
-        mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
+        store.dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
         performSegueWithIdentifier("showVerifyChangedMobile", sender: nil)
     }
