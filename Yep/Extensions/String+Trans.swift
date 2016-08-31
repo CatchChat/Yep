@@ -379,17 +379,25 @@ extension String {
     static var trans_titleJoinedFeeds: String {
         return NSLocalizedString("title.joined_feeds", comment: "")
     }
+
     static var trans_titleLately: String {
         return NSLocalizedString("title.lately", comment: "")
     }
+
     static var trans_titleLocation: String {
         return NSLocalizedString("title.location", comment: "")
     }
+
     static var trans_titleLogOut: String {
         return NSLocalizedString("title.log_out", comment: "")
     }
+
     static var trans_titleLogin: String {
         return NSLocalizedString("title.login", comment: "")
+    }
+
+    static var trans_promptUploading: String {
+        return NSLocalizedString("prompt.uploading", comment: "")
     }
 }
 

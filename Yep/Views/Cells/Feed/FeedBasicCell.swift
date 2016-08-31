@@ -227,7 +227,7 @@ class FeedBasicCell: UITableViewCell {
             if strongSelf.needShowDistance {
                 strongSelf.leftBottomLabel.text = feed.timeAndDistanceString
             } else {
-                strongSelf.leftBottomLabel.text = feed.timeString
+                strongSelf.leftBottomLabel.text = feed.id.isEmpty ? String.trans_promptUploading : feed.timeString
             }
         }
         configureLeftBottomLabel()
