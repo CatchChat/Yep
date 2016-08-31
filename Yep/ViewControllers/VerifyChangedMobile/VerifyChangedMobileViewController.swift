@@ -80,7 +80,7 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
                     YepUserDefaults.mobile.value = strongSelf.mobilePhone.number
                 }
 
-                mainStore.dispatch(MobilePhoneUpdateAction(mobilePhone: nil))
+                sharedStore().dispatch(MobilePhoneUpdateAction(mobilePhone: nil))
             }
 
             YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("You have successfully updated your mobile for Yep! For now on, using the new number to login.", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: { [weak self] in
