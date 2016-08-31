@@ -111,7 +111,7 @@ final class NewFeedViewController: SegueViewController {
         return imageView
     }()
 
-    private let placeholderOfFeed = NSLocalizedString("Introduce a thing, share an idea, describe a problem ...", comment: "")
+    private let placeholderOfFeed = String.trans_promptNewFeedPlaceholder
 
     private var isNeverInputMessage = true
     private var isDirty = false {

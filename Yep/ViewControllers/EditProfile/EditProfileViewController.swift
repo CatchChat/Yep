@@ -386,11 +386,11 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             case .Intro:
                 let cell: EditProfileMoreInfoCell = tableView.dequeueReusableCell()
 
-                cell.annotationLabel.text = NSLocalizedString("Introduction", comment: "")
+                cell.annotationLabel.text = String.trans_titleSelfIntroduction
 
                 YepUserDefaults.introduction.bindAndFireListener(Listener.Introduction) { [weak cell] introduction in
                     SafeDispatch.async {
-                        cell?.infoTextView.text = introduction ?? NSLocalizedString("Introduce yourself here.", comment: "")
+                        cell?.infoTextView.text = introduction ?? String.trans_promptUserIntroPlaceholder
                     }
                 }
 

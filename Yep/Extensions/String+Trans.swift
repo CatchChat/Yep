@@ -416,6 +416,33 @@ extension String {
         return NSLocalizedString("title.hide", comment: "")
     }
 
+    static var trans_promptCreateUsername: String {
+        return NSLocalizedString("prompt.create_username", comment: "")
+    }
+
+    static var trans_promptInputVerificationCode: String {
+        return NSLocalizedString("prompt.input_verification_code", comment: "")
+    }
+
+    static var trans_promptInputBlogURL: String {
+        return NSLocalizedString("prompt.input_blog_url", comment: "")
+    }
+
+    static var trans_promptNewFeedPlaceholder: String {
+        return NSLocalizedString("prompt.new_feed_placeholder", comment: "")
+    }
+
+    static var trans_promptUserIntroPlaceholder: String {
+        return NSLocalizedString("prompt.user_intro_placeholder", comment: "")
+    }
+    
+    static var trans_titleSelfIntroduction: String {
+        return NSLocalizedString("title.self_introduction", comment: "")
+    }
+
+    static var trans_promptInvalidURL: String {
+        return NSLocalizedString("prompt.invalid_url", comment: "")
+    }
 }
 
 extension String {
