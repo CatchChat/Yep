@@ -13,7 +13,7 @@ import Ruler
 import RxSwift
 import RxCocoa
 
-final class ChangeMobileViewController: UIViewController {
+final class ChangeMobileViewController: SegueViewController {
 
     private lazy var disposeBag = DisposeBag()
     

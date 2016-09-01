@@ -13,7 +13,7 @@ import Ruler
 import RxSwift
 import RxCocoa
 
-final class LoginByMobileViewController: BaseViewController {
+final class LoginByMobileViewController: SegueViewController {
 
     private lazy var disposeBag = DisposeBag()
 
@@ -41,8 +41,6 @@ final class LoginByMobileViewController: BaseViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        animatedOnNavigationBar = false
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 
