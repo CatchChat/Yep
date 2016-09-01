@@ -824,6 +824,9 @@ public class Conversation: Object {
 
     public dynamic var type: Int = ConversationType.OneToOne.rawValue
     public dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    public var olderUpdatedUnixTime: NSTimeInterval {
+        return updatedUnixTime - 30
+    }
 
     public dynamic var withFriend: User?
     public dynamic var withGroup: Group?

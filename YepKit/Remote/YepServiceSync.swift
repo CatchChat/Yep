@@ -1215,7 +1215,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
 
                             // 再设置 conversation，调节 hasUnreadMessages 需要判定 readed
                             if !conversation.hasUnreadMessages {
-                                if message.conversation == nil && message.readed == false && message.createdUnixTime > conversation.updatedUnixTime {
+                                if message.conversation == nil && message.readed == false && message.createdUnixTime > conversation.olderUpdatedUnixTime {
 
                                     println("ThreeUnixTime: \nc:\(message.createdUnixTime)\nu:\(conversation.updatedUnixTime)\nn:\(NSDate().timeIntervalSince1970)")
 
