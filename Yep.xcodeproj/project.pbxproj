@@ -145,6 +145,7 @@
 		503315971AC1017E0008A209 /* ChatLeftTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503315951AC1017E0008A209 /* ChatLeftTextCell.swift */; };
 		5033159C1AC101C80008A209 /* ChatRightTextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159A1AC101C80008A209 /* ChatRightTextCell.swift */; };
 		503315A01AC126100008A209 /* MessageToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5033159F1AC126100008A209 /* MessageToolbar.swift */; };
+		5034A8EA1D780EDA0094F42B /* BaseInputMobileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5034A8E91D780EDA0094F42B /* BaseInputMobileViewController.swift */; };
 		503807231BDA18040068345E /* FeedSkillUsersCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503807211BDA18040068345E /* FeedSkillUsersCell.swift */; };
 		503807241BDA18040068345E /* FeedSkillUsersCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 503807221BDA18040068345E /* FeedSkillUsersCell.xib */; };
 		50390F0F1CE174180090A08C /* FunctionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50390F0E1CE174180090A08C /* FunctionTests.swift */; };
@@ -922,6 +923,7 @@
 		503315951AC1017E0008A209 /* ChatLeftTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatLeftTextCell.swift; path = Views/Cells/ChatLeftText/ChatLeftTextCell.swift; sourceTree = "<group>"; };
 		5033159A1AC101C80008A209 /* ChatRightTextCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatRightTextCell.swift; path = Views/Cells/ChatRightText/ChatRightTextCell.swift; sourceTree = "<group>"; };
 		5033159F1AC126100008A209 /* MessageToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MessageToolbar.swift; path = Views/MessageToolbar/MessageToolbar.swift; sourceTree = "<group>"; };
+		5034A8E91D780EDA0094F42B /* BaseInputMobileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseInputMobileViewController.swift; path = Base/ViewControllers/BaseInputMobileViewController.swift; sourceTree = "<group>"; };
 		503807211BDA18040068345E /* FeedSkillUsersCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillUsersCell.swift; path = Views/Cells/FeedSkillUsers/FeedSkillUsersCell.swift; sourceTree = "<group>"; };
 		503807221BDA18040068345E /* FeedSkillUsersCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FeedSkillUsersCell.xib; path = Views/Cells/FeedSkillUsers/FeedSkillUsersCell.xib; sourceTree = "<group>"; };
 		50390F0E1CE174180090A08C /* FunctionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FunctionTests.swift; sourceTree = "<group>"; };
@@ -2326,6 +2328,7 @@
 			isa = PBXGroup;
 			children = (
 				502C22371D62C07F00724368 /* SegueViewController.swift */,
+				5034A8E91D780EDA0094F42B /* BaseInputMobileViewController.swift */,
 				502C22341D62ACE000724368 /* BaseVerifyMobileViewController.swift */,
 				502C22361D62C07F00724368 /* BaseViewController.swift */,
 			);
@@ -4713,6 +4716,7 @@
 				50894CFA1AEA54BA000981AF /* SettingsMoreCell.swift in Sources */,
 				50AFBF4B1BB2A44C007D19DA /* InfoView.swift in Sources */,
 				50DEE03D1BE70E1500015741 /* UIScrollView+Yep.swift in Sources */,
+				5034A8EA1D780EDA0094F42B /* BaseInputMobileViewController.swift in Sources */,
 				508A084E1C166EBA000A3305 /* CLPlacemark+Yep.swift in Sources */,
 				50535D281BCE4A71002FE1A4 /* PhotoCell.swift in Sources */,
 				506D01F11CDB3E0D00B3867D /* ProfileSocialAccountBlogCell.swift in Sources */,

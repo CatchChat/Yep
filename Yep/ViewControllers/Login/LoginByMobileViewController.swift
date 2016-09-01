@@ -13,19 +13,13 @@ import Ruler
 import RxSwift
 import RxCocoa
 
-final class LoginByMobileViewController: SegueViewController {
+final class LoginByMobileViewController: BaseInputMobileViewController {
 
     private lazy var disposeBag = DisposeBag()
 
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var areaCodeTextField: BorderTextField!
-    @IBOutlet weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet weak var mobileNumberTextField: BorderTextField!
-    @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
-    
     private lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.title = NSLocalizedString("Next", comment: "")
@@ -67,7 +61,6 @@ final class LoginByMobileViewController: SegueViewController {
             .addDisposableTo(disposeBag)
 
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
-        mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
     }
 
     override func viewWillAppear(animated: Bool) {
