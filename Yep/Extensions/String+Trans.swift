@@ -329,6 +329,7 @@ extension String {
     static var trans_promptFeedsByThisCreatorWillNotAppear: String {
         return NSLocalizedString("prompt.feeds_by_this_creator_will_not_appear", comment: "")
     }
+    
     static var trans_titleFeeds: String {
         return NSLocalizedString("title.feeds", comment: "")
     }

@@ -302,9 +302,9 @@ public enum SkillSet: Int {
     public var name: String {
         switch self {
         case .Master:
-            return NSLocalizedString("Master", comment: "")
+            return String.trans_titleMaster
         case .Learning:
-            return NSLocalizedString("Learning", comment: "")
+            return String.trans_titleLearning
         }
     }
 
