@@ -1,4 +1,3 @@
-
 "about.recommend_yep" = "推荐 Yep 给朋友";
 "about.yep_description" = "Yep，与天才相遇";
 "doing%@" = "正在%@...";
@@ -112,11 +111,9 @@
 "title.joined_feeds" = "参与的话题";
 "prompt.last_seen_at_%@" = "上次见是%@";
 "title.lately" = "最新";
-
 "title.location" = "位置";
 "title.log_out" = "退出登录";
 "title.login" = "登录";
-
 "show.match_friends_with_skills" = "用技能匹配好友";
 "title.match" = "匹配";
 "title.maybe_next_time" = "也许下次吧";

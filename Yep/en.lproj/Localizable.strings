@@ -1,4 +1,3 @@
-
 "about.recommend_yep" = "Recommend Yep";
 "about.yep_description" = "Yep: A community where geniuses meet";
 "doing%@" = " is %@...";
@@ -112,11 +111,9 @@
 "title.joined_feeds" = "Joined Feeds";
 "prompt.last_seen_at_%@" = "Last seen %@";
 "title.lately" = "Lately";
-
 "title.location" = "Location";
 "title.log_out" = "Log Out";
 "title.login" = "Login";
-
 "show.match_friends_with_skills" = "Match friends with your skills";
 "title.match" = "Match";
 "title.maybe_next_time" = "Maybe next time";
