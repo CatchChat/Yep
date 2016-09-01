@@ -312,3 +312,7 @@
 "whosGitHub%@" = "%@ 的 GitHub";
 "whosInstagram%@" = "%@ 的 Instagram";
 "prompt.uploading" = "正在上传…";
+"error.get_title_of_url_failed" = "获取 URL 标题失败！";
+"title.master" = "擅长";
+"title.learning" = "正在学习";
+"title.match" = "匹配";

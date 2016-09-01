@@ -313,3 +313,7 @@
 "whosGitHub%@" = "%@'s GitHub";
 "whosInstagram%@" = "%@'s Instagram";
 "prompt.uploading" = "Uploading";
+"error.get_title_of_url_failed" = "Get title of URL failed!";
+"title.master" = "Master";
+"title.learning" = "Learning";
+"title.match" = "Match";
