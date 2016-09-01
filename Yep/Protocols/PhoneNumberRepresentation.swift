@@ -22,9 +22,7 @@ extension PhoneNumberRepresentation where Self: UIViewController {
 
     func adjustAreaCodeTextFieldWidth() {
 
-        guard let text = areaCodeTextField.text else {
-            return
-        }
+        guard let text = areaCodeTextField.text else { return }
 
         let size = text.sizeWithAttributes(areaCodeTextField.editing ? areaCodeTextField.typingAttributes : areaCodeTextField.defaultTextAttributes)
 
@@ -33,8 +31,7 @@ extension PhoneNumberRepresentation where Self: UIViewController {
         UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
             self?.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
             self?.view.layoutIfNeeded()
-        }, completion: { finished in
-        })
+        }, completion: nil)
     }
 }
 
@@ -55,43 +52,18 @@ extension PhoneNumberRepresentation where Self: UIViewController {
             UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
                 self?.areaCodeTextFieldWidthConstraint.constant = 60
                 self?.view.layoutIfNeeded()
-            }, completion: { finished in
-            })
+            }, completion: nil)
         }
     }
 
     func textFieldShouldReturn(textField: UITextField) -> Bool {
 
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
-            return true
-        }
+        guard let areaCode = areaCodeTextField.text where !areaCode.isEmpty else { return true }
+        guard let number = mobileNumberTextField.text where !number.isEmpty else { return true }
 
-        if !areaCode.isEmpty && !mobile.isEmpty {
-             tappedKeyboardReturn()
-        }
-        
+        tappedKeyboardReturn()
+
         return true
-    }
-}
-
-extension RegisterPickMobileViewController: PhoneNumberRepresentation {
-
-    func tappedKeyboardReturn() {
-        tryShowRegisterVerifyMobile()
-    }
-}
-
-extension LoginByMobileViewController: PhoneNumberRepresentation {
-
-    func tappedKeyboardReturn() {
-        tryShowLoginVerifyMobile()
-    }
-}
-
-extension ChangeMobileViewController: PhoneNumberRepresentation {
-
-    func tappedKeyboardReturn() {
-         tryShowVerifyChangedMobile()
     }
 }
 

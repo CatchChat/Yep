@@ -13,18 +13,12 @@ import Ruler
 import RxSwift
 import RxCocoa
 
-final class RegisterPickMobileViewController: SegueViewController {
+final class RegisterPickMobileViewController: BaseInputMobileViewController {
 
     private lazy var disposeBag = DisposeBag()
     
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var areaCodeTextField: BorderTextField!
-    @IBOutlet weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
-    
-    @IBOutlet weak var mobileNumberTextField: BorderTextField!
-    @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
 
     private lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
@@ -70,7 +64,6 @@ final class RegisterPickMobileViewController: SegueViewController {
             .addDisposableTo(disposeBag)
 
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
-        mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
 
         if mobilePhone?.number == nil {
             nextButton.enabled = false
@@ -84,6 +77,10 @@ final class RegisterPickMobileViewController: SegueViewController {
     }
 
     // MARK: Actions
+
+    override func tappedKeyboardReturn() {
+        tryShowRegisterVerifyMobile()
+    }
 
     func tryShowRegisterVerifyMobile() {
         
