@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class BaseInputMobileViewController: SegueViewController {
+class BaseInputMobileViewController: SegueViewController, PhoneNumberRepresentation {
 
     @IBOutlet weak var areaCodeTextField: BorderTextField!
     @IBOutlet weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
@@ -22,6 +22,10 @@ class BaseInputMobileViewController: SegueViewController {
         super.viewDidLoad()
 
         mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
+    }
+
+    func tappedKeyboardReturn() {
+        assert(false, "Must override tappedKeyboardReturn")
     }
 }
 

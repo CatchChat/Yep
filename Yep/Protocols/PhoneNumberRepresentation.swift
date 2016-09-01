@@ -74,24 +74,3 @@ extension PhoneNumberRepresentation where Self: UIViewController {
     }
 }
 
-extension RegisterPickMobileViewController: PhoneNumberRepresentation {
-
-    func tappedKeyboardReturn() {
-        tryShowRegisterVerifyMobile()
-    }
-}
-
-extension LoginByMobileViewController: PhoneNumberRepresentation {
-
-    func tappedKeyboardReturn() {
-        tryShowLoginVerifyMobile()
-    }
-}
-
-extension ChangeMobileViewController: PhoneNumberRepresentation {
-
-    func tappedKeyboardReturn() {
-         tryShowVerifyChangedMobile()
-    }
-}
-

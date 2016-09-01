@@ -86,6 +86,10 @@ final class ChangeMobileViewController: BaseInputMobileViewController {
 
     // MARK: Actions
 
+    override func tappedKeyboardReturn() {
+        tryShowVerifyChangedMobile()
+    }
+
     func tryShowVerifyChangedMobile() {
 
         view.endEditing(true)

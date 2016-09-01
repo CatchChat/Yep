@@ -77,6 +77,10 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
 
     // MARK: Actions
 
+    override func tappedKeyboardReturn() {
+        tryShowLoginVerifyMobile()
+    }
+    
     func tryShowLoginVerifyMobile() {
         
         view.endEditing(true)

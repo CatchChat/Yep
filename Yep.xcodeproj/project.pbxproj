@@ -3397,9 +3397,9 @@
 			isa = PBXGroup;
 			children = (
 				50E34C1C1CB7516C007CAE80 /* UserRepresentation.swift */,
+				509220171D41B94600BA2C2A /* PhoneNumberRepresentation.swift */,
 				50B3C9571CC9BA9000623E29 /* SearchTriggerRepresentation.swift */,
 				50B3C9591CC9BB2F00623E29 /* SearchActionRepresentation.swift */,
-				509220171D41B94600BA2C2A /* PhoneNumberRepresentation.swift */,
 				5067D5431D6D8EC600D3C010 /* Copyable.swift */,
 				50066AF91D0FAECA00EF1E0D /* Reusable.swift */,
 				50066AFB1D0FB3D800EF1E0D /* NibLoadable.swift */,

@@ -20,7 +20,6 @@ final class RegisterPickMobileViewController: BaseInputMobileViewController {
     @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
     @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
-
     private lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.title = NSLocalizedString("Next", comment: "")
@@ -78,6 +77,10 @@ final class RegisterPickMobileViewController: BaseInputMobileViewController {
     }
 
     // MARK: Actions
+
+    override func tappedKeyboardReturn() {
+        tryShowRegisterVerifyMobile()
+    }
 
     func tryShowRegisterVerifyMobile() {
         
