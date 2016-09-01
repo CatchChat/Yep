@@ -18,7 +18,6 @@ class BaseInputMobileViewController: SegueViewController, PhoneNumberRepresentat
     @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {
-
         super.viewDidLoad()
 
         mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
