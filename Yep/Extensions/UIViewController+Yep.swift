@@ -176,7 +176,7 @@ extension UIViewController {
                 title: NSLocalizedString("Review Yep", comment: ""),
                 message: String.trans_promptAskForReview,
                 doNotRemindMeInThisVersionTitle: String.trans_titleDoNotRemindMeInThisVersion,
-                maybeNextTimeTitle: NSLocalizedString("Maybe next time", comment: ""),
+                maybeNextTimeTitle: String.trans_titleMaybeNextTime,
                 confirmTitle: NSLocalizedString("Review now", comment: "")
             )
             self?.autoreview_tryReviewApp(withInfo: info)

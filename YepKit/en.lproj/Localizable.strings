@@ -1,0 +1,11 @@
+/* 
+  Localizable.strings
+  Yep
+
+  Created by NIX on 16/9/1.
+  Copyright © 2016年 Catch Inc. All rights reserved.
+*/
+
+"title.master" = "Master";
+"title.learning" = "Learning";
+"title.match" = "Match";

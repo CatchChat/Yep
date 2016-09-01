@@ -112,21 +112,19 @@
 "title.joined_feeds" = "参与的话题";
 "prompt.last_seen_at_%@" = "上次见是%@";
 "title.lately" = "最新";
-"Learning" = "正在学习";
+
 "title.location" = "位置";
 "title.log_out" = "退出登录";
 "title.login" = "登录";
-"Master" = "擅长";
-"Match friends with your skills" = "用技能匹配好友";
-"Match me if you can" = "以技能匹配你我";
-"Match" = "匹配";
-"Maybe next time" = "也许下次吧";
-"Meet Genius" = "遇见天才";
-"Meet" = "见面";
-"Messages" = "消息";
-"Modify" = "修改";
-"Mute" = "静音";
-"My Current Location" = "我当前的位置";
+
+"show.match_friends_with_skills" = "用技能匹配好友";
+"title.match" = "匹配";
+"title.maybe_next_time" = "也许下次吧";
+"title.meet_geniuses" = "遇见天才";
+"show.meet" = "见面";
+"title.modify" = "修改";
+"title.mute" = "静音";
+"title.my_current_location" = "我当前的位置";
 "Nearby" = "附近";
 "Network Error: Failed to get blocked users!" = "网络错误：无法获取被屏蔽的用户！";
 "Network error!" = "网络错误";
