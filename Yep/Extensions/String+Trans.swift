@@ -349,6 +349,7 @@ extension String {
     static var trans_titleFriendsInContacts: String {
         return NSLocalizedString("title.friends_in_contacts", comment: "")
     }
+
     static var trans_titleFriends: String {
         return NSLocalizedString("title.friends", comment: "")
     }
@@ -444,6 +445,15 @@ extension String {
     static var trans_promptInvalidURL: String {
         return NSLocalizedString("prompt.invalid_url", comment: "")
     }
+    static var trans_showMatchFriendsWithSkills: String {
+        return NSLocalizedString("show.match_friends_with_skills", comment: "")
+    }
+    static var trans_titleMatch: String {
+        return NSLocalizedString("title.match", comment: "")
+    }
+
+
+
 }
 
 extension String {

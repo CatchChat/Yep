@@ -17,5 +17,9 @@ extension String {
     static var trans_titleLearning: String {
         return NSLocalizedString("title.learning", comment: "")
     }
+
+    static var trans_titleMatch: String {
+        return NSLocalizedString("title.match", comment: "")
+    }
 }
 

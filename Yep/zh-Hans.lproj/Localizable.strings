@@ -117,9 +117,8 @@
 "title.log_out" = "退出登录";
 "title.login" = "登录";
 
-"Match friends with your skills" = "用技能匹配好友";
-"Match me if you can" = "以技能匹配你我";
-"Match" = "匹配";
+"show.match_friends_with_skills" = "用技能匹配好友";
+"title.match" = "匹配";
 "Maybe next time" = "也许下次吧";
 "Meet Genius" = "遇见天才";
 "Meet" = "见面";

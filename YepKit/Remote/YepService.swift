@@ -1162,7 +1162,7 @@ public enum DiscoveredUserSortStyle: String {
         case .LastSignIn:
             return NSLocalizedString("Time", comment: "")
         case .Default:
-            return NSLocalizedString("Match", comment: "")
+            return String.trans_titleMatch
         }
     }
 

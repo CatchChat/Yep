@@ -117,9 +117,8 @@
 "title.log_out" = "Log Out";
 "title.login" = "Login";
 
-"Match friends with your skills" = "Match friends with your skills";
-"Match me if you can" = "Match me if you can";
-"Match" = "Match";
+"show.match_friends_with_skills" = "Match friends with your skills";
+"title.match" = "Match";
 "Maybe next time" = "Maybe next time";
 "Meet Genius" = "Meet Genius";
 "Meet" = "Meet";
