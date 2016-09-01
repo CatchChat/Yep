@@ -23,7 +23,7 @@ class DiscoverContainerViewController: UIPageViewController {
         var title: String {
             switch self {
             case .MeetGenius:
-                return NSLocalizedString("Meet Genius", comment: "")
+                return String.trans_titleMeetGeniuses
             case .FindAll:
                 return String.trans_titleFindAll
             }

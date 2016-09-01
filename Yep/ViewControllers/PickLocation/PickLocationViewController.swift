@@ -488,7 +488,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
         case Section.CurrentLocation.rawValue:
             cell.iconImageView.hidden = false
             cell.iconImageView.image = UIImage.yep_iconCurrentLocation
-            cell.locationLabel.text = NSLocalizedString("My Current Location", comment: "")
+            cell.locationLabel.text = String.trans_titleMyCurrentLocation
             cell.checkImageView.hidden = false
 
         case Section.UserPickedLocation.rawValue:
@@ -563,7 +563,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.CurrentLocation.rawValue:
             if let _location = mapView.userLocation.location {
-                location = .Selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: userLocationPlacemarks.first?.yep_autoName ?? NSLocalizedString("My Current Location", comment: "")))
+                location = .Selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: userLocationPlacemarks.first?.yep_autoName ?? String.trans_titleMyCurrentLocation))
             }
 
         case Section.UserPickedLocation.rawValue:

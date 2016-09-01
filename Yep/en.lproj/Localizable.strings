@@ -119,13 +119,13 @@
 
 "show.match_friends_with_skills" = "Match friends with your skills";
 "title.match" = "Match";
-"Maybe next time" = "Maybe next time";
-"Meet Genius" = "Meet Genius";
-"Meet" = "Meet";
+"title.maybe_next_time" = "Maybe next time";
+"title.meet_geniuses" = "Geniuses";
+"show.meet" = "Meet";
 "Messages" = "Messages";
-"Modify" = "Modify";
-"Mute" = "Mute";
-"My Current Location" = "My Current Location";
+"title.modify" = "Modify";
+"title.mute" = "Mute";
+"title.my_current_location" = "My Current Location";
 "Nearby" = "Nearby";
 "Network Error: Failed to get blocked users!" = "Network Error: Failed to get blocked users!";
 "Network error!" = "Network error!";

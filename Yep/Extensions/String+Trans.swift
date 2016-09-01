@@ -238,6 +238,10 @@ extension String {
         return NSLocalizedString("title.do_not_remind_me_in_this_version", comment: "")
     }
 
+    static var trans_titleMaybeNextTime: String {
+        return NSLocalizedString("title.maybe_next_time", comment: "")
+    }
+
     static var trans_promptAskForReview: String {
         return NSLocalizedString("prompt.ask_for_review", comment: "")
     }
@@ -445,15 +449,34 @@ extension String {
     static var trans_promptInvalidURL: String {
         return NSLocalizedString("prompt.invalid_url", comment: "")
     }
+
     static var trans_showMatchFriendsWithSkills: String {
         return NSLocalizedString("show.match_friends_with_skills", comment: "")
     }
+
     static var trans_titleMatch: String {
         return NSLocalizedString("title.match", comment: "")
     }
 
+    static var trans_titleMeetGeniuses: String {
+        return NSLocalizedString("title.meet_geniuses", comment: "")
+    }
 
+    static var trans_showMeet: String {
+        return NSLocalizedString("show.meet", comment: "")
+    }
 
+    static var trans_titleModify: String {
+        return NSLocalizedString("title.modify", comment: "")
+    }
+
+    static var trans_titleMute: String {
+        return NSLocalizedString("title.mute", comment: "")
+    }
+
+    static var trans_titleMyCurrentLocation: String {
+        return NSLocalizedString("title.my_current_location", comment: "")
+    }
 }
 
 extension String {

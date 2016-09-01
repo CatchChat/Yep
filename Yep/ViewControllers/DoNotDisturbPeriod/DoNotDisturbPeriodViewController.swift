@@ -62,7 +62,7 @@ final class DoNotDisturbPeriodViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Mute", comment: "")
+        title = String.trans_titleMute
 
         activeTime = .From
 

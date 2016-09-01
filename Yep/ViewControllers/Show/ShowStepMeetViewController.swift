@@ -17,7 +17,7 @@ final class ShowStepMeetViewController: ShowStepViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        titleLabel.text = NSLocalizedString("Meet", comment: "")
+        titleLabel.text = String.trans_showMeet
         subTitleLabel.text = String.trans_subtitleBuildWorldTogether
     }
 
