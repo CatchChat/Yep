@@ -7,28 +7,11 @@
 //
 
 import UIKit
-import RealmSwift
 import YepKit
+import RealmSwift
+import KeypathObserver
 
-final class SearchContactsViewController: SegueViewController {
-
-    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    var searchTransition: SearchTransition?
-
-    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver<UIButton>?
-    @IBOutlet weak var searchBar: UISearchBar! {
-        didSet {
-            searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
-            searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
-            searchBar.returnKeyType = .Done
-        }
-    }
-    @IBOutlet weak var searchBarBottomLineView: HorizontalLineView! {
-        didSet {
-            searchBarBottomLineView.lineColor = UIColor(white: 0.68, alpha: 1.0)
-        }
-    }
-    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
+final class SearchContactsViewController: BaseSearchViewController {
 
     @IBOutlet weak var contactsTableView: UITableView! {
         didSet {
@@ -76,8 +59,6 @@ final class SearchContactsViewController: SegueViewController {
     }
 
     deinit {
-        searchBarCancelButtonEnabledObserver = nil
-
         println("deinit SearchContacts")
     }
 
@@ -86,38 +67,11 @@ final class SearchContactsViewController: SegueViewController {
 
         title = NSLocalizedString("Search", comment: "")
 
+        searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
+
         contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
 
         searchBarBottomLineView.alpha = 0
-    }
-
-    private var isFirstAppear = true
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        navigationController?.setNavigationBarHidden(true, animated: true)
-
-        if isFirstAppear {
-            delay(0.3) { [weak self] in
-                self?.searchBar.becomeFirstResponder()
-            }
-            delay(0.4) { [weak self] in
-                self?.searchBar.setShowsCancelButton(true, animated: true)
-
-                self?.searchBarCancelButtonEnabledObserver = self?.searchBar.yep_makeSureCancelButtonAlwaysEnabled()
-            }
-        }
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        recoverSearchTransition()
-
-        moveUpSearchBar()
-
-        isFirstAppear = false
     }
 
     // MARK: Private
