@@ -244,6 +244,7 @@
 		5072D4211D387D0800A0C928 /* PreviewNewFeedPhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5072D4201D387D0800A0C928 /* PreviewNewFeedPhoto.swift */; };
 		507682F01C9FE8F7006A973E /* SearchContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */; };
 		507682F31C9FE921006A973E /* SearchContacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507682F21C9FE921006A973E /* SearchContacts.storyboard */; };
+		5076F3C71D796E71000F79F1 /* BaseSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076F3C61D796E71000F79F1 /* BaseSearchViewController.swift */; };
 		507813191CD1B01A00F193AB /* ShortcutItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813181CD1B01A00F193AB /* ShortcutItems.swift */; };
 		5078131B1CD1B04400F193AB /* ShortcutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131A1CD1B04400F193AB /* ShortcutType.swift */; };
 		507813221CD2F9C100F193AB /* DeviceGuru+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */; };
@@ -992,6 +993,7 @@
 		5072D4201D387D0800A0C928 /* PreviewNewFeedPhoto.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PreviewNewFeedPhoto.swift; path = PreviewPhotos/PreviewNewFeedPhoto.swift; sourceTree = "<group>"; };
 		507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchContactsViewController.swift; path = ViewControllers/SearchContacts/SearchContactsViewController.swift; sourceTree = "<group>"; };
 		507682F21C9FE921006A973E /* SearchContacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchContacts.storyboard; path = ViewControllers/SearchContacts/SearchContacts.storyboard; sourceTree = "<group>"; };
+		5076F3C61D796E71000F79F1 /* BaseSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseSearchViewController.swift; path = Base/ViewControllers/BaseSearchViewController.swift; sourceTree = "<group>"; };
 		507813181CD1B01A00F193AB /* ShortcutItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutItems.swift; path = Shortcuts/ShortcutItems.swift; sourceTree = "<group>"; };
 		5078131A1CD1B04400F193AB /* ShortcutType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutType.swift; path = Shortcuts/ShortcutType.swift; sourceTree = "<group>"; };
 		507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DeviceGuru+Yep.swift"; path = "Extensions/DeviceGuru+Yep.swift"; sourceTree = "<group>"; };
@@ -2273,6 +2275,7 @@
 				502C22361D62C07F00724368 /* BaseViewController.swift */,
 				5034A8E91D780EDA0094F42B /* BaseInputMobileViewController.swift */,
 				502C22341D62ACE000724368 /* BaseVerifyMobileViewController.swift */,
+				5076F3C61D796E71000F79F1 /* BaseSearchViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -4786,6 +4789,7 @@
 				50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */,
 				50E34C331CBF7E2A007CAE80 /* ConversationViewController+TextIndicator.swift in Sources */,
 				50BF40541D741E0A00DA1857 /* MobilePhoneReducer.swift in Sources */,
+				5076F3C71D796E71000F79F1 /* BaseSearchViewController.swift in Sources */,
 				50FE29CF1C478A4A0067CA03 /* FeedURLContainerView.swift in Sources */,
 				50CC4FA41C1AC58700B6A263 /* UICollectionView+Yep.swift in Sources */,
 				5078131B1CD1B04400F193AB /* ShortcutType.swift in Sources */,
