@@ -7,9 +7,13 @@
 //
 
 import UIKit
+import YepKit
 import KeypathObserver
 
 class BaseSearchViewController: SegueViewController {
+
+    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
+    var searchTransition: SearchTransition?
 
     private var searchBarCancelButtonEnabledObserver: KeypathObserver<UIButton, Bool>?
     @IBOutlet weak var searchBar: UISearchBar! {
@@ -25,4 +29,41 @@ class BaseSearchViewController: SegueViewController {
         }
     }
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
+
+    private var isFirstAppear = true
+
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(animated)
+
+        navigationController?.setNavigationBarHidden(true, animated: true)
+
+        if isFirstAppear {
+            delay(0.3) { [weak self] in
+                self?.searchBar.becomeFirstResponder()
+            }
+            delay(0.4) { [weak self] in
+                self?.searchBar.setShowsCancelButton(true, animated: true)
+
+                self?.searchBarCancelButtonEnabledObserver = self?.searchBar.yep_makeSureCancelButtonAlwaysEnabled()
+            }
+        }
+    }
+
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(animated)
+
+        recoverSearchTransition()
+
+        moveUpSearchBar()
+        
+        isFirstAppear = false
+    }
+    
+    deinit {
+        searchBarCancelButtonEnabledObserver = nil
+    }
 }
+
+extension BaseSearchViewController: SearchActionRepresentation {
+}
+
