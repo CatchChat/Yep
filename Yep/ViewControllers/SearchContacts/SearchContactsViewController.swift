@@ -13,7 +13,6 @@ import KeypathObserver
 
 final class SearchContactsViewController: BaseSearchViewController {
 
-
     @IBOutlet weak var contactsTableView: UITableView! {
         didSet {
             //contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor // not work here

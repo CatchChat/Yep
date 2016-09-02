@@ -10,7 +10,7 @@ import UIKit
 import YepKit
 import KeypathObserver
 
-class BaseSearchViewController: SegueViewController {
+class BaseSearchViewController: SegueViewController, SearchActionRepresentation {
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     var searchTransition: SearchTransition?
@@ -18,8 +18,8 @@ class BaseSearchViewController: SegueViewController {
     private var searchBarCancelButtonEnabledObserver: KeypathObserver<UIButton, Bool>?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
-            searchBar.placeholder = NSLocalizedString("Search", comment: "")
-            searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
+            let image = UIImage.yep_searchbarTextfieldBackground
+            searchBar.setSearchFieldBackgroundImage(image, forState: .Normal)
             searchBar.returnKeyType = .Done
         }
     }
@@ -62,8 +62,5 @@ class BaseSearchViewController: SegueViewController {
     deinit {
         searchBarCancelButtonEnabledObserver = nil
     }
-}
-
-extension BaseSearchViewController: SearchActionRepresentation {
 }
 
