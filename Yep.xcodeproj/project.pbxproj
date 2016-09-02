@@ -111,7 +111,6 @@
 		5024BF4C1D0D3DC400358156 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5024BF4B1D0D3DC400358156 /* NSFileManager+Yep.swift */; };
 		502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502554801CEEFD150003E1B5 /* String+YepShare.swift */; };
 		502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5171AB70D72005BD199 /* Intro.storyboard */; };
-		502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */; };
 		502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */; };
 		502AE5211AB71C7E005BD199 /* BorderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE5201AB71C7E005BD199 /* BorderButton.swift */; };
 		502AE52E1AB83879005BD199 /* UnderLineTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE52D1AB83879005BD199 /* UnderLineTextField.swift */; };
@@ -889,7 +888,6 @@
 		5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = YepShare.entitlements; sourceTree = "<group>"; };
 		502554801CEEFD150003E1B5 /* String+YepShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+YepShare.swift"; path = "Extensions/String+YepShare.swift"; sourceTree = "<group>"; };
 		502AE5181AB70D72005BD199 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
-		502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WelcomeViewController.swift; path = ViewControllers/Welcome/WelcomeViewController.swift; sourceTree = "<group>"; };
 		502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = RegisterPickNameViewController.swift; path = ViewControllers/Register/RegisterPickNameViewController.swift; sourceTree = "<group>"; };
 		502AE5201AB71C7E005BD199 /* BorderButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BorderButton.swift; path = Views/Buttons/BorderButton.swift; sourceTree = "<group>"; };
 		502AE52D1AB83879005BD199 /* UnderLineTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = UnderLineTextField.swift; path = Views/TextFields/UnderLineTextField.swift; sourceTree = "<group>"; };
@@ -1897,7 +1895,6 @@
 				50A6A7BB1D23BE7600E01190 /* GeniusInterview */,
 				5023DE311AB6861900B3EE96 /* Profile */,
 				845E1A671B788EFC001E0789 /* EditSkills */,
-				502AE51C1AB70DE5005BD199 /* Welcome */,
 				502AE51F1AB712D6005BD199 /* Register */,
 				502AE5361AB864A3005BD199 /* Login */,
 				50894CF21AEA472B000981AF /* Settings */,
@@ -2154,14 +2151,6 @@
 				502554801CEEFD150003E1B5 /* String+YepShare.swift */,
 			);
 			name = Extensions;
-			sourceTree = "<group>";
-		};
-		502AE51C1AB70DE5005BD199 /* Welcome */ = {
-			isa = PBXGroup;
-			children = (
-				502AE51A1AB70DDB005BD199 /* WelcomeViewController.swift */,
-			);
-			name = Welcome;
 			sourceTree = "<group>";
 		};
 		502AE51F1AB712D6005BD199 /* Register */ = {
@@ -4722,7 +4711,6 @@
 				50008D3A1CAE537400245296 /* SearchedFeedCell.swift in Sources */,
 				508F8FCC1B01C7FC00461B0B /* SocialWorkGithubViewController.swift in Sources */,
 				503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */,
-				502AE51B1AB70DDB005BD199 /* WelcomeViewController.swift in Sources */,
 				50894D071AEDFDA2000981AF /* EditProfileMoreInfoCell.swift in Sources */,
 				502C24831C1034000074A1BA /* UIImageView+Yep.swift in Sources */,
 				50B3C9501CC8649500623E29 /* SearchedFeedAnyImagesCell.swift in Sources */,
