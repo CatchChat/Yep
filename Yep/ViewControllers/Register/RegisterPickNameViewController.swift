@@ -47,8 +47,6 @@ final class RegisterPickNameViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        animatedOnNavigationBar = false
-
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 
         navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Sign Up", comment: ""))

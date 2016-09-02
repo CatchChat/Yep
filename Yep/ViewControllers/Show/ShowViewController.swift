@@ -125,20 +125,6 @@ final class ShowViewController: UIViewController {
 
         return step
     }
-
-    // MARK: Actions
-    
-    @IBAction private func register(sender: UIButton) {
-
-        let vc = UIStoryboard.Scene.registerPickName
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    @IBAction private func login(sender: UIButton) {
-
-        let vc = UIStoryboard.Scene.loginByMobile
-        navigationController?.pushViewController(vc, animated: true)
-    }
 }
 
 // MARK: - UIScrollViewDelegate
