@@ -41,15 +41,3 @@ extension SearchActionRepresentation where Self: UIViewController {
     }
 }
 
-extension SearchConversationsViewController: SearchActionRepresentation {
-
-}
-
-extension SearchContactsViewController: SearchActionRepresentation {
-
-}
-
-extension SearchFeedsViewController: SearchActionRepresentation {
-
-}
-
