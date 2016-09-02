@@ -369,6 +369,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                     socialWork.type = socialWorkPiece.messageSocialWorkType.rawValue
 
                     switch socialWorkPiece {
+
                     case .Github(let repo):
 
                         let repoID = repo.ID
@@ -499,7 +500,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         var i = 0
                         for repo in githubRepos {
 
-                            if i >= 3 {
+                            if i >= Config.SocialWork.syncCountMax {
                                 break
                             }
                             i += 1
@@ -559,7 +560,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         var i = 0
                         for shot in dribbbleShots {
 
-                            if i >= 3 {
+                            if i >= Config.SocialWork.syncCountMax {
                                 break
                             }
                             i += 1

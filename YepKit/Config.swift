@@ -78,5 +78,9 @@ final public class Config {
         public static let miniImageWidth: CGFloat = 200
         public static let miniImageHeight: CGFloat = 200
     }
+
+    struct SocialWork {
+        static let syncCountMax: Int = 5
+    }
 }
 
