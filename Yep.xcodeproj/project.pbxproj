@@ -350,7 +350,6 @@
 		50B6A03F1CA282B100C460E3 /* ActionSheetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */; };
 		50B6A0421CA395A200C460E3 /* SearchedContactsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6A0401CA395A200C460E3 /* SearchedContactsCell.swift */; };
 		50B6A0431CA395A200C460E3 /* SearchedContactsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50B6A0411CA395A200C460E3 /* SearchedContactsCell.xib */; };
-		50B6CDF01CC4D3AC000B0A03 /* ObjectKeypathObserver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B6CDEF1CC4D3AC000B0A03 /* ObjectKeypathObserver.swift */; };
 		50B801501D5078AB00F42938 /* AttributedStringCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8014F1D5078AB00F42938 /* AttributedStringCache.swift */; };
 		50B801521D51DB2600F42938 /* UISegmentedControl+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B801511D51DB2600F42938 /* UISegmentedControl+Yep.swift */; };
 		50B8E6161B40F9E700C17EA1 /* YepDownloader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */; };
@@ -1091,7 +1090,6 @@
 		50B6A03E1CA282B100C460E3 /* ActionSheetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheetView.swift; sourceTree = "<group>"; };
 		50B6A0401CA395A200C460E3 /* SearchedContactsCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedContactsCell.swift; path = Views/Cells/Contacts/SearchedContactsCell.swift; sourceTree = "<group>"; };
 		50B6A0411CA395A200C460E3 /* SearchedContactsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SearchedContactsCell.xib; path = Views/Cells/Contacts/SearchedContactsCell.xib; sourceTree = "<group>"; };
-		50B6CDEF1CC4D3AC000B0A03 /* ObjectKeypathObserver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ObjectKeypathObserver.swift; path = Helpers/KVO/ObjectKeypathObserver.swift; sourceTree = "<group>"; };
 		50B8014F1D5078AB00F42938 /* AttributedStringCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AttributedStringCache.swift; path = Caches/AttributedStringCache.swift; sourceTree = "<group>"; };
 		50B801511D51DB2600F42938 /* UISegmentedControl+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UISegmentedControl+Yep.swift"; path = "Extensions/UISegmentedControl+Yep.swift"; sourceTree = "<group>"; };
 		50B8E6151B40F9E700C17EA1 /* YepDownloader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepDownloader.swift; path = Services/YepDownloader.swift; sourceTree = "<group>"; };
@@ -2175,7 +2173,6 @@
 			isa = PBXGroup;
 			children = (
 				5024BF491D0D38CE00358156 /* YepConfig.swift */,
-				50B6CDEE1CC4D382000B0A03 /* KVO */,
 				50DEE0401BE7626100015741 /* YepHelpers.swift */,
 				502AE5391AB871C1005BD199 /* YepAlert.swift */,
 				50EB8C5D1AE78AB9001AC1EE /* YepAsset.swift */,
@@ -3057,14 +3054,6 @@
 			);
 			name = ActionSheet;
 			path = Views/ActionSheet;
-			sourceTree = "<group>";
-		};
-		50B6CDEE1CC4D382000B0A03 /* KVO */ = {
-			isa = PBXGroup;
-			children = (
-				50B6CDEF1CC4D3AC000B0A03 /* ObjectKeypathObserver.swift */,
-			);
-			name = KVO;
 			sourceTree = "<group>";
 		};
 		50B8E6191B41341000C17EA1 /* ProgressViews */ = {
@@ -4840,7 +4829,6 @@
 				50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */,
 				50A640E91B6F45FA0050E4A3 /* DoNotDisturbPeriodCell.swift in Sources */,
 				502B605A1BD1102B00D9C17E /* TitleCell.swift in Sources */,
-				50B6CDF01CC4D3AC000B0A03 /* ObjectKeypathObserver.swift in Sources */,
 				840CD23C1B7B59D5000D2680 /* ShowStepViewController.swift in Sources */,
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,

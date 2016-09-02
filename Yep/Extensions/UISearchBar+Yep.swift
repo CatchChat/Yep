@@ -52,23 +52,6 @@ extension UISearchBar {
         )
     }
 
-    /*
-    func yep_makeSureCancelButtonAlwaysEnabled() -> ObjectKeypathObserver<UIButton>? {
-
-        guard let cancelButton = yep_cancelButton else {
-            println("Not cancelButton in searchBar!")
-            return nil
-        }
-
-        return ObjectKeypathObserver(object: cancelButton, keypath: "enabled", afterValueChanged: { object in
-            let cancelButton = object
-            if !cancelButton.enabled {
-                cancelButton.enabled = true
-            }
-        })
-    }
-     */
-
     var yep_textField: UITextField? {
 
         for subview in self.subviews {
