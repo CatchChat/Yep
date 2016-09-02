@@ -75,6 +75,10 @@ final class PodsHelpYepViewController: UITableViewController {
             "name": "ReSwift",
             "URLString": "https://github.com/ReSwift/ReSwift",
         ],
+        [
+            "name": "KeypathObserver",
+            "URLString": "https://github.com/nixzhu/KeypathObserver",
+        ],
 
     ].sort({ a, b in
         if let nameA = a["name"], nameB = b["name"] {
