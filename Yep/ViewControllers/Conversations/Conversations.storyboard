@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="SVh-9r-Uon">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="SVh-9r-Uon">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -74,7 +74,6 @@
                         <segue destination="GJQ-3i-9xP" kind="show" identifier="showSearchConversations" id="yOG-gg-hsG">
                             <nil key="action"/>
                         </segue>
-                        <segue destination="LKt-KU-tqi" kind="show" identifier="showChat" id="rfo-eR-t1E"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SaV-zl-ryn" sceneMemberID="firstResponder"/>
@@ -87,15 +86,7 @@
                 <viewControllerPlaceholder storyboardName="Profile" referencedIdentifier="ProfileViewController" id="2TT-43-fX2" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Eh-EU-enG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="816" y="-1231"/>
-        </scene>
-        <!--ChatViewController-->
-        <scene sceneID="wQz-e6-ppO">
-            <objects>
-                <viewControllerPlaceholder storyboardName="Chat" referencedIdentifier="ChatViewController" id="LKt-KU-tqi" sceneMemberID="viewController"/>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="p1T-dK-6gh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="810.5" y="-1326"/>
+            <point key="canvasLocation" x="816" y="-1313"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="3gF-dg-dnb">

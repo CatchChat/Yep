@@ -13,17 +13,3 @@ protocol Copyable {
     var text: String? { get }
 }
 
-extension ChatLeftTextCellNode: Copyable {
-
-    var text: String? {
-        return textNode.attributedText?.string
-    }
-}
-
-extension ChatRightTextCellNode: Copyable {
-
-    var text: String? {
-        return textNode.attributedText?.string
-    }
-}
-
