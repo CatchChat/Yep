@@ -2316,9 +2316,9 @@
 			isa = PBXGroup;
 			children = (
 				502C22371D62C07F00724368 /* SegueViewController.swift */,
+				502C22361D62C07F00724368 /* BaseViewController.swift */,
 				5034A8E91D780EDA0094F42B /* BaseInputMobileViewController.swift */,
 				502C22341D62ACE000724368 /* BaseVerifyMobileViewController.swift */,
-				502C22361D62C07F00724368 /* BaseViewController.swift */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";

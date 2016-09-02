@@ -9,7 +9,7 @@
 import UIKit
 import Ruler
 
-class BaseInputMobileViewController: SegueViewController, PhoneNumberRepresentation {
+class BaseInputMobileViewController: BaseViewController, PhoneNumberRepresentation {
 
     @IBOutlet weak var areaCodeTextField: BorderTextField!
     @IBOutlet weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
