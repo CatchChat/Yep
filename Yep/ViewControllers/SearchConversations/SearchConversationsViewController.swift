@@ -226,7 +226,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
         cancel(searchTask)
 
-        searchTask = delay(0.5) { [weak self] in
+        searchTask = delay(YepConfig.Search.delayInterval) { [weak self] in
             if let searchText = searchBar.yep_fullSearchText {
                 self?.updateSearchResultsWithText(searchText)
             }
@@ -244,7 +244,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
             return
         }
 
-        searchTask = delay(0.5) { [weak self] in
+        searchTask = delay(YepConfig.Search.delayInterval) { [weak self] in
             self?.updateSearchResultsWithText(searchText)
         }
     }

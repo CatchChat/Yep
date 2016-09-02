@@ -123,7 +123,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
             return
         }
 
-        searchTask = delay(0.5) { [weak self] in
+        searchTask = delay(YepConfig.Search.delayInterval) { [weak self] in
             if let footer = self?.feedsTableView.tableFooterView as? SearchFeedsFooterView {
                 footer.style = .Searching
             }

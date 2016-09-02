@@ -260,5 +260,9 @@ final class YepConfig {
     struct Conversation {
         static let hasUnreadMessagesPredicate = NSPredicate(format: "hasUnreadMessages = true")
     }
+
+    struct Search {
+        static let delayInterval: NSTimeInterval = 0.5
+    }
 }
 
