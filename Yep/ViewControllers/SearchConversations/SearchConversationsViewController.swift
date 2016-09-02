@@ -9,13 +9,14 @@
 import UIKit
 import YepKit
 import RealmSwift
+import KeypathObserver
 
 final class SearchConversationsViewController: SegueViewController {
 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     var searchTransition: SearchTransition?
 
-    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver<UIButton>?
+    private var searchBarCancelButtonEnabledObserver: KeypathObserver<UIButton, Bool>?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.placeholder = NSLocalizedString("Search", comment: "")

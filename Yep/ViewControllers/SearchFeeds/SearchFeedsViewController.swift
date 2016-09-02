@@ -14,6 +14,7 @@ import YepPreview
 import AVFoundation
 import MapKit
 import Ruler
+import KeypathObserver
 
 private let screenHeight: CGFloat = UIScreen.mainScreen().bounds.height
 
@@ -27,7 +28,7 @@ final class SearchFeedsViewController: SegueViewController {
     var skill: Skill?
     var profileUser: ProfileUser?
 
-    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver<UIButton>?
+    private var searchBarCancelButtonEnabledObserver: KeypathObserver<UIButton, Bool>?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
