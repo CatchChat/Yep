@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QKD-rL-3nS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="QKD-rL-3nS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -26,21 +26,11 @@
                                     <outlet property="delegate" destination="hAb-rS-slE" id="kcq-Kt-DKz"/>
                                 </connections>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="DcR-9P-bpe">
-                                <rect key="frame" x="0.0" y="0.0" width="320" height="20"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="20" id="TDy-jX-11D"/>
-                                </constraints>
-                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="l6N-8e-S0M" secondAttribute="trailing" id="3pl-YG-gGd"/>
-                            <constraint firstAttribute="trailing" secondItem="DcR-9P-bpe" secondAttribute="trailing" id="5mi-lk-AGE"/>
                             <constraint firstAttribute="bottom" secondItem="l6N-8e-S0M" secondAttribute="bottom" id="7Zy-ap-dtD"/>
-                            <constraint firstItem="DcR-9P-bpe" firstAttribute="top" secondItem="d84-FP-EVm" secondAttribute="top" id="G9z-FY-Pbt"/>
-                            <constraint firstItem="DcR-9P-bpe" firstAttribute="leading" secondItem="d84-FP-EVm" secondAttribute="leading" id="Nuy-sg-C17"/>
                             <constraint firstItem="l6N-8e-S0M" firstAttribute="top" secondItem="d84-FP-EVm" secondAttribute="top" id="aMs-Vs-mN0"/>
                             <constraint firstItem="l6N-8e-S0M" firstAttribute="leading" secondItem="d84-FP-EVm" secondAttribute="leading" id="y0D-lb-lTI"/>
                         </constraints>
@@ -54,7 +44,6 @@
                     </navigationItem>
                     <connections>
                         <outlet property="contactsTableView" destination="l6N-8e-S0M" id="jfB-oH-LZP"/>
-                        <outlet property="coverUnderStatusBarView" destination="DcR-9P-bpe" id="Exh-Or-bV1"/>
                         <segue destination="hgB-Yw-01L" kind="show" identifier="showAddFriends" id="7Z2-mX-1Gz">
                             <nil key="action"/>
                         </segue>

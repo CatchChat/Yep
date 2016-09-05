@@ -28,8 +28,6 @@ final class ContactsViewController: BaseViewController {
         }
     }
 
-    @IBOutlet private weak var coverUnderStatusBarView: UIView!
-
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
@@ -98,40 +96,6 @@ final class ContactsViewController: BaseViewController {
         navigationItem.title = String.trans_titleContacts
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
-
-        coverUnderStatusBarView.hidden = true
-
-        // 超过一定人数才显示搜索框
-
-        /*
-        //if friends.count > Ruler.iPhoneVertical(6, 8, 10, 12).value {
-        if friends.count > 0 {
-
-            let searchController = UISearchController(searchResultsController: nil)
-            searchController.delegate = self
-
-            searchController.searchResultsUpdater = self
-            searchController.dimsBackgroundDuringPresentation = false
-
-            searchController.searchBar.backgroundColor = UIColor.whiteColor()
-            searchController.searchBar.barTintColor = UIColor.whiteColor()
-            searchController.searchBar.searchBarStyle = .Minimal
-            searchController.searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
-            searchController.searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
-            searchController.searchBar.sizeToFit()
-
-            searchController.searchBar.delegate = self
-
-            contactsTableView.tableHeaderView = searchController.searchBar
-
-            self.searchController = searchController
-
-            // ref http://stackoverflow.com/questions/30937275/uisearchcontroller-doesnt-hide-view-when-pushed
-            //self.definesPresentationContext = true
-
-            //contactsTableView.contentOffset.y = CGRectGetHeight(searchController.searchBar.frame)
-        }
-         */
 
         friendsNotificationToken = friends.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
 
