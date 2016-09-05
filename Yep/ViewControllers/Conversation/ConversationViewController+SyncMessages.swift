@@ -15,6 +15,8 @@ extension ConversationViewController {
 
     func trySyncMessages() {
 
+        guard !conversation.invalidated else { return }
+
         let syncMessages: (failedAction: (() -> Void)?, successAction: (() -> Void)?) -> Void = { failedAction, successAction in
 
             SafeDispatch.async { [weak self] in
