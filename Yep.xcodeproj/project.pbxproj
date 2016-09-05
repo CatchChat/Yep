@@ -154,6 +154,7 @@
 		503E10231CF825D5000FA7C6 /* GeniusInterviewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503E10211CF825D5000FA7C6 /* GeniusInterviewCell.swift */; };
 		503E10241CF825D5000FA7C6 /* GeniusInterviewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 503E10221CF825D5000FA7C6 /* GeniusInterviewCell.xib */; };
 		503ED23A1B8ADCE70072187D /* BlackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503ED2391B8ADCE70072187D /* BlackListViewController.swift */; };
+		503FBA8E1D7D457A00EE33F8 /* SwipeUpPromptView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 503FBA8D1D7D457A00EE33F8 /* SwipeUpPromptView.swift */; };
 		50402F581C8E6E7B0071099F /* ConversationMoreViewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */; };
 		50402F5C1C929A140071099F /* DiscoverCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50402F5B1C929A140071099F /* DiscoverCollectionView.swift */; };
 		504BDC151B4528A500DBD35D /* Badges.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 504BDC141B4528A500DBD35D /* Badges.xcassets */; };
@@ -910,6 +911,7 @@
 		503E10211CF825D5000FA7C6 /* GeniusInterviewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeniusInterviewCell.swift; path = Views/Cells/GeniusInterview/GeniusInterviewCell.swift; sourceTree = "<group>"; };
 		503E10221CF825D5000FA7C6 /* GeniusInterviewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = GeniusInterviewCell.xib; path = Views/Cells/GeniusInterview/GeniusInterviewCell.xib; sourceTree = "<group>"; };
 		503ED2391B8ADCE70072187D /* BlackListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BlackListViewController.swift; path = ViewControllers/BlackList/BlackListViewController.swift; sourceTree = "<group>"; };
+		503FBA8D1D7D457A00EE33F8 /* SwipeUpPromptView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwipeUpPromptView.swift; path = Views/SwipeUpPrompt/SwipeUpPromptView.swift; sourceTree = "<group>"; };
 		50402F571C8E6E7B0071099F /* ConversationMoreViewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ConversationMoreViewManager.swift; path = ViewControllers/Conversation/ConversationMoreViewManager.swift; sourceTree = "<group>"; };
 		50402F5B1C929A140071099F /* DiscoverCollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverCollectionView.swift; path = ViewControllers/Discover/DiscoverCollectionView.swift; sourceTree = "<group>"; };
 		504BDC141B4528A500DBD35D /* Badges.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Badges.xcassets; sourceTree = "<group>"; };
@@ -1964,8 +1966,9 @@
 		5023DE391AB6979C00B3EE96 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				503FBA8C1D7D452400EE33F8 /* SwipeUpPrompt */,
 				50A6A7B81D23AD1600E01190 /* MeetGeniusShow */,
-				50A6A7C01D23C28D00E01190 /* GeniusInterviewActionView */,
+				50A6A7C01D23C28D00E01190 /* GeniusInterviewAction */,
 				50B6A03D1CA282B100C460E3 /* ActionSheet */,
 				50B8E6191B41341000C17EA1 /* ProgressViews */,
 				504CBA3B1B3D048900663A90 /* TextViews */,
@@ -2381,6 +2384,14 @@
 				50DEE0501BEA09DD00015741 /* BlackList.storyboard */,
 			);
 			name = BlackList;
+			sourceTree = "<group>";
+		};
+		503FBA8C1D7D452400EE33F8 /* SwipeUpPrompt */ = {
+			isa = PBXGroup;
+			children = (
+				503FBA8D1D7D457A00EE33F8 /* SwipeUpPromptView.swift */,
+			);
+			name = SwipeUpPrompt;
 			sourceTree = "<group>";
 		};
 		504CBA3B1B3D048900663A90 /* TextViews */ = {
@@ -2903,12 +2914,12 @@
 			name = GeniusInterview;
 			sourceTree = "<group>";
 		};
-		50A6A7C01D23C28D00E01190 /* GeniusInterviewActionView */ = {
+		50A6A7C01D23C28D00E01190 /* GeniusInterviewAction */ = {
 			isa = PBXGroup;
 			children = (
 				50A6A7C11D23C2D300E01190 /* GeniusInterviewActionView.swift */,
 			);
-			name = GeniusInterviewActionView;
+			name = GeniusInterviewAction;
 			sourceTree = "<group>";
 		};
 		50A93A9E1BD8C51D007005DB /* PickerItems */ = {
@@ -4694,6 +4705,7 @@
 				50901DFD1D29FA160085BB7D /* ProfileViewController+Prepare.swift in Sources */,
 				5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */,
 				5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */,
+				503FBA8E1D7D457A00EE33F8 /* SwipeUpPromptView.swift in Sources */,
 				5052D9331D5AC21D00D72EBD /* UIImage+Yep.swift in Sources */,
 				502C22381D62C07F00724368 /* BaseViewController.swift in Sources */,
 				6A5632971BC9559100397B53 /* DiscoverFlowLayout.swift in Sources */,
