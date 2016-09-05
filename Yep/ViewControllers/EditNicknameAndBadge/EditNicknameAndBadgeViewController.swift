@@ -47,7 +47,7 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Nickname", comment: "")
+        title = String.trans_titleNickname
 
         nicknameTextField.text = YepUserDefaults.nickname.value
         nicknameTextField.delegate = self

@@ -91,7 +91,8 @@ final class SocialWorkDribbbleViewController: BaseViewController {
                 dribbbleWorkOfUserWithUserID(userID, failureHandler: { [weak self] reason, errorMessage in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                    YepAlert.alertSorry(message: NSLocalizedString("Network is not good!", comment: ""), inViewController: self)
+                    let message = errorMessage ?? String.trans_promptNetworkConnectionIsNotGood
+                    YepAlert.alertSorry(message: message, inViewController: self)
 
                 }, completion: { dribbbleWork in
                     println("dribbbleWork: \(dribbbleWork.shots.count)")

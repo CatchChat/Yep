@@ -26,7 +26,7 @@ final class RegisterPickAvatarViewController: SegueViewController {
 
     private lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
-        button.title = NSLocalizedString("Next", comment: "")
+        button.title = String.trans_buttonNextStep
         button.enabled = false
         button.rx_tap
             .subscribeNext({ [weak self] in self?.uploadAvatarAndGotoPickSkills() })

@@ -477,6 +477,33 @@ extension String {
     static var trans_titleMyCurrentLocation: String {
         return NSLocalizedString("title.my_current_location", comment: "")
     }
+    static var trans_titleNearby: String {
+        return NSLocalizedString("title.nearby", comment: "")
+    }
+    static var trans_promptNetworkConnectionIsNotGood: String {
+        return NSLocalizedString("prompt.network_connection_is_not_good", comment: "")
+    }
+    static var trans_titleNewFeed: String {
+        return NSLocalizedString("title.new_feed", comment: "")
+    }
+    static var trans_titleNewVoice: String {
+        return NSLocalizedString("title.new_voice", comment: "")
+    }
+    static var trans_buttonNextStep: String {
+        return NSLocalizedString("button.next_step", comment: "")
+    }
+    static var trans_titleNickname: String {
+        return NSLocalizedString("title.nickname", comment: "")
+    }
+    static var trans_promptNoBlockedFeedCreators: String {
+        return NSLocalizedString("prompt.no_blocked_feed_creators", comment: "")
+    }
+    static var trans_promptNoFeeds: String {
+        return NSLocalizedString("prompt.no_feeds", comment: "")
+    }
+    static var trans_promptNoInterviews: String {
+        return NSLocalizedString("prompt.no_interviews", comment: "")
+    }
 }
 
 extension String {

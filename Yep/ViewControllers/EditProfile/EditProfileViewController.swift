@@ -357,7 +357,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 let cell: EditProfileLessInfoCell = tableView.dequeueReusableCell()
 
-                cell.annotationLabel.text = NSLocalizedString("Nickname", comment: "")
+                cell.annotationLabel.text = String.trans_titleNickname
                 cell.accessoryImageView.hidden = false
                 cell.selectionStyle = .Default
 

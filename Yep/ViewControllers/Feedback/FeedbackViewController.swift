@@ -108,7 +108,8 @@ final class FeedbackViewController: UIViewController {
         sendFeedback(feedback, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            YepAlert.alertSorry(message: NSLocalizedString("Network error!", comment: ""), inViewController: self)
+            let message = errorMessage ?? "Faild to send feedback!"
+            YepAlert.alertSorry(message: message, inViewController: self)
 
         }, completion: { [weak self] _ in
 

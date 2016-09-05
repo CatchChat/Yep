@@ -22,7 +22,7 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
 
     private lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
-        button.title = NSLocalizedString("Next", comment: "")
+        button.title = String.trans_buttonNextStep
         button.rx_tap
             .subscribeNext({ [weak self] in self?.tryShowLoginVerifyMobile() })
             .addDisposableTo(self.disposeBag)

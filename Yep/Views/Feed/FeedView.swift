@@ -410,7 +410,7 @@ final class FeedView: UIView {
 
         if let distance = feed.distance {
             if distance < 1 {
-                distanceLabel.text = NSLocalizedString("Nearby", comment: "")
+                distanceLabel.text = String.trans_titleNearby
             } else {
                 distanceLabel.text = "\(distance.yep_format(".1")) km"
             }

@@ -21,5 +21,9 @@ extension String {
     static var trans_titleMatch: String {
         return NSLocalizedString("title.match", comment: "")
     }
+
+    static var trans_titleNearby: String {
+        return NSLocalizedString("title.nearby", comment: "")
+    }
 }
 
