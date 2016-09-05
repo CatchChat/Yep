@@ -127,8 +127,7 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
         UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
             self?.searchBarBottomLineView.alpha = 1
-        }, completion: { finished in
-        })
+        }, completion: nil)
 
         return true
     }
@@ -140,8 +139,7 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
         UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
             self?.searchBarBottomLineView.alpha = 0
-        }, completion: { finished in
-        })
+        }, completion: nil)
 
         navigationController?.popViewControllerAnimated(true)
     }

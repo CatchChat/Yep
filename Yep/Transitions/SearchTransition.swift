@@ -69,10 +69,10 @@ extension SearchTransition: UIViewControllerAnimatedTransitioning {
 
         let fullDuration = transitionDuration(transitionContext)
 
-        UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveEaseInOut, .LayoutSubviews], animations: { _ in
+        UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveEaseInOut, .LayoutSubviews], animations: {
             toView.alpha = 1
 
-        }, completion: { finished in
+        }, completion: { _ in
             transitionContext.completeTransition(true)
         })
     }
@@ -95,17 +95,17 @@ extension SearchTransition: UIViewControllerAnimatedTransitioning {
 
         let fullDuration = transitionDuration(transitionContext)
 
-        UIView.animateWithDuration(fullDuration * 0.6, delay: 0.0, options: [.CurveEaseInOut], animations: { _ in
+        UIView.animateWithDuration(fullDuration * 0.6, delay: 0.0, options: [.CurveEaseInOut], animations: {
 
             searchActionRepresentation.searchBarTopConstraint.constant = 64
             fromVC.view.layoutIfNeeded()
 
-        }, completion: { finished in
+        }, completion: { _ in
 
             UIView.animateWithDuration(fullDuration * 0.4, delay: 0.0, options: [.CurveEaseInOut], animations: { _ in
                 fromView.alpha = 0
                 
-            }, completion: { finished in
+            }, completion: { _ in
                 transitionContext.completeTransition(true)
             })
         })
