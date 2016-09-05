@@ -146,17 +146,17 @@ extension YepFayeService {
 
                 println("receive faye data: \(data)")
 
-                let messageInfo: JSONDictionary = data
+                let info: JSONDictionary = data
 
                 // Service 消息
-                if let _messageInfo = messageInfo["message"] as? JSONDictionary {
+                if let messageInfo = info["message"] as? JSONDictionary {
 
                     guard let realm = try? Realm() else {
                         return
                     }
 
                     realm.beginWrite()
-                    let isServiceMessage = isServiceMessageAndHandleMessageInfo(_messageInfo, inRealm: realm)
+                    let isServiceMessage = isServiceMessageAndHandleMessageInfo(messageInfo, inRealm: realm)
                     _ = try? realm.commitWrite()
 
                     if isServiceMessage {
@@ -165,7 +165,7 @@ extension YepFayeService {
                 }
 
                 guard let
-                    messageTypeString = messageInfo["message_type"] as? String,
+                    messageTypeString = info["message_type"] as? String,
                     messageType = MessageType(rawValue: messageTypeString)
                     else {
                         println("Faye recieved unknown message type")
@@ -178,33 +178,37 @@ extension YepFayeService {
 
                 case .Default:
 
-                    if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
-                        self?.saveMessageWithMessageInfo(messageDataInfo)
+                    guard let messageInfo = info["message"] as? JSONDictionary else {
+                        println("Error: Faye Default not messageInfo!")
+                        break
                     }
+
+                    self?.saveMessageWithMessageInfo(messageInfo)
 
                 case .Instant:
 
-                    if let messageDataInfo = messageInfo["message"] as? JSONDictionary {
+                    guard let messageInfo = info["message"] as? JSONDictionary else {
+                        println("Error: Faye Instant not messageInfo!")
+                        break
+                    }
 
-                        if let
-                            user = messageDataInfo["user"] as? JSONDictionary,
-                            userID = user["id"] as? String,
-                            state = messageDataInfo["state"] as? Int {
+                    if let
+                        user = messageInfo["user"] as? JSONDictionary,
+                        userID = user["id"] as? String,
+                        state = messageInfo["state"] as? Int {
 
-                            if let instantStateType = InstantStateType(rawValue: state) {
-                                self?.delegate?.fayeRecievedInstantStateType(instantStateType, userID: userID)
-                            }
+                        if let instantStateType = InstantStateType(rawValue: state) {
+                            self?.delegate?.fayeRecievedInstantStateType(instantStateType, userID: userID)
                         }
                     }
 
                 case .Read:
 
-                    guard let messageDataInfo = messageInfo["message"] as? JSONDictionary else {
-                        println("Error: Faye Read not messageDataInfo!")
+                    guard let messageInfo = info["message"] as? JSONDictionary else {
+                        println("Error: Faye Read not messageInfo!")
                         break
                     }
-
-                    guard let lastRead = LastRead(info: messageDataInfo) else {
+                    guard let lastRead = LastRead(info: messageInfo) else {
                         break
                     }
 
@@ -214,11 +218,13 @@ extension YepFayeService {
                     }
 
                 case .MessageDeleted:
-                    
-                    guard let
-                        messageInfo = messageInfo["message"] as? JSONDictionary,
-                        messageID = messageInfo["id"] as? String else {
-                            break
+
+                    guard let messageInfo = info["message"] as? JSONDictionary else {
+                        println("Error: Faye MessageDeleted not messageInfo!")
+                        break
+                    }
+                    guard let messageID = messageInfo["id"] as? String else {
+                        break
                     }
                     
                     handleMessageDeletedFromServer(messageID: messageID)
