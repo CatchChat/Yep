@@ -104,7 +104,7 @@ final class PickLocationViewController: SegueViewController {
         case .Message:
             doneButton.title = NSLocalizedString("Send", comment: "")
         case .Feed:
-            doneButton.title = NSLocalizedString("Next", comment: "")
+            doneButton.title = String.trans_buttonNextStep
         }
 
         searchBar.placeholder = NSLocalizedString("Search", comment: "")

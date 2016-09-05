@@ -184,9 +184,9 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("New Voice", comment: "")
+        title = String.trans_titleNewVoice
 
-        nextButton.title = NSLocalizedString("Next", comment: "")
+        nextButton.title = String.trans_buttonNextStep
 
         state = .Default
 

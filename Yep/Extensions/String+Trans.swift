@@ -486,9 +486,15 @@ extension String {
     static var trans_titleNewFeed: String {
         return NSLocalizedString("title.new_feed", comment: "")
     }
-
-
-
+    static var trans_titleNewVoice: String {
+        return NSLocalizedString("title.new_voice", comment: "")
+    }
+    static var trans_buttonNextStep: String {
+        return NSLocalizedString("button.next_step", comment: "")
+    }
+    static var trans_titleNickname: String {
+        return NSLocalizedString("title.nickname", comment: "")
+    }
 
 
 }

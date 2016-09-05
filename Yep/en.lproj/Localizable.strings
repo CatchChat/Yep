@@ -126,9 +126,9 @@
 "title.nearby" = "Nearby";
 "prompt.network_connection_is_not_good" = "Network connection is not good!";
 "title.new_feed" = "New Feed";
-"New Voice" = "New Voice";
-"Next" = "Next";
-"Nickname" = "Nickname";
+"title.new_voice" = "New Voice";
+"button.next_step" = "Next";
+"title.nickname" = "Nickname";
 "No Blocked Creators" = "No Blocked Creators";
 "No Feeds." = "No Feeds.";
 "No Interviews." = "No Interviews.";

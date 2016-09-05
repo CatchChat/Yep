@@ -125,9 +125,9 @@
 "title.nearby" = "附近";
 "prompt.network_connection_is_not_good" = "网络不太好！";
 "title.new_feed" = "新话题";
-"New Voice" = "新语音";
-"Next" = "下一步";
-"Nickname" = "昵称";
+"title.new_voice" = "新语音";
+"button.next_step" = "下一步";
+"title.nickname" = "昵称";
 "No Blocked Creators" = "没有被屏蔽的创建者";
 "No Feeds." = "没有话题";
 "No Interviews." = "暂无访谈";
