@@ -28,8 +28,6 @@ final class ContactsViewController: BaseViewController {
         }
     }
 
-    @IBOutlet private weak var coverUnderStatusBarView: UIView!
-
     private lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .Minimal
@@ -46,20 +44,12 @@ final class ContactsViewController: BaseViewController {
     }()
     #endif
 
-    private var searchController: UISearchController?
-    private var searchControllerIsActive: Bool {
-        return searchController?.active ?? false
-    }
-
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     lazy var searchTransition: SearchTransition = {
         return SearchTransition()
     }()
 
     private lazy var friends = normalFriends()
-    private var filteredFriends: Results<User>?
-
-    private var searchedUsers: [DiscoveredUser] = []
 
     private var friendsNotificationToken: NotificationToken?
 
@@ -106,41 +96,6 @@ final class ContactsViewController: BaseViewController {
         navigationItem.title = String.trans_titleContacts
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.deactiveSearchController(_:)), name: YepConfig.Notification.switchedToOthersFromContactsTab, object: nil)
-
-        coverUnderStatusBarView.hidden = true
-
-        // 超过一定人数才显示搜索框
-
-        /*
-        //if friends.count > Ruler.iPhoneVertical(6, 8, 10, 12).value {
-        if friends.count > 0 {
-
-            let searchController = UISearchController(searchResultsController: nil)
-            searchController.delegate = self
-
-            searchController.searchResultsUpdater = self
-            searchController.dimsBackgroundDuringPresentation = false
-
-            searchController.searchBar.backgroundColor = UIColor.whiteColor()
-            searchController.searchBar.barTintColor = UIColor.whiteColor()
-            searchController.searchBar.searchBarStyle = .Minimal
-            searchController.searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
-            searchController.searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
-            searchController.searchBar.sizeToFit()
-
-            searchController.searchBar.delegate = self
-
-            contactsTableView.tableHeaderView = searchController.searchBar
-
-            self.searchController = searchController
-
-            // ref http://stackoverflow.com/questions/30937275/uisearchcontroller-doesnt-hide-view-when-pushed
-            //self.definesPresentationContext = true
-
-            //contactsTableView.contentOffset.y = CGRectGetHeight(searchController.searchBar.frame)
-        }
-         */
 
         friendsNotificationToken = friends.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
 
@@ -199,12 +154,6 @@ final class ContactsViewController: BaseViewController {
 
     // MARK: Actions
 
-    @objc private func deactiveSearchController(sender: NSNotification) {
-        if let searchController = searchController {
-            searchController.active = false
-        }
-    }
-
     private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
         SafeDispatch.async { [weak self] in
             self?.contactsTableView.reloadData()
@@ -216,10 +165,9 @@ final class ContactsViewController: BaseViewController {
     }
 
     @objc private func syncFriendships(sender: NSNotification) {
-        syncFriendshipsAndDoFurtherAction {
-            SafeDispatch.async {
-                self.updateContactsTableView()
-            }
+
+        syncFriendshipsAndDoFurtherAction { [weak self] in
+            self?.updateContactsTableView()
         }
     }
 
@@ -299,7 +247,6 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     enum Section: Int {
         case Local
-        case Online
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
@@ -313,9 +260,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch section {
         case .Local:
-            return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
-        case .Online:
-            return searchControllerIsActive ? searchedUsers.count : 0
+            return friends.count
         }
     }
 
@@ -323,33 +268,10 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         return numberOfRowsInSection(section)
     }
 
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-
-        guard numberOfRowsInSection(section) > 0 else {
-            return nil
-        }
-
-        if searchControllerIsActive {
-
-            guard let section = Section(rawValue: section) else {
-                return nil
-            }
-
-            switch section {
-            case .Local:
-                return String.trans_titleFriends
-            case .Online:
-                return NSLocalizedString("Users", comment: "")
-            }
-
-        } else {
-            return nil
-        }
-    }
-
     private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
+
         let index = indexPath.row
-        let friend = searchControllerIsActive ? filteredFriends?[safe: index] : friends[safe: index]
+        let friend = friends[safe: index]
         return friend
     }
 
@@ -377,26 +299,11 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
                 return
             }
 
-            if searchControllerIsActive {
-                cell.configureForSearchWithUser(friend)
-            } else {
-                cell.configureWithUser(friend)
-            }
+            cell.configureWithUser(friend)
+
             cell.showProfileAction = { [weak self] in
                 if let friend = self?.friendAtIndexPath(indexPath) {
-                    self?.searchController?.active = false
                     self?.performSegueWithIdentifier("showProfile", sender: friend)
-                }
-            }
-            
-        case .Online:
-            
-            let discoveredUser = searchedUsers[indexPath.row]
-            cell.configureForSearchWithDiscoveredUser(discoveredUser)
-            cell.showProfileAction = { [weak self] in
-                if let discoveredUser = self?.searchedUsers[indexPath.row] {
-                    self?.searchController?.active = false
-                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
                 }
             }
         }
@@ -423,19 +330,10 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         switch section {
-            
         case .Local:
-            
             if let friend = friendAtIndexPath(indexPath) {
-                searchController?.active = false
                 performSegueWithIdentifier("showProfile", sender: friend)
             }
-            
-        case .Online:
-            
-            let discoveredUser = searchedUsers[indexPath.row]
-            searchController?.active = false
-            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
     }
 
@@ -450,8 +348,6 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
         case .Local:
             return true
-        case .Online:
-            return false
         }
     }
 
@@ -489,52 +385,6 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-// MARK: - UISearchResultsUpdating 
-
-extension ContactsViewController: UISearchResultsUpdating {
-
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-
-        guard let searchText = searchController.searchBar.text else {
-            return
-        }
-        
-        let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
-        let filteredFriends = friends.filter(predicate)
-        self.filteredFriends = filteredFriends
-
-        updateContactsTableView(scrollsToTop: !filteredFriends.isEmpty)
-
-        searchUsersByQ(searchText, failureHandler: nil, completion: { [weak self] users in
-
-            //println("searchUsersByQ users: \(users)")
-            
-            SafeDispatch.async {
-
-                guard let filteredFriends = self?.filteredFriends else {
-                    return
-                }
-
-                // 剔除 filteredFriends 里已有的
-
-                var searchedUsers: [DiscoveredUser] = []
-
-                let filteredFriendUserIDSet = Set<String>(filteredFriends.map({ $0.userID }))
-
-                for user in users {
-                    if !filteredFriendUserIDSet.contains(user.id) {
-                        searchedUsers.append(user)
-                    }
-                }
-
-                self?.searchedUsers = searchedUsers
-
-                self?.updateContactsTableView()
-            }
-        })
-    }
-}
-
 // MARK: - UISearchBarDelegate
 
 extension ContactsViewController: UISearchBarDelegate {
@@ -544,26 +394,6 @@ extension ContactsViewController: UISearchBarDelegate {
         performSegueWithIdentifier("showSearchContacts", sender: nil)
 
         return false
-    }
-
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-
-        if let searchController = searchController {
-            updateSearchResultsForSearchController(searchController)
-        }
-    }
-}
-
-extension ContactsViewController: UISearchControllerDelegate {
-
-    func willPresentSearchController(searchController: UISearchController) {
-        println("willPresentSearchController")
-        coverUnderStatusBarView.hidden = false
-    }
-
-    func willDismissSearchController(searchController: UISearchController) {
-        println("willDismissSearchController")
-        coverUnderStatusBarView.hidden = true
     }
 }
 
