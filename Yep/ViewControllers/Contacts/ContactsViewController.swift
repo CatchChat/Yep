@@ -165,10 +165,9 @@ final class ContactsViewController: BaseViewController {
     }
 
     @objc private func syncFriendships(sender: NSNotification) {
-        syncFriendshipsAndDoFurtherAction {
-            SafeDispatch.async {
-                self.updateContactsTableView()
-            }
+
+        syncFriendshipsAndDoFurtherAction { [weak self] in
+            self?.updateContactsTableView()
         }
     }
 
@@ -270,6 +269,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
+
         let index = indexPath.row
         let friend = friends[safe: index]
         return friend
