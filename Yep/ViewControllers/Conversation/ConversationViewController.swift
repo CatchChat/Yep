@@ -128,20 +128,13 @@ final class ConversationViewController: BaseViewController {
         self.view.addSubview(view)
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        view.heightAnchor.constraintEqualToConstant(100)
-        view.leadingAnchor.constraintEqualToAnchor(self.messageToolbar.leadingAnchor)
-        view.trailingAnchor.constraintEqualToAnchor(self.messageToolbar.trailingAnchor)
-        view.bottomAnchor.constraintEqualToAnchor(self.messageToolbar.topAnchor, constant: 20)
+        view.heightAnchor.constraintEqualToConstant(100).active = true
+        view.leadingAnchor.constraintEqualToAnchor(self.messageToolbar.leadingAnchor).active = true
+        view.trailingAnchor.constraintEqualToAnchor(self.messageToolbar.trailingAnchor).active = true
+        self.messageToolbar.topAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: 20).active = true
 
         return view
     }()
-
-    @IBOutlet private weak var swipeUpView: UIView! {
-        didSet {
-            swipeUpView.hidden = true
-        }
-    }
-    @IBOutlet private weak var swipeUpPromptLabel: UILabel!
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -595,7 +588,7 @@ final class ConversationViewController: BaseViewController {
 
             let hideWaver: () -> Void = { [weak self] in
 
-                self?.swipeUpView.hidden = true
+                self?.swipeUpPromptView.hidden = true
                 self?.waverView.removeFromSuperview()
             }
 
@@ -621,10 +614,10 @@ final class ConversationViewController: BaseViewController {
 
                         strongSelf.view.addSubview(strongSelf.waverView)
 
-                        strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
-                        strongSelf.swipeUpView.hidden = false
+                        strongSelf.swipeUpPromptView.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
+                        strongSelf.swipeUpPromptView.hidden = false
 
-                        strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
+                        strongSelf.view.bringSubviewToFront(strongSelf.swipeUpPromptView)
                         strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
                         strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
 
@@ -694,7 +687,7 @@ final class ConversationViewController: BaseViewController {
                     text = NSLocalizedString("Swipe Up to Cancel", comment: "")
                 }
 
-                self?.swipeUpPromptLabel.text = text
+                self?.swipeUpPromptView.text = text
             }
         }
 

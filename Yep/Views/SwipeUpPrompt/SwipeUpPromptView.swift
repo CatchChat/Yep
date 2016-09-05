@@ -10,9 +10,14 @@ import UIKit
 
 final class SwipeUpPromptView: UIView {
 
+    var text: String? {
+        didSet {
+            promptLabel.text = text
+        }
+    }
+
     private lazy var arrowImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage.yep_swipeUp
+        let imageView = UIImageView(image: UIImage.yep_swipeUp)
         return imageView
     }()
 
@@ -35,7 +40,7 @@ final class SwipeUpPromptView: UIView {
             addSubview(promptLabel)
             promptLabel.translatesAutoresizingMaskIntoConstraints = false
 
-            promptLabel.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: 20).active = true
+            promptLabel.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -20).active = true
             promptLabel.centerXAnchor.constraintEqualToAnchor(self.centerXAnchor).active = true
         }
 
@@ -43,8 +48,8 @@ final class SwipeUpPromptView: UIView {
             addSubview(arrowImageView)
             arrowImageView.translatesAutoresizingMaskIntoConstraints = false
 
-            arrowImageView.bottomAnchor.constraintEqualToAnchor(promptLabel.bottomAnchor, constant: 10)
-            arrowImageView.centerXAnchor.constraintEqualToAnchor(promptLabel.centerXAnchor)
+            promptLabel.topAnchor.constraintEqualToAnchor(arrowImageView.bottomAnchor, constant: 10).active = true
+            arrowImageView.centerXAnchor.constraintEqualToAnchor(promptLabel.centerXAnchor).active = true
         }
     }
 }
