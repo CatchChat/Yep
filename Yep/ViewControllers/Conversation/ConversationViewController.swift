@@ -122,6 +122,20 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
+    private lazy var swipeUpPromptView: SwipeUpPromptView = {
+        let view = SwipeUpPromptView()
+
+        self.view.addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.heightAnchor.constraintEqualToConstant(100)
+        view.leadingAnchor.constraintEqualToAnchor(self.messageToolbar.leadingAnchor)
+        view.trailingAnchor.constraintEqualToAnchor(self.messageToolbar.trailingAnchor)
+        view.bottomAnchor.constraintEqualToAnchor(self.messageToolbar.topAnchor, constant: 20)
+
+        return view
+    }()
+
     @IBOutlet private weak var swipeUpView: UIView! {
         didSet {
             swipeUpView.hidden = true
