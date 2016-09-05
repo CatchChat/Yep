@@ -122,7 +122,7 @@
 "title.modify" = "修改";
 "title.mute" = "静音";
 "title.my_current_location" = "我当前的位置";
-"Nearby" = "附近";
+"title.nearby" = "附近";
 "Network Error: Failed to get blocked users!" = "网络错误：无法获取被屏蔽的用户！";
 "Network error!" = "网络错误";
 "Network is not good!" = "网络不太好！";

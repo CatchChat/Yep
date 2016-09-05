@@ -477,6 +477,16 @@ extension String {
     static var trans_titleMyCurrentLocation: String {
         return NSLocalizedString("title.my_current_location", comment: "")
     }
+    static var trans_titleNearby: String {
+        return NSLocalizedString("title.nearby", comment: "")
+    }
+
+
+
+
+
+
+
 }
 
 extension String {

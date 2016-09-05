@@ -1158,7 +1158,7 @@ public enum DiscoveredUserSortStyle: String {
     public var name: String {
         switch self {
         case .Distance:
-            return NSLocalizedString("Nearby", comment: "")
+            return String.trans_titleNearby
         case .LastSignIn:
             return NSLocalizedString("Time", comment: "")
         case .Default:
@@ -2489,7 +2489,7 @@ public enum FeedSortStyle: String {
     public var name: String {
         switch self {
         case .Distance:
-            return NSLocalizedString("Nearby", comment: "")
+            return String.trans_titleNearby
         case .Time:
             return NSLocalizedString("Time", comment: "")
         case .Match:
@@ -2795,7 +2795,7 @@ public struct DiscoveredFeed: Hashable {
         var distanceString: String?
         if let distance = distance {
             if distance < 1 {
-                distanceString = NSLocalizedString("Nearby", comment: "")
+                distanceString = String.trans_titleNearby
             } else {
                 distanceString = "\(distance.yep_format(".1")) km"
             }
