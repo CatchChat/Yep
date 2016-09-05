@@ -124,7 +124,7 @@
 "title.my_current_location" = "我当前的位置";
 "title.nearby" = "附近";
 "prompt.network_connection_is_not_good" = "网络不太好！";
-"New Feed" = "新话题";
+"title.new_feed" = "新话题";
 "New Voice" = "新语音";
 "Next" = "下一步";
 "Nickname" = "昵称";

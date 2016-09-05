@@ -216,7 +216,7 @@ final class NewFeedViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("New Feed", comment: ""))
+        navigationItem.titleView = NavigationTitleLabel(title: String.trans_titleNewFeed)
         view.backgroundColor = UIColor.yepBackgroundColor()
         
         navigationItem.rightBarButtonItem = postButton

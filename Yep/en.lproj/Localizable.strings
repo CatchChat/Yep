@@ -125,7 +125,7 @@
 "title.my_current_location" = "My Current Location";
 "title.nearby" = "Nearby";
 "prompt.network_connection_is_not_good" = "Network connection is not good!";
-"New Feed" = "New Feed";
+"title.new_feed" = "New Feed";
 "New Voice" = "New Voice";
 "Next" = "Next";
 "Nickname" = "Nickname";

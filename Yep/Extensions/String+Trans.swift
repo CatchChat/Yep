@@ -483,7 +483,9 @@ extension String {
     static var trans_promptNetworkConnectionIsNotGood: String {
         return NSLocalizedString("prompt.network_connection_is_not_good", comment: "")
     }
-
+    static var trans_titleNewFeed: String {
+        return NSLocalizedString("title.new_feed", comment: "")
+    }
 
 
 
