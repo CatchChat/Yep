@@ -69,7 +69,7 @@ final class FeedsViewController: BaseViewController {
         return SearchTransition()
     }()
 
-    private lazy var noFeedsFooterView: InfoView = InfoView(NSLocalizedString("No Feeds.", comment: ""))
+    private lazy var noFeedsFooterView: InfoView = InfoView(String.trans_promptNoFeeds)
     private lazy var fetchFailedFooterView: InfoView = InfoView(String.trans_errorFetchFailed)
 
     @IBOutlet weak var feedsTableView: UITableView!  {

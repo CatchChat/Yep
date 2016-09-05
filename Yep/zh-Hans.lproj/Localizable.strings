@@ -128,9 +128,9 @@
 "title.new_voice" = "新语音";
 "button.next_step" = "下一步";
 "title.nickname" = "昵称";
-"No Blocked Creators" = "没有被屏蔽的创建者";
-"No Feeds." = "没有话题";
-"No Interviews." = "暂无访谈";
+"prompt.no_blocked_feed_creators" = "没有被屏蔽的创建者";
+"prompt.no_feeds" = "没有话题";
+"prompt.no_interviews" = "暂无访谈";
 "No Introduction yet." = "还未写自我介绍。";
 "No blocked users." = "没有被屏蔽的用户";
 "No discovered users." = "没有发现其他用户";

@@ -495,8 +495,15 @@ extension String {
     static var trans_titleNickname: String {
         return NSLocalizedString("title.nickname", comment: "")
     }
-
-
+    static var trans_promptNoBlockedFeedCreators: String {
+        return NSLocalizedString("prompt.no_blocked_feed_creators", comment: "")
+    }
+    static var trans_promptNoFeeds: String {
+        return NSLocalizedString("prompt.no_feeds", comment: "")
+    }
+    static var trans_promptNoInterviews: String {
+        return NSLocalizedString("prompt.no_interviews", comment: "")
+    }
 }
 
 extension String {

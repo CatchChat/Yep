@@ -129,9 +129,9 @@
 "title.new_voice" = "New Voice";
 "button.next_step" = "Next";
 "title.nickname" = "Nickname";
-"No Blocked Creators" = "No Blocked Creators";
-"No Feeds." = "No Feeds.";
-"No Interviews." = "No Interviews.";
+"prompt.no_blocked_feed_creators" = "No Blocked Creators.";
+"prompt.no_feeds" = "No Feeds.";
+"prompt.no_interviews" = "No Interviews.";
 "No Introduction yet." = "No Introduction yet.";
 "No blocked users." = "No blocked users.";
 "No discovered users." = "No discovered users.";
