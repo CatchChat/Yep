@@ -27,7 +27,7 @@
                                 </connections>
                             </collectionView>
                             <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Uh-E6-Vss" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="271" width="320" height="49"/>
+                                <rect key="frame" x="0.0" y="436" width="320" height="44"/>
                                 <items/>
                             </toolbar>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fP4-ji-yWc">
@@ -44,7 +44,7 @@
                             <constraint firstItem="Eug-oZ-gjQ" firstAttribute="top" secondItem="846-Dd-AxI" secondAttribute="top" id="Qfi-nM-s5U"/>
                             <constraint firstAttribute="trailing" secondItem="9Uh-E6-Vss" secondAttribute="trailing" id="sm6-8A-Lpk"/>
                             <constraint firstItem="9Uh-E6-Vss" firstAttribute="top" relation="greaterThanOrEqual" secondItem="3yg-SJ-CR8" secondAttribute="bottom" id="twv-t0-rmT"/>
-                            <constraint firstAttribute="bottom" secondItem="9Uh-E6-Vss" secondAttribute="bottom" constant="160" id="xp5-FH-KYE"/>
+                            <constraint firstAttribute="bottom" secondItem="9Uh-E6-Vss" secondAttribute="bottom" id="xp5-FH-KYE"/>
                             <constraint firstAttribute="trailing" secondItem="Eug-oZ-gjQ" secondAttribute="trailing" id="zUR-03-3Fr"/>
                         </constraints>
                     </view>
