@@ -10,7 +10,6 @@ import UIKit
 import Ruler
 import YepKit
 
-@IBDesignable
 final class MessageToolbar: UIToolbar {
     
     var lastToolbarFrame: CGRect?

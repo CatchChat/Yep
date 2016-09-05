@@ -230,7 +230,7 @@ final class ContactsViewController: BaseViewController {
             
             let vc = segue.destinationViewController as! SearchContactsViewController
             vc.originalNavigationControllerDelegate = navigationController?.delegate
-            
+
             vc.hidesBottomBarWhenPushed = true
             
             prepareSearchTransition()
