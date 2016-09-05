@@ -123,9 +123,7 @@
 "title.mute" = "静音";
 "title.my_current_location" = "我当前的位置";
 "title.nearby" = "附近";
-"Network Error: Failed to get blocked users!" = "网络错误：无法获取被屏蔽的用户！";
-"Network error!" = "网络错误";
-"Network is not good!" = "网络不太好！";
+"prompt.network_connection_is_not_good" = "网络不太好！";
 "New Feed" = "新话题";
 "New Voice" = "新语音";
 "Next" = "下一步";

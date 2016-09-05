@@ -124,9 +124,7 @@
 "title.mute" = "Mute";
 "title.my_current_location" = "My Current Location";
 "title.nearby" = "Nearby";
-"Network Error: Failed to get blocked users!" = "Network Error: Failed to get blocked users!";
-"Network error!" = "Network error!";
-"Network is not good!" = "Network is not good!";
+"prompt.network_connection_is_not_good" = "Network connection is not good!";
 "New Feed" = "New Feed";
 "New Voice" = "New Voice";
 "Next" = "Next";

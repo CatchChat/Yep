@@ -94,7 +94,8 @@ final class SocialWorkInstagramViewController: BaseViewController {
                 instagramWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                    YepAlert.alertSorry(message: NSLocalizedString("Network is not good!", comment: ""), inViewController: self)
+                    let message = errorMessage ?? String.trans_promptNetworkConnectionIsNotGood
+                    YepAlert.alertSorry(message: message, inViewController: self)
 
                 }, completion: { instagramWork in
                     println("instagramWork: \(instagramWork.medias.count)")

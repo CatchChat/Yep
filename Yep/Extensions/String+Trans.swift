@@ -480,7 +480,9 @@ extension String {
     static var trans_titleNearby: String {
         return NSLocalizedString("title.nearby", comment: "")
     }
-
+    static var trans_promptNetworkConnectionIsNotGood: String {
+        return NSLocalizedString("prompt.network_connection_is_not_good", comment: "")
+    }
 
 
 
