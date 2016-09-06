@@ -513,6 +513,10 @@ extension String {
     static var trans_promptNoInterviews: String {
         return NSLocalizedString("prompt.no_interviews", comment: "")
     }
+
+    static var trans_buttonPost: String {
+        return NSLocalizedString("button.post", comment: "")
+    }
 }
 
 extension String {
