@@ -3523,8 +3523,8 @@
 		50F5AF841BBA67140033C9BC /* NewFeed */ = {
 			isa = PBXGroup;
 			children = (
-				33893E371CB7C62E00B276C1 /* NewFeed.storyboard */,
 				33893E391CB7C62E00B276C1 /* NewFeedViewController.swift */,
+				33893E371CB7C62E00B276C1 /* NewFeed.storyboard */,
 			);
 			name = NewFeed;
 			path = ViewControllers/NewFeed;

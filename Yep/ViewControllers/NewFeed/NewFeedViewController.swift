@@ -991,32 +991,39 @@ final class NewFeedViewController: SegueViewController {
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 
 extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDelegate {
-    
+
+    enum Section: Int {
+        case Photos
+        case Add
+    }
+
     func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         return 2
     }
     
     func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
+
+        guard let section = Section(rawValue: section) else {
+            fatalError("Invalid section!")
+        }
+
         switch section {
-        case 0:
+        case .Photos:
             return mediaImages.count
-        case 1:
+        case .Add:
             return 1
-        default:
-            return 0
         }
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        switch indexPath.section {
-            
-        case 1:
-            let cell: FeedMediaAddCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
-            return cell
-            
-        case 0:
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .Photos:
             let cell: FeedMediaCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             
             let image = mediaImages[indexPath.item]
@@ -1027,34 +1034,67 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             }
             
             return cell
-            
-        default:
-            return UICollectionViewCell()
+
+        case .Add:
+            let cell: FeedMediaAddCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
+            return cell
         }
     }
     
     func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
 
-        switch indexPath.section {
-        case 1:
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .Photos:
+            return CGSize(width: 80, height: 80)
+
+        case .Add:
             guard mediaImages.count != 4 else {
                 return CGSizeZero
             }
-            return CGSize(width: 80, height: 80)
-        default:
             return CGSize(width: 80, height: 80)
         }
     }
     
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        
-        switch indexPath.section {
-            
-        case 1:
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .Photos:
+
+            let index = indexPath.row
+
+            let references: [Reference?] = (0..<mediaImages.count).map({
+                let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
+                return cell?.transitionReference
+            })
+
+            self.previewReferences = references
+
+            let previewNewFeedPhotos = mediaImages.map({ PreviewNewFeedPhoto(image: $0) })
+
+            self.previewNewFeedPhotos = previewNewFeedPhotos
+
+            let photos: [Photo] = previewNewFeedPhotos.map({ $0 })
+            let initialPhoto = photos[index]
+
+            let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+            self.presentViewController(photosViewController, animated: true, completion: nil)
+
+        case .Add:
 
             messageTextView.resignFirstResponder()
             
@@ -1104,30 +1144,6 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             pickAlertController.addAction(cancelAction)
         
             self.presentViewController(pickAlertController, animated: true, completion: nil)
-
-        case 0:
-
-            let index = indexPath.row
-
-            let references: [Reference?] = (0..<mediaImages.count).map({
-                let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
-                return cell?.transitionReference
-            })
-
-            self.previewReferences = references
-
-            let previewNewFeedPhotos = mediaImages.map({ PreviewNewFeedPhoto(image: $0) })
-
-            self.previewNewFeedPhotos = previewNewFeedPhotos
-
-            let photos: [Photo] = previewNewFeedPhotos.map({ $0 })
-            let initialPhoto = photos[index]
-
-            let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
-            self.presentViewController(photosViewController, animated: true, completion: nil)
-
-        default:
-            break
         }
     }
 }
