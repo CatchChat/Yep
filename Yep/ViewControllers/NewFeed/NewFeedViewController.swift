@@ -248,7 +248,7 @@ final class NewFeedViewController: SegueViewController {
         mediaCollectionView.delegate = self
         mediaCollectionView.showsHorizontalScrollIndicator = false
 
-        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(reorderMediaCollectionViewWithLongPress(_:)))
         mediaCollectionView.addGestureRecognizer(longPress)
 
         // pick skill
@@ -986,27 +986,30 @@ final class NewFeedViewController: SegueViewController {
     }
 
     @IBAction private func playOrPauseAudio(sender: UIButton) {
-        YepAlert.alertSorry(message: "你以为可以播放吗？\nNIX已经累死了。", inViewController: self)
+
+        YepAlert.alertSorry(message: "你以为可以播放吗？\n哈哈哈，NIX和你开个玩笑。", inViewController: self)
     }
 
-    func handleLongPress(gesture: UILongPressGestureRecognizer) {
+    @objc private func reorderMediaCollectionViewWithLongPress(gesture: UILongPressGestureRecognizer) {
+
+        let collectionView = mediaCollectionView
 
         switch(gesture.state) {
 
         case .Began:
-            guard let selectedIndexPath = self.mediaCollectionView.indexPathForItemAtPoint(gesture.locationInView(self.mediaCollectionView)) else {
+            guard let selectedIndexPath = collectionView.indexPathForItemAtPoint(gesture.locationInView(self.mediaCollectionView)) else {
                 break
             }
-            mediaCollectionView.beginInteractiveMovementForItemAtIndexPath(selectedIndexPath)
+            collectionView.beginInteractiveMovementForItemAtIndexPath(selectedIndexPath)
 
         case .Changed:
-            mediaCollectionView.updateInteractiveMovementTargetPosition(gesture.locationInView(gesture.view!))
+            collectionView.updateInteractiveMovementTargetPosition(gesture.locationInView(gesture.view!))
 
         case .Ended:
-            mediaCollectionView.endInteractiveMovement()
+            collectionView.endInteractiveMovement()
 
         default:
-            mediaCollectionView.cancelInteractiveMovement()
+            collectionView.cancelInteractiveMovement()
         }
     }
 }
