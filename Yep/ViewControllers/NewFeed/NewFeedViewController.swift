@@ -127,7 +127,7 @@ final class NewFeedViewController: SegueViewController {
     }
 
     private lazy var postButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: NSLocalizedString("Post", comment: ""), style: .Plain, target: self, action: #selector(NewFeedViewController.tryPost(_:)))
+        let button = UIBarButtonItem(title: String.trans_buttonPost, style: .Plain, target: self, action: #selector(NewFeedViewController.tryPost(_:)))
             button.enabled = false
         return button
     }()
