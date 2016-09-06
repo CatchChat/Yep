@@ -132,10 +132,9 @@
 "prompt.no_feeds" = "没有话题";
 "prompt.no_interviews" = "暂无访谈";
 "prompt.no_self_introduction" = "还未写自我介绍。";
-"No blocked users." = "没有被屏蔽的用户";
-"No discovered users." = "没有发现其他用户";
-"No friends yet.\nTry discover or add some." = "暂无好友，去发现或添加吧";
-"No messages yet." = "暂无消息。";
+"prompt.no_blocked_users" = "没有被屏蔽的用户";
+"prompt.no_friends" = "暂无好友，\n去发现或添加吧";
+"prompt.no_messages" = "暂无消息。";
 "No more new friends." = "没有新加入的朋友";
 "No more results." = "没有更多结果";
 "No search results." = "搜索无结果";

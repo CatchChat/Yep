@@ -75,7 +75,7 @@ final class ConversationCell: UITableViewCell {
 
     func updateInfoLabels() {
 
-        self.chatLabel.text = conversation.latestMessageTextContentOrPlaceholder ?? NSLocalizedString("No messages yet.", comment: "")
+        self.chatLabel.text = conversation.latestMessageTextContentOrPlaceholder ?? String.trans_promptNoMessages
         self.timeAgoLabel.text = NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
     }
 

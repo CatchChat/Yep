@@ -520,9 +520,15 @@ extension String {
     static var trans_promptNoSelfIntroduction: String {
         return NSLocalizedString("prompt.no_self_introduction", comment: "")
     }
-
-
-
+    static var trans_promptNoBlockedUsers: String {
+        return NSLocalizedString("prompt.no_blocked_users", comment: "")
+    }
+    static var trans_promptNoFriends: String {
+        return NSLocalizedString("prompt.no_friends", comment: "")
+    }
+    static var trans_promptNoMessages: String {
+        return NSLocalizedString("prompt.no_messages", comment: "")
+    }
 
 
 }

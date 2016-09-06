@@ -133,10 +133,9 @@
 "prompt.no_feeds" = "No Feeds.";
 "prompt.no_interviews" = "No Interviews.";
 "prompt.no_self_introduction" = "No Introduction yet.";
-"No blocked users." = "No blocked users.";
-"No discovered users." = "No discovered users.";
-"No friends yet.\nTry discover or add some." = "No friends yet.\nTry discover or add some.";
-"No messages yet." = "No messages yet.";
+"prompt.no_blocked_users" = "No blocked users.";
+"prompt.no_friends" = "No friends yet.\nTry discover or add some.";
+"prompt.no_messages" = "No messages yet.";
 "No more new friends." = "No more new friends.";
 "No more results." = "No more results.";
 "No search results." = "No search results.";
