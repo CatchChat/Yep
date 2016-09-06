@@ -180,8 +180,6 @@ final class NewFeedViewController: SegueViewController {
         }
     }
     
-    //let max = Int(INT16_MAX)
-    
     private let skills: [Skill] = {
         guard let me = me() else {
             return []
@@ -455,8 +453,6 @@ final class NewFeedViewController: SegueViewController {
         
         if pickedSkill == nil {
             if !skills.isEmpty {
-                //let centerRow = max / 2
-                //let selectedRow = centerRow
                 let selectedRow = 0
                 skillPickerView.selectRow(selectedRow, inComponent: 0, animated: false)
                 pickedSkill = skills[selectedRow % skills.count]
@@ -464,11 +460,7 @@ final class NewFeedViewController: SegueViewController {
             
         } else {
             if let skill = preparedSkill, let index = skills.indexOf(skill) {
-                
-                //var selectedRow = max / 2
-                //selectedRow = selectedRow - selectedRow % skills.count + index
                 let selectedRow = index
-
                 skillPickerView.selectRow(selectedRow, inComponent: 0, animated: false)
                 pickedSkill = skills[selectedRow % skills.count]
             }
