@@ -143,13 +143,7 @@ final class NewFeedViewController: SegueViewController {
     
     private var imageAssets: [PHAsset] = []
     
-    private var mediaImages = [UIImage]() {
-        didSet {
-            self.mediaCollectionView.performBatchUpdates({ [weak self] in
-                self?.mediaCollectionView.reloadSections(NSIndexSet(index: Section.Photos.rawValue))
-            }, completion: nil)
-        }
-    }
+    private var mediaImages = [UIImage]()
 
     enum UploadState {
         case Ready
@@ -446,6 +440,7 @@ final class NewFeedViewController: SegueViewController {
 //                for image in images {
 //                    self?.mediaImages.append(image)
 //                }
+//                self?.mediaCollectionView.reloadData()
 //            }
         }
     }
@@ -1290,6 +1285,7 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
                 if let image = info[UIImagePickerControllerOriginalImage] as? UIImage {
                     if mediaImages.count <= 3 {
                         mediaImages.append(image)
+                        mediaCollectionView.reloadData()
                     }
                 }
                 
@@ -1305,14 +1301,14 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
 // MARK: Fetch images from imagePicker
 
 extension NewFeedViewController: ReturnPickedPhotosDelegate {
+
     func returnSelectedImages(images: [UIImage], imageAssets: [PHAsset]) {
         
         for image in images {
-            self.mediaImages.append(image)
+            mediaImages.append(image)
         }
-        
+        mediaCollectionView.reloadData()
     }
- 
 }
 
 // MARK: - PhotosViewControllerDelegate
