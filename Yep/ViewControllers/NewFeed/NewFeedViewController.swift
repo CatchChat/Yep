@@ -1083,7 +1083,16 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
 
+        let sourceIndex = sourceIndexPath.item
+        let destinationIndex = destinationIndexPath.item
 
+        guard sourceIndex != destinationIndex else {
+            return
+        }
+
+        let image = mediaImages[sourceIndex]
+        mediaImages.removeAtIndex(sourceIndex)
+        mediaImages.insert(image, atIndex: destinationIndex)
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
