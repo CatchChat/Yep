@@ -143,7 +143,7 @@
 "prompt.none" = "无";
 "title.not_now" = "暂不";
 "title.notice" = "注意";
-"Notifications & Privacy" = "通知与隐私";
+"title.notifications_and_privacy" = "通知与隐私";
 "OAuth Error" = "验证错误";
 "OAuth" = "OAuth";
 "OK" = "OK";

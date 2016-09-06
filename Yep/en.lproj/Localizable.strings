@@ -144,7 +144,7 @@
 "prompt.none" = "None";
 "title.not_now" = "Not Now";
 "title.notice" = "Notice";
-"Notifications & Privacy" = "Notifications & Privacy";
+"title.notifications_and_privacy" = "Notifications & Privacy";
 "OAuth Error" = "OAuth Error";
 "OAuth" = "OAuth";
 "OK" = "OK";
