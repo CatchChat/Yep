@@ -544,7 +544,7 @@ extension ConversationViewController {
                 }
             }
 
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: String.trans_promptTryRejectFriendRequest, confirmTitle: NSLocalizedString("Reject", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction:confirmAction, cancelAction: {
+            YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String.trans_promptTryRejectFriendRequest, confirmTitle: NSLocalizedString("Reject", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction:confirmAction, cancelAction: {
             })
         }
     }
@@ -582,7 +582,7 @@ extension ConversationViewController {
                         self?.makeFriendRequestViewWithUser(user, state: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
 
                     } else if receivedFriendRequestState == .Blocked {
-                        YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)")
+                        YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)")
                             , confirmTitle: NSLocalizedString("Unblock", comment: ""), cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: {
 
                             unblockUserWithUserID(userID, failureHandler: nil, completion: { success in

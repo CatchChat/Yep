@@ -143,7 +143,7 @@
 "prompt.no_username" = "No username";
 "prompt.none" = "None";
 "title.not_now" = "Not Now";
-"Notice" = "Notice";
+"title.notice" = "Notice";
 "Notifications & Privacy" = "Notifications & Privacy";
 "OAuth Error" = "OAuth Error";
 "OAuth" = "OAuth";

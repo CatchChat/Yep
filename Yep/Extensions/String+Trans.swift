@@ -547,7 +547,9 @@ extension String {
     static var trans_titleNotNow: String {
         return NSLocalizedString("title.not_now", comment: "")
     }
-
+    static var trans_titleNotice: String {
+        return NSLocalizedString("title.notice", comment: "")
+    }
 }
 
 extension String {
