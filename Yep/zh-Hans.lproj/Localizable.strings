@@ -141,7 +141,7 @@
 "prompt.no_title_for_url" = "此 URL 没有标题！";
 "prompt.no_username" = "没有用户名";
 "prompt.none" = "无";
-"Not now" = "暂不";
+"title.not_now" = "暂不";
 "Notice" = "注意";
 "Notifications & Privacy" = "通知与隐私";
 "OAuth Error" = "验证错误";

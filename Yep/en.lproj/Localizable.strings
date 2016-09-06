@@ -142,7 +142,7 @@
 "prompt.no_title_for_url" = "No title for URL!";
 "prompt.no_username" = "No username";
 "prompt.none" = "None";
-"Not now" = "Not now";
+"title.not_now" = "Not Now";
 "Notice" = "Notice";
 "Notifications & Privacy" = "Notifications & Privacy";
 "OAuth Error" = "OAuth Error";

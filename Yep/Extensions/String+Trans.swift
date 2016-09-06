@@ -544,7 +544,9 @@ extension String {
     static var trans_promptNone: String {
         return NSLocalizedString("prompt.none", comment: "")
     }
-
+    static var trans_titleNotNow: String {
+        return NSLocalizedString("title.not_now", comment: "")
+    }
 
 }
 
