@@ -517,6 +517,14 @@ extension String {
     static var trans_buttonPost: String {
         return NSLocalizedString("button.post", comment: "")
     }
+    static var trans_promptNoSelfIntroduction: String {
+        return NSLocalizedString("prompt.no_self_introduction", comment: "")
+    }
+
+
+
+
+
 }
 
 extension String {

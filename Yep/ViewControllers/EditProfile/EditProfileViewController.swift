@@ -67,7 +67,7 @@ final class EditProfileViewController: SegueViewController {
     }
 
     private var introduction: String {
-        return YepUserDefaults.introduction.value ?? NSLocalizedString("No Introduction yet.", comment: "")
+        return YepUserDefaults.introduction.value ?? String.trans_promptNoSelfIntroduction
     }
 
     private var blogURLString: String {

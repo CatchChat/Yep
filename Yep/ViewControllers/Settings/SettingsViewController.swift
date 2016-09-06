@@ -21,7 +21,7 @@ final class SettingsViewController: BaseViewController {
 
     private var introduction: String {
         get {
-            return YepUserDefaults.introduction.value ?? NSLocalizedString("No Introduction yet.", comment: "")
+            return YepUserDefaults.introduction.value ?? String.trans_promptNoSelfIntroduction
         }
     }
 

@@ -132,7 +132,7 @@
 "prompt.no_blocked_feed_creators" = "No Blocked Creators.";
 "prompt.no_feeds" = "No Feeds.";
 "prompt.no_interviews" = "No Interviews.";
-"No Introduction yet." = "No Introduction yet.";
+"prompt.no_self_introduction" = "No Introduction yet.";
 "No blocked users." = "No blocked users.";
 "No discovered users." = "No discovered users.";
 "No friends yet.\nTry discover or add some." = "No friends yet.\nTry discover or add some.";
