@@ -213,7 +213,7 @@ final class ProfileViewController: SegueViewController {
                 if user.friendState == UserFriendState.Me.rawValue {
                     YepUserDefaults.introduction.bindListener(self.listener.introduction) { [weak self] introduction in
                         SafeDispatch.async {
-                            self?.introductionText = introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
+                            self?.introductionText = introduction ?? String.trans_promptNoSelfIntroduction
                             self?.updateProfileCollectionView()
                         }
                     }
@@ -397,7 +397,7 @@ final class ProfileViewController: SegueViewController {
 
                 if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
 
-                    YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: { [weak self] in
+                    YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: { [weak self] in
                         self?.pickSkills()
                     }, cancelAction: {})
                 }

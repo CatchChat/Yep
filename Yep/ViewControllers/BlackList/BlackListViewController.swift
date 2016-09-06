@@ -30,7 +30,7 @@ final class BlackListViewController: BaseViewController {
     private var blockedUsers: [DiscoveredUser] = [] {
         willSet {
             if newValue.count == 0 {
-                blockedUsersTableView.tableFooterView = InfoView(NSLocalizedString("No blocked users.", comment: ""))
+                blockedUsersTableView.tableFooterView = InfoView(String.trans_promptNoBlockedUsers)
             }
         }
     }

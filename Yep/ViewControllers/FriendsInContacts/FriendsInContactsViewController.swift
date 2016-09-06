@@ -37,7 +37,7 @@ final class FriendsInContactsViewController: BaseViewController {
                 NSNotificationCenter.defaultCenter().postNotificationName(Notification.NewFriends, object: nil)
 
             } else {
-                friendsTableView.tableFooterView = InfoView(NSLocalizedString("No more new friends.", comment: ""))
+                friendsTableView.tableFooterView = InfoView(String.trans_promptNoNewFriends)
             }
         }
     }

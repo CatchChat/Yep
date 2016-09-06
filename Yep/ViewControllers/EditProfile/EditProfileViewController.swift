@@ -67,7 +67,7 @@ final class EditProfileViewController: SegueViewController {
     }
 
     private var introduction: String {
-        return YepUserDefaults.introduction.value ?? NSLocalizedString("No Introduction yet.", comment: "")
+        return YepUserDefaults.introduction.value ?? String.trans_promptNoSelfIntroduction
     }
 
     private var blogURLString: String {
@@ -339,7 +339,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 let username = me()?.username ?? ""
 
                 if username.isEmpty {
-                    cell.infoLabel.text = NSLocalizedString("None", comment: "")
+                    cell.infoLabel.text = String.trans_promptNone
                     cell.accessoryImageView.hidden = false
                     cell.selectionStyle = .Default
                 } else {
@@ -690,7 +690,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
         case .LogOut:
 
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Notice", comment: ""), message: String.trans_promptTryLogout, confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { () -> Void in
+            YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String.trans_promptTryLogout, confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { () -> Void in
 
                 logout(failureHandler: { [weak self] reason, errorMessage in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)

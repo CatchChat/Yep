@@ -136,7 +136,7 @@ final class ProfileFooterCell: UICollectionViewCell {
         if let username = username {
             usernameLabel.text = "@" + username
         } else {
-            usernameLabel.text = NSLocalizedString("No username", comment: "")
+            usernameLabel.text = String.trans_promptNoUsername
         }
 
         let attributedString = introductionTextView.createAttributedStringWithString(introduction)

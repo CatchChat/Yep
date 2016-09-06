@@ -81,7 +81,7 @@ final class FeedConversationCell: UITableViewCell {
             }
             
         } else {
-            self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
+            self.chatLabel.text = String.trans_promptNoMessages
         }
     }
 }

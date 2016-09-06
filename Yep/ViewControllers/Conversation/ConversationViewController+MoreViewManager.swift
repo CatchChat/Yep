@@ -230,7 +230,7 @@ extension ConversationViewController {
         // 若是创建者，再询问是否删除 Feed
         if isMyFeed {
 
-            YepAlert.confirmOrCancel(title: String.trans_titleDelete, message: String.trans_promptAlsoDeleteThisFeed, confirmTitle: String.trans_titleDelete, cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+            YepAlert.confirmOrCancel(title: String.trans_titleDelete, message: String.trans_promptAlsoDeleteThisFeed, confirmTitle: String.trans_titleDelete, cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: {
 
                 doDeleteConversation(afterLeaveGroup: { [weak self] in
                     deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {

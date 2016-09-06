@@ -439,7 +439,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 }
 
             } else {
-                cell.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
+                cell.chatLabel.text = String.trans_promptNoMessages
             }
 
         case Section.Conversation.rawValue:

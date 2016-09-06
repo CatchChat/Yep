@@ -87,7 +87,7 @@ final class NotificationsViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Notifications & Privacy", comment: "")
+        title = String.trans_titleNotificationsAndPrivacy
 
         if let me = me(), let userDoNotDisturb = me.doNotDisturb {
 

@@ -53,7 +53,7 @@ final class ContactsViewController: BaseViewController {
 
     private var friendsNotificationToken: NotificationToken?
 
-    private lazy var noContactsFooterView: InfoView = InfoView(NSLocalizedString("No friends yet.\nTry discover or add some.", comment: ""))
+    private lazy var noContactsFooterView: InfoView = InfoView(String.trans_promptNoFriends)
 
     private var noContacts = false {
         didSet {

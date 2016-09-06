@@ -50,10 +50,11 @@ public func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: 
             doc = Kanna.HTML(html: newHTMLString, encoding: NSUTF8StringEncoding),
             title = doc.head?.css("title").first?.text where !title.isEmpty else {
 
+                let errorMessage = String.trans_promptNoTitleForURL
                 if let failureHandler = failureHandler {
-                    failureHandler(reason: .CouldNotParseJSON, errorMessage: NSLocalizedString("No title for URL!", comment: ""))
+                    failureHandler(reason: .CouldNotParseJSON, errorMessage: errorMessage)
                 } else {
-                    defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: NSLocalizedString("No title for URL!", comment: ""))
+                    defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: errorMessage)
                 }
 
                 return

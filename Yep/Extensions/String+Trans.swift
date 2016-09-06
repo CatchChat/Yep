@@ -517,6 +517,42 @@ extension String {
     static var trans_buttonPost: String {
         return NSLocalizedString("button.post", comment: "")
     }
+    static var trans_promptNoSelfIntroduction: String {
+        return NSLocalizedString("prompt.no_self_introduction", comment: "")
+    }
+    static var trans_promptNoBlockedUsers: String {
+        return NSLocalizedString("prompt.no_blocked_users", comment: "")
+    }
+    static var trans_promptNoFriends: String {
+        return NSLocalizedString("prompt.no_friends", comment: "")
+    }
+    static var trans_promptNoMessages: String {
+        return NSLocalizedString("prompt.no_messages", comment: "")
+    }
+    static var trans_promptNoNewFriends: String {
+        return NSLocalizedString("prompt.no_new_friends", comment: "")
+    }
+    static var trans_promptNoMoreResults: String {
+        return NSLocalizedString("prompt.no_more_results", comment: "")
+    }
+    static var trans_promptNoSearchResults: String {
+        return NSLocalizedString("prompt.no_search_results", comment: "")
+    }
+    static var trans_promptNoUsername: String {
+        return NSLocalizedString("prompt.no_username", comment: "")
+    }
+    static var trans_promptNone: String {
+        return NSLocalizedString("prompt.none", comment: "")
+    }
+    static var trans_titleNotNow: String {
+        return NSLocalizedString("title.not_now", comment: "")
+    }
+    static var trans_titleNotice: String {
+        return NSLocalizedString("title.notice", comment: "")
+    }
+    static var trans_titleNotificationsAndPrivacy: String {
+        return NSLocalizedString("title.notifications_and_privacy", comment: "")
+    }
 }
 
 extension String {
