@@ -136,9 +136,9 @@
 "prompt.no_blocked_users" = "No blocked users.";
 "prompt.no_friends" = "No friends yet.\nTry discover or add some.";
 "prompt.no_messages" = "No messages yet.";
-"No more new friends." = "No more new friends.";
-"No more results." = "No more results.";
-"No search results." = "No search results.";
+"prompt.no_new_friends" = "No more new friends.";
+"prompt.no_more_results" = "No more results.";
+"prompt.no_search_results" = "No search results.";
 "No title for URL!" = "No title for URL!";
 "No username" = "No username";
 "None" = "None";

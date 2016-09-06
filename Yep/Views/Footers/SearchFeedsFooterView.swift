@@ -114,7 +114,7 @@ class SearchFeedsFooterView: UIView {
 
                 promptLabel.hidden = false
                 promptLabel.textColor = UIColor.yep_mangmorGrayColor()
-                promptLabel.text = NSLocalizedString("No search results.", comment: "")
+                promptLabel.text = String.trans_promptNoSearchResults
 
                 activityIndicatorView.stopAnimating()
 

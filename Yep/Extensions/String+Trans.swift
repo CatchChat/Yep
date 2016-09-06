@@ -529,6 +529,17 @@ extension String {
     static var trans_promptNoMessages: String {
         return NSLocalizedString("prompt.no_messages", comment: "")
     }
+    static var trans_promptNoNewFriends: String {
+        return NSLocalizedString("prompt.no_new_friends", comment: "")
+    }
+    static var trans_promptNoMoreResults: String {
+        return NSLocalizedString("prompt.no_more_results", comment: "")
+    }
+    static var trans_promptNoSearchResults: String {
+        return NSLocalizedString("prompt.no_search_results", comment: "")
+    }
+
+
 
 
 }

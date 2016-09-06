@@ -33,7 +33,7 @@ final class SearchedUsersViewController: BaseViewController {
                 updateSearchedUsersTableView()
 
             } else {
-                searchedUsersTableView.tableFooterView = InfoView(NSLocalizedString("No search results.", comment: ""))
+                searchedUsersTableView.tableFooterView = InfoView(String.trans_promptNoSearchResults)
             }
         }
     }
