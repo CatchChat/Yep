@@ -339,7 +339,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 let username = me()?.username ?? ""
 
                 if username.isEmpty {
-                    cell.infoLabel.text = NSLocalizedString("None", comment: "")
+                    cell.infoLabel.text = String.trans_promptNone
                     cell.accessoryImageView.hidden = false
                     cell.selectionStyle = .Default
                 } else {

@@ -139,9 +139,9 @@
 "prompt.no_new_friends" = "No more new friends.";
 "prompt.no_more_results" = "No more results.";
 "prompt.no_search_results" = "No search results.";
-"No title for URL!" = "No title for URL!";
-"No username" = "No username";
-"None" = "None";
+"prompt.no_title_for_url" = "No title for URL!";
+"prompt.no_username" = "No username";
+"prompt.none" = "None";
 "Not now" = "Not now";
 "Notice" = "Notice";
 "Notifications & Privacy" = "Notifications & Privacy";

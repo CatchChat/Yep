@@ -138,9 +138,9 @@
 "prompt.no_new_friends" = "没有新加入的朋友";
 "prompt.no_more_results" = "没有更多结果";
 "prompt.no_search_results" = "搜索无结果";
-"No title for URL!" = "此URL没有标题！";
-"No username" = "没有用户名";
-"None" = "无";
+"prompt.no_title_for_url" = "此 URL 没有标题！";
+"prompt.no_username" = "没有用户名";
+"prompt.none" = "无";
 "Not now" = "暂不";
 "Notice" = "注意";
 "Notifications & Privacy" = "通知与隐私";

@@ -538,8 +538,12 @@ extension String {
     static var trans_promptNoSearchResults: String {
         return NSLocalizedString("prompt.no_search_results", comment: "")
     }
-
-
+    static var trans_promptNoUsername: String {
+        return NSLocalizedString("prompt.no_username", comment: "")
+    }
+    static var trans_promptNone: String {
+        return NSLocalizedString("prompt.none", comment: "")
+    }
 
 
 }
