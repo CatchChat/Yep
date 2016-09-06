@@ -247,7 +247,10 @@ final class NewFeedViewController: SegueViewController {
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
         mediaCollectionView.showsHorizontalScrollIndicator = false
-        
+
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        mediaCollectionView.addGestureRecognizer(longPress)
+
         // pick skill
         
         // 只有自己也有，才使用准备的
@@ -984,6 +987,27 @@ final class NewFeedViewController: SegueViewController {
 
     @IBAction private func playOrPauseAudio(sender: UIButton) {
         YepAlert.alertSorry(message: "你以为可以播放吗？\nNIX已经累死了。", inViewController: self)
+    }
+
+    func handleLongPress(gesture: UILongPressGestureRecognizer) {
+
+        switch(gesture.state) {
+
+        case .Began:
+            guard let selectedIndexPath = self.mediaCollectionView.indexPathForItemAtPoint(gesture.locationInView(self.mediaCollectionView)) else {
+                break
+            }
+            mediaCollectionView.beginInteractiveMovementForItemAtIndexPath(selectedIndexPath)
+
+        case .Changed:
+            mediaCollectionView.updateInteractiveMovementTargetPosition(gesture.locationInView(gesture.view!))
+
+        case .Ended:
+            mediaCollectionView.endInteractiveMovement()
+
+        default:
+            mediaCollectionView.cancelInteractiveMovement()
+        }
     }
 }
 
