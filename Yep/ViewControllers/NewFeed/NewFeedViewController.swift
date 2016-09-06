@@ -1064,6 +1064,27 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
     }
+
+    func collectionView(collectionView: UICollectionView, canMoveItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .Photos:
+            return true
+
+        case .Add:
+            return false
+        }
+    }
+
+    func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+
+
+    }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
 
