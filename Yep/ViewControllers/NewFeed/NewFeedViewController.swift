@@ -146,8 +146,7 @@ final class NewFeedViewController: SegueViewController {
     private var mediaImages = [UIImage]() {
         didSet {
             self.mediaCollectionView.performBatchUpdates({ [weak self] in
-                self?.mediaCollectionView.reloadSections(NSIndexSet(index: 0))
-               
+                self?.mediaCollectionView.reloadSections(NSIndexSet(index: Section.Photos.rawValue))
             }, completion: nil)
         }
     }
