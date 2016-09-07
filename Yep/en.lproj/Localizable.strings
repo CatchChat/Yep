@@ -144,10 +144,10 @@
 "title.not_now" = "Not Now";
 "title.notice" = "Notice";
 "title.notifications_and_privacy" = "Notifications & Privacy";
-"OAuth Error" = "OAuth Error";
+"prompt.oauth_error" = "OAuth Error!";
 "OAuth" = "OAuth";
-"OK" = "OK";
-"Ooops! You've been blocked." = "Ooops! You've been blocked.";
+"title.ok" = "OK";
+"prompt.user_been_blocked" = "Oops! You've been blocked.";
 "Open Camera" = "Open Camera";
 "Open Source of Yep" = "Open Source of Yep";
 "Open Source" = "Open Source";

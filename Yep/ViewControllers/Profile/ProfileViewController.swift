@@ -397,7 +397,7 @@ final class ProfileViewController: SegueViewController {
 
                 if me.masterSkills.count == 0 && me.learningSkills.count == 0 {
 
-                    YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: { [weak self] in
+                    YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: NSLocalizedString("You don't have any skills!\nWould you like to pick some?", comment: ""), confirmTitle: String.trans_titleOK, cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: { [weak self] in
                         self?.pickSkills()
                     }, cancelAction: {})
                 }
@@ -1613,7 +1613,7 @@ extension ProfileViewController {
             })
             
         } else {
-            YepAlert.alertSorry(message: NSLocalizedString("OAuth Error", comment: ""), inViewController: self, withDismissAction: {})
+            YepAlert.alertSorry(message: String.trans_promptOAuthError, inViewController: self, withDismissAction: {})
         }
     }
 }

@@ -25,5 +25,9 @@ extension String {
     static var trans_titleNearby: String {
         return NSLocalizedString("title.nearby", comment: "")
     }
+
+    static var trans_promptUserBeenBlocked: String {
+        return NSLocalizedString("prompt.user_been_blocked", comment: "")
+    }
 }
 
