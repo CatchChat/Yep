@@ -902,7 +902,7 @@ final class ConversationViewController: BaseViewController {
             let vc = nvc.topViewController as! PickLocationViewController
 
             vc.sendLocationAction = { [weak self] locationInfo in
-                self?.sendLocationInfo(locationInfo)
+                self?.sendLocation(with: locationInfo)
             }
 
         default:

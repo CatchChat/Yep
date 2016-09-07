@@ -350,7 +350,7 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-    func sendLocationInfo(locationInfo: PickLocationViewControllerLocation.Info) {
+    func sendLocation(with locationInfo: PickLocationViewControllerLocation.Info) {
 
         let recipient = self.recipient
 
