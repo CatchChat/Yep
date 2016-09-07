@@ -284,7 +284,7 @@ final class SkillHomeViewController: BaseViewController {
                 }, completion: { [weak self] _ in
 
                     let message = String.trans_promptSuccessfullyAddedSkill(skillLocalName, to: skillSet.name)
-                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+                    YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: message, dismissTitle: String.trans_titleOK, inViewController: self, withDismissAction: nil)
 
                     SafeDispatch.async {
                         self?.navigationItem.rightBarButtonItem = nil

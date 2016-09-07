@@ -31,12 +31,12 @@ final class YepAlert {
 
     class func alertSorry(message message: String?, inViewController viewController: UIViewController?, withDismissAction dismissAction: () -> Void) {
 
-        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: viewController, withDismissAction: dismissAction)
+        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: String.trans_titleOK, inViewController: viewController, withDismissAction: dismissAction)
     }
 
     class func alertSorry(message message: String?, inViewController viewController: UIViewController?) {
 
-        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: viewController, withDismissAction: nil)
+        alert(title: NSLocalizedString("Sorry", comment: ""), message: message, dismissTitle: String.trans_titleOK, inViewController: viewController, withDismissAction: nil)
     }
 
     class func textInput(title title: String, placeholder: String?, oldText: String?, dismissTitle: String, inViewController viewController: UIViewController?, withFinishedAction finishedAction: ((text: String) -> Void)?) {
@@ -192,7 +192,7 @@ extension UIViewController {
 
             SafeDispatch.async {
 
-                YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: NSLocalizedString("Yep need to read your Contacts to continue this operation.\nIs that OK?", comment: ""), confirmTitle: NSLocalizedString("OK", comment: ""), cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: {
+                YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: NSLocalizedString("Yep need to read your Contacts to continue this operation.\nIs that OK?", comment: ""), confirmTitle: String.trans_titleOK, cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: {
 
                     propose()
 

@@ -229,7 +229,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         case YepNotificationOKAction:
 
-            tryReplyText("OK", withUserInfo: userInfo)
+            tryReplyText(String.trans_titleOK, withUserInfo: userInfo)
 
         default:
             break

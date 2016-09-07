@@ -160,7 +160,7 @@ final class EditProfileViewController: SegueViewController {
             YepHUD.hideActivityIndicator()
             println("friendsInContacts discoveredUsers.count: \(discoveredUsers.count)")
 
-            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Yep will match friends from your contacts for you.", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: nil)
+            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Yep will match friends from your contacts for you.", comment: ""), dismissTitle: String.trans_titleOK, inViewController: self, withDismissAction: nil)
         })
     }
 

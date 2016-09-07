@@ -247,7 +247,7 @@ final class ConversationsViewController: BaseViewController {
         replyAction.authenticationRequired = false
 
         let replyOKAction = UIMutableUserNotificationAction()
-        replyOKAction.title = "OK"
+        replyOKAction.title = String.trans_titleOK
         replyOKAction.identifier = YepNotificationOKAction
         replyOKAction.activationMode = .Background
         replyOKAction.behavior = .Default
