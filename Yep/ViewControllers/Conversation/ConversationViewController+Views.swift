@@ -418,7 +418,7 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-   func makeFriendRequestViewWithUser(user: User, state: FriendRequestView.State) {
+   func makeFriendRequestView(for user: User, in state: FriendRequestView.State) {
 
         let friendRequestView = FriendRequestView(state: state)
 
@@ -575,7 +575,7 @@ extension ConversationViewController {
                 SafeDispatch.async { [weak self] in
 
                     if receivedFriendRequestState == .Pending {
-                        self?.makeFriendRequestViewWithUser(user, state: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
+                        self?.makeFriendRequestView(for: user, in: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
 
                     } else if receivedFriendRequestState == .Blocked {
                         YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)")
@@ -593,11 +593,11 @@ extension ConversationViewController {
                     } else {
                         if sentFriendRequestState == .None {
                             if receivedFriendRequestState != .Rejected && receivedFriendRequestState != .Blocked {
-                                self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("is not your friend.", comment: "")))
+                                self?.makeFriendRequestView(for: user, in: .Add(prompt: NSLocalizedString("is not your friend.", comment: "")))
                             }
 
                         } else if sentFriendRequestState == .Rejected {
-                            self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
+                            self?.makeFriendRequestView(for: user, in: .Add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
 
                         } else if sentFriendRequestState == .Blocked {
                             YepAlert.alertSorry(message: String(format: NSLocalizedString("You have been blocked by %@!", comment: ""), "\(userNickname)"), inViewController: self)
