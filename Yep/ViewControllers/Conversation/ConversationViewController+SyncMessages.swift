@@ -15,22 +15,25 @@ extension ConversationViewController {
 
     func trySyncMessages() {
 
-        guard !conversation.invalidated else { return }
+        guard !conversation.invalidated else {
+            return
+        }
+        guard let recipient = self.recipient else {
+            return
+        }
 
         let syncMessages: (failedAction: (() -> Void)?, successAction: (() -> Void)?) -> Void = { failedAction, successAction in
 
             SafeDispatch.async { [weak self] in
-
-                guard let recipient = self?.recipient else {
-                    return
-                }
 
                 let timeDirection: TimeDirection
                 if let minMessageID = self?.messages.last?.messageID {
                     timeDirection = .Future(minMessageID: minMessageID)
                 } else {
                     timeDirection = .None
+                }
 
+                if case .None = timeDirection {
                     self?.activityIndicator.startAnimating()
                 }
 
@@ -61,11 +64,7 @@ extension ConversationViewController {
             }
         }
 
-        guard let conversationType = ConversationType(rawValue: conversation.type) else {
-            return
-        }
-
-        switch conversationType {
+        switch recipient.type {
 
         case .OneToOne:
 
