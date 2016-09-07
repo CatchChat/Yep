@@ -64,7 +64,7 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-    func sendAudioWithURL(fileURL: NSURL, compressedDecibelSamples: [Float]) {
+    func sendAudio(at fileURL: NSURL, with compressedDecibelSamples: [Float]) {
 
         let recipient = self.recipient
 

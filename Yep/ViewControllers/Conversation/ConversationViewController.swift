@@ -601,7 +601,7 @@ final class ConversationViewController: BaseViewController {
                     }
 
                     let compressedDecibelSamples = AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 6, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60)
-                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: compressedDecibelSamples)
+                    self?.sendAudio(at: fileURL, with: compressedDecibelSamples)
                 }
             }
 
