@@ -1346,8 +1346,7 @@ final class ConversationViewController: BaseViewController {
 
         // 在前台时才能做插入
         if UIApplication.sharedApplication().applicationState == .Active {
-            updateConversationCollectionViewWithMessageIDs(filteredMessageIDs, messageAge: messageAge, scrollToBottom: false, success: { _ in
-            })
+            updateConversationCollectionViewWithMessageIDs(filteredMessageIDs, messageAge: messageAge, scrollToBottom: false)
 
         } else {
             // 不然就先记下来
@@ -1387,8 +1386,7 @@ final class ConversationViewController: BaseViewController {
     private func tryInsertInActiveNewMessages() {
 
         if inactiveNewMessageIDSet.count > 0 {
-            updateConversationCollectionViewWithMessageIDs(Array(inactiveNewMessageIDSet), messageAge: .New, scrollToBottom: false, success: { _ in
-            })
+            updateConversationCollectionViewWithMessageIDs(Array(inactiveNewMessageIDSet), messageAge: .New, scrollToBottom: false)
 
             inactiveNewMessageIDSet = []
 
@@ -1396,7 +1394,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
+    func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: ((Bool) -> Void)? = nil) {
 
         // 重要
         if !isPreviewed {
@@ -1413,7 +1411,7 @@ final class ConversationViewController: BaseViewController {
         let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds) + subscribeViewHeight
 
         adjustConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
-            success(finished)
+            success?(finished)
         }
 
         if messageAge == .New {

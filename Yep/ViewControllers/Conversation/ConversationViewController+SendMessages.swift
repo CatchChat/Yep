@@ -27,8 +27,7 @@ extension ConversationViewController {
 
         sendText(text, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-            })
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -122,8 +121,7 @@ extension ConversationViewController {
                 }
             }
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-            })
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -189,8 +187,7 @@ extension ConversationViewController {
                 self?.alertSaveFileFailed()
             }
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-            })
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -319,8 +316,7 @@ extension ConversationViewController {
                 self?.alertSaveFileFailed()
             }
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-            })
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
         }
 
         sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
@@ -362,8 +358,7 @@ extension ConversationViewController {
 
         sendLocationWithLocationInfo(locationInfo, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true, success: { _ in
-            })
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
