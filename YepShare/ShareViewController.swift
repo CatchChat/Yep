@@ -23,7 +23,7 @@ class ShareViewController: SLComposeServiceViewController {
             if let skill = skill {
                 channelItem.value = skill.localName
             } else {
-                channelItem.value = NSLocalizedString("title.default", comment: "")
+                channelItem.value = String.trans_titleDefault
             }
         }
     }
@@ -65,7 +65,7 @@ class ShareViewController: SLComposeServiceViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("New Feed", comment: "")
+        title = String.trans_titleNewFeed
 
         Realm.Configuration.defaultConfiguration = realmConfig()
 

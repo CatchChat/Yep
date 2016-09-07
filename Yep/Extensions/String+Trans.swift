@@ -202,10 +202,6 @@ extension String {
         return NSLocalizedString("prompt.current_number", comment: "")
     }
 
-    static var trans_titleDefault: String {
-        return NSLocalizedString("title.default", comment: "")
-    }
-
     static var trans_titleDelete: String {
         return NSLocalizedString("title.delete", comment: "")
     }
