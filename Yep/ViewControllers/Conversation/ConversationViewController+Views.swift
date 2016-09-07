@@ -18,7 +18,7 @@ import Proposer
 
 extension ConversationViewController {
 
-    func makeFeedViewWithFeed(feed: ConversationFeed) {
+    func makeFeedView(for feed: ConversationFeed) -> FeedView {
 
         let feedView = FeedView.instanceFromNib()
 
@@ -107,7 +107,7 @@ extension ConversationViewController {
         
         feedView.heightConstraint = height
         
-        self.feedView = feedView
+        return feedView
     }
 
     func tryFoldFeedView() {

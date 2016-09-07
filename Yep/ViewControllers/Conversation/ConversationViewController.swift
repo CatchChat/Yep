@@ -390,7 +390,7 @@ final class ConversationViewController: BaseViewController {
             }
 
             if let conversationFeed = conversationFeed {
-                makeFeedViewWithFeed(conversationFeed)
+                self.feedView = makeFeedView(for: conversationFeed)
                 tryFoldFeedView()
             }
 
