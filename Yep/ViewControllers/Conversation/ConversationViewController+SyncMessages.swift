@@ -84,10 +84,6 @@ extension ConversationViewController {
 
     func syncMessagesReadStatus() {
 
-        guard let recipient = recipient else {
-            return
-        }
-
         lastMessageReadByRecipient(recipient, failureHandler: nil, completion: { [weak self] lastMessageRead in
 
             if let lastMessageRead = lastMessageRead {
@@ -98,9 +94,7 @@ extension ConversationViewController {
 
     func markAsReadAllSentMesagesBeforeUnixTime(unixTime: NSTimeInterval, lastReadMessageID: String? = nil) {
 
-        guard let recipient = recipient else {
-            return
-        }
+        let recipient = self.recipient
 
         dispatch_async(realmQueue) {
 
@@ -140,13 +134,14 @@ extension ConversationViewController {
 
     func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
 
+        let recipient = self.recipient
+
         SafeDispatch.async { [weak self] in
 
             guard let strongSelf = self else {
                 return
             }
-
-            guard let recipient = strongSelf.recipient, latestMessage = strongSelf.messages.last else {
+            guard let latestMessage = strongSelf.messages.last else {
                 return
             }
 

@@ -1218,12 +1218,7 @@ final class ConversationViewController: BaseViewController {
         guard YepFayeService.sharedManager.fayeClient.isConnected else {
             return
         }
-
-        guard let _ = self.conversation.withFriend else {
-            return
-        }
-
-        guard let recipient = self.recipient else {
+        guard recipient.type == .OneToOne else {
             return
         }
 
