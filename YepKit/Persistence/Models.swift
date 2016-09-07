@@ -528,8 +528,7 @@ public class Message: Object {
     }
 
     public var blockedTextContent: String {
-        let nickname = fromFriend?.nickname ?? ""
-        return String(format: NSLocalizedString("Ooops! You've been blocked.", comment: ""), nickname)
+        return String.trans_promptUserBeenBlocked
     }
 
     public dynamic var openGraphDetected: Bool = false

@@ -147,7 +147,7 @@
 "prompt.oauth_error" = "OAuth Error!";
 "OAuth" = "OAuth";
 "title.ok" = "OK";
-"Ooops! You've been blocked." = "Ooops! You've been blocked.";
+"prompt.user_been_blocked" = "Oops! You've been blocked.";
 "Open Camera" = "Open Camera";
 "Open Source of Yep" = "Open Source of Yep";
 "Open Source" = "Open Source";

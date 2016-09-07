@@ -145,7 +145,7 @@
 "title.notifications_and_privacy" = "通知与隐私";
 "prompt.oauth_error" = "验证错误";
 "title.ok" = "OK";
-"Ooops! You've been blocked." = "Ooops! 您被对方屏蔽了";
+"prompt.user_been_blocked" = "很遗憾，您被对方屏蔽了";
 "Open Camera" = "打开相机";
 "Open Source of Yep" = "Yep 的开源";
 "Open Source" = "开源";
