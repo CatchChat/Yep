@@ -221,7 +221,7 @@ final class ProfileViewController: SegueViewController {
             }
         }
 
-        return introduction ?? NSLocalizedString("No Introduction yet.", comment: "")
+        return introduction ?? String.trans_promptNoSelfIntroduction
     }()
 
     private var masterSkills = [Skill]()

@@ -565,15 +565,14 @@ extension String {
     static var trans_titleFeedDiscussion: String {
         return NSLocalizedString("title.feed_discussion", comment: "")
     }
+
     static var trans_promptOAuthError: String {
         return NSLocalizedString("prompt.oauth_error", comment: "")
     }
+
     static var trans_titleOK: String {
         return NSLocalizedString("title.ok", comment: "")
     }
-
-
-
 }
 
 extension String {
