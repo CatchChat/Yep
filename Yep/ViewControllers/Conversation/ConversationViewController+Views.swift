@@ -388,24 +388,22 @@ extension ConversationViewController {
     }
 
     func updateStateInfoOfTitleView(titleView: ConversationTitleView) {
+
         SafeDispatch.async { [weak self] in
-            if let strongSelf = self {
-                guard !strongSelf.conversation.invalidated else {
-                    return
-                }
+            guard let strongSelf = self else { return }
+            guard !strongSelf.conversation.invalidated else { return }
 
-                if let timeAgo = lastSignDateOfConversation(strongSelf.conversation)?.timeAgo {
-                    titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(timeAgo.lowercaseString)
+            if let timeAgo = lastSignDateOfConversation(strongSelf.conversation)?.timeAgo {
+                titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(timeAgo.lowercaseString)
 
-                } else if let friend = strongSelf.conversation.withFriend {
-                    titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(friend.lastSignInUnixTime)
+            } else if let friend = strongSelf.conversation.withFriend {
+                titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(friend.lastSignInUnixTime)
 
-                } else {
-                    titleView.stateInfoLabel.text = String.trans_infoBeginChatJustNow
-                }
-
-                titleView.stateInfoLabel.textColor = UIColor.grayColor()
+            } else {
+                titleView.stateInfoLabel.text = String.trans_infoBeginChatJustNow
             }
+
+            titleView.stateInfoLabel.textColor = UIColor.grayColor()
         }
     }
 
