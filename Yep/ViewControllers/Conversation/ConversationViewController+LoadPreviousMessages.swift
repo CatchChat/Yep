@@ -14,11 +14,6 @@ extension ConversationViewController {
 
     func loadMessagesFromServer(withTimeDirection timeDirection: TimeDirection, invalidMessageIDSet: Set<String>? = nil, failed: (() -> Void)? = nil, completion: ((messageIDs: [String], noMore: Bool) -> Void)? = nil) {
 
-        guard let recipient = recipient else {
-            failed?()
-            return
-        }
-
         messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 

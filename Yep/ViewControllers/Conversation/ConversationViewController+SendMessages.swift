@@ -20,14 +20,8 @@ extension ConversationViewController {
         guard !text.isEmpty else {
             return
         }
-        guard let recipient = conversation.recipient else {
-            println("Warning: No recipient")
-            return
-        }
-        guard let conversationType = ConversationType(rawValue: conversation.type) else {
-            println("Warning: Can not create conversationType")
-            return
-        }
+
+        let recipient = self.recipient
 
         println("try sendText to recipient: \(recipient)")
 
@@ -39,7 +33,7 @@ extension ConversationViewController {
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            switch conversationType {
+            switch recipient.type {
             case .OneToOne:
                 self?.promptSendMessageFailed(
                     reason: reason,
@@ -53,7 +47,7 @@ extension ConversationViewController {
         }, completion: { [weak self] success in
             println("sendText: \(success)")
 
-            switch conversationType {
+            switch recipient.type {
             case .OneToOne:
                 self?.showFriendRequestViewIfNeed()
             case .Group:
@@ -73,14 +67,7 @@ extension ConversationViewController {
 
     func sendAudioWithURL(fileURL: NSURL, compressedDecibelSamples: [Float]) {
 
-        guard let recipient = conversation.recipient else {
-            println("Warning: No recipient")
-            return
-        }
-        guard let conversationType = ConversationType(rawValue: conversation.type) else {
-            println("Warning: Can not create conversationType")
-            return
-        }
+        let recipient = self.recipient
 
         println("try sendAudioWithURL to recipient: \(recipient)")
 
@@ -141,7 +128,7 @@ extension ConversationViewController {
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            switch conversationType {
+            switch recipient.type {
             case .OneToOne:
                 self?.promptSendMessageFailed(
                     reason: reason,
@@ -155,7 +142,7 @@ extension ConversationViewController {
         }, completion: { [weak self] success in
             println("sendAudio: \(success)")
 
-            switch conversationType {
+            switch recipient.type {
             case .OneToOne:
                 self?.showFriendRequestViewIfNeed()
             case .Group:
@@ -171,14 +158,7 @@ extension ConversationViewController {
 
     func sendImage(image: UIImage) {
 
-        guard let recipient = conversation.recipient else {
-            println("Warning: No recipient")
-            return
-        }
-        guard let conversationType = ConversationType(rawValue: conversation.type) else {
-            println("Warning: Can not create conversationType")
-            return
-        }
+        let recipient = self.recipient
 
         println("try sendImage to recipient: \(recipient)")
 
@@ -215,7 +195,7 @@ extension ConversationViewController {
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            switch conversationType {
+            switch recipient.type {
             case .OneToOne:
                 self?.promptSendMessageFailed(
                     reason: reason,
@@ -229,7 +209,7 @@ extension ConversationViewController {
         }, completion: { [weak self] success in
             println("sendImage: \(success)")
 
-            switch conversationType {
+            switch recipient.type {
             case .OneToOne:
                 self?.showFriendRequestViewIfNeed()
             case .Group:
@@ -245,14 +225,7 @@ extension ConversationViewController {
 
     func sendVideoWithVideoURL(videoURL: NSURL) {
 
-        guard let recipient = conversation.recipient else {
-            println("Warning: No recipient")
-            return
-        }
-        guard let conversationType = ConversationType(rawValue: conversation.type) else {
-            println("Warning: Can not create conversationType")
-            return
-        }
+        let recipient = self.recipient
 
         println("try sendVideoWithVideoURL to recipient: \(recipient)")
 
@@ -353,7 +326,7 @@ extension ConversationViewController {
         sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            switch conversationType {
+            switch recipient.type {
             case .OneToOne:
                 self?.promptSendMessageFailed(
                     reason: reason,
@@ -367,7 +340,7 @@ extension ConversationViewController {
         }, completion: { [weak self] success in
             println("sendVideo: \(success)")
 
-            switch conversationType {
+            switch recipient.type {
             case .OneToOne:
                 self?.showFriendRequestViewIfNeed()
             case .Group:
@@ -383,14 +356,7 @@ extension ConversationViewController {
 
     func sendLocationInfo(locationInfo: PickLocationViewControllerLocation.Info) {
 
-        guard let recipient = conversation.recipient else {
-            println("Warning: No recipient")
-            return
-        }
-        guard let conversationType = ConversationType(rawValue: conversation.type) else {
-            println("Warning: Can not create conversationType")
-            return
-        }
+        let recipient = self.recipient
 
         println("try sendLocationInfo to recipient: \(recipient)")
 
@@ -402,7 +368,7 @@ extension ConversationViewController {
         }, failureHandler: { [weak self] reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            switch conversationType {
+            switch recipient.type {
             case .OneToOne:
                 self?.promptSendMessageFailed(
                     reason: reason,
@@ -416,7 +382,7 @@ extension ConversationViewController {
         }, completion: { [weak self] success in
             println("sendLocation: \(success)")
 
-            switch conversationType {
+            switch recipient.type {
             case .OneToOne:
                 self?.showFriendRequestViewIfNeed()
             case .Group:

@@ -27,7 +27,7 @@ final class ConversationViewController: BaseViewController {
     var conversationFeed: ConversationFeed?
 
     var realm: Realm!
-    var recipient: Recipient?
+    var recipient: Recipient!
 
     // for peek
     var isPreviewed: Bool = false
