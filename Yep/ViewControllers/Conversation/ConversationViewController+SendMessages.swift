@@ -15,7 +15,7 @@ import YepNetworking
 
 extension ConversationViewController {
 
-    func send(text: String) {
+    func sendText(text: String) {
 
         guard !text.isEmpty else {
             return
@@ -25,7 +25,7 @@ extension ConversationViewController {
 
         println("try sendText to recipient: \(recipient)")
 
-        sendText(text, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
+        YepKit.sendText(text, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 

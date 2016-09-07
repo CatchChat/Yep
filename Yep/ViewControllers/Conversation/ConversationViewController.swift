@@ -581,7 +581,7 @@ final class ConversationViewController: BaseViewController {
                 let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
                 self?.cleanTextInput()
                 self?.trySnapContentOfConversationCollectionViewToBottom()
-                self?.send(text)
+                self?.sendText(text)
             }
 
             // MARK: Voice Record
