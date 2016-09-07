@@ -220,7 +220,7 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-    func sendVideoWithVideoURL(videoURL: NSURL) {
+    func sendVideo(at videoURL: NSURL) {
 
         let recipient = self.recipient
 
