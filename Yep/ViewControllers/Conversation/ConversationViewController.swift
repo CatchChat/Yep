@@ -238,7 +238,7 @@ final class ConversationViewController: BaseViewController {
                 if displayedMessagesRange.length == 1 {
                     if let maxMessageID = messages.first?.messageID {
                         let timeDirection: TimeDirection = .Past(maxMessageID: maxMessageID)
-                        loadMessagesFromServer(withTimeDirection: timeDirection, invalidMessageIDSet: nil, failed: nil, completion: { [weak self] (messageIDs, noMore) in
+                        loadMessagesFromServer(with: timeDirection) { [weak self] (messageIDs, noMore) in
                             self?.noMorePreviousMessages = noMore
 
                             if !messageIDs.isEmpty {
@@ -247,7 +247,7 @@ final class ConversationViewController: BaseViewController {
                                     self?.trySnapContentOfConversationCollectionViewToBottom(forceAnimation: true)
                                 }
                             }
-                        })
+                        }
                     }
                 }
             }
