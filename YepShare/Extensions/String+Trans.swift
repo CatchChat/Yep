@@ -17,5 +17,13 @@ extension String {
     static var trans_titleDefault: String {
         return NSLocalizedString("title.default", comment: "")
     }
+
+    static var trans_titleChannel: String {
+        return NSLocalizedString("title.channel", comment: "")
+    }
+
+    static var trans_titleChooseChannel: String {
+        return NSLocalizedString("title.choose_channel", comment: "")
+    }
 }
 

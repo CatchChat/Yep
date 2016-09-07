@@ -31,7 +31,7 @@ class ShareViewController: SLComposeServiceViewController {
     lazy var channelItem: SLComposeSheetConfigurationItem = {
 
         let item = SLComposeSheetConfigurationItem()
-        item.title = NSLocalizedString("Channel", comment: "")
+        item.title = String.trans_titleChannel
         item.value = NSLocalizedString("Default", comment: "")
         item.tapHandler = { [weak self] in
             self?.performSegueWithIdentifier("presentChooseChannel", sender: nil)
