@@ -370,10 +370,10 @@ extension ConversationViewController {
 
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
 
-        if nameOfConversation(self.conversation) != "" {
-            titleView.nameLabel.text = nameOfConversation(self.conversation)
+        if let name = nameOfConversation(conversation) where name != "" {
+            titleView.nameLabel.text = name
         } else {
-            titleView.nameLabel.text = NSLocalizedString("Discussion", comment: "")
+            titleView.nameLabel.text = String.trans_titleFeedDiscussion
         }
 
         self.updateStateInfoOfTitleView(titleView)

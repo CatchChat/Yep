@@ -565,6 +565,10 @@ extension String {
     static var trans_titleNotificationsAndPrivacy: String {
         return NSLocalizedString("title.notifications_and_privacy", comment: "")
     }
+
+    static var trans_titleFeedDiscussion: String {
+        return NSLocalizedString("title.feed_discussion", comment: "")
+    }
 }
 
 extension String {
