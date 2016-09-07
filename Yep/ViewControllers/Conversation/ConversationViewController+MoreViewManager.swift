@@ -96,7 +96,7 @@ extension ConversationViewController {
                 updateNotificationEnabled(false, forGroupWithGroupID: groupID)
 
             } else {
-                enableNotificationFromCircleWithCircleID(groupID, failureHandler: nil, completion: {success in
+                enableNotificationFromCircleWithCircleID(groupID, failureHandler: nil, completion: { success in
                     println("enableNotificationFromCircleWithCircleID \(success)")
                     
                 })
@@ -112,7 +112,7 @@ extension ConversationViewController {
             let profileUser = ProfileUser.UserType(user)
             report(.User(profileUser))
 
-        } else if let feed = self.conversation?.withGroup?.withFeed {
+        } else if let feed = conversation.withGroup?.withFeed {
             report(.Feed(feedID: feed.feedID))
         }
     }
@@ -227,9 +227,9 @@ extension ConversationViewController {
         }
 
         let isMyFeed = feedCreator.isMe
+
         // 若是创建者，再询问是否删除 Feed
         if isMyFeed {
-
             YepAlert.confirmOrCancel(title: String.trans_titleDelete, message: String.trans_promptAlsoDeleteThisFeed, confirmTitle: String.trans_titleDelete, cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: {
 
                 doDeleteConversation(afterLeaveGroup: { [weak self] in

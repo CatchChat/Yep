@@ -27,7 +27,7 @@ final class ConversationViewController: BaseViewController {
     var conversationFeed: ConversationFeed?
 
     var realm: Realm!
-    var recipient: Recipient?
+    var recipient: Recipient!
 
     // for peek
     var isPreviewed: Bool = false
@@ -238,7 +238,7 @@ final class ConversationViewController: BaseViewController {
                 if displayedMessagesRange.length == 1 {
                     if let maxMessageID = messages.first?.messageID {
                         let timeDirection: TimeDirection = .Past(maxMessageID: maxMessageID)
-                        loadMessagesFromServer(withTimeDirection: timeDirection, invalidMessageIDSet: nil, failed: nil, completion: { [weak self] (messageIDs, noMore) in
+                        loadMessagesFromServer(with: timeDirection) { [weak self] (messageIDs, noMore) in
                             self?.noMorePreviousMessages = noMore
 
                             if !messageIDs.isEmpty {
@@ -247,7 +247,7 @@ final class ConversationViewController: BaseViewController {
                                     self?.trySnapContentOfConversationCollectionViewToBottom(forceAnimation: true)
                                 }
                             }
-                        })
+                        }
                     }
                 }
             }
@@ -390,7 +390,7 @@ final class ConversationViewController: BaseViewController {
             }
 
             if let conversationFeed = conversationFeed {
-                makeFeedViewWithFeed(conversationFeed)
+                self.feedView = makeFeedView(for: conversationFeed)
                 tryFoldFeedView()
             }
 
@@ -581,7 +581,7 @@ final class ConversationViewController: BaseViewController {
                 let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
                 self?.cleanTextInput()
                 self?.trySnapContentOfConversationCollectionViewToBottom()
-                self?.send(text)
+                self?.sendText(text)
             }
 
             // MARK: Voice Record
@@ -601,7 +601,7 @@ final class ConversationViewController: BaseViewController {
                     }
 
                     let compressedDecibelSamples = AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 6, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60)
-                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: compressedDecibelSamples)
+                    self?.sendAudio(at: fileURL, with: compressedDecibelSamples)
                 }
             }
 
@@ -902,7 +902,7 @@ final class ConversationViewController: BaseViewController {
             let vc = nvc.topViewController as! PickLocationViewController
 
             vc.sendLocationAction = { [weak self] locationInfo in
-                self?.sendLocationInfo(locationInfo)
+                self?.sendLocation(with: locationInfo)
             }
 
         default:
@@ -1218,12 +1218,7 @@ final class ConversationViewController: BaseViewController {
         guard YepFayeService.sharedManager.fayeClient.isConnected else {
             return
         }
-
-        guard let _ = self.conversation.withFriend else {
-            return
-        }
-
-        guard let recipient = self.recipient else {
+        guard recipient.type == .OneToOne else {
             return
         }
 
@@ -1346,8 +1341,7 @@ final class ConversationViewController: BaseViewController {
 
         // 在前台时才能做插入
         if UIApplication.sharedApplication().applicationState == .Active {
-            updateConversationCollectionViewWithMessageIDs(filteredMessageIDs, messageAge: messageAge, scrollToBottom: false, success: { _ in
-            })
+            updateConversationCollectionViewWithMessageIDs(filteredMessageIDs, messageAge: messageAge, scrollToBottom: false)
 
         } else {
             // 不然就先记下来
@@ -1387,8 +1381,7 @@ final class ConversationViewController: BaseViewController {
     private func tryInsertInActiveNewMessages() {
 
         if inactiveNewMessageIDSet.count > 0 {
-            updateConversationCollectionViewWithMessageIDs(Array(inactiveNewMessageIDSet), messageAge: .New, scrollToBottom: false, success: { _ in
-            })
+            updateConversationCollectionViewWithMessageIDs(Array(inactiveNewMessageIDSet), messageAge: .New, scrollToBottom: false)
 
             inactiveNewMessageIDSet = []
 
@@ -1396,7 +1389,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
+    func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: ((Bool) -> Void)? = nil) {
 
         // 重要
         if !isPreviewed {
@@ -1413,7 +1406,7 @@ final class ConversationViewController: BaseViewController {
         let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds) + subscribeViewHeight
 
         adjustConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
-            success(finished)
+            success?(finished)
         }
 
         if messageAge == .New {

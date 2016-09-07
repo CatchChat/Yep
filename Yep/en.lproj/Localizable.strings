@@ -49,7 +49,6 @@
 "title.create" = "Create";
 "prompt.creators_of_blocked_feeds" = "Creators of Blocked Feeds";
 "prompt.current_number" = "Current Number:";
-"title.default" = "Default";
 "title.delete" = "Delete";
 "prompt.did_not_get_it" = "Didn't get it?";
 "prompt.disable_do_not_disturb_failed" = "Disable Do Not Disturb Failed!";
@@ -314,3 +313,4 @@
 "title.master" = "Master";
 "title.learning" = "Learning";
 "title.match" = "Match";
+"title.feed_discussion" = "Discussion";

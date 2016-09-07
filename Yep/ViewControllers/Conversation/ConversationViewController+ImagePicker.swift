@@ -36,7 +36,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                 if let videoURL = info[UIImagePickerControllerMediaURL] as? NSURL {
                     println("videoURL \(videoURL)")
-                    sendVideoWithVideoURL(videoURL)
+                    sendVideo(at: videoURL)
                 }
 
             default:

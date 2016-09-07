@@ -16,7 +16,7 @@ import RealmSwift
 
 extension ConversationViewController {
 
-    private func tryShowConversationWithFeed(feed: DiscoveredFeed?) {
+    private func tryShowConversation(for feed: DiscoveredFeed?) {
 
         if let feed = feed {
             performSegueWithIdentifier("showConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
@@ -652,11 +652,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.tapUsernameAction = tapUsernameAction
 
                             cell.tapFeedAction = { [weak self] feed in
-                                self?.tryShowConversationWithFeed(feed)
+                                self?.tryShowConversation(for: feed)
                             }
 
                             cell.tapOpenGraphURLAction = { [weak self] URL in
-                                if !URL.yep_matchSharedFeed({ [weak self] feed in self?.tryShowConversationWithFeed(feed) }) {
+                                if !URL.yep_matchSharedFeed({ [weak self] feed in self?.tryShowConversation(for: feed) }) {
                                     self?.yep_openURL(URL)
                                 }
                             }
@@ -675,7 +675,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             cell.tapUsernameAction = tapUsernameAction
 
                             cell.tapFeedAction = { [weak self] feed in
-                                self?.tryShowConversationWithFeed(feed)
+                                self?.tryShowConversation(for: feed)
                             }
 
                             return cell
@@ -890,11 +890,11 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         cell.tapUsernameAction = tapUsernameAction
 
                         cell.tapFeedAction = { [weak self] feed in
-                            self?.tryShowConversationWithFeed(feed)
+                            self?.tryShowConversation(for: feed)
                         }
 
                         cell.tapOpenGraphURLAction = { [weak self] URL in
-                            if !URL.yep_matchSharedFeed({ [weak self] feed in self?.tryShowConversationWithFeed(feed) }) {
+                            if !URL.yep_matchSharedFeed({ [weak self] feed in self?.tryShowConversation(for: feed) }) {
                                 self?.yep_openURL(URL)
                             }
                         }
@@ -913,7 +913,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         cell.tapUsernameAction = tapUsernameAction
 
                         cell.tapFeedAction = { [weak self] feed in
-                            self?.tryShowConversationWithFeed(feed)
+                            self?.tryShowConversation(for: feed)
                         }
 
                         return cell

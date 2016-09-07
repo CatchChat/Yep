@@ -18,7 +18,7 @@ import Proposer
 
 extension ConversationViewController {
 
-    func makeFeedViewWithFeed(feed: ConversationFeed) {
+    func makeFeedView(for feed: ConversationFeed) -> FeedView {
 
         let feedView = FeedView.instanceFromNib()
 
@@ -107,7 +107,7 @@ extension ConversationViewController {
         
         feedView.heightConstraint = height
         
-        self.feedView = feedView
+        return feedView
     }
 
     func tryFoldFeedView() {
@@ -186,7 +186,7 @@ extension ConversationViewController {
             self?.sendImage(image)
         }
 
-        view.takePhotoAction = { [weak self] in
+        view.takePhotoAction = {
 
             let openCamera: ProposerAction = { [weak self] in
 
@@ -201,12 +201,12 @@ extension ConversationViewController {
                 }
             }
 
-            proposeToAccess(.Camera, agreed: openCamera, rejected: {
+            proposeToAccess(.Camera, agreed: openCamera, rejected: { [weak self] in
                 self?.alertCanNotOpenCamera()
             })
         }
 
-        view.choosePhotoAction = { [weak self] in
+        view.choosePhotoAction = {
 
             let openCameraRoll: ProposerAction = { [weak self] in
 
@@ -222,7 +222,7 @@ extension ConversationViewController {
                 }
             }
 
-            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: {
+            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
                 self?.alertCanNotAccessCameraRoll()
             })
         }
@@ -301,7 +301,7 @@ extension ConversationViewController {
                     return
                 }
 
-                self?.subscribeView.subscribeAction = { [weak self] in
+                self?.subscribeView.subscribeAction = {
                     joinGroup(groupID: groupID, failureHandler: nil, completion: { [weak self] in
                         println("subscribe OK")
 
@@ -310,38 +310,36 @@ extension ConversationViewController {
                 }
 
                 self?.subscribeView.showWithChangeAction = { [weak self] in
-                    if let strongSelf = self {
+                    guard let strongSelf = self else { return }
 
-                        let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
+                    let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y + SubscribeView.height
 
-                        let extraPart = strongSelf.conversationCollectionView.contentSize.height - (strongSelf.messageToolbar.frame.origin.y - SubscribeView.height)
+                    let extraPart = strongSelf.conversationCollectionView.contentSize.height - (strongSelf.messageToolbar.frame.origin.y - SubscribeView.height)
 
-                        let newContentOffsetY: CGFloat
-                        if extraPart > 0 {
-                            newContentOffsetY = strongSelf.conversationCollectionView.contentOffset.y + SubscribeView.height
-                        } else {
-                            newContentOffsetY = strongSelf.conversationCollectionView.contentOffset.y
-                        }
-
-                        //println("extraPart: \(extraPart), newContentOffsetY: \(newContentOffsetY)")
-
-                        self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
-
-                        self?.isSubscribeViewShowing = true
+                    let newContentOffsetY: CGFloat
+                    if extraPart > 0 {
+                        newContentOffsetY = strongSelf.conversationCollectionView.contentOffset.y + SubscribeView.height
+                    } else {
+                        newContentOffsetY = strongSelf.conversationCollectionView.contentOffset.y
                     }
+
+                    //println("extraPart: \(extraPart), newContentOffsetY: \(newContentOffsetY)")
+
+                    strongSelf.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+
+                    strongSelf.isSubscribeViewShowing = true
                 }
 
                 self?.subscribeView.hideWithChangeAction = { [weak self] in
-                    if let strongSelf = self {
+                    guard let strongSelf = self else { return }
 
-                        let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
+                    let bottom = strongSelf.view.bounds.height - strongSelf.messageToolbar.frame.origin.y
 
-                        let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
+                    let newContentOffsetY = strongSelf.conversationCollectionView.contentSize.height - strongSelf.messageToolbar.frame.origin.y
 
-                        self?.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
+                    strongSelf.tryUpdateConversationCollectionViewWith(newContentInsetBottom: bottom, newContentOffsetY: newContentOffsetY)
 
-                        self?.isSubscribeViewShowing = false
-                    }
+                    strongSelf.isSubscribeViewShowing = false
                 }
 
                 self?.subscribeView.show()
@@ -372,10 +370,10 @@ extension ConversationViewController {
 
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
 
-        if nameOfConversation(self.conversation) != "" {
-            titleView.nameLabel.text = nameOfConversation(self.conversation)
+        if let name = nameOfConversation(conversation) where name != "" {
+            titleView.nameLabel.text = name
         } else {
-            titleView.nameLabel.text = NSLocalizedString("Discussion", comment: "")
+            titleView.nameLabel.text = String.trans_titleFeedDiscussion
         }
 
         self.updateStateInfoOfTitleView(titleView)
@@ -390,24 +388,22 @@ extension ConversationViewController {
     }
 
     func updateStateInfoOfTitleView(titleView: ConversationTitleView) {
+
         SafeDispatch.async { [weak self] in
-            if let strongSelf = self {
-                guard !strongSelf.conversation.invalidated else {
-                    return
-                }
+            guard let strongSelf = self else { return }
+            guard !strongSelf.conversation.invalidated else { return }
 
-                if let timeAgo = lastSignDateOfConversation(strongSelf.conversation)?.timeAgo {
-                    titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(timeAgo.lowercaseString)
+            if let timeAgo = lastSignDateOfConversation(strongSelf.conversation)?.timeAgo {
+                titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(timeAgo.lowercaseString)
 
-                } else if let friend = strongSelf.conversation.withFriend {
-                    titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(friend.lastSignInUnixTime)
+            } else if let friend = strongSelf.conversation.withFriend {
+                titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(friend.lastSignInUnixTime)
 
-                } else {
-                    titleView.stateInfoLabel.text = String.trans_infoBeginChatJustNow
-                }
-
-                titleView.stateInfoLabel.textColor = UIColor.grayColor()
+            } else {
+                titleView.stateInfoLabel.text = String.trans_infoBeginChatJustNow
             }
+
+            titleView.stateInfoLabel.textColor = UIColor.grayColor()
         }
     }
 
@@ -422,7 +418,7 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-   func makeFriendRequestViewWithUser(user: User, state: FriendRequestView.State) {
+   func makeFriendRequestView(for user: User, in state: FriendRequestView.State) {
 
         let friendRequestView = FriendRequestView(state: state)
 
@@ -579,7 +575,7 @@ extension ConversationViewController {
                 SafeDispatch.async { [weak self] in
 
                     if receivedFriendRequestState == .Pending {
-                        self?.makeFriendRequestViewWithUser(user, state: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
+                        self?.makeFriendRequestView(for: user, in: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
 
                     } else if receivedFriendRequestState == .Blocked {
                         YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)")
@@ -597,11 +593,11 @@ extension ConversationViewController {
                     } else {
                         if sentFriendRequestState == .None {
                             if receivedFriendRequestState != .Rejected && receivedFriendRequestState != .Blocked {
-                                self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("is not your friend.", comment: "")))
+                                self?.makeFriendRequestView(for: user, in: .Add(prompt: NSLocalizedString("is not your friend.", comment: "")))
                             }
 
                         } else if sentFriendRequestState == .Rejected {
-                            self?.makeFriendRequestViewWithUser(user, state: .Add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
+                            self?.makeFriendRequestView(for: user, in: .Add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
 
                         } else if sentFriendRequestState == .Blocked {
                             YepAlert.alertSorry(message: String(format: NSLocalizedString("You have been blocked by %@!", comment: ""), "\(userNickname)"), inViewController: self)

@@ -46,7 +46,6 @@ extension ConversationViewController {
             realm.add(message)
         }
 
-        updateConversationCollectionViewWithMessageIDs([messageID], messageAge: .New, scrollToBottom: true, success: { _ in
-        })
+        updateConversationCollectionViewWithMessageIDs([messageID], messageAge: .New, scrollToBottom: true)
     }
 }

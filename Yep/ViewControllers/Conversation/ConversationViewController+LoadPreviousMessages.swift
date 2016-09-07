@@ -12,12 +12,7 @@ import YepNetworking
 
 extension ConversationViewController {
 
-    func loadMessagesFromServer(withTimeDirection timeDirection: TimeDirection, invalidMessageIDSet: Set<String>? = nil, failed: (() -> Void)? = nil, completion: ((messageIDs: [String], noMore: Bool) -> Void)? = nil) {
-
-        guard let recipient = recipient else {
-            failed?()
-            return
-        }
+    func loadMessagesFromServer(with timeDirection: TimeDirection, excludeMessagesIn invalidMessageIDSet: Set<String>? = nil, failed: (() -> Void)? = nil, completion: ((messageIDs: [String], noMore: Bool) -> Void)? = nil) {
 
         messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -81,7 +76,7 @@ extension ConversationViewController {
                 timeDirection = .None
             }
 
-            loadMessagesFromServer(withTimeDirection: timeDirection, invalidMessageIDSet: invalidMessageIDSet, failed: { [weak self] in
+            loadMessagesFromServer(with: timeDirection, excludeMessagesIn: invalidMessageIDSet, failed: { [weak self] in
                 self?.isLoadingPreviousMessages = false
                 completion()
 

@@ -49,7 +49,6 @@
 "title.create" = "创建";
 "Creators of Blocked Feeds" = "被屏蔽的话题创建者";
 "prompt.current_number" = "当前号码";
-"title.default" = "默认";
 "title.delete" = "删除";
 "prompt.did_not_get_it" = "没有收到？";
 "prompt.disable_do_not_disturb_failed" = "关闭“免打扰”失败！";
@@ -313,3 +312,4 @@
 "title.master" = "擅长";
 "title.learning" = "正在学习";
 "title.match" = "匹配";
+"title.feed_discussion" = "话题讨论";

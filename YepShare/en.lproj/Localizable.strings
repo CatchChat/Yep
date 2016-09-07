@@ -1,4 +1,4 @@
 "title.new_feed" = "New Feed";
-"Channel" = "Channel";
-"Default" = "Default";
-"Choose Channel" = "Choose Channel";
+"title.channel" = "Channel";
+"title.default" = "Default";
+"title.choose_channel" = "Choose Channel";
