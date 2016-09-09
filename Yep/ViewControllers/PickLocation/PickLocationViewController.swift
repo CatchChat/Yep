@@ -196,15 +196,17 @@ final class PickLocationViewController: SegueViewController {
 
         case .Message:
 
-            dismissViewControllerAnimated(true, completion: {
+            dismissViewControllerAnimated(true, completion: { [weak self] in
 
-                if let sendLocationAction = self.sendLocationAction {
+                guard let strongSelf = self else { return }
 
-                    if let location = self.location {
+                if let sendLocationAction = strongSelf.sendLocationAction {
+
+                    if let location = strongSelf.location {
                         sendLocationAction(locationInfo: location.info)
 
                     } else {
-                        sendLocationAction(locationInfo: PickLocationViewControllerLocation.Info(coordinate: self.fixedCenterCoordinate, name: nil))
+                        sendLocationAction(locationInfo: PickLocationViewControllerLocation.Info(coordinate: strongSelf.fixedCenterCoordinate, name: nil))
                     }
                 }
             })
