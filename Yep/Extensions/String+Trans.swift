@@ -582,8 +582,12 @@ extension String {
     static var trans_titleOtherReason: String {
         return NSLocalizedString("title.other_reason", comment: "")
     }
-
-
+    static var trans_promptPeopleWithThisSkill: String {
+        return NSLocalizedString("prompt.people_with_this_skill", comment: "")
+    }
+    static var trans_titlePickLocation: String {
+        return NSLocalizedString("title.pick_location", comment: "")
+    }
 }
 
 extension String {

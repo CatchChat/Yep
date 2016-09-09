@@ -151,8 +151,8 @@
 "title.open_source" = "开源";
 "title.other_reason" = "其它原因";
 "report.other" = "其它";
-"People with this skill" = "与此技能相关的用户";
-"Pick Location" = "选择位置";
+"prompt.people_with_this_skill" = "与此技能相关的用户";
+"title.pick_location" = "选择位置";
 "Pick Photos" = "相册";
 "Pick a badge" = "选一个徽章";
 "Pick some skills" = "选择一些技能";

@@ -152,8 +152,8 @@
 "title.open_source" = "Open Source";
 "title.other_reason" = "Other Reason";
 "report.other" = "Other";
-"People with this skill" = "People with this skill";
-"Pick Location" = "Pick Location";
+"prompt.people_with_this_skill" = "People with this skill";
+"title.pick_location" = "Pick Location";
 "Pick Photos" = "Pick Photos";
 "Pick a badge" = "Pick a badge";
 "Pick some skills" = "Pick some skills";
