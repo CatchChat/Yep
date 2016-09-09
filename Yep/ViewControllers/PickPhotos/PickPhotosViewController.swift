@@ -37,9 +37,14 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
     var completion: ((images: [UIImage], imageAssets: [PHAsset]) -> Void)?
     var imageLimit = 0
 
+    var newTitle: String {
+        return String.trans_titlePickPhotos + "(\(imageLimit + pickedImages.count)/4)"
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "\(NSLocalizedString("Pick Photos", comment: "")) (\(imageLimit + pickedImages.count)/4)"
+
+        title = newTitle
 
         collectionView?.backgroundColor = UIColor.whiteColor()
         collectionView?.alwaysBounceVertical = true
@@ -212,7 +217,9 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
                     pickedImages.append(imageAsset)
                 }
             }
-            title = "\(NSLocalizedString("Pick Photos", comment: "")) (\(pickedImageSet.count + imageLimit)/4)"
+
+            title = newTitle
+
             let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCell
             cell.photoPickedImageView.hidden = !pickedImageSet.contains(imageAsset)
         }

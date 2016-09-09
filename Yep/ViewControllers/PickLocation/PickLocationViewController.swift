@@ -96,7 +96,7 @@ final class PickLocationViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Pick Location", comment: "")
+        title = String.trans_titlePickLocation
 
         cancelButton.title = String.trans_cancel
 

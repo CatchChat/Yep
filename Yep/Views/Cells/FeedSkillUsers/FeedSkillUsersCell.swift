@@ -22,7 +22,7 @@ final class FeedSkillUsersCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        promptLabel.text = NSLocalizedString("People with this skill", comment: "")
+        promptLabel.text = String.trans_promptPeopleWithThisSkill
 
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
