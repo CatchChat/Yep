@@ -17,6 +17,7 @@ extension ConversationViewController {
 
         if case .NoSuccessStatusCode(_, let errorCode) = reason where errorCode == ErrorCode.BlockedByRecipient {
             indicateBlockedByRecipient()
+
         } else {
             let message = errorMessage ?? reserveErrorMessage
             YepAlert.alertSorry(message: message, inViewController: self)
@@ -24,28 +25,30 @@ extension ConversationViewController {
     }
 
     private func indicateBlockedByRecipient() {
-        SafeDispatch.async { [weak self] in
-            if let conversation = self?.conversation {
-                self?.indicateBlockedByRecipientInConversation(conversation)
+
+        func indicateBlockedByRecipientInConversation(conversation: Conversation) {
+
+            guard let realm = conversation.realm else {
+                return
             }
-        }
-    }
 
-    private func indicateBlockedByRecipientInConversation(conversation: Conversation) {
+            let message = Message()
+            let messageID = "BlockedByRecipient." + NSUUID().UUIDString
+            message.messageID = messageID
+            message.blockedByRecipient = true
+            message.conversation = conversation
+            let _ = try? realm.write {
+                realm.add(message)
+            }
 
-        guard let realm = conversation.realm else {
-            return
-        }
-
-        let message = Message()
-        let messageID = "BlockedByRecipient." + NSUUID().UUIDString
-        message.messageID = messageID
-        message.blockedByRecipient = true
-        message.conversation = conversation
-        let _ = try? realm.write {
-            realm.add(message)
+            updateConversationCollectionViewWithMessageIDs([messageID], messageAge: .New, scrollToBottom: true)
         }
 
-        updateConversationCollectionViewWithMessageIDs([messageID], messageAge: .New, scrollToBottom: true)
+        SafeDispatch.async { [weak self] in
+            guard let strongSelf = self else { return }
+            guard !strongSelf.conversation.invalidated else { return }
+            indicateBlockedByRecipientInConversation(strongSelf.conversation)
+        }
     }
 }
+
