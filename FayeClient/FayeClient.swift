@@ -415,8 +415,7 @@ extension FayeClient {
     func writeMessage(message: [String: AnyObject], completion: ((finish: Bool) -> Void)? = nil) {
 
         do {
-            let jsonData = try NSJSONSerialization.dataWithJSONObject(message, options: NSJSONWritingOptions(rawValue: 0))
-
+            let jsonData = try NSJSONSerialization.dataWithJSONObject(message, options: [])
             let jsonString = String(data: jsonData, encoding: NSUTF8StringEncoding)
             webSocket?.send(jsonString)
 
