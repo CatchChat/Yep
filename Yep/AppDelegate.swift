@@ -425,7 +425,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             let vc = UIStoryboard.Scene.conversation
 
             realm.beginWrite()
-            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+            let feedConversation = vc.prepareConversation(for: feed, in: realm)
             let _ = try? realm.commitWrite()
 
             // 如果已经显示了就不用push

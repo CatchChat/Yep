@@ -1047,7 +1047,7 @@ final class FeedsViewController: BaseViewController {
     private func prepareConversationViewController(vc: ConversationViewController, withDiscoveredFeed feed: DiscoveredFeed, inRealm realm: Realm) {
 
         realm.beginWrite()
-        let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+        let feedConversation = vc.prepareConversation(for: feed, in: realm)
         let _ = try? realm.commitWrite()
 
         vc.conversation = feedConversation
