@@ -366,12 +366,23 @@ extension FayeClient {
 
     private func subscribePendingSubscriptions() {
 
+        func canPending(channel: String) -> Bool {
+            return !pendingChannelSubscriptionSet.contains(channel)
+                && !openChannelSubscriptionSet.contains(channel)
+        }
+
+        subscribedChannels.keys.filter({ canPending($0) }).forEach({
+            sendBayeuxSubscribeMessageWithChannel($0)
+        })
+
+        /*
         for channel in subscribedChannels.keys {
 
             if !pendingChannelSubscriptionSet.contains(channel) && !openChannelSubscriptionSet.contains(channel) {
                 sendBayeuxSubscribeMessageWithChannel(channel)
             }
         }
+         */
     }
 
     @objc private func reconnectTimer(timer: NSTimer) {
