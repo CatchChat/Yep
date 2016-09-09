@@ -185,7 +185,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
             case .PhotoGallery:
                 return ""
             case .PickPhotos:
-                return NSLocalizedString("Pick Photos", comment: "")
+                return String.trans_titlePickPhotos
             case .Location:
                 return String.trans_titleLocation
             case .Cancel:

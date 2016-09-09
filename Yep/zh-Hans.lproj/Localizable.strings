@@ -153,7 +153,7 @@
 "report.other" = "其它";
 "prompt.people_with_this_skill" = "与此技能相关的用户";
 "title.pick_location" = "选择位置";
-"Pick Photos" = "相册";
+"title.pick_photos" = "相册";
 "Pick a badge" = "选一个徽章";
 "Pick some skills" = "选择一些技能";
 "Picked Location" = "选择的位置";

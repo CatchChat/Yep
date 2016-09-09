@@ -588,6 +588,9 @@ extension String {
     static var trans_titlePickLocation: String {
         return NSLocalizedString("title.pick_location", comment: "")
     }
+    static var trans_titlePickPhotos: String {
+        return NSLocalizedString("title.pick_photos", comment: "")
+    }
 }
 
 extension String {
