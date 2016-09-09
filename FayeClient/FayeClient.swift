@@ -374,15 +374,6 @@ extension FayeClient {
         subscribedChannels.keys.filter({ canPending($0) }).forEach({
             sendBayeuxSubscribeMessageWithChannel($0)
         })
-
-        /*
-        for channel in subscribedChannels.keys {
-
-            if !pendingChannelSubscriptionSet.contains(channel) && !openChannelSubscriptionSet.contains(channel) {
-                sendBayeuxSubscribeMessageWithChannel(channel)
-            }
-        }
-         */
     }
 
     @objc private func reconnectTimer(timer: NSTimer) {
@@ -391,7 +382,6 @@ extension FayeClient {
             invalidateReconnectTimer()
 
         } else {
-
             if shouldRetryConnection && retryAttempt < maximumRetryAttempts {
                 retryAttempt += 1
 
@@ -464,7 +454,7 @@ extension FayeClient {
 
     func handleFayeMessages(messages: [[String: AnyObject]]) {
 
-        //println("handleFayeMessages: \(messages)")
+        //print("handleFayeMessages: \(messages)")
         let fayeMessages = messages.map({ FayeMessage.messageFromDictionary($0) }).flatMap({ $0 })
 
         fayeMessages.forEach({ fayeMessage in
