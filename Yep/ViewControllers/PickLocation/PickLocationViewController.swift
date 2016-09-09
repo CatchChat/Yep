@@ -248,31 +248,20 @@ final class PickLocationViewController: SegueViewController {
 
     private func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
 
-        geocoder.reverseGeocodeLocation(location, completionHandler: { placemarks, error in
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
 
-            if error != nil {
-                println("reverse geodcode fail: \(error?.localizedDescription)")
-
-                completion([])
-
-                return
+            if let error = error {
+                println("reverse geodcode fail: \(error)")
             }
 
-            if let placemarks = placemarks {
-                
-                completion(placemarks)
-
-            } else {
-                println("No Placemarks!")
-
-                completion([])
-            }
-        })
+            completion(placemarks ?? [])
+        }
     }
 
     private func reloadTableView() {
-        SafeDispatch.async {
-            self.tableView.reloadData()
+
+        SafeDispatch.async { [weak self] in
+            self?.tableView.reloadData()
         }
     }
 }
