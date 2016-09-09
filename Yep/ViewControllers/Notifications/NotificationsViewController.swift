@@ -78,8 +78,8 @@ final class NotificationsViewController: SegueViewController {
 
     private var doNotDisturbPeriod = DoNotDisturbPeriod() {
         didSet {
-            SafeDispatch.async {
-                self.tableView.reloadData()
+            SafeDispatch.async { [weak self] in
+                self?.tableView.reloadData()
             }
         }
     }

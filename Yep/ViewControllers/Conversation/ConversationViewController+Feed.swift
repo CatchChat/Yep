@@ -12,7 +12,7 @@ import RealmSwift
 
 extension ConversationViewController {
 
-    func prepareConversationForFeed(feed: DiscoveredFeed, inRealm realm: Realm) -> Conversation? {
+    func prepareConversation(for feed: DiscoveredFeed, in realm: Realm) -> Conversation? {
 
         let groupID = feed.groupID
         var group = groupWithGroupID(groupID, inRealm: realm)

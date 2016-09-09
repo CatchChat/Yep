@@ -196,15 +196,17 @@ final class PickLocationViewController: SegueViewController {
 
         case .Message:
 
-            dismissViewControllerAnimated(true, completion: {
+            dismissViewControllerAnimated(true, completion: { [weak self] in
 
-                if let sendLocationAction = self.sendLocationAction {
+                guard let strongSelf = self else { return }
 
-                    if let location = self.location {
+                if let sendLocationAction = strongSelf.sendLocationAction {
+
+                    if let location = strongSelf.location {
                         sendLocationAction(locationInfo: location.info)
 
                     } else {
-                        sendLocationAction(locationInfo: PickLocationViewControllerLocation.Info(coordinate: self.fixedCenterCoordinate, name: nil))
+                        sendLocationAction(locationInfo: PickLocationViewControllerLocation.Info(coordinate: strongSelf.fixedCenterCoordinate, name: nil))
                     }
                 }
             })
@@ -246,31 +248,20 @@ final class PickLocationViewController: SegueViewController {
 
     private func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
 
-        geocoder.reverseGeocodeLocation(location, completionHandler: { placemarks, error in
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
 
-            if error != nil {
-                println("reverse geodcode fail: \(error?.localizedDescription)")
-
-                completion([])
-
-                return
+            if let error = error {
+                println("reverse geodcode fail: \(error)")
             }
 
-            if let placemarks = placemarks {
-                
-                completion(placemarks)
-
-            } else {
-                println("No Placemarks!")
-
-                completion([])
-            }
-        })
+            completion(placemarks ?? [])
+        }
     }
 
     private func reloadTableView() {
-        SafeDispatch.async {
-            self.tableView.reloadData()
+
+        SafeDispatch.async { [weak self] in
+            self?.tableView.reloadData()
         }
     }
 }

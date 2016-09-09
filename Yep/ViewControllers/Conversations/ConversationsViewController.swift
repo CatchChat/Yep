@@ -132,6 +132,10 @@ final class ConversationsViewController: BaseViewController {
 
         realm = try! Realm()
 
+        navigationItem.titleView = activityIndicatorTitleView
+
+        view.backgroundColor = UIColor.whiteColor()
+
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.newMessages, object: nil)
 
         NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.deletedMessages, object: nil)
@@ -159,15 +163,11 @@ final class ConversationsViewController: BaseViewController {
             }
         }
 
-        navigationItem.titleView = activityIndicatorTitleView
-
         isFetchingUnreadMessages.bindListener(Listener.isFetchingUnreadMessages) { [weak self] isFetching in
             SafeDispatch.async {
                 self?.activityIndicatorTitleView.state = isFetching ? .Active : .Normal
             }
         }
-
-        view.backgroundColor = UIColor.whiteColor()
 
         noConversation = conversations.isEmpty
 
@@ -228,7 +228,7 @@ final class ConversationsViewController: BaseViewController {
 
         if isFirstAppear {
             delay(0.5) { [weak self] in
-                self?.askForNotification()
+                self?.askForRemotePushNotifications()
             }
         }
 
@@ -237,7 +237,7 @@ final class ConversationsViewController: BaseViewController {
         recoverOriginalNavigationDelegate()
     }
     
-    private func askForNotification() {
+    private func askForRemotePushNotifications() {
 
         let replyAction = UIMutableUserNotificationAction()
         replyAction.title = NSLocalizedString("Reply", comment: "")

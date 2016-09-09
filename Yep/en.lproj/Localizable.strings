@@ -1,6 +1,6 @@
 "about.recommend_yep" = "Recommend Yep";
 "about.yep_description" = "Yep: A community where geniuses meet";
-"doing%@" = " is %@...";
+"doing%@" = " is %@";
 "title.about" = "About";
 "prompt.accept_friend_request_failed" = "Accept Friend Request failed!";
 "button.accept" = "Accept";

@@ -12,24 +12,25 @@ extension ConversationViewController: YepFayeServiceDelegate {
 
     func fayeRecievedInstantStateType(instantStateType: YepFayeService.InstantStateType, userID: String) {
 
-        if let withFriend = conversation.withFriend {
+        guard !conversation.invalidated else {
+            return
+        }
+        guard let user = conversation.withFriend where user.userID == userID else {
+            return
+        }
 
-            if userID == withFriend.userID {
+        let content = String(format: NSLocalizedString("doing%@", comment: ""), "\(instantStateType)")
 
-                let content = String(format: NSLocalizedString("doing%@", comment: ""), "\(instantStateType)")
+        titleView.stateInfoLabel.text = content
+        titleView.stateInfoLabel.textColor = UIColor.yepTintColor()
 
-                titleView.stateInfoLabel.text = content
-                titleView.stateInfoLabel.textColor = UIColor.yepTintColor()
+        switch instantStateType {
 
-                switch instantStateType {
+        case .Text:
+            self.typingResetDelay = 2
 
-                case .Text:
-                    self.typingResetDelay = 2
-
-                case .Audio:
-                    self.typingResetDelay = 2.5
-                }
-            }
+        case .Audio:
+            self.typingResetDelay = 2.5
         }
     }
 

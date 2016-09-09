@@ -13,7 +13,7 @@ import AudioBot
 
 extension ConversationViewController {
 
-    func playMessageAudioWithMessage(message: Message?) {
+    func playAudio(of message: Message?) {
 
         AudioBot.stopPlay()
 
@@ -64,7 +64,7 @@ extension ConversationViewController {
 
     @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
 
-        func updateAudioCellOfMessage(message: Message, withCurrentTime currentTime: NSTimeInterval) {
+        func updateAudioCell(for message: Message, withCurrentTime currentTime: NSTimeInterval) {
 
             guard let messageIndex = messages.indexOf(message) else {
                 return
@@ -92,7 +92,7 @@ extension ConversationViewController {
 
             setAudioPlayedDuration(currentTime, ofMessage: playingMessage)
             
-            updateAudioCellOfMessage(playingMessage, withCurrentTime: currentTime)
+            updateAudioCell(for: playingMessage, withCurrentTime: currentTime)
         }
     }
 }
@@ -148,7 +148,7 @@ extension ConversationViewController: AVAudioPlayerDelegate {
         // 尝试播放下一个未播放过的语音消息
         if let playingMessage = YepAudioService.sharedManager.playingMessage {
             let message = nextUnplayedAudioMessageFrom(playingMessage)
-            playMessageAudioWithMessage(message)
+            playAudio(of: message)
 
         } else {
             YepAudioService.sharedManager.resetToDefault()

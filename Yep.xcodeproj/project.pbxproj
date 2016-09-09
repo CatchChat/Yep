@@ -2472,9 +2472,9 @@
 		5053AD4B1AF772CE00B3CBFA /* PickLocation */ = {
 			isa = PBXGroup;
 			children = (
+				5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */,
 				5053AD491AF772C500B3CBFA /* PickLocationViewController.swift */,
 				50DEE03E1BE729FD00015741 /* PickLocation.storyboard */,
-				5053AD4C1AF79EEA00B3CBFA /* LocationPin.swift */,
 			);
 			name = PickLocation;
 			sourceTree = "<group>";

@@ -451,7 +451,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
             }
 
             realm.beginWrite()
-            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+            let feedConversation = vc.prepareConversation(for: feed, in: realm)
             let _ = try? realm.commitWrite()
 
             vc.conversation = feedConversation

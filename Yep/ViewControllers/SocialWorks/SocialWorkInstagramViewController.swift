@@ -113,8 +113,9 @@ final class SocialWorkInstagramViewController: BaseViewController {
     // MARK: Actions
 
     private func updateInstagramCollectionView() {
-        SafeDispatch.async {
-            self.instagramCollectionView.reloadData()
+
+        SafeDispatch.async { [weak self] in
+            self?.instagramCollectionView.reloadData()
         }
     }
 

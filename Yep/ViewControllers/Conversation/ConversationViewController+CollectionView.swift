@@ -566,7 +566,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     cell.configureWithMessage(message, audioPlayedDuration: audioPlayedDuration, audioBubbleTapAction: { [weak self] in
 
                         if message.downloadState == MessageDownloadState.Downloaded.rawValue {
-                            self?.playMessageAudioWithMessage(message)
+                            self?.playAudio(of: message)
 
                         } else {
                             //YepAlert.alertSorry(message: NSLocalizedString("Please wait while the audio is not ready!", comment: ""), inViewController: self)
@@ -762,7 +762,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             return
                         }
                         
-                        self?.playMessageAudioWithMessage(message)
+                        self?.playAudio(of: message)
                     })
 
                     return cell

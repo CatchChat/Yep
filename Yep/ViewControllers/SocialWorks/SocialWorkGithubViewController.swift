@@ -142,8 +142,9 @@ final class SocialWorkGithubViewController: BaseViewController {
     // MARK: Actions
 
     private func updateGithubTableView() {
-        SafeDispatch.async {
-            self.githubTableView.reloadData()
+
+        SafeDispatch.async { [weak self] in
+            self?.githubTableView.reloadData()
         }
     }
 
