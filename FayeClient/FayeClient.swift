@@ -106,9 +106,9 @@ extension FayeClient {
 
 extension FayeClient {
 
-    public func setExtension(extension: [String: AnyObject], forChannel channel: String) {
+    public func setExtension(_extension: [String: AnyObject], forChannel channel: String) {
 
-        channelExtensions[channel] = `extension`
+        channelExtensions[channel] = _extension
     }
 
     public func removeExtensionForChannel(channel: String) {
@@ -122,19 +122,19 @@ extension FayeClient {
         sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: nil)
     }
 
-    public func sendMessage(message: [String: AnyObject], toChannel channel: String, usingExtension extension: [String: AnyObject]?) {
+    public func sendMessage(message: [String: AnyObject], toChannel channel: String, usingExtension _extension: [String: AnyObject]?) {
 
         let messageID = generateUniqueMessageID()
-        sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: `extension`)
+        sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: _extension)
     }
 
-    public func sendMessage(message: [String: AnyObject], toChannel channel: String, usingExtension extension: [String: AnyObject]?, usingBlock subscriptionHandler: FayeClientPrivateHandler) {
+    public func sendMessage(message: [String: AnyObject], toChannel channel: String, usingExtension _extension: [String: AnyObject]?, usingBlock subscriptionHandler: FayeClientPrivateHandler) {
 
         let messageID = generateUniqueMessageID()
 
         privateChannels[messageID] = subscriptionHandler
 
-        sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: `extension`)
+        sendBayeuxPublishMessage(message, withMessageUniqueID: messageID, toChannel: channel, usingExtension: _extension)
     }
 
     public func connectToURL(serverURL: NSURL) -> Bool {
@@ -240,8 +240,8 @@ extension FayeClient {
             FayeClientBayeuxMessageSupportedConnectionTypesKey: supportedConnectionTypes,
         ]
 
-        if let `extension` = channelExtensions["handshake"] {
-            message[FayeClientBayeuxMessageExtensionKey] = `extension`
+        if let _extension = channelExtensions["handshake"] {
+            message[FayeClientBayeuxMessageExtensionKey] = _extension
         }
 
         writeMessage(message)
@@ -260,8 +260,8 @@ extension FayeClient {
             FayeClientBayeuxMessageConnectionTypeKey: FayeClientBayeuxConnectionTypeWebSocket,
         ]
 
-        if let `extension` = channelExtensions["connect"] {
-            message[FayeClientBayeuxMessageExtensionKey] = `extension`
+        if let _extension = channelExtensions["connect"] {
+            message[FayeClientBayeuxMessageExtensionKey] = _extension
         }
 
         writeMessage(message)
@@ -295,8 +295,8 @@ extension FayeClient {
             FayeClientBayeuxMessageSubscriptionKey: channel,
         ]
 
-        if let `extension` = channelExtensions[channel] {
-            message[FayeClientBayeuxMessageExtensionKey] = `extension`
+        if let _extension = channelExtensions[channel] {
+            message[FayeClientBayeuxMessageExtensionKey] = _extension
         }
 
         writeMessage(message) { [weak self] finish in
@@ -322,7 +322,7 @@ extension FayeClient {
         writeMessage(message)
     }
 
-    func sendBayeuxPublishMessage(messageInfo: [String: AnyObject], withMessageUniqueID messageID: String, toChannel channel: String, usingExtension extension: [String: AnyObject]?) {
+    func sendBayeuxPublishMessage(messageInfo: [String: AnyObject], withMessageUniqueID messageID: String, toChannel channel: String, usingExtension _extension: [String: AnyObject]?) {
 
         guard isConnected && isWebSocketOpen else {
             didFailWithMessage("FayeClient not connected to server.")
@@ -341,12 +341,12 @@ extension FayeClient {
             FayeClientBayeuxMessageIdKey: messageID,
         ]
 
-        if let `extension` = `extension` {
-            message[FayeClientBayeuxMessageExtensionKey] = `extension`
+        if let _extension = _extension {
+            message[FayeClientBayeuxMessageExtensionKey] = _extension
 
         } else {
-            if let `extension` = channelExtensions[channel] {
-                message[FayeClientBayeuxMessageExtensionKey] = `extension`
+            if let _extension = channelExtensions[channel] {
+                message[FayeClientBayeuxMessageExtensionKey] = _extension
             }
         }
 
@@ -366,12 +366,14 @@ extension FayeClient {
 
     private func subscribePendingSubscriptions() {
 
-        for channel in subscribedChannels.keys {
-
-            if !pendingChannelSubscriptionSet.contains(channel) && !openChannelSubscriptionSet.contains(channel) {
-                sendBayeuxSubscribeMessageWithChannel(channel)
-            }
+        func canPending(channel: String) -> Bool {
+            return !pendingChannelSubscriptionSet.contains(channel)
+                && !openChannelSubscriptionSet.contains(channel)
         }
+
+        subscribedChannels.keys.filter({ canPending($0) }).forEach({
+            sendBayeuxSubscribeMessageWithChannel($0)
+        })
     }
 
     @objc private func reconnectTimer(timer: NSTimer) {
@@ -380,7 +382,6 @@ extension FayeClient {
             invalidateReconnectTimer()
 
         } else {
-
             if shouldRetryConnection && retryAttempt < maximumRetryAttempts {
                 retryAttempt += 1
 
@@ -415,8 +416,7 @@ extension FayeClient {
     func writeMessage(message: [String: AnyObject], completion: ((finish: Bool) -> Void)? = nil) {
 
         do {
-            let jsonData = try NSJSONSerialization.dataWithJSONObject(message, options: NSJSONWritingOptions(rawValue: 0))
-
+            let jsonData = try NSJSONSerialization.dataWithJSONObject(message, options: [])
             let jsonString = String(data: jsonData, encoding: NSUTF8StringEncoding)
             webSocket?.send(jsonString)
 
@@ -454,7 +454,7 @@ extension FayeClient {
 
     func handleFayeMessages(messages: [[String: AnyObject]]) {
 
-        //println("handleFayeMessages: \(messages)")
+        //print("handleFayeMessages: \(messages)")
         let fayeMessages = messages.map({ FayeMessage.messageFromDictionary($0) }).flatMap({ $0 })
 
         fayeMessages.forEach({ fayeMessage in
