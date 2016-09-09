@@ -800,10 +800,10 @@ final class ProfileViewController: SegueViewController {
     }
 
     private func updateProfileCollectionView() {
-        SafeDispatch.async {
-            self.profileCollectionView.collectionViewLayout.invalidateLayout()
-            self.profileCollectionView.reloadData()
-            self.profileCollectionView.layoutIfNeeded()
+        SafeDispatch.async { [weak self] in
+            self?.profileCollectionView.collectionViewLayout.invalidateLayout()
+            self?.profileCollectionView.reloadData()
+            self?.profileCollectionView.layoutIfNeeded()
         }
     }
 

@@ -111,8 +111,9 @@ final class SocialWorkDribbbleViewController: BaseViewController {
     // MARK: Actions
 
     private func updateDribbbleCollectionView() {
-        SafeDispatch.async {
-            self.dribbbleCollectionView.reloadData()
+        
+        SafeDispatch.async { [weak self] in
+            self?.dribbbleCollectionView.reloadData()
         }
     }
 

@@ -63,8 +63,9 @@ final class SearchedUsersViewController: BaseViewController {
     // MARK: Actions
 
     private func updateSearchedUsersTableView() {
-        SafeDispatch.async {
-            self.searchedUsersTableView.reloadData()
+
+        SafeDispatch.async { [weak self] in
+            self?.searchedUsersTableView.reloadData()
         }
     }
 
