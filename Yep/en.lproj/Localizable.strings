@@ -148,10 +148,9 @@
 "OAuth" = "OAuth";
 "title.ok" = "OK";
 "prompt.user_been_blocked" = "Oops! You've been blocked.";
-"Open Camera" = "Open Camera";
-"Open Source of Yep" = "Open Source of Yep";
-"Open Source" = "Open Source";
-"Other Reason" = "Other Reason";
+"about.open_source_of_yep" = "Open Source of Yep";
+"title.open_source" = "Open Source";
+"title.other_reason" = "Other Reason";
 "report.other" = "Other";
 "People with this skill" = "People with this skill";
 "Pick Location" = "Pick Location";

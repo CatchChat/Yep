@@ -573,6 +573,17 @@ extension String {
     static var trans_titleOK: String {
         return NSLocalizedString("title.ok", comment: "")
     }
+    static var trans_aboutOpenSourceOfYep: String {
+        return NSLocalizedString("about.open_source_of_yep", comment: "")
+    }
+    static var trans_titleOpenSource: String {
+        return NSLocalizedString("title.open_source", comment: "")
+    }
+    static var trans_titleOtherReason: String {
+        return NSLocalizedString("title.other_reason", comment: "")
+    }
+
+
 }
 
 extension String {

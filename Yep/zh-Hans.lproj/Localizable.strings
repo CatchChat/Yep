@@ -147,9 +147,9 @@
 "title.ok" = "OK";
 "prompt.user_been_blocked" = "很遗憾，您被对方屏蔽了";
 "Open Camera" = "打开相机";
-"Open Source of Yep" = "Yep 的开源";
-"Open Source" = "开源";
-"Other Reason" = "其它原因";
+"about.open_source_of_yep" = "Yep 的开源";
+"title.open_source" = "开源";
+"title.other_reason" = "其它原因";
 "report.other" = "其它";
 "People with this skill" = "与此技能相关的用户";
 "Pick Location" = "选择位置";
