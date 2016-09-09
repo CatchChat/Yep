@@ -64,7 +64,7 @@ extension ConversationViewController {
 
     @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
 
-        func updateAudioCellOfMessage(message: Message, withCurrentTime currentTime: NSTimeInterval) {
+        func updateAudioCell(for message: Message, withCurrentTime currentTime: NSTimeInterval) {
 
             guard let messageIndex = messages.indexOf(message) else {
                 return
@@ -92,7 +92,7 @@ extension ConversationViewController {
 
             setAudioPlayedDuration(currentTime, ofMessage: playingMessage)
             
-            updateAudioCellOfMessage(playingMessage, withCurrentTime: currentTime)
+            updateAudioCell(for: playingMessage, withCurrentTime: currentTime)
         }
     }
 }
