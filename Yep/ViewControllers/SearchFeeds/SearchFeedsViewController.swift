@@ -431,7 +431,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
                 switch section {
                 case .Feed:
                     let discoveredUser = feeds[indexPath.row].creator
-                    vc.prepare(withDiscoveredUser: discoveredUser)
+                    vc.prepare(with: discoveredUser)
                 case .LoadMore:
                     break
                 }

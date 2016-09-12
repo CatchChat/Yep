@@ -452,7 +452,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             let vc = UIStoryboard.Scene.profile
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            vc.prepare(with: discoveredUser)
 
             delay(0.25) {
                 nvc.pushViewController(vc, animated: true)

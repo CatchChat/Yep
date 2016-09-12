@@ -50,10 +50,18 @@ class MeetGeniusViewController: UIViewController {
     private lazy var noGeniusInterviewsFooterView: InfoView = InfoView(String.trans_promptNoInterviews)
     private lazy var fetchFailedFooterView: InfoView = InfoView(String.trans_errorFetchFailed)
 
-    var geniusInterviews: [GeniusInterview] = []
+    private var geniusInterviews: [GeniusInterview] = []
+
+    func geniusInterviewAtIndexPath(indexPath: NSIndexPath) -> GeniusInterview {
+        return geniusInterviews[indexPath.row]
+    }
 
     private var canLoadMore: Bool = false
     private var isFetchingGeniusInterviews: Bool = false
+
+    deinit {
+        println("deinit MeetGenius")
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()

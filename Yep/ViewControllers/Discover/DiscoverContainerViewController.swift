@@ -20,6 +20,8 @@ class DiscoverContainerViewController: UIPageViewController {
         case MeetGenius
         case FindAll
 
+        static let count = 2
+
         var title: String {
             switch self {
             case .MeetGenius:
@@ -33,13 +35,13 @@ class DiscoverContainerViewController: UIPageViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl! {
         didSet {
             segmentedControl.removeAllSegments()
-            (0..<2).forEach({
+            (0..<Option.count).forEach({
                 let option = Option(rawValue: $0)
                 segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
             })
 
             let font = UIFont.systemFontOfSize(Ruler.iPhoneHorizontal(13, 14, 15).value)
-            let padding: CGFloat = Ruler.iPhoneHorizontal(6, 11, 12).value
+            let padding: CGFloat = Ruler.iPhoneHorizontal(8, 11, 12).value
             segmentedControl.yep_setTitleFont(font, withPadding: padding)
         }
     }
@@ -48,7 +50,7 @@ class DiscoverContainerViewController: UIPageViewController {
 
         let vc = UIStoryboard.Scene.meetGenius
 
-        vc.tapBannerAction = { [weak self] banner in
+        vc.tapBannerAction = { banner in
             SafeDispatch.async { [weak self] in
                 self?.performSegueWithIdentifier("showGeniusInterviewWithBanner", sender: Box<GeniusInterviewBanner>(banner))
             }
@@ -188,7 +190,7 @@ class DiscoverContainerViewController: UIPageViewController {
 
             let vc = segue.destinationViewController as! ProfileViewController
             let discoveredUser = (sender as! Box<DiscoveredUser>).value
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            vc.prepare(with: discoveredUser)
 
         case "showGeniusInterview":
 
@@ -252,7 +254,6 @@ extension DiscoverContainerViewController: UIPageViewControllerDelegate {
     }
 }
 
-
 // MARK: - UIViewControllerPreviewingDelegate
 
 extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
@@ -276,7 +277,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
             previewingContext.sourceRect = cell.frame
 
             let vc = UIStoryboard.Scene.geniusInterview
-            let geniusInterview = meetGeniusViewController.geniusInterviews[indexPath.row]
+            let geniusInterview = meetGeniusViewController.geniusInterviewAtIndexPath(indexPath)
             vc.interview = geniusInterview
 
             return vc
@@ -298,7 +299,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
             let vc = UIStoryboard.Scene.profile
 
             let discoveredUser = discoverViewController.discoveredUsers[indexPath.item]
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            vc.prepare(with: discoveredUser)
 
             return vc
         }

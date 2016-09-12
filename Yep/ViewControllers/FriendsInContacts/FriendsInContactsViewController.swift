@@ -12,10 +12,6 @@ import YepNetworking
 
 final class FriendsInContactsViewController: BaseViewController {
 
-    struct Notification {
-        static let NewFriends = "NewFriendsInContactsNotification"
-    }
-
     @IBOutlet private weak var friendsTableView: UITableView! {
         didSet {
             friendsTableView.separatorColor = UIColor.yepCellSeparatorColor()
@@ -34,7 +30,7 @@ final class FriendsInContactsViewController: BaseViewController {
             if discoveredUsers.count > 0 {
                 updateFriendsTableView()
 
-                NSNotificationCenter.defaultCenter().postNotificationName(Notification.NewFriends, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.newFriendsInContacts, object: nil)
 
             } else {
                 friendsTableView.tableFooterView = InfoView(String.trans_promptNoNewFriends)
@@ -86,7 +82,8 @@ final class FriendsInContactsViewController: BaseViewController {
     // MARK: Actions
 
     private func updateFriendsTableView() {
-        friendsTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+
+        friendsTableView.reloadData()
     }
 
     // MARK: - Navigation
@@ -94,13 +91,15 @@ final class FriendsInContactsViewController: BaseViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if segue.identifier == "showProfile" {
-            if let indexPath = sender as? NSIndexPath {
-
-                let vc = segue.destinationViewController as! ProfileViewController
-
-                let discoveredUser = discoveredUsers[indexPath.row]
-                vc.prepare(withDiscoveredUser: discoveredUser)
+            guard let indexPath = sender as? NSIndexPath else {
+                println("showProfile no indexPath!")
+                return
             }
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let discoveredUser = discoveredUsers[indexPath.row]
+            vc.prepare(with: discoveredUser)
         }
     }
 }

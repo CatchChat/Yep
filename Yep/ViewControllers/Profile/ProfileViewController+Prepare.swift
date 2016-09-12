@@ -11,7 +11,7 @@ import YepKit
 
 extension ProfileViewController {
 
-    func prepare(withDiscoveredUser discoveredUser: DiscoveredUser) {
+    func prepare(with discoveredUser: DiscoveredUser) {
 
         if discoveredUser.id != YepUserDefaults.userID.value {
             self.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
@@ -38,9 +38,9 @@ extension ProfileViewController {
 
     private func prepareUI() {
 
-        self.setBackButtonWithTitle()
+        setBackButtonWithTitle()
 
-        self.hidesBottomBarWhenPushed = true
+        hidesBottomBarWhenPushed = true
     }
 }
 

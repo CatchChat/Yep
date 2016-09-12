@@ -438,7 +438,7 @@ final class SkillHomeViewController: BaseViewController {
                 let vc = segue.destinationViewController as! ProfileViewController
 
                 let discoveredUser = discoveredUsersWithSkillSet(skillSet)[indexPath.row]
-                vc.prepare(withDiscoveredUser: discoveredUser)
+                vc.prepare(with: discoveredUser)
             }
         }
     }

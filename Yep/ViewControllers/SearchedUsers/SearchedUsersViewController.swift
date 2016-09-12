@@ -52,8 +52,8 @@ final class SearchedUsersViewController: BaseViewController {
                 self?.activityIndicator.stopAnimating()
             }
 
-        }, completion: { [weak self] users in
-            SafeDispatch.async {
+        }, completion: { users in
+            SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
                 self?.searchedUsers = users
             }
@@ -72,14 +72,17 @@ final class SearchedUsersViewController: BaseViewController {
     // MARK: Navigation
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+
         if segue.identifier == "showProfile" {
-            if let indexPath = sender as? NSIndexPath {
-
-                let vc = segue.destinationViewController as! ProfileViewController
-
-                let discoveredUser = searchedUsers[indexPath.row]
-                vc.prepare(withDiscoveredUser: discoveredUser)
+            guard let indexPath = sender as? NSIndexPath else {
+                println("Error: showProfile no indexPath!")
+                return
             }
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let discoveredUser = searchedUsers[indexPath.row]
+            vc.prepare(with: discoveredUser)
         }
     }
 }

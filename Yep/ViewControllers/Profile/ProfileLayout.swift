@@ -12,9 +12,9 @@ final class ProfileLayout: UICollectionViewFlowLayout {
 
     var scrollUpAction: ((progress: CGFloat) -> Void)?
 
-    let topBarsHeight: CGFloat = 64
+    private let topBarsHeight: CGFloat = 64
 
-    let leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
+    private let leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
 
     override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
 
@@ -61,14 +61,14 @@ final class ProfileLayout: UICollectionViewFlowLayout {
                     }
                 }
             }
-            
+
+            let progress: CGFloat
             if coverHideHeight > contentOffset.y {
-                scrollUpAction?(progress: 1.0 - (coverHideHeight - contentOffset.y) / coverHideHeight)
-
+                progress = 1.0 - (coverHideHeight - contentOffset.y) / coverHideHeight
             } else {
-                scrollUpAction?(progress: 1.0)
+                progress = 1.0
             }
-
+            scrollUpAction?(progress: progress)
         }
 
         // 先按照每个 item 的 centerY 分组
@@ -132,3 +132,4 @@ final class ProfileLayout: UICollectionViewFlowLayout {
         return true
     }
 }
+

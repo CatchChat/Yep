@@ -21,8 +21,11 @@ import Proposer
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
 final class ProfileViewController: SegueViewController {
-    
-    private var socialAccount: SocialAccount?
+
+    var oAuthCompleteAction: (() -> Void)?
+    var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
+
+    var profileUser: ProfileUser?
 
     enum FromType {
         case None
@@ -31,12 +34,7 @@ final class ProfileViewController: SegueViewController {
     }
     var fromType: FromType = .None
 
-    var oAuthCompleteAction: (() -> Void)?
-    
-    var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
-
-    var profileUser: ProfileUser?
-    var profileUserIsMe = true {
+    private var profileUserIsMe = true {
         didSet {
             if !profileUserIsMe {
 
@@ -63,6 +61,8 @@ final class ProfileViewController: SegueViewController {
             }
         }
     }
+
+    private var socialAccount: SocialAccount?
 
     private var numberOfItemsInSectionBlog: Int {
 
@@ -186,40 +186,44 @@ final class ProfileViewController: SegueViewController {
     private lazy var collectionViewWidth: CGFloat = {
         return CGRectGetWidth(self.profileCollectionView.bounds)
     }()
-    private lazy var sectionLeftEdgeInset: CGFloat = { return YepConfig.Profile.leftEdgeInset }()
-    private lazy var sectionRightEdgeInset: CGFloat = { return YepConfig.Profile.rightEdgeInset }()
-    private lazy var sectionBottomEdgeInset: CGFloat = { return 0 }()
+    private lazy var sectionLeftEdgeInset: CGFloat = {
+        return YepConfig.Profile.leftEdgeInset
+    }()
+    private lazy var sectionRightEdgeInset: CGFloat = {
+        return YepConfig.Profile.rightEdgeInset
+    }()
+    private lazy var sectionBottomEdgeInset: CGFloat = {
+        return 0
+    }()
 
     private lazy var introductionText: String = {
 
-        var introduction: String?
+        let introduction: String? = self.profileUser.flatMap({ profileUser in
 
-        if let profileUser = self.profileUser {
             switch profileUser {
                 
             case .DiscoveredUserType(let discoveredUser):
-                if let _introduction = discoveredUser.introduction {
-                    if !_introduction.isEmpty {
-                        introduction = _introduction
-                    }
+                if let introduction = discoveredUser.introduction where !introduction.isEmpty {
+                    return introduction
                 }
 
             case .UserType(let user):
-
-                if !user.introduction.isEmpty {
-                    introduction = user.introduction
-                }
-
-                if user.friendState == UserFriendState.Me.rawValue {
-                    YepUserDefaults.introduction.bindListener(self.listener.introduction) { [weak self] introduction in
-                        SafeDispatch.async {
+                if user.isMe {
+                    YepUserDefaults.introduction.bindListener(self.listener.introduction) { introduction in
+                        SafeDispatch.async { [weak self] in
                             self?.introductionText = introduction ?? String.trans_promptNoSelfIntroduction
                             self?.updateProfileCollectionView()
                         }
                     }
                 }
+
+                if !user.introduction.isEmpty {
+                    return user.introduction
+                }
             }
-        }
+
+            return nil
+        })
 
         return introduction ?? String.trans_promptNoSelfIntroduction
     }()
@@ -239,11 +243,11 @@ final class ProfileViewController: SegueViewController {
         }
 
         if let me = meInRealm(realm) {
-            let _ = try? realm.write {
-                me.masterSkills.removeAll()
-                let userSkills = userSkillsFromSkills(self.masterSkills, inRealm: realm)
-                me.masterSkills.appendContentsOf(userSkills)
-            }
+            realm.beginWrite()
+            me.masterSkills.removeAll()
+            let userSkills = userSkillsFromSkills(masterSkills, inRealm: realm)
+            me.masterSkills.appendContentsOf(userSkills)
+            _ = try? realm.commitWrite()
         }
     }
 
@@ -258,11 +262,11 @@ final class ProfileViewController: SegueViewController {
         }
 
         if let me = meInRealm(realm) {
-            let _ = try? realm.write {
-                me.learningSkills.removeAll()
-                let userSkills = userSkillsFromSkills(self.learningSkills, inRealm: realm)
-                me.learningSkills.appendContentsOf(userSkills)
-            }
+            realm.beginWrite()
+            me.learningSkills.removeAll()
+            let userSkills = userSkillsFromSkills(learningSkills, inRealm: realm)
+            me.learningSkills.appendContentsOf(userSkills)
+            _ = try? realm.commitWrite()
         }
     }
 
