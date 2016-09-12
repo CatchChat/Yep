@@ -12,12 +12,12 @@ import YepNetworking
 import RealmSwift
 import Ruler
 
-class MeetGeniusViewController: UIViewController {
+final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
     var tapBannerAction: ((banner: GeniusInterviewBanner) -> Void)?
     var showGeniusInterviewAction: ((geniusInterview: GeniusInterview) -> Void)?
 
-    @IBOutlet weak var tableView: UITableView! {
+    @IBOutlet private weak var tableView: UITableView! {
         didSet {
             tableView.addSubview(self.refreshControl)
 
@@ -29,6 +29,15 @@ class MeetGeniusViewController: UIViewController {
             tableView.registerNibOf(GeniusInterviewCell)
             tableView.registerNibOf(LoadMoreTableViewCell)
         }
+    }
+
+    var interviewsTableView: UITableView {
+        return tableView
+    }
+
+    // CanScrollsToTop
+    var scrollView: UIScrollView {
+        return tableView
     }
 
     private lazy var refreshControl: UIRefreshControl = {

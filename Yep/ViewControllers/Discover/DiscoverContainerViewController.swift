@@ -264,9 +264,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
         case .MeetGenius:
 
-            guard let tableView = meetGeniusViewController.tableView else {
-                return nil
-            }
+            let tableView = meetGeniusViewController.interviewsTableView
 
             let fixedLocation = view.convertPoint(location, toView: tableView)
 
@@ -284,13 +282,11 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
         case .FindAll:
 
-            guard let discoveredUsersCollectionView = discoverViewController.discoveredUsersCollectionView else {
-                return nil
-            }
+            let collectionView = discoverViewController.collectionView
 
-            let fixedLocation = view.convertPoint(location, toView: discoveredUsersCollectionView)
+            let fixedLocation = view.convertPoint(location, toView: collectionView)
 
-            guard let indexPath = discoveredUsersCollectionView.indexPathForItemAtPoint(fixedLocation), cell = discoveredUsersCollectionView.cellForItemAtIndexPath(indexPath) else {
+            guard let indexPath = collectionView.indexPathForItemAtPoint(fixedLocation), cell = collectionView.cellForItemAtIndexPath(indexPath) else {
                 return nil
             }
 

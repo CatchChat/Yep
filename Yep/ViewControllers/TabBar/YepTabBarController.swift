@@ -252,17 +252,8 @@ extension YepTabBarController: UITabBarControllerDelegate {
 
         case .Discover:
             if let vc = nvc.topViewController as? DiscoverContainerViewController {
-                var _scrollView: UIScrollView?
-                if let mvc = vc.viewControllers?.first as? MeetGeniusViewController {
-                    _scrollView = mvc.tableView
-                } else if let dvc = vc.viewControllers?.first as? DiscoverViewController {
-                    _scrollView = dvc.discoveredUsersCollectionView
-                }
-                guard let scrollView = _scrollView else {
-                    break
-                }
-                if !scrollView.yep_isAtTop {
-                    scrollView.yep_scrollsToTop()
+                if let mvc = vc.viewControllers?.first as? CanScrollsToTop {
+                    mvc.scrollsToTopIfNeed()
                 }
             }
 
