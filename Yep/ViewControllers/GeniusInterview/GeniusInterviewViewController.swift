@@ -14,7 +14,7 @@ import RxSwift
 import RxCocoa
 import MonkeyKing
 
-class GeniusInterviewViewController: BaseViewController {
+final class GeniusInterviewViewController: BaseViewController {
 
     var interview: InterviewRepresentation!
 
@@ -22,7 +22,7 @@ class GeniusInterviewViewController: BaseViewController {
 
     private lazy var disposeBag = DisposeBag()
 
-    lazy var webView: WKWebView = {
+    private lazy var webView: WKWebView = {
 
         let view = WKWebView()
 
@@ -40,22 +40,22 @@ class GeniusInterviewViewController: BaseViewController {
             let y = (scrollViewContentOffsetY + scrollViewHeight) - scrollViewContentSizeHeight
             if y > 0 {
                 let actionViewHeight = GeniusInterviewViewController.actionViewHeight
-                UIView.animateWithDuration(0.5, animations: { [weak self] in
+                UIView.animateWithDuration(0.5) { [weak self] in
                     self?.actionViewTopConstraint?.constant = -actionViewHeight
                     self?.view.layoutIfNeeded()
-                })
+                }
             } else {
-                UIView.animateWithDuration(0.5, animations: { [weak self] in
+                UIView.animateWithDuration(0.5) { [weak self] in
                     self?.actionViewTopConstraint?.constant = 0
                     self?.view.layoutIfNeeded()
-                })
+                }
             }
         }).addDisposableTo(self.disposeBag)
 
         return view
     }()
 
-    lazy var indicatorView: UIActivityIndicatorView = {
+    private lazy var indicatorView: UIActivityIndicatorView = {
 
         let view = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
         view.hidesWhenStopped = true
@@ -167,8 +167,6 @@ class GeniusInterviewViewController: BaseViewController {
             let avatar = PlainAvatar(avatarURLString: interview.user.avatarURLString, avatarStyle: miniAvatarStyle)
             actionView.avatarImageView.navi_setAvatar(avatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
-
-        navigationController?.hidesBarsOnSwipe = false
     }
 
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
