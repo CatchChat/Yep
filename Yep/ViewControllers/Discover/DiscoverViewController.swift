@@ -63,7 +63,11 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    var discoveredUsers = [DiscoveredUser]()
+    private var discoveredUsers = [DiscoveredUser]()
+
+    func discoveredUserAtIndexPath(indexPath: NSIndexPath) -> DiscoveredUser {
+        return discoveredUsers[indexPath.item]
+    }
 
     private lazy var filterStyles: [DiscoveredUserSortStyle] = [
         .Distance,
