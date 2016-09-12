@@ -385,6 +385,7 @@
 		50C106A21D066B65002EAB5C /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; };
 		50C106A31D066B85002EAB5C /* Navi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106911D066A1A002EAB5C /* Navi.framework */; };
 		50C106A41D066BAA002EAB5C /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068F1D0669F2002EAB5C /* Alamofire.framework */; };
+		50C3B32A1D86999600F26B48 /* CanScrollsToTop.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50C3B3291D86999600F26B48 /* CanScrollsToTop.swift */; };
 		50CB05761CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05751CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift */; };
 		50CB05781CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05771CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift */; };
 		50CB057A1CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50CB05791CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift */; };
@@ -1126,6 +1127,7 @@
 		50C106951D066A2E002EAB5C /* Ruler.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ruler.framework; path = Carthage/Build/iOS/Ruler.framework; sourceTree = "<group>"; };
 		50C106971D066A35002EAB5C /* Proposer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Proposer.framework; path = Carthage/Build/iOS/Proposer.framework; sourceTree = "<group>"; };
 		50C106991D066A3C002EAB5C /* MonkeyKing.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MonkeyKing.framework; path = Carthage/Build/iOS/MonkeyKing.framework; sourceTree = "<group>"; };
+		50C3B3291D86999600F26B48 /* CanScrollsToTop.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CanScrollsToTop.swift; path = Protocols/CanScrollsToTop.swift; sourceTree = "<group>"; };
 		50CB05751CC5D0FD0024BE06 /* SearchedFeedBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedBasicCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedBasicCell.swift; sourceTree = "<group>"; };
 		50CB05771CC5D6A50024BE06 /* SearchedFeedNormalImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedNormalImagesCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedNormalImagesCell.swift; sourceTree = "<group>"; };
 		50CB05791CC5D91F0024BE06 /* SearchedFeedGithubRepoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchedFeedGithubRepoCell.swift; path = Views/Cells/Feed/SearchedFeed/SearchedFeedGithubRepoCell.swift; sourceTree = "<group>"; };
@@ -3321,6 +3323,7 @@
 				500E49D21D6EEE6F00A8CE7D /* Shareable.swift */,
 				501C156D1D34DD5600FAAF5E /* InterviewRepresentation.swift */,
 				50117AAB1D4F479C0042B65C /* ShowProfileWithUsername.swift */,
+				50C3B3291D86999600F26B48 /* CanScrollsToTop.swift */,
 			);
 			name = Protocols;
 			sourceTree = "<group>";
@@ -4720,6 +4723,7 @@
 				5012FDDA1BFABDE400294145 /* ProfileFeedsCell.swift in Sources */,
 				50DE0D1E1D767A6F00BB07A9 /* SharedStore.swift in Sources */,
 				50A6A7C21D23C2D300E01190 /* GeniusInterviewActionView.swift in Sources */,
+				50C3B32A1D86999600F26B48 /* CanScrollsToTop.swift in Sources */,
 				508F8FD71B01EDB400461B0B /* DribbbleShotCell.swift in Sources */,
 				508DF62B1B9985F300B194A4 /* YepLog.swift in Sources */,
 				50A6A7AF1D2361A900E01190 /* ConversationViewController+AVAudioPlayerDelegate.swift in Sources */,
