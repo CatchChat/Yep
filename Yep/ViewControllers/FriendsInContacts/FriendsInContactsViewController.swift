@@ -82,7 +82,8 @@ final class FriendsInContactsViewController: BaseViewController {
     // MARK: Actions
 
     private func updateFriendsTableView() {
-        friendsTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+
+        friendsTableView.reloadData()
     }
 
     // MARK: - Navigation
@@ -90,13 +91,15 @@ final class FriendsInContactsViewController: BaseViewController {
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
 
         if segue.identifier == "showProfile" {
-            if let indexPath = sender as? NSIndexPath {
-
-                let vc = segue.destinationViewController as! ProfileViewController
-
-                let discoveredUser = discoveredUsers[indexPath.row]
-                vc.prepare(with: discoveredUser)
+            guard let indexPath = sender as? NSIndexPath else {
+                println("showProfile no indexPath!")
+                return
             }
+
+            let vc = segue.destinationViewController as! ProfileViewController
+
+            let discoveredUser = discoveredUsers[indexPath.row]
+            vc.prepare(with: discoveredUser)
         }
     }
 }
