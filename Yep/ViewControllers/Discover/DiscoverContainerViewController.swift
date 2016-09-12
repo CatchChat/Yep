@@ -20,6 +20,8 @@ class DiscoverContainerViewController: UIPageViewController {
         case MeetGenius
         case FindAll
 
+        static let count = 2
+
         var title: String {
             switch self {
             case .MeetGenius:
@@ -33,13 +35,13 @@ class DiscoverContainerViewController: UIPageViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl! {
         didSet {
             segmentedControl.removeAllSegments()
-            (0..<2).forEach({
+            (0..<Option.count).forEach({
                 let option = Option(rawValue: $0)
                 segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
             })
 
             let font = UIFont.systemFontOfSize(Ruler.iPhoneHorizontal(13, 14, 15).value)
-            let padding: CGFloat = Ruler.iPhoneHorizontal(6, 11, 12).value
+            let padding: CGFloat = Ruler.iPhoneHorizontal(8, 11, 12).value
             segmentedControl.yep_setTitleFont(font, withPadding: padding)
         }
     }
@@ -48,7 +50,7 @@ class DiscoverContainerViewController: UIPageViewController {
 
         let vc = UIStoryboard.Scene.meetGenius
 
-        vc.tapBannerAction = { [weak self] banner in
+        vc.tapBannerAction = { banner in
             SafeDispatch.async { [weak self] in
                 self?.performSegueWithIdentifier("showGeniusInterviewWithBanner", sender: Box<GeniusInterviewBanner>(banner))
             }
@@ -251,7 +253,6 @@ extension DiscoverContainerViewController: UIPageViewControllerDelegate {
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
     }
 }
-
 
 // MARK: - UIViewControllerPreviewingDelegate
 
