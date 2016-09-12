@@ -181,11 +181,9 @@ extension YepTabBarController: UITabBarControllerDelegate {
         }
 
         if case .Feeds = tab {
+            // 只特别处理 Feeds
             if let vc = nvc.topViewController as? FeedsViewController {
-                guard let feedsTableView = vc.feedsTableView else {
-                    return true
-                }
-                if feedsTableView.yep_isAtTop {
+                if vc.scrollView.yep_isAtTop {
                     if !hasFirstTapOnFeedsWhenItIsAtTop {
                         hasFirstTapOnFeedsWhenItIsAtTop = true
                         return false
@@ -195,23 +193,6 @@ extension YepTabBarController: UITabBarControllerDelegate {
         }
 
         return true
-    }
-
-    func tryScrollsToTopOfFeedsViewController(vc: FeedsViewController) {
-
-        guard let scrollView = vc.feedsTableView else {
-            return
-        }
-
-        if !scrollView.yep_isAtTop {
-            scrollView.yep_scrollsToTop()
-
-        } else {
-            if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
-                scrollView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
-                hasFirstTapOnFeedsWhenItIsAtTop = false
-            }
-        }
     }
 
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
@@ -227,64 +208,22 @@ extension YepTabBarController: UITabBarControllerDelegate {
         }
 
         // 不相等才继续，确保第一次 tap 不做事
-
         if tab != previousTab {
             previousTab = tab
             return
         }
 
-        switch tab {
+        if let vc = nvc.topViewController as? CanScrollsToTop {
 
-        case .Conversations:
-            if let vc = nvc.topViewController as? ConversationsViewController {
-                guard let scrollView = vc.conversationsTableView else {
-                    break
-                }
-                if !scrollView.yep_isAtTop {
-                    scrollView.yep_scrollsToTop()
-                }
-            }
+            vc.scrollsToTopIfNeed(otherwise: { [weak self, weak vc] in
+                // 只特别处理 Feeds
+                guard let vc = vc as? FeedsViewController else { return }
 
-        case .Contacts:
-            if let vc = nvc.topViewController as? ContactsViewController {
-                guard let scrollView = vc.contactsTableView else {
-                    break
+                if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
+                    vc.scrollView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
+                    self?.hasFirstTapOnFeedsWhenItIsAtTop = false
                 }
-                if !scrollView.yep_isAtTop {
-                    scrollView.yep_scrollsToTop()
-                }
-            }
-
-        case .Feeds:
-            if let vc = nvc.topViewController as? FeedsViewController {
-                tryScrollsToTopOfFeedsViewController(vc)
-            }
-
-        case .Discover:
-            if let vc = nvc.topViewController as? DiscoverContainerViewController {
-                var _scrollView: UIScrollView?
-                if let mvc = vc.viewControllers?.first as? MeetGeniusViewController {
-                    _scrollView = mvc.tableView
-                } else if let dvc = vc.viewControllers?.first as? DiscoverViewController {
-                    _scrollView = dvc.discoveredUsersCollectionView
-                }
-                guard let scrollView = _scrollView else {
-                    break
-                }
-                if !scrollView.yep_isAtTop {
-                    scrollView.yep_scrollsToTop()
-                }
-            }
-
-        case .Profile:
-            if let vc = nvc.topViewController as? ProfileViewController {
-                guard let scrollView = vc.profileCollectionView else {
-                    break
-                }
-                if !scrollView.yep_isAtTop {
-                    scrollView.yep_scrollsToTop()
-                }
-            }
+            })
         }
     }
 }

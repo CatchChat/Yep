@@ -15,7 +15,7 @@ import Kingfisher
 let YepNotificationCommentAction = "YepNotificationCommentAction"
 let YepNotificationOKAction = "YepNotificationOKAction"
 
-final class ConversationsViewController: BaseViewController {
+final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
     private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
@@ -33,7 +33,7 @@ final class ConversationsViewController: BaseViewController {
         return SearchTransition()
     }()
 
-    @IBOutlet weak var conversationsTableView: UITableView! {
+    @IBOutlet private weak var conversationsTableView: UITableView! {
         didSet {
             searchBar.sizeToFit()
             conversationsTableView.tableHeaderView = searchBar
@@ -49,6 +49,11 @@ final class ConversationsViewController: BaseViewController {
             conversationsTableView.rowHeight = 80
             conversationsTableView.tableFooterView = UIView()
         }
+    }
+
+    // CanScrollsToTop
+    var scrollView: UIScrollView {
+        return conversationsTableView
     }
 
     private var realm: Realm!

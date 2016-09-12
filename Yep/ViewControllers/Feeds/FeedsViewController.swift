@@ -15,7 +15,7 @@ import AVFoundation
 import MapKit
 import Ruler
 
-final class FeedsViewController: BaseViewController {
+final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
     static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 3, 4, 3, 4).value
 
@@ -72,7 +72,7 @@ final class FeedsViewController: BaseViewController {
     private lazy var noFeedsFooterView: InfoView = InfoView(String.trans_promptNoFeeds)
     private lazy var fetchFailedFooterView: InfoView = InfoView(String.trans_errorFetchFailed)
 
-    @IBOutlet weak var feedsTableView: UITableView!  {
+    @IBOutlet private weak var feedsTableView: UITableView!  {
         didSet {
             searchBar.sizeToFit()
             feedsTableView.tableHeaderView = searchBar
@@ -98,6 +98,12 @@ final class FeedsViewController: BaseViewController {
             feedsTableView.registerNibOf(LoadMoreTableViewCell)
         }
     }
+
+    // CanScrollsToTop
+    var scrollView: UIScrollView {
+        return feedsTableView
+    }
+
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
     @IBOutlet private weak var activityIndicatorTopConstraint: NSLayoutConstraint!
 
@@ -1860,10 +1866,6 @@ extension FeedsViewController: PullToRefreshViewDelegate {
         pullToRefreshView.refreshTimeoutAction = finish
 
         updateFeeds(finish: finish)
-    }
-
-    func scrollView() -> UIScrollView {
-        return feedsTableView
     }
 }
 

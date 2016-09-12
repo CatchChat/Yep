@@ -11,9 +11,9 @@ import YepKit
 import RealmSwift
 import Ruler
 
-final class ContactsViewController: BaseViewController {
+final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
-    @IBOutlet weak var contactsTableView: UITableView! {
+    @IBOutlet private weak var contactsTableView: UITableView! {
         didSet {
             searchBar.sizeToFit()
             contactsTableView.tableHeaderView = searchBar
@@ -26,6 +26,11 @@ final class ContactsViewController: BaseViewController {
 
             contactsTableView.registerNibOf(ContactsCell)
         }
+    }
+
+    // CanScrollsToTop
+    var scrollView: UIScrollView {
+        return contactsTableView
     }
 
     private lazy var searchBar: UISearchBar = {

@@ -12,7 +12,17 @@ import Ruler
 import RxSwift
 import RxCocoa
 
-class DiscoverContainerViewController: UIPageViewController {
+class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
+
+    // CanScrollsToTop
+    var scrollView: UIScrollView {
+        if let vc = viewControllers?.first as? CanScrollsToTop {
+            return vc.scrollView
+        } else {
+            println("Should never to here!")
+            return UIScrollView()
+        }
+    }
 
     private lazy var disposeBag = DisposeBag()
 
@@ -264,9 +274,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
         case .MeetGenius:
 
-            guard let tableView = meetGeniusViewController.tableView else {
-                return nil
-            }
+            let tableView = meetGeniusViewController.interviewsTableView
 
             let fixedLocation = view.convertPoint(location, toView: tableView)
 
@@ -284,13 +292,11 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
         case .FindAll:
 
-            guard let discoveredUsersCollectionView = discoverViewController.discoveredUsersCollectionView else {
-                return nil
-            }
+            let collectionView = discoverViewController.collectionView
 
-            let fixedLocation = view.convertPoint(location, toView: discoveredUsersCollectionView)
+            let fixedLocation = view.convertPoint(location, toView: collectionView)
 
-            guard let indexPath = discoveredUsersCollectionView.indexPathForItemAtPoint(fixedLocation), cell = discoveredUsersCollectionView.cellForItemAtIndexPath(indexPath) else {
+            guard let indexPath = collectionView.indexPathForItemAtPoint(fixedLocation), cell = collectionView.cellForItemAtIndexPath(indexPath) else {
                 return nil
             }
 
@@ -298,7 +304,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
             let vc = UIStoryboard.Scene.profile
 
-            let discoveredUser = discoverViewController.discoveredUsers[indexPath.item]
+            let discoveredUser = discoverViewController.discoveredUserAtIndexPath(indexPath)
             vc.prepare(with: discoveredUser)
 
             return vc

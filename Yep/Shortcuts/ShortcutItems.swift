@@ -115,8 +115,8 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
 
             func tryScrollsToTopOfFeedsViewController() {
 
-                if let vc = nvc.topViewController as? FeedsViewController {
-                    tabBarVC.tryScrollsToTopOfFeedsViewController(vc)
+                if let vc = nvc.topViewController as? CanScrollsToTop {
+                    vc.scrollsToTopIfNeed()
                 }
             }
 

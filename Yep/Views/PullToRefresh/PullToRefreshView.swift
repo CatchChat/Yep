@@ -9,8 +9,10 @@
 import UIKit
 
 protocol PullToRefreshViewDelegate: class {
+
+    var scrollView: UIScrollView { get }
+
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView)
-    func scrollView() -> UIScrollView
 }
 
 private let sceneHeight: CGFloat = 80
@@ -89,7 +91,7 @@ final class PullToRefreshView: UIView {
         isRefreshing = true
 
         UIView.animateWithDuration(0.25, delay: 0, options: .CurveEaseInOut, animations: { [weak self] in
-            self?.delegate?.scrollView().contentInset.top += sceneHeight
+            self?.delegate?.scrollView.contentInset.top += sceneHeight
         }, completion: { (_) -> Void in
         })
     }
@@ -103,7 +105,7 @@ final class PullToRefreshView: UIView {
         isRefreshing = false
 
         UIView.animateWithDuration(0.25, delay: 0, options: .CurveEaseInOut, animations: { [weak self] in
-            self?.delegate?.scrollView().contentInset.top -= sceneHeight
+            self?.delegate?.scrollView.contentInset.top -= sceneHeight
 
         }, completion: { (_) -> Void in
 

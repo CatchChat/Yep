@@ -13,14 +13,23 @@ import YepNetworking
 
 var skillSizeCache = [String: CGRect]()
 
-final class DiscoverViewController: BaseViewController {
+final class DiscoverViewController: BaseViewController, CanScrollsToTop {
 
     var showProfileOfDiscoveredUserAction: ((discoveredUser: DiscoveredUser) -> Void)?
     var didChangeLayoutModeAction: ((layoutMode: DiscoverFlowLayout.Mode) -> Void)?
     var didChangeSortStyleAction: ((sortStyle: DiscoveredUserSortStyle) -> Void)?
 
-    @IBOutlet weak var discoveredUsersCollectionView: DiscoverCollectionView!
-    
+    @IBOutlet private weak var discoveredUsersCollectionView: DiscoverCollectionView!
+
+    var collectionView: UICollectionView {
+        return discoveredUsersCollectionView
+    }
+
+    // CanScrollsToTop
+    var scrollView: UIScrollView {
+        return discoveredUsersCollectionView
+    }
+
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
     private var layoutMode: DiscoverFlowLayout.Mode = .Card {
@@ -54,7 +63,11 @@ final class DiscoverViewController: BaseViewController {
         }
     }
 
-    var discoveredUsers = [DiscoveredUser]()
+    private var discoveredUsers = [DiscoveredUser]()
+
+    func discoveredUserAtIndexPath(indexPath: NSIndexPath) -> DiscoveredUser {
+        return discoveredUsers[indexPath.item]
+    }
 
     private lazy var filterStyles: [DiscoveredUserSortStyle] = [
         .Distance,
