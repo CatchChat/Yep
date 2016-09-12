@@ -12,7 +12,17 @@ import Ruler
 import RxSwift
 import RxCocoa
 
-class DiscoverContainerViewController: UIPageViewController {
+class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
+
+    // CanScrollsToTop
+    var scrollView: UIScrollView {
+        if let vc = viewControllers?.first as? CanScrollsToTop {
+            return vc.scrollView
+        } else {
+            println("Should never to here!")
+            return UIScrollView()
+        }
+    }
 
     private lazy var disposeBag = DisposeBag()
 

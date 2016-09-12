@@ -237,10 +237,8 @@ extension YepTabBarController: UITabBarControllerDelegate {
             }
 
         case .Discover:
-            if let vc = nvc.topViewController as? DiscoverContainerViewController {
-                if let mvc = vc.viewControllers?.first as? CanScrollsToTop {
-                    mvc.scrollsToTopIfNeed()
-                }
+            if let vc = nvc.topViewController as? CanScrollsToTop {
+                vc.scrollsToTopIfNeed()
             }
 
         case .Profile:
