@@ -19,7 +19,7 @@ class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
         if let vc = viewControllers?.first as? CanScrollsToTop {
             return vc.scrollView
         } else {
-            println("Should never to here!")
+            println("Should never be here!")
             return UIScrollView()
         }
     }
