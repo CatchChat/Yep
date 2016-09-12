@@ -226,11 +226,12 @@ extension YepTabBarController: UITabBarControllerDelegate {
             }
 
         case .Feeds:
-            if let vc = nvc.topViewController as? FeedsViewController {
-                vc.scrollsToTopIfNeed(otherwise: {
+            if let vc = nvc.topViewController as? CanScrollsToTop {
+                vc.scrollsToTopIfNeed(otherwise: { [weak self, weak vc] in
+                    guard let vc = vc as? FeedsViewController else { return }
                     if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
                         vc.scrollView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
-                        self.hasFirstTapOnFeedsWhenItIsAtTop = false
+                        self?.hasFirstTapOnFeedsWhenItIsAtTop = false
                     }
                 })
             }
