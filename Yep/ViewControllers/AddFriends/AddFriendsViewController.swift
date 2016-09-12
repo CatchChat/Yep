@@ -78,7 +78,6 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
     private enum More: Int, CustomStringConvertible {
         case Contacts
-        //case FaceToFace
 
         var description: String {
             switch self {
@@ -93,23 +92,30 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        guard let section = Section(rawValue: section) else {
+            fatalError("Invalid section!")
+        }
+
         switch section {
 
-        case Section.Search.rawValue:
+        case .Search:
             return 1
 
-        case Section.More.rawValue:
+        case .More:
             return 1
-
-        default:
-            return 0
         }
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch indexPath.section {
 
-        case Section.Search.rawValue:
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .Search:
             let cell: AddFriendSearchCell = tableView.dequeueReusableCell()
 
             cell.searchTextField.returnKeyType = .Search
@@ -117,15 +123,12 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
             return cell
 
-        case Section.More.rawValue:
+        case .More:
             let cell: AddFriendMoreCell = tableView.dequeueReusableCell()
 
             cell.annotationLabel.text = More(rawValue: indexPath.row)?.description
 
             return cell
-
-        default:
-            return UITableViewCell()
         }
     }
 
@@ -137,11 +140,23 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
         tryHideKeyboard()
 
-        if indexPath.section == Section.More.rawValue {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
 
-            switch indexPath.row {
+        switch section {
 
-            case More.Contacts.rawValue:
+        case .Search:
+            break
+
+        case .More:
+            guard let row = More(rawValue: indexPath.row) else {
+                fatalError("Invalid row!")
+            }
+
+            switch row {
+
+            case .Contacts:
 
                 let propose: Propose = {
                     proposeToAccess(.Contacts, agreed: { [weak self] in
@@ -153,12 +168,6 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
 
                 showProposeMessageIfNeedForContactsAndTryPropose(propose)
-
-            //case More.FaceToFace.rawValue:
-            //    break
-                
-            default:
-                break
             }
         }
     }
