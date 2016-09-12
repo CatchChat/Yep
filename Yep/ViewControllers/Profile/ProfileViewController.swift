@@ -243,11 +243,11 @@ final class ProfileViewController: SegueViewController {
         }
 
         if let me = meInRealm(realm) {
-            let _ = try? realm.write {
-                me.masterSkills.removeAll()
-                let userSkills = userSkillsFromSkills(self.masterSkills, inRealm: realm)
-                me.masterSkills.appendContentsOf(userSkills)
-            }
+            realm.beginWrite()
+            me.masterSkills.removeAll()
+            let userSkills = userSkillsFromSkills(masterSkills, inRealm: realm)
+            me.masterSkills.appendContentsOf(userSkills)
+            _ = try? realm.commitWrite()
         }
     }
 
@@ -262,11 +262,11 @@ final class ProfileViewController: SegueViewController {
         }
 
         if let me = meInRealm(realm) {
-            let _ = try? realm.write {
-                me.learningSkills.removeAll()
-                let userSkills = userSkillsFromSkills(self.learningSkills, inRealm: realm)
-                me.learningSkills.appendContentsOf(userSkills)
-            }
+            realm.beginWrite()
+            me.learningSkills.removeAll()
+            let userSkills = userSkillsFromSkills(learningSkills, inRealm: realm)
+            me.learningSkills.appendContentsOf(userSkills)
+            _ = try? realm.commitWrite()
         }
     }
 
