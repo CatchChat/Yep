@@ -207,12 +207,25 @@ extension YepTabBarController: UITabBarControllerDelegate {
         }
 
         // 不相等才继续，确保第一次 tap 不做事
-
         if tab != previousTab {
             previousTab = tab
             return
         }
 
+        if let vc = nvc.topViewController as? CanScrollsToTop {
+
+            vc.scrollsToTopIfNeed(otherwise: { [weak self, weak vc] in
+                // 只特别处理 Feeds
+                guard let vc = vc as? FeedsViewController else { return }
+
+                if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
+                    vc.scrollView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
+                    self?.hasFirstTapOnFeedsWhenItIsAtTop = false
+                }
+            })
+        }
+
+        /*
         switch tab {
 
         case .Conversations:
@@ -233,7 +246,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
                         vc.scrollView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
                         self?.hasFirstTapOnFeedsWhenItIsAtTop = false
                     }
-                })
+                    })
             }
 
         case .Discover:
@@ -246,6 +259,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
                 vc.scrollsToTopIfNeed()
             }
         }
+        */
     }
 }
 
