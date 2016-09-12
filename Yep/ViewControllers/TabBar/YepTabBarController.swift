@@ -182,10 +182,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
 
         if case .Feeds = tab {
             if let vc = nvc.topViewController as? FeedsViewController {
-                guard let feedsTableView = vc.feedsTableView else {
-                    return true
-                }
-                if feedsTableView.yep_isAtTop {
+                if vc.scrollView.yep_isAtTop {
                     if !hasFirstTapOnFeedsWhenItIsAtTop {
                         hasFirstTapOnFeedsWhenItIsAtTop = true
                         return false
@@ -199,9 +196,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
 
     func tryScrollsToTopOfFeedsViewController(vc: FeedsViewController) {
 
-        guard let scrollView = vc.feedsTableView else {
-            return
-        }
+        let scrollView = vc.scrollView
 
         if !scrollView.yep_isAtTop {
             scrollView.yep_scrollsToTop()
@@ -247,7 +242,13 @@ extension YepTabBarController: UITabBarControllerDelegate {
 
         case .Feeds:
             if let vc = nvc.topViewController as? FeedsViewController {
-                tryScrollsToTopOfFeedsViewController(vc)
+                vc.scrollsToTopIfNeed(otherwise: {
+                    if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
+                        vc.scrollView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
+                        self.hasFirstTapOnFeedsWhenItIsAtTop = false
+                    }
+                })
+//                tryScrollsToTopOfFeedsViewController(vc)
             }
 
         case .Discover:
