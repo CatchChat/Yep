@@ -241,13 +241,8 @@ extension YepTabBarController: UITabBarControllerDelegate {
             }
 
         case .Contacts:
-            if let vc = nvc.topViewController as? ContactsViewController {
-                guard let scrollView = vc.contactsTableView else {
-                    break
-                }
-                if !scrollView.yep_isAtTop {
-                    scrollView.yep_scrollsToTop()
-                }
+            if let vc = nvc.topViewController as? CanScrollsToTop {
+                vc.scrollsToTopIfNeed()
             }
 
         case .Feeds:
