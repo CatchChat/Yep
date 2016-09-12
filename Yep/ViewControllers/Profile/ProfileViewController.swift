@@ -20,7 +20,7 @@ import Proposer
 
 let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 
-final class ProfileViewController: SegueViewController {
+final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
     var oAuthCompleteAction: (() -> Void)?
     var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
@@ -136,7 +136,8 @@ final class ProfileViewController: SegueViewController {
     private var noNeedToChangeStatusBar = false
 
     @IBOutlet private weak var topShadowImageView: UIImageView!
-    @IBOutlet weak var profileCollectionView: UICollectionView! {
+
+    @IBOutlet private weak var profileCollectionView: UICollectionView! {
         didSet {
             profileCollectionView.registerNibOf(SkillCell)
             profileCollectionView.registerNibOf(ProfileHeaderCell)
@@ -153,6 +154,11 @@ final class ProfileViewController: SegueViewController {
 
             profileCollectionView.alwaysBounceVertical = true
         }
+    }
+
+    // CanScrollsToTop
+    var scrollView: UIScrollView {
+        return profileCollectionView
     }
 
     @IBOutlet private weak var sayHiView: BottomButtonView!

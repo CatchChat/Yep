@@ -258,13 +258,8 @@ extension YepTabBarController: UITabBarControllerDelegate {
             }
 
         case .Profile:
-            if let vc = nvc.topViewController as? ProfileViewController {
-                guard let scrollView = vc.profileCollectionView else {
-                    break
-                }
-                if !scrollView.yep_isAtTop {
-                    scrollView.yep_scrollsToTop()
-                }
+            if let vc = nvc.topViewController as? CanScrollsToTop {
+                vc.scrollsToTopIfNeed()
             }
         }
     }
