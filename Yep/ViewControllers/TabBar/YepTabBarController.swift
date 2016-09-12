@@ -181,6 +181,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
         }
 
         if case .Feeds = tab {
+            // 只特别处理 Feeds
             if let vc = nvc.topViewController as? FeedsViewController {
                 if vc.scrollView.yep_isAtTop {
                     if !hasFirstTapOnFeedsWhenItIsAtTop {
@@ -224,42 +225,6 @@ extension YepTabBarController: UITabBarControllerDelegate {
                 }
             })
         }
-
-        /*
-        switch tab {
-
-        case .Conversations:
-            if let vc = nvc.topViewController as? CanScrollsToTop {
-                vc.scrollsToTopIfNeed()
-            }
-
-        case .Contacts:
-            if let vc = nvc.topViewController as? CanScrollsToTop {
-                vc.scrollsToTopIfNeed()
-            }
-
-        case .Feeds:
-            if let vc = nvc.topViewController as? CanScrollsToTop {
-                vc.scrollsToTopIfNeed(otherwise: { [weak self, weak vc] in
-                    guard let vc = vc as? FeedsViewController else { return }
-                    if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
-                        vc.scrollView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
-                        self?.hasFirstTapOnFeedsWhenItIsAtTop = false
-                    }
-                    })
-            }
-
-        case .Discover:
-            if let vc = nvc.topViewController as? CanScrollsToTop {
-                vc.scrollsToTopIfNeed()
-            }
-
-        case .Profile:
-            if let vc = nvc.topViewController as? CanScrollsToTop {
-                vc.scrollsToTopIfNeed()
-            }
-        }
-        */
     }
 }
 
