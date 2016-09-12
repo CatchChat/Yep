@@ -82,7 +82,7 @@ final class SearchedUsersViewController: BaseViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             let discoveredUser = searchedUsers[indexPath.row]
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            vc.prepare(with: discoveredUser)
         }
     }
 }

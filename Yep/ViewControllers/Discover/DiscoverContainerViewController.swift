@@ -188,7 +188,7 @@ class DiscoverContainerViewController: UIPageViewController {
 
             let vc = segue.destinationViewController as! ProfileViewController
             let discoveredUser = (sender as! Box<DiscoveredUser>).value
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            vc.prepare(with: discoveredUser)
 
         case "showGeniusInterview":
 
@@ -298,7 +298,7 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
             let vc = UIStoryboard.Scene.profile
 
             let discoveredUser = discoverViewController.discoveredUsers[indexPath.item]
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            vc.prepare(with: discoveredUser)
 
             return vc
         }

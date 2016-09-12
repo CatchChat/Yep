@@ -926,10 +926,10 @@ final class FeedsViewController: BaseViewController {
                     break
                 case .UploadingFeed:
                     let discoveredUser = uploadingFeeds[indexPath.row].creator
-                    vc.prepare(withDiscoveredUser: discoveredUser)
+                    vc.prepare(with: discoveredUser)
                 case .Feed:
                     let discoveredUser = feeds[indexPath.row].creator
-                    vc.prepare(withDiscoveredUser: discoveredUser)
+                    vc.prepare(with: discoveredUser)
                 case .LoadMore:
                     break
                 }

@@ -221,7 +221,7 @@ final class ContactsViewController: BaseViewController {
                vc.prepare(withUser: user)
                 
             } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                vc.prepare(withDiscoveredUser: discoveredUser)
+                vc.prepare(with: discoveredUser)
             }
 
             recoverOriginalNavigationDelegate()

@@ -184,7 +184,7 @@ class GeniusInterviewViewController: BaseViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             let discoveredUser = (sender as! Box<DiscoveredUser>).value
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            vc.prepare(with: discoveredUser)
 
         case "showConversation":
 

@@ -72,7 +72,7 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
             let vc = segue.destinationViewController as! ProfileViewController
 
             let discoveredUser = (sender as! Box<DiscoveredUser>).value
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            vc.prepare(with: discoveredUser)
 
         default:
             break
