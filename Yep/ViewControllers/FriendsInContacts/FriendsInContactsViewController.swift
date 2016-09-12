@@ -12,10 +12,6 @@ import YepNetworking
 
 final class FriendsInContactsViewController: BaseViewController {
 
-    struct Notification {
-        static let NewFriends = "NewFriendsInContactsNotification"
-    }
-
     @IBOutlet private weak var friendsTableView: UITableView! {
         didSet {
             friendsTableView.separatorColor = UIColor.yepCellSeparatorColor()
@@ -34,7 +30,7 @@ final class FriendsInContactsViewController: BaseViewController {
             if discoveredUsers.count > 0 {
                 updateFriendsTableView()
 
-                NSNotificationCenter.defaultCenter().postNotificationName(Notification.NewFriends, object: nil)
+                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.newFriendsInContacts, object: nil)
 
             } else {
                 friendsTableView.tableFooterView = InfoView(String.trans_promptNoNewFriends)

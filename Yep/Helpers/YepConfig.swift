@@ -46,6 +46,7 @@ final class YepConfig {
         static let deletedFeed = "YepConfig.Notification.deletedFeed"
         static let switchedToOthersFromContactsTab = "YepConfig.Notification.switchedToOthersFromContactsTab"
         static let blockedFeedsByCreator = "YepConfig.Notification.blockedFeedsByCreator"
+        static let newFriendsInContacts = "YepConfig.Notification.NewFriendsInContacts"
     }
 
     class func getScreenRect() -> CGRect {

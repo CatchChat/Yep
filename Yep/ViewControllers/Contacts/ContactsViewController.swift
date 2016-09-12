@@ -95,7 +95,7 @@ final class ContactsViewController: BaseViewController {
 
         navigationItem.title = String.trans_titleContacts
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: YepConfig.Notification.newFriendsInContacts, object: nil)
 
         friendsNotificationToken = friends.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
 
