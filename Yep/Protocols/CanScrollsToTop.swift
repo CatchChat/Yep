@@ -15,7 +15,7 @@ protocol CanScrollsToTop: class {
 
 extension CanScrollsToTop {
 
-    func scrollsToTopIfNeed {
+    func scrollsToTopIfNeed() {
         if !scrollView.yep_isAtTop {
             scrollView.yep_scrollsToTop()
         }
