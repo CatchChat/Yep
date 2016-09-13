@@ -40,10 +40,6 @@ final class SocialWorkInstagramViewController: BaseViewController {
             }
         }
     }
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
