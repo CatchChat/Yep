@@ -15,6 +15,77 @@ final class PodsHelpYepViewController: UITableViewController {
         let urlString: String
     }
 
+    private let frameworks: [Framework] = [
+        Framework(
+            name: "Alamofire",
+            urlString: "https://github.com/Alamofire/Alamofire"
+        ),
+        Framework(
+            name: "AudioBot",
+            urlString: "https://github.com/nixzhu/AudioBot"
+        ),
+        Framework(
+            name: "AutoReview",
+            urlString: "https://github.com/nixzhu/AutoReview"
+        ),
+        Framework(
+            name: "DeviceGuru",
+            urlString: "https://github.com/InderKumarRathore/DeviceGuru"
+        ),
+        Framework(
+            name: "FXBlurView",
+            urlString: "https://github.com/nicklockwood/FXBlurView"
+        ),
+        Framework(
+            name: "KeyboardMan",
+            urlString: "https://github.com/nixzhu/KeyboardMan"
+        ),
+        Framework(
+            name: "KeypathObserver",
+            urlString: "https://github.com/nixzhu/KeypathObserver"
+        ),
+        Framework(
+            name: "Kingfisher",
+            urlString: "https://github.com/onevcat/Kingfisher"
+        ),
+        Framework(
+            name: "MonkeyKing",
+            urlString: "https://github.com/nixzhu/MonkeyKing"
+        ),
+        Framework(
+            name: "Navi",
+            urlString: "https://github.com/nixzhu/Navi"
+        ),
+        Framework(
+            name: "Pop",
+            urlString: "https://github.com/facebook/pop"
+        ),
+        Framework(
+            name: "Proposer",
+            urlString: "https://github.com/nixzhu/Proposer"
+        ),
+        Framework(
+            name: "ReSwift",
+            urlString: "https://github.com/ReSwift/ReSwift"
+        ),
+        Framework(
+            name: "RealmSwift",
+            urlString: "https://github.com/realm/realm-cocoa"
+        ),
+        Framework(
+            name: "Ruler",
+            urlString: "https://github.com/nixzhu/Ruler"
+        ),
+        Framework(
+            name: "RxSwift",
+            urlString: "https://github.com/ReactiveX/RxSwift"
+        ),
+        Framework(
+            name: "TPKeyboardAvoiding",
+            urlString: "https://github.com/michaeltyson/TPKeyboardAvoiding"
+        ),
+    ]
+    
     private let pods: [[String: String]] = [
         [
             "name": "RealmSwift",
@@ -101,7 +172,7 @@ final class PodsHelpYepViewController: UITableViewController {
         tableView.tableFooterView = UIView()
 
         pods.forEach({ pod in
-            print("Framework(\n\tname: \(pod["name"]!),\n\turlString: \(pod["URLString"]!)")
+            print("Framework(\n\tname: \"\(pod["name"]!)\",\n\turlString: \"\(pod["URLString"]!)\"\n),")
         })
     }
 
