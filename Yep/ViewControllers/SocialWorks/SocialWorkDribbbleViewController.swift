@@ -70,18 +70,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
             dribbbleShots = dribbbleWork.shots
 
         } else {
-            var userID: String?
-
-            if let profileUser = profileUser {
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    userID = discoveredUser.id
-                case .UserType(let user):
-                    userID = user.userID
-                }
-            }
-
-            if let userID = userID {
+            if let userID = profileUser?.userID {
 
                 dribbbleWorkOfUserWithUserID(userID, failureHandler: { [weak self] reason, errorMessage in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -90,7 +79,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
                     YepAlert.alertSorry(message: message, inViewController: self)
 
                 }, completion: { dribbbleWork in
-                    println("dribbbleWork: \(dribbbleWork.shots.count)")
+                    //println("dribbbleWork: \(dribbbleWork.shots.count)")
 
                     SafeDispatch.async { [weak self] in
                         self?.dribbbleWork = dribbbleWork

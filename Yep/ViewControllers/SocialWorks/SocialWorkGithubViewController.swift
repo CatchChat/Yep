@@ -102,18 +102,7 @@ final class SocialWorkGithubViewController: BaseViewController {
             githubRepos = githubWork.repos
 
         } else {
-            var userID: String?
-
-            if let profileUser = profileUser {
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    userID = discoveredUser.id
-                case .UserType(let user):
-                    userID = user.userID
-                }
-            }
-
-            if let userID = userID {
+            if let userID = profileUser?.userID {
 
                 githubWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -121,13 +110,13 @@ final class SocialWorkGithubViewController: BaseViewController {
                     YepAlert.alertSorry(message: NSLocalizedString("Yep can't reach GitHub.\nWe blame GFW!", comment: ""), inViewController: self)
 
                 }, completion: { githubWork in
-                    println("githubWork: \(githubWork)")
+                    //println("githubWork: \(githubWork)")
 
-                    SafeDispatch.async {
-                        self.githubUser = githubWork.user
-                        self.githubRepos = githubWork.repos
+                    SafeDispatch.async { [weak self] in
+                        self?.githubUser = githubWork.user
+                        self?.githubRepos = githubWork.repos
 
-                        self.afterGetGithubWork?(githubWork)
+                        self?.afterGetGithubWork?(githubWork)
                     }
                 })
             }

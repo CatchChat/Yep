@@ -74,18 +74,7 @@ final class SocialWorkInstagramViewController: BaseViewController {
             self.instagramMedias = instagramWork.medias
             
         } else {
-            var userID: String?
-
-            if let profileUser = profileUser {
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    userID = discoveredUser.id
-                case .UserType(let user):
-                    userID = user.userID
-                }
-            }
-
-            if let userID = userID {
+            if let userID = profileUser?.userID {
 
                 instagramWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -94,12 +83,12 @@ final class SocialWorkInstagramViewController: BaseViewController {
                     YepAlert.alertSorry(message: message, inViewController: self)
 
                 }, completion: { instagramWork in
-                    println("instagramWork: \(instagramWork.medias.count)")
+                    //println("instagramWork: \(instagramWork.medias.count)")
 
-                    SafeDispatch.async {
-                        self.instagramMedias = instagramWork.medias
+                    SafeDispatch.async { [weak self] in
+                        self?.instagramMedias = instagramWork.medias
 
-                        self.afterGetInstagramWork?(instagramWork)
+                        self?.afterGetInstagramWork?(instagramWork)
                     }
                 })
             }
