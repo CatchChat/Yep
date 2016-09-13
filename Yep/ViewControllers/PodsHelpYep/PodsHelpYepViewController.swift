@@ -13,6 +13,10 @@ final class PodsHelpYepViewController: UITableViewController {
     struct Framework {
         let name: String
         let urlString: String
+
+        var url: NSURL? {
+            return NSURL(string: urlString)
+        }
     }
 
     private let frameworks: [Framework] = [
@@ -193,8 +197,8 @@ final class PodsHelpYepViewController: UITableViewController {
 
         case .Frameworks:
             let framework = frameworks[indexPath.row]
-            if let URL = NSURL(string: framework.urlString) {
-                yep_openURL(URL)
+            if let url = framework.url {
+                yep_openURL(url)
             }
         }
     }
