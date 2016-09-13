@@ -10,6 +10,11 @@ import UIKit
 
 final class PodsHelpYepViewController: UITableViewController {
 
+    struct Framework {
+        let name: String
+        let urlString: String
+    }
+
     private let pods: [[String: String]] = [
         [
             "name": "RealmSwift",
@@ -94,6 +99,10 @@ final class PodsHelpYepViewController: UITableViewController {
         title = String.trans_titleOpenSource
 
         tableView.tableFooterView = UIView()
+
+        pods.forEach({ pod in
+            print("Framework(\n\tname: \(pod["name"]!),\n\turlString: \(pod["URLString"]!)")
+        })
     }
 
     // MARK: - Table view data source
