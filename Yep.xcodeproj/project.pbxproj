@@ -251,7 +251,6 @@
 		5078131B1CD1B04400F193AB /* ShortcutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131A1CD1B04400F193AB /* ShortcutType.swift */; };
 		507813221CD2F9C100F193AB /* DeviceGuru+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */; };
 		507902361D06813300D846F5 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106861D06693A002EAB5C /* Kanna.framework */; };
-		507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */; };
 		507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */; };
 		507DCEAF1CEEE2DC006D43F7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */; };
 		507DCEB31CEEE2DC006D43F7 /* YepShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 507DCEA91CEEE2DC006D43F7 /* YepShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
@@ -1002,7 +1001,6 @@
 		507813181CD1B01A00F193AB /* ShortcutItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutItems.swift; path = Shortcuts/ShortcutItems.swift; sourceTree = "<group>"; };
 		5078131A1CD1B04400F193AB /* ShortcutType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutType.swift; path = Shortcuts/ShortcutType.swift; sourceTree = "<group>"; };
 		507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DeviceGuru+Yep.swift"; path = "Extensions/DeviceGuru+Yep.swift"; sourceTree = "<group>"; };
-		507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CustomNavigationBarViewController.swift; path = ViewControllers/CustomNavigationBar/CustomNavigationBarViewController.swift; sourceTree = "<group>"; };
 		507DCEA91CEEE2DC006D43F7 /* YepShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = YepShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		507DCEAE1CEEE2DC006D43F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
@@ -1873,7 +1871,6 @@
 				50E3488F1B905C0700A8E699 /* About */,
 				5080EB1D1B93F440006F3C2D /* PodsHelpYep */,
 				0A1CAC6C1AFA3D8C00826B45 /* SkillHome */,
-				507CF1691AFC84AA00E261B4 /* CustomNavigationBar */,
 				508F8FCD1B01C80500461B0B /* SocialWorks */,
 				0AB8F79B1B15D1DF00F4AF09 /* Nav */,
 				848806B71B7B4F58000C5424 /* Show */,
@@ -2654,14 +2651,6 @@
 				507813181CD1B01A00F193AB /* ShortcutItems.swift */,
 			);
 			name = Shortcuts;
-			sourceTree = "<group>";
-		};
-		507CF1691AFC84AA00E261B4 /* CustomNavigationBar */ = {
-			isa = PBXGroup;
-			children = (
-				507CF1671AFC84A500E261B4 /* CustomNavigationBarViewController.swift */,
-			);
-			name = CustomNavigationBar;
 			sourceTree = "<group>";
 		};
 		507DCEAA1CEEE2DC006D43F7 /* YepShare */ = {
@@ -4818,7 +4807,6 @@
 				505082331C21130100643CEB /* FeedGithubRepoContainerView.swift in Sources */,
 				33893E3C1CB7C62E00B276C1 /* NewFeedViewController.swift in Sources */,
 				5069AD7D1D6565110093DF24 /* FeedImageCellNode.swift in Sources */,
-				507CF1681AFC84A500E261B4 /* CustomNavigationBarViewController.swift in Sources */,
 				0A3E60601ACCA9C0003DC853 /* String+Yep.swift in Sources */,
 				504F41571AD4D35400FBB19A /* ProfileLayout.swift in Sources */,
 				503315A01AC126100008A209 /* MessageToolbar.swift in Sources */,

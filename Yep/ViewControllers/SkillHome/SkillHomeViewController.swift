@@ -14,8 +14,6 @@ import YepNetworking
 import Proposer
 import Navi
 
-let ScrollViewTag = 100
-
 final class SkillHomeViewController: BaseViewController {
 
     var skill: SkillCellSkill? {
@@ -214,8 +212,7 @@ final class SkillHomeViewController: BaseViewController {
         skillHomeScrollView.directionalLockEnabled = true
         skillHomeScrollView.alwaysBounceVertical = false
         skillHomeScrollView.alwaysBounceHorizontal = true
-        skillHomeScrollView.tag = ScrollViewTag
-        
+
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
                 if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
@@ -447,16 +444,16 @@ final class SkillHomeViewController: BaseViewController {
 // MARK: UIScrollViewDelegate
 
 extension SkillHomeViewController: UIScrollViewDelegate {
+
     func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
 
-        if scrollView.tag != ScrollViewTag {
+        guard scrollView == skillHomeScrollView else {
             return
         }
 
-        println("Did end decelerating \(skillHomeScrollView.contentOffset.x)")
+        println("Did end decelerating \(scrollView.contentOffset.x)")
 
-        if skillHomeScrollView.contentOffset.x + 10 >= skillHomeScrollView.contentSize.width / 2.0 {
-
+        if scrollView.contentOffset.x + 10 >= scrollView.contentSize.width / 2.0 {
             if skillSet != .Learning {
                 skillSet = .Learning
             }
