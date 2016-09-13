@@ -728,17 +728,6 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             var feedSortStyle = self.feedSortStyle
 
             if skill != nil {
-//                if let filterOption = filterOption {
-//                    switch filterOption {
-//                    case .Recommended:
-//                        feedSortStyle = .Recommended
-//                    case .Lately:
-//                        feedSortStyle = .Time
-//                    }
-//
-//                } else {
-//                    feedSortStyle = .Time
-//                }
                 feedSortStyle = .Time
             }
 
@@ -871,34 +860,32 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
             self?.newFeedViewController = nil
 
-            SafeDispatch.async {
+            SafeDispatch.async { [weak self] in
 
-                if let strongSelf = self {
+                guard let strongSelf = self else { return }
 
-                    strongSelf.feedsTableView.yep_scrollsToTop()
+                strongSelf.feedsTableView.yep_scrollsToTop()
 
-                    strongSelf.feedsTableView.beginUpdates()
+                strongSelf.feedsTableView.beginUpdates()
 
-                    var animation: UITableViewRowAnimation = .Automatic
+                var animation: UITableViewRowAnimation = .Automatic
 
-                    if !strongSelf.uploadingFeeds.isEmpty {
+                if !strongSelf.uploadingFeeds.isEmpty {
 
-                        strongSelf.uploadingFeeds = []
-                        strongSelf.feedsTableView.reloadSections(NSIndexSet(index: Section.UploadingFeed.rawValue), withRowAnimation: .None)
+                    strongSelf.uploadingFeeds = []
+                    strongSelf.feedsTableView.reloadSections(NSIndexSet(index: Section.UploadingFeed.rawValue), withRowAnimation: .None)
 
-                        animation = .None
-                    }
-
-                    strongSelf.feeds.insert(feed, atIndex: 0)
-                    let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
-                    strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath], animation: animation)
-                    
-                    strongSelf.feedsTableView.endUpdates()
+                    animation = .None
                 }
+
+                strongSelf.feeds.insert(feed, atIndex: 0)
+                let indexPath = NSIndexPath(forRow: 0, inSection: Section.Feed.rawValue)
+                strongSelf.updateFeedsTableViewOrInsertWithIndexPaths([indexPath], animation: animation)
+                
+                strongSelf.feedsTableView.endUpdates()
             }
 
-            joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {
-            })
+            joinGroup(groupID: feed.groupID, failureHandler: nil, completion: {})
         }
 
         let getFeedsViewController: () -> FeedsViewController? = { [weak self] in
