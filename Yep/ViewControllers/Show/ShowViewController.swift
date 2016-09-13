@@ -18,8 +18,6 @@ final class ShowViewController: UIViewController {
     @IBOutlet private weak var registerButton: UIButton!
     @IBOutlet private weak var loginButton: EdgeBorderButton!
 
-    private var isFirstAppear = true
-
     private var steps = [UIViewController]()
 
     override func viewDidLoad() {
@@ -27,6 +25,8 @@ final class ShowViewController: UIViewController {
 
         makeUI()
     }
+
+    private var isFirstAppear = true
 
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
@@ -50,7 +50,7 @@ final class ShowViewController: UIViewController {
                 self?.pageControl.alpha = 1
                 self?.registerButton.alpha = 1
                 self?.loginButton.alpha = 1
-            }, completion: { _ in })
+            }, completion: nil)
         }
 
         isFirstAppear = false
@@ -91,8 +91,7 @@ final class ShowViewController: UIViewController {
     }
 
     private func stepGenius() -> ShowStepGeniusViewController {
-        let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepGeniusViewController") as! ShowStepGeniusViewController
-
+        let step = UIStoryboard.Scene.showStepGenius
         step.view.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(step.view)
 
@@ -103,8 +102,7 @@ final class ShowViewController: UIViewController {
     }
 
     private func stepMatch() -> ShowStepMatchViewController {
-        let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepMatchViewController") as! ShowStepMatchViewController
-
+        let step = UIStoryboard.Scene.showStepMatch
         step.view.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(step.view)
 
@@ -115,8 +113,7 @@ final class ShowViewController: UIViewController {
     }
 
     private func stepMeet() -> ShowStepMeetViewController {
-        let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepMeetViewController") as! ShowStepMeetViewController
-
+        let step = UIStoryboard.Scene.showStepMeet
         step.view.translatesAutoresizingMaskIntoConstraints = false
         scrollView.addSubview(step.view)
 
