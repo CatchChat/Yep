@@ -70,18 +70,18 @@ final class ShowViewController: UIViewController {
         registerButton.backgroundColor = UIColor.yepTintColor()
         loginButton.setTitleColor(UIColor.yepInputTextColor(), forState: .Normal)
 
-        let viewsDictionary: [String: AnyObject] = [
+        let views: [String: AnyObject] = [
             "view": view,
             "stepA": steps[0].view,
             "stepB": steps[1].view,
             "stepC": steps[2].view,
         ]
 
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[stepA(==view)]|", options: [], metrics: nil, views: viewsDictionary)
+        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[stepA(==view)]|", options: [], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(vConstraints)
 
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[stepA(==view)][stepB(==view)][stepC(==view)]|", options: [.AlignAllBottom, .AlignAllTop], metrics: nil, views: viewsDictionary)
+        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[stepA(==view)][stepB(==view)][stepC(==view)]|", options: [.AlignAllBottom, .AlignAllTop], metrics: nil, views: views)
 
         NSLayoutConstraint.activateConstraints(hConstraints)
     }
@@ -104,41 +104,6 @@ final class ShowViewController: UIViewController {
 
         return steps
     }
-
-    /*
-    private func stepGenius() -> ShowStepGeniusViewController {
-        let step = UIStoryboard.Scene.showStepGenius
-        step.view.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(step.view)
-
-        addChildViewController(step)
-        step.didMoveToParentViewController(self)
-
-        return step
-    }
-
-    private func stepMatch() -> ShowStepMatchViewController {
-        let step = UIStoryboard.Scene.showStepMatch
-        step.view.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(step.view)
-
-        addChildViewController(step)
-        step.didMoveToParentViewController(self)
-
-        return step
-    }
-
-    private func stepMeet() -> ShowStepMeetViewController {
-        let step = UIStoryboard.Scene.showStepMeet
-        step.view.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(step.view)
-
-        addChildViewController(step)
-        step.didMoveToParentViewController(self)
-
-        return step
-    }
-     */
 }
 
 // MARK: - UIScrollViewDelegate
