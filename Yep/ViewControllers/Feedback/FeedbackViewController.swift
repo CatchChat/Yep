@@ -105,17 +105,16 @@ final class FeedbackViewController: UIViewController {
         let deviceInfo = (DeviceGuru.hardwareDescription() ?? "nixDevice") + ", " + NSProcessInfo().operatingSystemVersionString
         let feedback = Feedback(content: feedbackTextView.text, deviceInfo: deviceInfo)
 
-        sendFeedback(feedback, failureHandler: { [weak self] reason, errorMessage in
+        sendFeedback(feedback, failureHandler: { [weak self] (reason, errorMessage) in
             defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             let message = errorMessage ?? "Faild to send feedback!"
             YepAlert.alertSorry(message: message, inViewController: self)
 
-        }, completion: { [weak self] _ in
-
+        }, completion: { [weak self] in
             YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Thanks! Your feedback has been recorded!", comment: ""), dismissTitle: String.trans_titleOK, inViewController: self, withDismissAction: {
 
-                SafeDispatch.async {
+                SafeDispatch.async { [weak self] in
                     self?.navigationController?.popViewControllerAnimated(true)
                 }
             })

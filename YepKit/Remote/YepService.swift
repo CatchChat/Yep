@@ -3592,15 +3592,15 @@ public struct Feedback {
     }
 }
 
-public func sendFeedback(feedback: Feedback, failureHandler: FailureHandler?, completion: Bool -> Void) {
+public func sendFeedback(feedback: Feedback, failureHandler: FailureHandler?, completion: () -> Void) {
 
     let requestParameters: JSONDictionary = [
         "content": feedback.content,
         "device_info": feedback.deviceInfo,
     ]
 
-    let parse: JSONDictionary -> Bool? = { data in
-        return true
+    let parse: JSONDictionary -> Void? = { data in
+        return
     }
 
     let resource = authJsonResource(path: "/v1/feedbacks", method: .POST, requestParameters: requestParameters, parse: parse)
