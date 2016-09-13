@@ -270,31 +270,36 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
                     self?.doNotDisturbPeriod.isOn = isOn
 
-                    let indexPath = NSIndexPath(forRow: DoNotDisturbPeriodRow.Period.rawValue, inSection: 0)
+                    let indexPath = NSIndexPath(forRow: DoNotDisturbPeriodRow.Period.rawValue, inSection: Section.DoNotDisturbPeriod.rawValue)
+
+                    println("numberOfRowsInSection DoNotDisturbPeriod: \(self?.tableView.numberOfRowsInSection(Section.DoNotDisturbPeriod.rawValue))")
+
+                    self?.tableView.reloadSections(NSIndexSet(index: Section.DoNotDisturbPeriod.rawValue), withRowAnimation: .Automatic)
 
                     if isOn {
-                        guard self?.tableView.numberOfRowsInSection(Section.DoNotDisturbPeriod.rawValue) == 1 else {
-                            return
-                        }
 
-                        self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+//                        guard self?.tableView.numberOfRowsInSection(Section.DoNotDisturbPeriod.rawValue) == 2 else {
+//                            return
+//                        }
+//
+//                        self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
                         self?.enableDoNotDisturb(failed: {
-                            SafeDispatch.async {
+                            SafeDispatch.async { [weak self] in
                                 self?.doNotDisturbPeriod.isOn = false
                                 self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                             }
                         })
 
                     } else {
-                        guard self?.tableView.numberOfRowsInSection(Section.DoNotDisturbPeriod.rawValue) == 2 else {
-                            return
-                        }
-
-                        self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+//                        guard self?.tableView.numberOfRowsInSection(Section.DoNotDisturbPeriod.rawValue) == 1 else {
+//                            return
+//                        }
+//
+//                        self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
 
                         self?.disableDoNotDisturb(failed: {
-                            SafeDispatch.async {
+                            SafeDispatch.async { [weak self] in
                                 self?.doNotDisturbPeriod.isOn = true
                                 self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
                             }
