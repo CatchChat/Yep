@@ -58,11 +58,7 @@ final class ShowViewController: UIViewController {
 
     private func makeUI() {
 
-        let stepA = stepGenius()
-        let stepB = stepMatch()
-        let stepC = stepMeet()
-
-        steps = [stepA, stepB, stepC]
+        steps = makeSteps()
 
         pageControl.numberOfPages = steps.count
         pageControl.pageIndicatorTintColor = UIColor.yepBorderColor()
@@ -76,9 +72,9 @@ final class ShowViewController: UIViewController {
 
         let viewsDictionary: [String: AnyObject] = [
             "view": view,
-            "stepA": stepA.view,
-            "stepB": stepB.view,
-            "stepC": stepC.view,
+            "stepA": steps[0].view,
+            "stepB": steps[1].view,
+            "stepC": steps[2].view,
         ]
 
         let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[stepA(==view)]|", options: [], metrics: nil, views: viewsDictionary)
@@ -90,6 +86,26 @@ final class ShowViewController: UIViewController {
         NSLayoutConstraint.activateConstraints(hConstraints)
     }
 
+    private func makeSteps() -> [UIViewController] {
+
+        let steps: [UIViewController] = [
+            UIStoryboard.Scene.showStepGenius,
+            UIStoryboard.Scene.showStepMatch,
+            UIStoryboard.Scene.showStepMeet,
+        ]
+
+        steps.forEach({ step in
+            step.view.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.addSubview(step.view)
+
+            addChildViewController(step)
+            step.didMoveToParentViewController(self)
+        })
+
+        return steps
+    }
+
+    /*
     private func stepGenius() -> ShowStepGeniusViewController {
         let step = UIStoryboard.Scene.showStepGenius
         step.view.translatesAutoresizingMaskIntoConstraints = false
@@ -122,6 +138,7 @@ final class ShowViewController: UIViewController {
 
         return step
     }
+     */
 }
 
 // MARK: - UIScrollViewDelegate
