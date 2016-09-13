@@ -343,7 +343,9 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             feeds = []
             feedsTableView.reloadData()
 
-            filterBarItem?.title = feedSortStyle.nameWithArrow
+            UIView.performWithoutAnimation { [weak self] in
+                self?.filterBarItem?.title = self?.feedSortStyle.nameWithArrow
+            }
 
             updateFeeds()
 
