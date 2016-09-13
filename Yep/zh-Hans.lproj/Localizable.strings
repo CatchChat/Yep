@@ -47,7 +47,7 @@
 "prompt.create_feed_failed" = "创建话题失败！";
 "prompt.create_username_failed" = "创建用户名失败！";
 "title.create" = "创建";
-"Creators of Blocked Feeds" = "被屏蔽的话题创建者";
+"prompt.creators_of_blocked_feeds" = "被屏蔽的话题创建者";
 "prompt.current_number" = "当前号码";
 "title.delete" = "删除";
 "prompt.did_not_get_it" = "没有收到？";
