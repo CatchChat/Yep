@@ -25,19 +25,24 @@ final class SettingsViewController: BaseViewController {
         }
     }
 
-    private let moreAnnotations: [[String: String]] = [
-        [
-            "name": String.trans_titleNotificationsAndPrivacy,
-            "segue": "showNotifications",
-        ],
-        [
-            "name": String.trans_titleFeedback,
-            "segue": "showFeedback",
-        ],
-        [
-            "name": String.trans_titleAbout,
-            "segue": "showAbout",
-        ],
+    struct Annotation {
+        let name: String
+        let segue: String
+    }
+
+    private let moreAnnotations: [Annotation] = [
+        Annotation(
+            name: String.trans_titleNotificationsAndPrivacy,
+            segue: "showNotifications"
+        ),
+        Annotation(
+            name: String.trans_titleFeedback,
+            segue: "showFeedback"
+        ),
+        Annotation(
+            name: String.trans_titleAbout,
+            segue: "showAbout"
+        ),
     ]
 
     private let introAttributes = [NSFontAttributeName: YepConfig.Settings.introFont]
@@ -52,11 +57,6 @@ final class SettingsViewController: BaseViewController {
         settingsTableView?.delegate = nil
 
         println("deinit Settings")
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        
-        super.viewWillAppear(animated)
     }
 
     override func viewDidLoad() {
@@ -88,6 +88,8 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         case User
         case UI
         case More
+
+        static let count = 3
     }
 
     private enum UIRow: Int {
@@ -95,13 +97,13 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        return 3
+        return Section.count
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
-            fatalError()
+            fatalError("Invalide section!")
         }
 
         switch section {
@@ -117,7 +119,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         guard let section = Section(rawValue: indexPath.section) else {
-            fatalError()
+            fatalError("Invalide section!")
         }
 
         switch section {
@@ -128,7 +130,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .UI:
             guard let row = UIRow(rawValue: indexPath.row) else {
-                fatalError()
+                fatalError("Invalide row!")
             }
 
             switch row {
@@ -145,7 +147,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         case .More:
             let cell: SettingsMoreCell = tableView.dequeueReusableCell()
             let annotation = moreAnnotations[indexPath.row]
-            cell.annotationLabel.text = annotation["name"]
+            cell.annotationLabel.text = annotation.name
             return cell
         }
     }
@@ -153,7 +155,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
 
         guard let section = Section(rawValue: indexPath.section) else {
-            fatalError()
+            fatalError("Invalide section!")
         }
 
         switch section {
@@ -184,7 +186,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         guard let section = Section(rawValue: indexPath.section) else {
-            fatalError()
+            fatalError("Invalide section!")
         }
 
         switch section {
@@ -197,10 +199,8 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .More:
             let annotation = moreAnnotations[indexPath.row]
-
-            if let segue = annotation["segue"] {
-                performSegueWithIdentifier(segue, sender: nil)
-            }
+            let segue = annotation.segue
+            performSegueWithIdentifier(segue, sender: nil)
         }
     }
 }
