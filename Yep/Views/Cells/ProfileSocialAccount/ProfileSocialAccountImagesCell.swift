@@ -171,18 +171,7 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
                 self.socialWork = socialWork
 
             } else {
-                var userID: String?
-
-                if let profileUser = profileUser {
-                    switch profileUser {
-                    case .DiscoveredUserType(let discoveredUser):
-                        userID = discoveredUser.id
-                    case .UserType(let user):
-                        userID = user.userID
-                    }
-                }
-
-                if let userID = userID {
+                if let userID = profileUser?.userID {
 
                     switch socialAccount {
 
@@ -193,10 +182,9 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
                         }, completion: { dribbbleWork in
                             //println("dribbbleWork: \(dribbbleWork.shots.count)")
 
-                            SafeDispatch.async {
+                            SafeDispatch.async { [weak self] in
                                 let socialWork = SocialWork.Dribbble(dribbbleWork)
-
-                                self.socialWork = socialWork
+                                self?.socialWork = socialWork
 
                                 completion?(socialWork)
                             }
@@ -209,10 +197,9 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
                         }, completion: { instagramWork in
                             //println("instagramWork: \(instagramWork.medias.count)")
 
-                            SafeDispatch.async {
+                            SafeDispatch.async { [weak self] in
                                 let socialWork = SocialWork.Instagram(instagramWork)
-
-                                self.socialWork = socialWork
+                                self?.socialWork = socialWork
 
                                 completion?(socialWork)
                             }
@@ -226,3 +213,4 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
         }
     }
 }
+

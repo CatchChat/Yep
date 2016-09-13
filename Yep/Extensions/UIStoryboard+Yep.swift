@@ -20,6 +20,18 @@ extension UIStoryboard {
 
     struct Scene {
 
+        static var showStepGenius: ShowStepGeniusViewController {
+            return UIStoryboard.yep_show.instantiateViewControllerWithIdentifier("ShowStepGeniusViewController") as! ShowStepGeniusViewController
+        }
+
+        static var showStepMatch: ShowStepMatchViewController {
+            return UIStoryboard.yep_show.instantiateViewControllerWithIdentifier("ShowStepMatchViewController") as! ShowStepMatchViewController
+        }
+
+        static var showStepMeet: ShowStepMeetViewController {
+            return UIStoryboard.yep_show.instantiateViewControllerWithIdentifier("ShowStepMeetViewController") as! ShowStepMeetViewController
+        }
+
         static var pickPhotos: PickPhotosViewController {
             return UIStoryboard(name: "PickPhotos", bundle: nil).instantiateViewControllerWithIdentifier("PickPhotosViewController") as! PickPhotosViewController
         }

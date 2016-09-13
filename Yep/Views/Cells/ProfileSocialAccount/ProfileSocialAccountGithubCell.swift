@@ -105,18 +105,7 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
                 self.githubWork = githubWork
 
             } else {
-                var userID: String?
-
-                if let profileUser = profileUser {
-                    switch profileUser {
-                    case .DiscoveredUserType(let discoveredUser):
-                        userID = discoveredUser.id
-                    case .UserType(let user):
-                        userID = user.userID
-                    }
-                }
-
-                if let userID = userID {
+                if let userID = profileUser?.userID {
 
                     githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
                         defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -124,8 +113,8 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
                     }, completion: { githubWork in
                         //println("githubWork: \(githubWork)")
 
-                        SafeDispatch.async {
-                            self.githubWork = githubWork
+                        SafeDispatch.async { [weak self] in
+                            self?.githubWork = githubWork
 
                             completion?(githubWork)
                         }
@@ -134,5 +123,5 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
             }
         }
     }
-
 }
+

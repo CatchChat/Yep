@@ -10,83 +10,85 @@ import UIKit
 
 final class PodsHelpYepViewController: UITableViewController {
 
-    private let pods: [[String: String]] = [
-        [
-            "name": "RealmSwift",
-            "URLString": "https://github.com/realm/realm-cocoa",
-        ],
-        [
-            "name": "Proposer",
-            "URLString": "https://github.com/nixzhu/Proposer",
-        ],
-        [
-            "name": "KeyboardMan",
-            "URLString": "https://github.com/nixzhu/KeyboardMan",
-        ],
-        [
-            "name": "Ruler",
-            "URLString": "https://github.com/nixzhu/Ruler",
-        ],
-        [
-            "name": "MonkeyKing",
-            "URLString": "https://github.com/nixzhu/MonkeyKing",
-        ],
-        [
-            "name": "Navi",
-            "URLString": "https://github.com/nixzhu/Navi",
-        ],
-        [
-            "name": "AudioBot",
-            "URLString": "https://github.com/nixzhu/AudioBot",
-        ],
-        [
-            "name": "AutoReview",
-            "URLString": "https://github.com/nixzhu/AutoReview",
-        ],
-        [
-            "name": "Kingfisher",
-            "URLString": "https://github.com/onevcat/Kingfisher",
-        ],
-        [
-            "name": "FXBlurView",
-            "URLString": "https://github.com/nicklockwood/FXBlurView",
-        ],
-        [
-            "name": "TPKeyboardAvoiding",
-            "URLString": "https://github.com/michaeltyson/TPKeyboardAvoiding",
-        ],
-        [
-            "name": "DeviceGuru",
-            "URLString": "https://github.com/InderKumarRathore/DeviceGuru",
-        ],
-        [
-            "name": "Alamofire",
-            "URLString": "https://github.com/Alamofire/Alamofire",
-        ],
-        [
-            "name": "Pop",
-            "URLString": "https://github.com/facebook/pop",
-        ],
-        [
-            "name": "RxSwift",
-            "URLString": "https://github.com/ReactiveX/RxSwift",
-        ],
-        [
-            "name": "ReSwift",
-            "URLString": "https://github.com/ReSwift/ReSwift",
-        ],
-        [
-            "name": "KeypathObserver",
-            "URLString": "https://github.com/nixzhu/KeypathObserver",
-        ],
+    struct Framework {
+        let name: String
+        let urlString: String
 
-    ].sort({ a, b in
-        if let nameA = a["name"], nameB = b["name"] {
-            return nameA < nameB
+        var url: NSURL? {
+            return NSURL(string: urlString)
         }
+    }
 
-        return true
-    })
+    private let frameworks: [Framework] = [
+        Framework(
+            name: "Alamofire",
+            urlString: "https://github.com/Alamofire/Alamofire"
+        ),
+        Framework(
+            name: "AudioBot",
+            urlString: "https://github.com/nixzhu/AudioBot"
+        ),
+        Framework(
+            name: "AutoReview",
+            urlString: "https://github.com/nixzhu/AutoReview"
+        ),
+        Framework(
+            name: "DeviceGuru",
+            urlString: "https://github.com/InderKumarRathore/DeviceGuru"
+        ),
+        Framework(
+            name: "FXBlurView",
+            urlString: "https://github.com/nicklockwood/FXBlurView"
+        ),
+        Framework(
+            name: "KeyboardMan",
+            urlString: "https://github.com/nixzhu/KeyboardMan"
+        ),
+        Framework(
+            name: "KeypathObserver",
+            urlString: "https://github.com/nixzhu/KeypathObserver"
+        ),
+        Framework(
+            name: "Kingfisher",
+            urlString: "https://github.com/onevcat/Kingfisher"
+        ),
+        Framework(
+            name: "MonkeyKing",
+            urlString: "https://github.com/nixzhu/MonkeyKing"
+        ),
+        Framework(
+            name: "Navi",
+            urlString: "https://github.com/nixzhu/Navi"
+        ),
+        Framework(
+            name: "Pop",
+            urlString: "https://github.com/facebook/pop"
+        ),
+        Framework(
+            name: "Proposer",
+            urlString: "https://github.com/nixzhu/Proposer"
+        ),
+        Framework(
+            name: "ReSwift",
+            urlString: "https://github.com/ReSwift/ReSwift"
+        ),
+        Framework(
+            name: "RealmSwift",
+            urlString: "https://github.com/realm/realm-cocoa"
+        ),
+        Framework(
+            name: "Ruler",
+            urlString: "https://github.com/nixzhu/Ruler"
+        ),
+        Framework(
+            name: "RxSwift",
+            urlString: "https://github.com/ReactiveX/RxSwift"
+        ),
+        Framework(
+            name: "TPKeyboardAvoiding",
+            urlString: "https://github.com/michaeltyson/TPKeyboardAvoiding"
+        ),
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -100,13 +102,13 @@ final class PodsHelpYepViewController: UITableViewController {
 
     enum Section: Int {
         case Yep
-        case Pods
+        case Frameworks
 
         var headerTitle: String {
             switch self {
             case .Yep:
                 return NSLocalizedString("Yep", comment: "")
-            case .Pods:
+            case .Frameworks:
                 return NSLocalizedString("Third Party", comment: "")
             }
         }
@@ -126,8 +128,8 @@ final class PodsHelpYepViewController: UITableViewController {
         switch section {
         case .Yep:
             return 1
-        case .Pods:
-            return pods.count
+        case .Frameworks:
+            return frameworks.count
         }
     }
 
@@ -154,10 +156,10 @@ final class PodsHelpYepViewController: UITableViewController {
             cell.detailTextLabel?.text = NSLocalizedString("Welcome contributions!", comment: "")
             return cell
 
-        case .Pods:
+        case .Frameworks:
             let cell = tableView.dequeueReusableCellWithIdentifier("PodCell", forIndexPath: indexPath)
-            let pod = pods[indexPath.row]
-            cell.textLabel?.text = pod["name"]
+            let framework = frameworks[indexPath.row]
+            cell.textLabel?.text = framework.name
             return cell
         }
     }
@@ -171,7 +173,7 @@ final class PodsHelpYepViewController: UITableViewController {
         switch section {
         case .Yep:
             return 60
-        case .Pods:
+        case .Frameworks:
             return 44
         }
     }
@@ -193,10 +195,10 @@ final class PodsHelpYepViewController: UITableViewController {
                 yep_openURL(URL)
             }
 
-        case .Pods:
-            let pod = pods[indexPath.row]
-            if let URLString = pod["URLString"], URL = NSURL(string: URLString) {
-                yep_openURL(URL)
+        case .Frameworks:
+            let framework = frameworks[indexPath.row]
+            if let url = framework.url {
+                yep_openURL(url)
             }
         }
     }

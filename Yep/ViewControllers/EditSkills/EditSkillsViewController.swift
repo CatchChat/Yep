@@ -34,16 +34,12 @@ final class EditSkillsViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //animatedOnNavigationBar = false
-
         title = skillSet?.name
+
         // get all skill categories
 
-        allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-        }, completion: { skillCategories -> Void in
-            self.skillCategories = skillCategories
+        allSkillCategories(failureHandler: nil, completion: { [weak self] skillCategories in
+            self?.skillCategories = skillCategories
         })
 
         // table view
@@ -195,9 +191,9 @@ final class EditSkillsViewController: BaseViewController {
                 }
             }
 
-            vc.syncSkillsFromServerAction = { [weak self] in
+            vc.syncSkillsFromServerAction = {
                 syncMyInfoAndDoFurtherAction {
-                    SafeDispatch.async {
+                    SafeDispatch.async { [weak self] in
                         self?.updateSkillsTableView()
                         self?.afterChangedSkillsAction?()
                     }
@@ -217,7 +213,10 @@ final class EditSkillsViewController: BaseViewController {
     // MARK: Actions
 
     private func updateSkillsTableView() {
-        skillsTableView.reloadData()
+
+        SafeDispatch.async { [weak self] in
+            self?.skillsTableView.reloadData()
+        }
     }
 }
 

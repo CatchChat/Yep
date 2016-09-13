@@ -157,14 +157,15 @@ public enum SocialAccount: String {
 }
 
 public enum ProfileUser {
+
     case DiscoveredUserType(DiscoveredUser)
     case UserType(User)
 
     public var userID: String {
+
         switch self {
         case .DiscoveredUserType(let discoveredUser):
             return discoveredUser.id
-
         case .UserType(let user):
             return user.userID
         }
@@ -173,12 +174,9 @@ public enum ProfileUser {
     public var username: String? {
 
         var username: String? = nil
-
         switch self {
-
         case .DiscoveredUserType(let discoveredUser):
             username = discoveredUser.username
-
         case .UserType(let user):
             if !user.username.isEmpty {
                 username = user.username
@@ -189,10 +187,10 @@ public enum ProfileUser {
     }
 
     public var nickname: String {
+
         switch self {
         case .DiscoveredUserType(let discoveredUser):
             return discoveredUser.nickname
-
         case .UserType(let user):
             return user.nickname
         }
@@ -201,12 +199,9 @@ public enum ProfileUser {
     public var avatarURLString: String? {
 
         var avatarURLString: String? = nil
-
         switch self {
-
         case .DiscoveredUserType(let discoveredUser):
             avatarURLString = discoveredUser.avatarURLString
-
         case .UserType(let user):
             if !user.avatarURLString.isEmpty {
                 avatarURLString = user.avatarURLString
@@ -219,32 +214,23 @@ public enum ProfileUser {
     public var blogURL: NSURL? {
 
         var blogURLString: String? = nil
-
         switch self {
-
         case .DiscoveredUserType(let discoveredUser):
             blogURLString = discoveredUser.blogURLString
-
         case .UserType(let user):
             if !user.blogURLString.isEmpty {
                 blogURLString = user.blogURLString
             }
         }
 
-        if let blogURLString = blogURLString {
-            return NSURL(string: blogURLString)
-        }
-
-        return nil
+        return blogURLString.flatMap({ NSURL(string: $0) })
     }
 
     public var blogTitle: String? {
 
         switch self {
-
         case .DiscoveredUserType(let discoveredUser):
             return discoveredUser.blogTitle
-
         case .UserType(let user):
             if !user.blogTitle.isEmpty {
                 return user.blogTitle
@@ -257,10 +243,8 @@ public enum ProfileUser {
     public var isMe: Bool {
 
         switch self {
-
         case .DiscoveredUserType(let discoveredUser):
             return discoveredUser.isMe
-
         case .UserType(let user):
             return user.isMe
         }
@@ -298,6 +282,7 @@ public enum ProfileUser {
     }
 
     public var masterSkillsCount: Int {
+
         switch self {
         case .DiscoveredUserType(let discoveredUser):
             return discoveredUser.masterSkills.count
@@ -307,6 +292,7 @@ public enum ProfileUser {
     }
 
     public var learningSkillsCount: Int {
+
         switch self {
         case .DiscoveredUserType(let discoveredUser):
             return discoveredUser.learningSkills.count

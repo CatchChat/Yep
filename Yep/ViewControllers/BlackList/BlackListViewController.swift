@@ -25,8 +25,6 @@ final class BlackListViewController: BaseViewController {
     }
     @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
 
-    private let cellIdentifier = "ContactsCell"
-
     private var blockedUsers: [DiscoveredUser] = [] {
         willSet {
             if newValue.count == 0 {
@@ -42,8 +40,8 @@ final class BlackListViewController: BaseViewController {
 
         activityIndicator.startAnimating()
 
-        blockedUsersByMe(failureHandler: { [weak self] reason, errorMessage in
-            SafeDispatch.async {
+        blockedUsersByMe(failureHandler: { (reason, errorMessage) in
+            SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
             }
 
@@ -95,11 +93,9 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
         let cell: ContactsCell = tableView.dequeueReusableCell()
-
         cell.selectionStyle = .None
 
         let discoveredUser = blockedUsers[indexPath.row]
-
         cell.configureWithDiscoveredUser(discoveredUser)
 
         return cell
