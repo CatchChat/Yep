@@ -19,8 +19,6 @@ import RealmSwift
 import Kingfisher
 import MapKit
 
-let generalSkill = Skill(category: nil, id: "", name: "general", localName: String.trans_promptChoose, coverURLString: nil)
-
 struct FeedVoice {
 
     let fileURL: NSURL
@@ -29,6 +27,8 @@ struct FeedVoice {
 }
 
 final class NewFeedViewController: SegueViewController {
+
+    static let generalSkill = Skill(category: nil, id: "", name: "general", localName: String.trans_promptChoose, coverURLString: nil)
 
     enum Attachment {
         case Default
@@ -186,7 +186,7 @@ final class NewFeedViewController: SegueViewController {
         }
 
         var skills = skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
-        skills.insert(generalSkill, atIndex: 0)
+        skills.insert(NewFeedViewController.generalSkill, atIndex: 0)
         return skills
     }()
     
@@ -490,7 +490,7 @@ final class NewFeedViewController: SegueViewController {
     
     private func hideSkillPickerView() {
         
-        if pickedSkill == generalSkill {
+        if pickedSkill == NewFeedViewController.generalSkill {
             pickedSkill = nil
         }
         
