@@ -269,5 +269,10 @@ final class YepConfig {
     struct Search {
         static let delayInterval: NSTimeInterval = 0.5
     }
+
+    struct Domain {
+        static let feed = "Catch-Inc.Yep.Feed"
+        static let user = "Catch-Inc.Yep.User"
+    }
 }
 

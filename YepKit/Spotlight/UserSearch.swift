@@ -9,8 +9,6 @@
 import CoreSpotlight
 import MobileCoreServices.UTType
 
-public let userDomainIdentifier = "Catch-Inc.Yep.User"
-
 @available(iOS 9.0, *)
 public extension User {
 
