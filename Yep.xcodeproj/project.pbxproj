@@ -452,7 +452,7 @@
 		50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */; };
 		50D84F0A1CF2D9FB0018D91F /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F071CF2D9FB0018D91F /* UserSearch.swift */; };
 		50D84F0C1CF2DB470018D91F /* CancelableTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F0B1CF2DB470018D91F /* CancelableTask.swift */; };
-		50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */; };
+		50D84F101CF2DEB90018D91F /* SendingMessagesPool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F0F1CF2DEB90018D91F /* SendingMessagesPool.swift */; };
 		50D84F171CF2DFF50018D91F /* Double+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F161CF2DFF50018D91F /* Double+Yep.swift */; };
 		50D84F201CF2F8750018D91F /* ServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1C1CF2F8750018D91F /* ServiceTests.swift */; };
 		50D84F211CF2F8750018D91F /* SocialWorkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F1D1CF2F8750018D91F /* SocialWorkTests.swift */; };
@@ -1193,7 +1193,7 @@
 		50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchableItemType.swift; sourceTree = "<group>"; };
 		50D84F071CF2D9FB0018D91F /* UserSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearch.swift; sourceTree = "<group>"; };
 		50D84F0B1CF2DB470018D91F /* CancelableTask.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CancelableTask.swift; path = Helpers/CancelableTask.swift; sourceTree = "<group>"; };
-		50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendingMessagePool.swift; path = Caches/SendingMessagePool.swift; sourceTree = "<group>"; };
+		50D84F0F1CF2DEB90018D91F /* SendingMessagesPool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SendingMessagesPool.swift; path = Caches/SendingMessagesPool.swift; sourceTree = "<group>"; };
 		50D84F161CF2DFF50018D91F /* Double+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Double+Yep.swift"; path = "Extensions/Double+Yep.swift"; sourceTree = "<group>"; };
 		50D84F1C1CF2F8750018D91F /* ServiceTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServiceTests.swift; sourceTree = "<group>"; };
 		50D84F1D1CF2F8750018D91F /* SocialWorkTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocialWorkTests.swift; sourceTree = "<group>"; };
@@ -3294,7 +3294,7 @@
 		50D84F0E1CF2DE9C0018D91F /* Caches */ = {
 			isa = PBXGroup;
 			children = (
-				50D84F0F1CF2DEB90018D91F /* SendingMessagePool.swift */,
+				50D84F0F1CF2DEB90018D91F /* SendingMessagesPool.swift */,
 			);
 			name = Caches;
 			sourceTree = "<group>";
@@ -4894,7 +4894,7 @@
 				5034A8F21D7821180094F42B /* String+Trans.swift in Sources */,
 				50CE7BD91CF44EAF00488E5B /* UploadAttachmentOperation.swift in Sources */,
 				50CE7BD81CF44EAF00488E5B /* ConcurrentOperation.swift in Sources */,
-				50D84F101CF2DEB90018D91F /* SendingMessagePool.swift in Sources */,
+				50D84F101CF2DEB90018D91F /* SendingMessagesPool.swift in Sources */,
 				5024BF4C1D0D3DC400358156 /* NSFileManager+Yep.swift in Sources */,
 				50CE7BDD1CF457D600488E5B /* UIImage+Yep.swift in Sources */,
 				50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */,

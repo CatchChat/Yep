@@ -2271,7 +2271,7 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
     }
 
     let tempMessageID = NSUUID().UUIDString
-    SendingMessagePool.addMessage(tempMesssageID: tempMessageID)
+    SendingMessagesPool.addMessage(with: tempMessageID)
 
     var messageInfo: JSONDictionary = [
         "recipient_id": recipient.ID,

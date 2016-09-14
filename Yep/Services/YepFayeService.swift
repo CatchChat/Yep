@@ -307,12 +307,12 @@ extension YepFayeService {
 
         if isMessageSendFromMe() {
 
-            // 如果收到的消息在本地的 SendingMessagePool 里，那就不同步了
+            // 如果收到的消息在本地的 SendingMessagesPool 里，那就不同步了
             if let tempMesssageID = messageInfo["random_id"] as? String {
-                if SendingMessagePool.containsMessage(tempMesssageID: tempMesssageID) {
-                    println("SendingMessagePool.containsMessage \(tempMesssageID)")
+                if SendingMessagesPool.containsMessage(with: tempMesssageID) {
+                    println("SendingMessagesPool.containsMessage \(tempMesssageID)")
                     // 广播只有一次，可从池子里清除 tempMesssageID
-                    SendingMessagePool.removeMessage(tempMesssageID: tempMesssageID)
+                    SendingMessagesPool.removeMessage(with: tempMesssageID)
                     return
                 }
 
