@@ -122,9 +122,9 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
 
         let pickedImageAssets = pickedImages
 
-        for imageAsset in pickedImageAssets {
+        let maxSize: CGFloat = Config.Media.imageWidth
 
-            let maxSize: CGFloat = 1024
+        for imageAsset in pickedImageAssets {
 
             let pixelWidth = CGFloat(imageAsset.pixelWidth)
             let pixelHeight = CGFloat(imageAsset.pixelHeight)
