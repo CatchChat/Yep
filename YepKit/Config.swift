@@ -21,9 +21,7 @@ final public class Config {
 
     public static let appGroupID: String = "group.Catch-Inc.Yep"
 
-    public class func clientType() -> Int {
-        // TODO: clientType
-
+    public static var clientType: Int {
         #if DEBUG
             return 2
         #else
@@ -31,9 +29,7 @@ final public class Config {
         #endif
     }
 
-    public class func avatarCompressionQuality() -> CGFloat {
-        return 0.7
-    }
+    public static var avatarCompressionQuality: CGFloat = 0.7
 
     public struct Notification {
         public static let markAsReaded = "YepConfig.Notification.markAsReaded"
