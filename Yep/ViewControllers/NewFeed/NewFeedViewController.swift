@@ -268,26 +268,12 @@ final class NewFeedViewController: SegueViewController {
         
         // try turn on location
         
-        let locationResource = PrivateResource.Location(.WhenInUse)
-        
-        if locationResource.isNotDeterminedAuthorization {
+        proposeToAccess(.Location(.WhenInUse), agreed: {
+            YepLocationService.turnOn()
             
-            proposeToAccess(.Location(.WhenInUse), agreed: {
-                
-                YepLocationService.turnOn()
-                
-            }, rejected: {
-                self.alertCanNotAccessLocation()
-            })
-            
-        } else {
-            proposeToAccess(.Location(.WhenInUse), agreed: {
-                
-                YepLocationService.turnOn()
-                
-            }, rejected: {
-            })
-        }
+        }, rejected: { [weak self] in
+            self?.alertCanNotAccessLocation()
+        })
 
         switch attachment {
 
