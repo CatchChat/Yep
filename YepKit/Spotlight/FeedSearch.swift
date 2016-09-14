@@ -14,24 +14,6 @@ public let feedDomainIdentifier = "Catch-Inc.Yep.Feed"
 @available(iOS 9.0, *)
 public extension Feed {
 
-    /*
-    var userActivityUserInfo: [NSObject: AnyObject] {
-        return [
-            "feedID": feedID,
-        ]
-    }
-
-    var userActivity: NSUserActivity {
-        let activity = NSUserActivity(activityType: feedDomainIdentifier)
-        activity.title = creator?.nickname
-        activity.userInfo = userActivityUserInfo
-        activity.keywords = [body]
-        activity.contentAttributeSet = attributeSet
-        activity.eligibleForSearch = true
-        return activity
-    }
-    */
-
     public var attributeSet: CSSearchableItemAttributeSet {
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
         attributeSet.title = creator?.nickname
@@ -47,3 +29,4 @@ public extension Feed {
         return attributeSet
     }
 }
+
