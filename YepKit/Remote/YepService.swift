@@ -59,18 +59,6 @@ public struct LoginUser: CustomStringConvertible {
     }
 }
 
-/*
-struct QiniuProvider: CustomStringConvertible {
-    let token: String
-    let key: String
-    let downloadURLString: String
-
-    var description: String {
-        return "QiniuProvider(token: \(token), key: \(key), downloadURLString: \(downloadURLString))"
-    }
-}
-*/
-
 public func saveTokenAndUserInfoOfLoginUser(loginUser: LoginUser) {
 
     YepUserDefaults.userID.value = loginUser.userID
