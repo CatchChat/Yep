@@ -24,6 +24,9 @@ final class StoryboardTests: XCTestCase {
 
         do {
             let scenes: [UIViewController] = [
+                UIStoryboard.Scene.showStepGenius,
+                UIStoryboard.Scene.showStepMatch,
+                UIStoryboard.Scene.showStepMeet,
                 UIStoryboard.Scene.pickPhotos,
                 UIStoryboard.Scene.conversation,
                 UIStoryboard.Scene.profile,
