@@ -1052,7 +1052,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             return CGSize(width: 80, height: 80)
 
         case .Add:
-            guard mediaImages.count != 4 else {
+            guard mediaImages.count != YepConfig.Feed.maxImagesCount else {
                 return CGSizeZero
             }
             return CGSize(width: 80, height: 80)
@@ -1127,7 +1127,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
             messageTextView.resignFirstResponder()
             
-            if mediaImages.count == 4 {
+            if mediaImages.count == YepConfig.Feed.maxImagesCount {
                 YepAlert.alertSorry(message: String.trans_promptFeedCanOnlyHasXPhotos, inViewController: self)
                 return
             }
