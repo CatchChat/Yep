@@ -59,8 +59,10 @@ final class FeedSkillPickerItemView: UIView {
     }
 
     func configureWithSkill(skill: Skill) {
+
         skillLabel.text = skill.localName
-        if skill.name == generalSkill.name {
+
+        if skill == NewFeedViewController.generalSkill {
             skillLabel.textColor = UIColor.lightGrayColor()
             bubbleImageView.image = nil
         } else {

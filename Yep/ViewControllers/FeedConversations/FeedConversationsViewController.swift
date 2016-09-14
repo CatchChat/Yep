@@ -128,6 +128,7 @@ final class FeedConversationsViewController: SegueViewController {
     // MARK: Actions
 
     func reloadFeedConversationsTableView() {
+
         SafeDispatch.async { [weak self] in
             self?.feedConversationsTableView.reloadData()
         }
@@ -160,9 +161,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
 
-        guard let conversation = feedConversations[safe: indexPath.row] else {
-            return UITableViewCell()
-        }
+        let conversation = feedConversations[indexPath.row]
 
         if let feed = conversation.withGroup?.withFeed {
 
@@ -183,9 +182,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
     func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
 
-        guard let conversation = feedConversations[safe: indexPath.row] else {
-            return
-        }
+        let conversation = feedConversations[indexPath.row]
 
         if let feed = conversation.withGroup?.withFeed {
 
@@ -235,22 +232,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
     func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
 
-        guard let conversation = feedConversations[safe: indexPath.row] else {
-            fatalError("Invalid index of feedConversations!")
-        }
-
         let title: String = NSLocalizedString("Unsubscribe", comment: "")
-        /*
-        var title: String = NSLocalizedString("Unsubscribe", comment: "")
-        if let feed = conversation.withGroup?.withFeed {
-            if feed.deleted {
-                title = String.trans_titleDelete
-            }
-            if let creator = feed.creator where creator.isMe {
-                title = String.trans_titleDelete
-            }
-        }
-        */
 
         let deleteAction = UITableViewRowAction(style: .Default, title: title) { [weak self] action, indexPath in
 

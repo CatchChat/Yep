@@ -38,7 +38,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
     var imageLimit = 0
 
     var newTitle: String {
-        return String.trans_titlePickPhotos + "(\(imageLimit + pickedImages.count)/4)"
+        return String.trans_titlePickPhotos + "(\(imageLimit + pickedImages.count)/\(YepConfig.Feed.maxImagesCount))"
     }
 
     override func viewDidLoad() {
@@ -122,9 +122,9 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
 
         let pickedImageAssets = pickedImages
 
-        for imageAsset in pickedImageAssets {
+        let maxSize: CGFloat = Config.Media.imageWidth
 
-            let maxSize: CGFloat = 1024
+        for imageAsset in pickedImageAssets {
 
             let pixelWidth = CGFloat(imageAsset.pixelWidth)
             let pixelHeight = CGFloat(imageAsset.pixelHeight)
@@ -209,7 +209,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
                     pickedImages.removeAtIndex(index)
                 }
             } else {
-                if pickedImageSet.count + imageLimit == 4 {
+                if (pickedImageSet.count + imageLimit) == YepConfig.Feed.maxImagesCount {
                     return
                 }
                 if !pickedImageSet.contains(imageAsset) {

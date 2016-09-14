@@ -732,7 +732,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
         activityIndicator.startAnimating()
 
         let image = image.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
-        let imageData = UIImageJPEGRepresentation(image, Config.avatarCompressionQuality())
+        let imageData = UIImageJPEGRepresentation(image, Config.avatarCompressionQuality)
 
         if let imageData = imageData {
 

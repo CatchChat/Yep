@@ -111,7 +111,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         let shareType: ShareType
         let body = contentText ?? ""
-        if let fileURL = fileURLs.first where fileURL.pathExtension == "m4a" {
+        if let fileURL = fileURLs.first where fileURL.pathExtension == FileExtension.M4A.rawValue {
             shareType = .Audio(body: body, fileURL: fileURL)
         } else if let URL = webURLs.first {
             shareType = .URL(body: body, URL: URL)
@@ -183,7 +183,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         case .Audio(_, let fileURL):
 
-            let tempPath = NSTemporaryDirectory().stringByAppendingString("\(NSUUID().UUIDString).m4a")
+            let tempPath = NSTemporaryDirectory().stringByAppendingString("\(NSUUID().UUIDString).\(FileExtension.M4A.rawValue)")
             let tempURL = NSURL(fileURLWithPath: tempPath)
             try! NSFileManager.defaultManager().copyItemAtURL(fileURL, toURL: tempURL)
 

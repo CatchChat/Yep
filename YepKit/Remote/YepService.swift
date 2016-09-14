@@ -158,7 +158,7 @@ public func verifyMobilePhone(mobilePhone: MobilePhone, verifyCode: String, fail
         "phone_code": mobilePhone.areaCode,
         "mobile": mobilePhone.number,
         "token": verifyCode,
-        "client": Config.clientType(),
+        "client": Config.clientType,
         "expiring": 0, // 永不过期
     ]
 
@@ -538,13 +538,13 @@ public func confirmNewMobilePhone(mobilePhone: MobilePhone, withVerifyCode verif
 
 public func loginByMobilePhone(mobilePhone: MobilePhone, withVerifyCode verifyCode: String, failureHandler: FailureHandler?, completion: LoginUser -> Void) {
 
-    println("User login type is \(Config.clientType())")
+    println("User login type is \(Config.clientType)")
     
     let requestParameters: JSONDictionary = [
         "phone_code": mobilePhone.areaCode,
         "mobile": mobilePhone.number,
         "verify_code": verifyCode,
-        "client": Config.clientType(),
+        "client": Config.clientType,
         "expiring": 0, // 永不过期
     ]
 
@@ -2271,7 +2271,7 @@ public func sendMessage(message: Message, inFilePath filePath: String?, orFileDa
     }
 
     let tempMessageID = NSUUID().UUIDString
-    SendingMessagePool.addMessage(tempMesssageID: tempMessageID)
+    SendingMessagesPool.addMessage(with: tempMessageID)
 
     var messageInfo: JSONDictionary = [
         "recipient_id": recipient.ID,

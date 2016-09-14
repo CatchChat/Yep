@@ -194,6 +194,10 @@ final class YepConfig {
         ]
     }
 
+    struct Feed {
+        static let maxImagesCount = 4
+    }
+
     struct FeedMedia {
         static let backgroundColor = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1)
     }
@@ -264,6 +268,11 @@ final class YepConfig {
 
     struct Search {
         static let delayInterval: NSTimeInterval = 0.5
+    }
+
+    struct Domain {
+        static let feed = "Catch-Inc.Yep.Feed"
+        static let user = "Catch-Inc.Yep.User"
     }
 }
 
