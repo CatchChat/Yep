@@ -99,6 +99,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
+    // PullToRefreshViewDelegate
     // CanScrollsToTop
     var scrollView: UIScrollView? {
         return feedsTableView

@@ -10,7 +10,7 @@ import UIKit
 
 protocol PullToRefreshViewDelegate: class {
 
-    var scrollView: UIScrollView { get }
+    var scrollView: UIScrollView? { get }
 
     func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView)
 }
@@ -91,9 +91,8 @@ final class PullToRefreshView: UIView {
         isRefreshing = true
 
         UIView.animateWithDuration(0.25, delay: 0, options: .CurveEaseInOut, animations: { [weak self] in
-            self?.delegate?.scrollView.contentInset.top += sceneHeight
-        }, completion: { (_) -> Void in
-        })
+            self?.delegate?.scrollView?.contentInset.top += sceneHeight
+        }, completion: nil)
     }
 
     func endRefreshingAndDoFurtherAction(furtherAction: () -> Void) {
@@ -105,15 +104,15 @@ final class PullToRefreshView: UIView {
         isRefreshing = false
 
         UIView.animateWithDuration(0.25, delay: 0, options: .CurveEaseInOut, animations: { [weak self] in
-            self?.delegate?.scrollView.contentInset.top -= sceneHeight
+            self?.delegate?.scrollView?.contentInset.top -= sceneHeight
 
-        }, completion: { (_) -> Void in
+        }, completion: { [weak self] (_) in
 
             furtherAction()
             
-            self.refreshView.stopFlashing()
+            self?.refreshView.stopFlashing()
 
-            self.refreshView.updateRamdonShapePositions()
+            self?.refreshView.updateRamdonShapePositions()
         })
     }
 
