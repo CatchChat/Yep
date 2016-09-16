@@ -100,7 +100,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
     }
 
     // CanScrollsToTop
-    var scrollView: UIScrollView {
+    var scrollView: UIScrollView? {
         return feedsTableView
     }
 

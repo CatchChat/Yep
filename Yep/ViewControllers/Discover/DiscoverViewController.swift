@@ -26,7 +26,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
     }
 
     // CanScrollsToTop
-    var scrollView: UIScrollView {
+    var scrollView: UIScrollView? {
         return discoveredUsersCollectionView
     }
 

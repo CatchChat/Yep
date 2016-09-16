@@ -15,13 +15,8 @@ import RxCocoa
 class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
 
     // CanScrollsToTop
-    var scrollView: UIScrollView {
-        if let vc = viewControllers?.first as? CanScrollsToTop {
-            return vc.scrollView
-        } else {
-            println("Should never be here!")
-            return UIScrollView()
-        }
+    var scrollView: UIScrollView? {
+        return (viewControllers?.first as? CanScrollsToTop)?.scrollView
     }
 
     private lazy var disposeBag = DisposeBag()

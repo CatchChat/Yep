@@ -36,7 +36,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
     }
 
     // CanScrollsToTop
-    var scrollView: UIScrollView {
+    var scrollView: UIScrollView? {
         return tableView
     }
 
