@@ -168,38 +168,6 @@ final class YepTabBarController: UITabBarController {
 
 extension YepTabBarController: UITabBarControllerDelegate {
 
-    /*
-    func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
-
-        guard
-            let tab = Tab(rawValue: selectedIndex),
-            let nvc = viewController as? UINavigationController else {
-                return false
-        }
-
-        if tab != previousTab {
-            return true
-        }
-
-        println("stab: \(previousTab) -> \(tab)")
-
-        if case .Feeds = tab {
-            // 只特别处理 Feeds
-            if let vc = nvc.topViewController as? CanScrollsToTop, let scrollView = vc.scrollView {
-                if scrollView.yep_isAtTop {
-                    if !hasFirstTapOnFeedsWhenItIsAtTop {
-                        hasFirstTapOnFeedsWhenItIsAtTop = true
-                        println("hasFirstTapOnFeedsWhenItIsAtTop: \(hasFirstTapOnFeedsWhenItIsAtTop)")
-                        return false
-                    }
-                }
-            }
-        }
-
-        return true
-    }
-     */
-
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
 
         guard
@@ -219,6 +187,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
         }
 
         if case .Feeds = tab {
+            // 只特别处理 Feeds
             if let vc = nvc.topViewController as? CanScrollsToTop, let scrollView = vc.scrollView {
                 if scrollView.yep_isAtTop {
                     if !hasFirstTapOnFeedsWhenItIsAtTop {
