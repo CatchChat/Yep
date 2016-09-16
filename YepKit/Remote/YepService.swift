@@ -2481,7 +2481,7 @@ public enum FeedSortStyle: String {
         case .Time:
             return NSLocalizedString("Time", comment: "")
         case .Match:
-            return NSLocalizedString("Match", comment: "")
+            return String.trans_titleMatch
         case .Recommended:
             return NSLocalizedString("Recommended", comment: "")
         }

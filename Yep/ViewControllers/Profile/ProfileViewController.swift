@@ -157,7 +157,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
     }
 
     // CanScrollsToTop
-    var scrollView: UIScrollView {
+    var scrollView: UIScrollView? {
         return profileCollectionView
     }
 

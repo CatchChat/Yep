@@ -52,7 +52,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
     }
 
     // CanScrollsToTop
-    var scrollView: UIScrollView {
+    var scrollView: UIScrollView? {
         return conversationsTableView
     }
 

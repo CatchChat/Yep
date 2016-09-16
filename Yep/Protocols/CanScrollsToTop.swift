@@ -10,7 +10,7 @@ import UIKit
 
 protocol CanScrollsToTop: class {
 
-    var scrollView: UIScrollView { get }
+    var scrollView: UIScrollView? { get }
 
     func scrollsToTopIfNeed(otherwise otherwise: (() -> Void)?)
 }
@@ -18,6 +18,8 @@ protocol CanScrollsToTop: class {
 extension CanScrollsToTop {
 
     func scrollsToTopIfNeed(otherwise otherwise: (() -> Void)? = nil) {
+
+        guard let scrollView = scrollView else { return }
 
         if !scrollView.yep_isAtTop {
             scrollView.yep_scrollsToTop()

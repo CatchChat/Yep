@@ -29,7 +29,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
     }
 
     // CanScrollsToTop
-    var scrollView: UIScrollView {
+    var scrollView: UIScrollView? {
         return contactsTableView
     }
 
