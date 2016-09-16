@@ -168,6 +168,7 @@ final class YepTabBarController: UITabBarController {
 
 extension YepTabBarController: UITabBarControllerDelegate {
 
+    /*
     func tabBarController(tabBarController: UITabBarController, shouldSelectViewController viewController: UIViewController) -> Bool {
 
         guard
@@ -180,12 +181,15 @@ extension YepTabBarController: UITabBarControllerDelegate {
             return true
         }
 
+        println("stab: \(previousTab) -> \(tab)")
+
         if case .Feeds = tab {
             // 只特别处理 Feeds
-            if let vc = nvc.topViewController as? FeedsViewController {
-                if vc.scrollView.yep_isAtTop {
+            if let vc = nvc.topViewController as? CanScrollsToTop, let scrollView = vc.scrollView {
+                if scrollView.yep_isAtTop {
                     if !hasFirstTapOnFeedsWhenItIsAtTop {
                         hasFirstTapOnFeedsWhenItIsAtTop = true
+                        println("hasFirstTapOnFeedsWhenItIsAtTop: \(hasFirstTapOnFeedsWhenItIsAtTop)")
                         return false
                     }
                 }
@@ -194,6 +198,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
 
         return true
     }
+     */
 
     func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
 
@@ -207,21 +212,35 @@ extension YepTabBarController: UITabBarControllerDelegate {
             NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.switchedToOthersFromContactsTab, object: nil)
         }
 
-        // 不相等才继续，确保第一次 tap 不做事
-        if tab != previousTab {
+        // 相等才继续，确保第一次 tap 不做事
+        guard tab == previousTab else {
             previousTab = tab
             return
+        }
+
+        if case .Feeds = tab {
+            if let vc = nvc.topViewController as? CanScrollsToTop, let scrollView = vc.scrollView {
+                if scrollView.yep_isAtTop {
+                    if !hasFirstTapOnFeedsWhenItIsAtTop {
+                        hasFirstTapOnFeedsWhenItIsAtTop = true
+                        return
+                    }
+                }
+            }
         }
 
         if let vc = nvc.topViewController as? CanScrollsToTop {
 
             vc.scrollsToTopIfNeed(otherwise: { [weak self, weak vc] in
                 // 只特别处理 Feeds
+                guard let scrollView = vc?.scrollView else { return }
                 guard let vc = vc as? FeedsViewController else { return }
 
-                if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
-                    vc.scrollView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
-                    self?.hasFirstTapOnFeedsWhenItIsAtTop = false
+                if self?.hasFirstTapOnFeedsWhenItIsAtTop ?? false {
+                    if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
+                        scrollView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
+                        self?.hasFirstTapOnFeedsWhenItIsAtTop = false
+                    }
                 }
             })
         }
