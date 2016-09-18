@@ -35,6 +35,15 @@ final class YepTabBarController: UITabBarController {
                 return NSLocalizedString("Profile", comment: "")
             }
         }
+
+        var canBeenDoubleTap: Bool {
+            switch self {
+            case .Feeds:
+                return true
+            default:
+                return false
+            }
+        }
     }
 
     private var previousTab: Tab = .Conversations
@@ -186,8 +195,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
             return
         }
 
-        if case .Feeds = tab {
-            // 只特别处理 Feeds
+        if tab.canBeenDoubleTap {
             if let vc = nvc.topViewController as? CanScrollsToTop, let scrollView = vc.scrollView {
                 if scrollView.yep_isAtTop {
                     if !hasFirstTapOnFeedsWhenItIsAtTop {
