@@ -4,9 +4,9 @@ platform :ios, '9.0'
 use_frameworks!
 
 def pods
-    pod 'KeypathObserver'
-    pod 'AutoReview'
-    pod 'AudioBot'
+    pod 'KeypathObserver', '~> 0.6.0'
+    pod 'AutoReview', '~> 0.2.0'
+    pod 'AudioBot', '~> 0.5.0'
     pod 'AsyncDisplayKit'
     pod 'Appsee'
     pod 'DeviceGuru'
