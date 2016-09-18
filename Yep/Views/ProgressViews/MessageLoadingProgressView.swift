@@ -30,34 +30,34 @@ final class MessageLoadingProgressView: UIView {
 
         // base circle
 
-        CGContextSaveGState(context)
+        CGContextSaveGState(context!)
 
-        CGContextBeginPath(context)
+        CGContextBeginPath(context!)
 
-        CGContextSetStrokeColorWithColor(context, UIColor.lightGrayColor().colorWithAlphaComponent(0.3).CGColor)
-        CGContextSetLineWidth(context, lineWidth)
+        CGContextSetStrokeColorWithColor(context!, UIColor.lightGrayColor().colorWithAlphaComponent(0.3).CGColor)
+        CGContextSetLineWidth(context!, lineWidth)
 
-        CGContextAddArc(context, center.x, center.y, radius, 0, CGFloat(M_PI * 2), 0)
+        CGContextAddArc(context!, center.x, center.y, radius, 0, CGFloat(M_PI * 2), 0)
 
-        CGContextDrawPath(context, CGPathDrawingMode.Stroke)
+        CGContextDrawPath(context!, CGPathDrawingMode.Stroke)
 
-        CGContextRestoreGState(context)
+        CGContextRestoreGState(context!)
 
         // progress arc
 
-        CGContextSaveGState(context)
+        CGContextSaveGState(context!)
 
-        CGContextBeginPath(context)
+        CGContextBeginPath(context!)
 
-        CGContextSetStrokeColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextSetLineWidth(context, lineWidth)
-        CGContextSetLineCap(context, CGLineCap.Round)
+        CGContextSetStrokeColorWithColor(context!, UIColor.whiteColor().CGColor)
+        CGContextSetLineWidth(context!, lineWidth)
+        CGContextSetLineCap(context!, CGLineCap.Round)
 
-        CGContextAddArc(context, center.x, center.y, radius, CGFloat(-M_PI_2), CGFloat(M_PI * 2 * progress - M_PI_2), 0)
+        CGContextAddArc(context!, center.x, center.y, radius, CGFloat(-M_PI_2), CGFloat(M_PI * 2 * progress - M_PI_2), 0)
 
-        CGContextDrawPath(context, CGPathDrawingMode.Stroke)
+        CGContextDrawPath(context!, CGPathDrawingMode.Stroke)
 
-        CGContextRestoreGState(context)
+        CGContextRestoreGState(context!)
 
         /*
         // base circle

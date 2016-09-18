@@ -34,7 +34,7 @@ final class YepButton: UIButton {
         }
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesCancelled(touches, withEvent: event)
 
         if let yepTouchesCancelled = yepTouchesCancelled {

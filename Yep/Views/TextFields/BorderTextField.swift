@@ -29,34 +29,34 @@ final class BorderTextField: UITextField {
 
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextSetLineWidth(context, lineWidth)
+        CGContextSetLineWidth(context!, lineWidth)
 
         if enabledTopLine {
-            CGContextMoveToPoint(context, 0, 0)
-            CGContextAddLineToPoint(context, CGRectGetWidth(rect), 0)
-            CGContextStrokePath(context)
+            CGContextMoveToPoint(context!, 0, 0)
+            CGContextAddLineToPoint(context!, CGRectGetWidth(rect), 0)
+            CGContextStrokePath(context!)
         }
 
         if enabledLeftLine {
             let y = CGRectGetHeight(rect)
-            CGContextMoveToPoint(context, 0, 0)
-            CGContextAddLineToPoint(context, 0, y)
-            CGContextStrokePath(context)
+            CGContextMoveToPoint(context!, 0, 0)
+            CGContextAddLineToPoint(context!, 0, y)
+            CGContextStrokePath(context!)
         }
 
         if enabledBottomLine {
             let y = CGRectGetHeight(rect)
-            CGContextMoveToPoint(context, 0, y)
-            CGContextAddLineToPoint(context, CGRectGetWidth(rect), y)
-            CGContextStrokePath(context)
+            CGContextMoveToPoint(context!, 0, y)
+            CGContextAddLineToPoint(context!, CGRectGetWidth(rect), y)
+            CGContextStrokePath(context!)
         }
 
         if enabledRightLine {
             let x = CGRectGetWidth(rect)
             let y = CGRectGetHeight(rect)
-            CGContextMoveToPoint(context, x, 0)
-            CGContextAddLineToPoint(context, x, y)
-            CGContextStrokePath(context)
+            CGContextMoveToPoint(context!, x, 0)
+            CGContextAddLineToPoint(context!, x, y)
+            CGContextStrokePath(context!)
         }
     }
 

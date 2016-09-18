@@ -32,19 +32,19 @@ final class VoiceRecordSampleCell: UICollectionViewCell {
 
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextSetStrokeColorWithColor(context, UIColor(red: 171/255.0, green: 181/255.0, blue: 190/255.0, alpha: 1).CGColor)
-        CGContextSetLineWidth(context, bounds.width)
-        CGContextSetLineCap(context, .Round)
+        CGContextSetStrokeColorWithColor(context!, UIColor(red: 171/255.0, green: 181/255.0, blue: 190/255.0, alpha: 1).CGColor)
+        CGContextSetLineWidth(context!, bounds.width)
+        CGContextSetLineCap(context!, .Round)
 
         let x = bounds.width / 2
         let height = bounds.height
         let valueHeight = height * value
         let offset = (height - valueHeight) / 2
 
-        CGContextMoveToPoint(context, x, height - offset)
-        CGContextAddLineToPoint(context, x, height - valueHeight - offset)
+        CGContextMoveToPoint(context!, x, height - offset)
+        CGContextAddLineToPoint(context!, x, height - valueHeight - offset)
 
-        CGContextStrokePath(context)
+        CGContextStrokePath(context!)
     }
 }
 

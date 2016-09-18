@@ -40,7 +40,7 @@ public extension NSFileManager {
         let avatarCachesURL = yepCachesURL().URLByAppendingPathComponent("avatar_caches", isDirectory: true)
 
         do {
-            try fileManager.createDirectoryAtURL(avatarCachesURL, withIntermediateDirectories: true, attributes: nil)
+            try fileManager.createDirectoryAtURL(avatarCachesURL!, withIntermediateDirectories: true, attributes: nil)
             return avatarCachesURL
         } catch let error {
             println("Directory create: \(error)")
@@ -89,7 +89,7 @@ public extension NSFileManager {
         let messageCachesURL = yepCachesURL().URLByAppendingPathComponent("message_caches", isDirectory: true)
 
         do {
-            try fileManager.createDirectoryAtURL(messageCachesURL, withIntermediateDirectories: true, attributes: nil)
+            try fileManager.createDirectoryAtURL(messageCachesURL!, withIntermediateDirectories: true, attributes: nil)
             return messageCachesURL
         } catch let error {
             println("Directory create: \(error)")

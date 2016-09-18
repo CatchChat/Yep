@@ -432,7 +432,7 @@ public func updateAvatarWithImageData(imageData: NSData, failureHandler: Failure
 
     let filename = "avatar.jpg"
 
-    Alamofire.upload(.PATCH, yepBaseURL.absoluteString + "/v1/user/set_avatar", headers: parameters, multipartFormData: { multipartFormData in
+    Alamofire.upload(.PATCH, yepBaseURL.absoluteString! + "/v1/user/set_avatar", headers: parameters, multipartFormData: { multipartFormData in
 
         multipartFormData.appendBodyPart(data: imageData, name: "avatar", fileName: filename, mimeType: "image/jpeg")
 
@@ -1554,7 +1554,7 @@ public func tryUploadAttachment(uploadAttachment: UploadAttachment, failureHandl
     let filename = "file.\(uploadAttachment.fileExtension.rawValue)"
     let mimeType = uploadAttachment.fileExtension.mimeType
 
-    Alamofire.upload(.POST, yepBaseURL.absoluteString + "/v1/attachments", headers: headers, multipartFormData: { multipartFormData in
+    Alamofire.upload(.POST, yepBaseURL.absoluteString! + "/v1/attachments", headers: headers, multipartFormData: { multipartFormData in
 
         for parameter in parameters {
             multipartFormData.appendBodyPart(data: parameter.1.dataUsingEncoding(NSUTF8StringEncoding)!, name: parameter.0)

@@ -1602,7 +1602,7 @@ public func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, i
                 break
             }
 
-            let openGraphInfo = OpenGraphInfo(URLString: info.URL.absoluteString, siteName: info.siteName, title: info.title, infoDescription: info.infoDescription, thumbnailImageURLString: info.thumbnailImageURLString)
+            let openGraphInfo = OpenGraphInfo(URLString: info.URL.absoluteString!, siteName: info.siteName, title: info.title, infoDescription: info.infoDescription, thumbnailImageURLString: info.thumbnailImageURLString)
 
             realm.add(openGraphInfo, update: true)
 

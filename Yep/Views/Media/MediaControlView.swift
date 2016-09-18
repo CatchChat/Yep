@@ -161,7 +161,7 @@ final class MediaControlView: UIView {
         let startPoint = CGPointZero
         let endPoint = CGPoint(x:0, y: rect.height)
 
-        CGContextDrawLinearGradient(context, gradient, startPoint, endPoint, CGGradientDrawingOptions(rawValue: 0))
+        CGContextDrawLinearGradient(context!, gradient!, startPoint, endPoint, CGGradientDrawingOptions(rawValue: 0))
     }
 }
 

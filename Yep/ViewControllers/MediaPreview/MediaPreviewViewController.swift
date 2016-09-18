@@ -28,7 +28,7 @@ final class MediaPreviewViewController: UIViewController {
     var startIndex: Int = 0
     var currentIndex: Int = 0 {
         didSet {
-            if let previewMedia = previewMedias[safe: currentIndex] {
+            if let previewMedia = previewMedias[currentIndex] {
                 switch previewMedia {
                 case .MessageType(let message):
                     guard !message.mediaPlayed else {

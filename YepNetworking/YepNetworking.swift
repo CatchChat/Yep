@@ -133,7 +133,7 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     let session = NSURLSession.sharedSession()
 
     let url = baseURL.URLByAppendingPathComponent(resource.path)
-    let request = NSMutableURLRequest(URL: url)
+    let request = NSMutableURLRequest(URL: url!)
     request.HTTPMethod = resource.method.rawValue
 
     func needEncodesParametersForMethod(method: Method) -> Bool {
