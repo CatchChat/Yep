@@ -297,7 +297,7 @@
 "placeholder.location" = "[Location]";
 "placeholder.socialWork" = "[Social Work]";
 "placeholder.video" = "[Video]";
-"recalledMessage%@" = "recalledMessage%@";
+"recalledMessage%@" = "%@ recalled message";
 "recording" = "recording";
 "reject your last friend request." = "reject your last friend request.";
 "terms" = "terms";
