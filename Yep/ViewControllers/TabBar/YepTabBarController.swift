@@ -35,6 +35,15 @@ final class YepTabBarController: UITabBarController {
                 return NSLocalizedString("Profile", comment: "")
             }
         }
+
+        var canBeenDoubleTap: Bool {
+            switch self {
+            case .Feeds:
+                return true
+            default:
+                return false
+            }
+        }
     }
 
     private var previousTab: Tab = .Conversations
@@ -46,21 +55,21 @@ final class YepTabBarController: UITabBarController {
         }
     }
 
-    private var checkDoubleTapOnFeedsTimer: NSTimer?
-    private var hasFirstTapOnFeedsWhenItIsAtTop = false {
+    private var checkDoubleTapTimer: NSTimer?
+    private var hasFirstTapOnTabWhenItIsAtTop = false {
         willSet {
-            checkDoubleTapOnFeedsTimer?.invalidate()
+            checkDoubleTapTimer?.invalidate()
 
             if newValue {
-                let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(YepTabBarController.checkDoubleTapOnFeeds(_:)), userInfo: nil, repeats: false)
-                checkDoubleTapOnFeedsTimer = timer
+                let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(YepTabBarController.checkDoubleTap(_:)), userInfo: nil, repeats: false)
+                checkDoubleTapTimer = timer
             }
         }
     }
 
-    @objc private func checkDoubleTapOnFeeds(timer: NSTimer) {
+    @objc private func checkDoubleTap(timer: NSTimer) {
 
-        hasFirstTapOnFeedsWhenItIsAtTop = false
+        hasFirstTapOnTabWhenItIsAtTop = false
     }
 
     private struct Listener {
@@ -70,7 +79,7 @@ final class YepTabBarController: UITabBarController {
     private let tabBarItemTextEnabledListenerName = "YepTabBarController.tabBarItemTextEnabled"
 
     deinit {
-        checkDoubleTapOnFeedsTimer?.invalidate()
+        checkDoubleTapTimer?.invalidate()
 
         if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
             appDelegate.lauchStyle.removeListenerWithName(Listener.lauchStyle)
@@ -183,15 +192,15 @@ extension YepTabBarController: UITabBarControllerDelegate {
         // 相等才继续，确保第一次 tap 不做事
         guard tab == previousTab else {
             previousTab = tab
+            hasFirstTapOnTabWhenItIsAtTop = false
             return
         }
 
-        if case .Feeds = tab {
-            // 只特别处理 Feeds
+        if tab.canBeenDoubleTap {
             if let vc = nvc.topViewController as? CanScrollsToTop, let scrollView = vc.scrollView {
                 if scrollView.yep_isAtTop {
-                    if !hasFirstTapOnFeedsWhenItIsAtTop {
-                        hasFirstTapOnFeedsWhenItIsAtTop = true
+                    if !hasFirstTapOnTabWhenItIsAtTop {
+                        hasFirstTapOnTabWhenItIsAtTop = true
                         return
                     }
                 }
@@ -201,14 +210,17 @@ extension YepTabBarController: UITabBarControllerDelegate {
         if let vc = nvc.topViewController as? CanScrollsToTop {
 
             vc.scrollsToTopIfNeed(otherwise: { [weak self, weak vc] in
-                // 只特别处理 Feeds
+
+                guard tab.canBeenDoubleTap else { return }
+
+                // 目前只特别处理 Feeds
                 guard let scrollView = vc?.scrollView else { return }
                 guard let vc = vc as? FeedsViewController else { return }
 
-                if self?.hasFirstTapOnFeedsWhenItIsAtTop ?? false {
+                if self?.hasFirstTapOnTabWhenItIsAtTop ?? false {
                     if !vc.feeds.isEmpty && !vc.pullToRefreshView.isRefreshing {
                         scrollView.setContentOffset(CGPoint(x: 0, y: -150), animated: true)
-                        self?.hasFirstTapOnFeedsWhenItIsAtTop = false
+                        self?.hasFirstTapOnTabWhenItIsAtTop = false
                     }
                 }
             })

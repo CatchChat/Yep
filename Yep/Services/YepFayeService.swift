@@ -118,18 +118,20 @@ extension YepFayeService {
 
         dispatch_async(fayeQueue) { [weak self] in
 
-            guard let userID = YepUserDefaults.userID.value, personalChannel = self?.personalChannelWithUserID(userID) else {
+            guard let strongSelf = self else { return }
+
+            guard let userID = YepUserDefaults.userID.value, personalChannel = strongSelf.personalChannelWithUserID(userID) else {
                 println("FayeClient startConnect failed, not userID or personalChannel!")
                 return
             }
 
             println("Faye will subscribe \(personalChannel)")
 
-            self?.prepareForChannel("connect")
-            self?.prepareForChannel("handshake")
-            self?.prepareForChannel(personalChannel)
+            strongSelf.prepareForChannel("connect")
+            strongSelf.prepareForChannel("handshake")
+            strongSelf.prepareForChannel(personalChannel)
 
-            self?.fayeClient.connect()
+            strongSelf.fayeClient.connect()
         }
     }
 

@@ -131,8 +131,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             syncUnreadMessages() {}
 
         } else {
-            sync() // 确保该任务不是被 Remote Notification 激活 App 的时候执行
-            startFaye()
+            // 确保该任务不是被 Remote Notification 激活 App 的时候执行
+            sync()
+
+            // 延迟一些，减少线程切换压力
+            delay(2) { [weak self] in
+                self?.startFaye()
+            }
         }
 
         clearNotifications()
