@@ -192,6 +192,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
         // 相等才继续，确保第一次 tap 不做事
         guard tab == previousTab else {
             previousTab = tab
+            hasFirstTapOnTabWhenItIsAtTop = false
             return
         }
 
@@ -209,7 +210,10 @@ extension YepTabBarController: UITabBarControllerDelegate {
         if let vc = nvc.topViewController as? CanScrollsToTop {
 
             vc.scrollsToTopIfNeed(otherwise: { [weak self, weak vc] in
-                // 只特别处理 Feeds
+
+                guard tab.canBeenDoubleTap else { return }
+
+                // 目前只特别处理 Feeds
                 guard let scrollView = vc?.scrollView else { return }
                 guard let vc = vc as? FeedsViewController else { return }
 
