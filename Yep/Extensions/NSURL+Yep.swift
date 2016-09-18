@@ -13,7 +13,7 @@ extension NSURL {
 
     private var allQueryItems: [NSURLQueryItem] {
 
-        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false), queryItems = components.queryItems {
+        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false), let queryItems = components.queryItems {
             return queryItems
         }
 

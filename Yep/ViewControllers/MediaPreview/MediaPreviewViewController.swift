@@ -574,9 +574,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 mediaControlView.type = .Video
                 mediaControlView.playState = .Playing
 
-                if let
-                    imageFileURL = message.videoThumbnailFileURL,
-                    image = UIImage(contentsOfFile: imageFileURL.path!) {
+                if let imageFileURL = message.videoThumbnailFileURL, let image = UIImage(contentsOfFile: imageFileURL.path!) {
                         cell.mediaView.image = image
                 }
 
