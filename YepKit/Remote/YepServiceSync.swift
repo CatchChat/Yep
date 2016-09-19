@@ -22,7 +22,7 @@ public func tryPostNewMessagesReceivedNotificationWithMessageIDs(_ messageIDs: [
     }
 
     SafeDispatch.async {
-        let object = [
+        let object: JSONDictionary = [
             "messageIDs": messageIDs,
             "messageAge": messageAge.rawValue,
         ]
@@ -242,7 +242,7 @@ public func userSkillsFromSkillsData(_ skillsData: [JSONDictionary], inRealm rea
 public func syncMyInfoAndDoFurtherAction(_ furtherAction: @escaping () -> Void) {
 
     userInfo(failureHandler: { (reason, errorMessage) in
-        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+        defaultFailureHandler(reason, errorMessage)
 
         furtherAction()
 
@@ -327,7 +327,7 @@ public func syncMyInfoAndDoFurtherAction(_ furtherAction: @escaping () -> Void) 
 
                                     let _ = try? realm.write {
 
-                                        let fromParts = fromString.componentsSeparatedByString(":")
+                                        let fromParts = fromString.components(separatedBy: ":")
 
                                         if let
                                             fromHourString = fromParts[safe: 0], let fromHour = Int(fromHourString),
@@ -336,7 +336,7 @@ public func syncMyInfoAndDoFurtherAction(_ furtherAction: @escaping () -> Void) 
                                                 (userDoNotDisturb.fromHour, userDoNotDisturb.fromMinute) = convert(fromHour, fromMinute)
                                         }
 
-                                        let toParts = toString.componentsSeparatedByString(":")
+                                        let toParts = toString.components(separatedBy: ":")
 
                                         if let
                                             toHourString = toParts[safe: 0], let toHour = Int(toHourString),
@@ -489,11 +489,11 @@ public func syncFriendshipsAndDoFurtherAction(_ furtherAction: @escaping () -> V
                 return
             }
 
-            let localUsers = realm.objects(User)
+            let localUsers = realm.objects(User.self)
 
             do {
                 let localUserIDSet = Set<String>(localUsers.map({ $0.userID }))
-                let userIDs = Array(localUserIDSet.subtract(remoteUerIDSet))
+                let userIDs = Array(localUserIDSet.subtracting(remoteUerIDSet))
                 deleteSearchableItems(searchableItemType: .User, itemIDs: userIDs)
             }
 
@@ -514,10 +514,10 @@ public func syncFriendshipsAndDoFurtherAction(_ furtherAction: @escaping () -> V
 
                     if let myUserID = YepUserDefaults.userID.value {
                         if myUserID == localUserID {
-                            localUser.friendState = UserFriendState.Me.rawValue
+                            localUser.friendState = UserFriendState.me.rawValue
 
-                        } else if localUser.friendState == UserFriendState.Normal.rawValue {
-                            localUser.friendState = UserFriendState.Stranger.rawValue
+                        } else if localUser.friendState == UserFriendState.normal.rawValue {
+                            localUser.friendState = UserFriendState.stranger.rawValue
                         }
                     }
                     
@@ -554,7 +554,7 @@ public func syncFriendshipsAndDoFurtherAction(_ furtherAction: @escaping () -> V
                                 user.friendshipID = friendshipID
                             }
 
-                            user.friendState = UserFriendState.Normal.rawValue
+                            user.friendState = UserFriendState.normal.rawValue
 
                             if let isBestfriend = friendInfo["favored"] as? Bool {
                                 user.isBestfriend = isBestfriend
@@ -618,9 +618,9 @@ public func syncGroupWithGroupInfo(_ groupInfo: JSONDictionary, inRealm realm: R
 
             // 有 topic 标记 groupType 为 Public，否则 Private
             if let _ = groupInfo["topic"] {
-                group.groupType = GroupType.Public.rawValue
+                group.groupType = GroupType.public.rawValue
             } else {
-                group.groupType = GroupType.Private.rawValue
+                group.groupType = GroupType.private.rawValue
             }
             println("group.groupType: \(group.groupType)")
 
@@ -686,14 +686,14 @@ public func syncGroupWithGroupInfo(_ groupInfo: JSONDictionary, inRealm realm: R
                     }
                 }
 
-                let localMembers = group.members
+                var localMembers = group.members
 
                 // 去除远端没有的 member
 
-                for (index, member) in localMembers.enumerate() {
+                for (index, member) in localMembers.enumerated() {
                     let user = member
                     if !memberIDSet.contains(user.userID) {
-                        localMembers.removeAtIndex(index)
+                        localMembers.remove(at: index)
                     }
                 }
 
@@ -740,7 +740,7 @@ public func syncGroupWithGroupInfo(_ groupInfo: JSONDictionary, inRealm realm: R
                 }
 
                 group.members.removeAll()
-                group.members.appendContentsOf(localMembers)
+                group.members.append(objectsIn: localMembers)
             }
         }
 
@@ -762,12 +762,12 @@ public func syncUnreadMessagesAndDoFurtherAction(_ furtherAction: @escaping (_ m
         
         unreadMessages(failureHandler: { (reason, errorMessage) in
 
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async {
                 isFetchingUnreadMessages.value = false
 
-                furtherAction(messageIDs: [])
+                furtherAction([])
             }
 
         }, completion: { allUnreadMessages in
@@ -802,7 +802,7 @@ public func syncUnreadMessagesAndDoFurtherAction(_ furtherAction: @escaping (_ m
                 SafeDispatch.async {
                     isFetchingUnreadMessages.value = false
 
-                    furtherAction(messageIDs: messageIDs)
+                    furtherAction(messageIDs)
                 }
             }
         })
@@ -823,7 +823,7 @@ public func recordMessageWithMessageID(_ messageID: String, detailInfo messageIn
         }
 
         if let user = message.fromFriend , user.isMe {
-            message.sendState = MessageSendState.Read.rawValue
+            message.sendState = MessageSendState.read.rawValue
         }
 
         if let textContent = messageInfo["text_content"] as? String {
@@ -886,17 +886,17 @@ public func recordMessageWithMessageID(_ messageID: String, detailInfo messageIn
 
                 switch mediaType {
                 case MessageMediaType.text.description:
-                    message.mediaType = MessageMediaType.Text.rawValue
+                    message.mediaType = MessageMediaType.text.rawValue
                 case MessageMediaType.image.description:
-                    message.mediaType = MessageMediaType.Image.rawValue
+                    message.mediaType = MessageMediaType.image.rawValue
                 case MessageMediaType.video.description:
-                    message.mediaType = MessageMediaType.Video.rawValue
+                    message.mediaType = MessageMediaType.video.rawValue
                 case MessageMediaType.audio.description:
-                    message.mediaType = MessageMediaType.Audio.rawValue
+                    message.mediaType = MessageMediaType.audio.rawValue
                 case MessageMediaType.sticker.description:
-                    message.mediaType = MessageMediaType.Sticker.rawValue
+                    message.mediaType = MessageMediaType.sticker.rawValue
                 case MessageMediaType.location.description:
-                    message.mediaType = MessageMediaType.Location.rawValue
+                    message.mediaType = MessageMediaType.location.rawValue
                 default:
                     break
                 }
@@ -952,7 +952,7 @@ public func isServiceMessageAndHandleMessageInfo(_ messageInfo: JSONDictionary, 
                 group.cascadeDeleteInRealm(realm)
             }
 
-            delay(1) {
+            _ = delay(1) {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
             }
         }
@@ -1008,7 +1008,7 @@ public func syncGroupWithGroupID(_ groupID: String) {
         syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
         _ = try? realm.commitWrite()
 
-        delay(0.5) {
+        _ = delay(0.5) {
             SafeDispatch.async {
                 NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
             }
@@ -1052,7 +1052,7 @@ public func syncMessageWithMessageInfo(_ messageInfo: JSONDictionary, messageAge
 
             if case .New = messageAge {
                 // 确保网络来的新消息比任何已有的消息都要新，防止服务器消息延后发来导致插入到当前消息上面
-                if let latestMessage = realm.objects(Message).sorted(byProperty: "createdUnixTime", ascending: true).last {
+                if let latestMessage = realm.objects(Message.self).sorted(byProperty: "createdUnixTime", ascending: true).last {
                     if newMessage.createdUnixTime < latestMessage.createdUnixTime {
                         // 只考虑最近的消息，过了可能混乱的时机就不再考虑
                         if abs(newMessage.createdUnixTime - latestMessage.createdUnixTime) < 60 {
@@ -1248,9 +1248,9 @@ public func syncMessageWithMessageInfo(_ messageInfo: JSONDictionary, messageAge
                             // Do furtherAction after sync
 
                             if let sectionDateMessageID = sectionDateMessageID {
-                                furtherAction?(messageIDs: [sectionDateMessageID, messageID])
+                                furtherAction?([sectionDateMessageID, messageID])
                             } else {
-                                furtherAction?(messageIDs: [messageID])
+                                furtherAction?([messageID])
                             }
 
                         } else {
