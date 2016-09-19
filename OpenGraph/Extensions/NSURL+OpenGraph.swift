@@ -34,7 +34,7 @@ extension URL {
             return self
         }
 
-        guard let URLComponents = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
+        guard var URLComponents = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
             return self
         }
 
@@ -59,12 +59,9 @@ extension URL {
             return artworkID
 
         } else {
-            if let artworkID = lastPathComponent.replacingOccurrences(of: "id", with: "") {
-                return artworkID
-            }
+            let artworkID = lastPathComponent.replacingOccurrences(of: "id", with: "")
+            return artworkID
         }
-
-        return nil
     }
     
     enum AppleOnlineStoreHost: String {

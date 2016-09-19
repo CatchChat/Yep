@@ -107,7 +107,7 @@ public struct OpenGraph {
                 var openGraphInfo = [String: String]()
 
                 for meta in metaSet {
-                    if let property = meta["property"]?.lowercased {
+                    if let property = meta["property"]?.lowercased() {
                         if property.hasPrefix("og:") {
                             if let content = meta["content"] {
                                 openGraphInfo[property] = content
@@ -130,14 +130,14 @@ public struct OpenGraph {
                 }
 
                 if openGraph.title == nil {
-                    if let title = doc.head?.css("title").first.text , !title.isEmpty {
+                    if let title = doc.head?.css("title").first(where: { _ in true })?.text , !title.isEmpty {
                         openGraph.title = title
                     }
                 }
 
                 if openGraph.description == nil {
                     for meta in metaSet {
-                        if let name = meta["name"]?.lowercased {
+                        if let name = meta["name"]?.lowercased() {
                             if name == "description" {
                                 if let description = meta["content"] , !description.isEmpty {
                                     openGraph.description = description
@@ -155,7 +155,7 @@ public struct OpenGraph {
                 // 特别再补救一次 description
 
                 if openGraph.description == nil {
-                    let firstParagraph = doc.body?.css("p").first.text
+                    let firstParagraph = doc.body?.css("p").first(where: { _ in true })?.text
                     openGraph.description = firstParagraph
                 }
 

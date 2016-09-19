@@ -11,9 +11,9 @@ import YepNetworking
 import Alamofire
 import Kanna
 
-public func titleOfURL(_ URL: Foundation.URL, failureHandler: FailureHandler?, completion: @escaping (_ title: String) -> Void) {
+public func titleOfURL(_ url: URL, failureHandler: FailureHandler?, completion: @escaping (_ title: String) -> Void) {
 
-    Alamofire.request(.GET, URL.absoluteString!, parameters: nil, encoding: .URL).responseString(encoding: String.Encoding.utf8, completionHandler: { response in
+    Alamofire.request(url).responseString(encoding: .utf8, completionHandler: { response in
 
         let error = response.result.error
 
@@ -22,9 +22,9 @@ public func titleOfURL(_ URL: Foundation.URL, failureHandler: FailureHandler?, c
             let errorMessage = String.trans_errorGetTitleOfURLFailed
 
             if let failureHandler = failureHandler {
-                failureHandler(reason: .Other(error), errorMessage: errorMessage)
+                failureHandler(.other(error), errorMessage)
             } else {
-                defaultFailureHandler(reason: .Other(error), errorMessage: errorMessage)
+                defaultFailureHandler(.other(error), errorMessage)
             }
 
             return
@@ -33,9 +33,9 @@ public func titleOfURL(_ URL: Foundation.URL, failureHandler: FailureHandler?, c
         guard let HTMLString = response.result.value, let data = response.data else {
 
             if let failureHandler = failureHandler {
-                failureHandler(reason: .CouldNotParseJSON, errorMessage: "No HTMLString or data!")
+                failureHandler(.couldNotParseJSON, "No HTMLString or data!")
             } else {
-                defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: "No HTMLString or data!")
+                defaultFailureHandler(.couldNotParseJSON, "No HTMLString or data!")
             }
 
             return
@@ -46,36 +46,36 @@ public func titleOfURL(_ URL: Foundation.URL, failureHandler: FailureHandler?, c
         // 编码转换
         let newHTMLString = getUTF8HTMLStringFromHTMLString(HTMLString, withData: data)
 
-        guard let
-            doc = Kanna.HTML(html: newHTMLString, encoding: NSUTF8StringEncoding),
-            let title = doc.head?.css("title").first?.text , !title.isEmpty else {
+        guard
+            let doc = Kanna.HTML(html: newHTMLString, encoding: .utf8),
+            let title = doc.head?.css("title").first(where: { _ in true })?.text , !title.isEmpty else {
 
                 let errorMessage = String.trans_promptNoTitleForURL
                 if let failureHandler = failureHandler {
-                    failureHandler(reason: .CouldNotParseJSON, errorMessage: errorMessage)
+                    failureHandler(.couldNotParseJSON, errorMessage)
                 } else {
-                    defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: errorMessage)
+                    defaultFailureHandler(.couldNotParseJSON, errorMessage)
                 }
 
                 return
         }
 
-        completion(title: title)
+        completion(title)
     })
 }
 
-public func openGraphWithURL(_ URL: Foundation.URL, failureHandler: FailureHandler?, completion: @escaping (OpenGraph) -> Void) {
+public func openGraphWithURL(_ url: URL, failureHandler: FailureHandler?, completion: @escaping (OpenGraph) -> Void) {
 
-    Alamofire.request(.GET, URL.absoluteString!, parameters: nil, encoding: .URL).responseString(encoding: String.Encoding.utf8, completionHandler: { response in
+    Alamofire.request(url).responseString(encoding: .utf8, completionHandler: { response in
 
         let error = response.result.error
 
         guard error == nil else {
 
             if let failureHandler = failureHandler {
-                failureHandler(reason: .Other(error), errorMessage: nil)
+                failureHandler(.other(error), nil)
             } else {
-                defaultFailureHandler(reason: .Other(error), errorMessage: nil)
+                defaultFailureHandler(.other(error), nil)
             }
 
             return
@@ -85,10 +85,7 @@ public func openGraphWithURL(_ URL: Foundation.URL, failureHandler: FailureHandl
             //println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
             // 尽量使用长链接
-            var finalURL = URL
-            if let _finalURL = response.response?.URL {
-                finalURL = _finalURL
-            }
+            let finalURL = response.response?.url ?? url
 
             // 编码转换
             let newHTMLString = getUTF8HTMLStringFromHTMLString(HTMLString, withData: data)
@@ -212,9 +209,9 @@ public func openGraphWithURL(_ URL: Foundation.URL, failureHandler: FailureHandl
         }
 
         if let failureHandler = failureHandler {
-            failureHandler(reason: .CouldNotParseJSON, errorMessage: nil)
+            failureHandler(.couldNotParseJSON, nil)
         } else {
-            defaultFailureHandler(reason: .CouldNotParseJSON, errorMessage: nil)
+            defaultFailureHandler(.couldNotParseJSON, nil)
         }
     })
 }
@@ -281,11 +278,11 @@ private enum iTunesCountry: String {
     case USA = "us"
 }
 
-private func iTunesLookupWithID(_ lookupID: String, inCountry country: iTunesCountry, failureHandler: ((Reason, String?) -> Void)?, completion: (JSONDictionary?) -> Void) {
+private func iTunesLookupWithID(_ lookupID: String, inCountry country: iTunesCountry, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping (JSONDictionary?) -> Void) {
 
     let lookUpURLString = "https://itunes.apple.com/lookup?id=\(lookupID)&country=\(country.rawValue)"
 
-    Alamofire.request(.GET, lookUpURLString).responseJSON { response in
+    Alamofire.request(lookUpURLString).responseJSON { response in
 
         print("iTunesLookupWithID \(lookupID): \(response)")
 
@@ -302,7 +299,7 @@ private func iTunesLookupWithID(_ lookupID: String, inCountry country: iTunesCou
     }
 }
 
-private func iTunesLookupWithID(_ lookupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: (JSONDictionary) -> Void) {
+private func iTunesLookupWithID(_ lookupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping (JSONDictionary) -> Void) {
 
     iTunesLookupWithID(lookupID, inCountry: .China, failureHandler: failureHandler, completion: { result in
         if let result = result {
@@ -317,7 +314,7 @@ private func iTunesLookupWithID(_ lookupID: String, failureHandler: ((Reason, St
                     if let failureHandler = failureHandler {
                         failureHandler(.noData, nil)
                     } else {
-                        defaultFailureHandler(reason: .noData, errorMessage: nil)
+                        defaultFailureHandler(.noData, nil)
                     }
                 }
             })

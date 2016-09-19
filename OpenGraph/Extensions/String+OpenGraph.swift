@@ -55,9 +55,9 @@ extension String {
 
     var opengraph_firstImageURL: URL? {
 
-        let URLs = opengraph_embeddedURLs
+        let urls = opengraph_embeddedURLs
 
-        guard !URLs.isEmpty else {
+        guard !urls.isEmpty else {
             return nil
         }
 
@@ -67,11 +67,10 @@ extension String {
             "jpeg",
         ]
 
-        for URL in URLs {
-            if let pathExtension = URL.pathExtension.lowercased() {
-                if imageExtentions.contains(pathExtension) {
-                    return URL
-                }
+        for url in urls {
+            let pathExtension = url.pathExtension.lowercased()
+            if imageExtentions.contains(pathExtension) {
+                return url
             }
         }
         
