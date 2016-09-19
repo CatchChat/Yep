@@ -28,7 +28,7 @@ public extension String {
         let username = me.username
 
         if !username.isEmpty {
-            if self.containsString("@\(username)") {
+            if self.contains("@\(username)") {
                 return true
             }
         }
