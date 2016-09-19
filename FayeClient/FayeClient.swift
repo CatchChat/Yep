@@ -13,13 +13,13 @@ import Base64
 public protocol FayeClientDelegate: class {
 
     func fayeClient(_ client: FayeClient, didConnectToURL URL: URL)
-    func fayeClient(_ client: FayeClient, didDisconnectWithError error: NSError?)
+    func fayeClient(_ client: FayeClient, didDisconnectWithError error: Error?)
 
     func fayeClient(_ client: FayeClient, didSubscribeToChannel channel: String)
     func fayeClient(_ client: FayeClient, didUnsubscribeFromChannel channel: String)
 
-    func fayeClient(_ client: FayeClient, didFailWithError error: NSError?)
-    func fayeClient(_ client: FayeClient, didFailDeserializeMessage message: [String: AnyObject]?, withError error: NSError?)
+    func fayeClient(_ client: FayeClient, didFailWithError error: Error?)
+    func fayeClient(_ client: FayeClient, didFailDeserializeMessage message: [String: AnyObject]?, withError error: Error?)
     func fayeClient(_ client: FayeClient, didReceiveMessage messageInfo: [String: AnyObject], fromChannel channel: String)
 }
 
@@ -385,7 +385,7 @@ extension FayeClient {
             if shouldRetryConnection && retryAttempt < maximumRetryAttempts {
                 retryAttempt += 1
 
-                connect()
+                _ = connect()
 
             } else {
                 invalidateReconnectTimer()
@@ -544,7 +544,7 @@ extension FayeClient {
                 if openChannelSubscriptionSet.contains(fayeMessage.channel) {
 
                     if let handler = subscribedChannels[fayeMessage.channel] {
-                        handler(message: fayeMessage.data)
+                        handler(fayeMessage.data)
 
                     } else {
                         delegate?.fayeClient(self, didReceiveMessage: fayeMessage.data, fromChannel: fayeMessage.channel)
@@ -557,7 +557,7 @@ extension FayeClient {
                     #endif
 
                     if let messageID = fayeMessage.ID, let handler = privateChannels[messageID] {
-                        handler(message: fayeMessage)
+                        handler(fayeMessage)
                     }
                 }
             }
@@ -574,7 +574,7 @@ extension FayeClient: SRWebSocketDelegate {
         sendBayeuxHandshakeMessage()
     }
 
-    public func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: AnyObject!) {
+    public func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
 
         guard let message = message else {
             return
@@ -601,7 +601,7 @@ extension FayeClient: SRWebSocketDelegate {
         }
     }
 
-    public func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: NSError!) {
+    public func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
 
         connected = false
 

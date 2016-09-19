@@ -363,7 +363,7 @@ extension YepFayeService: FayeClientDelegate {
         subscribeChannel()
     }
 
-    func fayeClient(_ client: FayeClient, didDisconnectWithError error: NSError?) {
+    func fayeClient(_ client: FayeClient, didDisconnectWithError error: Error?) {
 
         if let error = error {
             println("fayeClient didDisconnectWithError \(error.description)")
@@ -380,14 +380,14 @@ extension YepFayeService: FayeClientDelegate {
         println("fayeClient didUnsubscribeFromChannel \(channel)")
     }
 
-    func fayeClient(_ client: FayeClient, didFailWithError error: NSError?) {
+    func fayeClient(_ client: FayeClient, didFailWithError error: Error?) {
 
         if let error = error {
             println("fayeClient didFailWithError \(error.description)")
         }
     }
 
-    func fayeClient(_ client: FayeClient, didFailDeserializeMessage message: [String: AnyObject]?, withError error: NSError?) {
+    func fayeClient(_ client: FayeClient, didFailDeserializeMessage message: [String: AnyObject]?, withError error: Error?) {
 
         if let error = error {
             println("fayeClient didFailDeserializeMessage \(error.description)")
