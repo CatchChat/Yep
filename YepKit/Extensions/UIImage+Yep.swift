@@ -396,7 +396,7 @@ public extension UIImage {
             context.draw(imageRef!, in: rect)
             let decompressedImageRef = context.makeImage()!
 
-            return UIImage(cgImage: decompressedImageRef, scale: scale, orientation: imageOrientation) ?? self
+            return UIImage(cgImage: decompressedImageRef, scale: scale, orientation: imageOrientation)
         }
 
         return self
@@ -483,7 +483,7 @@ public extension UIImage {
 
     public var yep_avarageColor: UIColor {
 
-        let rgba = UnsafeMutablePointer<CUnsignedChar>(allocatingCapacity: 4)
+        let rgba = UnsafeMutablePointer<CUnsignedChar>.allocate(capacity: 4)
         let colorSpace: CGColorSpace = CGColorSpaceCreateDeviceRGB()
         let info = CGBitmapInfo(rawValue: CGImageAlphaInfo.premultipliedLast.rawValue)
         let context: CGContext = CGContext(data: rgba, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4, space: colorSpace, bitmapInfo: info.rawValue)!
