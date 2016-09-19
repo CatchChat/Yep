@@ -14,7 +14,7 @@ private let githubBaseURL = URL(string: "https://api.github.com")!
 private let dribbbleBaseURL = URL(string: "https://api.dribbble.com")!
 private let instagramBaseURL = URL(string: "https://api.instagram.com")!
 
-private func githubResource<A>(token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: (JSONDictionary) -> A?) -> Resource<A> {
+private func githubResource<A>(token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: @escaping (JSONDictionary) -> A?) -> Resource<A> {
 
     let jsonParse: (Data) -> A? = { data in
         if let json = decodeJSON(data) {
@@ -33,7 +33,7 @@ private func githubResource<A>(token: String, path: String, method: YepNetworkin
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
 
-private func dribbbleResource<A>(token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: (JSONDictionary) -> A?) -> Resource<A> {
+private func dribbbleResource<A>(token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: @escaping (JSONDictionary) -> A?) -> Resource<A> {
 
     let jsonParse: (Data) -> A? = { data in
         if let json = decodeJSON(data) {
@@ -52,7 +52,7 @@ private func dribbbleResource<A>(token: String, path: String, method: YepNetwork
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
 
-private func instagramResource<A>(token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: (JSONDictionary) -> A?) -> Resource<A> {
+private func instagramResource<A>(token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: @escaping (JSONDictionary) -> A?) -> Resource<A> {
 
     let jsonParse: (Data) -> A? = { data in
         if let json = decodeJSON(data) {
@@ -111,9 +111,9 @@ public struct GithubRepo {
 
 // ref https://developer.github.com/v3/
 
-public func githubReposWithToken(_ token: String, failureHandler: ((Reason, String?) -> Void)?, completion: ([GithubRepo]) -> Void) {
+public func githubReposWithToken(_ token: String, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping ([GithubRepo]) -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "type": "owner",
         "sort": "created",
     ]
@@ -193,7 +193,7 @@ public struct DribbbleShot {
 
 // ref http://developer.dribbble.com/v1/
 
-public func dribbbleShotsWithToken(_ token: String, failureHandler: ((Reason, String?) -> Void)?, completion: ([DribbbleShot]) -> Void) {
+public func dribbbleShotsWithToken(_ token: String, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping ([DribbbleShot]) -> Void) {
 
     let requestParameters = [
         "timeframe": "month",
@@ -274,7 +274,7 @@ public struct InstagramMedia {
 
 // ref https://instagram.com/developer/endpoints/users/
 
-public func instagramMediasWithToken(_ token: String, failureHandler: ((Reason, String?) -> Void)?, completion: ([InstagramMedia]) -> Void) {
+public func instagramMediasWithToken(_ token: String, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping ([InstagramMedia]) -> Void) {
 
     let requestParameters = [
         "access_token": token,
@@ -500,7 +500,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         for repo in githubRepos.head(to: Config.SocialWork.syncCountMax) {
 
                             if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
-                                messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
+                                messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.github(repo), yepTeam: yepTeam, inRealm: realm)
 
                             } else {
                                 discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
@@ -515,7 +515,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                                         realm.beginWrite()
 
                                         if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
-                                            messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
+                                            messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.github(repo), yepTeam: yepTeam, inRealm: realm)
                                         }
 
                                         let _ = try? realm.commitWrite()
@@ -554,7 +554,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         for shot in dribbbleShots.head(to: Config.SocialWork.syncCountMax) {
 
                             if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
-                                messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)
+                                messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.dribbble(shot), yepTeam: yepTeam, inRealm: realm)
 
                             } else {
                                 discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
@@ -569,7 +569,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                                         realm.beginWrite()
 
                                         if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
-                                            messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)
+                                            messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.dribbble(shot), yepTeam: yepTeam, inRealm: realm)
                                         }
 
                                         let _ = try? realm.commitWrite()
