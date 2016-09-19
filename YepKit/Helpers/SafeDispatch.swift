@@ -8,20 +8,20 @@
 
 import Foundation
 
-open class SafeDispatch {
+final public class SafeDispatch {
 
-    fileprivate let mainQueueKey = UnsafeMutableRawPointer(allocatingCapacity: 1)
-    fileprivate let mainQueueValue = UnsafeMutableRawPointer(allocatingCapacity: 1)
+    private let mainQueueKey = DispatchSpecificKey<Int>()
+    private let mainQueueValue = Int(1)
 
-    fileprivate static let sharedSafeDispatch = SafeDispatch()
+    private static let sharedSafeDispatch = SafeDispatch()
 
-    fileprivate init() {
-        DispatchQueue.main.setSpecific(key: /*Migrator FIXME: Use a variable of type DispatchSpecificKey*/ mainQueueKey, value: mainQueueValue)
+    private init() {
+        DispatchQueue.main.setSpecific(key: mainQueueKey, value: mainQueueValue)
     }
 
-    open class func async(onQueue queue: DispatchQueue = DispatchQueue.main, forWork block: @escaping ()->()) {
+    public class func async(onQueue queue: DispatchQueue = DispatchQueue.main, forWork block: @escaping ()->()) {
         if queue === DispatchQueue.main {
-            if DispatchQueue.getSpecific(sharedSafeDispatch.mainQueueKey) == sharedSafeDispatch.mainQueueValue {
+            if DispatchQueue.getSpecific(key: sharedSafeDispatch.mainQueueKey) == sharedSafeDispatch.mainQueueValue {
                 block()
             } else {
                 DispatchQueue.main.async {
