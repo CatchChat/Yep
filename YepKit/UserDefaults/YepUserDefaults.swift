@@ -465,7 +465,7 @@ final public class YepUserDefaults {
     }()
 
     public static var appLaunchCount: Listenable<Int> = {
-        let appLaunchCount = defaults.integer(forKey: appLaunchCountKey) ?? 0
+        let appLaunchCount = defaults.integer(forKey: appLaunchCountKey)
 
         return Listenable<Int>(appLaunchCount) { appLaunchCount in
             defaults.set(appLaunchCount, forKey: appLaunchCountKey)
