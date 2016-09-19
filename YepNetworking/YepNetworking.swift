@@ -61,7 +61,7 @@ public enum Reason: CustomStringConvertible {
     case couldNotParseJSON
     case noData
     case noSuccessStatusCode(statusCode: Int, errorCode: ErrorCode?)
-    case other(NSError?)
+    case other(Error?)
 
     public var description: String {
         switch self {
@@ -72,7 +72,7 @@ public enum Reason: CustomStringConvertible {
         case .noSuccessStatusCode(let statusCode):
             return "NoSuccessStatusCode: \(statusCode)"
         case .other(let error):
-            return "Other, Error: \(error?.description)"
+            return "Other, Error: \(error)"
         }
     }
 }
@@ -123,7 +123,7 @@ var yepNetworkActivityCount = 0 {
 
 private let yepSuccessStatusCodeRange: CountableRange<Int> = 200..<300
 
-public func apiRequest<A>(_ modifyRequest: (NSMutableURLRequest) -> (), baseURL: URL, resource: Resource<A>?, failure: FailureHandler?, completion: @escaping (A) -> Void) {
+public func apiRequest<A>(_ modifyRequest: (URLRequest) -> (), baseURL: URL, resource: Resource<A>?, failure: FailureHandler?, completion: @escaping (A) -> Void) {
 
     guard let resource = resource else {
         failure?(.other(nil), "No resource")
@@ -133,7 +133,7 @@ public func apiRequest<A>(_ modifyRequest: (NSMutableURLRequest) -> (), baseURL:
     let session = URLSession.shared
 
     let url = baseURL.appendingPathComponent(resource.path)
-    let request = NSMutableURLRequest(url: url)
+    var request = URLRequest(url: url)
     request.httpMethod = resource.method.rawValue
 
     func needEncodesParametersForMethod(_ method: Method) -> Bool {
@@ -163,7 +163,7 @@ public func apiRequest<A>(_ modifyRequest: (NSMutableURLRequest) -> (), baseURL:
             }
 
             if let requestBody = resource.requestBody {
-                if let URLComponents = URLComponents(url: URL, resolvingAgainstBaseURL: false) {
+                if var URLComponents = URLComponents(url: URL, resolvingAgainstBaseURL: false) {
                     URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(decodeJSON(requestBody)!)
                     request.url = URLComponents.url
                 }
@@ -206,23 +206,23 @@ public func apiRequest<A>(_ modifyRequest: (NSMutableURLRequest) -> (), baseURL:
                         completion(result)
 
                     } else {
-                        let dataString = NSString(data: responseData, encoding: String.Encoding.utf8)
+                        let dataString = String(data: responseData, encoding: .utf8)
                         print(dataString)
                         
-                        _failure(reason: .couldNotParseJSON, errorMessage: errorMessageInData(data))
+                        _failure(.couldNotParseJSON, errorMessageInData(data))
                         print("\(resource)\n")
                         print(request.cURLCommandLine)
                     }
 
                 } else {
-                    _failure(reason: .noData, errorMessage: errorMessageInData(data))
+                    _failure(.noData, errorMessageInData(data))
                     print("\(resource)\n")
                     print(request.cURLCommandLine)
                 }
 
             } else {
                 let errorCode = errorCodeInData(data)
-                _failure(reason: .noSuccessStatusCode(statusCode: httpResponse.statusCode, errorCode: errorCode), errorMessage: errorMessageInData(data))
+                _failure(.noSuccessStatusCode(statusCode: httpResponse.statusCode, errorCode: errorCode), errorMessageInData(data))
                 print("\(resource)\n")
                 print(request.cURLCommandLine)
 
@@ -230,12 +230,12 @@ public func apiRequest<A>(_ modifyRequest: (NSMutableURLRequest) -> (), baseURL:
                 // 用户需要重新登录，所以
 
                 if let host = request.url?.host {
-                    Manager.authFailedAction?(statusCode: httpResponse.statusCode, host: host)
+                    Manager.authFailedAction?(httpResponse.statusCode, host)
                 }
             }
 
         } else {
-            _failure(reason: .other(error), errorMessage: errorMessageInData(data))
+            _failure(.other(error), errorMessageInData(data))
             print("\(resource)")
             print(request.cURLCommandLine)
         }

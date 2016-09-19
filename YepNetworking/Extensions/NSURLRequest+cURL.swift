@@ -65,7 +65,7 @@ extension URLRequest {
                 if let
                     cookieStorage = session.configuration.httpCookieStorage,
                     let cookies = cookieStorage.cookies(for: URL) , !cookies.isEmpty {
-                        let string = cookies.reduce("") { $0 + "\($1.name)=\($1.value ?? String());" }
+                        let string = cookies.reduce("") { $0 + "\($1.name)=\($1.value);" }
                         components.append("-b \"\(string.substring(to: string.characters.index(before: string.endIndex)))\"")
                 }
             }
