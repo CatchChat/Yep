@@ -32,9 +32,9 @@ public struct Resource<A>: CustomStringConvertible {
     let parse: (Data) -> A?
 
     public var description: String {
-        let decodeRequestBody: [String: AnyObject]
+        let decodeRequestBody: JSONDictionary
         if let requestBody = requestBody {
-            decodeRequestBody = decodeJSON(requestBody)!
+            decodeRequestBody = decodeJSON(requestBody) ?? [:]
         } else {
             decodeRequestBody = [:]
         }
@@ -87,7 +87,7 @@ public let defaultFailureHandler: FailureHandler = { reason, errorMessage in
     }
 }
 
-func queryComponents(_ key: String, value: AnyObject) -> [(String, String)] {
+func queryComponents(_ key: String, value: Any) -> [(String, String)] {
 
     func escape(_ string: String) -> String {
         let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
@@ -100,7 +100,7 @@ func queryComponents(_ key: String, value: AnyObject) -> [(String, String)] {
     }
 
     var components: [(String, String)] = []
-    if let dictionary = value as? [String: AnyObject] {
+    if let dictionary = value as? JSONDictionary {
         for (nestedKey, value) in dictionary {
             components += queryComponents("\(key)[\(nestedKey)]", value: value)
         }
@@ -145,10 +145,10 @@ public func apiRequest<A>(_ modifyRequest: (URLRequest) -> (), baseURL: URL, res
         }
     }
 
-    func query(_ parameters: [String: AnyObject]) -> String {
+    func query(_ parameters: JSONDictionary) -> String {
         var components: [(String, String)] = []
         for key in Array(parameters.keys).sorted(by: <) {
-            let value: AnyObject! = parameters[key]
+            let value = parameters[key]
             components += queryComponents(key, value: value)
         }
 
@@ -164,7 +164,7 @@ public func apiRequest<A>(_ modifyRequest: (URLRequest) -> (), baseURL: URL, res
 
             if let requestBody = resource.requestBody {
                 if var URLComponents = URLComponents(url: URL, resolvingAgainstBaseURL: false) {
-                    URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(decodeJSON(requestBody)!)
+                    URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(decodeJSON(requestBody) ?? [:])
                     request.url = URLComponents.url
                 }
             }
@@ -279,25 +279,25 @@ func errorCodeInData(_ data: Data?) -> ErrorCode? {
 
 // Here are some convenience functions for dealing with JSON APIs
 
-public typealias JSONDictionary = [String: AnyObject]
+public typealias JSONDictionary = [String: Any]
 
 public func decodeJSON(_ data: Data) -> JSONDictionary? {
 
     if data.count > 0 {
         guard let result = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) else {
-            return JSONDictionary()
+            return nil
         }
         
         if let dictionary = result as? JSONDictionary {
             return dictionary
         } else if let array = result as? [JSONDictionary] {
-            return ["data": array as AnyObject]
+            return ["data": array]
         } else {
             return JSONDictionary()
         }
 
     } else {
-        return JSONDictionary()
+        return nil
     }
 }
 
