@@ -1,13 +1,13 @@
 
 github "realm/realm-cocoa"
-github "onevcat/Kingfisher" == 2.5.1
-github "tid-kijyun/Kanna" == 1.1.0
-github "Alamofire/Alamofire" == 3.5.0
-github "ReactiveX/RxSwift" == 2.6.0
-github "ReSwift/ReSwift" == 2.0.0
-github "nixzhu/Navi" == 0.5.0
-github "nixzhu/KeyboardMan" == 0.7.0
-github "nixzhu/Ruler" == 0.8.0
-github "nixzhu/Proposer" == 0.9.1
-github "nixzhu/MonkeyKing" == 0.9.4
+github "onevcat/Kingfisher"
+github "tid-kijyun/Kanna"
+github "Alamofire/Alamofire"
+github "ReactiveX/RxSwift"
+github "ReSwift/ReSwift"
+github "nixzhu/Navi"
+github "nixzhu/KeyboardMan"
+github "nixzhu/Ruler"
+github "nixzhu/Proposer"
+github "nixzhu/MonkeyKing"
 
