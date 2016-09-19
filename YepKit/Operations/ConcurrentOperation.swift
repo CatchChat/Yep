@@ -28,9 +28,6 @@ open class ConcurrentOperation: Operation {
             didChangeValue(forKey: state.keyPath)
         }
     }
-}
-
-public extension ConcurrentOperation {
 
     override open var isReady: Bool {
         return super.isReady && state == .Ready
@@ -57,7 +54,7 @@ public extension ConcurrentOperation {
         main()
         state = .Executing
     }
-    
+
     override open func cancel() {
         state = .Finished
     }
