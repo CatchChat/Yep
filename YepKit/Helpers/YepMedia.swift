@@ -11,7 +11,7 @@ import Navi
 
 public func metaDataStringOfImage(_ image: UIImage, needBlurThumbnail: Bool) -> String? {
 
-    let metaDataInfo: [String: AnyObject]
+    let metaDataInfo: [String: Any]
 
     let imageWidth = image.size.width
     let imageHeight = image.size.height
@@ -49,17 +49,16 @@ public func metaDataStringOfImage(_ image: UIImage, needBlurThumbnail: Bool) -> 
             ]
             */
             metaDataInfo = [
-                Config.MetaData.imageWidth: imageWidth as AnyObject,
-                Config.MetaData.imageHeight: imageHeight as AnyObject,
+                Config.MetaData.imageWidth: imageWidth,
+                Config.MetaData.imageHeight: imageHeight,
             ]
 
         } else {
 
-            let data = UIImageJPEGRepresentation(thumbnail, 0.7)
+            let data = UIImageJPEGRepresentation(thumbnail, 0.7)!
+            let string = data.base64EncodedString(options: [])
 
-            let string = data!.base64EncodedStringWithOptions(NSData.Base64EncodingOptions(rawValue: 0))
-
-            println("image thumbnail string length: \(string.lengthOfBytesUsingEncoding(String.Encoding.utf8))\n")
+            println("image thumbnail string length: \(string.lengthOfBytes(using: .utf8))\n")
 
             metaDataInfo = [
                 Config.MetaData.imageWidth: imageWidth,
@@ -70,8 +69,8 @@ public func metaDataStringOfImage(_ image: UIImage, needBlurThumbnail: Bool) -> 
 
     } else {
         metaDataInfo = [
-            Config.MetaData.imageWidth: imageWidth as AnyObject,
-            Config.MetaData.imageHeight: imageHeight as AnyObject
+            Config.MetaData.imageWidth: imageWidth,
+            Config.MetaData.imageHeight: imageHeight
         ]
     }
 
