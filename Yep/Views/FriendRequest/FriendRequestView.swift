@@ -159,15 +159,15 @@ final class FriendRequestView: UIView {
             let context = UIGraphicsGetCurrentContext()
 
             let y = CGRectGetHeight(rect)
-            CGContextMoveToPoint(context, 0, y)
-            CGContextAddLineToPoint(context, CGRectGetWidth(rect), y)
+            CGContextMoveToPoint(context!, 0, y)
+            CGContextAddLineToPoint(context!, CGRectGetWidth(rect), y)
 
             let bottomLineWidth: CGFloat = 1 / UIScreen.mainScreen().scale
-            CGContextSetLineWidth(context, bottomLineWidth)
+            CGContextSetLineWidth(context!, bottomLineWidth)
 
             UIColor.lightGrayColor().setStroke()
             
-            CGContextStrokePath(context)
+            CGContextStrokePath(context!)
         }
     }
 

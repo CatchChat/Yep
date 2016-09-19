@@ -343,9 +343,9 @@ class ShareViewController: SLComposeServiceViewController {
 
                 let realBody: String
                 if !body.isEmpty {
-                    realBody = body + " " + URL.absoluteString
+                    realBody = body + " " + URL.absoluteString!
                 } else {
-                    realBody = URL.absoluteString
+                    realBody = URL.absoluteString!
                 }
 
                 message = realBody

@@ -54,7 +54,7 @@ final class HorizontalLineView: UIView {
 
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextSetLineWidth(context, lineWidth)
+        CGContextSetLineWidth(context!, lineWidth)
 
         let y: CGFloat
         let fullHeight = CGRectGetHeight(rect)
@@ -65,10 +65,10 @@ final class HorizontalLineView: UIView {
             y = lineWidth * 0.5
         }
 
-        CGContextMoveToPoint(context, leftMargin, y)
-        CGContextAddLineToPoint(context, CGRectGetWidth(rect) - rightMargin, y)
+        CGContextMoveToPoint(context!, leftMargin, y)
+        CGContextAddLineToPoint(context!, CGRectGetWidth(rect) - rightMargin, y)
         
-        CGContextStrokePath(context)
+        CGContextStrokePath(context!)
     }
 }
 

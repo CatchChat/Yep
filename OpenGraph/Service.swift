@@ -13,7 +13,7 @@ import Kanna
 
 public func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title: String) -> Void) {
 
-    Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
+    Alamofire.request(.GET, URL.absoluteString!, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
 
         let error = response.result.error
 
@@ -66,7 +66,7 @@ public func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: 
 
 public func openGraphWithURL(URL: NSURL, failureHandler: FailureHandler?, completion: OpenGraph -> Void) {
 
-    Alamofire.request(.GET, URL.absoluteString, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
+    Alamofire.request(.GET, URL.absoluteString!, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
 
         let error = response.result.error
 

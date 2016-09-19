@@ -22,7 +22,7 @@ final class TouchClosuresView: UIView {
         touchesEndedAction?()
     }
 
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent?) {
         touchesCancelledAction?()
     }
 }

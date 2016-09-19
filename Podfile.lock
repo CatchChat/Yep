@@ -8,14 +8,14 @@ PODS:
   - AsyncDisplayKit/PINRemoteImage (1.9.90):
     - AsyncDisplayKit/Core
     - PINRemoteImage/iOS (>= 3.0.0-beta.3)
-  - AudioBot (0.4.1)
-  - AutoReview (0.1.0)
+  - AudioBot (0.5.0)
+  - AutoReview (0.2.0)
   - Base64 (1.1.2)
   - DeviceGuru (1.3.7)
   - Fabric (1.6.8)
   - FXBlurView (1.6.4)
-  - JPush (2.1.8)
-  - KeypathObserver (0.5.0)
+  - JPush (2.1.9)
+  - KeypathObserver (0.6.0)
   - PINCache (3.0.1-beta)
   - PINRemoteImage/Core (3.0.0-beta.3):
     - PINCache (>= 3.0.0-beta)
@@ -28,14 +28,14 @@ PODS:
 DEPENDENCIES:
   - Appsee
   - AsyncDisplayKit
-  - AudioBot
-  - AutoReview
+  - AudioBot (~> 0.5.0)
+  - AutoReview (~> 0.2.0)
   - Base64
   - DeviceGuru
   - Fabric
   - FXBlurView
   - JPush
-  - KeypathObserver
+  - KeypathObserver (~> 0.6.0)
   - pop
   - SocketRocket
   - TPKeyboardAvoiding
@@ -43,20 +43,20 @@ DEPENDENCIES:
 SPEC CHECKSUMS:
   Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
   AsyncDisplayKit: 926ded3ca3fb7026565e0e81f0e132fea4d3a6eb
-  AudioBot: 196817a463e5993722566527845f6a13b19a5865
-  AutoReview: 4110767f3fcfc1ea5bf0398b4f7b6a882dc2d73c
+  AudioBot: 3acf3adf7d5d5873dda451443bfac4d542c75a13
+  AutoReview: 67ea5e6e0141eb92547fca26387b46c36be36abe
   Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   DeviceGuru: f847629dc0da0145ba48a9fc314e613ca4aa9caf
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  JPush: 2d1286494eae216433f6d7709b2721565b4babc9
-  KeypathObserver: 3cc3f4c23520c6d07ea47e356cf5ed2c0bb0070e
+  JPush: 8bccf709ace4318a8e7008cc4fab42b706bfad46
+  KeypathObserver: 2d6a7a9ec5db9c922e314cd64f99aad59b9596d6
   PINCache: 6911fe422a633e18b3d3ddf2bd4f0e55e36e2892
   PINRemoteImage: 308731aa6534500e58fc211b9cc2bb7252df25ba
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
 
-PODFILE CHECKSUM: cfdc7ea8b12a55e3c4fd628d0c6cab87ebf7fc49
+PODFILE CHECKSUM: 77449485973bd3b63677a437ec1fc01eefc4039e
 
-COCOAPODS: 1.0.1
+COCOAPODS: 1.1.0.rc.2

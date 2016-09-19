@@ -28,7 +28,7 @@ final class MediaPreviewViewController: UIViewController {
     var startIndex: Int = 0
     var currentIndex: Int = 0 {
         didSet {
-            if let previewMedia = previewMedias[safe: currentIndex] {
+            if let previewMedia = previewMedias[currentIndex] {
                 switch previewMedia {
                 case .MessageType(let message):
                     guard !message.mediaPlayed else {
@@ -574,9 +574,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 mediaControlView.type = .Video
                 mediaControlView.playState = .Playing
 
-                if let
-                    imageFileURL = message.videoThumbnailFileURL,
-                    image = UIImage(contentsOfFile: imageFileURL.path!) {
+                if let imageFileURL = message.videoThumbnailFileURL, let image = UIImage(contentsOfFile: imageFileURL.path!) {
                         cell.mediaView.image = image
                 }
 

@@ -526,7 +526,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
             if itemIndex < (isMoreUserMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
                 guard let
-                    userMessages = filteredUserMessages?[safe: itemIndex],
+                    userMessages = filteredUserMessages?[itemIndex],
                     cell = cell as? SearchedMessageCell else {
                         return
                 }
@@ -594,7 +594,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         case .MessageRecord:
 
             if itemIndex < (isMoreUserMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
-                guard let userMessages = filteredUserMessages?[safe: itemIndex] else {
+                guard let userMessages = filteredUserMessages?[itemIndex] else {
                     return
                 }
 

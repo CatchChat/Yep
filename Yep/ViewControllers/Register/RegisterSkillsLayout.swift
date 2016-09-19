@@ -71,7 +71,7 @@ final class RegisterSkillsLayout: UICollectionViewFlowLayout {
         
         // Find newly visible indexes
         let newVisibleItems = itemsInCurrentRect.filteredArrayUsingPredicate(NSPredicate(block: { (item, bindings) -> Bool in
-            let isInVisibleIndexPaths = self.visibleIndexPaths.member(item.indexPath) != nil
+            let isInVisibleIndexPaths = self.visibleIndexPaths.member(item!.indexPath) != nil
             return !isInVisibleIndexPaths
         }))
 

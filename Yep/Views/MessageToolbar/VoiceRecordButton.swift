@@ -69,7 +69,7 @@ final class VoiceRecordButton: UIView {
         titleLabel?.text = String.trans_promptHoldForVoice
     }
     
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent?) {
         super.touchesCancelled(touches, withEvent: event)
         
         touchesCancelled?()

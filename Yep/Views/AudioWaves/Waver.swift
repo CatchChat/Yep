@@ -170,8 +170,8 @@ final class Waver: UIView {
                 x += self.density
             }
             
-            let waveline = self.waves[safe: i]
-            waveline?.path = wavelinePath.CGPath
+            let waveline = self.waves[i]
+            waveline.path = wavelinePath.CGPath
         }
     }
 

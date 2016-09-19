@@ -37,9 +37,9 @@ final class ImageCache {
             sideLength = withMinSideLength
         }
 
-        let attachmentOriginKey = ImageCache.attachmentOriginKeyWithURLString(url.absoluteString)
+        let attachmentOriginKey = ImageCache.attachmentOriginKeyWithURLString(url.absoluteString!)
 
-        let attachmentSideLengthKey = ImageCache.attachmentSideLengthKeyWithURLString(url.absoluteString, sideLength: sideLength)
+        let attachmentSideLengthKey = ImageCache.attachmentSideLengthKeyWithURLString(url.absoluteString!, sideLength: sideLength)
 
         //println("attachmentSideLengthKey: \(attachmentSideLengthKey)")
 
@@ -400,7 +400,7 @@ final class ImageCache {
 
                             // save it
 
-                            if let data = UIImageJPEGRepresentation(finalImage, 1.0) {
+                            if let data = UIImageJPEGRepresentation(finalImage!, 1.0) {
 
                                 let fileName = NSUUID().UUIDString
 

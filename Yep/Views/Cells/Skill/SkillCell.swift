@@ -58,7 +58,7 @@ final class SkillCell: UICollectionViewCell {
         }
     }
 
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+    override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent?) {
         tapped = false
     }
 }

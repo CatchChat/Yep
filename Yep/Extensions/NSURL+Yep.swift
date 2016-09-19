@@ -13,7 +13,7 @@ extension NSURL {
 
     private var allQueryItems: [NSURLQueryItem] {
 
-        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false), queryItems = components.queryItems {
+        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false), let queryItems = components.queryItems {
             return queryItems
         }
 
@@ -37,8 +37,8 @@ extension NSURL {
         }
 
         guard
-            let first = pathComponents[safe: 1] where first == "groups",
-            let second = pathComponents[safe: 2] where second == "share",
+            let first = pathComponents[1] where first == "groups",
+            let second = pathComponents[2] where second == "share",
             let sharedToken = queryItemForKey("token")?.value else {
                 return false
         }
@@ -69,7 +69,7 @@ extension NSURL {
             return false
         }
 
-        if let username = pathComponents[safe: 1] {
+        if let username = pathComponents[1] {
 
             discoverUserByUsername(username, failureHandler: nil, completion: { discoveredUser in
 
@@ -99,7 +99,7 @@ extension NSURL {
 
     var yep_validSchemeNetworkURL: NSURL? {
 
-        if scheme.isEmpty {
+        if scheme!.isEmpty {
 
             guard let URLComponents = NSURLComponents(URL: self, resolvingAgainstBaseURL: false) else {
                 return nil

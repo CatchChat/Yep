@@ -61,7 +61,7 @@ extension SearchTransition: UIViewControllerAnimatedTransitioning {
 
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
 
-        let containerView = transitionContext.containerView()!
+        let containerView = transitionContext.containerView()
 
         containerView.addSubview(toView)
 
@@ -82,7 +82,7 @@ extension SearchTransition: UIViewControllerAnimatedTransitioning {
         let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
         let searchActionRepresentation = fromVC as! SearchActionRepresentation
 
-        let containerView = transitionContext.containerView()!
+        let containerView = transitionContext.containerView()
 
         let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
         let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!

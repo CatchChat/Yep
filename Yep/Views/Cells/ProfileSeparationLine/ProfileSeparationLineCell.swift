@@ -24,13 +24,13 @@ final class ProfileSeparationLineCell: UICollectionViewCell {
 
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextSetLineWidth(context, lineWidth)
+        CGContextSetLineWidth(context!, lineWidth)
 
         let y = ceil(CGRectGetHeight(rect) * 0.5)
 
-        CGContextMoveToPoint(context, leftEdgeInset, y)
-        CGContextAddLineToPoint(context, CGRectGetWidth(rect) - rightEdgeInset, y)
+        CGContextMoveToPoint(context!, leftEdgeInset, y)
+        CGContextAddLineToPoint(context!, CGRectGetWidth(rect) - rightEdgeInset, y)
 
-        CGContextStrokePath(context)
+        CGContextStrokePath(context!)
     }
 }

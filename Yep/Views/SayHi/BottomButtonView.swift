@@ -75,10 +75,10 @@ final class BottomButtonView: UIView {
 
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextSetLineWidth(context, topLineWidth)
-        CGContextMoveToPoint(context, 0, 0)
-        CGContextAddLineToPoint(context, CGRectGetWidth(rect), 0)
-        CGContextStrokePath(context)
+        CGContextSetLineWidth(context!, topLineWidth)
+        CGContextMoveToPoint(context!, 0, 0)
+        CGContextAddLineToPoint(context!, CGRectGetWidth(rect), 0)
+        CGContextStrokePath(context!)
     }
 }
 

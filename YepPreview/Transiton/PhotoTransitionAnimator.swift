@@ -53,7 +53,7 @@ class PhotoTransitionAnimator: NSObject {
             newView.transform = view.transform
 
         } else {
-            newView = view.snapshotViewAfterScreenUpdates(true)
+            newView = view.snapshotViewAfterScreenUpdates(true)!
         }
 
         return newView
@@ -113,7 +113,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
             toView.frame = transitionContext.finalFrameForViewController(toViewController)
 
-            let containerView = transitionContext.containerView()!
+            let containerView = transitionContext.containerView()
 
             if !toView.isDescendantOfView(containerView) {
                 containerView.addSubview(toView)
@@ -122,7 +122,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
         if isDismissing {
             let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
-            let containerView = transitionContext.containerView()!
+            let containerView = transitionContext.containerView()
             containerView.bringSubviewToFront(fromView)
         }
     }
@@ -161,7 +161,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
     private func performZoomingAnimationWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
 
-        let containerView = transitionContext.containerView()!
+        let containerView = transitionContext.containerView()
 
         var _startingViewForAnimation: UIView? = self.startingViewForAnimation
         var _endingViewForAnimation: UIView? = self.startingViewForAnimation

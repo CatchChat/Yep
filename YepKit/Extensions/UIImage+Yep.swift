@@ -53,7 +53,7 @@ public extension UIImage {
 
         let cropSquare = CGRectMake(posX, posY, edge, edge)
 
-        let imageRef = CGImageCreateWithImageInRect(self.CGImage, cropSquare)!
+        let imageRef = CGImageCreateWithImageInRect(self.CGImage!, cropSquare)!
 
         return UIImage(CGImage: imageRef, scale: scale, orientation: self.imageOrientation)
     }
@@ -81,7 +81,7 @@ public extension UIImage {
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
 
-        return newImage
+        return newImage!
     }
 
     public func scaleToMinSideLength(sideLength: CGFloat) -> UIImage {
@@ -193,19 +193,19 @@ public extension UIImage {
         }
 
         let selfCGImage = self.CGImage
-        let context = CGBitmapContextCreate(nil, Int(width), Int(height), CGImageGetBitsPerComponent(selfCGImage), 0, CGImageGetColorSpace(selfCGImage), CGImageGetBitmapInfo(selfCGImage).rawValue);
+        let context = CGBitmapContextCreate(nil, Int(width), Int(height), CGImageGetBitsPerComponent(selfCGImage!), 0, CGImageGetColorSpace(selfCGImage!)!, CGImageGetBitmapInfo(selfCGImage!).rawValue);
 
-        CGContextConcatCTM(context, transform)
+        CGContextConcatCTM(context!, transform)
 
         switch self.imageOrientation {
         case .Left, .LeftMirrored, .Right, .RightMirrored:
-            CGContextDrawImage(context, CGRectMake(0,0, height, width), selfCGImage)
+            CGContextDrawImage(context!, CGRectMake(0,0, height, width), selfCGImage!)
 
         default:
-            CGContextDrawImage(context, CGRectMake(0,0, width, height), selfCGImage)
+            CGContextDrawImage(context!, CGRectMake(0,0, width, height), selfCGImage!)
         }
 
-        let cgImage = CGBitmapContextCreateImage(context)!
+        let cgImage = CGBitmapContextCreateImage(context!)!
         return UIImage(CGImage: cgImage)
     }
 }
@@ -238,7 +238,7 @@ public extension UIImage {
             return self
         }
 
-        let cgImage = CGImageCreateWithImageInRect(self.CGImage, rect)!
+        let cgImage = CGImageCreateWithImageInRect(self.CGImage!, rect)!
         return UIImage(CGImage: cgImage)
     }
 }
@@ -269,7 +269,7 @@ public extension UIImage {
 
         UIGraphicsEndImageContext()
 
-        return tintedImage
+        return tintedImage!
     }
 }
 
@@ -286,7 +286,7 @@ public extension UIImage {
 
         drawInRect(CGRect(origin: CGPointZero, size: size))
 
-        let cgImage = CGBitmapContextCreateImage(context)!
+        let cgImage = CGBitmapContextCreateImage(context!)!
 
         let image = UIImage(CGImage: cgImage)
 
@@ -304,19 +304,19 @@ public extension UIImage {
 
         var transform = CGAffineTransformConcat(CGAffineTransformIdentity, CGAffineTransformMakeScale(1.0, -1.0))
         transform = CGAffineTransformConcat(transform, CGAffineTransformMakeTranslation(0.0, self.size.height))
-        CGContextConcatCTM(context, transform)
+        CGContextConcatCTM(context!, transform)
 
         let drawRect = CGRect(origin: CGPointZero, size: self.size)
 
-        CGContextClipToMask(context, drawRect, maskImage.CGImage)
+        CGContextClipToMask(context!, drawRect, maskImage.CGImage!)
 
-        CGContextDrawImage(context, drawRect, self.CGImage)
+        CGContextDrawImage(context!, drawRect, self.CGImage!)
 
         let roundImage = UIGraphicsGetImageFromCurrentImageContext()
 
         UIGraphicsEndImageContext()
 
-        return roundImage
+        return roundImage!
     }
 
     public struct BubbleMaskImage {
@@ -365,7 +365,7 @@ public extension UIImage {
 
             UIGraphicsEndImageContext()
 
-            let bubbleImage = finalImage.maskWithImage(maskImage)
+            let bubbleImage = finalImage!.maskWithImage(maskImage)
             
             return bubbleImage
         }
@@ -389,11 +389,11 @@ public extension UIImage {
         let imageRef = CGImage
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedLast.rawValue)
-        let context = CGBitmapContextCreate(nil, CGImageGetWidth(imageRef), CGImageGetHeight(imageRef), 8, 0, colorSpace, bitmapInfo.rawValue)
+        let context = CGBitmapContextCreate(nil, CGImageGetWidth(imageRef!), CGImageGetHeight(imageRef!), 8, 0, colorSpace, bitmapInfo.rawValue)
 
         if let context = context {
-            let rect = CGRectMake(0, 0, CGFloat(CGImageGetWidth(imageRef)), CGFloat(CGImageGetHeight(imageRef)))
-            CGContextDrawImage(context, rect, imageRef)
+            let rect = CGRectMake(0, 0, CGFloat(CGImageGetWidth(imageRef!)), CGFloat(CGImageGetHeight(imageRef!)))
+            CGContextDrawImage(context, rect, imageRef!)
             let decompressedImageRef = CGBitmapContextCreateImage(context)!
 
             return UIImage(CGImage: decompressedImageRef, scale: scale, orientation: imageOrientation) ?? self
@@ -412,15 +412,15 @@ public extension UIImage {
         let newRect = CGRectIntegral(CGRect(origin: CGPointZero, size: size))
         let transposedRect = CGRect(origin: CGPointZero, size: CGSize(width: size.height, height: size.width))
 
-        let bitmapContext = CGBitmapContextCreate(nil, Int(newRect.width), Int(newRect.height), CGImageGetBitsPerComponent(CGImage), 0, CGImageGetColorSpace(CGImage), CGImageGetBitmapInfo(CGImage).rawValue)
+        let bitmapContext = CGBitmapContextCreate(nil, Int(newRect.width), Int(newRect.height), CGImageGetBitsPerComponent(CGImage!), 0, CGImageGetColorSpace(CGImage!)!, CGImageGetBitmapInfo(CGImage!).rawValue)
 
-        CGContextConcatCTM(bitmapContext, transform)
+        CGContextConcatCTM(bitmapContext!, transform)
 
-        CGContextSetInterpolationQuality(bitmapContext, interpolationQuality)
+        CGContextSetInterpolationQuality(bitmapContext!, interpolationQuality)
 
-        CGContextDrawImage(bitmapContext, drawTransposed ? transposedRect : newRect, CGImage)
+        CGContextDrawImage(bitmapContext!, drawTransposed ? transposedRect : newRect, CGImage!)
 
-        if let newCGImage = CGBitmapContextCreateImage(bitmapContext) {
+        if let newCGImage = CGBitmapContextCreateImage(bitmapContext!) {
             let newImage = UIImage(CGImage: newCGImage)
             return newImage
         }
@@ -484,11 +484,11 @@ public extension UIImage {
     public var yep_avarageColor: UIColor {
 
         let rgba = UnsafeMutablePointer<CUnsignedChar>.alloc(4)
-        let colorSpace: CGColorSpaceRef = CGColorSpaceCreateDeviceRGB()!
+        let colorSpace: CGColorSpaceRef = CGColorSpaceCreateDeviceRGB()
         let info = CGBitmapInfo(rawValue: CGImageAlphaInfo.PremultipliedLast.rawValue)
         let context: CGContextRef = CGBitmapContextCreate(rgba, 1, 1, 8, 4, colorSpace, info.rawValue)!
 
-        CGContextDrawImage(context, CGRectMake(0, 0, 1, 1), CGImage)
+        CGContextDrawImage(context, CGRectMake(0, 0, 1, 1), CGImage!)
 
         let alpha: CGFloat = (rgba[3] > 0) ? (CGFloat(rgba[3]) / 255.0) : 1
         let multiplier = alpha / 255.0
