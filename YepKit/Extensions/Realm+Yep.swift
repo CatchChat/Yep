@@ -11,14 +11,14 @@ import RealmSwift
 public extension Results {
 
     public subscript (safe index: Int) -> T? {
-        return indices ~= index ? self[index] : nil
+        return (index >= 0 && index < count) ? self[index] : nil
     }
 }
 
 public extension List {
 
     public subscript (safe index: Int) -> T? {
-        return indices ~= index ? self[index] : nil
+        return (index >= 0 && index < count) ? self[index] : nil
     }
 }
 
