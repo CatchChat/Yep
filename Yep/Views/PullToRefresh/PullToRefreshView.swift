@@ -12,7 +12,7 @@ protocol PullToRefreshViewDelegate: class {
 
     var scrollView: UIScrollView? { get }
 
-    func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView)
+    func pulllToRefreshViewDidRefresh(_ pulllToRefreshView: PullToRefreshView)
 }
 
 private let sceneHeight: CGFloat = 80
@@ -35,11 +35,11 @@ final class PullToRefreshView: UIView {
         }
     }
 
-    var refreshTimeoutTimer: NSTimer?
+    var refreshTimeoutTimer: Timer?
     var refreshTimeoutAction: (() -> Void)? {
         didSet {
             refreshTimeoutTimer?.invalidate()
-            refreshTimeoutTimer = NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(PullToRefreshView.refreshTimeout(_:)), userInfo: nil, repeats: false)
+            refreshTimeoutTimer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(PullToRefreshView.refreshTimeout(_:)), userInfo: nil, repeats: false)
         }
     }
 
@@ -55,13 +55,13 @@ final class PullToRefreshView: UIView {
 
     func setupRefreshItems() {
         
-        refreshView = YepRefreshView(frame: CGRectMake(0, 0, 50, 50))
+        refreshView = YepRefreshView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
 
         refreshItems = [
             RefreshItem(
                 view: refreshView,
                 centerEnd: CGPoint(
-                    x: CGRectGetMidX(UIScreen.mainScreen().bounds),
+                    x: UIScreen.main.bounds.midX,
                     y: 200 - sceneHeight * 0.5
                 ),
                 parallaxRatio: 0,
@@ -90,12 +90,12 @@ final class PullToRefreshView: UIView {
 
         isRefreshing = true
 
-        UIView.animateWithDuration(0.25, delay: 0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions(), animations: { [weak self] in
             self?.delegate?.scrollView?.contentInset.top += sceneHeight
         }, completion: nil)
     }
 
-    func endRefreshingAndDoFurtherAction(furtherAction: () -> Void) {
+    func endRefreshingAndDoFurtherAction(_ furtherAction: @escaping () -> Void) {
 
         guard isRefreshing else {
             return
@@ -103,7 +103,7 @@ final class PullToRefreshView: UIView {
 
         isRefreshing = false
 
-        UIView.animateWithDuration(0.25, delay: 0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions(), animations: { [weak self] in
             self?.delegate?.scrollView?.contentInset.top -= sceneHeight
 
         }, completion: { [weak self] (_) in
@@ -116,7 +116,7 @@ final class PullToRefreshView: UIView {
         })
     }
 
-    func refreshTimeout(timer: NSTimer) {
+    func refreshTimeout(_ timer: Timer) {
         println("PullToRefreshView refreshTimeout")
         refreshTimeoutAction?()
     }
@@ -124,7 +124,7 @@ final class PullToRefreshView: UIView {
 
 extension PullToRefreshView: UIScrollViewDelegate {
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
         if isRefreshing {
             return
@@ -138,19 +138,19 @@ extension PullToRefreshView: UIScrollViewDelegate {
         updateColors()
     }
 
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 
         if !isRefreshing && progressPercentage == 1 {
 
             beginRefreshing()
 
-            targetContentOffset.memory.y = -scrollView.contentInset.top
+            targetContentOffset.pointee.y = -scrollView.contentInset.top
 
             delegate?.pulllToRefreshViewDidRefresh(self)
         }
     }
 
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
 
         if !isRefreshing && progressPercentage == 1 {
 
@@ -167,8 +167,8 @@ final class RefreshItem {
 
     unowned var view: UIView
 
-    private var centerStart: CGPoint
-    private var centerEnd: CGPoint
+    fileprivate var centerStart: CGPoint
+    fileprivate var centerEnd: CGPoint
 
     init(view: UIView, centerEnd: CGPoint, parallaxRatio: CGFloat, sceneHeight: CGFloat) {
         self.view = view
@@ -178,14 +178,14 @@ final class RefreshItem {
         self.view.center = centerStart
     }
 
-    func updateViewPositionForPercentage(percentage: CGFloat) {
+    func updateViewPositionForPercentage(_ percentage: CGFloat) {
         view.center = CGPoint(
             x: centerStart.x + (centerEnd.x - centerStart.x) * percentage,
             y: centerStart.y + (centerEnd.y - centerStart.y) * percentage
         )
     }
 
-    func updateViewTintColor(tintColor: UIColor) {
+    func updateViewTintColor(_ tintColor: UIColor) {
         view.tintColor = tintColor
     }
 }

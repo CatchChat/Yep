@@ -10,15 +10,15 @@ import UIKit
 
 final class Waver: UIView {
     
-    private var displayLink: CADisplayLink?
+    fileprivate var displayLink: CADisplayLink?
     
-    private let numberOfWaves: Int = 5
+    fileprivate let numberOfWaves: Int = 5
     
-    private let waveColor = UIColor.yepTintColor()
+    fileprivate let waveColor = UIColor.yepTintColor()
     
-    private var phase: CGFloat = 0
+    fileprivate var phase: CGFloat = 0
     
-    private var presented = false
+    fileprivate var presented = false
     
     var level: CGFloat = 0 {
         didSet {
@@ -31,59 +31,59 @@ final class Waver: UIView {
         }
     }
     
-    private let mainWaveWidth: CGFloat = 2.0
+    fileprivate let mainWaveWidth: CGFloat = 2.0
     
-    private let decorativeWavesWidth: CGFloat = 1.0
+    fileprivate let decorativeWavesWidth: CGFloat = 1.0
     
-    private let idleAmplitude: CGFloat = 0.01
+    fileprivate let idleAmplitude: CGFloat = 0.01
     
-    private let frequency: CGFloat = 1.2
+    fileprivate let frequency: CGFloat = 1.2
     
-    internal private(set) var amplitude: CGFloat = 1.0
+    internal fileprivate(set) var amplitude: CGFloat = 1.0
     
     var density: CGFloat = 1.0
     
     var phaseShift: CGFloat = -0.25
     
-    internal private(set) var waves: [CAShapeLayer] = []
+    internal fileprivate(set) var waves: [CAShapeLayer] = []
     
     //
     
-    private var waveHeight: CGFloat!
-    private var waveWidth: CGFloat!
-    private var waveMid: CGFloat!
-    private var maxAmplitude: CGFloat!
+    fileprivate var waveHeight: CGFloat!
+    fileprivate var waveWidth: CGFloat!
+    fileprivate var waveMid: CGFloat!
+    fileprivate var maxAmplitude: CGFloat!
     
     // Sample Data
     
-    private var waveSampleCount = 0
+    fileprivate var waveSampleCount = 0
     
-    private var waveSamples = [CGFloat]()
+    fileprivate var waveSamples = [CGFloat]()
     
-    private var waveTotalCount: CGFloat!
+    fileprivate var waveTotalCount: CGFloat!
     
-    private var waveSquareWidth: CGFloat = 2.0
+    fileprivate var waveSquareWidth: CGFloat = 2.0
     
-    private var waveGap: CGFloat = 1.0
+    fileprivate var waveGap: CGFloat = 1.0
     
-    private var maxSquareWaveLength = 256
+    fileprivate var maxSquareWaveLength = 256
     
-    private let fps = 6
+    fileprivate let fps = 6
     
     //
 
-    var waverCallback: ((waver: Waver) -> ())? {
+    var waverCallback: ((_ waver: Waver) -> ())? {
         didSet {
             displayLink?.invalidate()
             displayLink = CADisplayLink(target: self, selector: #selector(Waver.callbackWaver))
-            displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+            displayLink?.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
             
             (0..<self.numberOfWaves).forEach { i in
                 let waveline = CAShapeLayer()
                 waveline.lineCap       = kCALineCapButt
                 waveline.lineJoin      = kCALineJoinRound
-                waveline.strokeColor   = UIColor.clearColor().CGColor
-                waveline.fillColor     = UIColor.clearColor().CGColor
+                waveline.strokeColor   = UIColor.clear.cgColor
+                waveline.fillColor     = UIColor.clear.cgColor
                 waveline.lineWidth = (i==0 ? self.mainWaveWidth : self.decorativeWavesWidth)
 
                 let floatI = CGFloat(i)
@@ -91,7 +91,7 @@ final class Waver: UIView {
                 let progress = 1.0 - progressIndex
                 let multiplier = min(1.0, (progress/3.0*2.0) + (1.0/3.0))
                 
-                waveline.strokeColor   = waveColor.colorWithAlphaComponent(( i == 0 ? 1.0 : 1.0*multiplier*0.4)).CGColor
+                waveline.strokeColor   = waveColor.withAlphaComponent(( i == 0 ? 1.0 : 1.0*multiplier*0.4)).cgColor
                 
                 self.layer.addSublayer(waveline)
                 self.waves.append(waveline)
@@ -114,7 +114,7 @@ final class Waver: UIView {
         setup()
     }
     
-    private func appendValue(newValue: CGFloat) {
+    fileprivate func appendValue(_ newValue: CGFloat) {
 
         waveSampleCount += 1
 
@@ -123,22 +123,22 @@ final class Waver: UIView {
         }
     }
     
-    private func setup() {
+    fileprivate func setup() {
         
-        self.waveHeight = CGRectGetHeight(self.bounds) * 0.9
-        self.waveWidth = CGRectGetWidth(self.bounds)
+        self.waveHeight = self.bounds.height * 0.9
+        self.waveWidth = self.bounds.width
         self.waveMid = self.waveWidth/2.0
         self.maxAmplitude = self.waveHeight - 4.0
         
     }
     
-    @objc private func callbackWaver() {
+    @objc fileprivate func callbackWaver() {
         if presented {
-            waverCallback?(waver: self)
+            waverCallback?(self)
         }
     }
     
-    private func updateMeters() {
+    fileprivate func updateMeters() {
 
         (0..<self.numberOfWaves).forEach { i in
             
@@ -161,17 +161,17 @@ final class Waver: UIView {
                 y = CGFloat(y)*CGFloat(sinf(Float(temp2))) + self.waveHeight
                 
                 if (x==0) {
-                    wavelinePath.moveToPoint(CGPointMake(x, y))
+                    wavelinePath.move(to: CGPoint(x: x, y: y))
                 }
                 else {
-                    wavelinePath.addLineToPoint(CGPointMake(x, y))
+                    wavelinePath.addLine(to: CGPoint(x: x, y: y))
                 }
 
                 x += self.density
             }
             
             let waveline = self.waves[i]
-            waveline.path = wavelinePath.CGPath
+            waveline.path = wavelinePath.cgPath
         }
     }
 

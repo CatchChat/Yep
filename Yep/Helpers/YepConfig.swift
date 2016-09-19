@@ -11,9 +11,9 @@ import CoreLocation
 import Ruler
 import Kingfisher
 
-let avatarFadeTransitionDuration: NSTimeInterval = 0.0
-let bigAvatarFadeTransitionDuration: NSTimeInterval = 0.15
-let imageFadeTransitionDuration: NSTimeInterval = 0.2
+let avatarFadeTransitionDuration: TimeInterval = 0.0
+let bigAvatarFadeTransitionDuration: TimeInterval = 0.15
+let imageFadeTransitionDuration: TimeInterval = 0.2
 
 let MediaOptionsInfos: KingfisherOptionsInfo = [
     .PreloadAllGIFData,
@@ -36,9 +36,9 @@ final class YepConfig {
     static let termsURLString = "http://privacy.soyep.com"
     static let appURLString = "itms-apps://itunes.apple.com/app/id" + "983891256"
 
-    static let forcedHideActivityIndicatorTimeInterval: NSTimeInterval = 30
+    static let forcedHideActivityIndicatorTimeInterval: TimeInterval = 30
 
-    static let dismissKeyboardDelayTimeInterval : NSTimeInterval = 0.45
+    static let dismissKeyboardDelayTimeInterval : TimeInterval = 0.45
 
     struct Notification {
         static let OAuthResult = "YepConfig.Notification.OAuthResult"
@@ -50,7 +50,7 @@ final class YepConfig {
     }
 
     class func getScreenRect() -> CGRect {
-        return UIScreen.mainScreen().bounds
+        return UIScreen.main.bounds
     }
 
     class func verifyCodeLength() -> Int {
@@ -98,21 +98,21 @@ final class YepConfig {
     }
 
     struct AudioRecord {
-        static let shortestDuration: NSTimeInterval = 1.0
-        static let longestDuration: NSTimeInterval = 60
+        static let shortestDuration: TimeInterval = 1.0
+        static let longestDuration: TimeInterval = 60
     }
 
     struct Profile {
         static let leftEdgeInset: CGFloat = Ruler.iPhoneHorizontal(20, 38, 40).value
         static let rightEdgeInset: CGFloat = leftEdgeInset
-        static let introductionFont = UIFont.systemFontOfSize(14)
+        static let introductionFont = UIFont.systemFont(ofSize: 14)
     }
 
     struct Settings {
         static let userCellAvatarSize: CGFloat = 80
 
         static let introFont: UIFont = {
-            return UIFont.systemFontOfSize(12, weight: UIFontWeightLight)
+            return UIFont.systemFont(ofSize: 12, weight: UIFontWeightLight)
         }()
 
         static let introInset: CGFloat = 20 + userCellAvatarSize + 20 + 10 + 11 + 20
@@ -120,7 +120,7 @@ final class YepConfig {
 
     struct EditProfile {
 
-        static let infoFont = UIFont.systemFontOfSize(15, weight: UIFontWeightLight)
+        static let infoFont = UIFont.systemFont(ofSize: 15, weight: UIFontWeightLight)
         static let infoInset: CGFloat = 20 + 20
     }
 
@@ -143,11 +143,11 @@ final class YepConfig {
     struct SearchedItemCell {
         static let separatorInset = UIEdgeInsets(top: 0, left: 15, bottom: 0, right: 0)
 
-        static let nicknameFont = UIFont.systemFontOfSize(14, weight: UIFontWeightMedium)
-        static let nicknameColor = UIColor.darkGrayColor()
-        static let usernameFont = UIFont.systemFontOfSize(12)
-        static let usernameColor = UIColor.lightGrayColor()
-        static let messageFont = UIFont.systemFontOfSize(12)
+        static let nicknameFont = UIFont.systemFont(ofSize: 14, weight: UIFontWeightMedium)
+        static let nicknameColor = UIColor.darkGray
+        static let usernameFont = UIFont.systemFont(ofSize: 12)
+        static let usernameColor = UIColor.lightGray
+        static let messageFont = UIFont.systemFont(ofSize: 12)
         static let messageColor = UIColor.yep_mangmorGrayColor()
         static let logoTintColor = UIColor.yep_mangmorGrayColor()
     }
@@ -187,7 +187,7 @@ final class YepConfig {
 
         static let bubbleCornerRadius: CGFloat = 18
 
-        static let imageAppearDuration: NSTimeInterval = 0.1
+        static let imageAppearDuration: TimeInterval = 0.1
 
         static let textAttributes: [String: NSObject] = [
             NSFontAttributeName: UIFont.chatTextFont(),
@@ -267,7 +267,7 @@ final class YepConfig {
     }
 
     struct Search {
-        static let delayInterval: NSTimeInterval = 0.5
+        static let delayInterval: TimeInterval = 0.5
     }
 
     struct Domain {

@@ -16,7 +16,7 @@ import MapKit
 import Ruler
 import KeypathObserver
 
-private let screenHeight: CGFloat = UIScreen.mainScreen().bounds.height
+private let screenHeight: CGFloat = UIScreen.main.bounds.height
 
 final class SearchFeedsViewController: BaseSearchViewController {
 
@@ -25,7 +25,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
     var skill: Skill?
     var profileUser: ProfileUser?
 
-    private lazy var searchFeedsFooterView: SearchFeedsFooterView = {
+    fileprivate lazy var searchFeedsFooterView: SearchFeedsFooterView = {
 
         let footerView = SearchFeedsFooterView(frame: CGRect(x: 0, y: 0, width: 200, height: screenHeight - 64))
 
@@ -53,13 +53,13 @@ final class SearchFeedsViewController: BaseSearchViewController {
             if feeds.isEmpty {
 
                 if keyword != nil {
-                    searchFeedsFooterView.style = .NoResults
+                    searchFeedsFooterView.style = .noResults
 
                 } else {
                     if skill != nil || profileUser != nil {
-                        searchFeedsFooterView.style = .Empty
+                        searchFeedsFooterView.style = .empty
                     } else {
-                        searchFeedsFooterView.style = .Keywords
+                        searchFeedsFooterView.style = .keywords
                     }
                 }
 
@@ -73,14 +73,14 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
     let needShowSkill: Bool = false
 
-    private var selectedIndexPathForMenu: NSIndexPath?
+    fileprivate var selectedIndexPathForMenu: IndexPath?
 
     @IBOutlet weak var feedsTableView: UITableView!  {
         didSet {
-            feedsTableView.backgroundColor = UIColor.whiteColor()
+            feedsTableView.backgroundColor = UIColor.white
             feedsTableView.tableFooterView = UIView()
             feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-            feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+            feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
 
             feedsTableView.registerClassOf(SearchedFeedBasicCell)
             feedsTableView.registerClassOf(SearchedFeedNormalImagesCell)
@@ -94,25 +94,25 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
             feedsTableView.registerNibOf(LoadMoreTableViewCell)
 
-            feedsTableView.keyboardDismissMode = .OnDrag
+            feedsTableView.keyboardDismissMode = .onDrag
         }
     }
 
-    private var isKeywordHot: Bool = false
+    fileprivate var isKeywordHot: Bool = false
 
-    private var keyword: String? {
+    fileprivate var keyword: String? {
         didSet {
             if keyword == nil {
                 clearSearchResults()
             }
-            if let keyword = keyword where keyword.isEmpty {
+            if let keyword = keyword , keyword.isEmpty {
                 clearSearchResults()
             }
         }
     }
-    private var searchTask: CancelableTask?
+    fileprivate var searchTask: CancelableTask?
 
-    private func triggerSearchTaskWithSearchText(searchText: String) {
+    fileprivate func triggerSearchTaskWithSearchText(_ searchText: String) {
 
         println("try search feeds with keyword: \(searchText)")
 
@@ -132,11 +132,11 @@ final class SearchFeedsViewController: BaseSearchViewController {
         }
     }
 
-    private struct LayoutPool {
+    fileprivate struct LayoutPool {
 
-        private var feedCellLayoutHash = [String: SearchedFeedCellLayout]()
+        fileprivate var feedCellLayoutHash = [String: SearchedFeedCellLayout]()
 
-        private mutating func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> SearchedFeedCellLayout {
+        fileprivate mutating func feedCellLayoutOfFeed(_ feed: DiscoveredFeed) -> SearchedFeedCellLayout {
             let key = feed.id
 
             if let layout = feedCellLayoutHash[key] {
@@ -151,7 +151,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
             }
         }
 
-        private mutating func updateFeedCellLayout(layout: SearchedFeedCellLayout, forFeed feed: DiscoveredFeed) {
+        fileprivate mutating func updateFeedCellLayout(_ layout: SearchedFeedCellLayout, forFeed feed: DiscoveredFeed) {
 
             let key = feed.id
 
@@ -162,21 +162,21 @@ final class SearchFeedsViewController: BaseSearchViewController {
             //println("feedCellLayoutHash.count: \(feedCellLayoutHash.count)")
         }
 
-        private mutating func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+        fileprivate mutating func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
             let layout = feedCellLayoutOfFeed(feed)
             return layout.height
         }
     }
-    private static var layoutPool = LayoutPool()
+    fileprivate static var layoutPool = LayoutPool()
 
     // MARK: Audio Play
 
-    private var audioPlayedDurations = [String: NSTimeInterval]()
+    fileprivate var audioPlayedDurations = [String: TimeInterval]()
 
-    private weak var feedAudioPlaybackTimer: NSTimer?
+    fileprivate weak var feedAudioPlaybackTimer: Timer?
 
-    private func audioPlayedDurationOfFeedAudio(feedAudio: FeedAudio) -> NSTimeInterval {
+    fileprivate func audioPlayedDurationOfFeedAudio(_ feedAudio: FeedAudio) -> TimeInterval {
         let key = feedAudio.feedID
 
         if !key.isEmpty {
@@ -188,7 +188,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
         return 0
     }
 
-    private func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofFeedAudio feedAudio: FeedAudio) {
+    fileprivate func setAudioPlayedDuration(_ audioPlayedDuration: TimeInterval, ofFeedAudio feedAudio: FeedAudio) {
         let key = feedAudio.feedID
         if !key.isEmpty {
             audioPlayedDurations[key] = audioPlayedDuration
@@ -216,7 +216,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
         }
     }
 
-    private func updateCellOfFeedAudio(feedAudio: FeedAudio, withCurrentTime currentTime: NSTimeInterval) {
+    fileprivate func updateCellOfFeedAudio(_ feedAudio: FeedAudio, withCurrentTime currentTime: TimeInterval) {
 
         let feedID = feedAudio.feedID
 
@@ -235,7 +235,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
         }
     }
 
-    @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
+    @objc fileprivate func updateAudioPlaybackProgress(_ timer: Timer) {
 
         guard let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio else {
             return
@@ -246,7 +246,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
         updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
     }
 
-    @objc private func updateOnlineAudioPlaybackProgress(timer: NSTimer) {
+    @objc fileprivate func updateOnlineAudioPlaybackProgress(_ timer: Timer) {
 
         guard let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio else {
             return
@@ -257,14 +257,14 @@ final class SearchFeedsViewController: BaseSearchViewController {
         updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
     }
 
-    private var previewReferences: [Reference?]?
-    private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
-    private var previewDribbblePhotos: [PreviewDribbblePhoto] = []
+    fileprivate var previewReferences: [Reference?]?
+    fileprivate var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
+    fileprivate var previewDribbblePhotos: [PreviewDribbblePhoto] = []
 
     // MARK: Life Circle
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         println("deinit SearchFeeds")
     }
 
@@ -285,26 +285,26 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
         searchBarBottomLineView.alpha = 0
 
-        feedsTableView.layoutMargins = UIEdgeInsetsZero
+        feedsTableView.layoutMargins = UIEdgeInsets.zero
         feedsTableView.separatorInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 0)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillShowNotification(_:)), name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillHideNotification(_:)), name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchFeedsViewController.feedAudioDidFinishPlaying(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
 
     // MARK: - Private
 
-    private var canLoadMore: Bool = false
-    private var currentPageIndex = 1
-    private var isFetchingFeeds = false
+    fileprivate var canLoadMore: Bool = false
+    fileprivate var currentPageIndex = 1
+    fileprivate var isFetchingFeeds = false
     enum SearchFeedsMode {
-        case Init
-        case LoadMore
+        case `init`
+        case loadMore
     }
-    private func searchFeedsWithKeyword(keyword: String, mode: SearchFeedsMode, finish: (() -> Void)? = nil) {
+    fileprivate func searchFeedsWithKeyword(_ keyword: String, mode: SearchFeedsMode, finish: (() -> Void)? = nil) {
 
         if isFetchingFeeds {
             finish?()
@@ -314,10 +314,10 @@ final class SearchFeedsViewController: BaseSearchViewController {
         isFetchingFeeds = true
 
         switch mode {
-        case .Init:
+        case .init:
             canLoadMore = true
             currentPageIndex = 1
-        case .LoadMore:
+        case .loadMore:
             currentPageIndex += 1
         }
 
@@ -398,12 +398,12 @@ final class SearchFeedsViewController: BaseSearchViewController {
         }
     }
 
-    private func hideKeyboard() {
+    fileprivate func hideKeyboard() {
 
         searchBar.resignFirstResponder()
     }
 
-    private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {
+    fileprivate func updateResultsTableView(scrollsToTop: Bool = false) {
         SafeDispatch.async { [weak self] in
             self?.feedsTableView.reloadData()
 
@@ -415,7 +415,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -424,15 +424,15 @@ final class SearchFeedsViewController: BaseSearchViewController {
         switch identifier {
 
         case "showProfile":
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
-            if let indexPath = sender as? NSIndexPath, section = Section(rawValue: indexPath.section) {
+            if let indexPath = sender as? IndexPath, let section = Section(rawValue: (indexPath as NSIndexPath).section) {
 
                 switch section {
-                case .Feed:
+                case .feed:
                     let discoveredUser = feeds[indexPath.row].creator
                     vc.prepare(with: discoveredUser)
-                case .LoadMore:
+                case .loadMore:
                     break
                 }
             }
@@ -441,12 +441,12 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
         case "showConversation":
 
-            let vc = segue.destinationViewController as! ConversationViewController
+            let vc = segue.destination as! ConversationViewController
 
             guard let
-                indexPath = sender as? NSIndexPath,
-                feed = feeds[safe: indexPath.row],
-                realm = try? Realm() else {
+                indexPath = sender as? IndexPath,
+                let feed = feeds[safe: indexPath.row],
+                let realm = try? Realm() else {
                     return
             }
 
@@ -469,7 +469,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
                         }
                     }
 
-                    if let deletedFeed = deletedFeed, index = strongSelf.feeds.indexOf(deletedFeed) {
+                    if let deletedFeed = deletedFeed, let index = strongSelf.feeds.indexOf(deletedFeed) {
                         strongSelf.feeds.removeAtIndex(index)
 
                         let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
@@ -488,7 +488,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
                     if let feedInfo = groupInfo["topic"] as? JSONDictionary {
 
-                        guard let strongSelf = self, feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) else {
+                        guard let strongSelf = self, let feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) else {
                             return
                         }
 
@@ -512,7 +512,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
             vc.syncPlayFeedAudioAction = { [weak self] in
                 
                 guard let strongSelf = self else { return }
-                strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(SearchFeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+                strongSelf.feedAudioPlaybackTimer = Timer.scheduledTimer(timeInterval: 0.02, target: strongSelf, selector: #selector(SearchFeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
             }
 
             prepareOriginalNavigationControllerDelegate()
@@ -527,16 +527,16 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
 extension SearchFeedsViewController: UISearchBarDelegate {
 
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
 
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
             self?.searchBarBottomLineView.alpha = 1
         }, completion: nil)
 
         return true
     }
 
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
 
         searchBar.text = nil
 
@@ -552,39 +552,39 @@ extension SearchFeedsViewController: UISearchBarDelegate {
         } else {
             searchBar.resignFirstResponder()
 
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
                 self?.searchBarBottomLineView.alpha = 0
             }, completion: nil)
 
-            navigationController?.popViewControllerAnimated(true)
+            navigationController?.popViewController(animated: true)
         }
     }
 
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
         isKeywordHot = false
 
         triggerSearchTaskWithSearchText(searchText)
     }
 
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
         hideKeyboard()
     }
 
-    private func clearSearchResults() {
+    fileprivate func clearSearchResults() {
 
         feeds = []
 
         updateResultsTableView(scrollsToTop: true)
     }
 
-    private func updateSearchResultsWithText(searchText: String) {
+    fileprivate func updateSearchResultsWithText(_ searchText: String) {
 
-        let searchText = searchText.trimming(.Whitespace)
+        let searchText = searchText.trimming(.whitespace)
 
         // 不要重复搜索一样的内容
-        if let keyword = self.keyword where keyword == searchText {
+        if let keyword = self.keyword , keyword == searchText {
             return
         }
 
@@ -594,7 +594,7 @@ extension SearchFeedsViewController: UISearchBarDelegate {
             return
         }
 
-        searchFeedsWithKeyword(searchText, mode: .Init)
+        searchFeedsWithKeyword(searchText, mode: .init)
     }
 }
 
@@ -602,37 +602,37 @@ extension SearchFeedsViewController: UISearchBarDelegate {
 
 extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    private enum Section: Int {
-        case Feed
-        case LoadMore
+    fileprivate enum Section: Int {
+        case feed
+        case loadMore
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
 
         return 2
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             return 0
         }
 
         switch section {
-        case .Feed:
+        case .feed:
             return feeds.count
-        case .LoadMore:
+        case .loadMore:
             return feeds.isEmpty ? 0 : 1
         }
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return UITableViewCell()
         }
 
-        func cellForFeed(feed: DiscoveredFeed) -> UITableViewCell {
+        func cellForFeed(_ feed: DiscoveredFeed) -> UITableViewCell {
 
             switch feed.kind {
 
@@ -678,49 +678,49 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
         switch section {
 
-        case .Feed:
+        case .feed:
 
             let feed = feeds[indexPath.row]
             return cellForFeed(feed)
 
-        case .LoadMore:
+        case .loadMore:
 
             let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
             return cell
         }
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return
         }
 
-        func configureFeedCell(cell: UITableViewCell, withFeed feed: DiscoveredFeed) {
+        func configureFeedCell(_ cell: UITableViewCell, withFeed feed: DiscoveredFeed) {
 
             guard let cell = cell as? SearchedFeedBasicCell else {
                 return
             }
 
             cell.tapAvatarAction = { [weak self] cell in
-                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
-                    println("tapAvatarAction indexPath: \(indexPath.section), \(indexPath.row)")
+                if let indexPath = tableView.indexPath(for: cell) { // 不直接捕捉 indexPath
+                    println("tapAvatarAction indexPath: \((indexPath as NSIndexPath).section), \((indexPath as NSIndexPath).row)")
                     self?.hideKeyboard()
-                    self?.performSegueWithIdentifier("showProfile", sender: indexPath)
+                    self?.performSegue(withIdentifier: "showProfile", sender: indexPath)
                 }
             }
 
             // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
             // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
             cell.touchesBeganAction = { [weak self] cell in
-                guard let indexPath = tableView.indexPathForCell(cell) else {
+                guard let indexPath = tableView.indexPath(for: cell) else {
                     return
                 }
-                self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
-                tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+                self?.tableView(tableView, willSelectRowAt: indexPath)
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             }
             cell.touchesEndedAction = { [weak self] cell in
-                guard let indexPath = tableView.indexPathForCell(cell) else {
+                guard let indexPath = tableView.indexPath(for: cell) else {
                     return
                 }
                 delay(0.03) { [weak self] in
@@ -728,10 +728,10 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                 }
             }
             cell.touchesCancelledAction = { cell in
-                guard let indexPath = tableView.indexPathForCell(cell) else {
+                guard let indexPath = tableView.indexPath(for: cell) else {
                     return
                 }
-                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                tableView.deselectRow(at: indexPath, animated: true)
             }
 
             let layout = SearchFeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
@@ -835,7 +835,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     let initialPhoto = photos[0]
 
                     let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
-                    self?.presentViewController(photosViewController, animated: true, completion: nil)
+                    self?.present(photosViewController, animated: true, completion: nil)
                 }
 
             case .Audio:
@@ -848,7 +848,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
                 cell.playOrPauseAudioAction = { [weak self] cell in
 
-                    guard let realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
+                    guard let realm = try? Realm(), let feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
                         return
                     }
 
@@ -873,7 +873,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     if let strongSelf = self {
 
                         // 如果在播放，就暂停
-                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer where onlineAudioPlayer.yep_playing {
+                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer , onlineAudioPlayer.yep_playing {
 
                             onlineAudioPlayer.pause()
 
@@ -896,7 +896,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                                 }
                             }
 
-                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.id {
+                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio , playingFeedAudio.feedID == feed.id {
                                 YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
 
                             } else {
@@ -924,7 +924,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
                     mapItem.name = locationName
 
-                    mapItem.openInMapsWithLaunchOptions(nil)
+                    mapItem.openInMaps(launchOptions: nil)
                 }
 
             default:
@@ -934,12 +934,12 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
         switch section {
 
-        case .Feed:
+        case .feed:
 
             let feed = feeds[indexPath.row]
             configureFeedCell(cell, withFeed: feed)
 
-        case .LoadMore:
+        case .loadMore:
 
             guard let cell = cell as? LoadMoreTableViewCell else {
                 break
@@ -968,60 +968,60 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
         }
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return 0
         }
 
         switch section {
 
-        case .Feed:
+        case .feed:
             let feed = feeds[indexPath.row]
             return SearchFeedsViewController.layoutPool.heightOfFeed(feed)
 
-        case .LoadMore:
+        case .loadMore:
             return 60
         }
     }
 
-    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return indexPath
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         hideKeyboard()
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return
         }
 
         switch section {
 
-        case .Feed:
-            performSegueWithIdentifier("showConversation", sender: indexPath)
+        case .feed:
+            performSegue(withIdentifier: "showConversation", sender: indexPath)
 
-        case .LoadMore:
+        case .loadMore:
             break
         }
     }
 
     // Report
 
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return false
         }
 
         switch section {
 
-        case .Feed:
+        case .feed:
             let feed = feeds[indexPath.item]
             if feed.creator.id == YepUserDefaults.userID.value {
                 return false
@@ -1029,20 +1029,20 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                 return true
             }
 
-        case .LoadMore:
+        case .loadMore:
             return false
         }
     }
 
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return nil
         }
 
-        if case .Feed = section {
+        if case .feed = section {
 
-            let reportAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Report", comment: "")) { [weak self] action, indexPath in
+            let reportAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Report", comment: "")) { [weak self] action, indexPath in
 
                 if let feed = self?.feeds[indexPath.row] {
                     self?.report(.Feed(feedID: feed.id))
@@ -1059,43 +1059,43 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
     
     // MARK: Copy Message
     
-    @objc private func didRecieveMenuWillHideNotification(notification: NSNotification) {
+    @objc fileprivate func didRecieveMenuWillHideNotification(_ notification: Notification) {
         
         selectedIndexPathForMenu = nil
     }
     
-    @objc private func didRecieveMenuWillShowNotification(notification: NSNotification) {
+    @objc fileprivate func didRecieveMenuWillShowNotification(_ notification: Notification) {
         
-        guard let menu = notification.object as? UIMenuController, selectedIndexPathForMenu = selectedIndexPathForMenu, cell = feedsTableView.cellForRowAtIndexPath(selectedIndexPathForMenu) as? SearchedFeedBasicCell else {
+        guard let menu = notification.object as? UIMenuController, let selectedIndexPathForMenu = selectedIndexPathForMenu, let cell = feedsTableView.cellForRow(at: selectedIndexPathForMenu) as? SearchedFeedBasicCell else {
             return
         }
         
-        let bubbleFrame = cell.convertRect(cell.messageTextView.frame, toView: view)
+        let bubbleFrame = cell.convert(cell.messageTextView.frame, to: view)
         
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         
-        menu.setTargetRect(bubbleFrame, inView: view)
+        menu.setTargetRect(bubbleFrame, in: view)
         menu.setMenuVisible(true, animated: true)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(SearchFeedsViewController.didRecieveMenuWillShowNotification(_:)), name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
         
-        feedsTableView.deselectRowAtIndexPath(selectedIndexPathForMenu, animated: true)
+        feedsTableView.deselectRow(at: selectedIndexPathForMenu, animated: true)
     }
     
-    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
         
         defer {
             selectedIndexPathForMenu = indexPath
         }
         
-        guard let _ = tableView.cellForRowAtIndexPath(indexPath) as? FeedBasicCell else {
+        guard let _ = tableView.cellForRow(at: indexPath) as? FeedBasicCell else {
             return false
         }
         
         return true
     }
     
-    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+    func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
         
         if action == #selector(NSObject.copy(_:)) {
             return true
@@ -1104,14 +1104,14 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
         return false
     }
     
-    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+    func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
         
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? FeedBasicCell else {
+        guard let cell = tableView.cellForRow(at: indexPath) as? FeedBasicCell else {
             return
         }
         
         if action == #selector(NSObject.copy(_:)) {
-            UIPasteboard.generalPasteboard().string = cell.messageTextView.text
+            UIPasteboard.general.string = cell.messageTextView.text
         }
     }
 }
@@ -1120,7 +1120,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension SearchFeedsViewController {
 
-    private func feedAudioDidFinishPlaying() {
+    fileprivate func feedAudioDidFinishPlaying() {
 
         if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
             playbackTimer.invalidate()
@@ -1134,7 +1134,7 @@ extension SearchFeedsViewController {
         YepAudioService.sharedManager.resetToDefault()
     }
 
-    @objc private func feedAudioDidFinishPlaying(notification: NSNotification) {
+    @objc fileprivate func feedAudioDidFinishPlaying(_ notification: Notification) {
         feedAudioDidFinishPlaying()
     }
 }
@@ -1143,7 +1143,7 @@ extension SearchFeedsViewController {
 
 extension SearchFeedsViewController: AVAudioPlayerDelegate {
 
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
 
         println("audioPlayerDidFinishPlaying \(flag)")
         
@@ -1155,17 +1155,17 @@ extension SearchFeedsViewController: AVAudioPlayerDelegate {
 
 extension SearchFeedsViewController: PhotosViewControllerDelegate {
 
-    func photosViewController(vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference? {
+    func photosViewController(_ vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference? {
 
         println("photosViewController:referenceViewForPhoto:\(photo)")
 
         if let previewAttachmentPhoto = photo as? PreviewAttachmentPhoto {
-            if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
+            if let index = previewAttachmentPhotos.index(of: previewAttachmentPhoto) {
                 return previewReferences?[index]
             }
 
         } else if let previewDribbblePhoto = photo as? PreviewDribbblePhoto {
-            if let index = previewDribbblePhotos.indexOf(previewDribbblePhoto) {
+            if let index = previewDribbblePhotos.index(of: previewDribbblePhoto) {
                 return previewReferences?[index]
             }
         }
@@ -1173,17 +1173,17 @@ extension SearchFeedsViewController: PhotosViewControllerDelegate {
         return nil
     }
 
-    func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
+    func photosViewController(_ vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
 
         println("photosViewController:didNavigateToPhoto:\(photo):atIndex:\(index)")
     }
 
-    func photosViewControllerWillDismiss(vc: PhotosViewController) {
+    func photosViewControllerWillDismiss(_ vc: PhotosViewController) {
 
         println("photosViewControllerWillDismiss")
     }
 
-    func photosViewControllerDidDismiss(vc: PhotosViewController) {
+    func photosViewControllerDidDismiss(_ vc: PhotosViewController) {
 
         println("photosViewControllerDidDismiss")
 

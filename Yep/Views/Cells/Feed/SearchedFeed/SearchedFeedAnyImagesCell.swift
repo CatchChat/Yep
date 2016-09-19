@@ -13,7 +13,7 @@ import AsyncDisplayKit
 
 final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + YepConfig.SearchedFeedNormalImagesCell.imageSize.height + 10
         return ceil(height)
@@ -23,7 +23,7 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 5
-        layout.scrollDirection = .Horizontal
+        layout.scrollDirection = .horizontal
         layout.itemSize = YepConfig.SearchedFeedNormalImagesCell.imageSize
 
         let node = ASCollectionNode(collectionViewLayout: layout)
@@ -31,7 +31,7 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
         node.view.scrollsToTop = false
         node.view.contentInset = UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 10)
         node.view.showsHorizontalScrollIndicator = false
-        node.view.backgroundColor = UIColor.clearColor()
+        node.view.backgroundColor = UIColor.clear
 
         node.dataSource = self
         node.delegate = self
@@ -44,7 +44,7 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
         }
         backgroundView.touchesEndedAction = { [weak self] in
             if let strongSelf = self {
-                if strongSelf.editing {
+                if strongSelf.isEditing {
                     return
                 }
                 strongSelf.touchesEndedAction?(strongSelf)
@@ -84,7 +84,7 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
         attachments = []
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
@@ -99,15 +99,15 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
 extension SearchedFeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
 
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return attachments.count
     }
 
-    func collectionView(collectionView: ASCollectionView, nodeForItemAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
+    func collectionView(_ collectionView: ASCollectionView, nodeForItemAt indexPath: IndexPath) -> ASCellNode {
 
         let node = FeedImageCellNode()
         if let attachment = attachments[safe: indexPath.item] {
@@ -116,19 +116,19 @@ extension SearchedFeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegat
         return node
     }
 
-    func collectionView(collectionView: ASCollectionView, constrainedSizeForNodeAtIndexPath indexPath: NSIndexPath) -> ASSizeRange {
+    func collectionView(_ collectionView: ASCollectionView, constrainedSizeForNodeAt indexPath: IndexPath) -> ASSizeRange {
 
         let size = YepConfig.SearchedFeedNormalImagesCell.imageSize
         return ASSizeRange(min: size, max: size)
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        guard let firstAttachment = attachments.first where !firstAttachment.isTemporary else {
+        guard let firstAttachment = attachments.first , !firstAttachment.isTemporary else {
             return
         }
 
-        guard let node = mediaCollectionNode.view.nodeForItemAtIndexPath(indexPath) as? FeedImageCellNode else {
+        guard let node = mediaCollectionNode.view.nodeForItem(at: indexPath) as? FeedImageCellNode else {
             return
         }
 

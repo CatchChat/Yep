@@ -15,24 +15,24 @@ let kWeek = kDay * 7
 let kMonth = kDay * 31
 let kYear = kDay * 365
 
-func NSDateTimeAgoLocalizedStrings(key: String) -> String {
+func NSDateTimeAgoLocalizedStrings(_ key: String) -> String {
 
-    let resourceURL = NSBundle.mainBundle().resourceURL
-    let URL = resourceURL?.URLByAppendingPathComponent("NSDateTimeAgo.bundle")
-    let bundle = NSBundle(URL: URL!)!
+    let resourceURL = Bundle.main.resourceURL
+    let URL = resourceURL?.appendingPathComponent("NSDateTimeAgo.bundle")
+    let bundle = Bundle(url: URL!)!
 
     return NSLocalizedString(key, tableName: "NSDateTimeAgo", bundle: bundle, comment: "")
 }
 
-public extension NSDate {
+public extension Date {
     
     // shows 1 or two letter abbreviation for units.
     // does not include 'ago' text ... just {value}{unit-abbreviation}
     // does not include interim summary options such as 'Just now'
     public var timeAgoSimple: String {
         
-        let now = NSDate()
-        let deltaSeconds = Int(fabs(timeIntervalSinceDate(now)))
+        let now = Date()
+        let deltaSeconds = Int(fabs(timeIntervalSince(now)))
         let deltaMinutes = deltaSeconds / 60
         
         var value: Int!
@@ -68,8 +68,8 @@ public extension NSDate {
 
     public var timeAgo: String {
         
-        let now = NSDate()
-        let deltaSeconds = max(Int(now.timeIntervalSinceDate(self)), 0)
+        let now = Date()
+        let deltaSeconds = max(Int(now.timeIntervalSince(self)), 0)
         let deltaMinutes = deltaSeconds / 60
         
         if deltaSeconds < 5 {
@@ -122,16 +122,16 @@ public extension NSDate {
         }
     }
     
-    public func stringFromFormat(format: String, withValue value: Int) -> String {
+    public func stringFromFormat(_ format: String, withValue value: Int) -> String {
         
         let localeFormat = String(format: format, getLocaleFormatUnderscoresWithValue(Double(value)))
         
         return String(format: NSDateTimeAgoLocalizedStrings(localeFormat), value)
     }
     
-    public func getLocaleFormatUnderscoresWithValue(value: Double) -> String {
+    public func getLocaleFormatUnderscoresWithValue(_ value: Double) -> String {
         
-        let localeCode = NSLocale.preferredLanguages().first
+        let localeCode = Locale.preferredLanguages.first
         
         if localeCode == "ru" {
             let XY = Int(floor(value)) % 100

@@ -9,15 +9,15 @@
 import Foundation
 import YepKit
 
-private let sectionDateFormatter: NSDateFormatter = {
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.dateStyle = .ShortStyle
-    dateFormatter.timeStyle = .ShortStyle
+private let sectionDateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .short
+    dateFormatter.timeStyle = .short
     return dateFormatter
 }()
 
-private let sectionDateInCurrentWeekFormatter: NSDateFormatter =  {
-    let dateFormatter = NSDateFormatter()
+private let sectionDateInCurrentWeekFormatter: DateFormatter =  {
+    let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "EEEE HH:mm"
     return dateFormatter
 }()

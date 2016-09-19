@@ -17,7 +17,7 @@ final class DribbbleShotCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
     }
     
     override func prepareForReuse() {
@@ -25,7 +25,7 @@ final class DribbbleShotCell: UICollectionViewCell {
         imageView.image = nil
     }
 
-    func configureWithDribbbleShot(shot: DribbbleWork.Shot) {
+    func configureWithDribbbleShot(_ shot: DribbbleWork.Shot) {
         
         imageView.kf_showIndicatorWhenLoading = true
         
@@ -34,7 +34,7 @@ final class DribbbleShotCell: UICollectionViewCell {
 //        if let hidpi = shot.images.hidpi where shot.images.normal.contains("gif") {
 //            imageView.kf_setImageWithURL(NSURL(string: hidpi)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
 //        } else {
-            imageView.kf_setImageWithURL(NSURL(string: shot.images.normal)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            imageView.kf_setImageWithURL(URL(string: shot.images.normal)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
 //        }
         
     }

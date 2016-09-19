@@ -19,19 +19,19 @@ class BaseVerifyMobileViewController: SegueViewController {
         return sharedStore().state.mobilePhone
     }
 
-    private lazy var disposeBag = DisposeBag()
+    fileprivate lazy var disposeBag = DisposeBag()
 
-    @IBOutlet private weak var verifyMobileNumberPromptLabel: UILabel!
-    @IBOutlet private weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var verifyMobileNumberPromptLabel: UILabel!
+    @IBOutlet fileprivate weak var verifyMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var phoneNumberLabel: UILabel!
+    @IBOutlet fileprivate weak var phoneNumberLabel: UILabel!
 
     @IBOutlet weak var verifyCodeTextField: BorderTextField!
-    @IBOutlet private weak var verifyCodeTextFieldTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var verifyCodeTextFieldTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var callMePromptLabel: UILabel!
-    @IBOutlet private weak var callMeButton: UIButton!
-    @IBOutlet private weak var callMeButtonTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var callMePromptLabel: UILabel!
+    @IBOutlet fileprivate weak var callMeButton: UIButton!
+    @IBOutlet fileprivate weak var callMeButtonTopConstraint: NSLayoutConstraint!
 
     lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
@@ -42,16 +42,16 @@ class BaseVerifyMobileViewController: SegueViewController {
         return button
     }()
 
-    private var callMeInSeconds = YepConfig.callMeInSeconds()
+    fileprivate var callMeInSeconds = YepConfig.callMeInSeconds()
 
-    private lazy var callMeTimer: NSTimer = {
-        let timer = NSTimer.scheduledTimerWithTimeInterval(1.0, target: self, selector: #selector(BaseVerifyMobileViewController.tryCallMe(_:)), userInfo: nil, repeats: true)
+    fileprivate lazy var callMeTimer: Timer = {
+        let timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(BaseVerifyMobileViewController.tryCallMe(_:)), userInfo: nil, repeats: true)
         return timer
     }()
 
-    private var haveAppropriateInput = false {
+    fileprivate var haveAppropriateInput = false {
         didSet {
-            nextButton.enabled = haveAppropriateInput
+            nextButton.isEnabled = haveAppropriateInput
 
             if (oldValue != haveAppropriateInput) && haveAppropriateInput {
                 next()
@@ -62,7 +62,7 @@ class BaseVerifyMobileViewController: SegueViewController {
     deinit {
         callMeTimer.invalidate()
 
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
 
         println("deinit BaseVerifyMobile")
     }
@@ -74,7 +74,7 @@ class BaseVerifyMobileViewController: SegueViewController {
 
         navigationItem.rightBarButtonItem = nextButton
 
-        NSNotificationCenter.defaultCenter()
+        NotificationCenter.default
             .rx_notification(AppDelegate.Notification.applicationDidBecomeActive)
             .subscribeNext({ [weak self] _ in self?.verifyCodeTextField.becomeFirstResponder() })
             .addDisposableTo(disposeBag)
@@ -84,7 +84,7 @@ class BaseVerifyMobileViewController: SegueViewController {
         phoneNumberLabel.text = mobilePhone?.fullNumber
 
         verifyCodeTextField.placeholder = " "
-        verifyCodeTextField.backgroundColor = UIColor.whiteColor()
+        verifyCodeTextField.backgroundColor = UIColor.white
         verifyCodeTextField.textColor = UIColor.yepInputTextColor()
         verifyCodeTextField.rx_text
             .map({ $0.characters.count == YepConfig.verifyCodeLength() })
@@ -92,23 +92,23 @@ class BaseVerifyMobileViewController: SegueViewController {
             .addDisposableTo(disposeBag)
 
         callMePromptLabel.text = String.trans_promptDidNotGetIt
-        callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
+        callMeButton.setTitle(String.trans_buttonCallMe, for: UIControlState())
 
         verifyMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         verifyCodeTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
         callMeButtonTopConstraint.constant = Ruler.iPhoneVertical(10, 20, 40, 40).value
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        nextButton.enabled = false
-        callMeButton.enabled = false
+        nextButton.isEnabled = false
+        callMeButton.isEnabled = false
 
         verifyCodeTextField.text = nil
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         verifyCodeTextField.becomeFirstResponder()
@@ -116,7 +116,7 @@ class BaseVerifyMobileViewController: SegueViewController {
         callMeTimer.fire()
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         view.endEditing(true)
@@ -124,24 +124,24 @@ class BaseVerifyMobileViewController: SegueViewController {
 
     // MARK: Actions
 
-    @objc private func tryCallMe(timer: NSTimer) {
+    @objc fileprivate func tryCallMe(_ timer: Timer) {
 
         if !haveAppropriateInput {
             if callMeInSeconds > 1 {
                 let callMeInSecondsString = String.trans_buttonCallMe + " (\(callMeInSeconds))"
 
                 UIView.performWithoutAnimation { [weak self] in
-                    self?.callMeButton.setTitle(callMeInSecondsString, forState: .Normal)
+                    self?.callMeButton.setTitle(callMeInSecondsString, for: UIControlState())
                     self?.callMeButton.layoutIfNeeded()
                 }
 
             } else {
                 UIView.performWithoutAnimation {  [weak self] in
-                    self?.callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
+                    self?.callMeButton.setTitle(String.trans_buttonCallMe, for: UIControlState())
                     self?.callMeButton.layoutIfNeeded()
                 }
 
-                callMeButton.enabled = true
+                callMeButton.isEnabled = true
             }
         }
 
@@ -150,14 +150,14 @@ class BaseVerifyMobileViewController: SegueViewController {
         }
     }
 
-    @IBAction private func callMe(sender: UIButton) {
+    @IBAction fileprivate func callMe(_ sender: UIButton) {
 
         callMeTimer.invalidate()
 
         UIView.performWithoutAnimation { [weak self] in
-            self?.callMeButton.setTitle(String.trans_buttonCalling, forState: .Normal)
+            self?.callMeButton.setTitle(String.trans_buttonCalling, for: UIControlState())
             self?.callMeButton.layoutIfNeeded()
-            self?.callMeButton.enabled = false
+            self?.callMeButton.isEnabled = false
         }
 
         delay(10) {
@@ -171,7 +171,7 @@ class BaseVerifyMobileViewController: SegueViewController {
         requestCallMe()
     }
 
-    func requestCallMeFailed(errorMessage: String?) {
+    func requestCallMeFailed(_ errorMessage: String?) {
 
         let message = errorMessage ?? "Call me failed!"
         YepAlert.alertSorry(message: message, inViewController: self)

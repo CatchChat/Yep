@@ -10,9 +10,9 @@ import UIKit
 
 final class FPSLabel: UILabel {
 
-    private var displayLink: CADisplayLink?
-    private var lastTime: NSTimeInterval = 0
-    private var count: Int = 0
+    fileprivate var displayLink: CADisplayLink?
+    fileprivate var lastTime: TimeInterval = 0
+    fileprivate var count: Int = 0
 
     deinit {
         displayLink?.invalidate()
@@ -24,10 +24,10 @@ final class FPSLabel: UILabel {
         frame = CGRect(x: 15, y: 150, width: 40, height: 40)
         layer.cornerRadius = 20
         clipsToBounds = true
-        backgroundColor = UIColor.blackColor()
-        textColor = UIColor.greenColor()
-        textAlignment = .Center
-        font = UIFont.systemFontOfSize(24)
+        backgroundColor = UIColor.black
+        textColor = UIColor.green
+        textAlignment = .center
+        font = UIFont.systemFont(ofSize: 24)
 
         run()
     }
@@ -35,10 +35,10 @@ final class FPSLabel: UILabel {
     func run() {
 
         displayLink = CADisplayLink(target: self, selector: #selector(FPSLabel.tick(_:)))
-        displayLink?.addToRunLoop(NSRunLoop.currentRunLoop(), forMode: NSRunLoopCommonModes)
+        displayLink?.add(to: RunLoop.current, forMode: RunLoopMode.commonModes)
     }
 
-    func tick(displayLink: CADisplayLink) {
+    func tick(_ displayLink: CADisplayLink) {
 
         if lastTime == 0 {
             lastTime = displayLink.timestamp
@@ -60,7 +60,7 @@ final class FPSLabel: UILabel {
         count = 0
 
         text = String(format: "%.0f", fps)
-        textColor = fps > 50 ? UIColor.greenColor() : UIColor.redColor()
+        textColor = fps > 50 ? UIColor.green : UIColor.red
     }
 }
 

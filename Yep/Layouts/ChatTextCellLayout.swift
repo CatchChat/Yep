@@ -9,16 +9,16 @@
 import Foundation
 import YepKit
 
-typealias ChatTextCellLayoutCache = (textContentTextViewWidth: CGFloat, textContentTextViewFrame: CGRect?, update: (textContentTextViewFrame: CGRect) -> Void)
+typealias ChatTextCellLayoutCache = (textContentTextViewWidth: CGFloat, textContentTextViewFrame: CGRect?, update: (_ textContentTextViewFrame: CGRect) -> Void)
 
 class ChatTextCellLayout {
 
     static let sharedLayout = ChatTextCellLayout()
 
-    private init() {
+    fileprivate init() {
     }
 
-    class func layoutCacheOfMessage(message: Message, textContentTextViewMaxWidth: CGFloat) -> ChatTextCellLayoutCache {
+    class func layoutCacheOfMessage(_ message: Message, textContentTextViewMaxWidth: CGFloat) -> ChatTextCellLayoutCache {
 
         let layoutCache = ChatTextCellLayoutCache(
             textContentTextViewWidth: sharedLayout.textContentTextViewWidthOfMessage(message, textContentTextViewMaxWidth: textContentTextViewMaxWidth),
@@ -31,8 +31,8 @@ class ChatTextCellLayout {
         return layoutCache
     }
 
-    private var textContentTextViewWidths = [String: CGFloat]()
-    private func textContentTextViewWidthOfMessage(message: Message, textContentTextViewMaxWidth: CGFloat) -> CGFloat {
+    fileprivate var textContentTextViewWidths = [String: CGFloat]()
+    fileprivate func textContentTextViewWidthOfMessage(_ message: Message, textContentTextViewMaxWidth: CGFloat) -> CGFloat {
 
         let key = message.messageID
 
@@ -52,7 +52,7 @@ class ChatTextCellLayout {
 
         return width
     }
-    class func updateTextContentTextViewWidth(width: CGFloat, forMessage message: Message) {
+    class func updateTextContentTextViewWidth(_ width: CGFloat, forMessage message: Message) {
 
         let key = message.messageID
 
@@ -61,13 +61,13 @@ class ChatTextCellLayout {
         }
     }
 
-    private var textContentTextViewFrames = [String: CGRect]()
-    private func textContentTextViewFrameOfMessage(message: Message) -> CGRect? {
+    fileprivate var textContentTextViewFrames = [String: CGRect]()
+    fileprivate func textContentTextViewFrameOfMessage(_ message: Message) -> CGRect? {
 
         let key = message.messageID
         return textContentTextViewFrames[key]
     }
-    private func updateTextContentTextViewFrame(frame: CGRect, forMessage message: Message) {
+    fileprivate func updateTextContentTextViewFrame(_ frame: CGRect, forMessage message: Message) {
 
         let key = message.messageID
 
@@ -75,7 +75,7 @@ class ChatTextCellLayout {
             textContentTextViewFrames[key] = frame
         }
     }
-    class func textContentTextViewFrameOfMessage(message: Message) -> CGRect? {
+    class func textContentTextViewFrameOfMessage(_ message: Message) -> CGRect? {
 
         return sharedLayout.textContentTextViewFrameOfMessage(message)
     }

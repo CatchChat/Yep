@@ -19,14 +19,14 @@ final class UnderLineTextField: UITextField {
     lazy var underlineLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.lineWidth = self.underLineWidth
-        layer.strokeColor = self.underLineColor.CGColor
+        layer.strokeColor = self.underLineColor.cgColor
         return layer
     }()
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
 
         layer.addSublayer(underlineLayer)
     }
@@ -35,18 +35,18 @@ final class UnderLineTextField: UITextField {
         super.layoutSubviews()
 
         let path = UIBezierPath()
-        path.moveToPoint(CGPoint(x: 0, y: CGRectGetHeight(bounds)))
-        path.addLineToPoint(CGPoint(x: CGRectGetWidth(bounds), y: CGRectGetHeight(bounds)))
+        path.move(to: CGPoint(x: 0, y: bounds.height))
+        path.addLine(to: CGPoint(x: bounds.width, y: bounds.height))
 
-        underlineLayer.path = path.CGPath
+        underlineLayer.path = path.cgPath
     }
 
-    override func textRectForBounds(bounds: CGRect) -> CGRect {
+    override func textRect(forBounds bounds: CGRect) -> CGRect {
         return CGRect(x: leftInset, y: 0, width: bounds.width - (leftInset + rightInset), height: bounds.height)
     }
 
-    override func editingRectForBounds(bounds: CGRect) -> CGRect {
-        return textRectForBounds(bounds)
+    override func editingRect(forBounds bounds: CGRect) -> CGRect {
+        return textRect(forBounds: bounds)
     }
 }
 

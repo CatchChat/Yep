@@ -9,18 +9,18 @@
 import UIKit
 import YepKit
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+private let screenWidth: CGFloat = UIScreen.main.bounds.width
 
 struct FeedCellLayout {
 
-    typealias Update = (layout: FeedCellLayout) -> Void
+    typealias Update = (_ layout: FeedCellLayout) -> Void
     typealias Cache = (layout: FeedCellLayout?, update: Update)
 
     let height: CGFloat
 
     struct BasicLayout {
 
-        func nicknameLabelFrameWhen(hasLogo hasLogo: Bool, hasSkill: Bool) -> CGRect {
+        func nicknameLabelFrameWhen(hasLogo: Bool, hasSkill: Bool) -> CGRect {
 
             var frame = nicknameLabelFrame
             frame.size.width -= hasLogo ? (18 + 10) : 0
@@ -30,7 +30,7 @@ struct FeedCellLayout {
         }
 
         let avatarImageViewFrame: CGRect
-        private let nicknameLabelFrame: CGRect
+        fileprivate let nicknameLabelFrame: CGRect
         let skillButtonFrame: CGRect
 
         let messageTextViewFrame: CGRect

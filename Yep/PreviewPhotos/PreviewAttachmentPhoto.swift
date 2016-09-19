@@ -14,11 +14,11 @@ class PreviewAttachmentPhoto: NSObject, Photo {
 
     var image: UIImage? {
         didSet {
-            self.updatedImage?(image: image)
+            self.updatedImage?(image)
         }
     }
 
-    var updatedImage: ((image: UIImage?) -> Void)?
+    var updatedImage: ((_ image: UIImage?) -> Void)?
 
     init(attachment: DiscoveredAttachment) {
         super.init()

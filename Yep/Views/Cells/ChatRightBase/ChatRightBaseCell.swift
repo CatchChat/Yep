@@ -17,13 +17,13 @@ class ChatRightBaseCell: ChatBaseCell {
         let imageView = UIImageView()
         imageView.frame = CGRect(x: 15, y: 0, width: 26, height: 26)
         imageView.image = UIImage.yep_iconDotSending
-        imageView.contentMode = .Center
+        imageView.contentMode = .center
         return imageView
     }()
     
     override var inGroup: Bool {
         willSet {
-            dotImageView.hidden = newValue ? true : false
+            dotImageView.isHidden = newValue ? true : false
         }
     }
     
@@ -33,28 +33,28 @@ class ChatRightBaseCell: ChatBaseCell {
 
             case MessageSendState.NotSend:
                 dotImageView.image = UIImage.yep_iconDotSending
-                dotImageView.hidden = false
+                dotImageView.isHidden = false
                 
                 delay(0.1) { [weak self] in
-                    if let messageSendState = self?.messageSendState where messageSendState == .NotSend {
+                    if let messageSendState = self?.messageSendState , messageSendState == .NotSend {
                         self?.showSendingAnimation()
                     }
                 }
 
             case MessageSendState.Successed:
                 dotImageView.image = UIImage.yep_iconDotUnread
-                dotImageView.hidden = false
+                dotImageView.isHidden = false
 
                 removeSendingAnimation()
 
             case MessageSendState.Read:
-                dotImageView.hidden = true
+                dotImageView.isHidden = true
 
                 removeSendingAnimation()
 
             case MessageSendState.Failed:
                 dotImageView.image = UIImage.yep_iconDotFailed
-                dotImageView.hidden = false
+                dotImageView.isHidden = false
 
                 removeSendingAnimation()
             }
@@ -68,7 +68,7 @@ class ChatRightBaseCell: ChatBaseCell {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     override init(frame: CGRect) {
@@ -76,7 +76,7 @@ class ChatRightBaseCell: ChatBaseCell {
 
         contentView.addSubview(dotImageView)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatRightBaseCell.tryUpdateMessageState), name: Config.Message.Notification.MessageStateChanged, object: nil)
+        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatRightBaseCell.tryUpdateMessageState), name: Config.Message.Notification.MessageStateChanged, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {

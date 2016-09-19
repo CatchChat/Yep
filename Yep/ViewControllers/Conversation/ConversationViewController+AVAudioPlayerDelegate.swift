@@ -17,7 +17,7 @@ extension ConversationViewController {
 
         AudioBot.stopPlay()
 
-        if let audioPlayer = YepAudioService.sharedManager.audioPlayer, playingMessage = YepAudioService.sharedManager.playingMessage where audioPlayer.playing {
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer, let playingMessage = YepAudioService.sharedManager.playingMessage , audioPlayer.isPlaying {
 
             audioPlayer.pause()
 
@@ -25,9 +25,9 @@ extension ConversationViewController {
                 playbackTimer.invalidate()
             }
 
-            if let sender = playingMessage.fromFriend, playingMessageIndex = messages.indexOf(playingMessage) {
+            if let sender = playingMessage.fromFriend, let playingMessageIndex = messages.indexOf(playingMessage) {
 
-                let indexPath = NSIndexPath(forItem: playingMessageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
+                let indexPath = IndexPath(forItem: playingMessageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
 
                 if sender.friendState != UserFriendState.Me.rawValue {
                     if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
@@ -62,15 +62,15 @@ extension ConversationViewController {
         }
     }
 
-    @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
+    @objc fileprivate func updateAudioPlaybackProgress(_ timer: Timer) {
 
-        func updateAudioCell(for message: Message, withCurrentTime currentTime: NSTimeInterval) {
+        func updateAudioCell(for message: Message, withCurrentTime currentTime: TimeInterval) {
 
             guard let messageIndex = messages.indexOf(message) else {
                 return
             }
 
-            let indexPath = NSIndexPath(forItem: messageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
+            let indexPath = IndexPath(forItem: messageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
 
             if let sender = message.fromFriend {
                 if sender.friendState != UserFriendState.Me.rawValue {
@@ -86,7 +86,7 @@ extension ConversationViewController {
             }
         }
 
-        if let audioPlayer = YepAudioService.sharedManager.audioPlayer, playingMessage = YepAudioService.sharedManager.playingMessage {
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer, let playingMessage = YepAudioService.sharedManager.playingMessage {
 
             let currentTime = audioPlayer.currentTime
 
@@ -99,7 +99,7 @@ extension ConversationViewController {
 
 extension ConversationViewController: AVAudioPlayerDelegate {
 
-    func audioPlayerBeginInterruption(player: AVAudioPlayer) {
+    func audioPlayerBeginInterruption(_ player: AVAudioPlayer) {
 
         println("audioPlayerBeginInterruption")
 
@@ -108,14 +108,14 @@ extension ConversationViewController: AVAudioPlayerDelegate {
         }
     }
 
-    func audioPlayerDecodeErrorDidOccur(player: AVAudioPlayer, error: NSError?) {
+    func audioPlayerDecodeErrorDidOccur(_ player: AVAudioPlayer, error: Error?) {
 
         println("audioPlayerDecodeErrorDidOccur")
     }
 
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
 
-        UIDevice.currentDevice().proximityMonitoringEnabled = false
+        UIDevice.current.isProximityMonitoringEnabled = false
 
         println("audioPlayerDidFinishPlaying \(flag)")
 
@@ -128,11 +128,11 @@ extension ConversationViewController: AVAudioPlayerDelegate {
             println("setAudioPlayedDuration to 0")
         }
 
-        func nextUnplayedAudioMessageFrom(message: Message) -> Message? {
+        func nextUnplayedAudioMessageFrom(_ message: Message) -> Message? {
 
             if let index = messages.indexOf(message) {
                 for i in (index + 1)..<messages.count {
-                    if let message = messages[safe: i], friend = message.fromFriend {
+                    if let message = messages[safe: i], let friend = message.fromFriend {
                         if friend.friendState != UserFriendState.Me.rawValue {
                             if (message.mediaType == MessageMediaType.Audio.rawValue) && (message.mediaPlayed == false) {
                                 return message
@@ -155,7 +155,7 @@ extension ConversationViewController: AVAudioPlayerDelegate {
         }
     }
 
-    func audioPlayerEndInterruption(player: AVAudioPlayer) {
+    func audioPlayerEndInterruption(_ player: AVAudioPlayer) {
 
         println("audioPlayerEndInterruption")
     }

@@ -14,16 +14,16 @@ final class YepHUD: NSObject {
     static let sharedInstance = YepHUD()
 
     var isShowing = false
-    var dismissTimer: NSTimer?
+    var dismissTimer: Timer?
 
     lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.5)
+        view.backgroundColor = UIColor.black.withAlphaComponent(0.5)
         return view
         }()
 
     lazy var activityIndicator: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.WhiteLarge)
+        let view = UIActivityIndicatorView(activityIndicatorStyle: UIActivityIndicatorViewStyle.whiteLarge)
         return view
         }()
 
@@ -31,7 +31,7 @@ final class YepHUD: NSObject {
         showActivityIndicatorWhileBlockingUI(true)
     }
 
-    class func showActivityIndicatorWhileBlockingUI(blockingUI: Bool) {
+    class func showActivityIndicatorWhileBlockingUI(_ blockingUI: Bool) {
 
         if sharedInstance.isShowing {
             return // TODO: 或者用新的取代旧的
@@ -82,7 +82,7 @@ final class YepHUD: NSObject {
     class func forcedHideActivityIndicator() {
         hideActivityIndicator() {
             if
-                let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
+                let appDelegate = UIApplication.shared.delegate as? AppDelegate,
                 let viewController = appDelegate.window?.rootViewController {
                     YepAlert.alertSorry(message: NSLocalizedString("Wait too long, the operation may not be completed.", comment: ""), inViewController: viewController)
             }
@@ -94,7 +94,7 @@ final class YepHUD: NSObject {
         }
     }
 
-    class func hideActivityIndicator(completion: () -> Void) {
+    class func hideActivityIndicator(_ completion: @escaping () -> Void) {
 
         SafeDispatch.async {
 

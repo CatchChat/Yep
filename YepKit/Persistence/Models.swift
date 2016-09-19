@@ -13,44 +13,44 @@ import RealmSwift
 
 // 总是在这个队列里使用 Realm
 //let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
-public let realmQueue = dispatch_queue_create("com.Yep.realmQueue", dispatch_queue_attr_make_with_qos_class(DISPATCH_QUEUE_SERIAL, QOS_CLASS_UTILITY, 0))
+public let realmQueue = DispatchQueue(label: "com.Yep.realmQueue", attributes: dispatch_queue_attr_make_with_qos_class(DispatchQueue.Attributes(), DispatchQoS.QoSClass.utility, 0))
 
 // MARK: User
 
 // 朋友的“状态”, 注意：上线后若要调整，只能增加新状态
 public enum UserFriendState: Int {
-    case Stranger       = 0   // 陌生人
-    case IssuedRequest  = 1   // 已对其发出好友请求
-    case Normal         = 2   // 正常状态的朋友
-    case Blocked        = 3   // 被屏蔽
-    case Me             = 4   // 自己
-    case Yep            = 5   // Yep官方账号
+    case stranger       = 0   // 陌生人
+    case issuedRequest  = 1   // 已对其发出好友请求
+    case normal         = 2   // 正常状态的朋友
+    case blocked        = 3   // 被屏蔽
+    case me             = 4   // 自己
+    case yep            = 5   // Yep官方账号
 }
 
-public class Avatar: Object {
-    public dynamic var avatarURLString: String = ""
-    public dynamic var avatarFileName: String = ""
+open class Avatar: Object {
+    open dynamic var avatarURLString: String = ""
+    open dynamic var avatarFileName: String = ""
 
-    public dynamic var roundMini: NSData = NSData() // 60
-    public dynamic var roundNano: NSData = NSData() // 40
+    open dynamic var roundMini: Data = Data() // 60
+    open dynamic var roundNano: Data = Data() // 40
 
     let users = LinkingObjects(fromType: User.self, property: "avatar")
-    public var user: User? {
+    open var user: User? {
         return users.first
     }
 }
 
-public class UserSkillCategory: Object {
-    public dynamic var skillCategoryID: String = ""
-    public dynamic var name: String = ""
-    public dynamic var localName: String = ""
+open class UserSkillCategory: Object {
+    open dynamic var skillCategoryID: String = ""
+    open dynamic var name: String = ""
+    open dynamic var localName: String = ""
 
-    public let skills = LinkingObjects(fromType: UserSkill.self, property: "category")
+    open let skills = LinkingObjects(fromType: UserSkill.self, property: "category")
 }
 
-public class UserSkill: Object {
+open class UserSkill: Object {
 
-    public dynamic var category: UserSkillCategory?
+    open dynamic var category: UserSkillCategory?
 
     var skillCategory: SkillCellSkill.Category? {
         if let category = category {
@@ -59,39 +59,39 @@ public class UserSkill: Object {
         return nil
     }
 
-    public dynamic var skillID: String = ""
-    public dynamic var name: String = ""
-    public dynamic var localName: String = ""
-    public dynamic var coverURLString: String = ""
+    open dynamic var skillID: String = ""
+    open dynamic var name: String = ""
+    open dynamic var localName: String = ""
+    open dynamic var coverURLString: String = ""
 
-    public let learningUsers = LinkingObjects(fromType: User.self, property: "learningSkills")
-    public let masterUsers = LinkingObjects(fromType: User.self, property: "masterSkills")
+    open let learningUsers = LinkingObjects(fromType: User.self, property: "learningSkills")
+    open let masterUsers = LinkingObjects(fromType: User.self, property: "masterSkills")
 }
 
-public class UserSocialAccountProvider: Object {
-    public dynamic var name: String = ""
-    public dynamic var enabled: Bool = false
+open class UserSocialAccountProvider: Object {
+    open dynamic var name: String = ""
+    open dynamic var enabled: Bool = false
 }
 
-public class UserDoNotDisturb: Object {
-    public dynamic var isOn: Bool = false
-    public dynamic var fromHour: Int = 22
-    public dynamic var fromMinute: Int = 0
-    public dynamic var toHour: Int = 7
-    public dynamic var toMinute: Int = 30
+open class UserDoNotDisturb: Object {
+    open dynamic var isOn: Bool = false
+    open dynamic var fromHour: Int = 22
+    open dynamic var fromMinute: Int = 0
+    open dynamic var toHour: Int = 7
+    open dynamic var toMinute: Int = 30
 
-    public var hourOffset: Int {
-        let localTimeZone = NSTimeZone.localTimeZone()
-        let totalSecondsOffset = localTimeZone.secondsFromGMT
+    open var hourOffset: Int {
+        let localTimeZone = TimeZone.autoupdatingCurrent
+        let totalSecondsOffset = localTimeZone.secondsFromGMT()
 
         let hourOffset = totalSecondsOffset / (60 * 60)
 
         return hourOffset
     }
 
-    public var minuteOffset: Int {
-        let localTimeZone = NSTimeZone.localTimeZone()
-        let totalSecondsOffset = localTimeZone.secondsFromGMT
+    open var minuteOffset: Int {
+        let localTimeZone = TimeZone.autoupdatingCurrent
+        let totalSecondsOffset = localTimeZone.secondsFromGMT()
 
         let hourOffset = totalSecondsOffset / (60 * 60)
         let minuteOffset = (totalSecondsOffset - hourOffset * (60 * 60)) / 60
@@ -99,7 +99,7 @@ public class UserDoNotDisturb: Object {
         return minuteOffset
     }
 
-    public func serverStringWithHour(hour: Int, minute: Int) -> String {
+    open func serverStringWithHour(_ hour: Int, minute: Int) -> String {
         if minute - minuteOffset > 0 {
             return String(format: "%02d:%02d", (hour - hourOffset) % 24, (minute - minuteOffset) % 60)
         } else {
@@ -107,74 +107,74 @@ public class UserDoNotDisturb: Object {
         }
     }
 
-    public var serverFromString: String {
+    open var serverFromString: String {
         return serverStringWithHour(fromHour, minute: fromMinute)
     }
 
-    public var serverToString: String {
+    open var serverToString: String {
         return serverStringWithHour(toHour, minute: toMinute)
     }
 
-    public var localFromString: String {
+    open var localFromString: String {
         return String(format: "%02d:%02d", fromHour, fromMinute)
     }
 
-    public var localToString: String {
+    open var localToString: String {
         return String(format: "%02d:%02d", toHour, toMinute)
     }
 }
 
-public class User: Object {
-    public dynamic var userID: String = ""
-    public dynamic var username: String = ""
-    public dynamic var nickname: String = ""
-    public dynamic var introduction: String = ""
-    public dynamic var avatarURLString: String = ""
-    public dynamic var avatar: Avatar?
-    public dynamic var badge: String = ""
-    public dynamic var blogURLString: String = ""
-    public dynamic var blogTitle: String = ""
+open class User: Object {
+    open dynamic var userID: String = ""
+    open dynamic var username: String = ""
+    open dynamic var nickname: String = ""
+    open dynamic var introduction: String = ""
+    open dynamic var avatarURLString: String = ""
+    open dynamic var avatar: Avatar?
+    open dynamic var badge: String = ""
+    open dynamic var blogURLString: String = ""
+    open dynamic var blogTitle: String = ""
 
-    public override class func indexedProperties() -> [String] {
+    open override class func indexedProperties() -> [String] {
         return ["userID"]
     }
 
-    public dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
-    public dynamic var lastSignInUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    open dynamic var createdUnixTime: TimeInterval = Date().timeIntervalSince1970
+    open dynamic var lastSignInUnixTime: TimeInterval = Date().timeIntervalSince1970
 
-    public dynamic var friendState: Int = UserFriendState.Stranger.rawValue
-    public dynamic var friendshipID: String = ""
-    public dynamic var isBestfriend: Bool = false
-    public dynamic var bestfriendIndex: Int = 0
+    open dynamic var friendState: Int = UserFriendState.stranger.rawValue
+    open dynamic var friendshipID: String = ""
+    open dynamic var isBestfriend: Bool = false
+    open dynamic var bestfriendIndex: Int = 0
 
-    public var canShowProfile: Bool {
-        return friendState != UserFriendState.Yep.rawValue
+    open var canShowProfile: Bool {
+        return friendState != UserFriendState.yep.rawValue
     }
 
-    public dynamic var longitude: Double = 0
-    public dynamic var latitude: Double = 0
+    open dynamic var longitude: Double = 0
+    open dynamic var latitude: Double = 0
 
-    public dynamic var notificationEnabled: Bool = true
-    public dynamic var blocked: Bool = false
+    open dynamic var notificationEnabled: Bool = true
+    open dynamic var blocked: Bool = false
 
-    public dynamic var doNotDisturb: UserDoNotDisturb?
+    open dynamic var doNotDisturb: UserDoNotDisturb?
 
-    public var learningSkills = List<UserSkill>()
-    public var masterSkills = List<UserSkill>()
-    public var socialAccountProviders = List<UserSocialAccountProvider>()
+    open var learningSkills = List<UserSkill>()
+    open var masterSkills = List<UserSkill>()
+    open var socialAccountProviders = List<UserSocialAccountProvider>()
 
-    public let messages = LinkingObjects(fromType: Message.self, property: "fromFriend")
+    open let messages = LinkingObjects(fromType: Message.self, property: "fromFriend")
 
     let conversations = LinkingObjects(fromType: Conversation.self, property: "withFriend")
-    public var conversation: Conversation? {
+    open var conversation: Conversation? {
         return conversations.first
     }
 
-    public let ownedGroups = LinkingObjects(fromType: Group.self, property: "owner")
-    public let belongsToGroups = LinkingObjects(fromType: Group.self, property: "members")
-    public let createdFeeds = LinkingObjects(fromType: Feed.self, property: "creator")
+    open let ownedGroups = LinkingObjects(fromType: Group.self, property: "owner")
+    open let belongsToGroups = LinkingObjects(fromType: Group.self, property: "members")
+    open let createdFeeds = LinkingObjects(fromType: Feed.self, property: "creator")
 
-    public var isMe: Bool {
+    open var isMe: Bool {
         if let myUserID = YepUserDefaults.userID.value {
             return userID == myUserID
         }
@@ -182,7 +182,7 @@ public class User: Object {
         return false
     }
 
-    public var mentionedUsername: String? {
+    open var mentionedUsername: String? {
         if username.isEmpty {
             return nil
         } else {
@@ -190,7 +190,7 @@ public class User: Object {
         }
     }
 
-    public var compositedName: String {
+    open var compositedName: String {
         if username.isEmpty {
             return nickname
         } else {
@@ -200,12 +200,12 @@ public class User: Object {
 
     // 级联删除关联的数据对象
 
-    public func cascadeDeleteInRealm(realm: Realm) {
+    open func cascadeDeleteInRealm(_ realm: Realm) {
 
         if let avatar = avatar {
 
             if !avatar.avatarFileName.isEmpty {
-                NSFileManager.deleteAvatarImageWithName(avatar.avatarFileName)
+                FileManager.deleteAvatarImageWithName(avatar.avatarFileName)
             }
 
             realm.delete(avatar)
@@ -227,33 +227,33 @@ public class User: Object {
 
 // Group 类型，注意：上线后若要调整，只能增加新状态
 public enum GroupType: Int {
-    case Public     = 0
-    case Private    = 1
+    case `public`     = 0
+    case `private`    = 1
 }
 
-public class Group: Object {
-    public dynamic var groupID: String = ""
-    public dynamic var groupName: String = ""
-    public dynamic var notificationEnabled: Bool = true
-    public dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+open class Group: Object {
+    open dynamic var groupID: String = ""
+    open dynamic var groupName: String = ""
+    open dynamic var notificationEnabled: Bool = true
+    open dynamic var createdUnixTime: TimeInterval = Date().timeIntervalSince1970
 
-    public dynamic var owner: User?
-    public var members = List<User>()
+    open dynamic var owner: User?
+    open var members = List<User>()
 
-    public dynamic var groupType: Int = GroupType.Private.rawValue
+    open dynamic var groupType: Int = GroupType.private.rawValue
 
-    public dynamic var withFeed: Feed?
+    open dynamic var withFeed: Feed?
 
-    public dynamic var includeMe: Bool = false
+    open dynamic var includeMe: Bool = false
 
     let conversations = LinkingObjects(fromType: Conversation.self, property: "withGroup")
-    public var conversation: Conversation? {
+    open var conversation: Conversation? {
         return conversations.first
     }
 
     // 级联删除关联的数据对象
 
-    public func cascadeDeleteInRealm(realm: Realm) {
+    open func cascadeDeleteInRealm(_ realm: Realm) {
 
         withFeed?.cascadeDeleteInRealm(realm)
 
@@ -261,7 +261,7 @@ public class Group: Object {
             realm.delete(conversation)
 
             SafeDispatch.async {
-                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedConversation), object: nil)
             }
         }
 
@@ -271,75 +271,75 @@ public class Group: Object {
 
 // MARK: Message
 
-public class Coordinate: Object {
-    public dynamic var latitude: Double = 0    // 合法范围 (-90, 90)
-    public dynamic var longitude: Double = 0   // 合法范围 (-180, 180)
+open class Coordinate: Object {
+    open dynamic var latitude: Double = 0    // 合法范围 (-90, 90)
+    open dynamic var longitude: Double = 0   // 合法范围 (-180, 180)
 
     // NOTICE: always use safe version property
     
-    public var safeLatitude: Double {
+    open var safeLatitude: Double {
         return abs(latitude) > 90 ? 0 : latitude
     }
-    public var safeLongitude: Double {
+    open var safeLongitude: Double {
         return abs(longitude) > 180 ? 0 : longitude
     }
-    public var locationCoordinate: CLLocationCoordinate2D {
+    open var locationCoordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: safeLatitude, longitude: safeLongitude)
     }
 
-    public func safeConfigureWithLatitude(latitude: Double, longitude: Double) {
+    open func safeConfigureWithLatitude(_ latitude: Double, longitude: Double) {
         self.latitude = abs(latitude) > 90 ? 0 : latitude
         self.longitude = abs(longitude) > 180 ? 0 : longitude
     }
 }
 
 public enum MessageDownloadState: Int {
-    case NoDownload     = 0 // 未下载
-    case Downloading    = 1 // 下载中
-    case Downloaded     = 2 // 已下载
+    case noDownload     = 0 // 未下载
+    case downloading    = 1 // 下载中
+    case downloaded     = 2 // 已下载
 }
 
 public enum MessageMediaType: Int, CustomStringConvertible {
-    case Text           = 0
-    case Image          = 1
-    case Video          = 2
-    case Audio          = 3
-    case Sticker        = 4
-    case Location       = 5
-    case SectionDate    = 6
-    case SocialWork     = 7
-    case ShareFeed      = 8
+    case text           = 0
+    case image          = 1
+    case video          = 2
+    case audio          = 3
+    case sticker        = 4
+    case location       = 5
+    case sectionDate    = 6
+    case socialWork     = 7
+    case shareFeed      = 8
     
     public var description: String {
         switch self {
-        case .Text:
+        case .text:
             return "text"
-        case .Image:
+        case .image:
             return "image"
-        case .Video:
+        case .video:
             return "video"
-        case .Audio:
+        case .audio:
             return "audio"
-        case .Sticker:
+        case .sticker:
             return "sticker"
-        case .Location:
+        case .location:
             return "location"
-        case .SectionDate:
+        case .sectionDate:
             return "sectionDate"
-        case .SocialWork:
+        case .socialWork:
             return "socialWork"
-        case .ShareFeed:
+        case .shareFeed:
             return "shareFeed"
         }
     }
 
     public var fileExtension: FileExtension? {
         switch self {
-        case .Image:
+        case .image:
             return .JPEG
-        case .Video:
+        case .video:
             return .MP4
-        case .Audio:
+        case .audio:
             return .M4A
         default:
             return nil // TODO: more
@@ -348,19 +348,19 @@ public enum MessageMediaType: Int, CustomStringConvertible {
 
     public var placeholder: String? {
         switch self {
-        case .Text:
+        case .text:
             return nil
-        case .Image:
+        case .image:
             return NSLocalizedString("placeholder.image", comment: "")
-        case .Video:
+        case .video:
             return NSLocalizedString("placeholder.video", comment: "")
-        case .Audio:
+        case .audio:
             return NSLocalizedString("placeholder.audio", comment: "")
-        case .Sticker:
+        case .sticker:
             return NSLocalizedString("placeholder.sticker", comment: "")
-        case .Location:
+        case .location:
             return NSLocalizedString("placeholder.location", comment: "")
-        case .SocialWork:
+        case .socialWork:
             return NSLocalizedString("placeholder.socialWork", comment: "")
         default:
             return NSLocalizedString("placeholder.all_messages_read", comment: "")
@@ -369,51 +369,51 @@ public enum MessageMediaType: Int, CustomStringConvertible {
 }
 
 public enum MessageSendState: Int, CustomStringConvertible {
-    case NotSend    = 0
-    case Failed     = 1
-    case Successed  = 2
-    case Read       = 3
+    case notSend    = 0
+    case failed     = 1
+    case successed  = 2
+    case read       = 3
     
     public var description: String {
         get {
             switch self {
-            case NotSend:
+            case .notSend:
                 return "NotSend"
-            case Failed:
+            case .failed:
                 return "Failed"
-            case Successed:
+            case .successed:
                 return "Sent"
-            case Read:
+            case .read:
                 return "Read"
             }
         }
     }
 }
 
-public class MediaMetaData: Object {
-    public dynamic var data: NSData = NSData()
+open class MediaMetaData: Object {
+    open dynamic var data: Data = Data()
 
-    public var string: String? {
-        return NSString(data: data, encoding: NSUTF8StringEncoding) as? String
+    open var string: String? {
+        return NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
     }
 }
 
-public class SocialWorkGithubRepo: Object {
-    public dynamic var repoID: Int = 0
-    public dynamic var name: String = ""
-    public dynamic var fullName: String = ""
-    public dynamic var URLString: String = ""
-    public dynamic var repoDescription: String = ""
+open class SocialWorkGithubRepo: Object {
+    open dynamic var repoID: Int = 0
+    open dynamic var name: String = ""
+    open dynamic var fullName: String = ""
+    open dynamic var URLString: String = ""
+    open dynamic var repoDescription: String = ""
 
-    public dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
-    public dynamic var synced: Bool = false
+    open dynamic var createdUnixTime: TimeInterval = Date().timeIntervalSince1970
+    open dynamic var synced: Bool = false
 
-    public class func getWithRepoID(repoID: Int, inRealm realm: Realm) -> SocialWorkGithubRepo? {
+    open class func getWithRepoID(_ repoID: Int, inRealm realm: Realm) -> SocialWorkGithubRepo? {
         let predicate = NSPredicate(format: "repoID = %d", repoID)
         return realm.objects(SocialWorkGithubRepo).filter(predicate).first
     }
 
-    public func fillWithGithubRepo(githubRepo: GithubRepo) {
+    open func fillWithGithubRepo(_ githubRepo: GithubRepo) {
         self.repoID = githubRepo.ID
         self.name = githubRepo.name
         self.fullName = githubRepo.fullName
@@ -423,7 +423,7 @@ public class SocialWorkGithubRepo: Object {
         self.createdUnixTime = githubRepo.createdAt.timeIntervalSince1970
     }
 
-    public func fillWithFeedGithubRepo(githubRepo: DiscoveredFeed.GithubRepo) {
+    open func fillWithFeedGithubRepo(_ githubRepo: DiscoveredFeed.GithubRepo) {
         self.repoID = githubRepo.ID//(githubRepo.ID as NSString).integerValue
         self.name = githubRepo.name
         self.fullName = githubRepo.fullName
@@ -434,27 +434,27 @@ public class SocialWorkGithubRepo: Object {
     }
 }
 
-public class SocialWorkDribbbleShot: Object {
-    public dynamic var shotID: Int = 0
-    public dynamic var title: String = ""
-    public dynamic var htmlURLString: String = ""
-    public dynamic var imageURLString: String = ""
-    public dynamic var shotDescription: String = ""
+open class SocialWorkDribbbleShot: Object {
+    open dynamic var shotID: Int = 0
+    open dynamic var title: String = ""
+    open dynamic var htmlURLString: String = ""
+    open dynamic var imageURLString: String = ""
+    open dynamic var shotDescription: String = ""
 
-    public dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
-    public dynamic var synced: Bool = false
+    open dynamic var createdUnixTime: TimeInterval = Date().timeIntervalSince1970
+    open dynamic var synced: Bool = false
 
-    public class func getWithShotID(shotID: Int, inRealm realm: Realm) -> SocialWorkDribbbleShot? {
+    open class func getWithShotID(_ shotID: Int, inRealm realm: Realm) -> SocialWorkDribbbleShot? {
         let predicate = NSPredicate(format: "shotID = %d", shotID)
         return realm.objects(SocialWorkDribbbleShot).filter(predicate).first
     }
 
-    public func fillWithDribbbleShot(dribbbleShot: DribbbleShot) {
+    open func fillWithDribbbleShot(_ dribbbleShot: DribbbleShot) {
         self.shotID = dribbbleShot.ID
         self.title = dribbbleShot.title
         self.htmlURLString = dribbbleShot.htmlURLString
         
-        if let hidpi = dribbbleShot.images.hidpi where dribbbleShot.images.normal.contains("gif") {
+        if let hidpi = dribbbleShot.images.hidpi , dribbbleShot.images.normal.contains("gif") {
             self.imageURLString = hidpi
         } else {
             self.imageURLString = dribbbleShot.images.normal
@@ -467,7 +467,7 @@ public class SocialWorkDribbbleShot: Object {
         self.createdUnixTime = dribbbleShot.createdAt.timeIntervalSince1970
     }
 
-    public func fillWithFeedDribbbleShot(dribbbleShot: DiscoveredFeed.DribbbleShot) {
+    open func fillWithFeedDribbbleShot(_ dribbbleShot: DiscoveredFeed.DribbbleShot) {
         self.shotID = dribbbleShot.ID//(dribbbleShot.ID as NSString).integerValue
         self.title = dribbbleShot.title
         self.htmlURLString = dribbbleShot.htmlURLString
@@ -480,106 +480,106 @@ public class SocialWorkDribbbleShot: Object {
     }
 }
 
-public class SocialWorkInstagramMedia: Object {
-    public dynamic var repoID: String = ""
-    public dynamic var linkURLString: String = ""
-    public dynamic var imageURLString: String = ""
+open class SocialWorkInstagramMedia: Object {
+    open dynamic var repoID: String = ""
+    open dynamic var linkURLString: String = ""
+    open dynamic var imageURLString: String = ""
 
-    public dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
-    public dynamic var synced: Bool = false
+    open dynamic var createdUnixTime: TimeInterval = Date().timeIntervalSince1970
+    open dynamic var synced: Bool = false
 }
 
 public enum MessageSocialWorkType: Int {
-    case GithubRepo     = 0
-    case DribbbleShot   = 1
-    case InstagramMedia = 2
+    case githubRepo     = 0
+    case dribbbleShot   = 1
+    case instagramMedia = 2
 
     public var accountName: String {
         switch self {
-        case .GithubRepo: return "github"
-        case .DribbbleShot: return "dribbble"
-        case .InstagramMedia: return "instagram"
+        case .githubRepo: return "github"
+        case .dribbbleShot: return "dribbble"
+        case .instagramMedia: return "instagram"
         }
     }
 }
 
-public class MessageSocialWork: Object {
-    public dynamic var type: Int = MessageSocialWorkType.GithubRepo.rawValue
+open class MessageSocialWork: Object {
+    open dynamic var type: Int = MessageSocialWorkType.githubRepo.rawValue
 
-    public dynamic var githubRepo: SocialWorkGithubRepo?
-    public dynamic var dribbbleShot: SocialWorkDribbbleShot?
-    public dynamic var instagramMedia: SocialWorkInstagramMedia?
+    open dynamic var githubRepo: SocialWorkGithubRepo?
+    open dynamic var dribbbleShot: SocialWorkDribbbleShot?
+    open dynamic var instagramMedia: SocialWorkInstagramMedia?
 }
 
-public class Message: Object {
-    public dynamic var messageID: String = ""
+open class Message: Object {
+    open dynamic var messageID: String = ""
 
-    public dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
-    public dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
-    public dynamic var arrivalUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    open dynamic var createdUnixTime: TimeInterval = Date().timeIntervalSince1970
+    open dynamic var updatedUnixTime: TimeInterval = Date().timeIntervalSince1970
+    open dynamic var arrivalUnixTime: TimeInterval = Date().timeIntervalSince1970
 
-    public dynamic var mediaType: Int = MessageMediaType.Text.rawValue
+    open dynamic var mediaType: Int = MessageMediaType.text.rawValue
 
-    public dynamic var textContent: String = ""
+    open dynamic var textContent: String = ""
 
-    public var recalledTextContent: String {
+    open var recalledTextContent: String {
         let nickname = fromFriend?.nickname ?? ""
         return String(format: NSLocalizedString("recalledMessage%@", comment: ""), nickname)
     }
 
-    public var blockedTextContent: String {
+    open var blockedTextContent: String {
         return String.trans_promptUserBeenBlocked
     }
 
-    public dynamic var openGraphDetected: Bool = false
-    public dynamic var openGraphInfo: OpenGraphInfo?
+    open dynamic var openGraphDetected: Bool = false
+    open dynamic var openGraphInfo: OpenGraphInfo?
 
-    public dynamic var coordinate: Coordinate?
+    open dynamic var coordinate: Coordinate?
 
-    public dynamic var attachmentURLString: String = ""
-    public dynamic var localAttachmentName: String = ""
-    public dynamic var thumbnailURLString: String = ""
-    public dynamic var localThumbnailName: String = ""
-    public dynamic var attachmentID: String = ""
-    public dynamic var attachmentExpiresUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 + (6 * 60 * 60 * 24) // 6天，过期时间s3为7天，客户端防止误差减去1天
+    open dynamic var attachmentURLString: String = ""
+    open dynamic var localAttachmentName: String = ""
+    open dynamic var thumbnailURLString: String = ""
+    open dynamic var localThumbnailName: String = ""
+    open dynamic var attachmentID: String = ""
+    open dynamic var attachmentExpiresUnixTime: TimeInterval = Date().timeIntervalSince1970 + (6 * 60 * 60 * 24) // 6天，过期时间s3为7天，客户端防止误差减去1天
 
-    public var imageFileURL: NSURL? {
+    open var imageFileURL: URL? {
         if !localAttachmentName.isEmpty {
-            return NSFileManager.yepMessageImageURLWithName(localAttachmentName)
+            return FileManager.yepMessageImageURLWithName(localAttachmentName)
         }
         return nil
     }
     
-    public var videoFileURL: NSURL? {
+    open var videoFileURL: URL? {
         if !localAttachmentName.isEmpty {
-            return NSFileManager.yepMessageVideoURLWithName(localAttachmentName)
+            return FileManager.yepMessageVideoURLWithName(localAttachmentName)
         }
         return nil
     }
 
-    public var videoThumbnailFileURL: NSURL? {
+    open var videoThumbnailFileURL: URL? {
         if !localThumbnailName.isEmpty {
-            return NSFileManager.yepMessageImageURLWithName(localThumbnailName)
+            return FileManager.yepMessageImageURLWithName(localThumbnailName)
         }
         return nil
     }
 
-    public var audioFileURL: NSURL? {
+    open var audioFileURL: URL? {
         if !localAttachmentName.isEmpty {
-            return NSFileManager.yepMessageAudioURLWithName(localAttachmentName)
+            return FileManager.yepMessageAudioURLWithName(localAttachmentName)
         }
         return nil
     }
 
-    public var imageKey: String {
+    open var imageKey: String {
         return "image-\(messageID)-\(localAttachmentName)-\(attachmentURLString)"
     }
 
-    public var mapImageKey: String {
+    open var mapImageKey: String {
         return "mapImage-\(messageID)"
     }
 
-    public var nicknameWithTextContent: String {
+    open var nicknameWithTextContent: String {
         if let nickname = fromFriend?.nickname {
             return String(format: NSLocalizedString("nicknameWithTextContent_%@_%@", comment: ""), nickname, textContent)
         } else {
@@ -587,15 +587,15 @@ public class Message: Object {
         }
     }
 
-    public var thumbnailImage: UIImage? {
+    open var thumbnailImage: UIImage? {
         switch mediaType {
-        case MessageMediaType.Image.rawValue:
+        case MessageMediaType.image.rawValue:
             if let imageFileURL = imageFileURL {
-                return UIImage(contentsOfFile: imageFileURL.path!)
+                return UIImage(contentsOfFile: imageFileURL.path)
             }
-        case MessageMediaType.Video.rawValue:
+        case MessageMediaType.video.rawValue:
             if let imageFileURL = videoThumbnailFileURL {
-                return UIImage(contentsOfFile: imageFileURL.path!)
+                return UIImage(contentsOfFile: imageFileURL.path)
             }
         default:
             return nil
@@ -603,38 +603,38 @@ public class Message: Object {
         return nil
     }
 
-    public dynamic var mediaMetaData: MediaMetaData?
+    open dynamic var mediaMetaData: MediaMetaData?
 
-    public dynamic var socialWork: MessageSocialWork?
+    open dynamic var socialWork: MessageSocialWork?
 
-    public dynamic var downloadState: Int = MessageDownloadState.NoDownload.rawValue
-    public dynamic var sendState: Int = MessageSendState.NotSend.rawValue
-    public dynamic var readed: Bool = false
-    public dynamic var mediaPlayed: Bool = false // 音频播放过，图片查看过等
-    public dynamic var hidden: Bool = false // 隐藏对方消息，使之不再显示
-    public dynamic var deletedByCreator: Bool = false
-    public dynamic var blockedByRecipient: Bool = false
-    public var isIndicator: Bool {
+    open dynamic var downloadState: Int = MessageDownloadState.noDownload.rawValue
+    open dynamic var sendState: Int = MessageSendState.notSend.rawValue
+    open dynamic var readed: Bool = false
+    open dynamic var mediaPlayed: Bool = false // 音频播放过，图片查看过等
+    open dynamic var hidden: Bool = false // 隐藏对方消息，使之不再显示
+    open dynamic var deletedByCreator: Bool = false
+    open dynamic var blockedByRecipient: Bool = false
+    open var isIndicator: Bool {
         return deletedByCreator || blockedByRecipient
     }
 
-    public dynamic var fromFriend: User?
-    public dynamic var conversation: Conversation?
+    open dynamic var fromFriend: User?
+    open dynamic var conversation: Conversation?
 
-    public var isReal: Bool {
+    open var isReal: Bool {
 
         if socialWork != nil {
             return false
         }
 
-        if mediaType == MessageMediaType.SectionDate.rawValue {
+        if mediaType == MessageMediaType.sectionDate.rawValue {
             return false
         }
 
         return true
     }
 
-    public func deleteAttachmentInRealm(realm: Realm) {
+    open func deleteAttachmentInRealm(_ realm: Realm) {
 
         if let mediaMetaData = mediaMetaData {
             realm.delete(mediaMetaData)
@@ -643,7 +643,7 @@ public class Message: Object {
         // 除非没有谁指向 openGraphInfo，不然不能删除它
         if let openGraphInfo = openGraphInfo {
             if openGraphInfo.feeds.isEmpty {
-                if openGraphInfo.messages.count == 1, let first = openGraphInfo.messages.first where first == self {
+                if openGraphInfo.messages.count == 1, let first = openGraphInfo.messages.first , first == self {
                     realm.delete(openGraphInfo)
                 }
             }
@@ -651,19 +651,19 @@ public class Message: Object {
 
         switch mediaType {
 
-        case MessageMediaType.Image.rawValue:
-            NSFileManager.removeMessageImageFileWithName(localAttachmentName)
+        case MessageMediaType.image.rawValue:
+            FileManager.removeMessageImageFileWithName(localAttachmentName)
 
-        case MessageMediaType.Video.rawValue:
-            NSFileManager.removeMessageVideoFilesWithName(localAttachmentName, thumbnailName: localThumbnailName)
+        case MessageMediaType.video.rawValue:
+            FileManager.removeMessageVideoFilesWithName(localAttachmentName, thumbnailName: localThumbnailName)
 
-        case MessageMediaType.Audio.rawValue:
-            NSFileManager.removeMessageAudioFileWithName(localAttachmentName)
+        case MessageMediaType.audio.rawValue:
+            FileManager.removeMessageAudioFileWithName(localAttachmentName)
 
-        case MessageMediaType.Location.rawValue:
-            NSFileManager.removeMessageImageFileWithName(localAttachmentName)
+        case MessageMediaType.location.rawValue:
+            FileManager.removeMessageImageFileWithName(localAttachmentName)
 
-        case MessageMediaType.SocialWork.rawValue:
+        case MessageMediaType.socialWork.rawValue:
 
             if let socialWork = socialWork {
 
@@ -687,12 +687,12 @@ public class Message: Object {
         }
     }
 
-    public func deleteInRealm(realm: Realm) {
+    open func deleteInRealm(_ realm: Realm) {
         deleteAttachmentInRealm(realm)
         realm.delete(self)
     }
 
-    public func updateForDeletedFromServerInRealm(realm: Realm) {
+    open func updateForDeletedFromServerInRealm(_ realm: Realm) {
 
         deletedByCreator = true
 
@@ -700,39 +700,39 @@ public class Message: Object {
         deleteAttachmentInRealm(realm)
 
         // 再将其变为文字消息
-        sendState = MessageSendState.Read.rawValue
+        sendState = MessageSendState.read.rawValue
         readed = true
         textContent = "" 
-        mediaType = MessageMediaType.Text.rawValue
+        mediaType = MessageMediaType.text.rawValue
     }
 }
 
-public class Draft: Object {
-    public dynamic var messageToolbarState: Int = MessageToolbarState.Default.rawValue
+open class Draft: Object {
+    open dynamic var messageToolbarState: Int = MessageToolbarState.default.rawValue
 
-    public dynamic var text: String = ""
+    open dynamic var text: String = ""
 }
 
 // MARK: Conversation
 
 public enum ConversationType: Int {
-    case OneToOne   = 0 // 一对一对话
-    case Group      = 1 // 群组对话
+    case oneToOne   = 0 // 一对一对话
+    case group      = 1 // 群组对话
 
     public var nameForServer: String {
         switch self {
-        case .OneToOne:
+        case .oneToOne:
             return "User"
-        case .Group:
+        case .group:
             return "Circle"
         }
     }
 
     public var nameForBatchMarkAsRead: String {
         switch self {
-        case .OneToOne:
+        case .oneToOne:
             return "users"
-        case .Group:
+        case .group:
             return "circles"
         }
     }
@@ -740,29 +740,29 @@ public enum ConversationType: Int {
     public init?(nameForServer: String) {
         switch nameForServer {
         case "User":
-            self = .OneToOne
+            self = .oneToOne
         case "Circle":
-            self = .Group
+            self = .group
         default:
             return nil
         }
     }
 }
 
-public class Conversation: Object {
+open class Conversation: Object {
     
-    public var fakeID: String? {
+    open var fakeID: String? {
 
-        if invalidated {
+        if isInvalidated {
             return nil
         }
 
         switch type {
-        case ConversationType.OneToOne.rawValue:
+        case ConversationType.oneToOne.rawValue:
             if let withFriend = withFriend {
                 return "user_" + withFriend.userID
             }
-        case ConversationType.Group.rawValue:
+        case ConversationType.group.rawValue:
             if let withGroup = withGroup {
                 return "group_" + withGroup.groupID
             }
@@ -773,14 +773,14 @@ public class Conversation: Object {
         return nil
     }
 
-    public var recipientID: String? {
+    open var recipientID: String? {
 
         switch type {
-        case ConversationType.OneToOne.rawValue:
+        case ConversationType.oneToOne.rawValue:
             if let withFriend = withFriend {
                 return withFriend.userID
             }
-        case ConversationType.Group.rawValue:
+        case ConversationType.group.rawValue:
             if let withGroup = withGroup {
                 return withGroup.groupID
             }
@@ -791,18 +791,18 @@ public class Conversation: Object {
         return nil
     }
 
-    public var recipient: Recipient? {
+    open var recipient: Recipient? {
 
-        if let recipientType = ConversationType(rawValue: type), recipientID = recipientID {
+        if let recipientType = ConversationType(rawValue: type), let recipientID = recipientID {
             return Recipient(type: recipientType, ID: recipientID)
         }
 
         return nil
     }
 
-    public var mentionInitUsers: [UsernamePrefixMatchedUser] {
+    open var mentionInitUsers: [UsernamePrefixMatchedUser] {
 
-        let users = messages.flatMap({ $0.fromFriend }).filter({ !$0.invalidated }).filter({ !$0.username.isEmpty && !$0.isMe })
+        let users = messages.flatMap({ $0.fromFriend }).filter({ !$0.isInvalidated }).filter({ !$0.username.isEmpty && !$0.isMe })
 
         let usernamePrefixMatchedUser = users.map({
             UsernamePrefixMatchedUser(
@@ -821,44 +821,44 @@ public class Conversation: Object {
         return uniqueSortedUsers
     }
 
-    public dynamic var type: Int = ConversationType.OneToOne.rawValue
-    public dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
-    public var olderUpdatedUnixTime: NSTimeInterval {
+    open dynamic var type: Int = ConversationType.oneToOne.rawValue
+    open dynamic var updatedUnixTime: TimeInterval = Date().timeIntervalSince1970
+    open var olderUpdatedUnixTime: TimeInterval {
         return updatedUnixTime - 30
     }
 
-    public dynamic var withFriend: User?
-    public dynamic var withGroup: Group?
+    open dynamic var withFriend: User?
+    open dynamic var withGroup: Group?
 
-    public dynamic var draft: Draft?
+    open dynamic var draft: Draft?
 
-    public let messages = LinkingObjects(fromType: Message.self, property: "conversation")
+    open let messages = LinkingObjects(fromType: Message.self, property: "conversation")
 
-    public dynamic var unreadMessagesCount: Int = 0
-    public dynamic var hasUnreadMessages: Bool = false
-    public dynamic var mentionedMe: Bool = false
-    public dynamic var lastMentionedMeUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970 - 60*60*12 // 默认为此Conversation创建时间之前半天
-    public dynamic var hasOlderMessages: Bool = true
+    open dynamic var unreadMessagesCount: Int = 0
+    open dynamic var hasUnreadMessages: Bool = false
+    open dynamic var mentionedMe: Bool = false
+    open dynamic var lastMentionedMeUnixTime: TimeInterval = Date().timeIntervalSince1970 - 60*60*12 // 默认为此Conversation创建时间之前半天
+    open dynamic var hasOlderMessages: Bool = true
 
-    public var latestValidMessage: Message? {
+    open var latestValidMessage: Message? {
         return messages.filter({ ($0.hidden == false) && ($0.isIndicator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
     }
 
-    public var latestMessageTextContentOrPlaceholder: String? {
+    open var latestMessageTextContentOrPlaceholder: String? {
 
         guard let latestValidMessage = latestValidMessage else {
             return nil
         }
 
-        if let mediaType = MessageMediaType(rawValue: latestValidMessage.mediaType), placeholder = mediaType.placeholder {
+        if let mediaType = MessageMediaType(rawValue: latestValidMessage.mediaType), let placeholder = mediaType.placeholder {
             return placeholder
         } else {
             return latestValidMessage.textContent
         }
     }
 
-    public var needDetectMention: Bool {
-        return type == ConversationType.Group.rawValue
+    open var needDetectMention: Bool {
+        return type == ConversationType.group.rawValue
     }
 }
 
@@ -872,44 +872,44 @@ public class Conversation: Object {
 //    case Video = "video"
 //}
 
-public class Attachment: Object {
+open class Attachment: Object {
 
     //dynamic var kind: String = ""
-    public dynamic var metadata: String = ""
-    public dynamic var URLString: String = ""
+    open dynamic var metadata: String = ""
+    open dynamic var URLString: String = ""
 }
 
-public class FeedAudio: Object {
+open class FeedAudio: Object {
 
-    public dynamic var feedID: String = ""
-    public dynamic var URLString: String = ""
-    public dynamic var metadata: NSData = NSData()
-    public dynamic var fileName: String = ""
+    open dynamic var feedID: String = ""
+    open dynamic var URLString: String = ""
+    open dynamic var metadata: Data = Data()
+    open dynamic var fileName: String = ""
 
-    public var belongToFeed: Feed? {
+    open var belongToFeed: Feed? {
         return LinkingObjects(fromType: Feed.self, property: "audio").first
     }
 
-    public var audioFileURL: NSURL? {
+    open var audioFileURL: URL? {
         if !fileName.isEmpty {
-            if let fileURL = NSFileManager.yepMessageAudioURLWithName(fileName) {
+            if let fileURL = FileManager.yepMessageAudioURLWithName(fileName) {
                 return fileURL
             }
         }
         return nil
     }
 
-    public class func feedAudioWithFeedID(feedID: String, inRealm realm: Realm) -> FeedAudio? {
+    open class func feedAudioWithFeedID(_ feedID: String, inRealm realm: Realm) -> FeedAudio? {
         let predicate = NSPredicate(format: "feedID = %@", feedID)
         return realm.objects(FeedAudio).filter(predicate).first
     }
 
-    public var audioMetaInfo: (duration: NSTimeInterval, samples: [CGFloat])? {
+    open var audioMetaInfo: (duration: TimeInterval, samples: [CGFloat])? {
 
         if let metaDataInfo = decodeJSON(metadata) {
             if let
-                duration = metaDataInfo[Config.MetaData.audioDuration] as? NSTimeInterval,
-                samples = metaDataInfo[Config.MetaData.audioSamples] as? [CGFloat] {
+                duration = metaDataInfo[Config.MetaData.audioDuration] as? TimeInterval,
+                let samples = metaDataInfo[Config.MetaData.audioSamples] as? [CGFloat] {
                     return (duration, samples)
             }
         }
@@ -917,38 +917,38 @@ public class FeedAudio: Object {
         return nil
     }
 
-    public func deleteAudioFile() {
+    open func deleteAudioFile() {
 
         guard !fileName.isEmpty else {
             return
         }
 
-        NSFileManager.removeMessageAudioFileWithName(fileName)
+        FileManager.removeMessageAudioFileWithName(fileName)
     }
 }
 
-public class FeedLocation: Object {
+open class FeedLocation: Object {
 
-    public dynamic var name: String = ""
-    public dynamic var coordinate: Coordinate?
+    open dynamic var name: String = ""
+    open dynamic var coordinate: Coordinate?
 }
 
-public class OpenGraphInfo: Object {
+open class OpenGraphInfo: Object {
 
-    public dynamic var URLString: String = ""
-    public dynamic var siteName: String = ""
-    public dynamic var title: String = ""
-    public dynamic var infoDescription: String = ""
-    public dynamic var thumbnailImageURLString: String = ""
+    open dynamic var URLString: String = ""
+    open dynamic var siteName: String = ""
+    open dynamic var title: String = ""
+    open dynamic var infoDescription: String = ""
+    open dynamic var thumbnailImageURLString: String = ""
 
-    public let messages = LinkingObjects(fromType: Message.self, property: "openGraphInfo")
-    public let feeds = LinkingObjects(fromType: Feed.self, property: "openGraphInfo")
+    open let messages = LinkingObjects(fromType: Message.self, property: "openGraphInfo")
+    open let feeds = LinkingObjects(fromType: Feed.self, property: "openGraphInfo")
 
-    public override class func primaryKey() -> String? {
+    open override class func primaryKey() -> String? {
         return "URLString"
     }
 
-    public override class func indexedProperties() -> [String] {
+    open override class func indexedProperties() -> [String] {
         return ["URLString"]
     }
 
@@ -962,47 +962,47 @@ public class OpenGraphInfo: Object {
         self.thumbnailImageURLString = thumbnailImageURLString
     }
 
-    public class func withURLString(URLString: String, inRealm realm: Realm) -> OpenGraphInfo? {
+    open class func withURLString(_ URLString: String, inRealm realm: Realm) -> OpenGraphInfo? {
         return realm.objects(OpenGraphInfo).filter("URLString = %@", URLString).first
     }
 }
 
 extension OpenGraphInfo: OpenGraphInfoType {
 
-    public var URL: NSURL {
-        return NSURL(string: URLString)!
+    public var URL: Foundation.URL {
+        return Foundation.URL(string: URLString)!
     }
 }
 
-public class Feed: Object {
+open class Feed: Object {
 
-    public dynamic var feedID: String = ""
-    public dynamic var allowComment: Bool = true
+    open dynamic var feedID: String = ""
+    open dynamic var allowComment: Bool = true
 
-    public dynamic var createdUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
-    public dynamic var updatedUnixTime: NSTimeInterval = NSDate().timeIntervalSince1970
+    open dynamic var createdUnixTime: TimeInterval = Date().timeIntervalSince1970
+    open dynamic var updatedUnixTime: TimeInterval = Date().timeIntervalSince1970
 
-    public dynamic var creator: User?
-    public dynamic var distance: Double = 0
-    public dynamic var messagesCount: Int = 0
-    public dynamic var body: String = ""
+    open dynamic var creator: User?
+    open dynamic var distance: Double = 0
+    open dynamic var messagesCount: Int = 0
+    open dynamic var body: String = ""
 
-    public dynamic var kind: String = FeedKind.Text.rawValue
-    public var attachments = List<Attachment>()
-    public dynamic var socialWork: MessageSocialWork?
-    public dynamic var audio: FeedAudio?
-    public dynamic var location: FeedLocation?
-    public dynamic var openGraphInfo: OpenGraphInfo?
+    open dynamic var kind: String = FeedKind.Text.rawValue
+    open var attachments = List<Attachment>()
+    open dynamic var socialWork: MessageSocialWork?
+    open dynamic var audio: FeedAudio?
+    open dynamic var location: FeedLocation?
+    open dynamic var openGraphInfo: OpenGraphInfo?
 
-    public dynamic var skill: UserSkill?
+    open dynamic var skill: UserSkill?
 
-    public dynamic var group: Group?
+    open dynamic var group: Group?
 
-    public dynamic var deleted: Bool = false // 已被管理员或建立者删除
+    open dynamic var deleted: Bool = false // 已被管理员或建立者删除
 
     // 级联删除关联的数据对象
 
-    public func cascadeDeleteInRealm(realm: Realm) {
+    open func cascadeDeleteInRealm(_ realm: Realm) {
 
         attachments.forEach {
             realm.delete($0)
@@ -1044,7 +1044,7 @@ public class Feed: Object {
         // 除非没有谁指向 openGraphInfo，不然不能删除它
         if let openGraphInfo = openGraphInfo {
             if openGraphInfo.messages.isEmpty {
-                if openGraphInfo.feeds.count == 1, let first = openGraphInfo.messages.first where first == self {
+                if openGraphInfo.feeds.count == 1, let first = openGraphInfo.messages.first , first == self {
                     realm.delete(openGraphInfo)
                 }
             }
@@ -1063,41 +1063,41 @@ public enum OfflineJSONName: String {
     case GeniusInterviews
 }
 
-public class OfflineJSON: Object {
+open class OfflineJSON: Object {
 
-    public dynamic var name: String!
-    public dynamic var data: NSData!
+    open dynamic var name: String!
+    open dynamic var data: Data!
 
-    public override class func primaryKey() -> String? {
+    open override class func primaryKey() -> String? {
         return "name"
     }
 
-    public convenience init(name: String, data: NSData) {
+    public convenience init(name: String, data: Data) {
         self.init()
 
         self.name = name
         self.data = data
     }
 
-    public var JSON: JSONDictionary? {
+    open var JSON: JSONDictionary? {
         return decodeJSON(data)
     }
 
-    public class func withName(name: OfflineJSONName, inRealm realm: Realm) -> OfflineJSON? {
+    open class func withName(_ name: OfflineJSONName, inRealm realm: Realm) -> OfflineJSON? {
         return realm.objects(OfflineJSON).filter("name = %@", name.rawValue).first
     }
 }
 
-public class UserLocationName: Object {
+open class UserLocationName: Object {
 
-    public dynamic var userID: String = ""
-    public dynamic var locationName: String = ""
+    open dynamic var userID: String = ""
+    open dynamic var locationName: String = ""
 
-    public override class func primaryKey() -> String? {
+    open override class func primaryKey() -> String? {
         return "userID"
     }
 
-    public override class func indexedProperties() -> [String] {
+    open override class func indexedProperties() -> [String] {
         return ["userID"]
     }
 
@@ -1108,20 +1108,20 @@ public class UserLocationName: Object {
         self.locationName = locationName
     }
 
-    public class func withUserID(userID: String, inRealm realm: Realm) -> UserLocationName? {
+    open class func withUserID(_ userID: String, inRealm realm: Realm) -> UserLocationName? {
         return realm.objects(UserLocationName).filter("userID = %@", userID).first
     }
 }
 
-public class SubscriptionViewShown: Object {
+open class SubscriptionViewShown: Object {
 
-    public dynamic var groupID: String = ""
+    open dynamic var groupID: String = ""
 
-    public override class func primaryKey() -> String? {
+    open override class func primaryKey() -> String? {
         return "groupID"
     }
 
-    public override class func indexedProperties() -> [String] {
+    open override class func indexedProperties() -> [String] {
         return ["groupID"]
     }
 
@@ -1131,7 +1131,7 @@ public class SubscriptionViewShown: Object {
         self.groupID = groupID
     }
 
-    public class func canShow(groupID groupID: String) -> Bool {
+    open class func canShow(groupID: String) -> Bool {
         guard let realm = try? Realm() else {
             return false
         }
@@ -1143,27 +1143,27 @@ public class SubscriptionViewShown: Object {
 
 public func normalFriends() -> Results<User> {
     let realm = try! Realm()
-    let predicate = NSPredicate(format: "friendState = %d", UserFriendState.Normal.rawValue)
-    return realm.objects(User).filter(predicate).sorted("lastSignInUnixTime", ascending: false)
+    let predicate = NSPredicate(format: "friendState = %d", UserFriendState.normal.rawValue)
+    return realm.objects(User).filter(predicate).sorted(byProperty: "lastSignInUnixTime", ascending: false)
 }
 
 public func normalUsers() -> Results<User> {
     let realm = try! Realm()
-    let predicate = NSPredicate(format: "friendState != %d", UserFriendState.Blocked.rawValue)
+    let predicate = NSPredicate(format: "friendState != %d", UserFriendState.blocked.rawValue)
     return realm.objects(User).filter(predicate)
 }
 
-public func userSkillWithSkillID(skillID: String, inRealm realm: Realm) -> UserSkill? {
+public func userSkillWithSkillID(_ skillID: String, inRealm realm: Realm) -> UserSkill? {
     let predicate = NSPredicate(format: "skillID = %@", skillID)
     return realm.objects(UserSkill).filter(predicate).first
 }
 
-public func userSkillCategoryWithSkillCategoryID(skillCategoryID: String, inRealm realm: Realm) -> UserSkillCategory? {
+public func userSkillCategoryWithSkillCategoryID(_ skillCategoryID: String, inRealm realm: Realm) -> UserSkillCategory? {
     let predicate = NSPredicate(format: "skillCategoryID = %@", skillCategoryID)
     return realm.objects(UserSkillCategory).filter(predicate).first
 }
 
-public func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
+public func userWithUserID(_ userID: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "userID = %@", userID)
 
     #if DEBUG
@@ -1176,7 +1176,7 @@ public func userWithUserID(userID: String, inRealm realm: Realm) -> User? {
     return realm.objects(User).filter(predicate).first
 }
 
-public func meInRealm(realm: Realm) -> User? {
+public func meInRealm(_ realm: Realm) -> User? {
     guard let myUserID = YepUserDefaults.userID.value else {
         return nil
     }
@@ -1190,17 +1190,17 @@ public func me() -> User? {
     return meInRealm(realm)
 }
 
-public func userWithUsername(username: String, inRealm realm: Realm) -> User? {
+public func userWithUsername(_ username: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "username = %@", username)
     return realm.objects(User).filter(predicate).first
 }
 
-public func userWithAvatarURLString(avatarURLString: String, inRealm realm: Realm) -> User? {
+public func userWithAvatarURLString(_ avatarURLString: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
     return realm.objects(User).filter(predicate).first
 }
 
-public func conversationWithDiscoveredUser(discoveredUser: DiscoveredUser, inRealm realm: Realm) -> Conversation? {
+public func conversationWithDiscoveredUser(_ discoveredUser: DiscoveredUser, inRealm realm: Realm) -> Conversation? {
 
     var stranger = userWithUserID(discoveredUser.id, inRealm: realm)
 
@@ -1209,7 +1209,7 @@ public func conversationWithDiscoveredUser(discoveredUser: DiscoveredUser, inRea
 
         newUser.userID = discoveredUser.id
 
-        newUser.friendState = UserFriendState.Stranger.rawValue
+        newUser.friendState = UserFriendState.stranger.rawValue
 
         realm.add(newUser)
 
@@ -1265,7 +1265,7 @@ public func conversationWithDiscoveredUser(discoveredUser: DiscoveredUser, inRea
     if user.conversation == nil {
         let newConversation = Conversation()
 
-        newConversation.type = ConversationType.OneToOne.rawValue
+        newConversation.type = ConversationType.oneToOne.rawValue
         newConversation.withFriend = user
 
         realm.add(newConversation)
@@ -1274,7 +1274,7 @@ public func conversationWithDiscoveredUser(discoveredUser: DiscoveredUser, inRea
     return user.conversation
 }
 
-public func groupWithGroupID(groupID: String, inRealm realm: Realm) -> Group? {
+public func groupWithGroupID(_ groupID: String, inRealm realm: Realm) -> Group? {
     let predicate = NSPredicate(format: "groupID = %@", groupID)
     return realm.objects(Group).filter(predicate).first
 }
@@ -1292,7 +1292,7 @@ public func refreshGroupTypeForAllGroups() {
     }
 }
 
-public func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
+public func feedWithFeedID(_ feedID: String, inRealm realm: Realm) -> Feed? {
     let predicate = NSPredicate(format: "feedID = %@", feedID)
 
     #if DEBUG
@@ -1305,7 +1305,7 @@ public func feedWithFeedID(feedID: String, inRealm realm: Realm) -> Feed? {
     return realm.objects(Feed).filter(predicate).first
 }
 
-public func filterValidFeeds(feeds: Results<Feed>) -> [Feed] {
+public func filterValidFeeds(_ feeds: Results<Feed>) -> [Feed] {
     let validFeeds: [Feed] = feeds
         .filter({ $0.deleted == false })
         .filter({ $0.creator != nil})
@@ -1315,7 +1315,7 @@ public func filterValidFeeds(feeds: Results<Feed>) -> [Feed] {
     return validFeeds
 }
 
-public func filterValidMessages(messages: Results<Message>) -> [Message] {
+public func filterValidMessages(_ messages: Results<Message>) -> [Message] {
     let validMessages: [Message] = messages
         .filter({ $0.hidden == false })
         .filter({ $0.isIndicator == false })
@@ -1326,7 +1326,7 @@ public func filterValidMessages(messages: Results<Message>) -> [Message] {
     return validMessages
 }
 
-public func filterValidMessages(messages: [Message]) -> [Message] {
+public func filterValidMessages(_ messages: [Message]) -> [Message] {
     let validMessages: [Message] = messages
         .filter({ $0.hidden == false })
         .filter({ $0.isIndicator == false })
@@ -1337,45 +1337,45 @@ public func filterValidMessages(messages: [Message]) -> [Message] {
     return validMessages
 }
 
-public func feedConversationsInRealm(realm: Realm) -> Results<Conversation> {
-    let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
+public func feedConversationsInRealm(_ realm: Realm) -> Results<Conversation> {
+    let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.public.rawValue)
     let a = SortDescriptor(property: "mentionedMe", ascending: false)
     let b = SortDescriptor(property: "hasUnreadMessages", ascending: false)
     let c = SortDescriptor(property: "updatedUnixTime", ascending: false)
-    return realm.objects(Conversation).filter(predicate).sorted([a, b, c])
+    return realm.objects(Conversation).filter(predicate).sorted(by: [a, b, c])
 }
 
-public func mentionedMeInFeedConversationsInRealm(realm: Realm) -> Bool {
-    let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d AND mentionedMe = true", GroupType.Public.rawValue)
+public func mentionedMeInFeedConversationsInRealm(_ realm: Realm) -> Bool {
+    let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d AND mentionedMe = true", GroupType.public.rawValue)
     return realm.objects(Conversation).filter(predicate).count > 0
 }
 
-public func countOfConversationsInRealm(realm: Realm) -> Int {
-    return realm.objects(Conversation).filter({ !$0.invalidated }).count
+public func countOfConversationsInRealm(_ realm: Realm) -> Int {
+    return realm.objects(Conversation).filter({ !$0.isInvalidated }).count
 }
 
-public func countOfConversationsInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
+public func countOfConversationsInRealm(_ realm: Realm, withConversationType conversationType: ConversationType) -> Int {
     let predicate = NSPredicate(format: "type = %d", conversationType.rawValue)
     return realm.objects(Conversation).filter(predicate).count
 }
 
-public func countOfUnreadMessagesInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Int {
+public func countOfUnreadMessagesInRealm(_ realm: Realm, withConversationType conversationType: ConversationType) -> Int {
 
     switch conversationType {
 
-    case .OneToOne:
-        let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.type = %d", UserFriendState.Me.rawValue, conversationType.rawValue)
+    case .oneToOne:
+        let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.type = %d", UserFriendState.me.rawValue, conversationType.rawValue)
         return realm.objects(Message).filter(predicate).count
 
-    case .Group: // Public for now
-        let predicate = NSPredicate(format: "includeMe = true AND groupType = %d", GroupType.Public.rawValue)
-        let count = realm.objects(Group).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).filter({ !$0.invalidated }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, combine: +)
+    case .group: // Public for now
+        let predicate = NSPredicate(format: "includeMe = true AND groupType = %d", GroupType.public.rawValue)
+        let count = realm.objects(Group).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).filter({ !$0.isInvalidated }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, +)
 
-        return count
+        return Int(count)
     }
 }
 
-public func countOfUnreadMessagesInConversation(conversation: Conversation) -> Int {
+public func countOfUnreadMessagesInConversation(_ conversation: Conversation) -> Int {
 
     return conversation.messages.filter({ message in
         if let fromFriend = message.fromFriend {
@@ -1386,7 +1386,7 @@ public func countOfUnreadMessagesInConversation(conversation: Conversation) -> I
     }).count
 }
 
-public func firstValidMessageInMessageResults(results: Results<Message>) -> (message: Message, headInvalidMessageIDSet: Set<String>)? {
+public func firstValidMessageInMessageResults(_ results: Results<Message>) -> (message: Message, headInvalidMessageIDSet: Set<String>)? {
 
     var headInvalidMessageIDSet: Set<String> = []
 
@@ -1401,7 +1401,7 @@ public func firstValidMessageInMessageResults(results: Results<Message>) -> (mes
     return nil
 }
 
-public func latestValidMessageInRealm(realm: Realm) -> Message? {
+public func latestValidMessageInRealm(_ realm: Realm) -> Message? {
 
     let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .Group)
     let latestOneToOneMessage = latestValidMessageInRealm(realm, withConversationType: .OneToOne)
@@ -1411,39 +1411,39 @@ public func latestValidMessageInRealm(realm: Realm) -> Message? {
     return latestMessage
 }
 
-public func latestValidMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
+public func latestValidMessageInRealm(_ realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
 
     switch conversationType {
 
-    case .OneToOne:
-        let predicate = NSPredicate(format: "hidden = false AND deletedByCreator = false AND blockedByRecipient == false AND mediaType != %d AND fromFriend != nil AND conversation != nil AND conversation.type = %d", MessageMediaType.SocialWork.rawValue, conversationType.rawValue)
-        return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
+    case .oneToOne:
+        let predicate = NSPredicate(format: "hidden = false AND deletedByCreator = false AND blockedByRecipient == false AND mediaType != %d AND fromFriend != nil AND conversation != nil AND conversation.type = %d", MessageMediaType.socialWork.rawValue, conversationType.rawValue)
+        return realm.objects(Message).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first
 
-    case .Group: // Public for now
-        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
-        let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.sort({ $0.createdUnixTime > $1.createdUnixTime })
+    case .group: // Public for now
+        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.public.rawValue)
+        let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first?.messages.sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
 
         return messages?.filter({ ($0.hidden == false) && ($0.isIndicator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue)}).first
     }
 }
 
-public func latestUnreadValidMessageInRealm(realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
+public func latestUnreadValidMessageInRealm(_ realm: Realm, withConversationType conversationType: ConversationType) -> Message? {
 
     switch conversationType {
 
-    case .OneToOne:
-        let predicate = NSPredicate(format: "readed = false AND hidden = false AND deletedByCreator = false AND blockedByRecipient == false AND mediaType != %d AND fromFriend != nil AND conversation != nil AND conversation.type = %d", MessageMediaType.SocialWork.rawValue, conversationType.rawValue)
-        return realm.objects(Message).filter(predicate).sorted("updatedUnixTime", ascending: false).first
+    case .oneToOne:
+        let predicate = NSPredicate(format: "readed = false AND hidden = false AND deletedByCreator = false AND blockedByRecipient == false AND mediaType != %d AND fromFriend != nil AND conversation != nil AND conversation.type = %d", MessageMediaType.socialWork.rawValue, conversationType.rawValue)
+        return realm.objects(Message).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first
 
-    case .Group: // Public for now
-        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.Public.rawValue)
-        let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sort({ $0.createdUnixTime > $1.createdUnixTime })
+    case .group: // Public for now
+        let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.public.rawValue)
+        let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
 
         return messages?.filter({ ($0.hidden == false) && ($0.isIndicator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue) }).first
     }
 }
 
-public func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
+public func saveFeedWithDiscoveredFeed(_ feedData: DiscoveredFeed, group: Group, inRealm realm: Realm) {
 
     // save feed
     
@@ -1488,7 +1488,7 @@ public func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, i
     feed.group = group
     group.withFeed = feed
 
-    group.groupType = GroupType.Public.rawValue
+    group.groupType = GroupType.public.rawValue
 
     if let distance = feedData.distance {
         feed.distance = distance
@@ -1500,7 +1500,7 @@ public func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, i
 
         switch attachment {
 
-        case .Images(let attachments):
+        case .images(let attachments):
 
             guard feed.attachments.isEmpty else {
                 break
@@ -1510,14 +1510,14 @@ public func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, i
             let attachments = attachmentFromDiscoveredAttachment(attachments)
             feed.attachments.appendContentsOf(attachments)
 
-        case .Github(let repo):
+        case .github(let repo):
 
             guard feed.socialWork?.githubRepo == nil else {
                 break
             }
 
             let socialWork = MessageSocialWork()
-            socialWork.type = MessageSocialWorkType.GithubRepo.rawValue
+            socialWork.type = MessageSocialWorkType.githubRepo.rawValue
 
             let repoID = repo.ID
             var socialWorkGithubRepo = SocialWorkGithubRepo.getWithRepoID(repoID, inRealm: realm)
@@ -1539,14 +1539,14 @@ public func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, i
 
             feed.socialWork = socialWork
 
-        case .Dribbble(let shot):
+        case .dribbble(let shot):
 
             guard feed.socialWork?.dribbbleShot == nil else {
                 break
             }
 
             let socialWork = MessageSocialWork()
-            socialWork.type = MessageSocialWorkType.DribbbleShot.rawValue
+            socialWork.type = MessageSocialWorkType.dribbbleShot.rawValue
 
             let shotID = shot.ID
             var socialWorkDribbbleShot = SocialWorkDribbbleShot.getWithShotID(shotID, inRealm: realm)
@@ -1568,7 +1568,7 @@ public func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, i
 
             feed.socialWork = socialWork
 
-        case .Audio(let audioInfo):
+        case .audio(let audioInfo):
 
             guard feed.audio == nil else {
                 break
@@ -1581,7 +1581,7 @@ public func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, i
 
             feed.audio = feedAudio
 
-        case .Location(let locationInfo):
+        case .location(let locationInfo):
 
             guard feed.location == nil else {
                 break
@@ -1596,7 +1596,7 @@ public func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, i
 
             feed.location = feedLocation
 
-        case .URL(let info):
+        case .url(let info):
 
             guard feed.openGraphInfo == nil else {
                 break
@@ -1611,7 +1611,7 @@ public func saveFeedWithDiscoveredFeed(feedData: DiscoveredFeed, group: Group, i
     }
 }
 
-public func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Message? {
+public func messageWithMessageID(_ messageID: String, inRealm realm: Realm) -> Message? {
     if messageID.isEmpty {
         return nil
     }
@@ -1623,12 +1623,12 @@ public func messageWithMessageID(messageID: String, inRealm realm: Realm) -> Mes
     return messages.first
 }
 
-public func avatarWithAvatarURLString(avatarURLString: String, inRealm realm: Realm) -> Avatar? {
+public func avatarWithAvatarURLString(_ avatarURLString: String, inRealm realm: Realm) -> Avatar? {
     let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
     return realm.objects(Avatar).filter(predicate).first
 }
 
-public func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
+public func tryGetOrCreateMeInRealm(_ realm: Realm) -> User? {
 
     guard let userID = YepUserDefaults.userID.value else {
         return nil
@@ -1641,7 +1641,7 @@ public func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
         let me = User()
 
         me.userID = userID
-        me.friendState = UserFriendState.Me.rawValue
+        me.friendState = UserFriendState.me.rawValue
 
         if let nickname = YepUserDefaults.nickname.value {
             me.nickname = nickname
@@ -1659,9 +1659,9 @@ public func tryGetOrCreateMeInRealm(realm: Realm) -> User? {
     }
 }
 
-public func mediaMetaDataFromString(metaDataString: String, inRealm realm: Realm) -> MediaMetaData? {
+public func mediaMetaDataFromString(_ metaDataString: String, inRealm realm: Realm) -> MediaMetaData? {
 
-    if let data = metaDataString.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: false) {
+    if let data = metaDataString.data(using: String.Encoding.utf8, allowLossyConversion: false) {
         let mediaMetaData = MediaMetaData()
         mediaMetaData.data = data
 
@@ -1673,12 +1673,12 @@ public func mediaMetaDataFromString(metaDataString: String, inRealm realm: Realm
     return nil
 }
 
-public func oneToOneConversationsInRealm(realm: Realm) -> Results<Conversation> {
-    let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
-    return realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+public func oneToOneConversationsInRealm(_ realm: Realm) -> Results<Conversation> {
+    let predicate = NSPredicate(format: "type = %d", ConversationType.oneToOne.rawValue)
+    return realm.objects(Conversation).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false)
 }
 
-public func messagesInConversationFromFriend(conversation: Conversation) -> Results<Message> {
+public func messagesInConversationFromFriend(_ conversation: Conversation) -> Results<Message> {
     
     let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState != %d", argumentArray: [conversation, UserFriendState.Me.rawValue])
     
@@ -1691,30 +1691,30 @@ public func messagesInConversationFromFriend(conversation: Conversation) -> Resu
     }
 }
 
-public func messagesInConversation(conversation: Conversation) -> Results<Message> {
+public func messagesInConversation(_ conversation: Conversation) -> Results<Message> {
 
     let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
 
     if let realm = conversation.realm {
-        return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
+        return realm.objects(Message).filter(predicate).sorted(byProperty: "createdUnixTime", ascending: true)
 
     } else {
         let realm = try! Realm()
-        return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
+        return realm.objects(Message).filter(predicate).sorted(byProperty: "createdUnixTime", ascending: true)
     }
 }
 
-public func messagesOfConversation(conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
+public func messagesOfConversation(_ conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@ AND hidden = false", argumentArray: [conversation])
-    let messages = realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
+    let messages = realm.objects(Message).filter(predicate).sorted(byProperty: "createdUnixTime", ascending: true)
     return messages
 }
 
-public func handleMessageDeletedFromServer(messageID messageID: String) {
+public func handleMessageDeletedFromServer(messageID: String) {
 
     guard let
         realm = try? Realm(),
-        message = messageWithMessageID(messageID, inRealm: realm)
+        let message = messageWithMessageID(messageID, inRealm: realm)
     else {
         return
     }
@@ -1726,17 +1726,17 @@ public func handleMessageDeletedFromServer(messageID messageID: String) {
     let messageIDs: [String] = [message.messageID]
 
     SafeDispatch.async {
-        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.deletedMessages, object: ["messageIDs": messageIDs])
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.deletedMessages), object: ["messageIDs": messageIDs])
     }
 }
 
-public func tryCreateSectionDateMessageInConversation(conversation: Conversation, beforeMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
+public func tryCreateSectionDateMessageInConversation(_ conversation: Conversation, beforeMessage message: Message, inRealm realm: Realm, success: (Message) -> Void) {
 
     let messages = messagesOfConversation(conversation, inRealm: realm)
 
     if messages.count > 1 {
 
-        guard let index = messages.indexOf(message) else {
+        guard let index = messages.index(of: message) else {
             return
         }
 
@@ -1757,7 +1757,7 @@ public func tryCreateSectionDateMessageInConversation(conversation: Conversation
                     newSectionDateMessage.messageID = sectionDateMessageID
 
                     newSectionDateMessage.conversation = conversation
-                    newSectionDateMessage.mediaType = MessageMediaType.SectionDate.rawValue
+                    newSectionDateMessage.mediaType = MessageMediaType.sectionDate.rawValue
 
                     newSectionDateMessage.createdUnixTime = sectionDateMessageCreatedUnixTime
                     newSectionDateMessage.arrivalUnixTime = sectionDateMessageCreatedUnixTime
@@ -1769,18 +1769,18 @@ public func tryCreateSectionDateMessageInConversation(conversation: Conversation
     }
 }
 
-public func nameOfConversation(conversation: Conversation) -> String? {
+public func nameOfConversation(_ conversation: Conversation) -> String? {
 
-    guard !conversation.invalidated else {
+    guard !conversation.isInvalidated else {
         return nil
     }
 
-    if conversation.type == ConversationType.OneToOne.rawValue {
+    if conversation.type == ConversationType.oneToOne.rawValue {
         if let withFriend = conversation.withFriend {
             return withFriend.nickname
         }
 
-    } else if conversation.type == ConversationType.Group.rawValue {
+    } else if conversation.type == ConversationType.group.rawValue {
         if let withGroup = conversation.withGroup {
             return withGroup.groupName
         }
@@ -1789,24 +1789,24 @@ public func nameOfConversation(conversation: Conversation) -> String? {
     return nil
 }
 
-public func lastChatDateOfConversation(conversation: Conversation) -> NSDate? {
+public func lastChatDateOfConversation(_ conversation: Conversation) -> Date? {
 
-    guard !conversation.invalidated else {
+    guard !conversation.isInvalidated else {
         return nil
     }
 
     let messages = messagesInConversation(conversation)
 
     if let lastMessage = messages.last {
-        return NSDate(timeIntervalSince1970: lastMessage.createdUnixTime)
+        return Date(timeIntervalSince1970: lastMessage.createdUnixTime)
     }
     
     return nil
 }
 
-public func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
+public func lastSignDateOfConversation(_ conversation: Conversation) -> Date? {
 
-    guard !conversation.invalidated else {
+    guard !conversation.isInvalidated else {
         return nil
     }
 
@@ -1814,23 +1814,23 @@ public func lastSignDateOfConversation(conversation: Conversation) -> NSDate? {
 
     if let
         lastMessage = messages.last,
-        user = lastMessage.fromFriend {
-            return NSDate(timeIntervalSince1970: user.lastSignInUnixTime)
+        let user = lastMessage.fromFriend {
+            return Date(timeIntervalSince1970: user.lastSignInUnixTime)
     }
 
     return nil
 }
 
-public func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
+public func blurredThumbnailImageOfMessage(_ message: Message) -> UIImage? {
 
-    guard !message.invalidated else {
+    guard !message.isInvalidated else {
         return nil
     }
 
     if let mediaMetaData = message.mediaMetaData {
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let blurredThumbnailString = metaDataInfo[Config.MetaData.blurredThumbnailString] as? String {
-                if let data = NSData(base64EncodedString: blurredThumbnailString, options: NSDataBase64DecodingOptions(rawValue: 0)) {
+                if let data = Data(base64Encoded: blurredThumbnailString, options: NSData.Base64DecodingOptions(rawValue: 0)) {
                     return UIImage(data: data)
                 }
             }
@@ -1840,9 +1840,9 @@ public func blurredThumbnailImageOfMessage(message: Message) -> UIImage? {
     return nil
 }
 
-public func audioMetaOfMessage(message: Message) -> (duration: Double, samples: [CGFloat])? {
+public func audioMetaOfMessage(_ message: Message) -> (duration: Double, samples: [CGFloat])? {
 
-    guard !message.invalidated else {
+    guard !message.isInvalidated else {
         return nil
     }
 
@@ -1850,7 +1850,7 @@ public func audioMetaOfMessage(message: Message) -> (duration: Double, samples: 
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
                 duration = metaDataInfo[Config.MetaData.audioDuration] as? Double,
-                samples = metaDataInfo[Config.MetaData.audioSamples] as? [CGFloat] {
+                let samples = metaDataInfo[Config.MetaData.audioSamples] as? [CGFloat] {
                     return (duration, samples)
             }
         }
@@ -1859,9 +1859,9 @@ public func audioMetaOfMessage(message: Message) -> (duration: Double, samples: 
     return nil
 }
 
-public func imageMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? {
+public func imageMetaOfMessage(_ message: Message) -> (width: CGFloat, height: CGFloat)? {
 
-    guard !message.invalidated else {
+    guard !message.isInvalidated else {
         return nil
     }
 
@@ -1869,7 +1869,7 @@ public func imageMetaOfMessage(message: Message) -> (width: CGFloat, height: CGF
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
                 width = metaDataInfo[Config.MetaData.imageWidth] as? CGFloat,
-                height = metaDataInfo[Config.MetaData.imageHeight] as? CGFloat {
+                let height = metaDataInfo[Config.MetaData.imageHeight] as? CGFloat {
                     return (width, height)
             }
         }
@@ -1878,9 +1878,9 @@ public func imageMetaOfMessage(message: Message) -> (width: CGFloat, height: CGF
     return nil
 }
 
-public func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGFloat)? {
+public func videoMetaOfMessage(_ message: Message) -> (width: CGFloat, height: CGFloat)? {
 
-    guard !message.invalidated else {
+    guard !message.isInvalidated else {
         return nil
     }
 
@@ -1888,7 +1888,7 @@ public func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGF
         if let metaDataInfo = decodeJSON(mediaMetaData.data) {
             if let
                 width = metaDataInfo[Config.MetaData.videoWidth] as? CGFloat,
-                height = metaDataInfo[Config.MetaData.videoHeight] as? CGFloat {
+                let height = metaDataInfo[Config.MetaData.videoHeight] as? CGFloat {
                     return (width, height)
             }
         }
@@ -1899,13 +1899,13 @@ public func videoMetaOfMessage(message: Message) -> (width: CGFloat, height: CGF
 
 // MARK: Update with info
 
-public func updateUserWithUserID(userID: String, useUserInfo userInfo: [String: AnyObject], inRealm realm: Realm) {
+public func updateUserWithUserID(_ userID: String, useUserInfo userInfo: [String: AnyObject], inRealm realm: Realm) {
 
     if let user = userWithUserID(userID, inRealm: realm) {
 
         // 更新用户信息
 
-        if let lastSignInUnixTime = userInfo["last_sign_in_at"] as? NSTimeInterval {
+        if let lastSignInUnixTime = userInfo["last_sign_in_at"] as? TimeInterval {
             user.lastSignInUnixTime = lastSignInUnixTime
         }
 
@@ -1921,7 +1921,7 @@ public func updateUserWithUserID(userID: String, useUserInfo userInfo: [String: 
             user.introduction = introduction
         }
 
-        if let avatarInfo = userInfo["avatar"] as? JSONDictionary, avatarURLString = avatarInfo["url"] as? String {
+        if let avatarInfo = userInfo["avatar"] as? JSONDictionary, let avatarURLString = avatarInfo["url"] as? String {
             user.avatarURLString = avatarURLString
         }
 
@@ -1978,7 +1978,7 @@ public func updateUserWithUserID(userID: String, useUserInfo userInfo: [String: 
 
 // MARK: Delete
 
-private func clearMessagesOfConversation(conversation: Conversation, inRealm realm: Realm, keepHiddenMessages: Bool) {
+private func clearMessagesOfConversation(_ conversation: Conversation, inRealm realm: Realm, keepHiddenMessages: Bool) {
 
     let messages: [Message]
     if keepHiddenMessages {
@@ -1996,7 +1996,7 @@ private func clearMessagesOfConversation(conversation: Conversation, inRealm rea
     realm.delete(messages)
 }
 
-public func deleteConversation(conversation: Conversation, inRealm realm: Realm, needLeaveGroup: Bool = true, afterLeaveGroup: (() -> Void)? = nil) {
+public func deleteConversation(_ conversation: Conversation, inRealm realm: Realm, needLeaveGroup: Bool = true, afterLeaveGroup: (() -> Void)? = nil) {
 
     defer {
         realm.refresh()
@@ -2008,7 +2008,7 @@ public func deleteConversation(conversation: Conversation, inRealm realm: Realm,
 
     let recipient = conversation.recipient
 
-    if let recipient = recipient where recipient.type == .OneToOne {
+    if let recipient = recipient , recipient.type == .oneToOne {
         deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
             println("deleteConversationWithRecipient \(recipient)")
         })
@@ -2035,7 +2035,7 @@ public func deleteConversation(conversation: Conversation, inRealm realm: Realm,
         } else {
             println("deleteConversation, not need leave group: \(groupID)")
 
-            if let recipient = recipient where recipient.type == .Group {
+            if let recipient = recipient , recipient.type == .group {
                 deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
                     println("deleteConversationWithRecipient \(recipient)")
                 })
@@ -2048,7 +2048,7 @@ public func deleteConversation(conversation: Conversation, inRealm realm: Realm,
     realm.delete(conversation)
 }
 
-public func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, inViewController vc: UIViewController, whenAfterClearedHistory afterClearedHistory: () -> Void, afterDeleted: () -> Void, orCanceled cancelled: () -> Void) {
+public func tryDeleteOrClearHistoryOfConversation(_ conversation: Conversation, inViewController vc: UIViewController, whenAfterClearedHistory afterClearedHistory: @escaping () -> Void, afterDeleted: @escaping () -> Void, orCanceled cancelled: @escaping () -> Void) {
 
     guard let realm = conversation.realm else {
         cancelled()
@@ -2079,9 +2079,9 @@ public func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, in
 
     // show ActionSheet before delete
 
-    let deleteAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+    let deleteAlertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-    let clearHistoryAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("title.clear_history", comment: ""), style: .Default) { _ in
+    let clearHistoryAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("title.clear_history", comment: ""), style: .default) { _ in
 
         clearMessages()
 
@@ -2089,7 +2089,7 @@ public func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, in
     }
     deleteAlertController.addAction(clearHistoryAction)
 
-    let deleteAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("title.delete", comment: ""), style: .Destructive) { _ in
+    let deleteAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("title.delete", comment: ""), style: .destructive) { _ in
 
         delete()
 
@@ -2097,18 +2097,18 @@ public func tryDeleteOrClearHistoryOfConversation(conversation: Conversation, in
     }
     deleteAlertController.addAction(deleteAction)
 
-    let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .Cancel) { _ in
+    let cancelAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("cancel", comment: ""), style: .cancel) { _ in
 
         cancelled()
     }
     deleteAlertController.addAction(cancelAction)
     
-    vc.presentViewController(deleteAlertController, animated: true, completion: nil)
+    vc.present(deleteAlertController, animated: true, completion: nil)
 }
 
 public func clearUselessRealmObjects() {
 
-    dispatch_async(realmQueue) {
+    realmQueue.async {
 
         guard let realm = try? Realm() else {
             return
@@ -2126,7 +2126,7 @@ public func clearUselessRealmObjects() {
 
         do {
             // 7天前
-            let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+            let oldThresholdUnixTime = Date(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
             //let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: 0).timeIntervalSince1970 // for test
 
             let predicate = NSPredicate(format: "createdUnixTime < %f", oldThresholdUnixTime)
@@ -2159,7 +2159,7 @@ public func clearUselessRealmObjects() {
 
         do {
             // 2天前
-            let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 2)).timeIntervalSince1970
+            let oldThresholdUnixTime = Date(timeIntervalSinceNow: -(60 * 60 * 24 * 2)).timeIntervalSince1970
             //let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: 0).timeIntervalSince1970 // for test
 
             let predicate = NSPredicate(format: "group != nil AND group.includeMe = false AND createdUnixTime < %f", oldThresholdUnixTime)
@@ -2180,9 +2180,9 @@ public func clearUselessRealmObjects() {
 
         do {
             // 7天前
-            let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
+            let oldThresholdUnixTime = Date(timeIntervalSinceNow: -(60 * 60 * 24 * 7)).timeIntervalSince1970
             //let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: 0).timeIntervalSince1970 // for test
-            let predicate = NSPredicate(format: "friendState == %d AND createdUnixTime < %f", UserFriendState.Stranger.rawValue, oldThresholdUnixTime)
+            let predicate = NSPredicate(format: "friendState == %d AND createdUnixTime < %f", UserFriendState.stranger.rawValue, oldThresholdUnixTime)
             //let predicate = NSPredicate(format: "friendState == %d ", UserFriendState.Stranger.rawValue)
 
             let strangers = realm.objects(User).filter(predicate)

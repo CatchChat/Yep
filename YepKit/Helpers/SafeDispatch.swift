@@ -8,28 +8,28 @@
 
 import Foundation
 
-public class SafeDispatch {
+open class SafeDispatch {
 
-    private let mainQueueKey = UnsafeMutablePointer<Void>.alloc(1)
-    private let mainQueueValue = UnsafeMutablePointer<Void>.alloc(1)
+    fileprivate let mainQueueKey = UnsafeMutableRawPointer(allocatingCapacity: 1)
+    fileprivate let mainQueueValue = UnsafeMutableRawPointer(allocatingCapacity: 1)
 
-    private static let sharedSafeDispatch = SafeDispatch()
+    fileprivate static let sharedSafeDispatch = SafeDispatch()
 
-    private init() {
-        dispatch_queue_set_specific(dispatch_get_main_queue(), mainQueueKey, mainQueueValue, nil)
+    fileprivate init() {
+        DispatchQueue.main.setSpecific(key: /*Migrator FIXME: Use a variable of type DispatchSpecificKey*/ mainQueueKey, value: mainQueueValue)
     }
 
-    public class func async(onQueue queue: dispatch_queue_t = dispatch_get_main_queue(), forWork block: dispatch_block_t) {
-        if queue === dispatch_get_main_queue() {
-            if dispatch_get_specific(sharedSafeDispatch.mainQueueKey) == sharedSafeDispatch.mainQueueValue {
+    open class func async(onQueue queue: DispatchQueue = DispatchQueue.main, forWork block: @escaping ()->()) {
+        if queue === DispatchQueue.main {
+            if DispatchQueue.getSpecific(sharedSafeDispatch.mainQueueKey) == sharedSafeDispatch.mainQueueValue {
                 block()
             } else {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     block()
                 }
             }
         } else {
-            dispatch_async(queue) {
+            queue.async {
                 block()
             }
         }

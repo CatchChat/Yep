@@ -14,38 +14,38 @@ import Proposer
 final class PickLocationViewController: SegueViewController {
 
     enum Purpose {
-        case Message
-        case Feed
+        case message
+        case feed
     }
-    var purpose: Purpose = .Message
+    var purpose: Purpose = .message
 
     var preparedSkill: Skill?
 
-    var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
+    var afterCreatedFeedAction: ((_ feed: DiscoveredFeed) -> Void)?
 
-    typealias SendLocationAction = (locationInfo: PickLocationViewControllerLocation.Info) -> Void
+    typealias SendLocationAction = (_ locationInfo: PickLocationViewControllerLocation.Info) -> Void
     var sendLocationAction: SendLocationAction?
 
-    @IBOutlet private weak var cancelButton: UIBarButtonItem!
-    @IBOutlet private weak var doneButton: UIBarButtonItem!
-    @IBOutlet private weak var mapView: MKMapView!
-    @IBOutlet private weak var pinImageView: UIImageView!
-    @IBOutlet private weak var searchBar: UISearchBar!
-    @IBOutlet private weak var searchBarTopToSuperBottomConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var tableView: UITableView!
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate weak var cancelButton: UIBarButtonItem!
+    @IBOutlet fileprivate weak var doneButton: UIBarButtonItem!
+    @IBOutlet fileprivate weak var mapView: MKMapView!
+    @IBOutlet fileprivate weak var pinImageView: UIImageView!
+    @IBOutlet fileprivate weak var searchBar: UISearchBar!
+    @IBOutlet fileprivate weak var searchBarTopToSuperBottomConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var tableView: UITableView!
+    @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
 
-    private var isFirstShowUserLocation = true
+    fileprivate var isFirstShowUserLocation = true
 
-    private var searchedMapItems = [MKMapItem]() {
+    fileprivate var searchedMapItems = [MKMapItem]() {
         didSet {
             reloadTableView()
         }
     }
 
-    private lazy var geocoder = CLGeocoder()
+    fileprivate lazy var geocoder = CLGeocoder()
 
-    private var userLocationPlacemarks = [CLPlacemark]() {
+    fileprivate var userLocationPlacemarks = [CLPlacemark]() {
         didSet {
             if let placemark = userLocationPlacemarks.first {
                 if let location = self.location {
@@ -61,7 +61,7 @@ final class PickLocationViewController: SegueViewController {
         }
     }
 
-    private var pickedLocationPlacemarks = [CLPlacemark]() {
+    fileprivate var pickedLocationPlacemarks = [CLPlacemark]() {
         didSet {
             if let placemark = pickedLocationPlacemarks.first {
                 if let location = self.location {
@@ -77,21 +77,21 @@ final class PickLocationViewController: SegueViewController {
         }
     }
 
-    private var foursquareVenues = [FoursquareVenue]() {
+    fileprivate var foursquareVenues = [FoursquareVenue]() {
         didSet {
             reloadTableView()
         }
     }
 
-    private var location: PickLocationViewControllerLocation? {
+    fileprivate var location: PickLocationViewControllerLocation? {
         willSet {
             if let _ = newValue {
-                doneButton.enabled = true
+                doneButton.isEnabled = true
             }
         }
     }
 
-    private var selectedLocationIndexPath: NSIndexPath?
+    fileprivate var selectedLocationIndexPath: IndexPath?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,9 +101,9 @@ final class PickLocationViewController: SegueViewController {
         cancelButton.title = String.trans_cancel
 
         switch purpose {
-        case .Message:
+        case .message:
             doneButton.title = NSLocalizedString("Send", comment: "")
-        case .Feed:
+        case .feed:
             doneButton.title = String.trans_buttonNextStep
         }
 
@@ -112,7 +112,7 @@ final class PickLocationViewController: SegueViewController {
         tableView.registerNibOf(PickLocationCell)
         tableView.rowHeight = 50
 
-        doneButton.enabled = false
+        doneButton.isEnabled = false
         
         mapView.showsUserLocation = true
         mapView.delegate = self
@@ -143,9 +143,9 @@ final class PickLocationViewController: SegueViewController {
             activityIndicator.startAnimating()
         }
 
-        view.bringSubviewToFront(tableView)
-        view.bringSubviewToFront(searchBar)
-        view.bringSubviewToFront(activityIndicator)
+        view.bringSubview(toFront: tableView)
+        view.bringSubview(toFront: searchBar)
+        view.bringSubview(toFront: activityIndicator)
 
         let pan = UIPanGestureRecognizer(target: self, action: #selector(PickLocationViewController.pan(_:)))
         mapView.addGestureRecognizer(pan)
@@ -154,7 +154,7 @@ final class PickLocationViewController: SegueViewController {
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -164,7 +164,7 @@ final class PickLocationViewController: SegueViewController {
 
         case "showNewFeed":
 
-            let vc = segue.destinationViewController as! NewFeedViewController
+            let vc = segue.destination as! NewFeedViewController
 
             let location = (sender as! Box<PickLocationViewControllerLocation>).value
 
@@ -181,22 +181,22 @@ final class PickLocationViewController: SegueViewController {
 
     // MARK: Actions
     
-    @IBAction private func cancel(sender: UIBarButtonItem) {
+    @IBAction fileprivate func cancel(_ sender: UIBarButtonItem) {
 
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
-    private var fixedCenterCoordinate: CLLocationCoordinate2D {
-        return mapView.convertPoint(mapView.center, toCoordinateFromView: mapView)
+    fileprivate var fixedCenterCoordinate: CLLocationCoordinate2D {
+        return mapView.convert(mapView.center, toCoordinateFrom: mapView)
     }
 
-    @IBAction private func done(sender: UIBarButtonItem) {
+    @IBAction fileprivate func done(_ sender: UIBarButtonItem) {
 
         switch purpose {
 
-        case .Message:
+        case .message:
 
-            dismissViewControllerAnimated(true, completion: { [weak self] in
+            dismiss(animated: true, completion: { [weak self] in
 
                 guard let strongSelf = self else { return }
 
@@ -211,7 +211,7 @@ final class PickLocationViewController: SegueViewController {
                 }
             })
 
-        case .Feed:
+        case .feed:
 
             if let location = location {
                 performSegueWithIdentifier("showNewFeed", sender: Box(location))
@@ -224,9 +224,9 @@ final class PickLocationViewController: SegueViewController {
         }
     }
 
-    @objc private func pan(sender: UIPanGestureRecognizer) {
+    @objc fileprivate func pan(_ sender: UIPanGestureRecognizer) {
 
-        if sender.state == .Ended {
+        if sender.state == .ended {
 
             selectedLocationIndexPath = nil
             tableView.reloadData()
@@ -246,7 +246,7 @@ final class PickLocationViewController: SegueViewController {
         }
     }
 
-    private func placemarksAroundLocation(location: CLLocation, completion: [CLPlacemark] -> Void) {
+    fileprivate func placemarksAroundLocation(_ location: CLLocation, completion: @escaping ([CLPlacemark]) -> Void) {
 
         geocoder.reverseGeocodeLocation(location) { placemarks, error in
 
@@ -258,7 +258,7 @@ final class PickLocationViewController: SegueViewController {
         }
     }
 
-    private func reloadTableView() {
+    fileprivate func reloadTableView() {
 
         SafeDispatch.async { [weak self] in
             self?.tableView.reloadData()
@@ -270,7 +270,7 @@ final class PickLocationViewController: SegueViewController {
 
 extension PickLocationViewController: UIGestureRecognizerDelegate {
 
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
 
         return true
     }
@@ -280,7 +280,7 @@ extension PickLocationViewController: UIGestureRecognizerDelegate {
 
 extension PickLocationViewController: MKMapViewDelegate {
     
-    func mapView(mapView: MKMapView, didUpdateUserLocation userLocation: MKUserLocation) {
+    func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
 
         guard let location = userLocation.location else {
             return
@@ -308,11 +308,11 @@ extension PickLocationViewController: MKMapViewDelegate {
         if isFirstShowUserLocation {
             isFirstShowUserLocation = false
 
-            doneButton.enabled = true
+            doneButton.isEnabled = true
 
             //let region = MKCoordinateRegionMakeWithDistance(location.coordinate, 1000, 1000)
             //mapView.setRegion(region, animated: true)
-            mapView.setCenterCoordinate(location.coordinate, animated: true)
+            mapView.setCenter(location.coordinate, animated: true)
 
             if let _location = self.location {
                 if case .Default = _location {
@@ -332,13 +332,13 @@ extension PickLocationViewController: MKMapViewDelegate {
         }
     }
 
-    func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 
         if let annotation = annotation as? LocationPin {
 
             let identifier = "LocationPinView"
 
-            if let annotationView = mapView.dequeueReusableAnnotationViewWithIdentifier(identifier) {
+            if let annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
                 annotationView.annotation = annotation
 
                 return annotationView
@@ -346,7 +346,7 @@ extension PickLocationViewController: MKMapViewDelegate {
             } else {
                 let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
                 annotationView.image = UIImage.yep_iconPinShadow
-                annotationView.enabled = false
+                annotationView.isEnabled = false
                 annotationView.canShowCallout = false
 
                 return annotationView
@@ -361,14 +361,14 @@ extension PickLocationViewController: MKMapViewDelegate {
 
 extension PickLocationViewController: UISearchBarDelegate {
     
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
 
         navigationController?.setNavigationBarHidden(true, animated: true)
 
-        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
             guard let strongSelf = self else { return }
 
-            strongSelf.searchBarTopToSuperBottomConstraint.constant = CGRectGetHeight(strongSelf.view.bounds) - 20
+            strongSelf.searchBarTopToSuperBottomConstraint.constant = strongSelf.view.bounds.height - 20
             strongSelf.view.layoutIfNeeded()
 
         }, completion: { [weak self] _ in
@@ -378,7 +378,7 @@ extension PickLocationViewController: UISearchBarDelegate {
         return true
     }
 
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         shrinkSearchLocationView()
     }
 
@@ -387,7 +387,7 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         navigationController?.setNavigationBarHidden(false, animated: true)
 
-        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
             self?.searchBarTopToSuperBottomConstraint.constant = 250
             self?.view.layoutIfNeeded()
 
@@ -396,7 +396,7 @@ extension PickLocationViewController: UISearchBarDelegate {
         })
     }
 
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
         guard let name = searchBar.text else {
             return
@@ -407,7 +407,7 @@ extension PickLocationViewController: UISearchBarDelegate {
         shrinkSearchLocationView()
     }
 
-    private func searchPlacesByName(name: String, needAppend: Bool = false) {
+    fileprivate func searchPlacesByName(_ name: String, needAppend: Bool = false) {
 
         let request = MKLocalSearchRequest()
         request.naturalLanguageQuery = name
@@ -418,7 +418,7 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         let search = MKLocalSearch(request: request)
 
-        search.startWithCompletionHandler { [weak self] response, error in
+        search.start { [weak self] response, error in
             if error == nil {
                 if let mapItems = response?.mapItems {
 
@@ -440,142 +440,142 @@ extension PickLocationViewController: UISearchBarDelegate {
 
 extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate {
 
-    private enum Section: Int {
-        case CurrentLocation = 0
-        case UserPickedLocation
-        case UserLocationPlacemarks
-        case SearchedLocation
-        case FoursquareVenue
+    fileprivate enum Section: Int {
+        case currentLocation = 0
+        case userPickedLocation
+        case userLocationPlacemarks
+        case searchedLocation
+        case foursquareVenue
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 5
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         switch section {
-        case Section.CurrentLocation.rawValue:
+        case Section.currentLocation.rawValue:
             return 0
-        case Section.UserPickedLocation.rawValue:
+        case Section.userPickedLocation.rawValue:
             return 0
-        case Section.UserLocationPlacemarks.rawValue:
+        case Section.userLocationPlacemarks.rawValue:
             return 0
-        case Section.SearchedLocation.rawValue:
+        case Section.searchedLocation.rawValue:
             return searchedMapItems.count
-        case Section.FoursquareVenue.rawValue:
+        case Section.foursquareVenue.rawValue:
             return foursquareVenues.count
         default:
             return 0
         }
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell: PickLocationCell = tableView.dequeueReusableCell()
 
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
 
-        case Section.CurrentLocation.rawValue:
-            cell.iconImageView.hidden = false
+        case Section.currentLocation.rawValue:
+            cell.iconImageView.isHidden = false
             cell.iconImageView.image = UIImage.yep_iconCurrentLocation
             cell.locationLabel.text = String.trans_titleMyCurrentLocation
-            cell.checkImageView.hidden = false
+            cell.checkImageView.isHidden = false
 
-        case Section.UserPickedLocation.rawValue:
-            cell.iconImageView.hidden = false
+        case Section.userPickedLocation.rawValue:
+            cell.iconImageView.isHidden = false
             cell.iconImageView.image = UIImage.yep_iconPin
             cell.locationLabel.text = NSLocalizedString("Picked Location", comment: "")
-            cell.checkImageView.hidden = true
+            cell.checkImageView.isHidden = true
 
-        case Section.UserLocationPlacemarks.rawValue:
-            cell.iconImageView.hidden = true
-            let placemark = userLocationPlacemarks[indexPath.row]
+        case Section.userLocationPlacemarks.rawValue:
+            cell.iconImageView.isHidden = true
+            let placemark = userLocationPlacemarks[(indexPath as NSIndexPath).row]
 
             let text = placemark.name ?? "🐌"
 
             cell.locationLabel.text = text
 
-            cell.checkImageView.hidden = true
+            cell.checkImageView.isHidden = true
 
-        case Section.SearchedLocation.rawValue:
-            cell.iconImageView.hidden = false
+        case Section.searchedLocation.rawValue:
+            cell.iconImageView.isHidden = false
             cell.iconImageView.image = UIImage.yep_iconPin
 
-            let placemark = searchedMapItems[indexPath.row].placemark
+            let placemark = searchedMapItems[(indexPath as NSIndexPath).row].placemark
             cell.locationLabel.text = placemark.name
 
-            cell.checkImageView.hidden = true
+            cell.checkImageView.isHidden = true
 
-        case Section.FoursquareVenue.rawValue:
-            cell.iconImageView.hidden = false
+        case Section.foursquareVenue.rawValue:
+            cell.iconImageView.isHidden = false
             cell.iconImageView.image = UIImage.yep_iconPin
 
             let foursquareVenue = foursquareVenues[indexPath.row]
             cell.locationLabel.text = foursquareVenue.name
 
-            cell.checkImageView.hidden = true
+            cell.checkImageView.isHidden = true
 
         default:
             break
         }
 
         if let pickLocationIndexPath = selectedLocationIndexPath {
-            cell.checkImageView.hidden = !(pickLocationIndexPath == indexPath)
+            cell.checkImageView.isHidden = !(pickLocationIndexPath == indexPath)
         }
 
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         if let selectedLocationIndexPath = selectedLocationIndexPath {
-            if let cell = tableView.cellForRowAtIndexPath(selectedLocationIndexPath) as? PickLocationCell {
-                cell.checkImageView.hidden = true
+            if let cell = tableView.cellForRow(at: selectedLocationIndexPath) as? PickLocationCell {
+                cell.checkImageView.isHidden = true
             }
 
         } else {
-            if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: 0, inSection: Section.CurrentLocation.rawValue)) as? PickLocationCell {
-                cell.checkImageView.hidden = true
+            if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: Section.currentLocation.rawValue)) as? PickLocationCell {
+                cell.checkImageView.isHidden = true
             }
         }
 
-        if let cell = tableView.cellForRowAtIndexPath(indexPath) as? PickLocationCell {
-            cell.checkImageView.hidden = false
+        if let cell = tableView.cellForRow(at: indexPath) as? PickLocationCell {
+            cell.checkImageView.isHidden = false
         }
 
         selectedLocationIndexPath = indexPath
 
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
 
-        case Section.CurrentLocation.rawValue:
+        case Section.currentLocation.rawValue:
             if let _location = mapView.userLocation.location {
                 location = .Selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: userLocationPlacemarks.first?.yep_autoName ?? String.trans_titleMyCurrentLocation))
             }
 
-        case Section.UserPickedLocation.rawValue:
+        case Section.userPickedLocation.rawValue:
             break
 
-        case Section.UserLocationPlacemarks.rawValue:
-            let placemark = userLocationPlacemarks[indexPath.row]
+        case Section.userLocationPlacemarks.rawValue:
+            let placemark = userLocationPlacemarks[(indexPath as NSIndexPath).row]
             guard let _location = placemark.location else {
                 break
             }
             location = .Selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: placemark.name))
 
-        case Section.SearchedLocation.rawValue:
-            let placemark = self.searchedMapItems[indexPath.row].placemark
+        case Section.searchedLocation.rawValue:
+            let placemark = self.searchedMapItems[(indexPath as NSIndexPath).row].placemark
             guard let _location = placemark.location else {
                 break
             }
             location = .Selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: placemark.name))
-            mapView.setCenterCoordinate(_location.coordinate, animated: true)
+            mapView.setCenter(_location.coordinate, animated: true)
 
-        case Section.FoursquareVenue.rawValue:
+        case Section.foursquareVenue.rawValue:
             let foursquareVenue = foursquareVenues[indexPath.row]
             let coordinate = foursquareVenue.coordinate.yep_applyChinaLocationShift
             location = .Selected(info: PickLocationViewControllerLocation.Info(coordinate: coordinate, name: foursquareVenue.name))

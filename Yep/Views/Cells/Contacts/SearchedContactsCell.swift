@@ -15,7 +15,7 @@ final class SearchedContactsCell: UITableViewCell {
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel! {
         didSet {
-            usernameLabel.font = UIFont.systemFontOfSize(12)
+            usernameLabel.font = UIFont.systemFont(ofSize: 12)
             usernameLabel.textColor = UIColor(red: 0.741, green: 0.765, blue: 0.780, alpha: 1)
         }
     }
@@ -28,7 +28,7 @@ final class SearchedContactsCell: UITableViewCell {
         separatorInset = YepConfig.ContactsCell.separatorInset
     }
 
-    func configureWithUser(user: User) {
+    func configureWithUser(_ user: User) {
 
         let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
@@ -41,7 +41,7 @@ final class SearchedContactsCell: UITableViewCell {
         infoLabel.text = user.introduction
     }
 
-    func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
+    func configureWithDiscoveredUser(_ discoveredUser: DiscoveredUser) {
 
         let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)

@@ -22,7 +22,7 @@ extension ConversationViewController {
             return
         }
 
-        let syncMessages: (failedAction: (() -> Void)?, successAction: (() -> Void)?) -> Void = { failedAction, successAction in
+        let syncMessages: (_ failedAction: (() -> Void)?, _ successAction: (() -> Void)?) -> Void = { failedAction, successAction in
 
             SafeDispatch.async { [weak self] in
 
@@ -68,7 +68,7 @@ extension ConversationViewController {
 
         case .OneToOne:
 
-            syncMessages(failedAction: nil, successAction: { [weak self] in
+            syncMessages(nil, { [weak self] in
                 self?.syncMessagesReadStatus()
             })
             
@@ -76,7 +76,7 @@ extension ConversationViewController {
             
             if let _ = conversation.withGroup {
                 // 直接同步消息
-                syncMessages(failedAction: nil, successAction: nil)
+                syncMessages(nil, nil)
             }
         }
     }
@@ -91,19 +91,19 @@ extension ConversationViewController {
         })
     }
 
-    func markAsReadAllSentMesagesBeforeUnixTime(unixTime: NSTimeInterval, lastReadMessageID: String? = nil) {
+    func markAsReadAllSentMesagesBeforeUnixTime(_ unixTime: TimeInterval, lastReadMessageID: String? = nil) {
 
         let recipient = self.recipient
 
-        dispatch_async(realmQueue) {
+        (realmQueue).async {
 
-            guard let realm = try? Realm(), conversation = recipient.conversationInRealm(realm) else {
+            guard let realm = try? Realm(), let conversation = recipient.conversationInRealm(realm) else {
                 return
             }
 
             var lastMessageCreatedUnixTime = unixTime
             //println("markAsReadAllSentMesagesBeforeUnixTime: \(unixTime), \(lastReadMessageID)")
-            if let lastReadMessageID = lastReadMessageID, message = messageWithMessageID(lastReadMessageID, inRealm: realm) {
+            if let lastReadMessageID = lastReadMessageID, let message = messageWithMessageID(lastReadMessageID, inRealm: realm) {
                 let createdUnixTime = message.createdUnixTime
                 //println("lastMessageCreatedUnixTime: \(createdUnixTime)")
                 if createdUnixTime > lastMessageCreatedUnixTime {
@@ -131,7 +131,7 @@ extension ConversationViewController {
         }
     }
 
-    func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
+    func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded: Bool = true) {
 
         let recipient = self.recipient
 
@@ -179,7 +179,7 @@ extension ConversationViewController {
 
             // 群组里没有我，不需要标记
             if recipient.type == .Group {
-                if let group = strongSelf.conversation.withGroup where !group.includeMe {
+                if let group = strongSelf.conversation.withGroup , !group.includeMe {
 
                     // 此情况强制所有消息“已读”
                     let _ = try? strongSelf.realm.write {

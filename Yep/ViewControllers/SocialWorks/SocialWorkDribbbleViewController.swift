@@ -18,21 +18,21 @@ final class SocialWorkDribbbleViewController: BaseViewController {
     var profileUser: ProfileUser?
     var dribbbleWork: DribbbleWork?
 
-    var afterGetDribbbleWork: (DribbbleWork -> Void)?
+    var afterGetDribbbleWork: ((DribbbleWork) -> Void)?
 
 
-    private lazy var shareButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(SocialWorkDribbbleViewController.share(_:)))
+    fileprivate lazy var shareButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(SocialWorkDribbbleViewController.share(_:)))
         return button
     }()
     
-    @IBOutlet private weak var dribbbleCollectionView: UICollectionView!
+    @IBOutlet fileprivate weak var dribbbleCollectionView: UICollectionView!
 
-    private lazy var collectionViewWidth: CGFloat = {
-        return CGRectGetWidth(self.dribbbleCollectionView.bounds)
+    fileprivate lazy var collectionViewWidth: CGFloat = {
+        return self.dribbbleCollectionView.bounds.width
     }()
 
-    private var dribbbleShots = Array<DribbbleWork.Shot>() {
+    fileprivate var dribbbleShots = Array<DribbbleWork.Shot>() {
         didSet {
             updateDribbbleCollectionView()
         }
@@ -56,8 +56,8 @@ final class SocialWorkDribbbleViewController: BaseViewController {
 
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
-                    dribbbleCollectionView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                if recognizer.isKind(of: UIScreenEdgePanGestureRecognizer.self) {
+                    dribbbleCollectionView.panGestureRecognizer.require(toFail: recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
                 }
@@ -94,17 +94,17 @@ final class SocialWorkDribbbleViewController: BaseViewController {
 
     // MARK: Actions
 
-    private func updateDribbbleCollectionView() {
+    fileprivate func updateDribbbleCollectionView() {
         
         SafeDispatch.async { [weak self] in
             self?.dribbbleCollectionView.reloadData()
         }
     }
 
-    @objc private func share(sender: AnyObject) {
+    @objc fileprivate func share(_ sender: AnyObject) {
 
         guard let dribbbleWork = dribbbleWork else { return }
-        guard let profileURL = NSURL(string: dribbbleWork.userURLString) else { return }
+        guard let profileURL = URL(string: dribbbleWork.userURLString) else { return }
 
         let title = String(format: NSLocalizedString("whosDribbble%@", comment: ""), dribbbleWork.username)
 
@@ -125,15 +125,15 @@ final class SocialWorkDribbbleViewController: BaseViewController {
 
 extension SocialWorkDribbbleViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return dribbbleShots.count
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell: DribbbleShotCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
@@ -144,19 +144,19 @@ extension SocialWorkDribbbleViewController: UICollectionViewDataSource, UICollec
         return cell
     }
 
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
 
         let width = collectionViewWidth * 0.5
         let height = width
 
-        return CGSizeMake(width, height)
+        return CGSize(width: width, height: height)
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         let shot = dribbbleShots[indexPath.item]
 
-        if let URL = NSURL(string: shot.htmlURLString) {
+        if let URL = URL(string: shot.htmlURLString) {
             yep_openURL(URL)
         }
     }

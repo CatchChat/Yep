@@ -14,38 +14,38 @@ final class YepShape: CAShapeLayer {
 
     let shapeColor = UIColor(red:0.33, green:0.71, blue:0.98, alpha:1)
 
-    func setupPathWithWidth(width: CGFloat, height: CGFloat) {
+    func setupPathWithWidth(_ width: CGFloat, height: CGFloat) {
         let rectanglePath = UIBezierPath()
         
         let bottomGap = height / CGFloat(tan(M_PI / 3))
         let bottomWidth = width - bottomGap * 2
         //let gapSideLenth = bottomGap * 2
         
-        rectanglePath.moveToPoint(CGPointMake(0, 0))
-        rectanglePath.addLineToPoint(CGPointMake(width, 0))
-        rectanglePath.addLineToPoint(CGPointMake(width - bottomGap, height))
-        rectanglePath.addLineToPoint(CGPointMake(width - bottomWidth - bottomGap, height))
-        rectanglePath.closePath()
+        rectanglePath.move(to: CGPoint(x: 0, y: 0))
+        rectanglePath.addLine(to: CGPoint(x: width, y: 0))
+        rectanglePath.addLine(to: CGPoint(x: width - bottomGap, y: height))
+        rectanglePath.addLine(to: CGPoint(x: width - bottomWidth - bottomGap, y: height))
+        rectanglePath.close()
 
-        self.path = rectanglePath.CGPath
-        self.fillColor = shapeColor.CGColor
+        self.path = rectanglePath.cgPath
+        self.fillColor = shapeColor.cgColor
     }
     
-    func setupFlipPathWithWidth(width: CGFloat, height: CGFloat) {
+    func setupFlipPathWithWidth(_ width: CGFloat, height: CGFloat) {
         let rectanglePath = UIBezierPath()
         
         let bottomGap = height / CGFloat(tan(M_PI / 3))
         let bottomWidth = width - bottomGap * 2
         //let gapSideLenth = bottomGap * 2
         
-        rectanglePath.moveToPoint(CGPointMake(bottomGap, 0))
-        rectanglePath.addLineToPoint(CGPointMake(bottomGap + bottomWidth, 0))
-        rectanglePath.addLineToPoint(CGPointMake(bottomGap + bottomWidth + bottomGap, height))
-        rectanglePath.addLineToPoint(CGPointMake(0, height))
-        rectanglePath.closePath()
+        rectanglePath.move(to: CGPoint(x: bottomGap, y: 0))
+        rectanglePath.addLine(to: CGPoint(x: bottomGap + bottomWidth, y: 0))
+        rectanglePath.addLine(to: CGPoint(x: bottomGap + bottomWidth + bottomGap, y: height))
+        rectanglePath.addLine(to: CGPoint(x: 0, y: height))
+        rectanglePath.close()
 
-        self.path = rectanglePath.CGPath
-        self.fillColor = shapeColor.CGColor
+        self.path = rectanglePath.cgPath
+        self.fillColor = shapeColor.cgColor
     }
 }
 
@@ -106,7 +106,7 @@ final class YepRefreshView: UIView {
 
         ramdonShapePositions = generateRamdonShapePositionsWithCount(originShapePositions.count)
 
-        for (index, shape) in shapes.enumerate() {
+        for (index, shape) in shapes.enumerated() {
             shape.opacity = 0.0
             shape.position = ramdonShapePositions[index]
         }
@@ -154,16 +154,16 @@ final class YepRefreshView: UIView {
         
     }
 
-    func generateRamdonShapePositionsWithCount(count: Int) -> [CGPoint] {
-        func randomInRange(range: Range<Int>) -> CGFloat {
+    func generateRamdonShapePositionsWithCount(_ count: Int) -> [CGPoint] {
+        func randomInRange(_ range: Range<Int>) -> CGFloat {
             var offset = 0
 
-            if range.startIndex < 0 {
-                offset = abs(range.startIndex)
+            if range.lowerBound < 0 {
+                offset = abs(range.lowerBound)
             }
 
-            let mini = UInt32(range.startIndex + offset)
-            let maxi = UInt32(range.endIndex   + offset)
+            let mini = UInt32(range.lowerBound + offset)
+            let maxi = UInt32(range.upperBound   + offset)
 
             return CGFloat(Int(mini + arc4random_uniform(maxi - mini)) - offset)
         }
@@ -181,7 +181,7 @@ final class YepRefreshView: UIView {
         ramdonShapePositions = generateRamdonShapePositionsWithCount(ramdonShapePositions.count)
     }
 
-    func updateShapePositionWithProgressPercentage(progressPercentage: CGFloat) {
+    func updateShapePositionWithProgressPercentage(_ progressPercentage: CGFloat) {
 
         if progressPercentage >= 1.0 {
             if !isFlashing {
@@ -194,7 +194,7 @@ final class YepRefreshView: UIView {
             }
         }
 
-        for (index, shape) in shapes.enumerate() {
+        for (index, shape) in shapes.enumerated() {
 
             shape.opacity = Float(progressPercentage)
 
@@ -215,7 +215,7 @@ final class YepRefreshView: UIView {
 
         isFlashing = true
 
-        for (index, shape) in shapes.enumerate() {
+        for (index, shape) in shapes.enumerated() {
             shape.opacity = 1.0
 
             let animation = CABasicAnimation(keyPath: "opacity")
@@ -243,7 +243,7 @@ final class YepRefreshView: UIView {
             animation.duration = 0.09 * timeScale
             animation.beginTime = CACurrentMediaTime() + delay
 
-            shape.addAnimation(animation, forKey: "flip")
+            shape.add(animation, forKey: "flip")
         }
     }
 
@@ -252,7 +252,7 @@ final class YepRefreshView: UIView {
         isFlashing = false
 
         for shape in shapes {
-            shape.removeAnimationForKey("flip")
+            shape.removeAnimation(forKey: "flip")
         }
     }
 

@@ -30,7 +30,7 @@ final class SearchedUserCell: UITableViewCell {
         timeLabel.text = nil
     }
 
-    func configureWithUserRepresentation(user: UserRepresentation, keyword: String?, showTime: Bool = true) {
+    func configureWithUserRepresentation(_ user: UserRepresentation, keyword: String?, showTime: Bool = true) {
 
         let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
@@ -43,7 +43,7 @@ final class SearchedUserCell: UITableViewCell {
         }
 
         if let mentionUsername = user.mentionedUsername {
-            usernameLabel.hidden = false
+            usernameLabel.isHidden = false
 
             if let keyword = keyword {
                 usernameLabel.attributedText = mentionUsername.yep_hightlightSearchKeyword(keyword, baseFont: YepConfig.SearchedItemCell.usernameFont, baseColor: YepConfig.SearchedItemCell.usernameColor)
@@ -53,7 +53,7 @@ final class SearchedUserCell: UITableViewCell {
             }
 
         } else {
-            usernameLabel.hidden = true
+            usernameLabel.isHidden = true
         }
 
         if showTime {

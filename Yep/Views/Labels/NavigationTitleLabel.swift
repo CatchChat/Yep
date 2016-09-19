@@ -19,7 +19,7 @@ final class NavigationTitleLabel: UILabel {
 
         text = title
 
-        textAlignment = .Center
+        textAlignment = .center
         font = UIFont.navigationBarTitleFont() // make sure it's the same as system use
         textColor = UIColor.yepNavgationBarTitleColor()
 

@@ -20,7 +20,7 @@ extension ConversationViewController {
         manager.conversation = self.conversation
 
         manager.showProfileAction = { [weak self] in
-            self?.performSegueWithIdentifier("showProfile", sender: nil)
+            self?.performSegue(withIdentifier: "showProfile", sender: nil)
         }
 
         manager.toggleDoNotDisturbAction = { [weak self] in
@@ -62,7 +62,7 @@ extension ConversationViewController {
         return manager
     }
 
-    private func toggleDoNotDisturb() {
+    fileprivate func toggleDoNotDisturb() {
 
         if let user = conversation.withFriend {
 
@@ -106,7 +106,7 @@ extension ConversationViewController {
         }
     }
 
-    private func tryReport() {
+    fileprivate func tryReport() {
 
         if let user = conversation.withFriend {
             let profileUser = ProfileUser.UserType(user)
@@ -117,7 +117,7 @@ extension ConversationViewController {
         }
     }
 
-    private func toggleBlock() {
+    fileprivate func toggleBlock() {
 
         if let user = conversation.withFriend {
 
@@ -146,7 +146,7 @@ extension ConversationViewController {
 
         guard let
             description = conversation.withGroup?.withFeed?.body,
-            groupID = conversation.withGroup?.groupID else {
+            let groupID = conversation.withGroup?.groupID else {
                 return
         }
 
@@ -167,9 +167,9 @@ extension ConversationViewController {
         shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
     }
 
-    private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
+    fileprivate func shareFeedWithDescripion(_ description: String, groupShareURLString: String) {
 
-        guard let groupShareURL = NSURL(string: groupShareURLString) else {
+        guard let groupShareURL = URL(string: groupShareURLString) else {
             return
         }
 
@@ -190,21 +190,21 @@ extension ConversationViewController {
         self.yep_share(info: info, timelineInfo: timeLineinfo, defaultActivityItem: groupShareURL, description: description)
     }
 
-    private func tryUpdateGroupAffair(afterSubscribed afterSubscribed: (() -> Void)? = nil) {
+    fileprivate func tryUpdateGroupAffair(afterSubscribed: (() -> Void)? = nil) {
 
-        guard let group = conversation.withGroup, feed = group.withFeed, feedCreator = feed.creator else {
+        guard let group = conversation.withGroup, let feed = group.withFeed, let feedCreator = feed.creator else {
             return
         }
 
         let feedID = feed.feedID
 
-        func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
+        func doDeleteConversation(afterLeaveGroup: (() -> Void)? = nil) -> Void {
 
             SafeDispatch.async { [weak self] in
 
                 self?.checkTypingStatusTimer?.invalidate()
 
-                guard let conversation = self?.conversation, realm = conversation.realm else {
+                guard let conversation = self?.conversation, let realm = conversation.realm else {
                     return
                 }
 
@@ -278,7 +278,7 @@ extension ConversationViewController {
         }
     }
 
-    private func updateNotificationEnabled(enabled: Bool, forUserWithUserID userID: String) {
+    fileprivate func updateNotificationEnabled(_ enabled: Bool, forUserWithUserID userID: String) {
 
         guard let realm = try? Realm() else {
             return
@@ -293,7 +293,7 @@ extension ConversationViewController {
         }
     }
 
-    private func updateNotificationEnabled(enabled: Bool, forGroupWithGroupID: String) {
+    fileprivate func updateNotificationEnabled(_ enabled: Bool, forGroupWithGroupID: String) {
 
         guard let realm = try? Realm() else {
             return
@@ -308,7 +308,7 @@ extension ConversationViewController {
         }
     }
 
-    func updateBlocked(blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {
+    func updateBlocked(_ blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {
 
         guard let realm = try? Realm() else {
             return

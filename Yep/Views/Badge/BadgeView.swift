@@ -90,9 +90,9 @@ final class BadgeView: UIView {
 
     var enabled: Bool = false {
         willSet {
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
                 guard let strongSelf = self else { return }
-                strongSelf.badgeImageView.tintColor = newValue ? UIColor.whiteColor() : strongSelf.badge.color
+                strongSelf.badgeImageView.tintColor = newValue ? UIColor.white : strongSelf.badge.color
             }, completion: nil)
         }
     }
@@ -119,10 +119,10 @@ final class BadgeView: UIView {
 
         badgeImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let iconConstraintCenterX = NSLayoutConstraint(item: badgeImageView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
-        let iconConstraintCenterY = NSLayoutConstraint(item: badgeImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)
+        let iconConstraintCenterX = NSLayoutConstraint(item: badgeImageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0)
+        let iconConstraintCenterY = NSLayoutConstraint(item: badgeImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0)
 
-        NSLayoutConstraint.activateConstraints([iconConstraintCenterX, iconConstraintCenterY])
+        NSLayoutConstraint.activate([iconConstraintCenterX, iconConstraintCenterY])
     }
 
     func tap() {

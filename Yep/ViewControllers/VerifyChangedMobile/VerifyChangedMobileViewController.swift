@@ -44,7 +44,7 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
         tryConfirmNewMobile()
     }
 
-    private func tryConfirmNewMobile() {
+    fileprivate func tryConfirmNewMobile() {
 
         view.endEditing(true)
 

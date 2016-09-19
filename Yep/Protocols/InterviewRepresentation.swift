@@ -11,7 +11,7 @@ import YepKit
 protocol InterviewRepresentation {
 
     var user: DiscoveredUser { get }
-    var linkURL: NSURL { get }
+    var linkURL: URL { get }
 }
 
 extension GeniusInterview: InterviewRepresentation {

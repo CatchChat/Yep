@@ -29,12 +29,12 @@ extension ConversationViewController {
         }
 
         feedView.tapAvatarAction = { [weak self] in
-            self?.performSegueWithIdentifier("showProfileFromFeedView", sender: nil)
+            self?.performSegue(withIdentifier: "showProfileFromFeedView", sender: nil)
         }
 
         feedView.foldAction = { [weak self] in
             if let strongSelf = self {
-                UIView.animateWithDuration(0.15, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                UIView.animate(withDuration: 0.15, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
                     self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + strongSelf.conversationCollectionViewContentInsetYOffset
                 }, completion: { _ in })
             }
@@ -42,7 +42,7 @@ extension ConversationViewController {
 
         feedView.unfoldAction = { [weak self] feedView in
             if let strongSelf = self {
-                UIView.animateWithDuration(0.15, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                UIView.animate(withDuration: 0.15, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
                     self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + strongSelf.conversationCollectionViewContentInsetYOffset
                 }, completion: { _ in })
 
@@ -81,7 +81,7 @@ extension ConversationViewController {
             let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
             mapItem.name = locationName
 
-            mapItem.openInMapsWithLaunchOptions(nil)
+            mapItem.openInMaps(launchOptions: nil)
         }
 
         feedView.tapURLInfoAction = { [weak self] URL in
@@ -97,13 +97,13 @@ extension ConversationViewController {
             "feedView": feedView
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[feedView]|", options: [], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[feedView]|", options: [], metrics: nil, views: views)
 
-        let top = NSLayoutConstraint(item: feedView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1.0, constant: 64)
-        let height = NSLayoutConstraint(item: feedView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: feedView.normalHeight)
+        let top = NSLayoutConstraint(item: feedView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1.0, constant: 64)
+        let height = NSLayoutConstraint(item: feedView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: feedView.normalHeight)
         
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints([top, height])
+        NSLayoutConstraint.activate(constraintsH)
+        NSLayoutConstraint.activate([top, height])
         
         feedView.heightConstraint = height
         
@@ -134,16 +134,16 @@ extension ConversationViewController {
 
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let top = NSLayoutConstraint(item: view, attribute: .Top, relatedBy: .GreaterThanOrEqual, toItem: self.topLayoutGuide, attribute: .Bottom, multiplier: 1.0, constant: 0)
+        let top = NSLayoutConstraint(item: view, attribute: .top, relatedBy: .greaterThanOrEqual, toItem: self.topLayoutGuide, attribute: .bottom, multiplier: 1.0, constant: 0)
 
-        let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Leading, multiplier: 1.0, constant: 0)
-        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Trailing, multiplier: 1.0, constant: 0)
-        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: MentionView.height)
-        let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: MentionView.height)
+        let leading = NSLayoutConstraint(item: view, attribute: .leading, relatedBy: .equal, toItem: self.messageToolbar, attribute: .leading, multiplier: 1.0, constant: 0)
+        let trailing = NSLayoutConstraint(item: view, attribute: .trailing, relatedBy: .equal, toItem: self.messageToolbar, attribute: .trailing, multiplier: 1.0, constant: 0)
+        let bottom = NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: self.messageToolbar, attribute: .top, multiplier: 1.0, constant: MentionView.height)
+        let height = NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: MentionView.height)
 
         bottom.priority = UILayoutPriorityDefaultHigh
 
-        NSLayoutConstraint.activateConstraints([top, leading, trailing, bottom, height])
+        NSLayoutConstraint.activate([top, leading, trailing, bottom, height])
         self.view.layoutIfNeeded()
 
         view.heightConstraint = height
@@ -190,14 +190,14 @@ extension ConversationViewController {
 
             let openCamera: ProposerAction = { [weak self] in
 
-                guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+                guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
                     self?.alertCanNotOpenCamera()
                     return
                 }
 
                 if let strongSelf = self {
-                    strongSelf.imagePicker.sourceType = .Camera
-                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                    strongSelf.imagePicker.sourceType = .camera
+                    strongSelf.present(strongSelf.imagePicker, animated: true, completion: nil)
                 }
             }
 
@@ -210,15 +210,15 @@ extension ConversationViewController {
 
             let openCameraRoll: ProposerAction = { [weak self] in
 
-                guard UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) else {
+                guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
                     self?.alertCanNotAccessCameraRoll()
                     return
                 }
 
                 if let strongSelf = self {
-                    strongSelf.imagePicker.sourceType = .PhotoLibrary
+                    strongSelf.imagePicker.sourceType = .photoLibrary
 
-                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                    strongSelf.present(strongSelf.imagePicker, animated: true, completion: nil)
                 }
             }
 
@@ -228,7 +228,7 @@ extension ConversationViewController {
         }
 
         view.pickLocationAction = { [weak self] in
-            self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
+            self?.performSegue(withIdentifier: "presentPickLocation", sender: nil)
         }
         
         return view
@@ -247,12 +247,12 @@ extension ConversationViewController {
 
         view.translatesAutoresizingMaskIntoConstraints = false
 
-        let leading = NSLayoutConstraint(item: view, attribute: .Leading, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Leading, multiplier: 1.0, constant: 0)
-        let trailing = NSLayoutConstraint(item: view, attribute: .Trailing, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Trailing, multiplier: 1.0, constant: 0)
-        let bottom = NSLayoutConstraint(item: view, attribute: .Bottom, relatedBy: .Equal, toItem: self.messageToolbar, attribute: .Top, multiplier: 1.0, constant: SubscribeView.height)
-        let height = NSLayoutConstraint(item: view, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: SubscribeView.height)
+        let leading = NSLayoutConstraint(item: view, attribute: .leading, relatedBy: .equal, toItem: self.messageToolbar, attribute: .leading, multiplier: 1.0, constant: 0)
+        let trailing = NSLayoutConstraint(item: view, attribute: .trailing, relatedBy: .equal, toItem: self.messageToolbar, attribute: .trailing, multiplier: 1.0, constant: 0)
+        let bottom = NSLayoutConstraint(item: view, attribute: .bottom, relatedBy: .equal, toItem: self.messageToolbar, attribute: .top, multiplier: 1.0, constant: SubscribeView.height)
+        let height = NSLayoutConstraint(item: view, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: SubscribeView.height)
 
-        NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
+        NSLayoutConstraint.activate([leading, trailing, bottom, height])
         self.view.layoutIfNeeded()
 
         view.bottomConstraint = bottom
@@ -262,7 +262,7 @@ extension ConversationViewController {
 
     func tryShowSubscribeView() {
 
-        guard let group = conversation.withGroup where !group.includeMe else {
+        guard let group = conversation.withGroup , !group.includeMe else {
             return
         }
 
@@ -368,9 +368,9 @@ extension ConversationViewController {
 
     func makeTitleView() -> ConversationTitleView {
 
-        let titleView = ConversationTitleView(frame: CGRect(origin: CGPointZero, size: CGSize(width: 150, height: 44)))
+        let titleView = ConversationTitleView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 150, height: 44)))
 
-        if let name = nameOfConversation(conversation) where name != "" {
+        if let name = nameOfConversation(conversation) , name != "" {
             titleView.nameLabel.text = name
         } else {
             titleView.nameLabel.text = String.trans_titleFeedDiscussion
@@ -378,7 +378,7 @@ extension ConversationViewController {
 
         self.updateStateInfoOfTitleView(titleView)
 
-        titleView.userInteractionEnabled = true
+        titleView.isUserInteractionEnabled = true
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(ConversationViewController.showFriendProfile(_:)))
 
@@ -387,7 +387,7 @@ extension ConversationViewController {
         return titleView
     }
 
-    func updateStateInfoOfTitleView(titleView: ConversationTitleView) {
+    func updateStateInfoOfTitleView(_ titleView: ConversationTitleView) {
 
         SafeDispatch.async { [weak self] in
             guard let strongSelf = self else { return }
@@ -407,7 +407,7 @@ extension ConversationViewController {
         }
     }
 
-    @objc private func showFriendProfile(sender: UITapGestureRecognizer) {
+    @objc fileprivate func showFriendProfile(_ sender: UITapGestureRecognizer) {
         if let user = conversation.withFriend {
             performSegueWithIdentifier("showProfile", sender: user)
         }
@@ -425,16 +425,16 @@ extension ConversationViewController {
         friendRequestView.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(friendRequestView)
 
-        let friendRequestViewLeading = NSLayoutConstraint(item: friendRequestView, attribute: .Leading, relatedBy: .Equal, toItem: view, attribute: .Leading, multiplier: 1, constant: 0)
-        let friendRequestViewTrailing = NSLayoutConstraint(item: friendRequestView, attribute: .Trailing, relatedBy: .Equal, toItem: view, attribute: .Trailing, multiplier: 1, constant: 0)
-        let friendRequestViewTop = NSLayoutConstraint(item: friendRequestView, attribute: .Top, relatedBy: .Equal, toItem: view, attribute: .Top, multiplier: 1, constant: 64 - FriendRequestView.height)
-        let friendRequestViewHeight = NSLayoutConstraint(item: friendRequestView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: FriendRequestView.height)
+        let friendRequestViewLeading = NSLayoutConstraint(item: friendRequestView, attribute: .leading, relatedBy: .equal, toItem: view, attribute: .leading, multiplier: 1, constant: 0)
+        let friendRequestViewTrailing = NSLayoutConstraint(item: friendRequestView, attribute: .trailing, relatedBy: .equal, toItem: view, attribute: .trailing, multiplier: 1, constant: 0)
+        let friendRequestViewTop = NSLayoutConstraint(item: friendRequestView, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 64 - FriendRequestView.height)
+        let friendRequestViewHeight = NSLayoutConstraint(item: friendRequestView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: FriendRequestView.height)
 
-        NSLayoutConstraint.activateConstraints([friendRequestViewLeading, friendRequestViewTrailing, friendRequestViewTop, friendRequestViewHeight])
+        NSLayoutConstraint.activate([friendRequestViewLeading, friendRequestViewTrailing, friendRequestViewTop, friendRequestViewHeight])
 
         view.layoutIfNeeded()
 
-        UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.2, delay: 0.1, options: UIViewAnimationOptions(), animations: { [weak self] in
             self?.conversationCollectionView.contentInset.top += FriendRequestView.height
 
             friendRequestViewTop.constant += FriendRequestView.height

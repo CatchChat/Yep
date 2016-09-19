@@ -15,10 +15,10 @@ final class BorderButton: UIButton {
     @IBInspectable var borderColor: UIColor = UIColor.yepTintColor()
     @IBInspectable var borderWidth: CGFloat = 1
 
-    override var enabled: Bool {
+    override var isEnabled: Bool {
         willSet {
             let newBorderColor = newValue ? borderColor : UIColor(white: 0.8, alpha: 1.0)
-            layer.borderColor = newBorderColor.CGColor
+            layer.borderColor = newBorderColor.cgColor
         }
     }
 
@@ -44,7 +44,7 @@ final class BorderButton: UIButton {
         super.didMoveToSuperview()
 
         layer.cornerRadius = cornerRadius
-        layer.borderColor = borderColor.CGColor
+        layer.borderColor = borderColor.cgColor
         layer.borderWidth = borderWidth
     }
 
@@ -59,10 +59,10 @@ final class BorderButton: UIButton {
         addSubview(accessoryImageView)
         accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let accessoryImageViewTrailing = NSLayoutConstraint(item: accessoryImageView, attribute: .Trailing, relatedBy: .Equal, toItem: self, attribute: .Trailing, multiplier: 1, constant: -10)
-        let accessoryImageViewCenterY = NSLayoutConstraint(item: accessoryImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)
+        let accessoryImageViewTrailing = NSLayoutConstraint(item: accessoryImageView, attribute: .trailing, relatedBy: .equal, toItem: self, attribute: .trailing, multiplier: 1, constant: -10)
+        let accessoryImageViewCenterY = NSLayoutConstraint(item: accessoryImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0)
 
-        NSLayoutConstraint.activateConstraints([accessoryImageViewTrailing, accessoryImageViewCenterY])
+        NSLayoutConstraint.activate([accessoryImageViewTrailing, accessoryImageViewCenterY])
     }
 }
 

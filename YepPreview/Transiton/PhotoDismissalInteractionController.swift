@@ -16,17 +16,17 @@ class PhotoDismissalInteractionController: NSObject {
 
     var shouldAnimateUsingAnimator = true
 
-    private let panDismissDistanceRatio: CGFloat = 50.0 / 667.0
-    private let panDismissMaximumDuration: CGFloat = 0.45
-    private let returnToCenterVelocityAnimationRatio: CGFloat = 0.00007
+    fileprivate let panDismissDistanceRatio: CGFloat = 50.0 / 667.0
+    fileprivate let panDismissMaximumDuration: CGFloat = 0.45
+    fileprivate let returnToCenterVelocityAnimationRatio: CGFloat = 0.00007
 
-    func didPanWithPanGestureRecognizer(pan: UIPanGestureRecognizer, viewToPan: UIView, anchorPoint: CGPoint) {
+    func didPanWithPanGestureRecognizer(_ pan: UIPanGestureRecognizer, viewToPan: UIView, anchorPoint: CGPoint) {
 
-        guard let fromView = transitionContext?.viewForKey(UITransitionContextFromViewKey) else {
+        guard let fromView = transitionContext?.view(forKey: UITransitionContextViewKey.from) else {
             return
         }
 
-        let translatedPanGesturePoint = pan.translationInView(fromView)
+        let translatedPanGesturePoint = pan.translation(in: fromView)
         let newCenterPoint = CGPoint(x: anchorPoint.x, y: anchorPoint.y + translatedPanGesturePoint.y)
 
         let viewToPan = viewToPan
@@ -34,16 +34,16 @@ class PhotoDismissalInteractionController: NSObject {
 
         let verticalDelta = newCenterPoint.y - anchorPoint.y
         let backgroundAlpha = backgroundAlphaForPanningWithVerticalDelta(verticalDelta)
-        fromView.backgroundColor = fromView.backgroundColor?.colorWithAlphaComponent(backgroundAlpha)
+        fromView.backgroundColor = fromView.backgroundColor?.withAlphaComponent(backgroundAlpha)
 
-        if pan.state == .Ended {
+        if pan.state == .ended {
             finishPanWithPanGestureRecognizer(pan, verticalDelta: verticalDelta, viewToPan: viewToPan, anchorPoint: anchorPoint)
         }
     }
 
-    private func backgroundAlphaForPanningWithVerticalDelta(verticalDelta: CGFloat) -> CGFloat {
+    fileprivate func backgroundAlphaForPanningWithVerticalDelta(_ verticalDelta: CGFloat) -> CGFloat {
 
-        guard let fromView = transitionContext?.viewForKey(UITransitionContextFromViewKey) else {
+        guard let fromView = transitionContext?.view(forKey: UITransitionContextViewKey.from) else {
             return 1
         }
 
@@ -57,16 +57,16 @@ class PhotoDismissalInteractionController: NSObject {
         return startingAlpha - (deltaAsPercentageOfMaximum * totalAvailableAlpha)
     }
 
-    private func finishPanWithPanGestureRecognizer(pan: UIPanGestureRecognizer, verticalDelta: CGFloat, viewToPan: UIView, anchorPoint: CGPoint) {
+    fileprivate func finishPanWithPanGestureRecognizer(_ pan: UIPanGestureRecognizer, verticalDelta: CGFloat, viewToPan: UIView, anchorPoint: CGPoint) {
 
-        guard let fromView = transitionContext?.viewForKey(UITransitionContextFromViewKey) else {
+        guard let fromView = transitionContext?.view(forKey: UITransitionContextViewKey.from) else {
             return
         }
 
-        let velocityY = pan.velocityInView(pan.view).y
+        let velocityY = pan.velocity(in: pan.view).y
         var animationDuration = (abs(velocityY) * returnToCenterVelocityAnimationRatio) + 0.2
 
-        let animationCurve: UIViewAnimationOptions = [.CurveEaseOut]
+        let animationCurve: UIViewAnimationOptions = [.curveEaseOut]
         var finalPageViewCenterPoint = anchorPoint
         var finalBackgroundAlpha: CGFloat = 1.0
 
@@ -78,7 +78,7 @@ class PhotoDismissalInteractionController: NSObject {
         if isDismissing {
             if shouldAnimateUsingAnimator {
                 if let transitionContext = transitionContext {
-                    animator?.animateTransition(transitionContext)
+                    animator?.animateTransition(using: transitionContext)
                 }
 
                 didAnimateUsingAnimator = true
@@ -99,9 +99,9 @@ class PhotoDismissalInteractionController: NSObject {
 
         if !didAnimateUsingAnimator {
 
-            UIView.animateWithDuration(NSTimeInterval(animationDuration), delay: 0, options: animationCurve, animations: {
+            UIView.animate(withDuration: TimeInterval(animationDuration), delay: 0, options: animationCurve, animations: {
                 viewToPan.center = finalPageViewCenterPoint
-                fromView.backgroundColor = fromView.backgroundColor?.colorWithAlphaComponent(finalBackgroundAlpha)
+                fromView.backgroundColor = fromView.backgroundColor?.withAlphaComponent(finalBackgroundAlpha)
 
             }, completion: { [unowned self] finished in
                 if isDismissing {
@@ -112,7 +112,7 @@ class PhotoDismissalInteractionController: NSObject {
 
                 self.viewToHideWhenBeginningTransition?.alpha = 1
 
-                let didComplete = isDismissing && !(self.transitionContext?.transitionWasCancelled() ?? true)
+                let didComplete = isDismissing && !(self.transitionContext?.transitionWasCancelled ?? true)
                 self.transitionContext?.completeTransition(didComplete)
 
                 self.transitionContext = nil
@@ -126,7 +126,7 @@ class PhotoDismissalInteractionController: NSObject {
 
 extension PhotoDismissalInteractionController: UIViewControllerInteractiveTransitioning {
 
-    func startInteractiveTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func startInteractiveTransition(_ transitionContext: UIViewControllerContextTransitioning) {
 
         viewToHideWhenBeginningTransition?.alpha = 0
         

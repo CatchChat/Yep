@@ -19,9 +19,9 @@ final class FeedConversationCell: UITableViewCell {
 
     var conversation: Conversation!
 
-    private var hasUnreadMessages: Bool = false {
+    fileprivate var hasUnreadMessages: Bool = false {
         didSet {
-            redDotImageView.hidden = !hasUnreadMessages
+            redDotImageView.isHidden = !hasUnreadMessages
         }
     }
 
@@ -34,12 +34,12 @@ final class FeedConversationCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        mediaView.hidden = true
+        mediaView.isHidden = true
         
         mediaView.clearImages()
     }
 
-    func configureWithConversation(conversation: Conversation) {
+    func configureWithConversation(_ conversation: Conversation) {
 
         self.conversation = conversation
 
@@ -61,7 +61,7 @@ final class FeedConversationCell: UITableViewCell {
 
         if let latestValidMessage = conversation.latestValidMessage {
 
-            if let mediaType = MessageMediaType(rawValue: latestValidMessage.mediaType), placeholder = mediaType.placeholder {
+            if let mediaType = MessageMediaType(rawValue: latestValidMessage.mediaType), let placeholder = mediaType.placeholder {
                 self.chatLabel.text = placeholder
 
             } else {

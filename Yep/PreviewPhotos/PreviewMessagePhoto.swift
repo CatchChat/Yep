@@ -14,11 +14,11 @@ class PreviewMessagePhoto: NSObject, Photo {
 
     var image: UIImage? {
         didSet {
-            self.updatedImage?(image: image)
+            self.updatedImage?(image)
         }
     }
 
-    var updatedImage: ((image: UIImage?) -> Void)?
+    var updatedImage: ((_ image: UIImage?) -> Void)?
 
     init(message: Message) {
         super.init()
@@ -29,7 +29,7 @@ class PreviewMessagePhoto: NSObject, Photo {
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { [weak self] in
             if let
                 imageFileURL = imageFileURL,
-                image = UIImage(contentsOfFile: imageFileURL.path!)?.decodedImage() {
+                let image = UIImage(contentsOfFile: imageFileURL.path!)?.decodedImage() {
 
                 delay(0.4) { [weak self] in
                     self?.image = image

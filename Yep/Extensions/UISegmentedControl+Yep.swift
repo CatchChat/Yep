@@ -10,22 +10,22 @@ import UIKit
 
 extension UISegmentedControl {
 
-    func yep_setTitleFont(font: UIFont, withPadding padding: CGFloat) {
+    func yep_setTitleFont(_ font: UIFont, withPadding padding: CGFloat) {
 
         let attributes = [NSFontAttributeName: font]
 
-        setTitleTextAttributes(attributes, forState: .Normal)
+        setTitleTextAttributes(attributes, for: UIControlState())
 
         var maxWidth: CGFloat = 0
         for i in 0..<numberOfSegments {
-            if let title = titleForSegmentAtIndex(i) {
-                let width = (title as NSString).sizeWithAttributes(attributes).width + (padding * 2)
+            if let title = titleForSegment(at: i) {
+                let width = (title as NSString).size(attributes: attributes).width + (padding * 2)
                 maxWidth = max(maxWidth, width)
             }
         }
 
         for i in 0..<numberOfSegments {
-            setWidth(maxWidth, forSegmentAtIndex: i)
+            setWidth(maxWidth, forSegmentAt: i)
         }
     }
 }

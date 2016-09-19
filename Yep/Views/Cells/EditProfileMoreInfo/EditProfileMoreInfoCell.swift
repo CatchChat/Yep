@@ -14,23 +14,23 @@ final class EditProfileMoreInfoCell: UITableViewCell {
 
     @IBOutlet weak var infoTextView: UITextView!
 
-    var infoTextViewBeginEditingAction: ((infoTextView: UITextView) -> Void)?
+    var infoTextViewBeginEditingAction: ((_ infoTextView: UITextView) -> Void)?
     var infoTextViewIsDirtyAction: (() -> Void)?
-    var infoTextViewDidEndEditingAction: (String -> Void)?
+    var infoTextViewDidEndEditingAction: ((String) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        selectionStyle = .None
+        selectionStyle = .none
 
         infoTextView.font = YepConfig.EditProfile.infoFont
 
-        infoTextView.autocapitalizationType = .None
-        infoTextView.autocorrectionType = .No
-        infoTextView.spellCheckingType = .No
+        infoTextView.autocapitalizationType = .none
+        infoTextView.autocorrectionType = .no
+        infoTextView.spellCheckingType = .no
 
         infoTextView.textContainer.lineFragmentPadding = 0
-        infoTextView.textContainerInset = UIEdgeInsetsZero
+        infoTextView.textContainerInset = UIEdgeInsets.zero
 
         infoTextView.delegate = self
     }
@@ -40,21 +40,21 @@ final class EditProfileMoreInfoCell: UITableViewCell {
 
 extension EditProfileMoreInfoCell: UITextViewDelegate {
 
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
 
-        infoTextViewBeginEditingAction?(infoTextView: textView)
+        infoTextViewBeginEditingAction?(textView)
 
         return true
     }
 
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
 
         infoTextViewIsDirtyAction?()
     }
 
-    func textViewDidEndEditing(textView: UITextView) {
+    func textViewDidEndEditing(_ textView: UITextView) {
         if textView == infoTextView {
-            let text = textView.text.trimming(.WhitespaceAndNewline)
+            let text = textView.text.trimming(.whitespaceAndNewline)
             textView.text = text
             infoTextViewDidEndEditingAction?(text)
         }

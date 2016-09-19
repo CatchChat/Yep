@@ -11,7 +11,7 @@ import YepKit
 
 final class SettingsViewController: BaseViewController {
 
-    @IBOutlet private weak var settingsTableView: UITableView! {
+    @IBOutlet fileprivate weak var settingsTableView: UITableView! {
         didSet {
             settingsTableView.registerNibOf(SettingsUserCell)
             settingsTableView.registerNibOf(SettingsMoreCell)
@@ -19,7 +19,7 @@ final class SettingsViewController: BaseViewController {
         }
     }
 
-    private var introduction: String {
+    fileprivate var introduction: String {
         get {
             return YepUserDefaults.introduction.value ?? String.trans_promptNoSelfIntroduction
         }
@@ -30,7 +30,7 @@ final class SettingsViewController: BaseViewController {
         let segue: String
     }
 
-    private let moreAnnotations: [Annotation] = [
+    fileprivate let moreAnnotations: [Annotation] = [
         Annotation(
             name: String.trans_titleNotificationsAndPrivacy,
             segue: "showNotifications"
@@ -45,9 +45,9 @@ final class SettingsViewController: BaseViewController {
         ),
     ]
 
-    private let introAttributes = [NSFontAttributeName: YepConfig.Settings.introFont]
+    fileprivate let introAttributes = [NSFontAttributeName: YepConfig.Settings.introFont]
 
-    private struct Listener {
+    fileprivate struct Listener {
         static let Introduction = "SettingsViewController.Introduction"
     }
 
@@ -72,8 +72,8 @@ final class SettingsViewController: BaseViewController {
         
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
-                    settingsTableView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                if recognizer.isKind(of: UIScreenEdgePanGestureRecognizer.self) {
+                    settingsTableView.panGestureRecognizer.require(toFail: recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
                 }
@@ -84,57 +84,57 @@ final class SettingsViewController: BaseViewController {
 
 extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    private enum Section: Int {
-        case User
-        case UI
-        case More
+    fileprivate enum Section: Int {
+        case user
+        case ui
+        case more
 
         static let count = 3
     }
 
-    private enum UIRow: Int {
-        case TabBarTitleEnabled
+    fileprivate enum UIRow: Int {
+        case tabBarTitleEnabled
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return Section.count
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             fatalError("Invalide section!")
         }
 
         switch section {
-        case .User:
+        case .user:
             return 1
-        case .UI:
+        case .ui:
             return 1
-        case .More:
+        case .more:
             return moreAnnotations.count
         }
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalide section!")
         }
 
         switch section {
 
-        case .User:
+        case .user:
             let cell: SettingsUserCell = tableView.dequeueReusableCell()
             return cell
 
-        case .UI:
-            guard let row = UIRow(rawValue: indexPath.row) else {
+        case .ui:
+            guard let row = UIRow(rawValue: (indexPath as NSIndexPath).row) else {
                 fatalError("Invalide row!")
             }
 
             switch row {
-            case .TabBarTitleEnabled:
+            case .tabBarTitleEnabled:
                 let cell: TitleSwitchCell = tableView.dequeueReusableCell()
                 cell.titleLabel.text = NSLocalizedString("Show Tab Bar Title", comment: "")
                 cell.toggleSwitch.on = YepUserDefaults.tabBarItemTextEnabled.value ?? !(YepUserDefaults.appLaunchCount.value > YepUserDefaults.appLaunchCountThresholdForTabBarItemTextEnabled)
@@ -144,63 +144,63 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
                 return cell
             }
 
-        case .More:
+        case .more:
             let cell: SettingsMoreCell = tableView.dequeueReusableCell()
-            let annotation = moreAnnotations[indexPath.row]
+            let annotation = moreAnnotations[(indexPath as NSIndexPath).row]
             cell.annotationLabel.text = annotation.name
             return cell
         }
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalide section!")
         }
 
         switch section {
 
-        case .User:
+        case .user:
 
-            let tableViewWidth = CGRectGetWidth(settingsTableView.bounds)
+            let tableViewWidth = settingsTableView.bounds.width
             let introLabelMaxWidth = tableViewWidth - YepConfig.Settings.introInset
 
-            let rect = introduction.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: introAttributes, context: nil)
+            let rect = introduction.boundingRect(with: CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: introAttributes, context: nil)
 
             let height = max(20 + 8 + 22 + 8 + ceil(rect.height) + 20, 20 + YepConfig.Settings.userCellAvatarSize + 20)
 
             return height
 
-        case .UI:
+        case .ui:
             return 60
 
-        case .More:
+        case .more:
             return 60
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalide section!")
         }
 
         switch section {
 
-        case .User:
-            performSegueWithIdentifier("showEditProfile", sender: nil)
+        case .user:
+            performSegue(withIdentifier: "showEditProfile", sender: nil)
 
-        case .UI:
+        case .ui:
             break
 
-        case .More:
-            let annotation = moreAnnotations[indexPath.row]
+        case .more:
+            let annotation = moreAnnotations[(indexPath as NSIndexPath).row]
             let segue = annotation.segue
-            performSegueWithIdentifier(segue, sender: nil)
+            performSegue(withIdentifier: segue, sender: nil)
         }
     }
 }

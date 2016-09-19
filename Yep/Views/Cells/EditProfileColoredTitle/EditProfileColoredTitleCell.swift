@@ -12,7 +12,7 @@ final class EditProfileColoredTitleCell: UITableViewCell {
 
     @IBOutlet weak var coloredTitleLabel: UILabel!
 
-    var coloredTitleColor: UIColor = UIColor.redColor() {
+    var coloredTitleColor: UIColor = UIColor.red {
         willSet {
             coloredTitleLabel.textColor = newValue
         }

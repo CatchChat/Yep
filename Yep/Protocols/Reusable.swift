@@ -16,21 +16,21 @@ protocol Reusable: class {
 extension UITableViewCell: Reusable {
 
     static var yep_reuseIdentifier: String {
-        return String(self)
+        return String(describing: self)
     }
 }
 
 extension UITableViewHeaderFooterView: Reusable {
 
     static var yep_reuseIdentifier: String {
-        return String(self)
+        return String(describing: self)
     }
 }
 
 extension UICollectionReusableView: Reusable {
 
     static var yep_reuseIdentifier: String {
-        return String(self)
+        return String(describing: self)
     }
 }
 

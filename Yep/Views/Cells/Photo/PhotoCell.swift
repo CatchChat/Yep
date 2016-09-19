@@ -30,7 +30,7 @@ final class PhotoCell: UICollectionViewCell {
             let height = width
             let targetSize = CGSize(width: width, height: height)
 
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] in
+            dispatch_get_global_queue(DispatchQueue.GlobalQueuePriority.default, 0).async { [weak self] in
                 self?.imageManager?.requestImageForAsset(imageAsset, targetSize: targetSize, contentMode: .AspectFill, options: options) { [weak self] image, info in
 
                     SafeDispatch.async { [weak self] in

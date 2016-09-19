@@ -11,9 +11,9 @@ import YepNetworking
 import Alamofire
 import Kanna
 
-public func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: (title: String) -> Void) {
+public func titleOfURL(_ URL: Foundation.URL, failureHandler: FailureHandler?, completion: @escaping (_ title: String) -> Void) {
 
-    Alamofire.request(.GET, URL.absoluteString!, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
+    Alamofire.request(.GET, URL.absoluteString!, parameters: nil, encoding: .URL).responseString(encoding: String.Encoding.utf8, completionHandler: { response in
 
         let error = response.result.error
 
@@ -30,7 +30,7 @@ public func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: 
             return
         }
 
-        guard let HTMLString = response.result.value, data = response.data else {
+        guard let HTMLString = response.result.value, let data = response.data else {
 
             if let failureHandler = failureHandler {
                 failureHandler(reason: .CouldNotParseJSON, errorMessage: "No HTMLString or data!")
@@ -48,7 +48,7 @@ public func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: 
 
         guard let
             doc = Kanna.HTML(html: newHTMLString, encoding: NSUTF8StringEncoding),
-            title = doc.head?.css("title").first?.text where !title.isEmpty else {
+            let title = doc.head?.css("title").first?.text , !title.isEmpty else {
 
                 let errorMessage = String.trans_promptNoTitleForURL
                 if let failureHandler = failureHandler {
@@ -64,9 +64,9 @@ public func titleOfURL(URL: NSURL, failureHandler: FailureHandler?, completion: 
     })
 }
 
-public func openGraphWithURL(URL: NSURL, failureHandler: FailureHandler?, completion: OpenGraph -> Void) {
+public func openGraphWithURL(_ URL: Foundation.URL, failureHandler: FailureHandler?, completion: @escaping (OpenGraph) -> Void) {
 
-    Alamofire.request(.GET, URL.absoluteString!, parameters: nil, encoding: .URL).responseString(encoding: NSUTF8StringEncoding, completionHandler: { response in
+    Alamofire.request(.GET, URL.absoluteString!, parameters: nil, encoding: .URL).responseString(encoding: String.Encoding.utf8, completionHandler: { response in
 
         let error = response.result.error
 
@@ -81,7 +81,7 @@ public func openGraphWithURL(URL: NSURL, failureHandler: FailureHandler?, comple
             return
         }
 
-        if let HTMLString = response.result.value, data = response.data {
+        if let HTMLString = response.result.value, let data = response.data {
             //println("\n openGraphWithURLString: \(URL)\n\(HTMLString)")
 
             // 尽量使用长链接
@@ -234,39 +234,39 @@ private enum WeirdCharset: String {
     case EUCKR = "EUC-KR"
 }
 
-private func getUTF8HTMLStringFromHTMLString(HTMLString: String, withData data: NSData) -> String {
+private func getUTF8HTMLStringFromHTMLString(_ HTMLString: String, withData data: Data) -> String {
 
     let pattern = "charset=([A-Za-z0-9\\-]+)"
 
     guard let
-        charsetRegex = try? NSRegularExpression(pattern: pattern, options: [.CaseInsensitive]),
-        result = charsetRegex.firstMatchInString(HTMLString, options: [.ReportCompletion], range: NSMakeRange(0, (HTMLString as NSString).length))
+        charsetRegex = try? NSRegularExpression(pattern: pattern, options: [.caseInsensitive]),
+        let result = charsetRegex.firstMatch(in: HTMLString, options: [.reportCompletion], range: NSMakeRange(0, (HTMLString as NSString).length))
     else {
         return HTMLString
     }
 
-    let charsetStringRange = result.rangeAtIndex(1)
-    let charsetString = (HTMLString as NSString).substringWithRange(charsetStringRange).uppercaseString
+    let charsetStringRange = result.rangeAt(1)
+    let charsetString = (HTMLString as NSString).substring(with: charsetStringRange).uppercased()
 
     guard let weirdCharset = WeirdCharset(rawValue: charsetString) else {
         return HTMLString
     }
 
-    let encoding: NSStringEncoding
+    let encoding: String.Encoding
 
     switch weirdCharset {
 
     case .GB2312, .GBK, .GB18030:
         let china = CFStringEncodings.GB_18030_2000
-        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue))
+        encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue)))
 
     case .BIG5, .BIG5HKSCS:
-        let taiwan = CFStringEncodings.Big5_HKSCS_1999
-        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(taiwan.rawValue))
+        let taiwan = CFStringEncodings.big5_HKSCS_1999
+        encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(taiwan.rawValue)))
 
     case .EUCKR:
         let korean = CFStringEncodings.EUC_KR
-        encoding = CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(korean.rawValue))
+        encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(korean.rawValue)))
     }
 
     guard let newHTMLString = String(data: data, encoding: encoding) else {
@@ -281,7 +281,7 @@ private enum iTunesCountry: String {
     case USA = "us"
 }
 
-private func iTunesLookupWithID(lookupID: String, inCountry country: iTunesCountry, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary? -> Void) {
+private func iTunesLookupWithID(_ lookupID: String, inCountry country: iTunesCountry, failureHandler: ((Reason, String?) -> Void)?, completion: (JSONDictionary?) -> Void) {
 
     let lookUpURLString = "https://itunes.apple.com/lookup?id=\(lookupID)&country=\(country.rawValue)"
 
@@ -291,7 +291,7 @@ private func iTunesLookupWithID(lookupID: String, inCountry country: iTunesCount
 
         guard
             let info = response.result.value as? JSONDictionary,
-            let resultCount = info["resultCount"] as? Int where resultCount > 0,
+            let resultCount = info["resultCount"] as? Int , resultCount > 0,
             let result = (info["results"] as? [JSONDictionary])?.first
         else {
             completion(nil)
@@ -302,7 +302,7 @@ private func iTunesLookupWithID(lookupID: String, inCountry country: iTunesCount
     }
 }
 
-private func iTunesLookupWithID(lookupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: JSONDictionary -> Void) {
+private func iTunesLookupWithID(_ lookupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: (JSONDictionary) -> Void) {
 
     iTunesLookupWithID(lookupID, inCountry: .China, failureHandler: failureHandler, completion: { result in
         if let result = result {
@@ -315,9 +315,9 @@ private func iTunesLookupWithID(lookupID: String, failureHandler: ((Reason, Stri
 
                 } else {
                     if let failureHandler = failureHandler {
-                        failureHandler(.NoData, nil)
+                        failureHandler(.noData, nil)
                     } else {
-                        defaultFailureHandler(reason: .NoData, errorMessage: nil)
+                        defaultFailureHandler(reason: .noData, errorMessage: nil)
                     }
                 }
             })

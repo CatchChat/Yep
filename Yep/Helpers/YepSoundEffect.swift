@@ -12,11 +12,11 @@ final public class YepSoundEffect: NSObject {
 
     var soundID: SystemSoundID?
     
-    public init(fileURL: NSURL) {
+    public init(fileURL: URL) {
         super.init()
 
         var theSoundID: SystemSoundID = 0
-        let error = AudioServicesCreateSystemSoundID(fileURL, &theSoundID)
+        let error = AudioServicesCreateSystemSoundID(fileURL as CFURL, &theSoundID)
         if (error == kAudioServicesNoError) {
             soundID = theSoundID
         } else {

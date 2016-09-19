@@ -12,11 +12,11 @@ final class VoiceRecordButton: UIView {
     
     var touchesBegin: (() -> Void)?
     
-    var touchesEnded: ((needAbort: Bool) -> Void)?
+    var touchesEnded: ((_ needAbort: Bool) -> Void)?
     
     var touchesCancelled: (() -> Void)?
 
-    var checkAbort: ((topOffset: CGFloat) -> Bool)?
+    var checkAbort: ((_ topOffset: CGFloat) -> Bool)?
 
     var abort = false
 
@@ -25,34 +25,34 @@ final class VoiceRecordButton: UIView {
     var rightVoiceImageView: UIImageView?
 
     enum State {
-        case Default
-        case Touched
+        case `default`
+        case touched
     }
 
-    var state: State = .Default {
+    var state: State = .default {
         willSet {
             let color: UIColor
             switch newValue {
-            case .Default:
+            case .default:
                 color = UIColor.yepMessageToolbarSubviewBorderColor()
-            case .Touched:
+            case .touched:
                 color = UIColor.yepTintColor()
             }
-            layer.borderColor = color.CGColor
+            layer.borderColor = color.cgColor
             leftVoiceImageView?.tintColor = color
             rightVoiceImageView?.tintColor = color
 
             switch newValue {
-            case .Default:
+            case .default:
                 titleLabel?.textColor = tintColor
-            case .Touched:
+            case .touched:
                 titleLabel?.textColor = UIColor.yepTintColor()
             }
         }
     }
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
 
         abort = false
         
@@ -61,30 +61,30 @@ final class VoiceRecordButton: UIView {
         titleLabel?.text = NSLocalizedString("Release to Send", comment: "")
     }
     
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         
-        touchesEnded?(needAbort: abort)
+        touchesEnded?(abort)
 
         titleLabel?.text = String.trans_promptHoldForVoice
     }
     
-    override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesCancelled(touches, withEvent: event)
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
         
         touchesCancelled?()
 
         titleLabel?.text = String.trans_promptHoldForVoice
     }
     
-    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesMoved(touches, withEvent: event)
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesMoved(touches, with: event)
         
         if let touch = touches.first {
-            let location = touch.locationInView(touch.view)
+            let location = touch.location(in: touch.view)
 
             if location.y < 0 {
-                abort = checkAbort?(topOffset: abs(location.y)) ?? false
+                abort = checkAbort?(abs(location.y)) ?? false
             }
         }
     }
@@ -95,12 +95,12 @@ final class VoiceRecordButton: UIView {
         makeUI()
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         let titleLabel = UILabel()
-        titleLabel.font = UIFont.systemFontOfSize(15.0)
+        titleLabel.font = UIFont.systemFont(ofSize: 15.0)
         titleLabel.text = String.trans_promptHoldForVoice
-        titleLabel.textAlignment = .Center
+        titleLabel.textAlignment = .center
         titleLabel.textColor = self.tintColor
 
         self.titleLabel = titleLabel
@@ -109,7 +109,7 @@ final class VoiceRecordButton: UIView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
         let leftVoiceImageView = UIImageView(image: UIImage.yep_iconVoiceLeft)
-        leftVoiceImageView.contentMode = .Center
+        leftVoiceImageView.contentMode = .center
         leftVoiceImageView.tintColor = self.tintColor
 
         self.leftVoiceImageView = leftVoiceImageView
@@ -118,7 +118,7 @@ final class VoiceRecordButton: UIView {
         leftVoiceImageView.translatesAutoresizingMaskIntoConstraints = false
 
         let rightVoiceImageView = UIImageView(image: UIImage.yep_iconVoiceRight)
-        rightVoiceImageView.contentMode = .Center
+        rightVoiceImageView.contentMode = .center
         rightVoiceImageView.tintColor = self.tintColor
 
         self.rightVoiceImageView = rightVoiceImageView
@@ -132,12 +132,12 @@ final class VoiceRecordButton: UIView {
             "rightVoiceImageView": rightVoiceImageView,
         ]
 
-        let leftVoiceImageViewConstraintCenterY = NSLayoutConstraint(item: leftVoiceImageView, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: self, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+        let leftVoiceImageViewConstraintCenterY = NSLayoutConstraint(item: leftVoiceImageView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[leftVoiceImageView(20)][titleLabel][rightVoiceImageView(==leftVoiceImageView)]-10-|", options: NSLayoutFormatOptions.AlignAllCenterY, metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[leftVoiceImageView(20)][titleLabel][rightVoiceImageView(==leftVoiceImageView)]-10-|", options: NSLayoutFormatOptions.alignAllCenterY, metrics: nil, views: viewsDictionary)
 
-        NSLayoutConstraint.activateConstraints([leftVoiceImageViewConstraintCenterY])
-        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activate([leftVoiceImageViewConstraintCenterY])
+        NSLayoutConstraint.activate(constraintsH)
     }
 }
 

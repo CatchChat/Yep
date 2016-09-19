@@ -18,18 +18,18 @@ final class ImageCache {
     static let sharedInstance = ImageCache()
 
     let cache = NSCache()
-    let cacheQueue = dispatch_queue_create("ImageCacheQueue", DISPATCH_QUEUE_SERIAL)
-    let cacheAttachmentQueue = dispatch_queue_create("ImageCacheAttachmentQueue", DISPATCH_QUEUE_SERIAL)
+    let cacheQueue = DispatchQueue(label: "ImageCacheQueue", attributes: [])
+    let cacheAttachmentQueue = DispatchQueue(label: "ImageCacheAttachmentQueue", attributes: [])
 
-    class func attachmentOriginKeyWithURLString(URLString: String) -> String {
+    class func attachmentOriginKeyWithURLString(_ URLString: String) -> String {
         return "attachment-0.0-\(URLString)"
     }
 
-    class func attachmentSideLengthKeyWithURLString(URLString: String, sideLength: CGFloat) -> String {
+    class func attachmentSideLengthKeyWithURLString(_ URLString: String, sideLength: CGFloat) -> String {
         return "attachment-\(sideLength)-\(URLString)"
     }
 
-    func imageOfURL(url: NSURL, withMinSideLength: CGFloat?, completion: (url: NSURL, image: UIImage?, cacheType: CacheType) -> Void) {
+    func imageOfURL(_ url: URL, withMinSideLength: CGFloat?, completion: @escaping (_ url: URL, _ image: UIImage?, _ cacheType: CacheType) -> Void) {
 
         var sideLength: CGFloat = 0
 
@@ -37,9 +37,9 @@ final class ImageCache {
             sideLength = withMinSideLength
         }
 
-        let attachmentOriginKey = ImageCache.attachmentOriginKeyWithURLString(url.absoluteString!)
+        let attachmentOriginKey = ImageCache.attachmentOriginKeyWithURLString(url.absoluteString)
 
-        let attachmentSideLengthKey = ImageCache.attachmentSideLengthKeyWithURLString(url.absoluteString!, sideLength: sideLength)
+        let attachmentSideLengthKey = ImageCache.attachmentSideLengthKeyWithURLString(url.absoluteString, sideLength: sideLength)
 
         //println("attachmentSideLengthKey: \(attachmentSideLengthKey)")
 
@@ -121,16 +121,16 @@ final class ImageCache {
         }
     }
 
-    func imageOfAttachment(attachment: DiscoveredAttachment, withMinSideLength: CGFloat?, completion: (url: NSURL, image: UIImage?, cacheType: CacheType) -> Void) {
+    func imageOfAttachment(_ attachment: DiscoveredAttachment, withMinSideLength: CGFloat?, completion: (_ url: URL, _ image: UIImage?, _ cacheType: CacheType) -> Void) {
 
-        guard let attachmentURL = NSURL(string: attachment.URLString) else {
+        guard let attachmentURL = URL(string: attachment.URLString) else {
             return
         }
 
         imageOfURL(attachmentURL, withMinSideLength: withMinSideLength, completion: completion)
     }
 
-    func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {
+    func imageOfMessage(_ message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: @escaping (_ loadingProgress: Double, _ image: UIImage?) -> Void) {
 
         let imageKey = message.imageKey
 
@@ -163,7 +163,7 @@ final class ImageCache {
                 completion(loadingProgress: preloadingPropgress, image: thumbnail)
 
             } else {
-                dispatch_async(self.cacheQueue) {
+                self.cacheQueue.async {
 
                     guard let realm = try? Realm() else {
                         return
@@ -194,7 +194,7 @@ final class ImageCache {
                 }
             }
 
-            dispatch_async(self.cacheQueue) {
+            self.cacheQueue.async {
 
                 guard let realm = try? Realm() else {
                     return
@@ -202,7 +202,7 @@ final class ImageCache {
                 
                 if imageDownloadState == MessageDownloadState.Downloaded.rawValue {
                 
-                    if !fileName.isEmpty, let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName), image = UIImage(contentsOfFile: imageFileURL.path!) {
+                    if !fileName.isEmpty, let imageFileURL = FileManager.yepMessageImageURLWithName(fileName), let image = UIImage(contentsOfFile: imageFileURL.path!) {
 
                         let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
                         
@@ -236,7 +236,7 @@ final class ImageCache {
 
                 if let message = messageWithMessageID(messageID, inRealm: realm) {
 
-                    func doDownloadAttachmentsOfMessage(message: Message) {
+                    func doDownloadAttachmentsOfMessage(_ message: Message) {
 
                         let mediaType = message.mediaType
 
@@ -266,7 +266,7 @@ final class ImageCache {
                     }
 
                     // 若过期了，刷新后再下载。这里减少一天来判断
-                    if message.attachmentExpiresUnixTime < (NSDate().timeIntervalSince1970 + (60 * 60 * 24)) {
+                    if message.attachmentExpiresUnixTime < (Date().timeIntervalSince1970 + (60 * 60 * 24)) {
 
                         refreshAttachmentWithID(message.attachmentID, failureHandler: nil, completion: { newAttachmentInfo in
                             //println("newAttachmentInfo: \(newAttachmentInfo)")
@@ -313,7 +313,7 @@ final class ImageCache {
         }
     }
 
-    func mapImageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, bottomShadowEnabled: Bool, completion: (UIImage) -> ()) {
+    func mapImageOfMessage(_ message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, bottomShadowEnabled: Bool, completion: @escaping (UIImage) -> ()) {
 
         let imageKey = "mapImage-\(message.messageID)-\(message.coordinate)"
 
@@ -335,11 +335,11 @@ final class ImageCache {
                 let latitude: CLLocationDegrees = coordinate.safeLatitude
                 let longitude: CLLocationDegrees = coordinate.safeLongitude
 
-                dispatch_async(self.cacheQueue) {
+                self.cacheQueue.async {
 
                     // 再看看是否已有地图图片文件
 
-                    if let imageFileURL = imageFileURL, image = UIImage(contentsOfFile: imageFileURL.path!) {
+                    if let imageFileURL = imageFileURL, let image = UIImage(contentsOfFile: imageFileURL.path!) {
                         let mapImage = image.bubbleImageWithTailDirection(tailDirection, size: size, forMap: bottomShadowEnabled).decodedImage()
 
                         self.cache.setObject(mapImage, forKey: imageKey)
@@ -357,7 +357,7 @@ final class ImageCache {
                     // 没有地图图片文件，只能生成了
 
                     let options = MKMapSnapshotOptions()
-                    options.scale = UIScreen.mainScreen().scale
+                    options.scale = UIScreen.main.scale
                     options.size = size
 
                     let locationCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
@@ -366,7 +366,7 @@ final class ImageCache {
 
                     let mapSnapshotter = MKMapSnapshotter(options: options)
 
-                    mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
+                    mapSnapshotter.start (completionHandler: { (snapshot, error) -> Void in
                         if error == nil {
 
                             guard let snapshot = snapshot else {
@@ -379,9 +379,9 @@ final class ImageCache {
 
                             let pinImage = UIImage.yep_iconCurrentLocation
 
-                            image.drawAtPoint(CGPointZero)
+                            image.draw(at: CGPoint.zero)
 
-                            let pinCenter = snapshot.pointForCoordinate(mapCoordinate)
+                            let pinCenter = snapshot.point(for: mapCoordinate)
 
                             let xOffset: CGFloat
                             switch tailDirection {
@@ -392,7 +392,7 @@ final class ImageCache {
                             }
 
                             let pinOrigin = CGPoint(x: pinCenter.x - pinImage.size.width * 0.5 + xOffset, y: pinCenter.y - pinImage.size.height * 0.5)
-                            pinImage.drawAtPoint(pinOrigin)
+                            pinImage.draw(at: pinOrigin)
 
                             let finalImage = UIGraphicsGetImageFromCurrentImageContext()
 
@@ -402,9 +402,9 @@ final class ImageCache {
 
                             if let data = UIImageJPEGRepresentation(finalImage!, 1.0) {
 
-                                let fileName = NSUUID().UUIDString
+                                let fileName = UUID().uuidString
 
-                                if let _ = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                if let _ = FileManager.saveMessageImageData(data, withName: fileName) {
 
                                     SafeDispatch.async {
                                         
@@ -425,30 +425,30 @@ final class ImageCache {
                                 completion(mapImage)
                             }
                         }
-                    }
+                    })
                 }
             }
         }
     }
 
-    func mapImageOfLocationCoordinate(locationCoordinate: CLLocationCoordinate2D, withSize size: CGSize, completion: (UIImage) -> ()) {
+    func mapImageOfLocationCoordinate(_ locationCoordinate: CLLocationCoordinate2D, withSize size: CGSize, completion: @escaping (UIImage) -> ()) {
 
         let imageKey = "feedMapImage-\(size)-\(locationCoordinate)"
 
         // 先看看缓存
-        if let image = cache.objectForKey(imageKey) as? UIImage {
+        if let image = cache.object(forKey: imageKey) as? UIImage {
             completion(image)
 
         } else {
             let options = MKMapSnapshotOptions()
-            options.scale = UIScreen.mainScreen().scale
+            options.scale = UIScreen.main.scale
             let size = size
             options.size = size
             options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
 
             let mapSnapshotter = MKMapSnapshotter(options: options)
 
-            mapSnapshotter.startWithQueue(cacheQueue, completionHandler: { snapshot, error in
+            mapSnapshotter.start(with: cacheQueue, completionHandler: { snapshot, error in
                 if error == nil {
 
                     guard let snapshot = snapshot else {

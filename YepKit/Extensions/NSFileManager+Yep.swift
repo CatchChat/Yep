@@ -25,22 +25,22 @@ public enum FileExtension: String {
     }
 }
 
-public extension NSFileManager {
+public extension FileManager {
 
-    public class func yepCachesURL() -> NSURL {
-        return try! NSFileManager.defaultManager().URLForDirectory(.CachesDirectory, inDomain: .UserDomainMask, appropriateForURL: nil, create: false)
+    public class func yepCachesURL() -> URL {
+        return try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
     }
 
     // MARK: Avatar
 
-    public class func yepAvatarCachesURL() -> NSURL? {
+    public class func yepAvatarCachesURL() -> URL? {
 
-        let fileManager = NSFileManager.defaultManager()
+        let fileManager = FileManager.default
 
-        let avatarCachesURL = yepCachesURL().URLByAppendingPathComponent("avatar_caches", isDirectory: true)
+        let avatarCachesURL = yepCachesURL().appendingPathComponent("avatar_caches", isDirectory: true)
 
         do {
-            try fileManager.createDirectoryAtURL(avatarCachesURL!, withIntermediateDirectories: true, attributes: nil)
+            try fileManager.createDirectory(at: avatarCachesURL, withIntermediateDirectories: true, attributes: nil)
             return avatarCachesURL
         } catch let error {
             println("Directory create: \(error)")
@@ -49,20 +49,20 @@ public extension NSFileManager {
         return nil
     }
 
-    public class func yepAvatarURLWithName(name: String) -> NSURL? {
+    public class func yepAvatarURLWithName(_ name: String) -> URL? {
 
         if let avatarCachesURL = yepAvatarCachesURL() {
-            return avatarCachesURL.URLByAppendingPathComponent("\(name).\(FileExtension.JPEG.rawValue)")
+            return avatarCachesURL.appendingPathComponent("\(name).\(FileExtension.JPEG.rawValue)")
         }
 
         return nil
     }
 
-    public class func saveAvatarImage(avatarImage: UIImage, withName name: String) -> NSURL? {
+    public class func saveAvatarImage(_ avatarImage: UIImage, withName name: String) -> URL? {
 
         if let avatarURL = yepAvatarURLWithName(name) {
             let imageData = UIImageJPEGRepresentation(avatarImage, 0.8)
-            if NSFileManager.defaultManager().createFileAtPath(avatarURL.path!, contents: imageData, attributes: nil) {
+            if FileManager.default.createFile(atPath: avatarURL.path, contents: imageData, attributes: nil) {
                 return avatarURL
             }
         }
@@ -70,10 +70,10 @@ public extension NSFileManager {
         return nil
     }
 
-    public class func deleteAvatarImageWithName(name: String) {
+    public class func deleteAvatarImageWithName(_ name: String) {
         if let avatarURL = yepAvatarURLWithName(name) {
             do {
-                try NSFileManager.defaultManager().removeItemAtURL(avatarURL)
+                try FileManager.default.removeItem(at: avatarURL)
             } catch let error {
                 println("File delete: \(error)")
             }
@@ -82,14 +82,14 @@ public extension NSFileManager {
 
     // MARK: Message
 
-    public class func yepMessageCachesURL() -> NSURL? {
+    public class func yepMessageCachesURL() -> URL? {
 
-        let fileManager = NSFileManager.defaultManager()
+        let fileManager = FileManager.default
 
-        let messageCachesURL = yepCachesURL().URLByAppendingPathComponent("message_caches", isDirectory: true)
+        let messageCachesURL = yepCachesURL().appendingPathComponent("message_caches", isDirectory: true)
 
         do {
-            try fileManager.createDirectoryAtURL(messageCachesURL!, withIntermediateDirectories: true, attributes: nil)
+            try fileManager.createDirectory(at: messageCachesURL, withIntermediateDirectories: true, attributes: nil)
             return messageCachesURL
         } catch let error {
             println("Directory create: \(error)")
@@ -100,19 +100,19 @@ public extension NSFileManager {
 
     // Image
 
-    public class func yepMessageImageURLWithName(name: String) -> NSURL? {
+    public class func yepMessageImageURLWithName(_ name: String) -> URL? {
 
         if let messageCachesURL = yepMessageCachesURL() {
-            return messageCachesURL.URLByAppendingPathComponent("\(name).\(FileExtension.JPEG.rawValue)")
+            return messageCachesURL.appendingPathComponent("\(name).\(FileExtension.JPEG.rawValue)")
         }
 
         return nil
     }
 
-    public class func saveMessageImageData(messageImageData: NSData, withName name: String) -> NSURL? {
+    public class func saveMessageImageData(_ messageImageData: Data, withName name: String) -> URL? {
 
         if let messageImageURL = yepMessageImageURLWithName(name) {
-            if NSFileManager.defaultManager().createFileAtPath(messageImageURL.path!, contents: messageImageData, attributes: nil) {
+            if FileManager.default.createFile(atPath: messageImageURL.path, contents: messageImageData, attributes: nil) {
                 return messageImageURL
             }
         }
@@ -120,7 +120,7 @@ public extension NSFileManager {
         return nil
     }
 
-    public class func removeMessageImageFileWithName(name: String) {
+    public class func removeMessageImageFileWithName(_ name: String) {
 
         if name.isEmpty {
             return
@@ -128,7 +128,7 @@ public extension NSFileManager {
 
         if let messageImageURL = yepMessageImageURLWithName(name) {
             do {
-                try NSFileManager.defaultManager().removeItemAtURL(messageImageURL)
+                try FileManager.default.removeItem(at: messageImageURL)
             } catch let error {
                 println("File delete: \(error)")
             }
@@ -137,19 +137,19 @@ public extension NSFileManager {
 
     // Audio
 
-    public class func yepMessageAudioURLWithName(name: String) -> NSURL? {
+    public class func yepMessageAudioURLWithName(_ name: String) -> URL? {
 
         if let messageCachesURL = yepMessageCachesURL() {
-            return messageCachesURL.URLByAppendingPathComponent("\(name).\(FileExtension.M4A.rawValue)")
+            return messageCachesURL.appendingPathComponent("\(name).\(FileExtension.M4A.rawValue)")
         }
 
         return nil
     }
 
-    public class func saveMessageAudioData(messageAudioData: NSData, withName name: String) -> NSURL? {
+    public class func saveMessageAudioData(_ messageAudioData: Data, withName name: String) -> URL? {
 
         if let messageAudioURL = yepMessageAudioURLWithName(name) {
-            if NSFileManager.defaultManager().createFileAtPath(messageAudioURL.path!, contents: messageAudioData, attributes: nil) {
+            if FileManager.default.createFile(atPath: messageAudioURL.path, contents: messageAudioData, attributes: nil) {
                 return messageAudioURL
             }
         }
@@ -157,7 +157,7 @@ public extension NSFileManager {
         return nil
     }
 
-    public class func removeMessageAudioFileWithName(name: String) {
+    public class func removeMessageAudioFileWithName(_ name: String) {
 
         if name.isEmpty {
             return
@@ -165,7 +165,7 @@ public extension NSFileManager {
 
         if let messageAudioURL = yepMessageAudioURLWithName(name) {
             do {
-                try NSFileManager.defaultManager().removeItemAtURL(messageAudioURL)
+                try FileManager.default.removeItem(at: messageAudioURL)
             } catch let error {
                 println("File delete: \(error)")
             }
@@ -174,19 +174,19 @@ public extension NSFileManager {
 
     // Video
 
-    public class func yepMessageVideoURLWithName(name: String) -> NSURL? {
+    public class func yepMessageVideoURLWithName(_ name: String) -> URL? {
 
         if let messageCachesURL = yepMessageCachesURL() {
-            return messageCachesURL.URLByAppendingPathComponent("\(name).\(FileExtension.MP4.rawValue)")
+            return messageCachesURL.appendingPathComponent("\(name).\(FileExtension.MP4.rawValue)")
         }
 
         return nil
     }
 
-    public class func saveMessageVideoData(messageVideoData: NSData, withName name: String) -> NSURL? {
+    public class func saveMessageVideoData(_ messageVideoData: Data, withName name: String) -> URL? {
 
         if let messageVideoURL = yepMessageVideoURLWithName(name) {
-            if NSFileManager.defaultManager().createFileAtPath(messageVideoURL.path!, contents: messageVideoData, attributes: nil) {
+            if FileManager.default.createFile(atPath: messageVideoURL.path, contents: messageVideoData, attributes: nil) {
                 return messageVideoURL
             }
         }
@@ -194,12 +194,12 @@ public extension NSFileManager {
         return nil
     }
 
-    public class func removeMessageVideoFilesWithName(name: String, thumbnailName: String) {
+    public class func removeMessageVideoFilesWithName(_ name: String, thumbnailName: String) {
 
         if !name.isEmpty {
             if let messageVideoURL = yepMessageVideoURLWithName(name) {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtURL(messageVideoURL)
+                    try FileManager.default.removeItem(at: messageVideoURL)
                 } catch let error {
                     println("File delete: \(error)")
                 }
@@ -209,7 +209,7 @@ public extension NSFileManager {
         if !thumbnailName.isEmpty {
             if let messageImageURL = yepMessageImageURLWithName(thumbnailName) {
                 do {
-                    try NSFileManager.defaultManager().removeItemAtURL(messageImageURL)
+                    try FileManager.default.removeItem(at: messageImageURL)
                 } catch let error {
                     println("File delete: \(error)")
                 }
@@ -219,13 +219,13 @@ public extension NSFileManager {
 
     // MARK: Clean Caches
 
-    public class func cleanCachesDirectoryAtURL(cachesDirectoryURL: NSURL) {
-        let fileManager = NSFileManager.defaultManager()
+    public class func cleanCachesDirectoryAtURL(_ cachesDirectoryURL: URL) {
+        let fileManager = FileManager.default
 
-        if let fileURLs = (try? fileManager.contentsOfDirectoryAtURL(cachesDirectoryURL, includingPropertiesForKeys: nil, options: NSDirectoryEnumerationOptions())) {
+        if let fileURLs = (try? fileManager.contentsOfDirectory(at: cachesDirectoryURL, includingPropertiesForKeys: nil, options: FileManager.DirectoryEnumerationOptions())) {
             for fileURL in fileURLs {
                 do {
-                    try fileManager.removeItemAtURL(fileURL)
+                    try fileManager.removeItem(at: fileURL)
                 } catch let error {
                     println("File delete: \(error)")
                 }

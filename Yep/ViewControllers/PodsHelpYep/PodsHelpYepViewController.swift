@@ -14,12 +14,12 @@ final class PodsHelpYepViewController: UITableViewController {
         let name: String
         let urlString: String
 
-        var url: NSURL? {
-            return NSURL(string: urlString)
+        var url: URL? {
+            return URL(string: urlString)
         }
     }
 
-    private let frameworks: [Framework] = [
+    fileprivate let frameworks: [Framework] = [
         Framework(
             name: "Alamofire",
             urlString: "https://github.com/Alamofire/Alamofire"
@@ -101,39 +101,39 @@ final class PodsHelpYepViewController: UITableViewController {
     // MARK: - Table view data source
 
     enum Section: Int {
-        case Yep
-        case Frameworks
+        case yep
+        case frameworks
 
         var headerTitle: String {
             switch self {
-            case .Yep:
+            case .yep:
                 return NSLocalizedString("Yep", comment: "")
-            case .Frameworks:
+            case .frameworks:
                 return NSLocalizedString("Third Party", comment: "")
             }
         }
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
 
         return 2
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             fatalError()
         }
 
         switch section {
-        case .Yep:
+        case .yep:
             return 1
-        case .Frameworks:
+        case .frameworks:
             return frameworks.count
         }
     }
 
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 
         guard let section = Section(rawValue: section) else {
             fatalError()
@@ -142,61 +142,61 @@ final class PodsHelpYepViewController: UITableViewController {
         return section.headerTitle
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError()
         }
 
         switch section {
 
-        case .Yep:
-            let cell = tableView.dequeueReusableCellWithIdentifier("YepCell", forIndexPath: indexPath)
+        case .yep:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "YepCell", for: indexPath)
             cell.textLabel?.text = NSLocalizedString("Yep on GitHub", comment: "")
             cell.detailTextLabel?.text = NSLocalizedString("Welcome contributions!", comment: "")
             return cell
 
-        case .Frameworks:
-            let cell = tableView.dequeueReusableCellWithIdentifier("PodCell", forIndexPath: indexPath)
-            let framework = frameworks[indexPath.row]
+        case .frameworks:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PodCell", for: indexPath)
+            let framework = frameworks[(indexPath as NSIndexPath).row]
             cell.textLabel?.text = framework.name
             return cell
         }
     }
 
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError()
         }
 
         switch section {
-        case .Yep:
+        case .yep:
             return 60
-        case .Frameworks:
+        case .frameworks:
             return 44
         }
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError()
         }
 
         switch section {
 
-        case .Yep:
-            if let URL = NSURL(string: "https://github.com/CatchChat/Yep") {
+        case .yep:
+            if let URL = URL(string: "https://github.com/CatchChat/Yep") {
                 yep_openURL(URL)
             }
 
-        case .Frameworks:
-            let framework = frameworks[indexPath.row]
+        case .frameworks:
+            let framework = frameworks[(indexPath as NSIndexPath).row]
             if let url = framework.url {
                 yep_openURL(url)
             }

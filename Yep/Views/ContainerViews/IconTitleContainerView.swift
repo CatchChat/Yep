@@ -21,8 +21,8 @@ final class IconTitleContainerView: UIView {
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.lightGrayColor()
-        label.font = UIFont.systemFontOfSize(15)
+        label.textColor = UIColor.lightGray
+        label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
 
@@ -35,7 +35,7 @@ final class IconTitleContainerView: UIView {
         addGestureRecognizer(tap)
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         addSubview(iconImageView)
         addSubview(titleLabel)
@@ -48,17 +48,17 @@ final class IconTitleContainerView: UIView {
             "titleLabel": titleLabel,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[iconImageView(20)]-5-[titleLabel]|", options: [.AlignAllCenterY], metrics: nil, views: views)
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:[iconImageView(20)]", options: [], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[iconImageView(20)]-5-[titleLabel]|", options: [.alignAllCenterY], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:[iconImageView(20)]", options: [], metrics: nil, views: views)
 
-        let centerY = NSLayoutConstraint(item: iconImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0)
+        let centerY = NSLayoutConstraint(item: iconImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(constraintsV)
-        NSLayoutConstraint.activateConstraints([centerY])
+        NSLayoutConstraint.activate(constraintsH)
+        NSLayoutConstraint.activate(constraintsV)
+        NSLayoutConstraint.activate([centerY])
     }
 
-    @objc private func tap(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tap(_ sender: UITapGestureRecognizer) {
         tapAction?()
     }
 }

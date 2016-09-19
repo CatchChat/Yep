@@ -49,8 +49,8 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
         reposImageView.tintColor = UIColor.yepIconImageViewTintColor()
         starsImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
-        reposCountLabel.textColor = UIColor.grayColor()
-        starsCountLabel.textColor = UIColor.grayColor()
+        reposCountLabel.textColor = UIColor.gray
+        starsCountLabel.textColor = UIColor.gray
 
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
 
@@ -61,24 +61,24 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
     }
 
     func hideDetail() {
-        reposImageView.hidden = true
-        reposCountLabel.hidden = true
-        starsImageView.hidden = true
-        starsCountLabel.hidden = true
+        reposImageView.isHidden = true
+        reposCountLabel.isHidden = true
+        starsImageView.isHidden = true
+        starsCountLabel.isHidden = true
 
-        accessoryImageView.hidden = true
+        accessoryImageView.isHidden = true
     }
 
     func showDefail() {
-        reposImageView.hidden = false
-        reposCountLabel.hidden = false
-        starsImageView.hidden = false
-        starsCountLabel.hidden = false
+        reposImageView.isHidden = false
+        reposCountLabel.isHidden = false
+        starsImageView.isHidden = false
+        starsCountLabel.isHidden = false
 
-        accessoryImageView.hidden = false
+        accessoryImageView.isHidden = false
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, githubWork: GithubWork?, completion: ((GithubWork) -> Void)?) {
+    func configureWithProfileUser(_ profileUser: ProfileUser?, socialAccount: SocialAccount, githubWork: GithubWork?, completion: ((GithubWork) -> Void)?) {
 
         iconImageView.image = UIImage(named: socialAccount.iconName)
         nameLabel.text = socialAccount.name

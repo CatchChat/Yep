@@ -11,7 +11,7 @@ import Foundation
 protocol Shareable {
 }
 
-extension NSURL: Shareable {
+extension URL: Shareable {
 }
 
 extension UIImage: Shareable {

@@ -16,15 +16,15 @@ final class SwipeUpPromptView: UIView {
         }
     }
 
-    private lazy var arrowImageView: UIImageView = {
+    fileprivate lazy var arrowImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage.yep_swipeUp)
         return imageView
     }()
 
-    private lazy var promptLabel: UILabel = {
+    fileprivate lazy var promptLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.redColor()
-        label.font = UIFont.systemFontOfSize(15)
+        label.textColor = UIColor.red
+        label.font = UIFont.systemFont(ofSize: 15)
         return label
     }()
 
@@ -34,22 +34,22 @@ final class SwipeUpPromptView: UIView {
         makeUI()
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         do {
             addSubview(promptLabel)
             promptLabel.translatesAutoresizingMaskIntoConstraints = false
 
-            promptLabel.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -20).active = true
-            promptLabel.centerXAnchor.constraintEqualToAnchor(self.centerXAnchor).active = true
+            promptLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -20).isActive = true
+            promptLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
         }
 
         do {
             addSubview(arrowImageView)
             arrowImageView.translatesAutoresizingMaskIntoConstraints = false
 
-            promptLabel.topAnchor.constraintEqualToAnchor(arrowImageView.bottomAnchor, constant: 10).active = true
-            arrowImageView.centerXAnchor.constraintEqualToAnchor(promptLabel.centerXAnchor).active = true
+            promptLabel.topAnchor.constraint(equalTo: arrowImageView.bottomAnchor, constant: 10).isActive = true
+            arrowImageView.centerXAnchor.constraint(equalTo: promptLabel.centerXAnchor).isActive = true
         }
     }
 }

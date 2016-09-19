@@ -10,22 +10,22 @@ import UIKit
 
 final class ConversationLayout: UICollectionViewFlowLayout {
 
-    override func prepareLayout() {
-        super.prepareLayout()
+    override func prepare() {
+        super.prepare()
 
         minimumLineSpacing = YepConfig.ChatCell.lineSpacing
     }
 
-    private var insertIndexPathSet = Set<NSIndexPath>()
+    fileprivate var insertIndexPathSet = Set<IndexPath>()
 
-    override func prepareForCollectionViewUpdates(updateItems: [UICollectionViewUpdateItem]) {
-        super.prepareForCollectionViewUpdates(updateItems)
+    override func prepare(forCollectionViewUpdates updateItems: [UICollectionViewUpdateItem]) {
+        super.prepare(forCollectionViewUpdates: updateItems)
 
-        var insertIndexPathSet = Set<NSIndexPath>()
+        var insertIndexPathSet = Set<IndexPath>()
 
         for updateItem in updateItems {
             switch updateItem.updateAction {
-            case .Insert:
+            case .insert:
                 if let indexPath = updateItem.indexPathAfterUpdate {
                     insertIndexPathSet.insert(indexPath)
                 }
@@ -38,9 +38,9 @@ final class ConversationLayout: UICollectionViewFlowLayout {
         self.insertIndexPathSet = insertIndexPathSet
     }
 
-    override func initialLayoutAttributesForAppearingItemAtIndexPath(itemIndexPath: NSIndexPath) -> UICollectionViewLayoutAttributes? {
+    override func initialLayoutAttributesForAppearingItem(at itemIndexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
 
-        let attributes = layoutAttributesForItemAtIndexPath(itemIndexPath)
+        let attributes = layoutAttributesForItem(at: itemIndexPath)
 
         // ref commit: 0183ad099ed9
         if insertIndexPathSet.count == 1 {

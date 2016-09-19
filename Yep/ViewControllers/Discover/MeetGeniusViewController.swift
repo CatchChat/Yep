@@ -14,10 +14,10 @@ import Ruler
 
 final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
-    var tapBannerAction: ((banner: GeniusInterviewBanner) -> Void)?
-    var showGeniusInterviewAction: ((geniusInterview: GeniusInterview) -> Void)?
+    var tapBannerAction: ((_ banner: GeniusInterviewBanner) -> Void)?
+    var showGeniusInterviewAction: ((_ geniusInterview: GeniusInterview) -> Void)?
 
-    @IBOutlet private weak var tableView: UITableView! {
+    @IBOutlet fileprivate weak var tableView: UITableView! {
         didSet {
             tableView.addSubview(self.refreshControl)
 
@@ -40,15 +40,15 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
         return tableView
     }
 
-    private lazy var refreshControl: UIRefreshControl = {
+    fileprivate lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.tintColor = UIColor.lightGrayColor()
-        refreshControl.addTarget(self, action: #selector(MeetGeniusViewController.refresh(_:)), forControlEvents: .ValueChanged)
+        refreshControl.tintColor = UIColor.lightGray
+        refreshControl.addTarget(self, action: #selector(MeetGeniusViewController.refresh(_:)), for: .valueChanged)
         refreshControl.layer.zPosition = -1
         return refreshControl
     }()
 
-    private lazy var meetGeniusShowView: MeetGeniusShowView = {
+    fileprivate lazy var meetGeniusShowView: MeetGeniusShowView = {
         let view = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
         view.tapAction = { [weak self] banner in
             self?.tapBannerAction?(banner: banner)
@@ -56,17 +56,17 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
         return view
     }()
 
-    private lazy var noGeniusInterviewsFooterView: InfoView = InfoView(String.trans_promptNoInterviews)
-    private lazy var fetchFailedFooterView: InfoView = InfoView(String.trans_errorFetchFailed)
+    fileprivate lazy var noGeniusInterviewsFooterView: InfoView = InfoView(String.trans_promptNoInterviews)
+    fileprivate lazy var fetchFailedFooterView: InfoView = InfoView(String.trans_errorFetchFailed)
 
-    private var geniusInterviews: [GeniusInterview] = []
+    fileprivate var geniusInterviews: [GeniusInterview] = []
 
-    func geniusInterviewAtIndexPath(indexPath: NSIndexPath) -> GeniusInterview {
+    func geniusInterviewAtIndexPath(_ indexPath: NSIndexPath) -> GeniusInterview {
         return geniusInterviews[indexPath.row]
     }
 
-    private var canLoadMore: Bool = false
-    private var isFetchingGeniusInterviews: Bool = false
+    fileprivate var canLoadMore: Bool = false
+    fileprivate var isFetchingGeniusInterviews: Bool = false
 
     deinit {
         println("deinit MeetGenius")
@@ -76,7 +76,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
         super.viewDidLoad()
 
         do {
-            if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.GeniusInterviews, inRealm: realm) {
+            if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.GeniusInterviews, inRealm: realm) {
                 if let data = offlineJSON.JSON {
                     if let geniusInterviewsData = data["genius_interviews"] as? [JSONDictionary] {
                         let geniusInterviews: [GeniusInterview] = geniusInterviewsData.map({ GeniusInterview($0) }).flatMap({ $0 })
@@ -89,18 +89,18 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
         }
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         refreshControl.endRefreshing()
     }
 
-    private enum UpdateGeniusInterviewsMode {
-        case Top
-        case LoadMore
+    fileprivate enum UpdateGeniusInterviewsMode {
+        case top
+        case loadMore
     }
 
-    private func updateGeniusInterviews(mode mode: UpdateGeniusInterviewsMode = .Top, finish: (() -> Void)? = nil) {
+    fileprivate func updateGeniusInterviews(mode: UpdateGeniusInterviewsMode = .top, finish: (() -> Void)? = nil) {
 
         if isFetchingGeniusInterviews {
             finish?()
@@ -111,10 +111,10 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
         let maxNumber: Int?
         switch mode {
-        case .Top:
+        case .top:
             canLoadMore = true
             maxNumber = nil
-        case .LoadMore:
+        case .loadMore:
             maxNumber = geniusInterviews.last?.number
         }
 
@@ -142,7 +142,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
             SafeDispatch.async { [weak self] in
 
-                if case .Top = mode where geniusInterviews.isEmpty {
+                if case .Top = mode , geniusInterviews.isEmpty {
                     self?.tableView.tableFooterView = self?.noGeniusInterviewsFooterView
                 } else {
                     self?.tableView.tableFooterView = UIView()
@@ -204,7 +204,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
         })
     }
 
-    @objc private func refresh(sender: UIRefreshControl) {
+    @objc fileprivate func refresh(_ sender: UIRefreshControl) {
 
         meetGeniusShowView.getLatestGeniusInterviewBanner()
 
@@ -220,17 +220,17 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
 extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
-    private enum Section: Int {
-        case GeniusInterview
-        case LoadMore
+    fileprivate enum Section: Int {
+        case geniusInterview
+        case loadMore
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
 
         return 2
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             fatalError("Invalid Section")
@@ -238,29 +238,29 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch section {
 
-        case .GeniusInterview:
+        case .geniusInterview:
             return geniusInterviews.count
 
-        case .LoadMore:
+        case .loadMore:
             return geniusInterviews.isEmpty ? 0 : 1
         }
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalid Section")
         }
 
         switch section {
 
-        case .GeniusInterview:
+        case .geniusInterview:
             let cell: GeniusInterviewCell = tableView.dequeueReusableCell()
             let geniusInterview = geniusInterviews[indexPath.row]
             cell.configure(withGeniusInterview: geniusInterview)
             return cell
 
-        case .LoadMore:
+        case .loadMore:
             let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
             cell.noMoreResultsLabel.text = NSLocalizedString("To be continue.", comment: "")
             cell.isLoading = true
@@ -268,18 +268,18 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalid Section")
         }
 
         switch section {
 
-        case .GeniusInterview:
+        case .geniusInterview:
             break
 
-        case .LoadMore:
+        case .loadMore:
             guard let cell = cell as? LoadMoreTableViewCell else {
                 break
             }
@@ -303,39 +303,39 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalid Section")
         }
 
         switch section {
 
-        case .GeniusInterview:
+        case .geniusInterview:
             return 105
 
-        case .LoadMore:
+        case .loadMore:
             return 60
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalid Section")
         }
 
         switch section {
 
-        case .GeniusInterview:
+        case .geniusInterview:
             let geniusInterview = geniusInterviews[indexPath.row]
             showGeniusInterviewAction?(geniusInterview: geniusInterview)
 
-        case .LoadMore:
+        case .loadMore:
             break
         }
     }

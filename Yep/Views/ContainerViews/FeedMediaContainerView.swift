@@ -12,7 +12,7 @@ import Ruler
 
 final class FeedMediaContainerView: UIView {
 
-    var tapMediaAction: ((transitionReference: Reference) -> Void)?
+    var tapMediaAction: ((_ transitionReference: Reference) -> Void)?
 
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
@@ -22,7 +22,7 @@ final class FeedMediaContainerView: UIView {
 
     lazy var mediaImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -30,7 +30,7 @@ final class FeedMediaContainerView: UIView {
     lazy var horizontalLineView: HorizontalLineView = {
         let view = HorizontalLineView()
         view.atBottom = false
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         return view
     }()
 
@@ -44,12 +44,12 @@ final class FeedMediaContainerView: UIView {
 
         makeUI()
 
-        mediaImageView.userInteractionEnabled = true
+        mediaImageView.isUserInteractionEnabled = true
         let tapMedia = UITapGestureRecognizer(target: self, action: #selector(FeedMediaContainerView.tapMedia(_:)))
         mediaImageView.addGestureRecognizer(tapMedia)
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         addSubview(backgroundImageView)
         addSubview(mediaImageView)
@@ -68,30 +68,30 @@ final class FeedMediaContainerView: UIView {
             "linkContainerView": linkContainerView,
         ]
 
-        let backgroundH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
-        let backgroundV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
-        NSLayoutConstraint.activateConstraints(backgroundH)
-        NSLayoutConstraint.activateConstraints(backgroundV)
+        let backgroundH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        let backgroundV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        NSLayoutConstraint.activate(backgroundH)
+        NSLayoutConstraint.activate(backgroundV)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[mediaImageView]|", options: [], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[mediaImageView]|", options: [], metrics: nil, views: views)
 
         let linkContainerViewHeight: CGFloat = Ruler.iPhoneHorizontal(44, 50, 50).value
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[mediaImageView][linkContainerView(linkContainerViewHeight)]|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: ["linkContainerViewHeight": linkContainerViewHeight], views: views)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[mediaImageView][linkContainerView(linkContainerViewHeight)]|", options: [.alignAllLeading, .alignAllTrailing], metrics: ["linkContainerViewHeight": linkContainerViewHeight], views: views)
 
-        let horizontalLineViewH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[horizontalLineView]|", options: [], metrics: nil, views: views)
-        let horizontalLineViewV = NSLayoutConstraint.constraintsWithVisualFormat("V:[horizontalLineView(1)]", options: [], metrics: nil, views: views)
-        let horizontalLineViewTop = NSLayoutConstraint(item: horizontalLineView, attribute: .Top, relatedBy: .Equal, toItem: linkContainerView, attribute: .Top, multiplier: 1.0, constant: 0)
+        let horizontalLineViewH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[horizontalLineView]|", options: [], metrics: nil, views: views)
+        let horizontalLineViewV = NSLayoutConstraint.constraints(withVisualFormat: "V:[horizontalLineView(1)]", options: [], metrics: nil, views: views)
+        let horizontalLineViewTop = NSLayoutConstraint(item: horizontalLineView, attribute: .top, relatedBy: .equal, toItem: linkContainerView, attribute: .top, multiplier: 1.0, constant: 0)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activate(constraintsH)
+        NSLayoutConstraint.activate(constraintsV)
 
-        NSLayoutConstraint.activateConstraints(horizontalLineViewH)
-        NSLayoutConstraint.activateConstraints(horizontalLineViewV)
-        NSLayoutConstraint.activateConstraints([horizontalLineViewTop])
+        NSLayoutConstraint.activate(horizontalLineViewH)
+        NSLayoutConstraint.activate(horizontalLineViewV)
+        NSLayoutConstraint.activate([horizontalLineViewTop])
     }
 
-    @objc private func tapMedia(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tapMedia(_ sender: UITapGestureRecognizer) {
         tapMediaAction?(transitionReference: transitionReference)
     }
 }

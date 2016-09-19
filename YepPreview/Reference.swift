@@ -15,7 +15,7 @@ public struct Reference {
 
     var imageView: UIImageView {
         let imageView = UIImageView(frame: view.bounds)
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         imageView.image = image
         return imageView
     }

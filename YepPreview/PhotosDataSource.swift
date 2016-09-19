@@ -12,14 +12,14 @@ class PhotosDataSource: NSObject {
 
     let photos: [Photo]
 
-    private let _photos: NSArray!
+    fileprivate let _photos: NSArray!
 
     init(photos: [Photo]) {
         self.photos = photos
 
         let _photos = NSMutableArray()
         for photo in photos {
-            _photos.addObject(photo)
+            _photos.add(photo)
         }
         self._photos = _photos
     }
@@ -32,7 +32,7 @@ extension PhotosDataSource: PhotosViewControllerDataSource {
         return photos.count
     }
 
-    func photoAtIndex(index: Int) -> Photo? {
+    func photoAtIndex(_ index: Int) -> Photo? {
 
         if (index >= 0) && (index < numberOfPhotos) {
             return photos[index]
@@ -41,14 +41,14 @@ extension PhotosDataSource: PhotosViewControllerDataSource {
         return nil
     }
 
-    func indexOfPhoto(photo: Photo) -> Int {
+    func indexOfPhoto(_ photo: Photo) -> Int {
 
-        return _photos.indexOfObject(photo)
+        return _photos.index(of: photo)
     }
 
-    func containsPhoto(photo: Photo) -> Bool {
+    func containsPhoto(_ photo: Photo) -> Bool {
 
-        return _photos.containsObject(photo)
+        return _photos.contains(photo)
     }
 }
 

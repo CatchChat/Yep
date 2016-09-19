@@ -13,32 +13,32 @@ final class WeChatActivity: AnyActivity {
 
     enum Type {
 
-        case Session
-        case Timeline
+        case session
+        case timeline
 
         var type: String {
             switch self {
-            case .Session:
+            case .session:
                 return YepConfig.ChinaSocialNetwork.WeChat.sessionType
-            case .Timeline:
+            case .timeline:
                 return YepConfig.ChinaSocialNetwork.WeChat.timelineType
             }
         }
 
         var title: String {
             switch self {
-            case .Session:
+            case .session:
                 return YepConfig.ChinaSocialNetwork.WeChat.sessionTitle
-            case .Timeline:
+            case .timeline:
                 return YepConfig.ChinaSocialNetwork.WeChat.timelineTitle
             }
         }
 
         var image: UIImage {
             switch self {
-            case .Session:
+            case .session:
                 return YepConfig.ChinaSocialNetwork.WeChat.sessionImage
-            case .Timeline:
+            case .timeline:
                 return YepConfig.ChinaSocialNetwork.WeChat.timelineImage
             }
         }

@@ -11,37 +11,37 @@ import YepKit
 
 final class FeedMediaView: UIView {
     
-    var attachmentURLs = [NSURL]()
+    var attachmentURLs = [URL]()
 
     lazy var imageView1: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .ScaleAspectFill
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         return view
     }()
 
     lazy var imageView2: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .ScaleAspectFill
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         return view
     }()
 
     lazy var imageView3: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .ScaleAspectFill
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         return view
     }()
 
     lazy var imageView4: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .ScaleAspectFill
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         return view
     }()
     
-    func setImagesWithAttachments(attachments: [DiscoveredAttachment]) {
+    func setImagesWithAttachments(_ attachments: [DiscoveredAttachment]) {
 
         let fullRect = bounds
         let halfRect = CGRect(x: 0, y: 0, width: fullRect.width * 0.5 - 0.5, height: fullRect.height)
@@ -49,7 +49,7 @@ final class FeedMediaView: UIView {
 
         hidden = (attachments.count == 0)
         
-        attachmentURLs = attachments.map({ NSURL(string: $0.URLString) }).flatMap({ $0 })
+        attachmentURLs = attachments.map({ URL(string: $0.URLString) }).flatMap({ $0 })
 
         switch attachments.count {
 

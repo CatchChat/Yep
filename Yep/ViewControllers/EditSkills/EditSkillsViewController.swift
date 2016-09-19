@@ -17,19 +17,19 @@ final class EditSkillsViewController: BaseViewController {
     var skillSet: SkillSet?
     var afterChangedSkillsAction: (() -> Void)?
 
-    private var realm: Realm!
-    private var me: User?
+    fileprivate var realm: Realm!
+    fileprivate var me: User?
 
-    @IBOutlet private weak var skillsTableView: UITableView!
+    @IBOutlet fileprivate weak var skillsTableView: UITableView!
 
-    @IBOutlet private weak var addSkillsView: BottomButtonView!
+    @IBOutlet fileprivate weak var addSkillsView: BottomButtonView!
 
-    private lazy var selectSkillsTransitionManager = RegisterPickSkillsSelectSkillsTransitionManager()
+    fileprivate lazy var selectSkillsTransitionManager = RegisterPickSkillsSelectSkillsTransitionManager()
 
-    private var masterSkills = [Skill]()
-    private var learningSkills = [Skill]()
+    fileprivate var masterSkills = [Skill]()
+    fileprivate var learningSkills = [Skill]()
 
-    private var skillCategories: [SkillCategory]?
+    fileprivate var skillCategories: [SkillCategory]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,10 +68,10 @@ final class EditSkillsViewController: BaseViewController {
 
             let vc = UIStoryboard.Scene.registerSelectSkills
 
-            vc.modalPresentationStyle = .Custom
+            vc.modalPresentationStyle = .custom
             vc.transitioningDelegate = self?.selectSkillsTransitionManager
 
-            if let strongSelf = self, me = strongSelf.me, skillSet = strongSelf.skillSet {
+            if let strongSelf = self, let me = strongSelf.me, let skillSet = strongSelf.skillSet {
 
                 strongSelf.masterSkills = skillsFromUserSkillList(me.masterSkills)
                 strongSelf.learningSkills = skillsFromUserSkillList(me.learningSkills)
@@ -200,7 +200,7 @@ final class EditSkillsViewController: BaseViewController {
                 }
             }
 
-            self?.navigationController?.presentViewController(vc, animated: true, completion: nil)
+            self?.navigationController?.present(vc, animated: true, completion: nil)
         }
 
         // prepare realm & me
@@ -212,7 +212,7 @@ final class EditSkillsViewController: BaseViewController {
 
     // MARK: Actions
 
-    private func updateSkillsTableView() {
+    fileprivate func updateSkillsTableView() {
 
         SafeDispatch.async { [weak self] in
             self?.skillsTableView.reloadData()
@@ -224,9 +224,9 @@ final class EditSkillsViewController: BaseViewController {
 
 extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        if let me = me, skillSet = skillSet {
+        if let me = me, let skillSet = skillSet {
             switch skillSet {
             case .Master:
                 return me.masterSkills.count
@@ -238,12 +238,12 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
         return 0
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell: EditSkillCell = tableView.dequeueReusableCell()
 
         var userSkill: UserSkill?
-        if let me = me, skillSet = skillSet {
+        if let me = me, let skillSet = skillSet {
             switch skillSet {
             case .Master:
                 userSkill = me.masterSkills[indexPath.row]
@@ -256,7 +256,7 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.removeSkillAction = { [weak self] cell, userSkill in
 
-            if let me = self?.me, skillSet = self?.skillSet {
+            if let me = self?.me, let skillSet = self?.skillSet {
 
                 // delete from Server
 

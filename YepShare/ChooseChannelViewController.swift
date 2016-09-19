@@ -14,21 +14,21 @@ class ChooseChannelViewController: UITableViewController {
 
     var currentPickedSkill: Skill?
 
-    var pickedSkillAction: ((skill: Skill?) -> Void)?
+    var pickedSkillAction: ((_ skill: Skill?) -> Void)?
 
     @IBOutlet weak var doneButton: UIBarButtonItem! {
         didSet {
-            doneButton.enabled = false
+            doneButton.isEnabled = false
         }
     }
 
-    private lazy var selectedBackgroundView: UIView = {
+    fileprivate lazy var selectedBackgroundView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 50/255.0, green: 167/255.0, blue: 255/255.0, alpha: 1.0)
         return view
     }()
 
-    private let skills: [Skill] = {
+    fileprivate let skills: [Skill] = {
         guard let me = me() else {
             return []
         }
@@ -47,56 +47,56 @@ class ChooseChannelViewController: UITableViewController {
 
     // MARK: - Actions
 
-    @IBAction func cancel(sender: UIBarButtonItem) {
+    @IBAction func cancel(_ sender: UIBarButtonItem) {
 
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
-    @IBAction func done(sender: UIBarButtonItem) {
+    @IBAction func done(_ sender: UIBarButtonItem) {
 
         pickedSkillAction?(skill: currentPickedSkill)
 
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 
     // MARK: - Table view data source
 
     enum Section: Int {
-        case DefaultSkill
-        case Skills
+        case defaultSkill
+        case skills
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             fatalError()
         }
 
         switch section {
-        case .DefaultSkill:
+        case .defaultSkill:
             return 1
-        case .Skills:
+        case .skills:
             return skills.count
         }
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        let cell = tableView.dequeueReusableCellWithIdentifier("ChannelCell", forIndexPath: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelCell", for: indexPath)
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError()
         }
 
         switch section {
-        case .DefaultSkill:
+        case .defaultSkill:
             currentPickedSkill = nil
             cell.textLabel?.text = NSLocalizedString("Default", comment: "")
-        case .Skills:
+        case .skills:
             let skill = skills[indexPath.row]
             cell.textLabel?.text = skill.localName
         }
@@ -106,20 +106,20 @@ class ChooseChannelViewController: UITableViewController {
         return cell
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError()
         }
 
         switch section {
-        case .DefaultSkill:
+        case .defaultSkill:
             currentPickedSkill = nil
-        case .Skills:
+        case .skills:
             currentPickedSkill = skills[indexPath.row]
         }
 
-        doneButton.enabled = true
+        doneButton.isEnabled = true
     }
 }
 

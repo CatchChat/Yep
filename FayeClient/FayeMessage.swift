@@ -21,11 +21,11 @@ public struct FayeMessage {
     let advice: [String: AnyObject]
     let error: String?
     let subscription: String?
-    let timestamp: NSDate?
+    let timestamp: Date?
     let data: [String: AnyObject]
     let ext: [String: AnyObject]
 
-    static func messageFromDictionary(info: [String: AnyObject]) -> FayeMessage? {
+    static func messageFromDictionary(_ info: [String: AnyObject]) -> FayeMessage? {
 
         let ID = info["id"] as? String
         guard let channel = info["channel"] as? String else { return nil }
@@ -38,9 +38,9 @@ public struct FayeMessage {
         let advice = (info["advice"] as? [String: AnyObject]) ?? [:]
         let error = info["error"] as? String
         let subscription = info["subscription"] as? String
-        let timestamp: NSDate?
-        if let timestampUnixTime = info["timestamp"] as? NSTimeInterval {
-            timestamp = NSDate(timeIntervalSince1970: timestampUnixTime)
+        let timestamp: Date?
+        if let timestampUnixTime = info["timestamp"] as? TimeInterval {
+            timestamp = Date(timeIntervalSince1970: timestampUnixTime)
         } else {
             timestamp = nil
         }

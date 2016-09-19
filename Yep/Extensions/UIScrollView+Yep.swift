@@ -21,7 +21,7 @@ extension UIScrollView {
         setContentOffset(topPoint, animated: true)
     }
 
-    private func yep_zoomRectWithZoomPoint(zoomPoint: CGPoint, scale: CGFloat) -> CGRect {
+    fileprivate func yep_zoomRectWithZoomPoint(_ zoomPoint: CGPoint, scale: CGFloat) -> CGRect {
 
         var scale = min(scale, maximumZoomScale)
         scale = max(scale, minimumZoomScale)
@@ -45,13 +45,13 @@ extension UIScrollView {
         return destinationRect
     }
 
-    func yep_zoomToPoint(zoomPoint: CGPoint, withScale scale: CGFloat, animated: Bool) {
+    func yep_zoomToPoint(_ zoomPoint: CGPoint, withScale scale: CGFloat, animated: Bool) {
 
         let zoomRect = yep_zoomRectWithZoomPoint(zoomPoint, scale: scale)
-        self.zoomToRect(zoomRect, animated: animated)
+        self.zoom(to: zoomRect, animated: animated)
     }
 
-    func yep_zoomToPoint(zoomPoint: CGPoint, withScale scale: CGFloat, animationDuration: NSTimeInterval, animationCurve: UIViewAnimationCurve) {
+    func yep_zoomToPoint(_ zoomPoint: CGPoint, withScale scale: CGFloat, animationDuration: TimeInterval, animationCurve: UIViewAnimationCurve) {
 
         let zoomRect = yep_zoomRectWithZoomPoint(zoomPoint, scale: scale)
 
@@ -60,7 +60,7 @@ extension UIScrollView {
         UIView.setAnimationBeginsFromCurrentState(true)
         UIView.setAnimationCurve(animationCurve)
 
-        self.zoomToRect(zoomRect, animated: false)
+        self.zoom(to: zoomRect, animated: false)
 
         UIView.commitAnimations()
     }

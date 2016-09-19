@@ -25,8 +25,8 @@ final class SkillCell: UICollectionViewCell {
 
     var tapped: Bool = false {
         willSet {
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
-                self?.backgroundImageView.tintColor = newValue ? UIColor.blackColor().colorWithAlphaComponent(0.25) : UIColor.yepTintColor()
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                self?.backgroundImageView.tintColor = newValue ? UIColor.black.withAlphaComponent(0.25) : UIColor.yepTintColor()
             }, completion: nil)
         }
     }
@@ -37,13 +37,13 @@ final class SkillCell: UICollectionViewCell {
         }
     }
 
-    var tapAction: ((skill: SkillCellSkill) -> Void)?
+    var tapAction: ((_ skill: SkillCellSkill) -> Void)?
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         tapped = true
     }
 
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
 
         delay(0.15) { [weak self] in
 
@@ -58,7 +58,7 @@ final class SkillCell: UICollectionViewCell {
         }
     }
 
-    override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         tapped = false
     }
 }

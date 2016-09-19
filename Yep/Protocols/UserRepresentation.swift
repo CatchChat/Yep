@@ -17,7 +17,7 @@ protocol UserRepresentation {
     var avatarURLString: String { get }
     var userIntroduction: String? { get }
 
-    var lastSignInUnixTime: NSTimeInterval { get }
+    var lastSignInUnixTime: TimeInterval { get }
 }
 
 extension User: UserRepresentation {

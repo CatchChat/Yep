@@ -32,7 +32,7 @@ final class SearchMoreResultsCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        selectionStyle = .None
+        selectionStyle = .none
         separatorInset = YepConfig.SearchedItemCell.separatorInset
     }
 }

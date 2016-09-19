@@ -17,13 +17,13 @@ let YepNotificationOKAction = "YepNotificationOKAction"
 
 final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
-    private lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
+    fileprivate lazy var activityIndicatorTitleView = ActivityIndicatorTitleView(frame: CGRect(x: 0, y: 0, width: 120, height: 30))
 
-    private lazy var searchBar: UISearchBar = {
+    fileprivate lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.searchBarStyle = .Minimal
+        searchBar.searchBarStyle = .minimal
         searchBar.placeholder = NSLocalizedString("Search", comment: "")
-        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
+        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, for: UIControlState())
         searchBar.delegate = self
         return searchBar
     }()
@@ -33,7 +33,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
         return SearchTransition()
     }()
 
-    @IBOutlet private weak var conversationsTableView: UITableView! {
+    @IBOutlet fileprivate weak var conversationsTableView: UITableView! {
         didSet {
             searchBar.sizeToFit()
             conversationsTableView.tableHeaderView = searchBar
@@ -56,11 +56,11 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
         return conversationsTableView
     }
 
-    private var realm: Realm!
+    fileprivate var realm: Realm!
 
-    private var realmNotificationToken: NotificationToken?
+    fileprivate var realmNotificationToken: NotificationToken?
 
-    private var haveUnreadMessages = false {
+    fileprivate var haveUnreadMessages = false {
         didSet {
             if haveUnreadMessages != oldValue {
                 if haveUnreadMessages {
@@ -75,7 +75,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    private var unreadMessagesCount: Int = 0 {
+    fileprivate var unreadMessagesCount: Int = 0 {
         willSet {
             SafeDispatch.async { [weak self] in
                 if newValue > 0 {
@@ -89,9 +89,9 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    private lazy var noConversationFooterView: InfoView = InfoView(String.trans_promptHaveANiceDay)
+    fileprivate lazy var noConversationFooterView: InfoView = InfoView(String.trans_promptHaveANiceDay)
 
-    private var noConversation = false {
+    fileprivate var noConversation = false {
         didSet {
             if noConversation != oldValue {
                 conversationsTableView.tableFooterView = UIView()
@@ -106,11 +106,11 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
     }()
     #endif
 
-    private lazy var conversations: Results<Conversation> = {
+    fileprivate lazy var conversations: Results<Conversation> = {
         return oneToOneConversationsInRealm(self.realm)
     }()
 
-    private struct Listener {
+    fileprivate struct Listener {
         static let Nickname = "ConversationsViewController.Nickname"
         static let Avatar = "ConversationsViewController.Avatar"
 
@@ -118,7 +118,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
 
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
@@ -139,22 +139,22 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
         navigationItem.titleView = activityIndicatorTitleView
 
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.newMessages, object: nil)
+        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.newMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.deletedMessages, object: nil)
+        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.deletedMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.changedConversation, object: nil)
+        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.changedConversation, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadFeedConversationsDock), name: Config.Notification.changedFeedConversation, object: nil)
+        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadFeedConversationsDock), name: Config.Notification.changedFeedConversation, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.markAsReaded, object: nil)
+        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.markAsReaded, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.updatedUser, object: nil)
+        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.updatedUser, object: nil)
         
         // 确保自己发送消息的时候，会话列表也会刷新，避免时间戳不一致
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Message.Notification.MessageStateChanged, object: nil)
+        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Message.Notification.MessageStateChanged, object: nil)
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
             SafeDispatch.async {
@@ -196,8 +196,8 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
         cacheInAdvance()
 
-        if traitCollection.forceTouchCapability == .Available {
-            registerForPreviewingWithDelegate(self, sourceView: conversationsTableView)
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: conversationsTableView)
         }
 
         #if DEBUG
@@ -205,13 +205,13 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
         #endif
     }
 
-    private func cacheInAdvance() {
+    fileprivate func cacheInAdvance() {
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
 
             // 最近两天活跃的好友
 
-            for user in normalFriends().filter("lastSignInUnixTime > %@", NSDate().timeIntervalSince1970 - 60*60*48) {
+            for user in normalFriends().filter("lastSignInUnixTime > %@", Date().timeIntervalSince1970 - 60*60*48) {
 
                 do {
                     let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
@@ -228,7 +228,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
     var isFirstAppear = true
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if isFirstAppear {
@@ -242,37 +242,37 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
         recoverOriginalNavigationDelegate()
     }
     
-    private func askForRemotePushNotifications() {
+    fileprivate func askForRemotePushNotifications() {
 
         let replyAction = UIMutableUserNotificationAction()
         replyAction.title = NSLocalizedString("Reply", comment: "")
         replyAction.identifier = YepNotificationCommentAction
-        replyAction.activationMode = .Background
-        replyAction.behavior = .TextInput
-        replyAction.authenticationRequired = false
+        replyAction.activationMode = .background
+        replyAction.behavior = .textInput
+        replyAction.isAuthenticationRequired = false
 
         let replyOKAction = UIMutableUserNotificationAction()
         replyOKAction.title = String.trans_titleOK
         replyOKAction.identifier = YepNotificationOKAction
-        replyOKAction.activationMode = .Background
-        replyOKAction.behavior = .Default
-        replyOKAction.authenticationRequired = false
+        replyOKAction.activationMode = .background
+        replyOKAction.behavior = .default
+        replyOKAction.isAuthenticationRequired = false
 
         let category = UIMutableUserNotificationCategory()
         category.identifier = "YepMessageNotification"
-        category.setActions([replyAction, replyOKAction], forContext: UIUserNotificationActionContext.Minimal)
+        category.setActions([replyAction, replyOKAction], for: UIUserNotificationActionContext.minimal)
 
         // 这里才开始向用户提示推送
-        let types = UIUserNotificationType.Badge.rawValue |
-                    UIUserNotificationType.Sound.rawValue |
-                    UIUserNotificationType.Alert.rawValue
+        let types = UIUserNotificationType.badge.rawValue |
+                    UIUserNotificationType.sound.rawValue |
+                    UIUserNotificationType.alert.rawValue
 
-        JPUSHService.registerForRemoteNotificationTypes(types, categories: [category])
+        JPUSHService.register(forRemoteNotificationTypes: types, categories: [category])
     }
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else { return }
 
@@ -280,7 +280,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
         case "showSearchConversations":
 
-            let vc = segue.destinationViewController as! SearchConversationsViewController
+            let vc = segue.destination as! SearchConversationsViewController
             vc.originalNavigationControllerDelegate = navigationController?.delegate
 
             vc.hidesBottomBarWhenPushed = true
@@ -289,7 +289,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
         case "showConversation":
 
-            let vc = segue.destinationViewController as! ConversationViewController
+            let vc = segue.destination as! ConversationViewController
             let conversation = sender as! Conversation
             prepareConversationViewController(vc, withConversation: conversation)
 
@@ -297,7 +297,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
         case "showProfile":
 
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
             let user = sender as! User
             vc.prepare(withUser: user)
@@ -309,7 +309,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    private func prepareConversationViewController(vc: ConversationViewController, withConversation conversation: Conversation) {
+    fileprivate func prepareConversationViewController(_ vc: ConversationViewController, withConversation conversation: Conversation) {
 
         vc.conversation = conversation
 
@@ -332,14 +332,14 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
     // MARK: Actions
 
-    @objc private func reloadConversationsTableView() {
+    @objc fileprivate func reloadConversationsTableView() {
 
         SafeDispatch.async { [weak self] in
             self?.conversationsTableView.reloadData()
         }
     }
 
-    @objc private func reloadFeedConversationsDock() {
+    @objc fileprivate func reloadFeedConversationsDock() {
 
         SafeDispatch.async { [weak self] in
             let sectionIndex = Section.FeedConversation.rawValue
@@ -357,9 +357,9 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
 extension ConversationsViewController: UISearchBarDelegate {
 
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
 
-        performSegueWithIdentifier("showSearchConversations", sender: nil)
+        performSegue(withIdentifier: "showSearchConversations", sender: nil)
 
         return false
     }
@@ -369,36 +369,36 @@ extension ConversationsViewController: UISearchBarDelegate {
 
 extension ConversationsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    private enum Section: Int {
+    fileprivate enum Section: Int {
 
-        case FeedConversation
-        case Conversation
+        case feedConversation
+        case conversation
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
-        case Section.FeedConversation.rawValue:
+        case Section.feedConversation.rawValue:
             return 1
-        case Section.Conversation.rawValue:
+        case Section.conversation.rawValue:
             return conversations.count
         default:
             return 0
         }
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
 
-        case Section.FeedConversation.rawValue:
+        case Section.feedConversation.rawValue:
             let cell: FeedConversationDockCell = tableView.dequeueReusableCell()
             return cell
 
-        case Section.Conversation.rawValue:
+        case Section.conversation.rawValue:
             let cell: ConversationCell = tableView.dequeueReusableCell()
             return cell
             
@@ -407,11 +407,11 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         }
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
 
-        case Section.FeedConversation.rawValue:
+        case Section.feedConversation.rawValue:
 
             guard let cell = cell as? FeedConversationDockCell else {
                 break
@@ -424,7 +424,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
             // 找不到就找最新的消息
             if let latestMessage = (latestUnreadMessage ?? latestValidMessageInRealm(realm, withConversationType: .Group)) {
 
-                if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), placeholder = mediaType.placeholder {
+                if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), let placeholder = mediaType.placeholder {
                     cell.chatLabel.text = placeholder
 
                 } else {
@@ -447,7 +447,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 cell.chatLabel.text = String.trans_promptNoMessages
             }
 
-        case Section.Conversation.rawValue:
+        case Section.conversation.rawValue:
 
             guard let cell = cell as? ConversationCell else {
                 break
@@ -465,14 +465,14 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         }
     }
 
-    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
 
-        case Section.FeedConversation.rawValue:
+        case Section.feedConversation.rawValue:
             break
 
-        case Section.Conversation.rawValue:
+        case Section.conversation.rawValue:
 
             guard let cell = cell as? ConversationCell else {
                 return
@@ -485,19 +485,19 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
 
-        case Section.FeedConversation.rawValue:
-            performSegueWithIdentifier("showFeedConversations", sender: nil)
+        case Section.feedConversation.rawValue:
+            performSegue(withIdentifier: "showFeedConversations", sender: nil)
 
-        case Section.Conversation.rawValue:
-            if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+        case Section.conversation.rawValue:
+            if let cell = tableView.cellForRow(at: indexPath) as? ConversationCell {
                 performSegueWithIdentifier("showConversation", sender: cell.conversation)
             }
 
@@ -508,18 +508,18 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
     // Edit (for Delete)
 
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
-        if indexPath.section == Section.Conversation.rawValue {
+        if (indexPath as NSIndexPath).section == Section.conversation.rawValue {
             return true
         }
 
         return false
     }
 
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 
-        if editingStyle == .Delete {
+        if editingStyle == .delete {
 
             guard let conversation = conversations[safe: indexPath.row] else {
                 tableView.setEditing(false, animated: true)
@@ -574,24 +574,24 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
 extension ConversationsViewController: UIViewControllerPreviewingDelegate {
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
 
-        guard let indexPath = conversationsTableView.indexPathForRowAtPoint(location), cell = conversationsTableView.cellForRowAtIndexPath(indexPath) else {
+        guard let indexPath = conversationsTableView.indexPathForRow(at: location), let cell = conversationsTableView.cellForRow(at: indexPath) else {
             return nil
         }
 
         previewingContext.sourceRect = cell.frame
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return nil
         }
 
         switch section {
 
-        case .FeedConversation:
+        case .feedConversation:
             return nil
 
-        case .Conversation:
+        case .conversation:
 
             let vc = UIStoryboard.Scene.conversation
             let conversation = conversations[indexPath.row]
@@ -605,8 +605,8 @@ extension ConversationsViewController: UIViewControllerPreviewingDelegate {
         }
     }
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
 
-        showViewController(viewControllerToCommit, sender: self)
+        show(viewControllerToCommit, sender: self)
     }
 }

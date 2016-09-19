@@ -15,15 +15,15 @@ final class SearchTransition: NSObject {
 
 extension SearchTransition: UINavigationControllerDelegate {
 
-    func navigationController(navigationController: UINavigationController, animationControllerForOperation operation: UINavigationControllerOperation, fromViewController fromVC: UIViewController, toViewController toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
-        if operation == .Push {
+        if operation == .push {
             if (fromVC is SearchTriggerRepresentation) && (toVC is SearchActionRepresentation) {
                 isPresentation = true
                 return self
             }
 
-        } else if operation == .Pop {
+        } else if operation == .pop {
             if (fromVC is SearchActionRepresentation) && (toVC is SearchTriggerRepresentation) {
                 isPresentation = false
                 return self
@@ -36,7 +36,7 @@ extension SearchTransition: UINavigationControllerDelegate {
 
 extension SearchTransition: UIViewControllerAnimatedTransitioning {
 
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
 
         if isPresentation {
             return 0.25
@@ -45,7 +45,7 @@ extension SearchTransition: UIViewControllerAnimatedTransitioning {
         }
     }
 
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
 
         if isPresentation {
             presentTransition(transitionContext)
@@ -55,21 +55,21 @@ extension SearchTransition: UIViewControllerAnimatedTransitioning {
         }
     }
 
-    private func presentTransition(transitionContext: UIViewControllerContextTransitioning) {
+    fileprivate func presentTransition(_ transitionContext: UIViewControllerContextTransitioning) {
 
         //let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey) as! SearchFeedsViewController
 
-        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
+        let toView = transitionContext.view(forKey: UITransitionContextViewKey.to)!
 
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView
 
         containerView.addSubview(toView)
 
         toView.alpha = 0
 
-        let fullDuration = transitionDuration(transitionContext)
+        let fullDuration = transitionDuration(using: transitionContext)
 
-        UIView.animateWithDuration(fullDuration, delay: 0.0, options: [.CurveEaseInOut, .LayoutSubviews], animations: {
+        UIView.animate(withDuration: fullDuration, delay: 0.0, options: .layoutSubviews, animations: {
             toView.alpha = 1
 
         }, completion: { _ in
@@ -77,15 +77,15 @@ extension SearchTransition: UIViewControllerAnimatedTransitioning {
         })
     }
 
-    private func dismissTransition(transitionContext: UIViewControllerContextTransitioning) {
+    fileprivate func dismissTransition(_ transitionContext: UIViewControllerContextTransitioning) {
 
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)!
+        let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)!
         let searchActionRepresentation = fromVC as! SearchActionRepresentation
 
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView
 
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
-        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)!
+        let fromView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
+        let toView = transitionContext.view(forKey: UITransitionContextViewKey.to)!
 
         containerView.addSubview(toView)
         containerView.addSubview(fromView)
@@ -93,16 +93,16 @@ extension SearchTransition: UIViewControllerAnimatedTransitioning {
         fromView.alpha = 1
         searchActionRepresentation.searchBar.setShowsCancelButton(false, animated: true)
 
-        let fullDuration = transitionDuration(transitionContext)
+        let fullDuration = transitionDuration(using: transitionContext)
 
-        UIView.animateWithDuration(fullDuration * 0.6, delay: 0.0, options: [.CurveEaseInOut], animations: {
+        UIView.animate(withDuration: fullDuration * 0.6, delay: 0.0, options: UIViewAnimationOptions(), animations: {
 
             searchActionRepresentation.searchBarTopConstraint.constant = 64
             fromVC.view.layoutIfNeeded()
 
         }, completion: { _ in
 
-            UIView.animateWithDuration(fullDuration * 0.4, delay: 0.0, options: [.CurveEaseInOut], animations: { _ in
+            UIView.animate(withDuration: fullDuration * 0.4, delay: 0.0, options: UIViewAnimationOptions(), animations: { _ in
                 fromView.alpha = 0
                 
             }, completion: { _ in

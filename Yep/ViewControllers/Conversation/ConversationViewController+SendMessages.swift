@@ -15,7 +15,7 @@ import YepNetworking
 
 extension ConversationViewController {
 
-    func sendText(text: String) {
+    func sendText(_ text: String) {
 
         guard !text.isEmpty else {
             return
@@ -64,7 +64,7 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-    func sendAudio(at fileURL: NSURL, with compressedDecibelSamples: [Float]) {
+    func sendAudio(at fileURL: URL, with compressedDecibelSamples: [Float]) {
 
         let recipient = self.recipient
 
@@ -82,7 +82,7 @@ extension ConversationViewController {
             audioSamples[i] = sample
         }
 
-        let audioAsset = AVURLAsset(URL: fileURL, options: nil)
+        let audioAsset = AVURLAsset(url: fileURL, options: nil)
         let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
         println("audioSamples: \(audioSamples)")
@@ -92,8 +92,8 @@ extension ConversationViewController {
             Config.MetaData.audioSamples: audioSamples,
         ]
 
-        if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
-            let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
+        if let audioMetaData = try? JSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
+            let audioMetaDataString = NSString(data: audioMetaData, encoding: String.Encoding.utf8) as? String
             metaData = audioMetaDataString
         }
 
@@ -154,7 +154,7 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-    func sendImage(image: UIImage) {
+    func sendImage(_ image: UIImage) {
 
         let recipient = self.recipient
 
@@ -220,7 +220,7 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-    func sendVideo(at videoURL: NSURL) {
+    func sendVideo(at videoURL: URL) {
 
         let recipient = self.recipient
 
@@ -230,7 +230,7 @@ extension ConversationViewController {
 
         var metaData: String? = nil
 
-        var thumbnailData: NSData?
+        var thumbnailData: Data?
 
         if let image = thumbnailImageOfVideoInVideoURL(videoURL) {
 
@@ -257,9 +257,9 @@ extension ConversationViewController {
 
                 let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)!
 
-                let string = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+                let string = data.base64EncodedStringWithOptions(NSData.Base64EncodingOptions(rawValue: 0))
 
-                println("video blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
+                println("video blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(String.Encoding.utf8))\n")
 
                 videoMetaDataInfo = [
                     Config.MetaData.videoWidth: imageWidth,
@@ -274,8 +274,8 @@ extension ConversationViewController {
                 ]
             }
 
-            if let videoMetaData = try? NSJSONSerialization.dataWithJSONObject(videoMetaDataInfo, options: []) {
-                let videoMetaDataString = NSString(data: videoMetaData, encoding: NSUTF8StringEncoding) as? String
+            if let videoMetaData = try? JSONSerialization.data(withJSONObject: videoMetaDataInfo, options: []) {
+                let videoMetaDataString = NSString(data: videoMetaData, encoding: String.Encoding.utf8.rawValue) as? String
                 metaData = videoMetaDataString
             }
 

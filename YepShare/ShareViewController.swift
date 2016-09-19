@@ -18,7 +18,7 @@ import RealmSwift
 
 class ShareViewController: SLComposeServiceViewController {
 
-    private var skill: Skill? {
+    fileprivate var skill: Skill? {
         didSet {
             if let skill = skill {
                 channelItem.value = skill.localName
@@ -31,16 +31,16 @@ class ShareViewController: SLComposeServiceViewController {
     lazy var channelItem: SLComposeSheetConfigurationItem = {
 
         let item = SLComposeSheetConfigurationItem()
-        item.title = String.trans_titleChannel
-        item.value = NSLocalizedString("Default", comment: "")
-        item.tapHandler = { [weak self] in
-            self?.performSegueWithIdentifier("presentChooseChannel", sender: nil)
+        item?.title = String.trans_titleChannel
+        item?.value = NSLocalizedString("Default", comment: "")
+        item?.tapHandler = { [weak self] in
+            self?.performSegue(withIdentifier: "presentChooseChannel", sender: nil)
         }
 
-        return item
+        return item!
     }()
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else { return }
 
@@ -48,7 +48,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         case "presentChooseChannel":
 
-            let nvc = segue.destinationViewController as! UINavigationController
+            let nvc = segue.destination as! UINavigationController
             let vc = nvc.topViewController as! ChooseChannelViewController
 
             vc.currentPickedSkill = skill
@@ -78,9 +78,9 @@ class ShareViewController: SLComposeServiceViewController {
         return !(contentText ?? "").isEmpty || !webURLs.isEmpty
     }
 
-    var webURLs: [NSURL] = []
+    var webURLs: [URL] = []
     var images: [UIImage] = []
-    var fileURLs: [NSURL] = []
+    var fileURLs: [URL] = []
 
     override func presentationAnimationDidFinish() {
 
@@ -102,54 +102,54 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func didSelectPost() {
 
-        guard let avatarURLString = YepUserDefaults.avatarURLString.value where !avatarURLString.isEmpty else {
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value , !avatarURLString.isEmpty else {
 
-            extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+            extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
 
             return
         }
 
         let shareType: ShareType
         let body = contentText ?? ""
-        if let fileURL = fileURLs.first where fileURL.pathExtension == FileExtension.M4A.rawValue {
-            shareType = .Audio(body: body, fileURL: fileURL)
+        if let fileURL = fileURLs.first , fileURL.pathExtension == FileExtension.M4A.rawValue {
+            shareType = .audio(body: body, fileURL: fileURL)
         } else if let URL = webURLs.first {
-            shareType = .URL(body: body, URL: URL)
+            shareType = .url(body: body, URL: URL)
         } else if !images.isEmpty {
-            shareType = .Images(body: body, images: images)
+            shareType = .images(body: body, images: images)
         } else {
-            shareType = .PlainText(body: body)
+            shareType = .plainText(body: body)
         }
 
         postFeed(shareType) { [weak self] finish in
             //print("postFeed \(shareType) finish: \(finish)")
-            self?.extensionContext?.completeRequestReturningItems([], completionHandler: nil)
+            self?.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
         }
     }
 
-    override func configurationItems() -> [AnyObject]! {
+    override func configurationItems() -> [Any]! {
 
         return [channelItem]
     }
 
     enum ShareType {
 
-        case PlainText(body: String)
-        case Audio(body: String, fileURL: NSURL)
-        case URL(body: String, URL: NSURL)
-        case Images(body: String, images: [UIImage])
+        case plainText(body: String)
+        case audio(body: String, fileURL: Foundation.URL)
+        case url(body: String, URL: Foundation.URL)
+        case images(body: String, images: [UIImage])
 
         var body: String {
             switch self {
-            case .PlainText(let body): return body
-            case .Audio(let body, _): return body
-            case .URL(let body, _): return body
-            case .Images(let body, _): return body
+            case .plainText(let body): return body
+            case .audio(let body, _): return body
+            case .url(let body, _): return body
+            case .images(let body, _): return body
             }
         }
     }
 
-    private func postFeed(shareType: ShareType, completion: (finish: Bool) -> Void) {
+    fileprivate func postFeed(_ shareType: ShareType, completion: @escaping (_ finish: Bool) -> Void) {
 
         var message = shareType.body
         var kind: FeedKind = .Text
@@ -177,15 +177,15 @@ class ShareViewController: SLComposeServiceViewController {
 
         switch shareType {
 
-        case .PlainText:
+        case .plainText:
 
             doCreateFeed()
 
-        case .Audio(_, let fileURL):
+        case .audio(_, let fileURL):
 
-            let tempPath = NSTemporaryDirectory().stringByAppendingString("\(NSUUID().UUIDString).\(FileExtension.M4A.rawValue)")
-            let tempURL = NSURL(fileURLWithPath: tempPath)
-            try! NSFileManager.defaultManager().copyItemAtURL(fileURL, toURL: tempURL)
+            let tempPath = NSTemporaryDirectory().stringByAppendingString("\(UUID().UUIDString).\(FileExtension.M4A.rawValue)")
+            let tempURL = URL(fileURLWithPath: tempPath)
+            try! FileManager.defaultManager().copyItemAtURL(fileURL, toURL: tempURL)
 
             let audioAsset = AVURLAsset(URL: tempURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
@@ -196,11 +196,11 @@ class ShareViewController: SLComposeServiceViewController {
                 let reader = try! AVAssetReader(asset: audioAsset)
                 let track = audioAsset.tracks.first!
                 let outputSettings: [String: AnyObject] = [
-                    AVFormatIDKey: Int(kAudioFormatLinearPCM),
-                    AVLinearPCMBitDepthKey: 16,
-                    AVLinearPCMIsBigEndianKey: false,
-                    AVLinearPCMIsFloatKey: false,
-                    AVLinearPCMIsNonInterleaved: false,
+                    AVFormatIDKey: Int(kAudioFormatLinearPCM) as AnyObject,
+                    AVLinearPCMBitDepthKey: 16 as AnyObject,
+                    AVLinearPCMIsBigEndianKey: false as AnyObject,
+                    AVLinearPCMIsFloatKey: false as AnyObject,
+                    AVLinearPCMIsNonInterleaved: false as AnyObject,
                 ]
                 let output = AVAssetReaderTrackOutput(track: track, outputSettings: outputSettings)
                 reader.addOutput(output)
@@ -219,7 +219,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                 reader.startReading()
 
-                func decibel(amplitude: CGFloat) -> CGFloat {
+                func decibel(_ amplitude: CGFloat) -> CGFloat {
                     return 20 * log10(abs(amplitude) / 32767)
                 }
 
@@ -265,15 +265,15 @@ class ShareViewController: SLComposeServiceViewController {
             ]
 
             var metaDataString = ""
-            if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
-                if let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String {
+            if let audioMetaData = try? JSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
+                if let audioMetaDataString = NSString(data: audioMetaData, encoding: String.Encoding.utf8) as? String {
                     metaDataString = audioMetaDataString
                 }
             }
 
-            let uploadVoiceGroup = dispatch_group_create()
+            let uploadVoiceGroup = DispatchGroup()
 
-            dispatch_group_enter(uploadVoiceGroup)
+            uploadVoiceGroup.enter()
 
             let source: UploadAttachment.Source = .FilePath(fileURL.path!)
 
@@ -300,18 +300,18 @@ class ShareViewController: SLComposeServiceViewController {
                 }
             })
 
-            dispatch_group_notify(uploadVoiceGroup, dispatch_get_main_queue()) {
+            uploadVoiceGroup.notify(queue: DispatchQueue.main) {
 
                 kind = .Audio
                 
                 doCreateFeed()
             }
 
-        case .URL(let body, let URL):
+        case .url(let body, let URL):
 
-            let parseOpenGraphGroup = dispatch_group_create()
+            let parseOpenGraphGroup = DispatchGroup()
 
-            dispatch_group_enter(parseOpenGraphGroup)
+            parseOpenGraphGroup.enter()
 
             openGraphWithURL(URL, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -339,13 +339,13 @@ class ShareViewController: SLComposeServiceViewController {
                 }
             })
 
-            dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) {
+            parseOpenGraphGroup.notify(queue: DispatchQueue.main) {
 
                 let realBody: String
                 if !body.isEmpty {
-                    realBody = body + " " + URL.absoluteString!
+                    realBody = body + " " + URL.absoluteString
                 } else {
-                    realBody = URL.absoluteString!
+                    realBody = URL.absoluteString
                 }
 
                 message = realBody
@@ -353,9 +353,9 @@ class ShareViewController: SLComposeServiceViewController {
                 doCreateFeed()
             }
 
-        case .Images(_, let mediaImages):
+        case .images(_, let mediaImages):
 
-            let uploadImagesQueue = NSOperationQueue()
+            let uploadImagesQueue = OperationQueue()
             var uploadAttachmentOperations = [UploadAttachmentOperation]()
             var uploadedAttachments = [UploadedAttachment]()
 
@@ -365,7 +365,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                 // resize to smaller, not need fixRotation
 
-                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .High), imageData = UIImageJPEGRepresentation(image, 0.95) {
+                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .High), let imageData = UIImageJPEGRepresentation(image, 0.95) {
 
                     let source: UploadAttachment.Source = .Data(imageData)
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
@@ -393,7 +393,7 @@ class ShareViewController: SLComposeServiceViewController {
                 }
             }
 
-            let uploadFinishOperation = NSBlockOperation {
+            let uploadFinishOperation = BlockOperation {
 
                 if !uploadedAttachments.isEmpty {
 
@@ -421,108 +421,108 @@ class ShareViewController: SLComposeServiceViewController {
 
 extension ShareViewController {
 
-    private func webURLsFromExtensionContext(extensionContext: NSExtensionContext, completion: (webURLs: [NSURL]) -> Void) {
+    fileprivate func webURLsFromExtensionContext(_ extensionContext: NSExtensionContext, completion: @escaping (_ webURLs: [URL]) -> Void) {
 
-        var webURLs: [NSURL] = []
+        var webURLs: [URL] = []
 
         guard let extensionItems = extensionContext.inputItems as? [NSExtensionItem] else {
-            return completion(webURLs: [])
+            return completion([])
         }
 
         let URLTypeIdentifier = kUTTypeURL as String
 
-        let group = dispatch_group_create()
+        let group = DispatchGroup()
 
         for extensionItem in extensionItems {
             for attachment in extensionItem.attachments as! [NSItemProvider] {
                 if attachment.hasItemConformingToTypeIdentifier(URLTypeIdentifier) {
 
-                    dispatch_group_enter(group)
+                    group.enter()
 
-                    attachment.loadItemForTypeIdentifier(URLTypeIdentifier, options: nil) { secureCoding, error in
+                    attachment.loadItem(forTypeIdentifier: URLTypeIdentifier, options: nil) { secureCoding, error in
 
-                        if let url = secureCoding as? NSURL where !url.fileURL {
+                        if let url = secureCoding as? URL , !url.isFileURL {
                             webURLs.append(url)
                         }
 
-                        dispatch_group_leave(group)
+                        group.leave()
                     }
                 }
             }
         }
         
-        dispatch_group_notify(group, dispatch_get_main_queue()) {
-            completion(webURLs: webURLs)
+        group.notify(queue: DispatchQueue.main) {
+            completion(webURLs)
         }
     }
 
-    private func imagesFromExtensionContext(extensionContext: NSExtensionContext, completion: (images: [UIImage]) -> Void) {
+    fileprivate func imagesFromExtensionContext(_ extensionContext: NSExtensionContext, completion: @escaping (_ images: [UIImage]) -> Void) {
 
         var images: [UIImage] = []
 
         guard let extensionItems = extensionContext.inputItems as? [NSExtensionItem] else {
-            return completion(images: [])
+            return completion([])
         }
 
         let imageTypeIdentifier = kUTTypeImage as String
 
-        let group = dispatch_group_create()
+        let group = DispatchGroup()
 
         for extensionItem in extensionItems {
             for attachment in extensionItem.attachments as! [NSItemProvider] {
                 if attachment.hasItemConformingToTypeIdentifier(imageTypeIdentifier) {
 
-                    dispatch_group_enter(group)
+                    group.enter()
 
-                    attachment.loadItemForTypeIdentifier(imageTypeIdentifier, options: nil) { secureCoding, error in
+                    attachment.loadItem(forTypeIdentifier: imageTypeIdentifier, options: nil) { secureCoding, error in
 
-                        if let fileURL = secureCoding as? NSURL, image = UIImage(contentsOfFile: fileURL.path!) {
+                        if let fileURL = secureCoding as? URL, let image = UIImage(contentsOfFile: fileURL.path) {
                             images.append(image)
                         }
 
-                        dispatch_group_leave(group)
+                        group.leave()
                     }
                 }
             }
         }
         
-        dispatch_group_notify(group, dispatch_get_main_queue()) {
-            completion(images: images)
+        group.notify(queue: DispatchQueue.main) {
+            completion(images)
         }
     }
 
-    private func fileURLsFromExtensionContext(extensionContext: NSExtensionContext, completion: (fileURLs: [NSURL]) -> Void) {
+    fileprivate func fileURLsFromExtensionContext(_ extensionContext: NSExtensionContext, completion: @escaping (_ fileURLs: [URL]) -> Void) {
 
-        var fileURLs: [NSURL] = []
+        var fileURLs: [URL] = []
 
         guard let extensionItems = extensionContext.inputItems as? [NSExtensionItem] else {
-            return completion(fileURLs: [])
+            return completion([])
         }
 
         let fileURLTypeIdentifier = kUTTypeFileURL as String
 
-        let group = dispatch_group_create()
+        let group = DispatchGroup()
 
         for extensionItem in extensionItems {
             for attachment in extensionItem.attachments as! [NSItemProvider] {
                 if attachment.hasItemConformingToTypeIdentifier(fileURLTypeIdentifier) {
 
-                    dispatch_group_enter(group)
+                    group.enter()
 
-                    attachment.loadItemForTypeIdentifier(fileURLTypeIdentifier, options: nil) { secureCoding, error in
+                    attachment.loadItem(forTypeIdentifier: fileURLTypeIdentifier, options: nil) { secureCoding, error in
 
-                        if let url = secureCoding as? NSURL {
+                        if let url = secureCoding as? URL {
                             fileURLs.append(url)
                         }
 
-                        dispatch_group_leave(group)
+                        group.leave()
                     }
                 }
             }
         }
         
-        dispatch_group_notify(group, dispatch_get_main_queue()) {
-            completion(fileURLs: fileURLs)
+        group.notify(queue: DispatchQueue.main) {
+            completion(fileURLs)
         }
     }
 }

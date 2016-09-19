@@ -19,7 +19,7 @@ class PhotoTransitonController: NSObject {
         return animator.startingReference
     }
 
-    func setStartingReference(reference: Reference?) {
+    func setStartingReference(_ reference: Reference?) {
         animator.startingReference = reference
     }
 
@@ -27,11 +27,11 @@ class PhotoTransitonController: NSObject {
         return animator.endingReference
     }
 
-    func setEndingReference(reference: Reference?) {
+    func setEndingReference(_ reference: Reference?) {
         animator.endingReference = reference
     }
 
-    func didPanWithPanGestureRecognizer(pan: UIPanGestureRecognizer, viewToPan: UIView, anchorPoint: CGPoint) {
+    func didPanWithPanGestureRecognizer(_ pan: UIPanGestureRecognizer, viewToPan: UIView, anchorPoint: CGPoint) {
 
         interactionController.didPanWithPanGestureRecognizer(pan, viewToPan: viewToPan, anchorPoint: anchorPoint)
     }
@@ -39,21 +39,21 @@ class PhotoTransitonController: NSObject {
 
 extension PhotoTransitonController: UIViewControllerTransitioningDelegate {
 
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         animator.isDismissing = false
 
         return animator
     }
 
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         animator.isDismissing = true
 
         return animator
     }
 
-    func interactionControllerForDismissal(animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
+    func interactionControllerForDismissal(using animator: UIViewControllerAnimatedTransitioning) -> UIViewControllerInteractiveTransitioning? {
 
         if forcesNonInteractiveDismissal {
             return nil

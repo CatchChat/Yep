@@ -14,31 +14,31 @@ final class YepTabBarController: UITabBarController {
 
     enum Tab: Int {
 
-        case Conversations
-        case Contacts
-        case Feeds
-        case Discover
-        case Profile
+        case conversations
+        case contacts
+        case feeds
+        case discover
+        case profile
 
         var title: String {
 
             switch self {
-            case .Conversations:
+            case .conversations:
                 return String.trans_titleChats
-            case .Contacts:
+            case .contacts:
                 return String.trans_titleContacts
-            case .Feeds:
+            case .feeds:
                 return String.trans_titleFeeds
-            case .Discover:
+            case .discover:
                 return String.trans_titleDiscover
-            case .Profile:
+            case .profile:
                 return NSLocalizedString("Profile", comment: "")
             }
         }
 
         var canBeenDoubleTap: Bool {
             switch self {
-            case .Feeds:
+            case .feeds:
                 return true
             default:
                 return false
@@ -46,7 +46,7 @@ final class YepTabBarController: UITabBarController {
         }
     }
 
-    private var previousTab: Tab = .Conversations
+    fileprivate var previousTab: Tab = .conversations
     var tab: Tab? {
         didSet {
             if let tab = tab {
@@ -55,33 +55,33 @@ final class YepTabBarController: UITabBarController {
         }
     }
 
-    private var checkDoubleTapTimer: NSTimer?
-    private var hasFirstTapOnTabWhenItIsAtTop = false {
+    fileprivate var checkDoubleTapTimer: Timer?
+    fileprivate var hasFirstTapOnTabWhenItIsAtTop = false {
         willSet {
             checkDoubleTapTimer?.invalidate()
 
             if newValue {
-                let timer = NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(YepTabBarController.checkDoubleTap(_:)), userInfo: nil, repeats: false)
+                let timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(YepTabBarController.checkDoubleTap(_:)), userInfo: nil, repeats: false)
                 checkDoubleTapTimer = timer
             }
         }
     }
 
-    @objc private func checkDoubleTap(timer: NSTimer) {
+    @objc fileprivate func checkDoubleTap(_ timer: Timer) {
 
         hasFirstTapOnTabWhenItIsAtTop = false
     }
 
-    private struct Listener {
+    fileprivate struct Listener {
         static let lauchStyle = "YepTabBarController.lauchStyle"
     }
 
-    private let tabBarItemTextEnabledListenerName = "YepTabBarController.tabBarItemTextEnabled"
+    fileprivate let tabBarItemTextEnabledListenerName = "YepTabBarController.tabBarItemTextEnabled"
 
     deinit {
         checkDoubleTapTimer?.invalidate()
 
-        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             appDelegate.lauchStyle.removeListenerWithName(Listener.lauchStyle)
         }
 
@@ -95,7 +95,7 @@ final class YepTabBarController: UITabBarController {
 
         delegate = self
 
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
 
         YepUserDefaults.tabBarItemTextEnabled.bindAndFireListener(tabBarItemTextEnabledListenerName) { [weak self] _ in
             self?.adjustTabBarItems()
@@ -103,7 +103,7 @@ final class YepTabBarController: UITabBarController {
 
         // 处理启动切换
 
-        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             appDelegate.lauchStyle.bindListener(Listener.lauchStyle) { [weak self] style in
                 if style == .Message {
                     self?.selectedIndex = 0
@@ -141,7 +141,7 @@ final class YepTabBarController: UITabBarController {
             if let items = tabBar.items {
                 for i in 0..<items.count {
                     let item = items[i]
-                    item.imageInsets = UIEdgeInsetsZero
+                    item.imageInsets = UIEdgeInsets.zero
                     item.title = Tab(rawValue: i)?.title
                 }
             }
@@ -149,10 +149,10 @@ final class YepTabBarController: UITabBarController {
     }
 
     var isTabBarVisible: Bool {
-        return self.tabBar.frame.origin.y < CGRectGetMaxY(view.frame)
+        return self.tabBar.frame.origin.y < view.frame.maxY
     }
 
-    func setTabBarHidden(hidden: Bool, animated: Bool) {
+    func setTabBarHidden(_ hidden: Bool, animated: Bool) {
 
         guard isTabBarVisible == hidden else {
             return
@@ -163,12 +163,12 @@ final class YepTabBarController: UITabBarController {
 
         let duration = (animated ? 0.25 : 0.0)
 
-        UIView.animateWithDuration(duration, animations: { [weak self] in
+        UIView.animate(withDuration: duration, animations: { [weak self] in
             guard let strongSelf = self else {
                 return
             }
             let frame = strongSelf.tabBar.frame
-            strongSelf.tabBar.frame = CGRectOffset(frame, 0, offsetY)
+            strongSelf.tabBar.frame = frame.offsetBy(dx: 0, dy: offsetY)
         }, completion: nil)
     }
 }
@@ -177,7 +177,7 @@ final class YepTabBarController: UITabBarController {
 
 extension YepTabBarController: UITabBarControllerDelegate {
 
-    func tabBarController(tabBarController: UITabBarController, didSelectViewController viewController: UIViewController) {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
 
         guard
             let tab = Tab(rawValue: selectedIndex),
@@ -185,8 +185,8 @@ extension YepTabBarController: UITabBarControllerDelegate {
                 return
         }
 
-        if tab != .Contacts {
-            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.switchedToOthersFromContactsTab, object: nil)
+        if tab != .contacts {
+            NotificationCenter.default.post(name: Notification.Name(rawValue: YepConfig.Notification.switchedToOthersFromContactsTab), object: nil)
         }
 
         // 相等才继续，确保第一次 tap 不做事

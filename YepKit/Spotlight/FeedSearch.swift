@@ -17,11 +17,11 @@ public extension Feed {
         attributeSet.title = creator?.nickname
         attributeSet.contentDescription = body
 
-        if kind == FeedKind.Image.rawValue, let attachment = attachments.first.map({ DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString, image: nil) }), thumbnailImageData = attachment.thumbnailImageData {
-            attributeSet.thumbnailData = thumbnailImageData
+        if kind == FeedKind.Image.rawValue, let attachment = attachments.first.map({ DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString, image: nil) }), let thumbnailImageData = attachment.thumbnailImageData {
+            attributeSet.thumbnailData = thumbnailImageData as Data
 
         } else {
-            attributeSet.thumbnailData = creator?.avatar?.roundMini
+            attributeSet.thumbnailData = creator?.avatar?.roundMini as Data?
         }
 
         return attributeSet

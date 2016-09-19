@@ -11,7 +11,7 @@ import Foundation
 // ref https://github.com/dduan/cURLLook
 // modify for Yep
 
-extension NSURLRequest {
+extension URLRequest {
 
     var cURLCommandLine: String {
         get {
@@ -19,24 +19,24 @@ extension NSURLRequest {
         }
     }
 
-    func cURLCommandLineWithSession(session: NSURLSession?, credential: NSURLCredential? = nil) -> String {
+    func cURLCommandLineWithSession(_ session: URLSession?, credential: URLCredential? = nil) -> String {
 
         var components = ["\ncurl -i"]
 
-        if let HTTPMethod = HTTPMethod where HTTPMethod != "GET" {
+        if let HTTPMethod = httpMethod , HTTPMethod != "GET" {
             components.append("-X \(HTTPMethod)")
         }
 
-        if let URLString = URL?.absoluteString {
+        if let URLString = url?.absoluteString {
             components.append("\"\(URLString)\"")
         }
 
-        if let credentialStorage = session?.configuration.URLCredentialStorage {
+        if let credentialStorage = session?.configuration.urlCredentialStorage {
 
-            if let host = URL?.host, scheme = URL?.scheme {
-                let port = URL?.port?.integerValue ?? 0
+            if let host = url?.host, let scheme = url?.scheme {
+                let port = (url as NSURL?)?.port?.intValue ?? 0
 
-                let protectionSpace = NSURLProtectionSpace(
+                let protectionSpace = URLProtectionSpace(
                     host: host,
                     port: port,
                     protocol: scheme,
@@ -44,29 +44,29 @@ extension NSURLRequest {
                     authenticationMethod: NSURLAuthenticationMethodHTTPBasic
                 )
 
-                if let credentials = credentialStorage.credentialsForProtectionSpace(protectionSpace)?.values {
+                if let credentials = credentialStorage.credentials(for: protectionSpace)?.values {
 
                     for credential in credentials {
-                        if let user = credential.user, password = credential.password {
+                        if let user = credential.user, let password = credential.password {
                             components.append("-u \(user):\(password)")
                         }
                     }
 
                 } else {
-                    if let user = credential?.user, password = credential?.password {
+                    if let user = credential?.user, let password = credential?.password {
                         components.append("-u \(user):\(password)")
                     }
                 }
             }
         }
 
-        if let session = session, URL = URL {
-            if session.configuration.HTTPShouldSetCookies {
+        if let session = session, let URL = url {
+            if session.configuration.httpShouldSetCookies {
                 if let
-                    cookieStorage = session.configuration.HTTPCookieStorage,
-                    cookies = cookieStorage.cookiesForURL(URL) where !cookies.isEmpty {
+                    cookieStorage = session.configuration.httpCookieStorage,
+                    let cookies = cookieStorage.cookies(for: URL) , !cookies.isEmpty {
                         let string = cookies.reduce("") { $0 + "\($1.name)=\($1.value ?? String());" }
-                        components.append("-b \"\(string.substringToIndex(string.endIndex.predecessor()))\"")
+                        components.append("-b \"\(string.substring(to: string.characters.index(before: string.endIndex)))\"")
                 }
             }
         }
@@ -78,31 +78,31 @@ extension NSURLRequest {
                 case "Cookie":
                     continue
                 default:
-                    let escapedValue = value.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+                    let escapedValue = value.replacingOccurrences(of: "\"", with: "\\\"")
                     components.append("-H \"\(field): \(escapedValue)\"")
                 }
             }
         }
 
-        if let additionalHeaders = session?.configuration.HTTPAdditionalHeaders as? [String: String] {
+        if let additionalHeaders = session?.configuration.httpAdditionalHeaders as? [String: String] {
 
             for (field, value) in additionalHeaders {
                 switch field {
                 case "Cookie":
                     continue
                 default:
-                    let escapedValue = value.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+                    let escapedValue = value.replacingOccurrences(of: "\"", with: "\\\"")
                     components.append("-H \"\(field): \(escapedValue)\"")
                 }
             }
         }
 
-        if let HTTPBody = HTTPBody, HTTPBodyString = NSString(data: HTTPBody, encoding: NSUTF8StringEncoding) {
-            let escapedString = HTTPBodyString.stringByReplacingOccurrencesOfString("\"", withString: "\\\"")
+        if let HTTPBody = httpBody, let HTTPBodyString = NSString(data: HTTPBody, encoding: String.Encoding.utf8.rawValue) {
+            let escapedString = HTTPBodyString.replacingOccurrences(of: "\"", with: "\\\"")
             components.append("-d \"\(escapedString)\"")
         }
 
-        return components.joinWithSeparator(" ") + "\n"
+        return components.joined(separator: " ") + "\n"
     }
 }
 

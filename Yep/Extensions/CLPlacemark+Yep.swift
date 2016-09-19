@@ -16,7 +16,7 @@ extension CLPlacemark {
             return a
         }
 
-        if let locality = locality, thoroughfare = thoroughfare {
+        if let locality = locality, let thoroughfare = thoroughfare {
             return String(format: NSLocalizedString("localityAndThoroughfare_%@_%@", comment: ""), locality, thoroughfare)
         }
 

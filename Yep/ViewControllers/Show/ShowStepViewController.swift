@@ -12,10 +12,10 @@ import Ruler
 class ShowStepViewController: UIViewController {
 
     @IBOutlet weak var titleLabel: UILabel!
-    @IBOutlet private weak var titleLabelBottomConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var titleLabelBottomConstraint: NSLayoutConstraint!
 
     @IBOutlet weak var subTitleLabel: UILabel!
-    @IBOutlet private weak var subTitleLabelBottomConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var subTitleLabelBottomConstraint: NSLayoutConstraint!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,21 +26,21 @@ class ShowStepViewController: UIViewController {
         subTitleLabelBottomConstraint.constant = Ruler.iPhoneVertical(120, 140, 160, 180).value
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         view.alpha = 0
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
             self?.view.alpha = 1
         }, completion: { _ in })
     }
 
-    func repeatAnimate(view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval, autoreverses: Bool = false) {
+    func repeatAnimate(_ view: UIView, alongWithPath path: UIBezierPath, duration: CFTimeInterval, autoreverses: Bool = false) {
 
         let animation = CAKeyframeAnimation(keyPath: "position")
 
@@ -57,12 +57,12 @@ class ShowStepViewController: UIViewController {
             animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionLinear)
         }
 
-        animation.path = path.CGPath
+        animation.path = path.cgPath
 
-        view.layer.addAnimation(animation, forKey: "Animation")
+        view.layer.add(animation, forKey: "Animation")
     }
 
-    func animate(view: UIView, offset: UInt32, duration: CFTimeInterval) {
+    func animate(_ view: UIView, offset: UInt32, duration: CFTimeInterval) {
 
         let path = UIBezierPath()
 
@@ -72,15 +72,15 @@ class ShowStepViewController: UIViewController {
 
         let beginPoint = CGPoint(x: view.center.x + CGFloat(arc4random() % offset) * flip(), y: view.center.y + CGFloat(arc4random() % offset) * 0.5 * flip())
         let endPoint = CGPoint(x: view.center.x + CGFloat(arc4random() % offset) * flip(), y: view.center.y + CGFloat(arc4random() % offset) * 0.5 * flip())
-        path.moveToPoint(beginPoint)
-        path.addLineToPoint(endPoint)
+        path.move(to: beginPoint)
+        path.addLine(to: endPoint)
 
         repeatAnimate(view, alongWithPath: path, duration: duration, autoreverses: true)
 
-        repeatRotate(view, fromValue: -0.1, toValue: 0.1, duration: duration)
+        repeatRotate(view, fromValue: -0.1 as AnyObject, toValue: 0.1 as AnyObject, duration: duration)
     }
 
-    private func repeatRotate(view: UIView, fromValue: AnyObject, toValue: AnyObject, duration: CFTimeInterval) {
+    fileprivate func repeatRotate(_ view: UIView, fromValue: AnyObject, toValue: AnyObject, duration: CFTimeInterval) {
 
         let rotate = CABasicAnimation(keyPath: "transform.rotation.z")
 
@@ -93,7 +93,7 @@ class ShowStepViewController: UIViewController {
 
         view.layer.allowsEdgeAntialiasing = true
 
-        view.layer.addAnimation(rotate, forKey: "Rotate")
+        view.layer.add(rotate, forKey: "Rotate")
     }
 }
 

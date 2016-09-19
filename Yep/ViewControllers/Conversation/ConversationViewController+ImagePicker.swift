@@ -13,7 +13,7 @@ import YepNetworking
 
 extension ConversationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
 
@@ -34,7 +34,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
             case String(kUTTypeMovie):
 
-                if let videoURL = info[UIImagePickerControllerMediaURL] as? NSURL {
+                if let videoURL = info[UIImagePickerControllerMediaURL] as? URL {
                     println("videoURL \(videoURL)")
                     sendVideo(at: videoURL)
                 }
@@ -44,7 +44,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             }
         }
 
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }
 

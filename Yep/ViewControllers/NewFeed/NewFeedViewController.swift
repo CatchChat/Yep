@@ -21,7 +21,7 @@ import MapKit
 
 struct FeedVoice {
 
-    let fileURL: NSURL
+    let fileURL: URL
     let sampleValuesCount: Int
     let limitedSampleValues: [CGFloat]
 }
@@ -31,18 +31,18 @@ final class NewFeedViewController: SegueViewController {
     static let generalSkill = Skill(category: nil, id: "", name: "general", localName: String.trans_promptChoose, coverURLString: nil)
 
     enum Attachment {
-        case Default
-        case SocialWork(MessageSocialWork)
-        case Voice(FeedVoice)
-        case Location(PickLocationViewControllerLocation)
+        case `default`
+        case socialWork(MessageSocialWork)
+        case voice(FeedVoice)
+        case location(PickLocationViewControllerLocation)
 
         var needPrepare: Bool {
             switch self {
-            case .Default:
+            case .default:
                 return false
             case .SocialWork:
                 return false
-            case .Voice:
+            case .voice:
                 return true
             case .Location:
                 return true
@@ -50,10 +50,10 @@ final class NewFeedViewController: SegueViewController {
         }
     }
 
-    var attachment: Attachment = .Default
+    var attachment: Attachment = .default
     
-    var beforeUploadingFeedAction: ((feed: DiscoveredFeed, newFeedViewController: NewFeedViewController) -> Void)?
-    var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
+    var beforeUploadingFeedAction: ((_ feed: DiscoveredFeed, _ newFeedViewController: NewFeedViewController) -> Void)?
+    var afterCreatedFeedAction: ((_ feed: DiscoveredFeed) -> Void)?
 
     var preparedSkill: Skill?
 
@@ -61,111 +61,111 @@ final class NewFeedViewController: SegueViewController {
     var getFeedsViewController: (() -> FeedsViewController?)?
 
 
-    @IBOutlet private weak var feedWhiteBGView: UIView!
+    @IBOutlet fileprivate weak var feedWhiteBGView: UIView!
     
-    @IBOutlet private weak var messageTextView: UITextView!
+    @IBOutlet fileprivate weak var messageTextView: UITextView!
 
-    @IBOutlet private weak var mediaCollectionView: UICollectionView!
-    @IBOutlet private weak var mediaCollectionViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var mediaCollectionView: UICollectionView!
+    @IBOutlet fileprivate weak var mediaCollectionViewHeightConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var socialWorkContainerView: UIView!
-    @IBOutlet private weak var socialWorkImageView: UIImageView!
-    @IBOutlet private weak var githubRepoContainerView: UIView!
-    @IBOutlet private weak var githubRepoImageView: UIImageView!
-    @IBOutlet private weak var githubRepoNameLabel: UILabel!
-    @IBOutlet private weak var githubRepoDescriptionLabel: UILabel!
+    @IBOutlet fileprivate weak var socialWorkContainerView: UIView!
+    @IBOutlet fileprivate weak var socialWorkImageView: UIImageView!
+    @IBOutlet fileprivate weak var githubRepoContainerView: UIView!
+    @IBOutlet fileprivate weak var githubRepoImageView: UIImageView!
+    @IBOutlet fileprivate weak var githubRepoNameLabel: UILabel!
+    @IBOutlet fileprivate weak var githubRepoDescriptionLabel: UILabel!
 
-    @IBOutlet private weak var voiceContainerView: UIView!
-    @IBOutlet private weak var voiceBubbleImageVIew: UIImageView!
-    @IBOutlet private weak var voicePlayButton: UIButton!
-    @IBOutlet private weak var voiceSampleView: SampleView!
-    @IBOutlet private weak var voiceTimeLabel: UILabel!
+    @IBOutlet fileprivate weak var voiceContainerView: UIView!
+    @IBOutlet fileprivate weak var voiceBubbleImageVIew: UIImageView!
+    @IBOutlet fileprivate weak var voicePlayButton: UIButton!
+    @IBOutlet fileprivate weak var voiceSampleView: SampleView!
+    @IBOutlet fileprivate weak var voiceTimeLabel: UILabel!
 
-    @IBOutlet private weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var voiceSampleViewWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var locationContainerView: UIView!
-    @IBOutlet private weak var locationMapImageView: UIImageView!
-    @IBOutlet private weak var locationNameLabel: UILabel!
+    @IBOutlet fileprivate weak var locationContainerView: UIView!
+    @IBOutlet fileprivate weak var locationMapImageView: UIImageView!
+    @IBOutlet fileprivate weak var locationNameLabel: UILabel!
 
-    @IBOutlet private weak var channelView: UIView!
-    @IBOutlet private weak var channelViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var channelView: UIView!
+    @IBOutlet fileprivate weak var channelViewTopConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var channelViewTopLineView: HorizontalLineView!
-    @IBOutlet private weak var channelViewBottomLineView: HorizontalLineView!
+    @IBOutlet fileprivate weak var channelViewTopLineView: HorizontalLineView!
+    @IBOutlet fileprivate weak var channelViewBottomLineView: HorizontalLineView!
     
-    @IBOutlet private weak var channelLabel: UILabel!
-    @IBOutlet private weak var choosePromptLabel: UILabel!
+    @IBOutlet fileprivate weak var channelLabel: UILabel!
+    @IBOutlet fileprivate weak var choosePromptLabel: UILabel!
     
-    @IBOutlet private weak var pickedSkillBubbleImageView: UIImageView!
-    @IBOutlet private weak var pickedSkillLabel: UILabel!
+    @IBOutlet fileprivate weak var pickedSkillBubbleImageView: UIImageView!
+    @IBOutlet fileprivate weak var pickedSkillLabel: UILabel!
     
-    @IBOutlet private weak var skillPickerView: UIPickerView!
+    @IBOutlet fileprivate weak var skillPickerView: UIPickerView!
 
-    private lazy var socialWorkHalfMaskImageView: UIImageView = {
+    fileprivate lazy var socialWorkHalfMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage.yep_socialMediaImageMask)
         return imageView
     }()
 
-    private lazy var socialWorkFullMaskImageView: UIImageView = {
+    fileprivate lazy var socialWorkFullMaskImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage.yep_socialMediaImageMaskFull)
         return imageView
     }()
 
-    private let placeholderOfFeed = String.trans_promptNewFeedPlaceholder
+    fileprivate let placeholderOfFeed = String.trans_promptNewFeedPlaceholder
 
-    private var isNeverInputMessage = true
-    private var isDirty = false {
+    fileprivate var isNeverInputMessage = true
+    fileprivate var isDirty = false {
         willSet {
-            postButton.enabled = newValue
+            postButton.isEnabled = newValue
 
             if !newValue && isNeverInputMessage {
                 messageTextView.text = placeholderOfFeed
             }
 
-            messageTextView.textColor = newValue ? UIColor.blackColor() : UIColor.lightGrayColor()
+            messageTextView.textColor = newValue ? UIColor.black : UIColor.lightGray
         }
     }
 
-    private lazy var postButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(title: String.trans_buttonPost, style: .Plain, target: self, action: #selector(NewFeedViewController.tryPost(_:)))
-            button.enabled = false
+    fileprivate lazy var postButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(title: String.trans_buttonPost, style: .plain, target: self, action: #selector(NewFeedViewController.tryPost(_:)))
+            button.isEnabled = false
         return button
     }()
 
-    private lazy var imagePicker: UIImagePickerController = {
+    fileprivate lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
-        imagePicker.sourceType = .PhotoLibrary
+        imagePicker.sourceType = .photoLibrary
         imagePicker.mediaTypes = [kUTTypeImage as String]
         imagePicker.allowsEditing = false
         return imagePicker
     }()
     
-    private var imageAssets: [PHAsset] = []
+    fileprivate var imageAssets: [PHAsset] = []
     
-    private var mediaImages = [UIImage]()
+    fileprivate var mediaImages = [UIImage]()
 
     enum UploadState {
-        case Ready
-        case Uploading
-        case Failed(message: String)
-        case Success
+        case ready
+        case uploading
+        case failed(message: String)
+        case success
     }
-    var uploadState: UploadState = .Ready {
+    var uploadState: UploadState = .ready {
         willSet {
             switch newValue {
 
-            case .Ready:
+            case .ready:
                 break
 
-            case .Uploading:
-                postButton.enabled = false
+            case .uploading:
+                postButton.isEnabled = false
                 messageTextView.resignFirstResponder()
                 YepHUD.showActivityIndicator()
 
-            case .Failed(let message):
+            case .failed(let message):
                 YepHUD.hideActivityIndicator()
-                postButton.enabled = true
+                postButton.isEnabled = true
 
                 if presentingViewController != nil {
                     YepAlert.alertSorry(message: message, inViewController: self)
@@ -173,14 +173,14 @@ final class NewFeedViewController: SegueViewController {
                     feedsViewController?.handleUploadingErrorMessage(message)
                 }
 
-            case .Success:
+            case .success:
                 YepHUD.hideActivityIndicator()
                 messageTextView.text = nil
             }
         }
     }
     
-    private let skills: [Skill] = {
+    fileprivate let skills: [Skill] = {
         guard let me = me() else {
             return []
         }
@@ -190,15 +190,15 @@ final class NewFeedViewController: SegueViewController {
         return skills
     }()
     
-    private var pickedSkill: Skill? {
+    fileprivate var pickedSkill: Skill? {
         willSet {
             pickedSkillLabel.text = newValue?.localName
             choosePromptLabel.hidden = (newValue != nil)
         }
     }
 
-    private var previewReferences: [Reference?]?
-    private var previewNewFeedPhotos: [PreviewNewFeedPhoto] = []
+    fileprivate var previewReferences: [Reference?]?
+    fileprivate var previewNewFeedPhotos: [PreviewNewFeedPhoto] = []
 
     deinit {
         println("NewFeed deinit")
@@ -213,12 +213,12 @@ final class NewFeedViewController: SegueViewController {
         navigationItem.rightBarButtonItem = postButton
 
         if !attachment.needPrepare {
-            let cancleButton = UIBarButtonItem(title: String.trans_cancel, style: .Plain, target: self, action: #selector(NewFeedViewController.cancel(_:)))
+            let cancleButton = UIBarButtonItem(title: String.trans_cancel, style: .plain, target: self, action: #selector(NewFeedViewController.cancel(_:)))
 
             navigationItem.leftBarButtonItem = cancleButton
         }
         
-        view.sendSubviewToBack(feedWhiteBGView)
+        view.sendSubview(toBack: feedWhiteBGView)
 
         feedsViewController = getFeedsViewController?()
         println("feedsViewController: \(feedsViewController)")
@@ -230,7 +230,7 @@ final class NewFeedViewController: SegueViewController {
         messageTextView.delegate = self
         //messageTextView.becomeFirstResponder()
         
-        mediaCollectionView.backgroundColor = UIColor.clearColor()
+        mediaCollectionView.backgroundColor = UIColor.clear
 
         mediaCollectionView.registerNibOf(FeedMediaAddCell)
         mediaCollectionView.registerNibOf(FeedMediaCell)
@@ -246,7 +246,7 @@ final class NewFeedViewController: SegueViewController {
         // pick skill
         
         // 只有自己也有，才使用准备的
-        if let skill = preparedSkill, _ = skills.indexOf(skill) {
+        if let skill = preparedSkill, let _ = skills.indexOf(skill) {
             pickedSkill = preparedSkill
         }
         
@@ -261,8 +261,8 @@ final class NewFeedViewController: SegueViewController {
         pickedSkillBubbleImageView.alpha = hasSkill ? 1 : 0
         pickedSkillLabel.alpha = hasSkill ? 1 : 0
         
-        channelView.backgroundColor = UIColor.whiteColor()
-        channelView.userInteractionEnabled = true
+        channelView.backgroundColor = UIColor.white
+        channelView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(NewFeedViewController.showSkillPickerView(_:)))
         channelView.addGestureRecognizer(tap)
         
@@ -277,36 +277,36 @@ final class NewFeedViewController: SegueViewController {
 
         switch attachment {
 
-        case .Default:
-            mediaCollectionView.hidden = false
-            socialWorkContainerView.hidden = true
-            voiceContainerView.hidden = true
-            locationContainerView.hidden = true
+        case .default:
+            mediaCollectionView.isHidden = false
+            socialWorkContainerView.isHidden = true
+            voiceContainerView.isHidden = true
+            locationContainerView.isHidden = true
 
             mediaCollectionViewHeightConstraint.constant = 80
 
         case .SocialWork(let socialWork):
-            mediaCollectionView.hidden = true
-            socialWorkContainerView.hidden = false
-            voiceContainerView.hidden = true
-            locationContainerView.hidden = true
+            mediaCollectionView.isHidden = true
+            socialWorkContainerView.isHidden = false
+            voiceContainerView.isHidden = true
+            locationContainerView.isHidden = true
 
             mediaCollectionViewHeightConstraint.constant = 80
 
             updateUIForSocialWork(socialWork)
 
-        case .Voice(let feedVoice):
-            mediaCollectionView.hidden = true
-            socialWorkContainerView.hidden = true
-            voiceContainerView.hidden = false
-            locationContainerView.hidden = true
+        case .voice(let feedVoice):
+            mediaCollectionView.isHidden = true
+            socialWorkContainerView.isHidden = true
+            voiceContainerView.isHidden = false
+            locationContainerView.isHidden = true
 
             mediaCollectionViewHeightConstraint.constant = 40
 
             voiceBubbleImageVIew.tintColor = UIColor.leftBubbleTintColor()
-            voicePlayButton.tintColor = UIColor.lightGrayColor()
-            voicePlayButton.tintAdjustmentMode = .Normal
-            voiceTimeLabel.textColor = UIColor.lightGrayColor()
+            voicePlayButton.tintColor = UIColor.lightGray
+            voicePlayButton.tintAdjustmentMode = .normal
+            voiceTimeLabel.textColor = UIColor.lightGray
             voiceSampleView.sampleColor = UIColor.leftWaveColor()
             voiceSampleView.samples = feedVoice.limitedSampleValues
 
@@ -317,21 +317,21 @@ final class NewFeedViewController: SegueViewController {
             voiceSampleViewWidthConstraint.constant = CGFloat(feedVoice.limitedSampleValues.count) * 3
 
         case .Location(let location):
-            mediaCollectionView.hidden = true
-            socialWorkContainerView.hidden = true
-            voiceContainerView.hidden = true
-            locationContainerView.hidden = false
+            mediaCollectionView.isHidden = true
+            socialWorkContainerView.isHidden = true
+            voiceContainerView.isHidden = true
+            locationContainerView.isHidden = false
 
             let locationCoordinate = location.info.coordinate
 
             let options = MKMapSnapshotOptions()
-            options.scale = UIScreen.mainScreen().scale
+            options.scale = UIScreen.main.scale
             options.size = locationMapImageView.bounds.size
             options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
 
             let mapSnapshotter = MKMapSnapshotter(options: options)
 
-            mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
+            mapSnapshotter.start (completionHandler: { (snapshot, error) -> Void in
                 if error == nil {
 
                     guard let snapshot = snapshot else {
@@ -344,7 +344,7 @@ final class NewFeedViewController: SegueViewController {
                         self?.locationMapImageView.image = image
                     }
                 }
-            }
+            })
 
             locationNameLabel.text = location.info.name
         }
@@ -359,12 +359,12 @@ final class NewFeedViewController: SegueViewController {
         socialWorkHalfMaskImageView.frame = locationMapImageView.bounds
     }
 
-    private func updateUIForSocialWork(socialWork: MessageSocialWork) {
+    fileprivate func updateUIForSocialWork(_ socialWork: MessageSocialWork) {
 
-        socialWorkImageView.maskView = socialWorkFullMaskImageView
-        locationMapImageView.maskView = socialWorkHalfMaskImageView
+        socialWorkImageView.mask = socialWorkFullMaskImageView
+        locationMapImageView.mask = socialWorkHalfMaskImageView
 
-        var socialWorkImageURL: NSURL?
+        var socialWorkImageURL: URL?
 
         guard let socialWorkType = MessageSocialWorkType(rawValue: socialWork.type) else {
             return
@@ -374,8 +374,8 @@ final class NewFeedViewController: SegueViewController {
 
         case .GithubRepo:
 
-            socialWorkImageView.hidden = true
-            githubRepoContainerView.hidden = false
+            socialWorkImageView.isHidden = true
+            githubRepoContainerView.isHidden = false
 
             githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
@@ -386,20 +386,20 @@ final class NewFeedViewController: SegueViewController {
 
         case .DribbbleShot:
 
-            socialWorkImageView.hidden = false
-            githubRepoContainerView.hidden = true
+            socialWorkImageView.isHidden = false
+            githubRepoContainerView.isHidden = true
 
             if let string = socialWork.dribbbleShot?.imageURLString {
-                socialWorkImageURL = NSURL(string: string)
+                socialWorkImageURL = URL(string: string)
             }
 
         case .InstagramMedia:
 
-            socialWorkImageView.hidden = false
-            githubRepoContainerView.hidden = true
+            socialWorkImageView.isHidden = false
+            githubRepoContainerView.isHidden = true
 
             if let string = socialWork.instagramMedia?.imageURLString {
-                socialWorkImageURL = NSURL(string: string)
+                socialWorkImageURL = URL(string: string)
             }
         }
         
@@ -410,11 +410,11 @@ final class NewFeedViewController: SegueViewController {
     
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "showPickPhotos" {
 
-            let vc = segue.destinationViewController as! PickPhotosViewController
+            let vc = segue.destination as! PickPhotosViewController
             
             vc.pickedImageSet = Set(imageAssets)
             vc.imageLimit = mediaImages.count
@@ -431,7 +431,7 @@ final class NewFeedViewController: SegueViewController {
     
     // MARK: Actions
     
-    @objc private func showSkillPickerView(tap: UITapGestureRecognizer) {
+    @objc fileprivate func showSkillPickerView(_ tap: UITapGestureRecognizer) {
         
         // 初次 show，预先 selectRow
 
@@ -454,9 +454,9 @@ final class NewFeedViewController: SegueViewController {
             preparedSkill = nil // 再 show 就不需要 selectRow 了
         }
         
-        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
             
-            self?.channelView.backgroundColor = UIColor.clearColor()
+            self?.channelView.backgroundColor = UIColor.clear
             self?.channelViewTopLineView.alpha = 0
             self?.channelViewBottomLineView.alpha = 0
             self?.choosePromptLabel.alpha = 0
@@ -470,19 +470,19 @@ final class NewFeedViewController: SegueViewController {
             self?.view.layoutIfNeeded()
             
         }, completion: { [weak self] _ in
-            self?.channelView.userInteractionEnabled = false
+            self?.channelView.isUserInteractionEnabled = false
         })
     }
     
-    private func hideSkillPickerView() {
+    fileprivate func hideSkillPickerView() {
         
         if pickedSkill == NewFeedViewController.generalSkill {
             pickedSkill = nil
         }
         
-        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
             
-            self?.channelView.backgroundColor = UIColor.whiteColor()
+            self?.channelView.backgroundColor = UIColor.white
             self?.channelViewTopLineView.alpha = 1
             self?.channelViewBottomLineView.alpha = 1
             self?.choosePromptLabel.alpha = 1
@@ -498,27 +498,27 @@ final class NewFeedViewController: SegueViewController {
             self?.view.layoutIfNeeded()
             
         }, completion: { [weak self] _ in
-            self?.channelView.userInteractionEnabled = true
+            self?.channelView.isUserInteractionEnabled = true
         })
     }
 
-    private func tryDeleteFeedVoice() {
-        if case let .Voice(feedVoice) = attachment {
+    fileprivate func tryDeleteFeedVoice() {
+        if case let .voice(feedVoice) = attachment {
             do {
-                try NSFileManager.defaultManager().removeItemAtURL(feedVoice.fileURL)
+                try FileManager.default.removeItem(at: feedVoice.fileURL)
             } catch let error {
                 println("delete voiceFileURL error: \(error)")
             }
         }
     }
 
-    @objc private func cancel(sender: UIBarButtonItem) {
+    @objc fileprivate func cancel(_ sender: UIBarButtonItem) {
         
         messageTextView.resignFirstResponder()
 
         tryDeleteFeedVoice()
 
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.dismiss(animated: true, completion: nil)
     }
     
     func tryMakeUploadingFeed() -> DiscoveredFeed? {
@@ -531,16 +531,16 @@ final class NewFeedViewController: SegueViewController {
 
         var kind: FeedKind = .Text
 
-        let createdUnixTime = NSDate().timeIntervalSince1970
+        let createdUnixTime = Date().timeIntervalSince1970
         let updatedUnixTime = createdUnixTime
 
-        let message = messageTextView.text.trimming(.WhitespaceAndNewline)
+        let message = messageTextView.text.trimming(.whitespaceAndNewline)
 
         var feedAttachment: DiscoveredFeed.Attachment?
 
         switch attachment {
 
-        case .Default:
+        case .default:
 
             if !mediaImages.isEmpty {
                 kind = .Image
@@ -561,16 +561,16 @@ final class NewFeedViewController: SegueViewController {
                 feedAttachment = .Images(imageAttachments)
             }
 
-        case .Voice(let feedVoice):
+        case .voice(let feedVoice):
 
             kind = .Audio
 
-            let audioAsset = AVURLAsset(URL: feedVoice.fileURL, options: nil)
+            let audioAsset = AVURLAsset(url: feedVoice.fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
             let audioMetaDataInfo = [Config.MetaData.audioSamples: feedVoice.limitedSampleValues, Config.MetaData.audioDuration: audioDuration]
 
-            let audioMetaData = try! NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: [])
+            let audioMetaData = try! JSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: [])
 
             let audioInfo = DiscoveredFeed.AudioInfo(feedID: "", URLString: "", metaData: audioMetaData, duration: audioDuration, sampleValues: feedVoice.limitedSampleValues)
 
@@ -583,12 +583,12 @@ final class NewFeedViewController: SegueViewController {
         return DiscoveredFeed(id: "", allowComment: true, kind: kind, createdUnixTime: createdUnixTime, updatedUnixTime: updatedUnixTime, creator: creator, body: message, highlightedKeywordsBody: nil, attachment: feedAttachment, distance: 0, skill: pickedSkill, groupID: "", messagesCount: 0, recommended: false, uploadingErrorMessage: nil)
     }
 
-    @objc private func tryPost(sender: UIBarButtonItem) {
+    @objc fileprivate func tryPost(_ sender: UIBarButtonItem) {
 
-        guard let avatarURLString = YepUserDefaults.avatarURLString.value where !avatarURLString.isEmpty else {
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value , !avatarURLString.isEmpty else {
 
             YepAlert.alertSorry(message: NSLocalizedString("You have no avatar! Please set up one first.", comment: ""), inViewController: self, withDismissAction: { [weak self] in
-                self?.dismissViewControllerAnimated(true, completion: nil)
+                self?.dismiss(animated: true, completion: nil)
             })
 
             return
@@ -597,7 +597,7 @@ final class NewFeedViewController: SegueViewController {
         post(again: false)
     }
 
-    func post(again again: Bool) {
+    func post(again: Bool) {
 
         let messageLength = (messageTextView.text as NSString).length
 
@@ -608,17 +608,17 @@ final class NewFeedViewController: SegueViewController {
         }
 
         if !again {
-            uploadState = .Uploading
+            uploadState = .uploading
 
-            if let feed = tryMakeUploadingFeed() where feed.kind.needBackgroundUpload {
+            if let feed = tryMakeUploadingFeed() , feed.kind.needBackgroundUpload {
                 beforeUploadingFeedAction?(feed: feed, newFeedViewController: self)
 
                 YepHUD.hideActivityIndicator()
-                dismissViewControllerAnimated(true, completion: nil)
+                dismiss(animated: true, completion: nil)
             }
         }
 
-        let message = messageTextView.text.trimming(.WhitespaceAndNewline)
+        let message = messageTextView.text.trimming(.whitespaceAndNewline)
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
         var kind: FeedKind = .Text
         var attachments: [JSONDictionary]?
@@ -629,7 +629,7 @@ final class NewFeedViewController: SegueViewController {
 
             let doCreateFeed: () -> Void = { [weak self] in
 
-                if let openGraph = openGraph where openGraph.isValid {
+                if let openGraph = openGraph , openGraph.isValid {
 
                     kind = .URL
 
@@ -672,7 +672,7 @@ final class NewFeedViewController: SegueViewController {
 
                     // Sync to local
 
-                    if let groupInfo = data["circle"] as? JSONDictionary, groupID = groupInfo["id"] as? String {
+                    if let groupInfo = data["circle"] as? JSONDictionary, let groupID = groupInfo["id"] as? String {
 
                         syncGroupWithGroupID(groupID)
                     }
@@ -685,10 +685,10 @@ final class NewFeedViewController: SegueViewController {
                 return
             }
 
-            let parseOpenGraphGroup = dispatch_group_create()
+            let parseOpenGraphGroup = DispatchGroup()
 
 
-            dispatch_group_enter(parseOpenGraphGroup)
+            parseOpenGraphGroup.enter()
 
             openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
                 defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -707,18 +707,18 @@ final class NewFeedViewController: SegueViewController {
                 }
             })
 
-            dispatch_group_notify(parseOpenGraphGroup, dispatch_get_main_queue()) {
+            parseOpenGraphGroup.notify(queue: DispatchQueue.main) {
                 doCreateFeed()
             }
         }
 
         switch attachment {
 
-        case .Default:
+        case .default:
 
             let mediaImagesCount = mediaImages.count
 
-            let uploadImagesQueue = NSOperationQueue()
+            let uploadImagesQueue = OperationQueue()
             var uploadAttachmentOperations = [UploadAttachmentOperation]()
             var uploadedAttachments = [UploadedAttachment]()
             var uploadErrorMessage: String?
@@ -729,7 +729,7 @@ final class NewFeedViewController: SegueViewController {
 
                 // resize to smaller, not need fixRotation
 
-                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Default), imageData = UIImageJPEGRepresentation(image, 0.95) {
+                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Default), let imageData = UIImageJPEGRepresentation(image, 0.95) {
 
                     let source: UploadAttachment.Source = .Data(imageData)
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
@@ -759,14 +759,14 @@ final class NewFeedViewController: SegueViewController {
                 }
             }
 
-            let uploadFinishOperation = NSBlockOperation { [weak self] in
+            let uploadFinishOperation = BlockOperation { [weak self] in
 
                 guard uploadedAttachments.count == mediaImagesCount else {
                     let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
 
                     println("uploadedAttachments.count == mediaImagesCount: \(uploadedAttachments.count), \(mediaImagesCount)")
-                    NSOperationQueue.mainQueue().addOperationWithBlock {
-                        self?.uploadState = .Failed(message: message)
+                    OperationQueue.main.addOperation {
+                        self?.uploadState = .failed(message: message)
                     }
 
                     return
@@ -877,9 +877,9 @@ final class NewFeedViewController: SegueViewController {
 
             tryCreateFeed()
 
-        case .Voice(let feedVoice):
+        case .voice(let feedVoice):
 
-            let audioAsset = AVURLAsset(URL: feedVoice.fileURL, options: nil)
+            let audioAsset = AVURLAsset(url: feedVoice.fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
             let audioMetaDataInfo = [
@@ -888,17 +888,17 @@ final class NewFeedViewController: SegueViewController {
             ]
 
             var metaDataString = ""
-            if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
-                if let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String {
+            if let audioMetaData = try? JSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
+                if let audioMetaDataString = NSString(data: audioMetaData, encoding: String.Encoding.utf8) as? String {
                     metaDataString = audioMetaDataString
                 }
             }
 
-            let uploadVoiceGroup = dispatch_group_create()
+            let uploadVoiceGroup = DispatchGroup()
 
             var uploadErrorMessage: String?
 
-            dispatch_group_enter(uploadVoiceGroup)
+            uploadVoiceGroup.enter()
 
             let source: UploadAttachment.Source = .FilePath(feedVoice.fileURL.path!)
 
@@ -926,11 +926,11 @@ final class NewFeedViewController: SegueViewController {
                 }
             })
 
-            dispatch_group_notify(uploadVoiceGroup, dispatch_get_main_queue()) { [weak self] in
+            uploadVoiceGroup.notify(queue: DispatchQueue.main) { [weak self] in
 
                 guard attachments != nil else {
                     let message = uploadErrorMessage ?? NSLocalizedString("Upload failed!", comment: "")
-                    self?.uploadState = .Failed(message: message)
+                    self?.uploadState = .failed(message: message)
 
                     return
                 }
@@ -958,31 +958,31 @@ final class NewFeedViewController: SegueViewController {
         }
     }
 
-    @IBAction private func playOrPauseAudio(sender: UIButton) {
+    @IBAction fileprivate func playOrPauseAudio(_ sender: UIButton) {
 
         YepAlert.alertSorry(message: "你以为可以播放吗？\n哈哈哈，NIX和你开个玩笑。", inViewController: self)
     }
 
-    @objc private func reorderMediaCollectionViewWithLongPress(gesture: UILongPressGestureRecognizer) {
+    @objc fileprivate func reorderMediaCollectionViewWithLongPress(_ gesture: UILongPressGestureRecognizer) {
 
         let collectionView = mediaCollectionView
 
         switch(gesture.state) {
 
-        case .Began:
-            guard let selectedIndexPath = collectionView.indexPathForItemAtPoint(gesture.locationInView(self.mediaCollectionView)) else {
+        case .began:
+            guard let selectedIndexPath = collectionView?.indexPathForItem(at: gesture.location(in: self.mediaCollectionView)) else {
                 break
             }
-            collectionView.beginInteractiveMovementForItemAtIndexPath(selectedIndexPath)
+            collectionView?.beginInteractiveMovementForItem(at: selectedIndexPath)
 
-        case .Changed:
-            collectionView.updateInteractiveMovementTargetPosition(gesture.locationInView(gesture.view!))
+        case .changed:
+            collectionView?.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
 
-        case .Ended:
-            collectionView.endInteractiveMovement()
+        case .ended:
+            collectionView?.endInteractiveMovement()
 
         default:
-            collectionView.cancelInteractiveMovement()
+            collectionView?.cancelInteractiveMovement()
         }
     }
 }
@@ -992,55 +992,55 @@ final class NewFeedViewController: SegueViewController {
 extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
     enum Section: Int {
-        case Photos
-        case Add
+        case photos
+        case add
     }
 
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
     
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             fatalError("Invalid section!")
         }
 
         switch section {
-        case .Photos:
+        case .photos:
             return mediaImages.count
-        case .Add:
+        case .add:
             return 1
         }
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalid section!")
         }
 
         switch section {
 
-        case .Photos:
+        case .photos:
             let cell: FeedMediaCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             
-            let image = mediaImages[indexPath.item]
+            let image = mediaImages[(indexPath as NSIndexPath).item]
             
             cell.configureWithImage(image)
             cell.delete = { [weak self] in
-                self?.mediaImages.removeAtIndex(indexPath.item)
+                self?.mediaImages.remove(at: (indexPath as NSIndexPath).item)
             }
             
             return cell
 
-        case .Add:
+        case .add:
             let cell: FeedMediaAddCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
         }
     }
     
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
@@ -1048,66 +1048,66 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
         switch section {
 
-        case .Photos:
+        case .photos:
             return CGSize(width: 80, height: 80)
 
-        case .Add:
+        case .add:
             guard mediaImages.count != YepConfig.Feed.maxImagesCount else {
-                return CGSizeZero
+                return CGSize.zero
             }
             return CGSize(width: 80, height: 80)
         }
     }
     
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
 
         return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 10)
     }
 
-    func collectionView(collectionView: UICollectionView, canMoveItemAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalid section!")
         }
 
         switch section {
 
-        case .Photos:
+        case .photos:
             return true
 
-        case .Add:
+        case .add:
             return false
         }
     }
 
-    func collectionView(collectionView: UICollectionView, moveItemAtIndexPath sourceIndexPath: NSIndexPath, toIndexPath destinationIndexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
 
-        let sourceIndex = sourceIndexPath.item
-        let destinationIndex = destinationIndexPath.item
+        let sourceIndex = (sourceIndexPath as NSIndexPath).item
+        let destinationIndex = (destinationIndexPath as NSIndexPath).item
 
         guard sourceIndex != destinationIndex else {
             return
         }
 
         let image = mediaImages[sourceIndex]
-        mediaImages.removeAtIndex(sourceIndex)
-        mediaImages.insert(image, atIndex: destinationIndex)
+        mediaImages.remove(at: sourceIndex)
+        mediaImages.insert(image, at: destinationIndex)
     }
     
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalid section!")
         }
 
         switch section {
 
-        case .Photos:
+        case .photos:
 
-            let index = indexPath.row
+            let index = (indexPath as NSIndexPath).row
 
             let references: [Reference?] = (0..<mediaImages.count).map({
-                let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
+                let cell = collectionView.cellForItem(at: IndexPath(item: $0, section: (indexPath as NSIndexPath).section)) as? FeedMediaCell
                 return cell?.transitionReference
             })
 
@@ -1121,9 +1121,9 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             let initialPhoto = photos[index]
 
             let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
-            self.presentViewController(photosViewController, animated: true, completion: nil)
+            self.present(photosViewController, animated: true, completion: nil)
 
-        case .Add:
+        case .add:
 
             messageTextView.resignFirstResponder()
             
@@ -1132,7 +1132,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
                 return
             }
             
-            let pickAlertController = UIAlertController(title: String.trans_titleChooseSource, message: nil, preferredStyle: .ActionSheet)
+            let pickAlertController = UIAlertController(title: String.trans_titleChooseSource, message: nil, preferredStyle: .actionSheet)
             
             let cameraAction: UIAlertAction = UIAlertAction(title: String.trans_titleCamera, style: .Default) { _ in
 
@@ -1167,12 +1167,12 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         
             pickAlertController.addAction(albumAction)
             
-            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { _ in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .cancel) { _ in
             }
         
             pickAlertController.addAction(cancelAction)
         
-            self.presentViewController(pickAlertController, animated: true, completion: nil)
+            self.present(pickAlertController, animated: true, completion: nil)
         }
     }
 }
@@ -1181,7 +1181,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
 extension NewFeedViewController: UITextViewDelegate {
 
-    func textViewShouldBeginEditing(textView: UITextView) -> Bool {
+    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
 
         if !isDirty {
             textView.text = ""
@@ -1192,12 +1192,12 @@ extension NewFeedViewController: UITextViewDelegate {
         return true
     }
 
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
 
         isDirty = NSString(string: textView.text).length > 0
     }
     
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
         
         hideSkillPickerView()
     }
@@ -1207,7 +1207,7 @@ extension NewFeedViewController: UITextViewDelegate {
 
 extension NewFeedViewController: UIScrollViewDelegate {
     
-    func scrollViewWillBeginDragging(scrollView: UIScrollView) {
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         
         messageTextView.resignFirstResponder()
     }
@@ -1217,19 +1217,19 @@ extension NewFeedViewController: UIScrollViewDelegate {
 
 extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
     
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return skills.isEmpty ? 0 : 1
     }
     
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return skills.count
     }
     
-    func pickerView(pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
+    func pickerView(_ pickerView: UIPickerView, rowHeightForComponent component: Int) -> CGFloat {
         return 44
     }
     
-    func pickerView(pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusingView view: UIView?) -> UIView {
+    func pickerView(_ pickerView: UIPickerView, viewForRow row: Int, forComponent component: Int, reusing view: UIView?) -> UIView {
         
         let skill = skills[row % skills.count]
         
@@ -1244,7 +1244,7 @@ extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
         }
     }
     
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         
         pickedSkill = skills[row % skills.count]
     }
@@ -1252,7 +1252,7 @@ extension NewFeedViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
 extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
         
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
             
@@ -1272,7 +1272,7 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
             }
         }
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -1280,7 +1280,7 @@ extension NewFeedViewController: UIImagePickerControllerDelegate, UINavigationCo
 
 extension NewFeedViewController: ReturnPickedPhotosDelegate {
 
-    func returnSelectedImages(images: [UIImage], imageAssets: [PHAsset]) {
+    func returnSelectedImages(_ images: [UIImage], imageAssets: [PHAsset]) {
         
         for image in images {
             mediaImages.append(image)
@@ -1293,12 +1293,12 @@ extension NewFeedViewController: ReturnPickedPhotosDelegate {
 
 extension NewFeedViewController: PhotosViewControllerDelegate {
 
-    func photosViewController(vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference? {
+    func photosViewController(_ vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference? {
 
         println("photosViewController:referenceViewForPhoto:\(photo)")
 
         if let previewNewFeedPhoto = photo as? PreviewNewFeedPhoto {
-            if let index = previewNewFeedPhotos.indexOf(previewNewFeedPhoto) {
+            if let index = previewNewFeedPhotos.index(of: previewNewFeedPhoto) {
                 return previewReferences?[index]
             }
         }
@@ -1306,17 +1306,17 @@ extension NewFeedViewController: PhotosViewControllerDelegate {
         return nil
     }
 
-    func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
+    func photosViewController(_ vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
 
         println("photosViewController:didNavigateToPhoto:\(photo):atIndex:\(index)")
     }
 
-    func photosViewControllerWillDismiss(vc: PhotosViewController) {
+    func photosViewControllerWillDismiss(_ vc: PhotosViewController) {
 
         println("photosViewControllerWillDismiss")
     }
 
-    func photosViewControllerDidDismiss(vc: PhotosViewController) {
+    func photosViewControllerDidDismiss(_ vc: PhotosViewController) {
 
         println("photosViewControllerDidDismiss")
 

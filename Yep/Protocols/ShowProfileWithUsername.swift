@@ -12,12 +12,12 @@ import RealmSwift
 
 protocol ShowProfileWithUsername: class {
 
-   func tryShowProfileWithUsername(username: String)
+   func tryShowProfileWithUsername(_ username: String)
 }
 
 extension ShowProfileWithUsername where Self: UIViewController {
 
-    private func show(profileUser: ProfileUser) {
+    fileprivate func show(_ profileUser: ProfileUser) {
 
         guard navigationController?.topViewController == self else {
             return
@@ -26,9 +26,9 @@ extension ShowProfileWithUsername where Self: UIViewController {
         performSegueWithIdentifier("showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
     }
 
-    func tryShowProfileWithUsername(username: String) {
+    func tryShowProfileWithUsername(_ username: String) {
 
-        if let realm = try? Realm(), user = userWithUsername(username, inRealm: realm) {
+        if let realm = try? Realm(), let user = userWithUsername(username, inRealm: realm) {
             let profileUser = ProfileUser.UserType(user)
 
             delay(0.1) { [weak self] in

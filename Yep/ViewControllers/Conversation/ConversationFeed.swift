@@ -13,8 +13,8 @@ import RealmSwift
 
 enum ConversationFeed {
 
-    case DiscoveredFeedType(DiscoveredFeed)
-    case FeedType(Feed)
+    case discoveredFeedType(DiscoveredFeed)
+    case feedType(Feed)
 
     var feedID: String? {
         switch self {
@@ -145,61 +145,61 @@ enum ConversationFeed {
         return nil
     }
 
-    var githubRepoURL: NSURL? {
+    var githubRepoURL: URL? {
 
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
                 if case let .Github(githubRepo) = attachment {
-                    return NSURL(string: githubRepo.URLString)
+                    return URL(string: githubRepo.URLString)
                 }
             }
         case .FeedType(let feed):
             if let URLString = feed.socialWork?.githubRepo?.URLString {
-                return NSURL(string: URLString)
+                return URL(string: URLString)
             }
         }
 
         return nil
     }
 
-    var dribbbleShotImageURL: NSURL? {
+    var dribbbleShotImageURL: URL? {
 
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
                 if case let .Dribbble(dribbbleShot) = attachment {
-                    return NSURL(string: dribbbleShot.imageURLString)
+                    return URL(string: dribbbleShot.imageURLString)
                 }
             }
         case .FeedType(let feed):
             if let imageURLString = feed.socialWork?.dribbbleShot?.imageURLString {
-                return NSURL(string: imageURLString)
+                return URL(string: imageURLString)
             }
         }
 
         return nil
     }
 
-    var dribbbleShotURL: NSURL? {
+    var dribbbleShotURL: URL? {
 
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
                 if case let .Dribbble(dribbbleShot) = attachment {
-                    return NSURL(string: dribbbleShot.htmlURLString)
+                    return URL(string: dribbbleShot.htmlURLString)
                 }
             }
         case .FeedType(let feed):
             if let htmlURLString = feed.socialWork?.dribbbleShot?.htmlURLString {
-                return NSURL(string: htmlURLString)
+                return URL(string: htmlURLString)
             }
         }
 
         return nil
     }
 
-    var audioMetaInfo: (duration: NSTimeInterval, samples: [CGFloat])? {
+    var audioMetaInfo: (duration: TimeInterval, samples: [CGFloat])? {
 
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
@@ -288,7 +288,7 @@ enum ConversationFeed {
         }
     }
 
-    var createdUnixTime: NSTimeInterval {
+    var createdUnixTime: TimeInterval {
         switch self {
         case .DiscoveredFeedType(let discoveredFeed):
             return discoveredFeed.createdUnixTime
@@ -302,7 +302,7 @@ enum ConversationFeed {
         case .DiscoveredFeedType(let discoveredFeed):
             return discoveredFeed.timeString
         case .FeedType(let feed):
-            let date = NSDate(timeIntervalSince1970: feed.createdUnixTime)
+            let date = Date(timeIntervalSince1970: feed.createdUnixTime)
             let timeString = Config.timeAgoAction?(date: date) ?? ""
             return timeString
         }

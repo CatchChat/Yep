@@ -35,16 +35,16 @@ final class DiscoverCardUserCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        contentView.backgroundColor = UIColor.whiteColor()
+        contentView.backgroundColor = UIColor.white
         contentView.layer.cornerRadius  = 6
         contentView.layer.masksToBounds = true
         
-        contentView.layer.borderColor = UIColor.yepCellSeparatorColor().CGColor
+        contentView.layer.borderColor = UIColor.yepCellSeparatorColor().cgColor
         contentView.layer.borderWidth = 1.0
         
-        avatarImageView.contentMode = UIViewContentMode.ScaleAspectFill
+        avatarImageView.contentMode = UIViewContentMode.scaleAspectFill
         avatarImageView.clipsToBounds = true
-        skillImageView.contentMode = UIViewContentMode.ScaleAspectFit
+        skillImageView.contentMode = UIViewContentMode.scaleAspectFit
     }
 
     override func prepareForReuse() {
@@ -54,7 +54,7 @@ final class DiscoverCardUserCell: UICollectionViewCell {
         skillImageView.image = nil
     }
     
-    func configureWithDiscoveredUser(discoveredUser: DiscoveredUser, collectionView: UICollectionView, indexPath: NSIndexPath) {
+    func configureWithDiscoveredUser(_ discoveredUser: DiscoveredUser, collectionView: UICollectionView, indexPath: IndexPath) {
         
         self.discoveredUser = discoveredUser
         
@@ -65,7 +65,7 @@ final class DiscoverCardUserCell: UICollectionViewCell {
         let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: bigAvatarFadeTransitionDuration)
 
-        if let accountName = discoveredUser.recently_updated_provider, account = SocialAccount(rawValue: accountName) {
+        if let accountName = discoveredUser.recently_updated_provider, let account = SocialAccount(rawValue: accountName) {
             serviceImageView.image = UIImage(named: account.iconName)
             serviceImageView.tintColor = account.tintColor
         } else {
@@ -76,12 +76,12 @@ final class DiscoverCardUserCell: UICollectionViewCell {
 
         usernameLabel.text = discoveredUser.nickname
         
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0)) { [weak self] in
+        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async { [weak self] in
             self?.prepareSkillImage()
         }
     }
     
-    private func prepareSkillImage() {
+    fileprivate func prepareSkillImage() {
 
         guard let discoveredUser = discoveredUser else {
             return
@@ -104,7 +104,7 @@ final class DiscoverCardUserCell: UICollectionViewCell {
         }
     }
     
-    private func genSkillImageWithSkills(skills: [Skill]) -> UIImage {
+    fileprivate func genSkillImageWithSkills(_ skills: [Skill]) -> UIImage {
         
         let maxWidth:CGFloat = 170
         
@@ -119,7 +119,7 @@ final class DiscoverCardUserCell: UICollectionViewCell {
         var skillLabels = [CGRect]()
         
         //let context = UIGraphicsGetCurrentContext()
-        UIGraphicsBeginImageContextWithOptions(CGSize(width: maxWidth, height: 50), false, UIScreen.mainScreen().scale)
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: maxWidth, height: 50), false, UIScreen.main.scale)
         
         for (index, skill) in skills.enumerate() {
             

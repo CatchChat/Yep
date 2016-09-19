@@ -12,14 +12,14 @@ import YepKit
 
 final class SearchedFeedLocationCell: SearchedFeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + (10 + 20)
 
         return ceil(height)
     }
 
-    var tapLocationAction: ((locationName: String, locationCoordinate: CLLocationCoordinate2D) -> Void)?
+    var tapLocationAction: ((_ locationName: String, _ locationCoordinate: CLLocationCoordinate2D) -> Void)?
 
     lazy var locationContainerView: IconTitleContainerView = {
         let view = IconTitleContainerView()
@@ -39,7 +39,7 @@ final class SearchedFeedLocationCell: SearchedFeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 

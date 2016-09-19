@@ -12,9 +12,9 @@ extension UIInterpolatingMotionEffectType {
 
     var yep_centerKeyPath: String {
         switch self {
-        case .TiltAlongHorizontalAxis:
+        case .tiltAlongHorizontalAxis:
             return "center.x"
-        case .TiltAlongVerticalAxis:
+        case .tiltAlongVerticalAxis:
             return "center.y"
         }
     }
@@ -22,9 +22,9 @@ extension UIInterpolatingMotionEffectType {
 
 extension UIMotionEffect {
 
-    class func yep_twoAxesShift(strength: Float) -> UIMotionEffect {
+    class func yep_twoAxesShift(_ strength: Float) -> UIMotionEffect {
 
-        func motion(type: UIInterpolatingMotionEffectType) -> UIInterpolatingMotionEffect {
+        func motion(_ type: UIInterpolatingMotionEffectType) -> UIInterpolatingMotionEffect {
             let keyPath = type.yep_centerKeyPath
             let motion = UIInterpolatingMotionEffect(keyPath: keyPath, type: type)
             motion.minimumRelativeValue = -strength
@@ -34,8 +34,8 @@ extension UIMotionEffect {
 
         let group = UIMotionEffectGroup()
         group.motionEffects = [
-            motion(.TiltAlongHorizontalAxis),
-            motion(.TiltAlongVerticalAxis),
+            motion(.tiltAlongHorizontalAxis),
+            motion(.tiltAlongVerticalAxis),
         ]
         return group
     }

@@ -11,14 +11,14 @@ import YepKit
 
 final class SearchedFeedURLCell: SearchedFeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + (10 + 20)
 
         return ceil(height)
     }
 
-    var tapURLInfoAction: ((URL: NSURL) -> Void)?
+    var tapURLInfoAction: ((_ URL: URL) -> Void)?
 
     lazy var feedURLContainerView: IconTitleContainerView = {
         let view = IconTitleContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 150))
@@ -37,7 +37,7 @@ final class SearchedFeedURLCell: SearchedFeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 

@@ -33,7 +33,7 @@ final class SkillCategoryCell: UICollectionViewCell {
         }
     }
 
-    var toggleSelectionStateAction: ((inSelectionState: Bool) -> Void)? {
+    var toggleSelectionStateAction: ((_ inSelectionState: Bool) -> Void)? {
         willSet {
             skillCategoryButton.toggleSelectionStateAction = newValue
         }

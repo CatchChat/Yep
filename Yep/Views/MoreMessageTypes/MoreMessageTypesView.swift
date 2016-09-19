@@ -16,7 +16,7 @@ final class MoreMessageTypesView: UIView {
 
     lazy var containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clear
         return view
     }()
 
@@ -25,7 +25,7 @@ final class MoreMessageTypesView: UIView {
         view.dataSource = self
         view.delegate = self
         view.rowHeight = 60
-        view.scrollEnabled = false
+        view.isScrollEnabled = false
 
         view.registerNibOf(TitleCell)
         view.registerNibOf(QuickPickPhotosCell)
@@ -37,17 +37,17 @@ final class MoreMessageTypesView: UIView {
     var takePhotoAction: (() -> Void)?
     var choosePhotoAction: (() -> Void)?
     var pickLocationAction: (() -> Void)?
-    var sendImageAction: (UIImage -> Void)?
+    var sendImageAction: ((UIImage) -> Void)?
 
     var quickPickedImageSet = Set<PHAsset>() {
         didSet {
-            tableView.reloadRowsAtIndexPaths([NSIndexPath(forRow: Row.PickPhotos.rawValue, inSection: 0)], withRowAnimation: .None)
+            tableView.reloadRows(at: [IndexPath(row: Row.pickPhotos.rawValue, section: 0)], with: .none)
         }
     }
 
     var tableViewBottomConstraint: NSLayoutConstraint?
 
-    func showInView(view: UIView) {
+    func showInView(_ view: UIView) {
 
         frame = view.bounds
 
@@ -57,11 +57,11 @@ final class MoreMessageTypesView: UIView {
 
         containerView.alpha = 1
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { [weak self] in
-            self?.containerView.backgroundColor = UIColor.blackColor().colorWithAlphaComponent(0.3)
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseIn, animations: { [weak self] in
+            self?.containerView.backgroundColor = UIColor.black.withAlphaComponent(0.3)
         }, completion: nil)
 
-        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseOut, animations: { [weak self] in
             self?.tableViewBottomConstraint?.constant = 0
             self?.layoutIfNeeded()
         }, completion: nil)
@@ -69,24 +69,24 @@ final class MoreMessageTypesView: UIView {
 
     func hide() {
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseIn, animations: { [weak self] in
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseIn, animations: { [weak self] in
             guard let strongSelf = self else { return }
 
             strongSelf.tableViewBottomConstraint?.constant = strongSelf.totalHeight
             strongSelf.layoutIfNeeded()
         }, completion: nil)
 
-        UIView.animateWithDuration(0.2, delay: 0.1, options: .CurveEaseOut, animations: { [weak self] in
-            self?.containerView.backgroundColor = UIColor.clearColor()
+        UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseOut, animations: { [weak self] in
+            self?.containerView.backgroundColor = UIColor.clear
 
         }, completion: { [weak self] _ in
             self?.removeFromSuperview()
         })
     }
 
-    func hideAndDo(afterHideAction: (() -> Void)?) {
+    func hideAndDo(_ afterHideAction: (() -> Void)?) {
 
-        UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+        UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveLinear, animations: { [weak self] in
             guard let strongSelf = self else { return }
             strongSelf.containerView.alpha = 0
             strongSelf.tableViewBottomConstraint?.constant = strongSelf.totalHeight
@@ -134,24 +134,24 @@ final class MoreMessageTypesView: UIView {
 
         // layout for containerView
 
-        let containerViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[containerView]|", options: [], metrics: nil, views: viewsDictionary)
-        let containerViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[containerView]|", options: [], metrics: nil, views: viewsDictionary)
+        let containerViewConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[containerView]|", options: [], metrics: nil, views: viewsDictionary)
+        let containerViewConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[containerView]|", options: [], metrics: nil, views: viewsDictionary)
 
-        NSLayoutConstraint.activateConstraints(containerViewConstraintsH)
-        NSLayoutConstraint.activateConstraints(containerViewConstraintsV)
+        NSLayoutConstraint.activate(containerViewConstraintsH)
+        NSLayoutConstraint.activate(containerViewConstraintsV)
 
         // layout for tableView
 
-        let tableViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: [], metrics: nil, views: viewsDictionary)
+        let tableViewConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[tableView]|", options: [], metrics: nil, views: viewsDictionary)
 
-        let tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .Bottom, relatedBy: .Equal, toItem: containerView, attribute: .Bottom, multiplier: 1.0, constant: self.totalHeight)
+        let tableViewBottomConstraint = NSLayoutConstraint(item: tableView, attribute: .bottom, relatedBy: .equal, toItem: containerView, attribute: .bottom, multiplier: 1.0, constant: self.totalHeight)
 
         self.tableViewBottomConstraint = tableViewBottomConstraint
         
-        let tableViewHeightConstraint = NSLayoutConstraint(item: tableView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: self.totalHeight)
+        let tableViewHeightConstraint = NSLayoutConstraint(item: tableView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: self.totalHeight)
         
-        NSLayoutConstraint.activateConstraints(tableViewConstraintsH)
-        NSLayoutConstraint.activateConstraints([tableViewBottomConstraint, tableViewHeightConstraint])
+        NSLayoutConstraint.activate(tableViewConstraintsH)
+        NSLayoutConstraint.activate([tableViewBottomConstraint, tableViewHeightConstraint])
     }
 }
 
@@ -159,7 +159,7 @@ final class MoreMessageTypesView: UIView {
 
 extension MoreMessageTypesView: UIGestureRecognizerDelegate {
 
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldReceiveTouch touch: UITouch) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
 
         if touch.view != containerView {
             return false
@@ -175,38 +175,38 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
 
     enum Row: Int {
 
-        case PhotoGallery = 0
-        case PickPhotos
-        case Location
-        case Cancel
+        case photoGallery = 0
+        case pickPhotos
+        case location
+        case cancel
 
         var normalTitle: String {
             switch self {
-            case .PhotoGallery:
+            case .photoGallery:
                 return ""
-            case .PickPhotos:
+            case .pickPhotos:
                 return String.trans_titlePickPhotos
-            case .Location:
+            case .location:
                 return String.trans_titleLocation
-            case .Cancel:
+            case .cancel:
                 return String.trans_cancel
             }
         }
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 4
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if let row = Row(rawValue: indexPath.row) {
+        if let row = Row(rawValue: (indexPath as NSIndexPath).row) {
 
-            if case .PhotoGallery = row {
+            if case .photoGallery = row {
 
                 let cell: QuickPickPhotosCell = tableView.dequeueReusableCell()
 
@@ -233,7 +233,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                 cell.boldEnabled = false
                 cell.singleTitleLabel.textColor = UIColor.yepTintColor()
 
-                if case .PickPhotos = row {
+                if case .pickPhotos = row {
                     if !quickPickedImageSet.isEmpty {
                         cell.singleTitleLabel.text = String(format: NSLocalizedString("Send Photos (%d)", comment: ""), quickPickedImageSet.count)
                         cell.boldEnabled = true
@@ -247,9 +247,9 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
         return UITableViewCell()
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        if let row = Row(rawValue: indexPath.row) {
-            if case .PhotoGallery = row {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if let row = Row(rawValue: (indexPath as NSIndexPath).row) {
+            if case .photoGallery = row {
                 return 100
 
             } else {
@@ -260,16 +260,16 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
         return 0
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        if let row = Row(rawValue: indexPath.row) {
+        if let row = Row(rawValue: (indexPath as NSIndexPath).row) {
             switch row {
 
-            case .PickPhotos:
+            case .pickPhotos:
                 if !quickPickedImageSet.isEmpty {
 
                     var images = [UIImage]()
@@ -302,8 +302,8 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                         
                         //println("targetSize: \(targetSize)")
 
-                        imageManager.requestImageDataForAsset(imageAsset, options: options, resultHandler: { (data, String, imageOrientation, _) -> Void in
-                            if let data = data, image = UIImage(data: data) {
+                        imageManager.requestImageData(for: imageAsset, options: options, resultHandler: { (data, String, imageOrientation, _) -> Void in
+                            if let data = data, let image = UIImage(data: data) {
                                 if let image = image.resizeToSize(targetSize, withInterpolationQuality: .Medium) {
                                     images.append(image)
                                 }
@@ -311,7 +311,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                         })
                     }
                     
-                    for (index, image) in images.enumerate() {
+                    for (index, image) in images.enumerated() {
                         delay(0.1*Double(index), work: { [weak self] in
                             self?.sendImageAction?(image)
                         })
@@ -322,7 +322,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                     quickPickedImageSet.removeAll()
 
                     hideAndDo {
-                        if let cell = tableView.cellForRowAtIndexPath(NSIndexPath(forRow: Row.PhotoGallery.rawValue, inSection: 0)) as? QuickPickPhotosCell {
+                        if let cell = tableView.cellForRow(at: IndexPath(row: Row.photoGallery.rawValue, section: 0)) as? QuickPickPhotosCell {
                             cell.pickedImageSet.removeAll()
                             cell.photosCollectionView.reloadData()
                         }
@@ -334,12 +334,12 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                     }
                 }
 
-            case .Location:
+            case .location:
                 hideAndDo { [weak self] in
                     self?.pickLocationAction?()
                 }
 
-            case .Cancel:
+            case .cancel:
                 hide()
 
             default:

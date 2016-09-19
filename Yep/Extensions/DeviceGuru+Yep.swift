@@ -12,12 +12,12 @@ extension DeviceGuru {
 
     static var yep_isLowEndDevice: Bool {
 
-        switch UIDevice.currentDevice().userInterfaceIdiom {
-        case .Phone:
+        switch UIDevice.current.userInterfaceIdiom {
+        case .phone:
             if DeviceGuru.hardwareNumber() < 6 {
                 return true
             }
-        case .Pad:
+        case .pad:
             if DeviceGuru.hardwareNumber() < 4 {
                 return true
             }

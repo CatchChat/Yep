@@ -13,7 +13,7 @@ import Ruler
 
 final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
-    @IBOutlet private weak var contactsTableView: UITableView! {
+    @IBOutlet fileprivate weak var contactsTableView: UITableView! {
         didSet {
             searchBar.sizeToFit()
             contactsTableView.tableHeaderView = searchBar
@@ -33,11 +33,11 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
         return contactsTableView
     }
 
-    private lazy var searchBar: UISearchBar = {
+    fileprivate lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.searchBarStyle = .Minimal
+        searchBar.searchBarStyle = .minimal
         searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
-        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
+        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, for: UIControlState())
         searchBar.delegate = self
         return searchBar
     }()
@@ -54,13 +54,13 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
         return SearchTransition()
     }()
 
-    private lazy var friends = normalFriends()
+    fileprivate lazy var friends = normalFriends()
 
-    private var friendsNotificationToken: NotificationToken?
+    fileprivate var friendsNotificationToken: NotificationToken?
 
-    private lazy var noContactsFooterView: InfoView = InfoView(String.trans_promptNoFriends)
+    fileprivate lazy var noContactsFooterView: InfoView = InfoView(String.trans_promptNoFriends)
 
-    private var noContacts = false {
+    fileprivate var noContacts = false {
         didSet {
             //contactsTableView.tableHeaderView = noContacts ? nil : searchBar
 
@@ -70,13 +70,13 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    private struct Listener {
+    fileprivate struct Listener {
         static let Nickname = "ContactsViewController.Nickname"
         static let Avatar = "ContactsViewController.Avatar"
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
 
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
@@ -100,7 +100,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
         navigationItem.title = String.trans_titleContacts
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: YepConfig.Notification.newFriendsInContacts, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: NSNotification.Name(rawValue: YepConfig.Notification.newFriendsInContacts), object: nil)
 
         friendsNotificationToken = friends.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
 
@@ -142,8 +142,8 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
             }
         }
 
-        if traitCollection.forceTouchCapability == .Available {
-            registerForPreviewingWithDelegate(self, sourceView: contactsTableView)
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: contactsTableView)
         }
 
         #if DEBUG
@@ -151,7 +151,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
         #endif
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         recoverOriginalNavigationDelegate()
@@ -159,7 +159,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
     // MARK: Actions
 
-    private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
+    fileprivate func updateContactsTableView(scrollsToTop: Bool = false) {
         SafeDispatch.async { [weak self] in
             self?.contactsTableView.reloadData()
 
@@ -169,20 +169,20 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    @objc private func syncFriendships(sender: NSNotification) {
+    @objc fileprivate func syncFriendships(_ sender: Notification) {
 
         syncFriendshipsAndDoFurtherAction { [weak self] in
             self?.updateContactsTableView()
         }
     }
 
-    @IBAction private func showAddFriends(sender: UIBarButtonItem) {
-        performSegueWithIdentifier("showAddFriends", sender: nil)
+    @IBAction fileprivate func showAddFriends(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "showAddFriends", sender: nil)
     }
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         guard let identifier = segue.identifier else {
             return
@@ -196,9 +196,9 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
                 return
             }
 
-            let vc = segue.destinationViewController as! ConversationViewController
+            let vc = segue.destination as! ConversationViewController
 
-            if let user = sender as? User where !user.isMe {
+            if let user = sender as? User , !user.isMe {
 
                 if user.conversation == nil {
                     let newConversation = Conversation()
@@ -213,14 +213,14 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
                 vc.conversation = user.conversation
 
-                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                NotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
             }
 
             recoverOriginalNavigationDelegate()
             
         case "showProfile":
 
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
             if let user = sender as? User {
                vc.prepare(withUser: user)
@@ -233,7 +233,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
             
         case "showSearchContacts":
             
-            let vc = segue.destinationViewController as! SearchContactsViewController
+            let vc = segue.destination as! SearchContactsViewController
             vc.originalNavigationControllerDelegate = navigationController?.delegate
 
             vc.hidesBottomBarWhenPushed = true
@@ -251,54 +251,54 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     enum Section: Int {
-        case Local
+        case local
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    private func numberOfRowsInSection(section: Int) -> Int {
+    fileprivate func numberOfRowsInSection(_ section: Int) -> Int {
         guard let section = Section(rawValue: section) else {
             return 0
         }
 
         switch section {
-        case .Local:
+        case .local:
             return friends.count
         }
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numberOfRowsInSection(section)
     }
 
-    private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
+    fileprivate func friendAtIndexPath(_ indexPath: NSIndexPath) -> User? {
 
         let index = indexPath.row
         let friend = friends[safe: index]
         return friend
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell: ContactsCell = tableView.dequeueReusableCell()
         return cell
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         guard let cell = cell as? ContactsCell else {
             return
         }
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return
         }
 
         switch section {
 
-        case .Local:
+        case .local:
 
             guard let friend = friendAtIndexPath(indexPath) else {
                 return
@@ -315,7 +315,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         
     }
     
-    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         guard let cell = cell as? ContactsCell else {
             return
@@ -324,18 +324,18 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.avatarImageView.image = nil
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
         
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return
         }
         
         switch section {
-        case .Local:
+        case .local:
             if let friend = friendAtIndexPath(indexPath) {
                 performSegueWithIdentifier("showProfile", sender: friend)
             }
@@ -344,25 +344,25 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: UITableViewRowAction
 
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return false
         }
 
         switch section {
-        case .Local:
+        case .local:
             return true
         }
     }
 
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
         let user = friends[indexPath.row]
         let userID = user.userID
         let nickname = user.nickname
 
-        let unfriendAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Unfriend", comment: "")) { [weak self, weak tableView] action, indexPath in
+        let unfriendAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Unfriend", comment: "")) { [weak self, weak tableView] action, indexPath in
 
             tableView?.setEditing(false, animated: true)
 
@@ -394,9 +394,9 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension ContactsViewController: UISearchBarDelegate {
 
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
 
-        performSegueWithIdentifier("showSearchContacts", sender: nil)
+        performSegue(withIdentifier: "showSearchContacts", sender: nil)
 
         return false
     }
@@ -406,9 +406,9 @@ extension ContactsViewController: UISearchBarDelegate {
 
 extension ContactsViewController: UIViewControllerPreviewingDelegate {
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
 
-        guard let indexPath = contactsTableView.indexPathForRowAtPoint(location), cell = contactsTableView.cellForRowAtIndexPath(indexPath) else {
+        guard let indexPath = contactsTableView.indexPathForRow(at: location), let cell = contactsTableView.cellForRow(at: indexPath) else {
             return nil
         }
 
@@ -424,9 +424,9 @@ extension ContactsViewController: UIViewControllerPreviewingDelegate {
         return vc
     }
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
 
-        showViewController(viewControllerToCommit, sender: self)
+        show(viewControllerToCommit, sender: self)
     }
 }
 

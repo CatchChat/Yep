@@ -8,29 +8,29 @@
 
 import Foundation
 
-public extension NSDate {
+public extension Date {
 
-    public class func dateWithISO08601String(dateString: String?) -> NSDate {
+    public static func dateWithISO08601String(_ dateString: String?) -> Date {
         if let dateString = dateString {
             var dateString = dateString
 
             if dateString.hasSuffix("Z") {
-                dateString = String(dateString.characters.dropLast()).stringByAppendingString("-0000")
+                dateString = String(dateString.characters.dropLast()) + "-0000"
             }
 
             return dateFromString(dateString, withFormat: "yyyy-MM-dd'T'HH:mm:ssZ")
         }
         
-        return NSDate()
+        return Date()
     }
 
-    class func dateFromString(dateString: String, withFormat dateFormat: String) -> NSDate {
-        let dateFormatter = NSDateFormatter()
+    static func dateFromString(_ dateString: String, withFormat dateFormat: String) -> Date {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = dateFormat
-        if let date = dateFormatter.dateFromString(dateString) {
+        if let date = dateFormatter.date(from: dateString) {
             return date
         } else {
-            return NSDate()
+            return Date()
         }
     }
 }

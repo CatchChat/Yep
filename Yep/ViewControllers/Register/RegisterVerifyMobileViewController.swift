@@ -44,7 +44,7 @@ final class RegisterVerifyMobileViewController: BaseVerifyMobileViewController {
         tryVerifyRegisterMobile()
     }
 
-    private func tryVerifyRegisterMobile() {
+    fileprivate func tryVerifyRegisterMobile() {
 
         view.endEditing(true)
 

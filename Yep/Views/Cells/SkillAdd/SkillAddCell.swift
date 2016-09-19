@@ -13,5 +13,5 @@ final class SkillAddCell: UICollectionViewCell {
 
     var skillSet: SkillSet = .Master
 
-    var addSkillsAction: (SkillSet -> ())?
+    var addSkillsAction: ((SkillSet) -> ())?
 }

@@ -11,8 +11,8 @@ import Foundation
 protocol PhotosViewControllerDataSource: class {
 
     var numberOfPhotos: Int { get }
-    func photoAtIndex(index: Int) -> Photo?
-    func indexOfPhoto(photo: Photo) -> Int
-    func containsPhoto(photo: Photo) -> Bool
+    func photoAtIndex(_ index: Int) -> Photo?
+    func indexOfPhoto(_ photo: Photo) -> Int
+    func containsPhoto(_ photo: Photo) -> Bool
 }
 

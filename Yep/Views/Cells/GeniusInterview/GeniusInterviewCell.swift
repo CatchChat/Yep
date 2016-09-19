@@ -21,13 +21,13 @@ class GeniusInterviewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        numberLabel.font = UIFont.systemFontOfSize(16)
+        numberLabel.font = UIFont.systemFont(ofSize: 16)
         numberLabel.textColor = UIColor.yepTintColor()
 
-        titleLabel.font = UIFont.systemFontOfSize(16)
-        titleLabel.textColor = UIColor.blackColor()
+        titleLabel.font = UIFont.systemFont(ofSize: 16)
+        titleLabel.textColor = UIColor.black
 
-        detailLabel.font = UIFont.systemFontOfSize(13)
+        detailLabel.font = UIFont.systemFont(ofSize: 13)
         detailLabel.textColor = UIColor(red: 142/255.0, green: 142/255.0, blue: 147/255.0, alpha: 1)
 
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()

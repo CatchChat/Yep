@@ -15,12 +15,12 @@ import RxCocoa
 
 final class LoginByMobileViewController: BaseInputMobileViewController {
 
-    private lazy var disposeBag = DisposeBag()
+    fileprivate lazy var disposeBag = DisposeBag()
 
-    @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
-    @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var pickMobileNumberPromptLabel: UILabel!
+    @IBOutlet fileprivate weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
-    private lazy var nextButton: UIBarButtonItem = {
+    fileprivate lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.title = String.trans_buttonNextStep
         button.rx_tap
@@ -44,15 +44,15 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
 
         pickMobileNumberPromptLabel.text = NSLocalizedString("What's your number?", comment: "")
 
-        areaCodeTextField.text = NSTimeZone.areaCode
-        areaCodeTextField.backgroundColor = UIColor.whiteColor()
+        areaCodeTextField.text = TimeZone.areaCode
+        areaCodeTextField.backgroundColor = UIColor.white
         areaCodeTextField.delegate = self
         areaCodeTextField.rx_text
             .subscribeNext({ [weak self] _ in self?.adjustAreaCodeTextFieldWidth() })
             .addDisposableTo(disposeBag)
 
         mobileNumberTextField.placeholder = ""
-        mobileNumberTextField.backgroundColor = UIColor.whiteColor()
+        mobileNumberTextField.backgroundColor = UIColor.white
         mobileNumberTextField.textColor = UIColor.yepInputTextColor()
         mobileNumberTextField.delegate = self
 
@@ -63,13 +63,13 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        nextButton.enabled = false
+        nextButton.isEnabled = false
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         mobileNumberTextField.becomeFirstResponder()
@@ -85,7 +85,7 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
         
         view.endEditing(true)
 
-        guard let areaCode = areaCodeTextField.text, number = mobileNumberTextField.text else {
+        guard let areaCode = areaCodeTextField.text, let number = mobileNumberTextField.text else {
             return
         }
         let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
@@ -98,7 +98,7 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
 
             YepHUD.hideActivityIndicator()
 
-            if case .NoSuccessStatusCode(_, let errorCode) = reason where errorCode == .NotYetRegistered {
+            if case .NoSuccessStatusCode(_, let errorCode) = reason , errorCode == .NotYetRegistered {
 
                 YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String(format: NSLocalizedString("This number (%@) not yet registered! Would you like to register it now?", comment: ""), mobilePhone.fullNumber), confirmTitle: String.trans_titleOK, cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { [weak self] in
 
@@ -134,15 +134,15 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
         })
     }
 
-    private func showLoginVerifyMobile() {
+    fileprivate func showLoginVerifyMobile() {
 
-        guard let areaCode = areaCodeTextField.text, number = mobileNumberTextField.text else {
+        guard let areaCode = areaCodeTextField.text, let number = mobileNumberTextField.text else {
             return
         }
         let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
         sharedStore().dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
-        self.performSegueWithIdentifier("showLoginVerifyMobile", sender: nil)
+        self.performSegue(withIdentifier: "showLoginVerifyMobile", sender: nil)
     }
 }
 

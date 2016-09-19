@@ -30,22 +30,22 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
     var hideRightBarItem: Bool = false
 
     var uploadingFeeds = [DiscoveredFeed]()
-    func handleUploadingErrorMessage(message: String) {
+    func handleUploadingErrorMessage(_ message: String) {
         if !uploadingFeeds.isEmpty {
             uploadingFeeds[0].uploadingErrorMessage = message
-            feedsTableView.reloadSections(NSIndexSet(index: Section.UploadingFeed.rawValue), withRowAnimation: .None)
+            feedsTableView.reloadSections(IndexSet(integer: Section.uploadingFeed.rawValue), with: .none)
 
             println("handleUploadingErrorMessage: \(message)")
         }
     }
     var feeds = [DiscoveredFeed]()
 
-    private var blockedFeeds = false {
+    fileprivate var blockedFeeds = false {
         didSet {
             moreViewManager.blockedFeeds = blockedFeeds
         }
     }
-    private lazy var moreViewManager: FeedsMoreViewManager = {
+    fileprivate lazy var moreViewManager: FeedsMoreViewManager = {
 
         let manager = FeedsMoreViewManager()
 
@@ -56,10 +56,10 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         return manager
     }()
 
-    private lazy var searchBar: UISearchBar = {
+    fileprivate lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.searchBarStyle = .Minimal
-        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
+        searchBar.searchBarStyle = .minimal
+        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, for: UIControlState())
         searchBar.delegate = self
         return searchBar
     }()
@@ -69,17 +69,17 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         return SearchTransition()
     }()
 
-    private lazy var noFeedsFooterView: InfoView = InfoView(String.trans_promptNoFeeds)
-    private lazy var fetchFailedFooterView: InfoView = InfoView(String.trans_errorFetchFailed)
+    fileprivate lazy var noFeedsFooterView: InfoView = InfoView(String.trans_promptNoFeeds)
+    fileprivate lazy var fetchFailedFooterView: InfoView = InfoView(String.trans_errorFetchFailed)
 
-    @IBOutlet private weak var feedsTableView: UITableView!  {
+    @IBOutlet fileprivate weak var feedsTableView: UITableView!  {
         didSet {
             searchBar.sizeToFit()
             feedsTableView.tableHeaderView = searchBar
 
-            feedsTableView.backgroundColor = UIColor.whiteColor()
+            feedsTableView.backgroundColor = UIColor.white
             feedsTableView.tableFooterView = UIView()
-            feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+            feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
 
             feedsTableView.registerNibOf(FeedSkillUsersCell)
             feedsTableView.registerNibOf(FeedFilterCell)
@@ -105,20 +105,20 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         return feedsTableView
     }
 
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
-    @IBOutlet private weak var activityIndicatorTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate weak var activityIndicatorTopConstraint: NSLayoutConstraint!
 
-    private var selectedIndexPathForMenu: NSIndexPath?
+    fileprivate var selectedIndexPathForMenu: IndexPath?
 
-    private var filterBarItem: UIBarButtonItem?
+    fileprivate var filterBarItem: UIBarButtonItem?
     
-    private lazy var filterStyles: [FeedSortStyle] = [
+    fileprivate lazy var filterStyles: [FeedSortStyle] = [
         .Distance,
         .Time,
         .Match,
     ]
 
-    private func filterItemWithSortStyle(sortStyle: FeedSortStyle, currentSortStyle: FeedSortStyle) -> ActionSheetView.Item {
+    fileprivate func filterItemWithSortStyle(_ sortStyle: FeedSortStyle, currentSortStyle: FeedSortStyle) -> ActionSheetView.Item {
         return .Check(
             title: sortStyle.name,
             titleColor: UIColor.yepTintColor(),
@@ -132,7 +132,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         )
     }
 
-    private func filterItemsWithCurrentSortStyle(currentSortStyle: FeedSortStyle) -> [ActionSheetView.Item] {
+    fileprivate func filterItemsWithCurrentSortStyle(_ currentSortStyle: FeedSortStyle) -> [ActionSheetView.Item] {
         var items = filterStyles.map({
             filterItemWithSortStyle($0, currentSortStyle: currentSortStyle)
         })
@@ -140,60 +140,60 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         return items
     }
 
-    private lazy var filterView: ActionSheetView = {
+    fileprivate lazy var filterView: ActionSheetView = {
         let view = ActionSheetView(items: self.filterItemsWithCurrentSortStyle(self.feedSortStyle))
         return view
     }()
 
-    private lazy var newFeedTypesView: ActionSheetView = {
+    fileprivate lazy var newFeedTypesView: ActionSheetView = {
         let view = ActionSheetView(items: [
-            .Default(
+            .default(
                 title: NSLocalizedString("Text & Photos", comment: ""),
                 titleColor: UIColor.yepTintColor(),
                 action: { [weak self] in
-                    self?.performSegueWithIdentifier("presentNewFeed", sender: nil)
+                    self?.performSegue(withIdentifier: "presentNewFeed", sender: nil)
                     return true
                 }
             ),
-            .Default(
+            .default(
                 title: NSLocalizedString("Voice", comment: ""),
                 titleColor: UIColor.yepTintColor(),
                 action: { [weak self] in
-                    self?.performSegueWithIdentifier("presentNewFeedVoiceRecord", sender: nil)
+                    self?.performSegue(withIdentifier: "presentNewFeedVoiceRecord", sender: nil)
                     return true
                 }
             ),
-            .Default(
+            .default(
                 title: String.trans_titleLocation,
                 titleColor: UIColor.yepTintColor(),
                 action: { [weak self] in
-                    self?.performSegueWithIdentifier("presentPickLocation", sender: nil)
+                    self?.performSegue(withIdentifier: "presentPickLocation", sender: nil)
                     return true
                 }
             ),
-            .Cancel,
+            .cancel,
             ]
         )
         return view
     }()
 
-    private lazy var skillTitleView: UIView = {
+    fileprivate lazy var skillTitleView: UIView = {
 
         let titleLabel = UILabel()
 
         let textAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSForegroundColorAttributeName: UIColor.white,
             NSFontAttributeName: UIFont.skillHomeTextLargeFont()
         ]
 
         let titleAttr = NSMutableAttributedString(string: self.skill?.localName ?? "", attributes:textAttributes)
 
         titleLabel.attributedText = titleAttr
-        titleLabel.textAlignment = NSTextAlignment.Center
+        titleLabel.textAlignment = NSTextAlignment.center
         titleLabel.backgroundColor = UIColor.yepTintColor()
         titleLabel.sizeToFit()
 
-        titleLabel.bounds = CGRectInset(titleLabel.frame, -25.0, -4.0)
+        titleLabel.bounds = titleLabel.frame.insetBy(dx: -25.0, dy: -4.0)
 
         titleLabel.layer.cornerRadius = titleLabel.frame.size.height/2.0
         titleLabel.layer.masksToBounds = true
@@ -206,7 +206,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         let pullToRefreshView = PullToRefreshView()
         pullToRefreshView.delegate = self
 
-        self.feedsTableView.insertSubview(pullToRefreshView, atIndex: 0)
+        self.feedsTableView.insertSubview(pullToRefreshView, at: 0)
 
         pullToRefreshView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -215,13 +215,13 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             "view": self.view,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(-200)-[pullToRefreshView(200)]", options: [], metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(-200)-[pullToRefreshView(200)]", options: [], metrics: nil, views: viewsDictionary)
 
         // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[pullToRefreshView(==view)]|", options: [], metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[pullToRefreshView(==view)]|", options: [], metrics: nil, views: viewsDictionary)
 
-        NSLayoutConstraint.activateConstraints(constraintsV)
-        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activate(constraintsV)
+        NSLayoutConstraint.activate(constraintsH)
         
         return pullToRefreshView
     }()
@@ -233,11 +233,11 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
     }()
     #endif
 
-    private var audioPlayedDurations = [String: NSTimeInterval]()
+    fileprivate var audioPlayedDurations = [String: TimeInterval]()
 
-    private weak var feedAudioPlaybackTimer: NSTimer?
+    fileprivate weak var feedAudioPlaybackTimer: Timer?
 
-    private func audioPlayedDurationOfFeedAudio(feedAudio: FeedAudio) -> NSTimeInterval {
+    fileprivate func audioPlayedDurationOfFeedAudio(_ feedAudio: FeedAudio) -> TimeInterval {
         let key = feedAudio.feedID
 
         if !key.isEmpty {
@@ -249,7 +249,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         return 0
     }
 
-    private func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofFeedAudio feedAudio: FeedAudio) {
+    fileprivate func setAudioPlayedDuration(_ audioPlayedDuration: TimeInterval, ofFeedAudio feedAudio: FeedAudio) {
         let key = feedAudio.feedID
         if !key.isEmpty {
             audioPlayedDurations[key] = audioPlayedDuration
@@ -277,18 +277,18 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    private func updateFeedsTableViewOrInsertWithIndexPaths(indexPaths: [NSIndexPath]?, animation: UITableViewRowAnimation? = nil) {
+    fileprivate func updateFeedsTableViewOrInsertWithIndexPaths(_ indexPaths: [IndexPath]?, animation: UITableViewRowAnimation? = nil) {
 
         // refresh skillUsers
 
-        let skillUsersIndexPath = NSIndexPath(forRow: 0, inSection: Section.SkillUsers.rawValue)
-        if let cell = feedsTableView.cellForRowAtIndexPath(skillUsersIndexPath) as? FeedSkillUsersCell {
+        let skillUsersIndexPath = IndexPath(row: 0, section: Section.skillUsers.rawValue)
+        if let cell = feedsTableView.cellForRow(at: skillUsersIndexPath) as? FeedSkillUsersCell {
             cell.configureWithFeeds(feeds)
         }
 
-        if let indexPaths = indexPaths where feeds.count > 1 {
+        if let indexPaths = indexPaths , feeds.count > 1 {
             // insert
-            feedsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: animation ?? .Automatic)
+            feedsTableView.insertRows(at: indexPaths, with: animation ?? .automatic)
 
         } else {
             // or reload
@@ -298,11 +298,11 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         feedsTableView.tableFooterView = feeds.isEmpty ? noFeedsFooterView : UIView()
     }
 
-    private struct LayoutPool {
+    fileprivate struct LayoutPool {
 
-        private var feedCellLayoutHash = [String: FeedCellLayout]()
+        fileprivate var feedCellLayoutHash = [String: FeedCellLayout]()
 
-        private mutating func feedCellLayoutOfFeed(feed: DiscoveredFeed) -> FeedCellLayout {
+        fileprivate mutating func feedCellLayoutOfFeed(_ feed: DiscoveredFeed) -> FeedCellLayout {
             let key = feed.id
 
             if let layout = feedCellLayoutHash[key] {
@@ -317,7 +317,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             }
         }
 
-        private mutating func updateFeedCellLayout(layout: FeedCellLayout, forFeed feed: DiscoveredFeed) {
+        fileprivate mutating func updateFeedCellLayout(_ layout: FeedCellLayout, forFeed feed: DiscoveredFeed) {
 
             let key = feed.id
 
@@ -328,16 +328,16 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             //println("feedCellLayoutHash.count: \(feedCellLayoutHash.count)")
         }
 
-        private mutating func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+        fileprivate mutating func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
             let layout = feedCellLayoutOfFeed(feed)
             return layout.height
         }
     }
-    private static var layoutPool = LayoutPool()
+    fileprivate static var layoutPool = LayoutPool()
 
-    private var needShowDistance: Bool = false
-    private var feedSortStyle: FeedSortStyle = .Match {
+    fileprivate var needShowDistance: Bool = false
+    fileprivate var feedSortStyle: FeedSortStyle = .Match {
         didSet {
             needShowDistance = (feedSortStyle == .Distance)
 
@@ -357,12 +357,12 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
     //var navigationControllerDelegate: ConversationMessagePreviewNavigationControllerDelegate?
     //var originalNavigationControllerDelegate: UINavigationControllerDelegate?
 
-    private var previewReferences: [Reference?]?
-    private var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
-    private var previewDribbblePhotos: [PreviewDribbblePhoto] = []
+    fileprivate var previewReferences: [Reference?]?
+    fileprivate var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
+    fileprivate var previewDribbblePhotos: [PreviewDribbblePhoto] = []
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         feedsTableView?.delegate = nil
 
         println("deinit Feeds")
@@ -374,8 +374,8 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
-                    feedsTableView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                if recognizer.isKind(of: UIScreenEdgePanGestureRecognizer.self) {
+                    feedsTableView.panGestureRecognizer.require(toFail: recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
                 }
@@ -396,18 +396,18 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         }
 
         feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
-        feedsTableView.contentOffset.y = CGRectGetHeight(searchBar.frame)
+        feedsTableView.contentOffset.y = searchBar.frame.height
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillHideNotification(_:)), name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.feedAudioDidFinishPlaying(_:)), name: AVPlayerItemDidPlayToEndTimeNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.feedAudioDidFinishPlaying(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
 
         if skill != nil {
             navigationItem.titleView = skillTitleView
 
-            filterOption = .Recommended
+            filterOption = .recommended
 
             // Add to Me
             
@@ -416,7 +416,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
                 let predicate = NSPredicate(format: "skillID = %@", skillID)
                 let notInMaster = me.masterSkills.filter(predicate).count == 0
                 if notInMaster && me.learningSkills.filter(predicate).count == 0 {
-                    let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("button.add_skill_to_me", comment: ""), style: .Plain, target: self, action: #selector(FeedsViewController.addSkillToMe(_:)))
+                    let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("button.add_skill_to_me", comment: ""), style: .plain, target: self, action: #selector(FeedsViewController.addSkillToMe(_:)))
                     navigationItem.rightBarButtonItem = addSkillToMeButton
                 }
             }
@@ -425,10 +425,10 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             // do nothing
 
         } else {
-            filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.Plain, target: self, action: #selector(FeedsViewController.showFilter(_:)))
+            filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: self, action: #selector(FeedsViewController.showFilter(_:)))
             navigationItem.leftBarButtonItem = filterBarItem
 
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.hideFeedsByCrearor(_:)), name: YepConfig.Notification.blockedFeedsByCreator, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.hideFeedsByCrearor(_:)), name: NSNotification.Name(rawValue: YepConfig.Notification.blockedFeedsByCreator), object: nil)
         }
 
         if hideRightBarItem {
@@ -436,7 +436,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
                 navigationItem.rightBarButtonItem = nil
 
             } else {
-                let moreBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconMore, style: .Plain, target: self, action: #selector(FeedsViewController.moreAction(_:)))
+                let moreBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconMore, style: .plain, target: self, action: #selector(FeedsViewController.moreAction(_:)))
                 navigationItem.rightBarButtonItem = moreBarButtonItem
 
                 if let userID = profileUser?.userID {
@@ -452,7 +452,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
             if let
                 value = YepUserDefaults.feedSortStyle.value,
-                _feedSortStyle = FeedSortStyle(rawValue: value) {
+                let _feedSortStyle = FeedSortStyle(rawValue: value) {
                     feedSortStyle = _feedSortStyle
                     
             } else {
@@ -460,8 +460,8 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             }
 
             if skill == nil {
-                if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
-                    if let JSON = offlineJSON.JSON, feeds = parseFeeds(JSON) {
+                if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
+                    if let JSON = offlineJSON.JSON, let feeds = parseFeeds(JSON) {
                         self.feeds = feeds.flatMap({ $0 })
                         activityIndicator.stopAnimating()
                     }
@@ -475,8 +475,8 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             updateFeeds()
         }
 
-        if traitCollection.forceTouchCapability == .Available {
-            registerForPreviewingWithDelegate(self, sourceView: feedsTableView)
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: feedsTableView)
         }
 
         #if DEBUG
@@ -484,36 +484,36 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         #endif
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(false, animated: false)
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         recoverOriginalNavigationDelegate()
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         if blockedFeeds {
             if let userID = profileUser?.userID {
-                NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.blockedFeedsByCreator, object: userID)
+                NotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.blockedFeedsByCreator, object: userID)
             }
         }
     }
 
     // MARK: - Actions
 
-    @objc private func addSkillToMe(sender: AnyObject) {
+    @objc fileprivate func addSkillToMe(_ sender: AnyObject) {
         println("addSkillToMe")
         
-        if let skillID = skill?.id, skillLocalName = skill?.localName {
+        if let skillID = skill?.id, let skillLocalName = skill?.localName {
             
-            let doAddSkillToSkillSet: SkillSet -> Void = { skillSet in
+            let doAddSkillToSkillSet: (SkillSet) -> Void = { skillSet in
                 
                 addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -534,7 +534,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             
             let alertController = UIAlertController(title: String.trans_titleChooseSkillSet, message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
             
-            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { action in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .cancel) { action in
             }
             alertController.addAction(cancelAction)
             
@@ -552,33 +552,33 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    @objc private func showFilter(sender: AnyObject) {
+    @objc fileprivate func showFilter(_ sender: AnyObject) {
         
         if let window = view.window {
             filterView.showInView(window)
         }
     }
 
-    @objc private func moreAction(sender: AnyObject) {
+    @objc fileprivate func moreAction(_ sender: AnyObject) {
 
         if let window = view.window {
             moreViewManager.moreView.showInView(window)
         }
     }
 
-    private var canLoadMore: Bool = false
-    private var currentPageIndex = 1
-    private var isFetchingFeeds = false
-    private var filterOption: FeedFilterCell.Option? {
+    fileprivate var canLoadMore: Bool = false
+    fileprivate var currentPageIndex = 1
+    fileprivate var isFetchingFeeds = false
+    fileprivate var filterOption: FeedFilterCell.Option? {
         didSet {
             updateFeeds()
         }
     }
     enum UpdateFeedsMode {
-        case Top
-        case LoadMore
+        case top
+        case loadMore
     }
-    private func updateFeeds(mode mode: UpdateFeedsMode = .Top, finish: (() -> Void)? = nil) {
+    fileprivate func updateFeeds(mode: UpdateFeedsMode = .top, finish: (() -> Void)? = nil) {
 
         if isFetchingFeeds {
             finish?()
@@ -587,15 +587,15 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
         isFetchingFeeds = true
 
-        if mode == .Top && feeds.isEmpty {
+        if mode == .top && feeds.isEmpty {
             activityIndicator.startAnimating()
         }
 
         switch mode {
-        case .Top:
+        case .top:
             canLoadMore = true
             currentPageIndex = 1
-        case .LoadMore:
+        case .loadMore:
             currentPageIndex += 1
         }
 
@@ -625,7 +625,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
             SafeDispatch.async { [weak self] in
 
-                if case .Top = mode where validFeeds.isEmpty {
+                if case .Top = mode , validFeeds.isEmpty {
                     self?.feedsTableView.tableFooterView = self?.noFeedsFooterView
                 } else {
                     self?.feedsTableView.tableFooterView = UIView()
@@ -743,9 +743,9 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    @IBAction private func createNewFeed(sender: AnyObject) {
+    @IBAction fileprivate func createNewFeed(_ sender: AnyObject) {
 
-        guard let avatarURLString = YepUserDefaults.avatarURLString.value where !avatarURLString.isEmpty else {
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value , !avatarURLString.isEmpty else {
 
             YepAlert.alertSorry(message: NSLocalizedString("You have no avatar! Please set up one first.", comment: ""), inViewController: self)
 
@@ -757,7 +757,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    private func updateCellOfFeedAudio(feedAudio: FeedAudio, withCurrentTime currentTime: NSTimeInterval) {
+    fileprivate func updateCellOfFeedAudio(_ feedAudio: FeedAudio, withCurrentTime currentTime: TimeInterval) {
 
         let feedID = feedAudio.feedID
 
@@ -776,7 +776,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    @objc private func updateAudioPlaybackProgress(timer: NSTimer) {
+    @objc fileprivate func updateAudioPlaybackProgress(_ timer: Timer) {
 
         guard let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio else {
             return
@@ -787,7 +787,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
     }
 
-    @objc private func updateOnlineAudioPlaybackProgress(timer: NSTimer) {
+    @objc fileprivate func updateOnlineAudioPlaybackProgress(_ timer: Timer) {
 
         guard let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio else {
             return
@@ -798,7 +798,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         updateCellOfFeedAudio(playingFeedAudio, withCurrentTime: currentTime)
     }
 
-    private func toggleBlockFeeds() {
+    fileprivate func toggleBlockFeeds() {
 
         guard let userID = profileUser?.userID else {
             return
@@ -815,7 +815,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    @objc private func hideFeedsByCrearor(notifcation: NSNotification) {
+    @objc fileprivate func hideFeedsByCrearor(_ notifcation: Notification) {
 
         if let userID = notifcation.object as? String {
             println("hideFeedsByCreator: \(userID)")
@@ -829,9 +829,9 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
     // MARK: - Navigation
 
-    private var newFeedViewController: NewFeedViewController?
+    fileprivate var newFeedViewController: NewFeedViewController?
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -859,7 +859,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             }
         }
 
-        let afterCreatedFeedAction: DiscoveredFeed -> Void = { [weak self] feed in
+        let afterCreatedFeedAction: (DiscoveredFeed) -> Void = { [weak self] feed in
 
             self?.newFeedViewController = nil
 
@@ -899,7 +899,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
         case "showSearchFeeds":
 
-            let vc = segue.destinationViewController as! SearchFeedsViewController
+            let vc = segue.destination as! SearchFeedsViewController
             vc.originalNavigationControllerDelegate = navigationController?.delegate
 
             vc.skill = skill
@@ -911,22 +911,22 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
         case "showProfile":
 
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
-            if let indexPath = sender as? NSIndexPath, section = Section(rawValue: indexPath.section) {
+            if let indexPath = sender as? IndexPath, let section = Section(rawValue: (indexPath as NSIndexPath).section) {
 
                 switch section {
-                case .SkillUsers:
+                case .skillUsers:
                     break
-                case .Filter:
+                case .filter:
                     break
-                case .UploadingFeed:
+                case .uploadingFeed:
                     let discoveredUser = uploadingFeeds[indexPath.row].creator
                     vc.prepare(with: discoveredUser)
-                case .Feed:
+                case .feed:
                     let discoveredUser = feeds[indexPath.row].creator
                     vc.prepare(with: discoveredUser)
-                case .LoadMore:
+                case .loadMore:
                     break
                 }
             }
@@ -935,7 +935,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
         case "showSkillHome":
 
-            let vc = segue.destinationViewController as! SkillHomeViewController
+            let vc = segue.destination as! SkillHomeViewController
 
             if let skill = skill {
                 vc.skill = SkillCellSkill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: nil)
@@ -947,20 +947,20 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
         case "showFeedsWithSkill":
 
-            let vc = segue.destinationViewController as! FeedsViewController
+            let vc = segue.destination as! FeedsViewController
 
-            if let indexPath = sender as? NSIndexPath, section = Section(rawValue: indexPath.section) {
+            if let indexPath = sender as? IndexPath, let section = Section(rawValue: (indexPath as NSIndexPath).section) {
 
                 switch section {
-                case .SkillUsers:
+                case .skillUsers:
                     break
-                case .Filter:
+                case .filter:
                     break
-                case .UploadingFeed:
+                case .uploadingFeed:
                     vc.skill = uploadingFeeds[indexPath.row].skill
-                case .Feed:
+                case .feed:
                     vc.skill = feeds[indexPath.row].skill
-                case .LoadMore:
+                case .loadMore:
                     break
                 }
             }
@@ -971,12 +971,12 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
         case "showConversation":
 
-            let vc = segue.destinationViewController as! ConversationViewController
+            let vc = segue.destination as! ConversationViewController
 
             guard let
-                indexPath = sender as? NSIndexPath,
-                feed = feeds[safe: indexPath.row],
-                realm = try? Realm() else {
+                indexPath = sender as? IndexPath,
+                let feed = feeds[safe: indexPath.row],
+                let realm = try? Realm() else {
                     return
             }
 
@@ -987,8 +987,8 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         case "presentNewFeed":
 
             guard let
-                nvc = segue.destinationViewController as? UINavigationController,
-                vc = nvc.topViewController as? NewFeedViewController
+                nvc = segue.destination as? UINavigationController,
+                let vc = nvc.topViewController as? NewFeedViewController
             else {
                 return
             }
@@ -1004,8 +1004,8 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         case "presentNewFeedVoiceRecord":
 
             guard let
-                nvc = segue.destinationViewController as? UINavigationController,
-                vc = nvc.topViewController as? NewFeedVoiceRecordViewController
+                nvc = segue.destination as? UINavigationController,
+                let vc = nvc.topViewController as? NewFeedVoiceRecordViewController
             else {
                 return
             }
@@ -1021,13 +1021,13 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         case "presentPickLocation":
 
             guard let
-                nvc = segue.destinationViewController as? UINavigationController,
-                vc = nvc.topViewController as? PickLocationViewController
+                nvc = segue.destination as? UINavigationController,
+                let vc = nvc.topViewController as? PickLocationViewController
             else {
                 return
             }
 
-            vc.purpose = .Feed
+            vc.purpose = .feed
 
             vc.preparedSkill = skill
 
@@ -1040,7 +1040,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         }
     }
 
-    private func prepareConversationViewController(vc: ConversationViewController, withDiscoveredFeed feed: DiscoveredFeed, inRealm realm: Realm) {
+    fileprivate func prepareConversationViewController(_ vc: ConversationViewController, withDiscoveredFeed feed: DiscoveredFeed, inRealm realm: Realm) {
 
         realm.beginWrite()
         let feedConversation = vc.prepareConversation(for: feed, in: realm)
@@ -1060,7 +1060,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
                         }
                     }
 
-                    if let deletedFeed = deletedFeed, index = strongSelf.feeds.indexOf(deletedFeed) {
+                    if let deletedFeed = deletedFeed, let index = strongSelf.feeds.indexOf(deletedFeed) {
                         strongSelf.feeds.removeAtIndex(index)
 
                         let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
@@ -1085,7 +1085,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
                 if let feedInfo = groupInfo["topic"] as? JSONDictionary {
 
-                    guard let strongSelf = self, feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) else {
+                    guard let strongSelf = self, let feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo) else {
                         return
                     }
 
@@ -1108,7 +1108,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
         vc.syncPlayFeedAudioAction = { [weak self] in
             guard let strongSelf = self else { return }
-            strongSelf.feedAudioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+            strongSelf.feedAudioPlaybackTimer = Timer.scheduledTimer(timeInterval: 0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
         }
     }
 }
@@ -1117,9 +1117,9 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
 extension FeedsViewController: UISearchBarDelegate {
 
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
 
-        performSegueWithIdentifier("showSearchFeeds", sender: nil)
+        performSegue(withIdentifier: "showSearchFeeds", sender: nil)
 
         return false
     }
@@ -1129,46 +1129,46 @@ extension FeedsViewController: UISearchBarDelegate {
 
 extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    private enum Section: Int {
-        case SkillUsers
-        case UploadingFeed
-        case Feed
-        case LoadMore
-        case Filter
+    fileprivate enum Section: Int {
+        case skillUsers
+        case uploadingFeed
+        case feed
+        case loadMore
+        case filter
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
 
         return 4
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             return 0
         }
 
         switch section {
-        case .SkillUsers:
+        case .skillUsers:
             return (skill == nil) ? 0 : 1
-        case .Filter:
+        case .filter:
             return (skill == nil) ? 0 : 1
-        case .UploadingFeed:
+        case .uploadingFeed:
             return uploadingFeeds.count
-        case .Feed:
+        case .feed:
             return feeds.count
-        case .LoadMore:
+        case .loadMore:
             return feeds.isEmpty ? 0 : 1
         }
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return UITableViewCell()
         }
 
-        func cellForFeed(feed: DiscoveredFeed) -> UITableViewCell {
+        func cellForFeed(_ feed: DiscoveredFeed) -> UITableViewCell {
 
             switch feed.kind {
 
@@ -1218,40 +1218,40 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch section {
 
-        case .SkillUsers:
+        case .skillUsers:
 
             let cell: FeedSkillUsersCell = tableView.dequeueReusableCell()
             return cell
 
-        case .Filter:
+        case .filter:
 
             let cell: FeedFilterCell = tableView.dequeueReusableCell()
             return cell
 
-        case .UploadingFeed:
+        case .uploadingFeed:
 
             let feed = uploadingFeeds[indexPath.row]
             return cellForFeed(feed)
 
-        case .Feed:
+        case .feed:
 
             let feed = feeds[indexPath.row]
             return cellForFeed(feed)
 
-        case .LoadMore:
+        case .loadMore:
 
             let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
             return cell
         }
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return
         }
 
-        func configureFeedCell(cell: UITableViewCell, withFeed feed: DiscoveredFeed) {
+        func configureFeedCell(_ cell: UITableViewCell, withFeed feed: DiscoveredFeed) {
 
             guard let cell = cell as? FeedBasicCell else {
                 return
@@ -1260,29 +1260,29 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             cell.needShowDistance = needShowDistance
 
             cell.tapAvatarAction = { [weak self] cell in
-                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
-                    println("tapAvatarAction indexPath: \(indexPath.section), \(indexPath.row)")
-                    self?.performSegueWithIdentifier("showProfile", sender: indexPath)
+                if let indexPath = tableView.indexPath(for: cell) { // 不直接捕捉 indexPath
+                    println("tapAvatarAction indexPath: \((indexPath as NSIndexPath).section), \((indexPath as NSIndexPath).row)")
+                    self?.performSegue(withIdentifier: "showProfile", sender: indexPath)
                 }
             }
 
             cell.tapSkillAction = { [weak self] cell in
-                if let indexPath = tableView.indexPathForCell(cell) { // 不直接捕捉 indexPath
-                    self?.performSegueWithIdentifier("showFeedsWithSkill", sender: indexPath)
+                if let indexPath = tableView.indexPath(for: cell) { // 不直接捕捉 indexPath
+                    self?.performSegue(withIdentifier: "showFeedsWithSkill", sender: indexPath)
                 }
             }
 
             // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
             // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
             cell.touchesBeganAction = { [weak self] cell in
-                guard let indexPath = tableView.indexPathForCell(cell) else {
+                guard let indexPath = tableView.indexPath(for: cell) else {
                     return
                 }
-                self?.tableView(tableView, willSelectRowAtIndexPath: indexPath)
-                tableView.selectRowAtIndexPath(indexPath, animated: false, scrollPosition: .None)
+                self?.tableView(tableView, willSelectRowAt: indexPath)
+                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             }
             cell.touchesEndedAction = { [weak self] cell in
-                guard let indexPath = tableView.indexPathForCell(cell) else {
+                guard let indexPath = tableView.indexPath(for: cell) else {
                     return
                 }
                 delay(0.03) { [weak self] in
@@ -1290,10 +1290,10 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             }
             cell.touchesCancelledAction = { cell in
-                guard let indexPath = tableView.indexPathForCell(cell) else {
+                guard let indexPath = tableView.indexPath(for: cell) else {
                     return
                 }
-                tableView.deselectRowAtIndexPath(indexPath, animated: true)
+                tableView.deselectRow(at: indexPath, animated: true)
             }
 
             let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
@@ -1406,7 +1406,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     let initialPhoto = photos[0]
 
                     let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
-                    self?.presentViewController(photosViewController, animated: true, completion: nil)
+                    self?.present(photosViewController, animated: true, completion: nil)
                 }
 
             case .Audio:
@@ -1419,7 +1419,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 cell.playOrPauseAudioAction = { [weak self] cell in
 
-                    guard let realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
+                    guard let realm = try? Realm(), let feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
                         return
                     }
 
@@ -1444,7 +1444,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     if let strongSelf = self {
 
                         // 如果在播放，就暂停
-                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer where onlineAudioPlayer.yep_playing {
+                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer , onlineAudioPlayer.yep_playing {
 
                             onlineAudioPlayer.pause()
 
@@ -1467,7 +1467,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                                 }
                             }
 
-                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feed.id {
+                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio , playingFeedAudio.feedID == feed.id {
                                 YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
 
                             } else {
@@ -1495,7 +1495,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
                     mapItem.name = locationName
 
-                    mapItem.openInMapsWithLaunchOptions(nil)
+                    mapItem.openInMaps(launchOptions: nil)
                 }
 
             default:
@@ -1505,7 +1505,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch section {
 
-        case .SkillUsers:
+        case .skillUsers:
 
             guard let cell = cell as? FeedSkillUsersCell else {
                 break
@@ -1513,7 +1513,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             cell.configureWithFeeds(feeds)
 
-        case .Filter:
+        case .filter:
 
             guard let cell = cell as? FeedFilterCell else {
                 break
@@ -1528,7 +1528,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 self?.filterOption = option
             }
 
-        case .UploadingFeed:
+        case .uploadingFeed:
 
             let feed = uploadingFeeds[indexPath.row]
             configureFeedCell(cell, withFeed: feed)
@@ -1539,7 +1539,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                     self?.newFeedViewController?.post(again: true)
 
-                    if let indexPath = self?.feedsTableView.indexPathForCell(cell) {
+                    if let indexPath = self?.feedsTableView.indexPath(for: cell) {
                         self?.uploadingFeeds[indexPath.row].uploadingErrorMessage = nil
                         cell.hasUploadingErrorMessage = false
                     }
@@ -1547,21 +1547,21 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
                 cell.deleteUploadingFeedAction = { [weak self] cell in
 
-                    if let indexPath = self?.feedsTableView.indexPathForCell(cell) {
+                    if let indexPath = self?.feedsTableView.indexPath(for: cell) {
                         self?.uploadingFeeds.removeAtIndex(indexPath.row)
-                        self?.feedsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                        self?.feedsTableView.deleteRows(at: [indexPath], with: .automatic)
 
                         self?.newFeedViewController = nil
                     }
                 }
             }
 
-        case .Feed:
+        case .feed:
 
             let feed = feeds[indexPath.row]
             configureFeedCell(cell, withFeed: feed)
 
-        case .LoadMore:
+        case .loadMore:
 
             guard let cell = cell as? LoadMoreTableViewCell else {
                 break
@@ -1586,86 +1586,86 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return 0
         }
 
         switch section {
 
-        case .SkillUsers:
+        case .skillUsers:
             return 70
 
-        case .Filter:
+        case .filter:
             return 60
 
-        case .UploadingFeed:
+        case .uploadingFeed:
             let feed = uploadingFeeds[indexPath.row]
             return FeedsViewController.layoutPool.heightOfFeed(feed)
 
-        case .Feed:
+        case .feed:
             let feed = feeds[indexPath.row]
             return FeedsViewController.layoutPool.heightOfFeed(feed)
 
-        case .LoadMore:
+        case .loadMore:
             return 60
         }
     }
 
-    func tableView(tableView: UITableView, willSelectRowAtIndexPath indexPath: NSIndexPath) -> NSIndexPath? {
+    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return indexPath
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return
         }
 
         switch section {
 
-        case .SkillUsers:
-            performSegueWithIdentifier("showSkillHome", sender: nil)
+        case .skillUsers:
+            performSegue(withIdentifier: "showSkillHome", sender: nil)
 
-        case .Filter:
+        case .filter:
             break
 
-        case .UploadingFeed:
+        case .uploadingFeed:
             break
 
-        case .Feed:
-            performSegueWithIdentifier("showConversation", sender: indexPath)
+        case .feed:
+            performSegue(withIdentifier: "showConversation", sender: indexPath)
 
-        case .LoadMore:
+        case .loadMore:
             break
         }
     }
 
     // Report
 
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return false
         }
 
         switch section {
 
-        case .SkillUsers:
+        case .skillUsers:
             return false
 
-        case .Filter:
+        case .filter:
             return false
 
-        case .UploadingFeed:
+        case .uploadingFeed:
             return false
 
-        case .Feed:
+        case .feed:
             let feed = feeds[indexPath.item]
 
             if feed.skill != nil {
@@ -1679,20 +1679,20 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             }
 
-        case .LoadMore:
+        case .loadMore:
             return false
         }
     }
 
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return nil
         }
 
-        if case .Feed = section {
+        if case .feed = section {
 
-            let reportAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Report", comment: "")) { [weak self] action, indexPath in
+            let reportAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Report", comment: "")) { [weak self] action, indexPath in
 
                 if let feed = self?.feeds[indexPath.row] {
                     self?.report(.Feed(feedID: feed.id))
@@ -1710,7 +1710,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 recommendTitle = NSLocalizedString("Recommend", comment: "")
             }
 
-            let recommendAction = UITableViewRowAction(style: .Normal, title: recommendTitle) { [weak self] action, indexPath in
+            let recommendAction = UITableViewRowAction(style: .normal, title: recommendTitle) { [weak self] action, indexPath in
 
                 if feed.recommended {
                     cancelRecommendedFeedWithFeedID(feed.id, failureHandler: { [weak self] reason, errorMessage in
@@ -1757,43 +1757,43 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     // MARK: Copy Message
 
-    @objc private func didRecieveMenuWillHideNotification(notification: NSNotification) {
+    @objc fileprivate func didRecieveMenuWillHideNotification(_ notification: Notification) {
 
         selectedIndexPathForMenu = nil
     }
 
-    @objc private func didRecieveMenuWillShowNotification(notification: NSNotification) {
+    @objc fileprivate func didRecieveMenuWillShowNotification(_ notification: Notification) {
 
-        guard let menu = notification.object as? UIMenuController, selectedIndexPathForMenu = selectedIndexPathForMenu, cell = feedsTableView.cellForRowAtIndexPath(selectedIndexPathForMenu) as? FeedBasicCell else {
+        guard let menu = notification.object as? UIMenuController, let selectedIndexPathForMenu = selectedIndexPathForMenu, let cell = feedsTableView.cellForRow(at: selectedIndexPathForMenu) as? FeedBasicCell else {
             return
         }
 
-        let bubbleFrame = cell.convertRect(cell.messageTextView.frame, toView: view)
+        let bubbleFrame = cell.convert(cell.messageTextView.frame, to: view)
 
-        NSNotificationCenter.defaultCenter().removeObserver(self, name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
 
-        menu.setTargetRect(bubbleFrame, inView: view)
+        menu.setTargetRect(bubbleFrame, in: view)
         menu.setMenuVisible(true, animated: true)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
 
-        feedsTableView.deselectRowAtIndexPath(selectedIndexPathForMenu, animated: true)
+        feedsTableView.deselectRow(at: selectedIndexPathForMenu, animated: true)
     }
 
-    func tableView(tableView: UITableView, shouldShowMenuForRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, shouldShowMenuForRowAt indexPath: IndexPath) -> Bool {
 
         defer {
             selectedIndexPathForMenu = indexPath
         }
 
-        guard let _ = tableView.cellForRowAtIndexPath(indexPath) as? FeedBasicCell else {
+        guard let _ = tableView.cellForRow(at: indexPath) as? FeedBasicCell else {
             return false
         }
 
         return true
     }
 
-    func tableView(tableView: UITableView, canPerformAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) -> Bool {
+    func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
 
         if action == #selector(NSObject.copy(_:)) {
             return true
@@ -1802,30 +1802,30 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         return false
     }
 
-    func tableView(tableView: UITableView, performAction action: Selector, forRowAtIndexPath indexPath: NSIndexPath, withSender sender: AnyObject?) {
+    func tableView(_ tableView: UITableView, performAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) {
 
-        guard let cell = tableView.cellForRowAtIndexPath(indexPath) as? FeedBasicCell else {
+        guard let cell = tableView.cellForRow(at: indexPath) as? FeedBasicCell else {
             return
         }
 
         if action == #selector(NSObject.copy(_:)) {
-            UIPasteboard.generalPasteboard().string = cell.messageTextView.text
+            UIPasteboard.general.string = cell.messageTextView.text
         }
     }
 
     // MARK: UIScrollViewDelegate
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
         pullToRefreshView.scrollViewDidScroll(scrollView)
     }
 
-    func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
 
         pullToRefreshView.scrollViewWillEndDragging(scrollView, withVelocity: velocity, targetContentOffset: targetContentOffset)
     }
 
-    func scrollViewDidEndScrollingAnimation(scrollView: UIScrollView) {
+    func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
 
         pullToRefreshView.scrollViewDidEndScrollingAnimation(scrollView)
     }
@@ -1835,7 +1835,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension FeedsViewController: PullToRefreshViewDelegate {
 
-    func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
+    func pulllToRefreshViewDidRefresh(_ pulllToRefreshView: PullToRefreshView) {
 
         activityIndicator.alpha = 0
 
@@ -1863,7 +1863,7 @@ extension FeedsViewController: PullToRefreshViewDelegate {
 
 extension FeedsViewController {
 
-    private func feedAudioDidFinishPlaying() {
+    fileprivate func feedAudioDidFinishPlaying() {
 
         if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
             playbackTimer.invalidate()
@@ -1877,7 +1877,7 @@ extension FeedsViewController {
         YepAudioService.sharedManager.resetToDefault()
     }
 
-    @objc private func feedAudioDidFinishPlaying(notification: NSNotification) {
+    @objc fileprivate func feedAudioDidFinishPlaying(_ notification: Notification) {
         feedAudioDidFinishPlaying()
     }
 }
@@ -1886,7 +1886,7 @@ extension FeedsViewController {
 
 extension FeedsViewController: AVAudioPlayerDelegate {
 
-    func audioPlayerDidFinishPlaying(player: AVAudioPlayer, successfully flag: Bool) {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
 
         println("audioPlayerDidFinishPlaying \(flag)")
 
@@ -1898,25 +1898,25 @@ extension FeedsViewController: AVAudioPlayerDelegate {
 
 extension FeedsViewController: UIViewControllerPreviewingDelegate {
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
 
-        guard let indexPath = feedsTableView.indexPathForRowAtPoint(location), cell = feedsTableView.cellForRowAtIndexPath(indexPath) else {
+        guard let indexPath = feedsTableView.indexPathForRow(at: location), let cell = feedsTableView.cellForRow(at: indexPath) else {
             return nil
         }
 
         previewingContext.sourceRect = cell.frame
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return nil
         }
 
         switch section {
 
-        case .Feed:
+        case .feed:
 
             guard let
                 feed = feeds[safe: indexPath.row],
-                realm = try? Realm() else {
+                let realm = try? Realm() else {
                     return nil
             }
 
@@ -1935,9 +1935,9 @@ extension FeedsViewController: UIViewControllerPreviewingDelegate {
         }
     }
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         
-        showViewController(viewControllerToCommit, sender: self)
+        show(viewControllerToCommit, sender: self)
     }
 }
 
@@ -1945,17 +1945,17 @@ extension FeedsViewController: UIViewControllerPreviewingDelegate {
 
 extension FeedsViewController: PhotosViewControllerDelegate {
 
-    func photosViewController(vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference? {
+    func photosViewController(_ vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference? {
 
         println("photosViewController:referenceViewForPhoto:\(photo)")
 
         if let previewAttachmentPhoto = photo as? PreviewAttachmentPhoto {
-            if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
+            if let index = previewAttachmentPhotos.index(of: previewAttachmentPhoto) {
                 return previewReferences?[index]
             }
 
         } else if let previewDribbblePhoto = photo as? PreviewDribbblePhoto {
-            if let index = previewDribbblePhotos.indexOf(previewDribbblePhoto) {
+            if let index = previewDribbblePhotos.index(of: previewDribbblePhoto) {
                 return previewReferences?[index]
             }
         }
@@ -1963,17 +1963,17 @@ extension FeedsViewController: PhotosViewControllerDelegate {
         return nil
     }
 
-    func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
+    func photosViewController(_ vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
 
         println("photosViewController:didNavigateToPhoto:\(photo):atIndex:\(index)")
     }
 
-    func photosViewControllerWillDismiss(vc: PhotosViewController) {
+    func photosViewControllerWillDismiss(_ vc: PhotosViewController) {
 
         println("photosViewControllerWillDismiss")
     }
 
-    func photosViewControllerDidDismiss(vc: PhotosViewController) {
+    func photosViewControllerDidDismiss(_ vc: PhotosViewController) {
 
         println("photosViewControllerDidDismiss")
 

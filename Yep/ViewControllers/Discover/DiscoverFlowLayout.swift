@@ -11,8 +11,8 @@ import UIKit
 final class DiscoverFlowLayout: UICollectionViewFlowLayout {
 
     enum Mode {
-        case Normal
-        case Card
+        case normal
+        case card
     }
 
     var mode: Mode?

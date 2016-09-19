@@ -16,32 +16,32 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
     var preparedSkill: Skill?
 
-    var beforeUploadingFeedAction: ((feed: DiscoveredFeed, newFeedViewController: NewFeedViewController) -> Void)?
-    var afterCreatedFeedAction: ((feed: DiscoveredFeed) -> Void)?
+    var beforeUploadingFeedAction: ((_ feed: DiscoveredFeed, _ newFeedViewController: NewFeedViewController) -> Void)?
+    var afterCreatedFeedAction: ((_ feed: DiscoveredFeed) -> Void)?
     var getFeedsViewController: (() -> FeedsViewController?)?
 
-    @IBOutlet private weak var nextButton: UIBarButtonItem!
+    @IBOutlet fileprivate weak var nextButton: UIBarButtonItem!
 
-    @IBOutlet private weak var voiceRecordSampleView: VoiceRecordSampleView!
-    @IBOutlet private weak var voiceIndicatorImageView: UIImageView!
-    @IBOutlet private weak var voiceIndicatorImageViewCenterXConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var voiceRecordSampleView: VoiceRecordSampleView!
+    @IBOutlet fileprivate weak var voiceIndicatorImageView: UIImageView!
+    @IBOutlet fileprivate weak var voiceIndicatorImageViewCenterXConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var timeLabel: UILabel! 
+    @IBOutlet fileprivate weak var timeLabel: UILabel! 
     
-    @IBOutlet private weak var voiceRecordButton: RecordButton!
-    @IBOutlet private weak var playButton: UIButton!
-    @IBOutlet private weak var resetButton: UIButton!
+    @IBOutlet fileprivate weak var voiceRecordButton: RecordButton!
+    @IBOutlet fileprivate weak var playButton: UIButton!
+    @IBOutlet fileprivate weak var resetButton: UIButton!
 
-    private enum State {
-        case Default
-        case Recording
-        case FinishRecord
+    fileprivate enum State {
+        case `default`
+        case recording
+        case finishRecord
     }
-    private var state: State = .Default {
+    fileprivate var state: State = .default {
         willSet {
             switch newValue {
 
-            case .Default:
+            case .default:
 
                 do {
                     AudioBot.stopPlay()
@@ -53,13 +53,13 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     audioPlayedDuration = 0
                 }
 
-                nextButton.enabled = false
+                nextButton.isEnabled = false
 
                 voiceIndicatorImageView.alpha = 0
 
-                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
                     self?.voiceRecordButton.alpha = 1
-                    self?.voiceRecordButton.appearance = .Default
+                    self?.voiceRecordButton.appearance = .default
 
                     self?.playButton.alpha = 0
                     self?.resetButton.alpha = 0
@@ -68,27 +68,27 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 voiceIndicatorImageViewCenterXConstraint.constant = 0
                 view.layoutIfNeeded()
 
-            case .Recording:
+            case .recording:
 
-                nextButton.enabled = false
+                nextButton.isEnabled = false
 
                 voiceIndicatorImageView.alpha = 0
 
-                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
                     self?.voiceRecordButton.alpha = 1
-                    self?.voiceRecordButton.appearance = .Recording
+                    self?.voiceRecordButton.appearance = .recording
 
                     self?.playButton.alpha = 0
                     self?.resetButton.alpha = 0
                 }, completion: nil)
 
-            case .FinishRecord:
+            case .finishRecord:
 
-                nextButton.enabled = true
+                nextButton.isEnabled = true
 
                 voiceIndicatorImageView.alpha = 0
 
-                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
                     self?.voiceRecordButton.alpha = 0
                     self?.playButton.alpha = 1
                     self?.resetButton.alpha = 1
@@ -97,15 +97,15 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 let fullWidth = voiceRecordSampleView.bounds.width
 
                 if !voiceRecordSampleView.sampleValues.isEmpty {
-                    let firstIndexPath = NSIndexPath(forItem: 0, inSection: 0)
-                    voiceRecordSampleView.sampleCollectionView.scrollToItemAtIndexPath(firstIndexPath, atScrollPosition: .Left, animated: true)
+                    let firstIndexPath = IndexPath(item: 0, section: 0)
+                    voiceRecordSampleView.sampleCollectionView.scrollToItem(at: firstIndexPath, at: .left, animated: true)
                 }
 
-                UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
                     self?.voiceIndicatorImageView.alpha = 1
 
                 }, completion: { _ in
-                    UIView.animateWithDuration(0.75, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                    UIView.animate(withDuration: 0.75, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
                         self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2
                         self?.view.layoutIfNeeded()
                     }, completion: { _ in })
@@ -114,7 +114,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 
-    private var sampleValues: [CGFloat] = [] {
+    fileprivate var sampleValues: [CGFloat] = [] {
         didSet {
             let count = sampleValues.count
             let frequency = 10
@@ -126,19 +126,19 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 
-    private var audioPlaying: Bool = false {
+    fileprivate var audioPlaying: Bool = false {
         willSet {
             if newValue != audioPlaying {
                 if newValue {
-                    playButton.setImage(UIImage.yep_buttonVoicePause, forState: .Normal)
+                    playButton.setImage(UIImage.yep_buttonVoicePause, for: UIControlState())
                 } else {
-                    playButton.setImage(UIImage.yep_buttonVoicePlay, forState: .Normal)
+                    playButton.setImage(UIImage.yep_buttonVoicePlay, for: UIControlState())
                 }
             }
         }
     }
 
-    private var audioPlayedDuration: NSTimeInterval = 0 {
+    fileprivate var audioPlayedDuration: TimeInterval = 0 {
         willSet {
             guard newValue != audioPlayedDuration else {
                 return
@@ -152,12 +152,12 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
             let currentOffsetX = CGFloat(newValue) * (10 * sampleStep)
 
             // 0.5 用于回去
-            let duration: NSTimeInterval = newValue > audioPlayedDuration ? 0.02 : 0.5
+            let duration: TimeInterval = newValue > audioPlayedDuration ? 0.02 : 0.5
 
             if fullOffsetX > fullWidth {
 
                 if currentOffsetX <= fullWidth * 0.5 {
-                    UIView.animateWithDuration(duration, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+                    UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: { [weak self] in
                         self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2 + currentOffsetX
                         self?.view.layoutIfNeeded()
                     }, completion: { _ in })
@@ -167,7 +167,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 }
 
             } else {
-                UIView.animateWithDuration(duration, delay: 0.0, options: .CurveLinear, animations: { [weak self] in
+                UIView.animate(withDuration: duration, delay: 0.0, options: .curveLinear, animations: { [weak self] in
                     self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2 + currentOffsetX
                     self?.view.layoutIfNeeded()
                 }, completion: { _ in })
@@ -175,7 +175,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 
-    private var feedVoice: FeedVoice?
+    fileprivate var feedVoice: FeedVoice?
 
     deinit {
         println("deinit NewFeedVoiceRecord")
@@ -188,10 +188,10 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
         nextButton.title = String.trans_buttonNextStep
 
-        state = .Default
+        state = .default
 
         // 如果进来前有声音在播放，令其停止
-        if let audioPlayer = YepAudioService.sharedManager.audioPlayer where audioPlayer.playing {
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer , audioPlayer.isPlaying {
             audioPlayer.pause()
         } // TODO: delete
 
@@ -200,28 +200,28 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
     // MARK: - Actions
 
-    @IBAction private func cancel(sender: UIBarButtonItem) {
+    @IBAction fileprivate func cancel(_ sender: UIBarButtonItem) {
 
         AudioBot.stopPlay()
 
-        dismissViewControllerAnimated(true) {
+        dismiss(animated: true) {
             AudioBot.stopRecord { _, _, _ in
             }
         }
     }
 
-    @IBAction private func next(sender: UIBarButtonItem) {
+    @IBAction fileprivate func next(_ sender: UIBarButtonItem) {
 
         AudioBot.stopPlay()
 
         if let feedVoice = feedVoice {
-            performSegueWithIdentifier("showNewFeed", sender: Box(feedVoice))
+            performSegue(withIdentifier: "showNewFeed", sender: Box(feedVoice))
         }
     }
 
-    @IBAction private func voiceRecord(sender: UIButton) {
+    @IBAction fileprivate func voiceRecord(_ sender: UIButton) {
 
-        if state == .Recording {
+        if state == .recording {
 
             AudioBot.stopRecord { [weak self] fileURL, duration, decibelSamples in
 
@@ -267,7 +267,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 
-    @IBAction private func playOrPauseAudio(sender: UIButton) {
+    @IBAction fileprivate func playOrPauseAudio(_ sender: UIButton) {
 
         if AudioBot.playing {
             AudioBot.pausePlay()
@@ -284,7 +284,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     //println("progress: \(progress)")
                 })
 
-                try AudioBot.startPlayAudioAtFileURL(fileURL, fromTime: audioPlayedDuration, withProgressPeriodicReport: progressPeriodicReport, finish: { [weak self] success in
+                try AudioBot.startPlayAudioAtFileURL(fileURL as URL, fromTime: audioPlayedDuration, withProgressPeriodicReport: progressPeriodicReport, finish: { [weak self] success in
 
                     self?.audioPlayedDuration = 0
 
@@ -305,14 +305,14 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         }
     }
 
-    @IBAction private func reset(sender: UIButton) {
+    @IBAction fileprivate func reset(_ sender: UIButton) {
 
-        state = .Default
+        state = .default
     }
 
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -324,9 +324,9 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
             if let feedVoice = (sender as? Box<FeedVoice>)?.value {
 
-                let vc = segue.destinationViewController as! NewFeedViewController
+                let vc = segue.destination as! NewFeedViewController
 
-                vc.attachment = .Voice(feedVoice)
+                vc.attachment = .voice(feedVoice)
 
                 vc.preparedSkill = preparedSkill
 

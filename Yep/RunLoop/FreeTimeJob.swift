@@ -10,13 +10,9 @@ import Foundation
 
 class FreeTimeJob {
 
-    private static var set = NSMutableSet()
-
-    private static var onceToken: dispatch_once_t = 0
-    private class func setup() {
-        dispatch_once(&FreeTimeJob.onceToken) {
+    private static var __once: () = {
             let runLoop = CFRunLoopGetMain()
-            let observer: CFRunLoopObserver = CFRunLoopObserverCreateWithHandler(kCFAllocatorDefault, CFRunLoopActivity.BeforeWaiting.rawValue | CFRunLoopActivity.Exit.rawValue, true, 0xFFFFFF) { (observer, activity) in
+            let observer: CFRunLoopObserver = CFRunLoopObserverCreateWithHandler(kCFAllocatorDefault, CFRunLoopActivity.beforeWaiting.rawValue | CFRunLoopActivity.exit.rawValue, true, 0xFFFFFF) { (observer, activity) in
                 guard set.count != 0 else {
                     return
                 }
@@ -24,18 +20,24 @@ class FreeTimeJob {
                 let currentSet = set
                 set = NSMutableSet()
 
-                currentSet.enumerateObjectsUsingBlock({ (object, stop) in
+                currentSet.enumerateObjects({ (object, stop) in
                     if let job = object as? FreeTimeJob {
-                        job.target?.performSelector(job.selector)
+                        job.target?.perform(job.selector)
                     }
                 })
             }
-            CFRunLoopAddObserver(runLoop, observer, kCFRunLoopCommonModes)
-        }
+            CFRunLoopAddObserver(runLoop, observer, CFRunLoopMode.commonModes)
+        }()
+
+    fileprivate static var set = NSMutableSet()
+
+    fileprivate static var onceToken: Int = 0
+    fileprivate class func setup() {
+        _ = FreeTimeJob.__once
     }
 
-    private weak var target: NSObject?
-    private let selector: Selector
+    fileprivate weak var target: NSObject?
+    fileprivate let selector: Selector
 
     init(target: NSObject, selector: Selector) {
         self.target = target
@@ -44,7 +46,7 @@ class FreeTimeJob {
 
     func commit() {
         FreeTimeJob.setup()
-        FreeTimeJob.set.addObject(self)
+        FreeTimeJob.set.add(self)
     }
 }
 

@@ -13,36 +13,36 @@ import Ruler
 
 final class EditNicknameAndBadgeViewController: UITableViewController {
 
-    @IBOutlet private weak var nicknameTextField: UITextField!
+    @IBOutlet fileprivate weak var nicknameTextField: UITextField!
 
-    @IBOutlet private weak var centerLeft1GapConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var centerRight1GapConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var left1Left2GapConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var right1Right2GapConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var centerLeft1GapConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var centerRight1GapConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var left1Left2GapConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var right1Right2GapConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var promptPickBadgeLabel: UILabel!
+    @IBOutlet fileprivate weak var promptPickBadgeLabel: UILabel!
     
-    @IBOutlet private weak var badgeEnabledImageView: UIImageView!
+    @IBOutlet fileprivate weak var badgeEnabledImageView: UIImageView!
 
-    @IBOutlet private weak var paletteBadgeView: BadgeView!
-    @IBOutlet private weak var planeBadgeView: BadgeView!
-    @IBOutlet private weak var heartBadgeView: BadgeView!
-    @IBOutlet private weak var starBadgeView: BadgeView!
-    @IBOutlet private weak var bubbleBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var paletteBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var planeBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var heartBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var starBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var bubbleBadgeView: BadgeView!
 
-    @IBOutlet private weak var androidBadgeView: BadgeView!
-    @IBOutlet private weak var appleBadgeView: BadgeView!
-    @IBOutlet private weak var petBadgeView: BadgeView!
-    @IBOutlet private weak var wineBadgeView: BadgeView!
-    @IBOutlet private weak var musicBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var androidBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var appleBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var petBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var wineBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var musicBadgeView: BadgeView!
 
-    @IBOutlet private weak var steveBadgeView: BadgeView!
-    @IBOutlet private weak var cameraBadgeView: BadgeView!
-    @IBOutlet private weak var gameBadgeView: BadgeView!
-    @IBOutlet private weak var ballBadgeView: BadgeView!
-    @IBOutlet private weak var techBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var steveBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var cameraBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var gameBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var ballBadgeView: BadgeView!
+    @IBOutlet fileprivate weak var techBadgeView: BadgeView!
 
-    private var badgeViews = [BadgeView]()
+    fileprivate var badgeViews = [BadgeView]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -113,11 +113,11 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
 
                 // select animation
 
-                if self.badgeEnabledImageView.hidden {
+                if self.badgeEnabledImageView.isHidden {
                     self.badgeEnabledImageViewAppearInCenter(badgeView.center)
 
                 } else {
-                    UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+                    UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.65, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
                         self?.badgeEnabledImageView.center = badgeView.center
                     }, completion: nil)
                 }
@@ -144,24 +144,24 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
         }
     }
 
-    private func badgeEnabledImageViewAppearInCenter(center: CGPoint) {
+    fileprivate func badgeEnabledImageViewAppearInCenter(_ center: CGPoint) {
 
         badgeEnabledImageView.center = center
         badgeEnabledImageView.alpha = 0
-        badgeEnabledImageView.hidden = false
+        badgeEnabledImageView.isHidden = false
 
-        badgeEnabledImageView.transform = CGAffineTransformMakeScale(0.0001, 0.0001)
+        badgeEnabledImageView.transform = CGAffineTransform(scaleX: 0.0001, y: 0.0001)
 
-        UIView.animateWithDuration(0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
+        UIView.animate(withDuration: 0.2, delay: 0.0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.0, options: UIViewAnimationOptions(rawValue: 0), animations: { [weak self] in
             self?.badgeEnabledImageView.alpha = 1
-            self?.badgeEnabledImageView.transform = CGAffineTransformMakeScale(1.0, 1.0)
+            self?.badgeEnabledImageView.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
 
         }, completion: { [weak self] _ in
-            self?.badgeEnabledImageView.transform = CGAffineTransformIdentity
+            self?.badgeEnabledImageView.transform = CGAffineTransform.identity
         })
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if let badgeName = YepUserDefaults.badge.value {
@@ -173,13 +173,13 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
         }
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         view.endEditing(true)
     }
 
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         guard let newNickname = nicknameTextField.text else {
@@ -199,7 +199,7 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
 
 extension EditNicknameAndBadgeViewController: UITextFieldDelegate {
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
         if textField == nicknameTextField {
 

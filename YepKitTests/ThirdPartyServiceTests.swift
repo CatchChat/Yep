@@ -14,7 +14,7 @@ final class ThirdPartyServiceTests: XCTestCase {
 
     func testSearchFoursquareVenues() {
 
-        let expectation = expectationWithDescription("search foursquare venues")
+        let expectation = self.expectation(description: "search foursquare venues")
 
         let coordinate = CLLocationCoordinate2D(latitude: 20.03, longitude: 110.33)
 
@@ -25,7 +25,7 @@ final class ThirdPartyServiceTests: XCTestCase {
             }
         })
 
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
 }
 

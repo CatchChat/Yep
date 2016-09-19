@@ -14,10 +14,10 @@ class FeedImageCellNode: ASCellNode {
 
     lazy var imageNode: ASImageNode = {
         let node = ASImageNode()
-        node.contentMode = .ScaleAspectFill
+        node.contentMode = .scaleAspectFill
         node.backgroundColor = YepConfig.FeedMedia.backgroundColor
         node.borderWidth = 1
-        node.borderColor = UIColor.yepBorderColor().CGColor
+        node.borderColor = UIColor.yepBorderColor().cgColor
         return node
     }()
 
@@ -27,9 +27,9 @@ class FeedImageCellNode: ASCellNode {
         addSubnode(imageNode)
     }
 
-    func configureWithAttachment(attachment: DiscoveredAttachment, imageSize: CGSize) {
+    func configureWithAttachment(_ attachment: DiscoveredAttachment, imageSize: CGSize) {
 
-        imageNode.frame = CGRect(origin: CGPointZero, size: imageSize)
+        imageNode.frame = CGRect(origin: CGPoint.zero, size: imageSize)
 
         if attachment.isTemporary {
             imageNode.image = attachment.image

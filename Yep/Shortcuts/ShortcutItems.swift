@@ -86,10 +86,10 @@ func configureDynamicShortcuts() {
         }
     }
 
-    UIApplication.sharedApplication().shortcutItems = shortcutItems
+    UIApplication.shared.shortcutItems = shortcutItems
 }
 
-func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inWindow window: UIWindow) {
+func tryQuickActionWithShortcutItem(_ shortcutItem: UIApplicationShortcutItem, inWindow window: UIWindow) {
 
     guard let shortcutType = ShortcutType(rawValue: shortcutItem.type) else {
         return
@@ -101,7 +101,7 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
 
     if let nvc = tabBarVC.selectedViewController as? UINavigationController {
         if nvc.viewControllers.count > 1 {
-            nvc.popToRootViewControllerAnimated(false)
+            nvc.popToRootViewController(animated: false)
         }
     }
 
@@ -109,7 +109,7 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
 
     case .Feeds:
 
-        tabBarVC.tab = .Feeds
+        tabBarVC.tab = .feeds
 
         if let nvc = tabBarVC.selectedViewController as? UINavigationController {
 
@@ -121,7 +121,7 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
             }
 
             if nvc.viewControllers.count > 1 {
-                nvc.popToRootViewControllerAnimated(false)
+                nvc.popToRootViewController(animated: false)
 
                 tryScrollsToTopOfFeedsViewController()
 
@@ -132,11 +132,11 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
 
     case .LatestOneToOneConversation:
 
-        tabBarVC.tab = .Conversations
+        tabBarVC.tab = .conversations
 
         if let nvc = tabBarVC.selectedViewController as? UINavigationController {
 
-            func tryShowConversationFromConversationsViewController(vc: ConversationsViewController) {
+            func tryShowConversationFromConversationsViewController(_ vc: ConversationsViewController) {
 
                 if let userID = shortcutItem.userInfo?["userID"] as? String {
                     if let realm = try? Realm() {
@@ -149,7 +149,7 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
             }
 
             if nvc.viewControllers.count > 1 {
-                nvc.popToRootViewControllerAnimated(false)
+                nvc.popToRootViewController(animated: false)
 
                 if let vc = nvc.topViewController as? ConversationsViewController {
                     tryShowConversationFromConversationsViewController(vc)
@@ -164,11 +164,11 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
 
     case .LatestFeedConversation:
 
-        tabBarVC.tab = .Conversations
+        tabBarVC.tab = .conversations
 
         if let nvc = tabBarVC.selectedViewController as? UINavigationController {
 
-            func tryShowConversationFromConversationsViewController(vc: ConversationsViewController) {
+            func tryShowConversationFromConversationsViewController(_ vc: ConversationsViewController) {
 
                 if let feedID = shortcutItem.userInfo?["feedID"] as? String {
                     if let realm = try? Realm() {
@@ -181,7 +181,7 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
             }
 
             if nvc.viewControllers.count > 1 {
-                nvc.popToRootViewControllerAnimated(false)
+                nvc.popToRootViewController(animated: false)
 
                 if let vc = nvc.topViewController as? ConversationsViewController {
                     tryShowConversationFromConversationsViewController(vc)
@@ -198,6 +198,6 @@ func tryQuickActionWithShortcutItem(shortcutItem: UIApplicationShortcutItem, inW
 
 func clearDynamicShortcuts() {
 
-    UIApplication.sharedApplication().shortcutItems = nil
+    UIApplication.shared.shortcutItems = nil
 }
 

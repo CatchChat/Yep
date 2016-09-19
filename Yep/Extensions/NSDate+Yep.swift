@@ -8,19 +8,19 @@
 
 import Foundation
 
-extension NSDate {
+extension Date {
 
-    func firstDateInThisWeek() -> NSDate {
-        var beginningOfWeek: NSDate?
-        let calendar = NSCalendar.currentCalendar()
-        calendar.rangeOfUnit(.WeekOfYear, startDate: &beginningOfWeek, interval: nil, forDate: self)
+    func firstDateInThisWeek() -> Date {
+        var beginningOfWeek: Date?
+        let calendar = Calendar.current
+        (calendar as NSCalendar).range(of: .weekOfYear, start: &beginningOfWeek, interval: nil, for: self)
         return beginningOfWeek!
     }
 
     func isInCurrentWeek() -> Bool {
-        let firstDateOfWeek = NSDate().firstDateInThisWeek()
+        let firstDateOfWeek = Date().firstDateInThisWeek()
 
-        if self.compare(firstDateOfWeek) == .OrderedDescending {
+        if self.compare(firstDateOfWeek) == .orderedDescending {
             return true
         }
 

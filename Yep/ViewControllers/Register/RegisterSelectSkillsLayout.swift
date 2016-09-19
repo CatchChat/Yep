@@ -12,15 +12,15 @@ final class RegisterSelectSkillsLayout: UICollectionViewFlowLayout {
 
     let leftEdgeInset: CGFloat = registerPickSkillsLayoutLeftEdgeInset
 
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        let layoutAttributes = super.layoutAttributesForElementsInRect(rect)
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+        let layoutAttributes = super.layoutAttributesForElements(in: rect)
 
         // 先按照每个 item 的 centerY 分组
         var rowCollections = [CGFloat: [UICollectionViewLayoutAttributes]]()
 
         if let layoutAttributes = layoutAttributes {
-            for (_, attributes) in layoutAttributes.enumerate() {
-                let centerY = CGRectGetMidY(attributes.frame)
+            for (_, attributes) in layoutAttributes.enumerated() {
+                let centerY = attributes.frame.midY
 
                 if let rowCollection = rowCollections[centerY] {
                     var rowCollection = rowCollection
@@ -43,7 +43,7 @@ final class RegisterSelectSkillsLayout: UICollectionViewFlowLayout {
             // 每一行所有 items 的宽度
             var aggregateItemsWidth: CGFloat = 0
             for attributes in rowCollection {
-                aggregateItemsWidth += CGRectGetWidth(attributes.frame)
+                aggregateItemsWidth += attributes.frame.width
             }
 
             // 计算出有效的 width 和需要偏移的 offset
@@ -51,9 +51,9 @@ final class RegisterSelectSkillsLayout: UICollectionViewFlowLayout {
             //let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
 
             // 调整每个 item 的 origin.x 即可
-            var previousFrame = CGRectZero
+            var previousFrame = CGRect.zero
 
-            let rowFullWidth: CGFloat = rowCollection.map({ $0.frame.width }).reduce(0, combine: +) + CGFloat(rowItemsCount - 1) * minimumInteritemSpacing
+            let rowFullWidth: CGFloat = rowCollection.map({ $0.frame.width }).reduce(0, +) + CGFloat(rowItemsCount - 1) * minimumInteritemSpacing
 
             let firstOffset: CGFloat
             if let collectionView = collectionView {
@@ -66,11 +66,11 @@ final class RegisterSelectSkillsLayout: UICollectionViewFlowLayout {
 
                 var itemFrame = attributes.frame
 
-                if attributes.representedElementCategory == .Cell {
-                    if CGRectEqualToRect(previousFrame, CGRectZero) {
+                if attributes.representedElementCategory == .cell {
+                    if previousFrame.equalTo(CGRect.zero) {
                         itemFrame.origin.x = firstOffset //+ leftEdgeInset
                     } else {
-                        itemFrame.origin.x = CGRectGetMaxX(previousFrame) + minimumInteritemSpacing
+                        itemFrame.origin.x = previousFrame.maxX + minimumInteritemSpacing
                     }
 
                     attributes.frame = itemFrame
@@ -83,7 +83,7 @@ final class RegisterSelectSkillsLayout: UICollectionViewFlowLayout {
         return layoutAttributes
     }
 
-    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }
 }

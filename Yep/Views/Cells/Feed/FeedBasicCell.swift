@@ -10,16 +10,16 @@ import UIKit
 import YepKit
 import RxSwift
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+private let screenWidth: CGFloat = UIScreen.main.bounds.width
 
 class FeedBasicCell: UITableViewCell {
 
     static let messageTextViewMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (15 + 40 + 10 + 15)
+        let maxWidth = UIScreen.main.bounds.width - (15 + 40 + 10 + 15)
         return maxWidth
     }()
 
-    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let rect = feed.body.boundingRectWithSize(CGSize(width: FeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
@@ -33,10 +33,10 @@ class FeedBasicCell: UITableViewCell {
 
         imageView.frame = CGRect(x: 15, y: 10, width: 40, height: 40)
 
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
 
         let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(FeedBasicCell.tapAvatar(_:)))
-        imageView.userInteractionEnabled = true
+        imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(tapAvatar)
 
         return imageView
@@ -45,11 +45,11 @@ class FeedBasicCell: UITableViewCell {
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.yepTintColor()
-        label.font = UIFont.systemFontOfSize(15)
+        label.font = UIFont.systemFont(ofSize: 15)
 
         label.frame = CGRect(x: 65, y: 21, width: 100, height: 18)
-        label.opaque = true
-        label.backgroundColor = UIColor.whiteColor()
+        label.isOpaque = true
+        label.backgroundColor = UIColor.white
         label.clipsToBounds = true
 
         return label
@@ -57,15 +57,15 @@ class FeedBasicCell: UITableViewCell {
 
     lazy var skillButton: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage.yep_skillBubbleEmpty, forState: .Normal)
-        button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+        button.setBackgroundImage(UIImage.yep_skillBubbleEmpty, for: UIControlState())
+        button.setTitleColor(UIColor.yepTintColor(), for: UIControlState())
         button.titleLabel?.font = UIFont.feedSkillFont()
 
         let cellWidth = self.bounds.width
         let width: CGFloat = 60
         button.frame = CGRect(x: cellWidth - width - 15, y: 19, width: width, height: 22)
 
-        button.addTarget(self, action: #selector(FeedBasicCell.tapSkill(_:)), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(FeedBasicCell.tapSkill(_:)), for: .touchUpInside)
 
         return button
     }()
@@ -76,15 +76,15 @@ class FeedBasicCell: UITableViewCell {
         textView.font = UIFont.feedMessageFont()
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        textView.editable = false
-        textView.scrollEnabled = false
+        textView.isEditable = false
+        textView.isScrollEnabled = false
         textView.showsHorizontalScrollIndicator = false
         textView.showsVerticalScrollIndicator = false
-        textView.dataDetectorTypes = [.Link]
+        textView.dataDetectorTypes = [.link]
 
         textView.frame = CGRect(x: 65, y: 54, width: screenWidth - 65 - 15, height: 26)
-        textView.opaque = true
-        textView.backgroundColor = UIColor.whiteColor()
+        textView.isOpaque = true
+        textView.backgroundColor = UIColor.white
 
         textView.touchesBeganAction = { [weak self] in
             if let strongSelf = self {
@@ -93,7 +93,7 @@ class FeedBasicCell: UITableViewCell {
         }
         textView.touchesEndedAction = { [weak self] in
             if let strongSelf = self {
-                if strongSelf.editing {
+                if strongSelf.isEditing {
                     return
                 }
                 strongSelf.touchesEndedAction?(strongSelf)
@@ -110,12 +110,12 @@ class FeedBasicCell: UITableViewCell {
 
     lazy var leftBottomLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.grayColor()
+        label.textColor = UIColor.gray
         label.font = UIFont.feedBottomLabelsFont()
 
         label.frame = CGRect(x: 65, y: 0, width: screenWidth - 65 - 85, height: 17)
-        label.opaque = true
-        label.backgroundColor = UIColor.whiteColor()
+        label.isOpaque = true
+        label.backgroundColor = UIColor.white
         label.clipsToBounds = true
 
         return label
@@ -125,11 +125,11 @@ class FeedBasicCell: UITableViewCell {
         let label = UILabel()
         label.textColor = UIColor.yepTintColor()
         label.font = UIFont.feedBottomLabelsFont()
-        label.textAlignment = .Right
+        label.textAlignment = .right
 
         label.frame = CGRect(x: 65, y: 0, width: 200, height: 17)
-        label.opaque = true
-        label.backgroundColor = UIColor.whiteColor()
+        label.isOpaque = true
+        label.backgroundColor = UIColor.white
         label.clipsToBounds = true
 
         return label
@@ -148,16 +148,16 @@ class FeedBasicCell: UITableViewCell {
 
     var messagesCountEqualsZero = false {
         didSet {
-            messageCountLabel.hidden = messagesCountEqualsZero
+            messageCountLabel.isHidden = messagesCountEqualsZero
         }
     }
     var hasUploadingErrorMessage = false {
         didSet {
-            uploadingErrorContainerView.hidden = !hasUploadingErrorMessage
+            uploadingErrorContainerView.isHidden = !hasUploadingErrorMessage
 
-            leftBottomLabel.hidden = hasUploadingErrorMessage
-            messageCountLabel.hidden = hasUploadingErrorMessage || (self.messagesCountEqualsZero)
-            discussionImageView.hidden = hasUploadingErrorMessage
+            leftBottomLabel.isHidden = hasUploadingErrorMessage
+            messageCountLabel.isHidden = hasUploadingErrorMessage || (self.messagesCountEqualsZero)
+            discussionImageView.isHidden = hasUploadingErrorMessage
         }
     }
 
@@ -165,15 +165,15 @@ class FeedBasicCell: UITableViewCell {
 
     var needShowDistance: Bool = false
 
-    var tapAvatarAction: (UITableViewCell -> Void)?
-    var tapSkillAction: (UITableViewCell -> Void)?
+    var tapAvatarAction: ((UITableViewCell) -> Void)?
+    var tapSkillAction: ((UITableViewCell) -> Void)?
 
-    var touchesBeganAction: (UITableViewCell -> Void)?
-    var touchesEndedAction: (UITableViewCell -> Void)?
-    var touchesCancelledAction: (UITableViewCell -> Void)?
+    var touchesBeganAction: ((UITableViewCell) -> Void)?
+    var touchesEndedAction: ((UITableViewCell) -> Void)?
+    var touchesCancelledAction: ((UITableViewCell) -> Void)?
 
-    var retryUploadingFeedAction: ((cell: FeedBasicCell) -> Void)?
-    var deleteUploadingFeedAction: ((cell: FeedBasicCell) -> Void)?
+    var retryUploadingFeedAction: ((_ cell: FeedBasicCell) -> Void)?
+    var deleteUploadingFeedAction: ((_ cell: FeedBasicCell) -> Void)?
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -193,7 +193,7 @@ class FeedBasicCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private var disposableTimer: Disposable?
+    fileprivate var disposableTimer: Disposable?
 
     deinit {
         disposableTimer?.dispose()
@@ -210,7 +210,7 @@ class FeedBasicCell: UITableViewCell {
         disposableTimer?.dispose()
     }
 
-    func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
+    func configureWithFeed(_ feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         self.feed = feed
 
@@ -247,13 +247,13 @@ class FeedBasicCell: UITableViewCell {
 
         if needShowSkill, let skill = feed.skill {
             skillButton.setTitle(skill.localName, forState: .Normal)
-            skillButton.hidden = false
+            skillButton.isHidden = false
 
             skillButton.frame = basicLayout.skillButtonFrame
             nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: true)
 
         } else {
-            skillButton.hidden = true
+            skillButton.isHidden = true
 
             nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: false)
         }
@@ -272,13 +272,13 @@ class FeedBasicCell: UITableViewCell {
 
                 uploadingErrorContainerView.retryAction = { [weak self] in
                     if let strongSelf = self {
-                        strongSelf.retryUploadingFeedAction?(cell: strongSelf)
+                        strongSelf.retryUploadingFeedAction?(strongSelf)
                     }
                 }
 
                 uploadingErrorContainerView.deleteAction = { [weak self] in
                     if let strongSelf = self {
-                        strongSelf.deleteUploadingFeedAction?(cell: strongSelf)
+                        strongSelf.deleteUploadingFeedAction?(strongSelf)
                     }
                 }
 
@@ -294,12 +294,12 @@ class FeedBasicCell: UITableViewCell {
 
     // MARK: Actions
 
-    func tapAvatar(sender: UITapGestureRecognizer) {
+    func tapAvatar(_ sender: UITapGestureRecognizer) {
 
         tapAvatarAction?(self)
     }
 
-    func tapSkill(sender: AnyObject) {
+    func tapSkill(_ sender: AnyObject) {
 
         tapSkillAction?(self)
     }

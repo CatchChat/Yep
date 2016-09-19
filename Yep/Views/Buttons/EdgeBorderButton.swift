@@ -16,14 +16,14 @@ final class EdgeBorderButton: UIButton {
     lazy var topLineLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.lineWidth = self.lineWidth
-        layer.strokeColor = self.lineColor.CGColor
+        layer.strokeColor = self.lineColor.cgColor
         return layer
     }()
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.white
 
         layer.addSublayer(topLineLayer)
     }
@@ -32,10 +32,10 @@ final class EdgeBorderButton: UIButton {
         super.layoutSubviews()
 
         let topPath = UIBezierPath()
-        topPath.moveToPoint(CGPoint(x: 0, y: 0.5))
-        topPath.addLineToPoint(CGPoint(x: CGRectGetWidth(bounds), y: 0.5))
+        topPath.move(to: CGPoint(x: 0, y: 0.5))
+        topPath.addLine(to: CGPoint(x: bounds.width, y: 0.5))
 
-        topLineLayer.path = topPath.CGPath
+        topLineLayer.path = topPath.cgPath
     }
 }
 

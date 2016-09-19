@@ -11,15 +11,15 @@ import YepKit
 import YepPreview
 import AsyncDisplayKit
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+private let screenWidth: CGFloat = UIScreen.main.bounds.width
 
-typealias FeedTapMediaAction = (transitionReference: Reference, image: UIImage?, attachments: [DiscoveredAttachment], index: Int) -> Void
+typealias FeedTapMediaAction = (_ transitionReference: Reference, _ image: UIImage?, _ attachments: [DiscoveredAttachment], _ index: Int) -> Void
 
-typealias FeedTapImagesAction = (transitionReferences: [Reference?], attachments: [DiscoveredAttachment], image: UIImage?, index: Int) -> Void
+typealias FeedTapImagesAction = (_ transitionReferences: [Reference?], _ attachments: [DiscoveredAttachment], _ image: UIImage?, _ index: Int) -> Void
 
 final class FeedAnyImagesCell: FeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + YepConfig.FeedNormalImagesCell.imageSize.height + 15
         return ceil(height)
@@ -29,7 +29,7 @@ final class FeedAnyImagesCell: FeedBasicCell {
 
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 5
-        layout.scrollDirection = .Horizontal
+        layout.scrollDirection = .horizontal
         layout.itemSize = YepConfig.FeedNormalImagesCell.imageSize
 
         let node = ASCollectionNode(collectionViewLayout: layout)
@@ -37,7 +37,7 @@ final class FeedAnyImagesCell: FeedBasicCell {
         node.view.scrollsToTop = false
         node.view.contentInset = UIEdgeInsets(top: 0, left: 15 + 40 + 10, bottom: 0, right: 15)
         node.view.showsHorizontalScrollIndicator = false
-        node.view.backgroundColor = UIColor.clearColor()
+        node.view.backgroundColor = UIColor.clear
 
         node.dataSource = self
         node.delegate = self
@@ -50,7 +50,7 @@ final class FeedAnyImagesCell: FeedBasicCell {
         }
         backgroundView.touchesEndedAction = { [weak self] in
             if let strongSelf = self {
-                if strongSelf.editing {
+                if strongSelf.isEditing {
                     return
                 }
                 strongSelf.touchesEndedAction?(strongSelf)
@@ -90,7 +90,7 @@ final class FeedAnyImagesCell: FeedBasicCell {
         attachments = []
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
@@ -105,15 +105,15 @@ final class FeedAnyImagesCell: FeedBasicCell {
 
 extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
 
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return attachments.count
     }
 
-    func collectionView(collectionView: ASCollectionView, nodeForItemAtIndexPath indexPath: NSIndexPath) -> ASCellNode {
+    func collectionView(_ collectionView: ASCollectionView, nodeForItemAt indexPath: IndexPath) -> ASCellNode {
 
         let node = FeedImageCellNode()
         if let attachment = attachments[safe: indexPath.item] {
@@ -122,19 +122,19 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
         return node
     }
 
-    func collectionView(collectionView: ASCollectionView, constrainedSizeForNodeAtIndexPath indexPath: NSIndexPath) -> ASSizeRange {
+    func collectionView(_ collectionView: ASCollectionView, constrainedSizeForNodeAt indexPath: IndexPath) -> ASSizeRange {
 
         let size = YepConfig.FeedNormalImagesCell.imageSize
         return ASSizeRange(min: size, max: size)
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        guard let firstAttachment = attachments.first where !firstAttachment.isTemporary else {
+        guard let firstAttachment = attachments.first , !firstAttachment.isTemporary else {
             return
         }
 
-        guard let node = mediaCollectionNode.view.nodeForItemAtIndexPath(indexPath) as? FeedImageCellNode else {
+        guard let node = mediaCollectionNode.view.nodeForItem(at: indexPath) as? FeedImageCellNode else {
             return
         }
 

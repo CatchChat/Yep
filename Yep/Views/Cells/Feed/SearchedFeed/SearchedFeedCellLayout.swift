@@ -9,7 +9,7 @@
 import UIKit
 import YepKit
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+private let screenWidth: CGFloat = UIScreen.main.bounds.width
 
 struct SearchedFeedCellLayout {
 
@@ -17,7 +17,7 @@ struct SearchedFeedCellLayout {
 
     struct BasicLayout {
 
-        func nicknameLabelFrameWhen(hasLogo hasLogo: Bool, hasSkill: Bool) -> CGRect {
+        func nicknameLabelFrameWhen(hasLogo: Bool, hasSkill: Bool) -> CGRect {
 
             var frame = nicknameLabelFrame
             frame.size.width -= hasLogo ? (18 + 10) : 0
@@ -27,7 +27,7 @@ struct SearchedFeedCellLayout {
         }
 
         let avatarImageViewFrame: CGRect
-        private let nicknameLabelFrame: CGRect
+        fileprivate let nicknameLabelFrame: CGRect
         let skillButtonFrame: CGRect
 
         let messageTextViewFrame: CGRect

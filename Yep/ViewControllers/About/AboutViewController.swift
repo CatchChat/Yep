@@ -12,25 +12,25 @@ import MonkeyKing
 
 final class AboutViewController: SegueViewController {
 
-    @IBOutlet private weak var appLogoImageView: UIImageView!
-    @IBOutlet private weak var appLogoImageViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var appLogoImageView: UIImageView!
+    @IBOutlet fileprivate weak var appLogoImageViewTopConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var appNameLabel: UILabel!
-    @IBOutlet private weak var appNameLabelTopConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var appVersionLabel: UILabel!
+    @IBOutlet fileprivate weak var appNameLabel: UILabel!
+    @IBOutlet fileprivate weak var appNameLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var appVersionLabel: UILabel!
     
-    @IBOutlet private weak var aboutTableView: UITableView! {
+    @IBOutlet fileprivate weak var aboutTableView: UITableView! {
         didSet {
             aboutTableView.registerNibOf(AboutCell)
         }
     }
-    @IBOutlet private weak var aboutTableViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var aboutTableViewHeightConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var copyrightLabel: UILabel!
+    @IBOutlet fileprivate weak var copyrightLabel: UILabel!
 
-    private let rowHeight: CGFloat = Ruler.iPhoneVertical(45, 50, 55, 60).value
+    fileprivate let rowHeight: CGFloat = Ruler.iPhoneVertical(45, 50, 55, 60).value
 
-    private let aboutAnnotations: [String] = [
+    fileprivate let aboutAnnotations: [String] = [
         String.trans_aboutOpenSourceOfYep,
         NSLocalizedString("Review Yep on the App Store", comment: ""),
         String.trans_aboutRecommendYep,
@@ -53,8 +53,8 @@ final class AboutViewController: SegueViewController {
         appNameLabel.textColor = UIColor.yepTintColor()
 
         if let
-            releaseVersionNumber = NSBundle.releaseVersionNumber,
-            buildVersionNumber = NSBundle.buildVersionNumber {
+            releaseVersionNumber = Bundle.releaseVersionNumber,
+            let buildVersionNumber = Bundle.buildVersionNumber {
                 appVersionLabel.text = NSLocalizedString("Version", comment: "") + " " + releaseVersionNumber + " (\(buildVersionNumber))"
         }
 
@@ -66,32 +66,32 @@ final class AboutViewController: SegueViewController {
 
 extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
 
-    private enum Row: Int {
-        case Pods = 1
-        case Review
-        case Share
-        case Terms
+    fileprivate enum Row: Int {
+        case pods = 1
+        case review
+        case share
+        case terms
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return aboutAnnotations.count + 1
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        switch indexPath.row {
+        switch (indexPath as NSIndexPath).row {
         case 0:
             return UITableViewCell()
         default:
             let cell: AboutCell = tableView.dequeueReusableCell()
-            let annotation = aboutAnnotations[indexPath.row - 1]
+            let annotation = aboutAnnotations[(indexPath as NSIndexPath).row - 1]
             cell.annotationLabel.text = annotation
             return cell
         }
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
-        switch indexPath.row {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        switch (indexPath as NSIndexPath).row {
         case 0:
             return 1
         default:
@@ -99,22 +99,22 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        switch indexPath.row {
+        switch (indexPath as NSIndexPath).row {
 
-        case Row.Pods.rawValue:
-            performSegueWithIdentifier("showPodsHelpYep", sender: nil)
+        case Row.pods.rawValue:
+            performSegue(withIdentifier: "showPodsHelpYep", sender: nil)
 
-        case Row.Review.rawValue:
-            UIApplication.sharedApplication().yep_reviewOnTheAppStore()
+        case Row.review.rawValue:
+            UIApplication.shared.yep_reviewOnTheAppStore()
 
-        case Row.Share.rawValue:
-            let yepURL = NSURL(string: "https://soyep.com")!
+        case Row.share.rawValue:
+            let yepURL = URL(string: "https://soyep.com")!
             let info = MonkeyKing.Info(
                 title: "Yep",
                 description: String.trans_aboutYepDescription,
@@ -123,8 +123,8 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
             )
             self.yep_share(info: info, defaultActivityItem: yepURL, description: String.trans_aboutYepDescription)
 
-        case Row.Terms.rawValue:
-            if let URL = NSURL(string: YepConfig.termsURLString) {
+        case Row.terms.rawValue:
+            if let URL = URL(string: YepConfig.termsURLString) {
                 yep_openURL(URL)
             }
 

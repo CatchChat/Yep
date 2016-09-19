@@ -24,17 +24,17 @@ final class ProfileFeedsCell: UICollectionViewCell {
     @IBOutlet weak var accessoryImageView: UIImageView!
     @IBOutlet weak var accessoryImageViewTrailingConstraint: NSLayoutConstraint!
 
-    private var enabled: Bool = false {
+    fileprivate var enabled: Bool = false {
         willSet {
             if newValue {
                 iconImageView.tintColor = UIColor.yepTintColor()
                 nameLabel.textColor = UIColor.yepTintColor()
-                accessoryImageView.hidden = false
+                accessoryImageView.isHidden = false
                 accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
             } else {
                 iconImageView.tintColor = SocialAccount.disabledColor
                 nameLabel.textColor = SocialAccount.disabledColor
-                accessoryImageView.hidden = true
+                accessoryImageView.isHidden = true
             }
         }
     }
@@ -68,12 +68,12 @@ final class ProfileFeedsCell: UICollectionViewCell {
 
             for i in 0..<imageViews.count {
                 if i < shortagesCount {
-                    imageViews[i].image = nil
+                    imageViews[i]?.image = nil
                 } else {
                     if let thumbnailImage = attachments[i]?.thumbnailImage {
                         imageViews[i].image = thumbnailImage
                     } else {
-                        imageViews[i].image = UIImage.yep_iconFeedText
+                        imageViews[i]?.image = UIImage.yep_iconFeedText
                     }
                 }
             }
@@ -90,10 +90,10 @@ final class ProfileFeedsCell: UICollectionViewCell {
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
 
-        imageView1.contentMode = .ScaleAspectFill
-        imageView2.contentMode = .ScaleAspectFill
-        imageView3.contentMode = .ScaleAspectFill
-        imageView4.contentMode = .ScaleAspectFill
+        imageView1.contentMode = .scaleAspectFill
+        imageView2.contentMode = .scaleAspectFill
+        imageView3.contentMode = .scaleAspectFill
+        imageView4.contentMode = .scaleAspectFill
 
         let cornerRadius: CGFloat = 2
         imageView1.layer.cornerRadius = cornerRadius
@@ -107,7 +107,7 @@ final class ProfileFeedsCell: UICollectionViewCell {
         imageView4.clipsToBounds = true
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?, feedAttachments: [DiscoveredAttachment?]?, completion: ((feeds: [DiscoveredFeed], feedAttachments: [DiscoveredAttachment?]) -> Void)?) {
+    func configureWithProfileUser(_ profileUser: ProfileUser?, feedAttachments: [DiscoveredAttachment?]?, completion: ((_ feeds: [DiscoveredFeed], _ feedAttachments: [DiscoveredAttachment?]) -> Void)?) {
 
         if let feedAttachments = feedAttachments {
             self.feedAttachments = feedAttachments

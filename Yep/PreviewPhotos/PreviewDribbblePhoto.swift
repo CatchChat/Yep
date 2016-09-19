@@ -15,13 +15,13 @@ class PreviewDribbblePhoto: NSObject, Photo {
 
     var image: UIImage? {
         didSet {
-            self.updatedImage?(image: image)
+            self.updatedImage?(image)
         }
     }
 
-    var updatedImage: ((image: UIImage?) -> Void)?
+    var updatedImage: ((_ image: UIImage?) -> Void)?
 
-    init(imageURL: NSURL) {
+    init(imageURL: URL) {
         super.init()
 
         let imageView = UIImageView()

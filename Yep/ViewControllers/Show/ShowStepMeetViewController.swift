@@ -10,9 +10,9 @@ import UIKit
 
 final class ShowStepMeetViewController: ShowStepViewController {
 
-    @IBOutlet private weak var yellowTriangle: UIImageView!
-    @IBOutlet private weak var greenTriangle: UIImageView!
-    @IBOutlet private weak var purpleTriangle: UIImageView!
+    @IBOutlet fileprivate weak var yellowTriangle: UIImageView!
+    @IBOutlet fileprivate weak var greenTriangle: UIImageView!
+    @IBOutlet fileprivate weak var purpleTriangle: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,7 +21,7 @@ final class ShowStepMeetViewController: ShowStepViewController {
         subTitleLabel.text = String.trans_subtitleBuildWorldTogether
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         animate(yellowTriangle, offset: 3, duration: 3)

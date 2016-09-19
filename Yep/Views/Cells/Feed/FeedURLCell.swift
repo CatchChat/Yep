@@ -11,14 +11,14 @@ import YepKit
 
 final class FeedURLCell: FeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + (100 + 15)
 
         return ceil(height)
     }
 
-    var tapURLInfoAction: ((URL: NSURL) -> Void)?
+    var tapURLInfoAction: ((_ URL: URL) -> Void)?
 
     lazy var feedURLContainerView: FeedURLContainerView = {
         let view = FeedURLContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 150))
@@ -36,7 +36,7 @@ final class FeedURLCell: FeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 

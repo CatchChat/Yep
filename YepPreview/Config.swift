@@ -10,6 +10,6 @@ import UIKit
 
 final public class Config {
 
-    public static var shareImageAction: ((image: UIImage, fromViewController: UIViewController) -> Void)?
+    public static var shareImageAction: ((_ image: UIImage, _ fromViewController: UIViewController) -> Void)?
 }
 

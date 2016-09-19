@@ -13,9 +13,9 @@ import YepNetworking
 
 extension ConversationViewController {
 
-    func promptSendMessageFailed(reason reason: Reason, errorMessage: String?, reserveErrorMessage: String) {
+    func promptSendMessageFailed(reason: Reason, errorMessage: String?, reserveErrorMessage: String) {
 
-        if case .NoSuccessStatusCode(_, let errorCode) = reason where errorCode == ErrorCode.BlockedByRecipient {
+        if case .noSuccessStatusCode(_, let errorCode) = reason , errorCode == ErrorCode.BlockedByRecipient {
             indicateBlockedByRecipient()
 
         } else {
@@ -24,16 +24,16 @@ extension ConversationViewController {
         }
     }
 
-    private func indicateBlockedByRecipient() {
+    fileprivate func indicateBlockedByRecipient() {
 
-        func indicateBlockedByRecipientInConversation(conversation: Conversation) {
+        func indicateBlockedByRecipientInConversation(_ conversation: Conversation) {
 
             guard let realm = conversation.realm else {
                 return
             }
 
             let message = Message()
-            let messageID = "BlockedByRecipient." + NSUUID().UUIDString
+            let messageID = "BlockedByRecipient." + UUID().uuidString
             message.messageID = messageID
             message.blockedByRecipient = true
             message.conversation = conversation

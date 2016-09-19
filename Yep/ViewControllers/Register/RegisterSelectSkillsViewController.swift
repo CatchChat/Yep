@@ -14,7 +14,7 @@ import pop
 final class RegisterSelectSkillsViewController: UIViewController {
 
     var annotationText: String = ""
-    var selectSkillAction: ((skill: Skill, selected: Bool) -> Bool)?
+    var selectSkillAction: ((_ skill: Skill, _ selected: Bool) -> Bool)?
     var selectedSkillsSet = Set<Skill>()
     var anotherSelectedSkillsSet = Set<Skill>()
     var failedSelectSkillMessage: String = ""
@@ -23,7 +23,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
     @IBOutlet weak var skillCategoriesCollectionView: UICollectionView! {
         didSet {
-            skillCategoriesCollectionView.backgroundColor = UIColor.clearColor()
+            skillCategoriesCollectionView.backgroundColor = UIColor.clear
 
             skillCategoriesCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
             skillCategoriesCollectionView.registerNibOf(SkillCategoryCell)
@@ -32,7 +32,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
     @IBOutlet weak var skillsCollectionView: UICollectionView! {
         didSet {
-            skillsCollectionView.backgroundColor = UIColor.clearColor()
+            skillsCollectionView.backgroundColor = UIColor.clear
 
             skillsCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
             skillsCollectionView.registerNibOf(SkillSelectionCell)
@@ -44,14 +44,14 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
     @IBOutlet weak var cancelButton: UIButton! {
         didSet {
-            cancelButton.setTitle(String.trans_titleDone, forState: .Normal)
+            cancelButton.setTitle(String.trans_titleDone, for: UIControlState())
             cancelButton.alpha = 1
         }
     }
 
     @IBOutlet weak var backButton: UIButton! {
         didSet {
-            backButton.setTitle(String.trans_buttonBack, forState: .Normal)
+            backButton.setTitle(String.trans_buttonBack, for: UIControlState())
             backButton.alpha = 0
         }
     }
@@ -67,7 +67,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
     ]
     
     lazy var collectionViewWidth: CGFloat = {
-        return CGRectGetWidth(self.skillCategoriesCollectionView.bounds)
+        return self.skillCategoriesCollectionView.bounds.width
     }()
 
     let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextLargeFont()]
@@ -92,7 +92,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clear
 
         let dismissBackgroundHeight: CGFloat = 120 // not full height // 140
         let skillCategoriesCollectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: dismissBackgroundHeight, right: 0)
@@ -100,10 +100,10 @@ final class RegisterSelectSkillsViewController: UIViewController {
         let skillsCollectionViewContentInset = UIEdgeInsets(top: 0, left: 0, bottom: dismissBackgroundHeight, right: 0)
         skillsCollectionView.contentInset = skillsCollectionViewContentInset
 
-        let effect = UIBlurEffect(style: UIBlurEffectStyle.Light)
+        let effect = UIBlurEffect(style: UIBlurEffectStyle.light)
         let effectView = UIVisualEffectView(effect: effect)
         effectView.frame = view.bounds
-        view.insertSubview(effectView, atIndex: 0)
+        view.insertSubview(effectView, at: 0)
 
         skillsCollectionViewEqualHeightToSkillCategoriesCollectionViewConstraint.constant = -annotationHeight
 
@@ -117,16 +117,16 @@ final class RegisterSelectSkillsViewController: UIViewController {
         anim.beginTime = CACurrentMediaTime() + 0.0
         anim.duration = 0.9
         anim.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
-        let prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
+        let prop = POPAnimatableProperty.property(withName: "minimumLineSpacing", initializer: { props in
 
-            props.readBlock = { obj, values in
-                values[0] = (obj as! UICollectionViewFlowLayout).minimumLineSpacing
+            props?.readBlock = { obj, values in
+                values?[0] = (obj as! UICollectionViewFlowLayout).minimumLineSpacing
             }
-            props.writeBlock = { obj, values in
-                (obj as! UICollectionViewFlowLayout).minimumLineSpacing = values[0]
+            props?.writeBlock = { obj, values in
+                (obj as! UICollectionViewFlowLayout).minimumLineSpacing = (values?[0])!
             }
 
-            props.threshold = 0.1
+            props?.threshold = 0.1
 
         }) as! POPAnimatableProperty
 
@@ -134,7 +134,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
         anim.fromValue = initialMinimumLineSpacing
         anim.toValue = originLineSpacing
         
-        layout.pop_addAnimation(anim, forKey: "AnimateLine")
+        layout.pop_add(anim, forKey: "AnimateLine")
 
         // 如果前一个 VC 来不及传递，这里还得再请求一次
         if skillCategories.isEmpty {
@@ -151,10 +151,10 @@ final class RegisterSelectSkillsViewController: UIViewController {
         }
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        skillsCollectionViewBottomConstrain.constant = -CGRectGetHeight(skillsCollectionView.bounds)
+        skillsCollectionViewBottomConstrain.constant = -skillsCollectionView.bounds.height
     }
 
     // MARK: Actions
@@ -177,7 +177,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
     func dismiss() {
         syncSkillsFromServerAction?()
-        presentingViewController?.dismissViewControllerAnimated(true, completion: nil)
+        presentingViewController?.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -185,7 +185,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
 extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UICollectionViewDelegate {
 
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
 
         var reusableView: UICollectionReusableView!
 
@@ -198,7 +198,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                 header.annotationLabel.text = annotationText
                 
                 let tap = UITapGestureRecognizer(target: self, action: #selector(RegisterSelectSkillsViewController.dismiss))
-                header.annotationLabel.userInteractionEnabled = true
+                header.annotationLabel.isUserInteractionEnabled = true
                 header.annotationLabel.addGestureRecognizer(tap)
                 
             } else {
@@ -215,7 +215,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
         return reusableView
     }
 
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         if collectionView == skillCategoriesCollectionView {
             return 1
 
@@ -228,7 +228,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
        return 0
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         if collectionView == skillCategoriesCollectionView {
             return skillCategories.count
 
@@ -243,7 +243,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
         return 0
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         if collectionView == skillCategoriesCollectionView {
 
@@ -259,19 +259,19 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                 cell.categoryImage = UIImage.yep_iconSkillArt
             }
 
-            let tintColor = skillCategoryTintColors[indexPath.item % skillCategoryTintColors.count]
-            cell.skillCategoryButton.setBackgroundImage(UIImage.yep_buttonSkillCategory.imageWithGradientTintColor(tintColor).resizableImageWithCapInsets(UIEdgeInsets(top: 30, left: 40, bottom: 30, right: 40)), forState: .Normal)
+            let tintColor = skillCategoryTintColors[(indexPath as NSIndexPath).item % skillCategoryTintColors.count]
+            cell.skillCategoryButton.setBackgroundImage(UIImage.yep_buttonSkillCategory.imageWithGradientTintColor(tintColor).resizableImageWithCapInsets(UIEdgeInsets(top: 30, left: 40, bottom: 30, right: 40)), for: .Normal)
 
             cell.toggleSelectionStateAction = { [weak self, weak cell] inSelectionState in
 
-                guard let strongSelf = self, cell = cell else {
+                guard let strongSelf = self, let cell = cell else {
                     return
                 }
 
                 if inSelectionState {
 
                     // 刷新本次选择类别的 skills
-                    strongSelf.skillCategoryIndex = indexPath.item
+                    strongSelf.skillCategoryIndex = (indexPath as NSIndexPath).item
                     SafeDispatch.async { [weak self] in
                         self?.skillsCollectionView.reloadData()
                     }
@@ -279,23 +279,23 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     let button = cell.skillCategoryButton
                     strongSelf.currentSkillCategoryButton = button
 
-                    let frame = cell.convertRect(button.frame, toView: strongSelf.view)
+                    let frame = cell.convert((button?.frame)!, to: strongSelf.view)
 
-                    button.removeFromSuperview()
+                    button?.removeFromSuperview()
 
-                    strongSelf.view.addSubview(button)
+                    strongSelf.view.addSubview(button!)
 
-                    button.translatesAutoresizingMaskIntoConstraints = false
+                    button?.translatesAutoresizingMaskIntoConstraints = false
 
-                    let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
+                    let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
 
-                    let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonHeight)
+                    let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonHeight)
 
-                    let topConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Top, relatedBy: NSLayoutRelation.Equal, toItem: strongSelf.view, attribute: NSLayoutAttribute.Top, multiplier: 1, constant: frame.origin.y)
+                    let topConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: strongSelf.view, attribute: NSLayoutAttribute.top, multiplier: 1, constant: frame.origin.y)
 
-                    let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: strongSelf.view, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+                    let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: strongSelf.view, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
 
-                    NSLayoutConstraint.activateConstraints([widthConstraint, heightConstraint, topConstraint, centerXConstraint])
+                    NSLayoutConstraint.activate([widthConstraint, heightConstraint, topConstraint, centerXConstraint])
 
                     strongSelf.view.layoutIfNeeded()
 
@@ -303,7 +303,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     strongSelf.currentSkillCategoryButtonTopConstraint = topConstraint
                     strongSelf.currentSkillCategoryButtonTopConstraintOriginalConstant = strongSelf.currentSkillCategoryButtonTopConstraint.constant
 
-                    UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                    UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
 
                         topConstraint.constant = 60
 
@@ -319,16 +319,16 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     let anim = POPBasicAnimation()
                     anim.duration = 0.8
                     anim.timingFunction = CAMediaTimingFunction(name: "easeOut")
-                    let prop = POPAnimatableProperty.propertyWithName("minimumLineSpacing", initializer: { props in
+                    let prop = POPAnimatableProperty.property(withName: "minimumLineSpacing", initializer: { props in
                         
-                        props.readBlock = { obj, values in
-                            values[0] = (obj as! UICollectionViewFlowLayout).minimumLineSpacing
+                        props?.readBlock = { obj, values in
+                            values?[0] = (obj as! UICollectionViewFlowLayout).minimumLineSpacing
                         }
-                        props.writeBlock = { obj, values in
-                            (obj as! UICollectionViewFlowLayout).minimumLineSpacing = values[0]
+                        props?.writeBlock = { obj, values in
+                            (obj as! UICollectionViewFlowLayout).minimumLineSpacing = (values?[0])!
                         }
                         
-                        props.threshold = 0.1
+                        props?.threshold = 0.1
                         
                     }) as! POPAnimatableProperty
                     
@@ -336,10 +336,10 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     anim.fromValue = 150.0
                     anim.toValue = originLineSpacing
                     
-                    layout.pop_addAnimation(anim, forKey: "AnimateLine")
+                    layout.pop_add(anim, forKey: "AnimateLine")
                     
 
-                    UIView.animateWithDuration(0.5, delay: 0.2, options: .CurveEaseInOut, animations: { [weak self] in
+                    UIView.animate(withDuration: 0.5, delay: 0.2, options: UIViewAnimationOptions(), animations: { [weak self] in
 
                         self?.skillsCollectionViewBottomConstrain.constant = 0
                         self?.view.layoutIfNeeded()
@@ -355,14 +355,14 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                 } else {
                     if let button = strongSelf.currentSkillCategoryButton {
 
-                        UIView.animateWithDuration(0.3, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
 
                             self?.skillsCollectionView.alpha = 0
                             
                         }, completion: { _ in
                         })
 
-                        UIView.animateWithDuration(0.5, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
 
                             guard let strongSelf = self else {
                                 return
@@ -370,7 +370,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                             strongSelf.currentSkillCategoryButtonTopConstraint.constant = strongSelf.currentSkillCategoryButtonTopConstraintOriginalConstant
 
-                            strongSelf.skillsCollectionViewBottomConstrain.constant = -CGRectGetHeight(strongSelf.skillsCollectionView.bounds)
+                            strongSelf.skillsCollectionViewBottomConstrain.constant = -strongSelf.skillsCollectionView.bounds.height
                             
                             strongSelf.view.layoutIfNeeded()
 
@@ -387,15 +387,15 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                             button.translatesAutoresizingMaskIntoConstraints = false
 
-                            let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Width, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
+                            let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
 
-                            let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: nil, attribute: NSLayoutAttribute.NotAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonHeight)
+                            let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonHeight)
 
-                            let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterX, relatedBy: NSLayoutRelation.Equal, toItem: cell.contentView, attribute: NSLayoutAttribute.CenterX, multiplier: 1, constant: 0)
+                            let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: cell.contentView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
 
-                            let centerYConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: cell.contentView, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+                            let centerYConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: cell.contentView, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
 
-                            NSLayoutConstraint.activateConstraints([widthConstraint, heightConstraint, centerXConstraint, centerYConstraint])
+                            NSLayoutConstraint.activate([widthConstraint, heightConstraint, centerXConstraint, centerYConstraint])
                         })
                     }
                 }
@@ -420,29 +420,29 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
         }
     }
 
-    private func updateSkillSelectionCell(skillSelectionCell: SkillSelectionCell, withSkill skill: Skill) {
+    fileprivate func updateSkillSelectionCell(_ skillSelectionCell: SkillSelectionCell, withSkill skill: Skill) {
 
         if selectedSkillsSet.contains(skill) {
-            skillSelectionCell.skillSelection = .On
+            skillSelectionCell.skillSelection = .on
 
         } else {
             if anotherSelectedSkillsSet.contains(skill) {
-                skillSelectionCell.skillSelection = .Unavailable
+                skillSelectionCell.skillSelection = .unavailable
 
             } else {
-                skillSelectionCell.skillSelection = .Off
+                skillSelectionCell.skillSelection = .off
             }
         }
     }
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSizeMake(collectionViewWidth, annotationHeight)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return CGSize(width: collectionViewWidth, height: annotationHeight)
     }
 
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
 
         if collectionView == skillCategoriesCollectionView {
-            return CGSizeMake(collectionViewWidth, SkillCategoryCell.skillCategoryButtonHeight)
+            return CGSize(width: collectionViewWidth, height: SkillCategoryCell.skillCategoryButtonHeight)
 
         } else if collectionView == skillsCollectionView {
 
@@ -453,23 +453,23 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                 let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
 
-                return CGSizeMake(rect.width + 24, SkillSelectionCell.height)
+                return CGSize(width: rect.width + 24, height: SkillSelectionCell.height)
             }
         }
 
-        return CGSizeZero
+        return CGSize.zero
     }
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
 
         if collectionView == skillsCollectionView {
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: 0, right: sectionRightEdgeInset)
         } else {
-            return UIEdgeInsetsZero
+            return UIEdgeInsets.zero
         }
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         if collectionView == skillsCollectionView {
 
@@ -490,7 +490,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                             selectedSkillsSet.insert(skill)
                         }
 
-                        if let cell = collectionView.cellForItemAtIndexPath(indexPath) as? SkillSelectionCell {
+                        if let cell = collectionView.cellForItem(at: indexPath) as? SkillSelectionCell {
                             updateSkillSelectionCell(cell, withSkill: skill)
                         }
 

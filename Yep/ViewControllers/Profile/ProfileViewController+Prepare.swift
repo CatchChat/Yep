@@ -36,7 +36,7 @@ extension ProfileViewController {
         prepareUI()
     }
 
-    private func prepareUI() {
+    fileprivate func prepareUI() {
 
         setBackButtonWithTitle()
 

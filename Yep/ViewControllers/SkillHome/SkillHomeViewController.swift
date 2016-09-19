@@ -23,17 +23,17 @@ final class SkillHomeViewController: BaseViewController {
         }
     }
 
-    private lazy var masterTableView: YepChildScrollView = {
-        let tempTableView = YepChildScrollView(frame: CGRectZero)
+    fileprivate lazy var masterTableView: YepChildScrollView = {
+        let tempTableView = YepChildScrollView(frame: CGRect.zero)
         return tempTableView;
     }()
     
-    private lazy var learningtTableView: YepChildScrollView = {
-        let tempTableView = YepChildScrollView(frame: CGRectZero)
+    fileprivate lazy var learningtTableView: YepChildScrollView = {
+        let tempTableView = YepChildScrollView(frame: CGRect.zero)
         return tempTableView;
     }()
 
-    private var skillCoverURLString: String? {
+    fileprivate var skillCoverURLString: String? {
         willSet {
             headerView?.skillCoverURLString = newValue
         }
@@ -41,18 +41,18 @@ final class SkillHomeViewController: BaseViewController {
 
     var afterUpdatedSkillCoverAction: (() -> Void)?
 
-    private lazy var imagePicker: UIImagePickerController = {
+    fileprivate lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = false
         return imagePicker
     }()
     
-    private var isFirstAppear = true
+    fileprivate var isFirstAppear = true
 
     var preferedSkillSet: SkillSet?
     
-    private var skillSet: SkillSet = .Master {
+    fileprivate var skillSet: SkillSet = .Master {
         willSet {
             switch newValue {
             case .Master:
@@ -67,7 +67,7 @@ final class SkillHomeViewController: BaseViewController {
             case .Learning:
                 headerView.masterButton.setInActive(animated: !isFirstAppear)
                 headerView.learningButton.setActive(animated: !isFirstAppear)
-                skillHomeScrollView.setContentOffset(CGPoint(x: UIScreen.mainScreen().bounds.width, y: 0), animated: !isFirstAppear)
+                skillHomeScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.width, y: 0), animated: !isFirstAppear)
 
                 if discoveredLearningUsers.isEmpty {
                     discoverUsersLearningSkill()
@@ -76,16 +76,16 @@ final class SkillHomeViewController: BaseViewController {
         }
     }
     
-    @IBOutlet private weak var skillHomeScrollView: UIScrollView!
+    @IBOutlet fileprivate weak var skillHomeScrollView: UIScrollView!
     
-    @IBOutlet private weak var headerView: SkillHomeHeaderView!
+    @IBOutlet fileprivate weak var headerView: SkillHomeHeaderView!
     
-    @IBOutlet private weak var headerViewHeightLayoutConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var headerViewHeightLayoutConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
     
-    private var discoveredMasterUsers = [DiscoveredUser]()
-    private var discoveredLearningUsers = [DiscoveredUser]()
+    fileprivate var discoveredMasterUsers = [DiscoveredUser]()
+    fileprivate var discoveredLearningUsers = [DiscoveredUser]()
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -207,16 +207,16 @@ final class SkillHomeViewController: BaseViewController {
 
         skillHomeScrollView.addSubview(masterTableView)
         skillHomeScrollView.addSubview(learningtTableView)
-        skillHomeScrollView.pagingEnabled = true
+        skillHomeScrollView.isPagingEnabled = true
         skillHomeScrollView.delegate = self
-        skillHomeScrollView.directionalLockEnabled = true
+        skillHomeScrollView.isDirectionalLockEnabled = true
         skillHomeScrollView.alwaysBounceVertical = false
         skillHomeScrollView.alwaysBounceHorizontal = true
 
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
-                    skillHomeScrollView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                if recognizer.isKind(of: UIScreenEdgePanGestureRecognizer.self) {
+                    skillHomeScrollView.panGestureRecognizer.require(toFail: recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
                 }
@@ -234,7 +234,7 @@ final class SkillHomeViewController: BaseViewController {
             let notInMaster = me.masterSkills.filter(predicate).count == 0
 
             if notInMaster && me.learningSkills.filter(predicate).count == 0 {
-                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("button.add_skill_to_me", comment: ""), style: .Plain, target: self, action: #selector(SkillHomeViewController.addSkillToMe(_:)))
+                let addSkillToMeButton = UIBarButtonItem(title: NSLocalizedString("button.add_skill_to_me", comment: ""), style: .plain, target: self, action: #selector(SkillHomeViewController.addSkillToMe(_:)))
                 navigationItem.rightBarButtonItem = addSkillToMeButton
             }
         }
@@ -242,23 +242,23 @@ final class SkillHomeViewController: BaseViewController {
 
     // MARK: UI
 
-    private func customTitleView() {
+    fileprivate func customTitleView() {
 
         let titleLabel = UILabel()
 
         let textAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSForegroundColorAttributeName: UIColor.white,
             NSFontAttributeName: UIFont.skillHomeTextLargeFont()
         ]
 
         let titleAttr = NSMutableAttributedString(string: skill?.localName ?? "", attributes:textAttributes)
 
         titleLabel.attributedText = titleAttr
-        titleLabel.textAlignment = NSTextAlignment.Center
+        titleLabel.textAlignment = NSTextAlignment.center
         titleLabel.backgroundColor = UIColor.yepTintColor()
         titleLabel.sizeToFit()
 
-        titleLabel.bounds = CGRectInset(titleLabel.frame, -25.0, -4.0)
+        titleLabel.bounds = titleLabel.frame.insetBy(dx: -25.0, dy: -4.0)
 
         titleLabel.layer.cornerRadius = titleLabel.frame.size.height/2.0
         titleLabel.layer.masksToBounds = true
@@ -268,12 +268,12 @@ final class SkillHomeViewController: BaseViewController {
 
     // MARK: Actions
 
-    @objc private func addSkillToMe(sender: AnyObject) {
+    @objc fileprivate func addSkillToMe(_ sender: AnyObject) {
         println("addSkillToMe")
 
-        if let skillID = skill?.ID, skillLocalName = skill?.localName {
+        if let skillID = skill?.ID, let skillLocalName = skill?.localName {
 
-            let doAddSkillToSkillSet: SkillSet -> Void = { skillSet in
+            let doAddSkillToSkillSet: (SkillSet) -> Void = { skillSet in
 
                 addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
                     defaultFailureHandler(reason: reason, errorMessage: errorMessage)
@@ -294,7 +294,7 @@ final class SkillHomeViewController: BaseViewController {
 
             let alertController = UIAlertController(title: String.trans_titleChooseSkillSet, message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
 
-            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { action in
+            let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .cancel) { action in
             }
             alertController.addAction(cancelAction)
 
@@ -312,16 +312,16 @@ final class SkillHomeViewController: BaseViewController {
         }
     }
 
-    @objc private func changeToMaster(sender: AnyObject) {
+    @objc fileprivate func changeToMaster(_ sender: AnyObject) {
         skillSet = .Master
     }
     
-    @objc private func changeToLearning(sender: AnyObject) {
+    @objc fileprivate func changeToLearning(_ sender: AnyObject) {
         skillSet = .Learning
     }
 
-    private var masterPage = 1
-    private func discoverUsersMasterSkill(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+    fileprivate var masterPage = 1
+    fileprivate func discoverUsersMasterSkill(isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
 
         guard let skillID = skill?.ID else {
             return
@@ -365,8 +365,8 @@ final class SkillHomeViewController: BaseViewController {
         })
     }
 
-    private var learningPage = 1
-    private func discoverUsersLearningSkill(isLoadMore isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
+    fileprivate var learningPage = 1
+    fileprivate func discoverUsersLearningSkill(isLoadMore: Bool = false, finish: (() -> Void)? = nil) {
 
         guard let skillID = skill?.ID else {
             return
@@ -409,7 +409,7 @@ final class SkillHomeViewController: BaseViewController {
         })
     }
 
-    private func discoveredUsersWithSkillSet(skillSet: SkillSet?) -> [DiscoveredUser] {
+    fileprivate func discoveredUsersWithSkillSet(_ skillSet: SkillSet?) -> [DiscoveredUser] {
 
         if let skillSet = skillSet {
             switch skillSet {
@@ -426,13 +426,13 @@ final class SkillHomeViewController: BaseViewController {
 
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         if segue.identifier == "showProfile" {
 
-            if let indexPath = sender as? NSIndexPath {
+            if let indexPath = sender as? IndexPath {
 
-                let vc = segue.destinationViewController as! ProfileViewController
+                let vc = segue.destination as! ProfileViewController
 
                 let discoveredUser = discoveredUsersWithSkillSet(skillSet)[indexPath.row]
                 vc.prepare(with: discoveredUser)
@@ -445,7 +445,7 @@ final class SkillHomeViewController: BaseViewController {
 
 extension SkillHomeViewController: UIScrollViewDelegate {
 
-    func scrollViewDidEndDecelerating(scrollView: UIScrollView) {
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
 
         guard scrollView == skillHomeScrollView else {
             return
@@ -470,7 +470,7 @@ extension SkillHomeViewController: UIScrollViewDelegate {
 
 extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
 
@@ -542,7 +542,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
             }
         }
         
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }
 
@@ -550,33 +550,33 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
 extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
 
-    private enum Section: Int {
-        case Users
-        case LoadMore
+    fileprivate enum Section: Int {
+        case users
+        case loadMore
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         let usersCount = discoveredUsersWithSkillSet(SkillSet(rawValue: tableView.tag)).count
         switch section {
-        case Section.Users.rawValue:
+        case Section.users.rawValue:
             return usersCount
-        case Section.LoadMore.rawValue:
+        case Section.loadMore.rawValue:
             return usersCount > 0 ? 1 : 0
         default:
             return 0
         }
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
 
-        case Section.Users.rawValue:
+        case Section.users.rawValue:
 
             let cell: ContactsCell = tableView.dequeueReusableCell()
             
@@ -586,7 +586,7 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
 
             return cell
 
-        case Section.LoadMore.rawValue:
+        case Section.loadMore.rawValue:
 
             let cell: LoadMoreTableViewCell = tableView.dequeueReusableCell()
             return cell
@@ -596,15 +596,15 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        if indexPath.section == Section.LoadMore.rawValue {
+        if (indexPath as NSIndexPath).section == Section.loadMore.rawValue {
 
             if let cell = cell as? LoadMoreTableViewCell {
 
                 println("load more users")
 
-                if !cell.loadingActivityIndicator.isAnimating() {
+                if !cell.loadingActivityIndicator.isAnimating {
                     cell.loadingActivityIndicator.startAnimating()
                 }
 
@@ -624,16 +624,16 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
         }
     }
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
 
-        case Section.Users.rawValue:
-            performSegueWithIdentifier("showProfile", sender: indexPath)
+        case Section.users.rawValue:
+            performSegue(withIdentifier: "showProfile", sender: indexPath)
 
         default:
             break

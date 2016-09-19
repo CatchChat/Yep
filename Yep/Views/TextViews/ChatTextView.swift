@@ -11,12 +11,12 @@ import YepKit
 
 final class ChatTextView: UITextView {
 
-    var tapMentionAction: ((username: String) -> Void)?
-    var tapFeedAction: ((feed: DiscoveredFeed?) -> Void)?
+    var tapMentionAction: ((_ username: String) -> Void)?
+    var tapFeedAction: ((_ feed: DiscoveredFeed?) -> Void)?
 
-    private static let detectionTypeName = "ChatTextStorage.detectionTypeName"
+    fileprivate static let detectionTypeName = "ChatTextStorage.detectionTypeName"
 
-    private static let mentionRegularExpressions: [NSRegularExpression] = {
+    fileprivate static let mentionRegularExpressions: [NSRegularExpression] = {
         let patterns = [
             "([@＠][A-Za-z0-9_]{4,16})$",
             "([@＠][A-Za-z0-9_]{4,16})\\s",
@@ -25,7 +25,7 @@ final class ChatTextView: UITextView {
         return patterns.map { try! NSRegularExpression(pattern: $0, options: []) }
     }()
 
-    private enum DetectionType: String {
+    fileprivate enum DetectionType: String {
         case Mention
     }
 
@@ -34,11 +34,11 @@ final class ChatTextView: UITextView {
 
         self.delegate = self
 
-        editable = false
-        dataDetectorTypes = [.Link, .PhoneNumber, .CalendarEvent]
+        isEditable = false
+        dataDetectorTypes = [.link, .phoneNumber, .calendarEvent]
     }
 
-    func createAttributedStringWithString(string: String) -> NSAttributedString {
+    func createAttributedStringWithString(_ string: String) -> NSAttributedString {
 
         let plainText = string
 
@@ -53,20 +53,20 @@ final class ChatTextView: UITextView {
 
         func addMentionAttributes(withRange range: NSRange) {
 
-            let textValue = (plainText as NSString).substringWithRange(range)
+            let textValue = (plainText as NSString).substring(with: range)
 
             let textAttributes: [String: AnyObject] = [
-                NSLinkAttributeName: textValue,
-                ChatTextView.detectionTypeName: DetectionType.Mention.rawValue,
+                NSLinkAttributeName: textValue as AnyObject,
+                ChatTextView.detectionTypeName: DetectionType.Mention.rawValue as AnyObject,
             ]
 
             attributedString.addAttributes(textAttributes, range: range)
         }
 
         ChatTextView.mentionRegularExpressions.forEach {
-            let matches = $0.matchesInString(plainText, options: [], range: textRange)
+            let matches = $0.matches(in: plainText, options: [], range: textRange)
             for match in matches {
-                let range = match.rangeAtIndex(1)
+                let range = match.rangeAt(1)
                 addMentionAttributes(withRange: range)
             }
         }
@@ -74,7 +74,7 @@ final class ChatTextView: UITextView {
         return attributedString
     }
 
-    func setAttributedTextWithMessage(message: Message) {
+    func setAttributedTextWithMessage(_ message: Message) {
 
         let key = message.messageID
 
@@ -92,11 +92,11 @@ final class ChatTextView: UITextView {
 
     // MARK: 点击链接 hack
 
-    override func canBecomeFirstResponder() -> Bool {
+    override var canBecomeFirstResponder : Bool {
         return false
     }
 
-    override func addGestureRecognizer(gestureRecognizer: UIGestureRecognizer) {
+    override func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
 
         // iOS 9 以上，强制不添加文字选择长按手势，免去触发选择文字
         // 共有四种长按手势，iOS 9 正式版里分别加了两次：0.1 Reveal，0.12 tap link，0.5 selection， 0.75 press link
@@ -112,7 +112,7 @@ final class ChatTextView: UITextView {
 
 extension ChatTextView: UITextViewDelegate {
 
-    private func tryMatchSharedFeedWithURL(URL: NSURL) -> Bool {
+    fileprivate func tryMatchSharedFeedWithURL(_ URL: Foundation.URL) -> Bool {
 
         let matched = URL.yep_matchSharedFeed { [weak self] feed in
             self?.tapFeedAction?(feed: feed)
@@ -121,11 +121,11 @@ extension ChatTextView: UITextViewDelegate {
         return matched
     }
 
-    func textView(textView: UITextView, shouldInteractWithURL URL: NSURL, inRange characterRange: NSRange) -> Bool {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL, in characterRange: NSRange) -> Bool {
 
-        if let detectionTypeName = self.attributedText.attribute(ChatTextView.detectionTypeName, atIndex: characterRange.location, effectiveRange: nil) as? String, detectionType = DetectionType(rawValue: detectionTypeName) {
+        if let detectionTypeName = self.attributedText.attribute(ChatTextView.detectionTypeName, at: characterRange.location, effectiveRange: nil) as? String, let detectionType = DetectionType(rawValue: detectionTypeName) {
 
-            let text = (self.text as NSString).substringWithRange(characterRange)
+            let text = (self.text as NSString).substring(with: characterRange)
             self.hangleTapText(text, withDetectionType: detectionType)
 
             return false
@@ -138,14 +138,14 @@ extension ChatTextView: UITextViewDelegate {
         }
     }
 
-    private func hangleTapText(text: String, withDetectionType detectionType: DetectionType) {
+    fileprivate func hangleTapText(_ text: String, withDetectionType detectionType: DetectionType) {
 
         println("hangleTapText: \(text), \(detectionType)")
 
-        let username = text.substringFromIndex(text.startIndex.advancedBy(1))
+        let username = text.substring(from: text.characters.index(text.startIndex, offsetBy: 1))
 
         if !username.isEmpty {
-            tapMentionAction?(username: username)
+            tapMentionAction?(username)
         }
     }
 }

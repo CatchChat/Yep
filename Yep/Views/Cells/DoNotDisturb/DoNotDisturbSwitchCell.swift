@@ -10,15 +10,15 @@ import UIKit
 
 final class DoNotDisturbSwitchCell: UITableViewCell {
 
-    var toggleAction: (Bool -> Void)?
+    var toggleAction: ((Bool) -> Void)?
 
     @IBOutlet weak var promptLabel: UILabel!
     @IBOutlet weak var toggleSwitch: UISwitch!
 
     // MARK: - Actions
 
-    @IBAction func toggleDoNotDisturb(sender: UISwitch) {
-        toggleAction?(sender.on)
+    @IBAction func toggleDoNotDisturb(_ sender: UISwitch) {
+        toggleAction?(sender.isOn)
     }
 }
 

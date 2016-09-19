@@ -15,12 +15,12 @@ class BaseSearchViewController: SegueViewController, SearchActionRepresentation 
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     var searchTransition: SearchTransition?
 
-    private var searchBarCancelButtonEnabledObserver: KeypathObserver<UIButton, Bool>?
+    fileprivate var searchBarCancelButtonEnabledObserver: KeypathObserver<UIButton, Bool>?
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             let image = UIImage.yep_searchbarTextfieldBackground
-            searchBar.setSearchFieldBackgroundImage(image, forState: .Normal)
-            searchBar.returnKeyType = .Done
+            searchBar.setSearchFieldBackgroundImage(image, for: UIControlState())
+            searchBar.returnKeyType = .done
         }
     }
     @IBOutlet weak var searchBarBottomLineView: HorizontalLineView! {
@@ -30,9 +30,9 @@ class BaseSearchViewController: SegueViewController, SearchActionRepresentation 
     }
     @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
 
-    private var isFirstAppear = true
+    fileprivate var isFirstAppear = true
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -49,7 +49,7 @@ class BaseSearchViewController: SegueViewController, SearchActionRepresentation 
         }
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         recoverSearchTransition()

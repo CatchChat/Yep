@@ -47,7 +47,7 @@ struct S3UploadParams {
     - returns: Bool  upload status
 */
 
-private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String, s3UploadParams: S3UploadParams, failureHandler: FailureHandler?, completion: () -> Void) {
+private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: Data?, mimeType: String, s3UploadParams: S3UploadParams, failureHandler: FailureHandler?, completion: @escaping () -> Void) {
 
     let parameters: [String: String] = [
         "key": s3UploadParams.key,
@@ -114,13 +114,13 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
 ///
 /// :S3UploadParams:     The Upload Params
 
-private func s3UploadParams(url: String, withFileExtension fileExtension: FileExtension, failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> Void) {
+private func s3UploadParams(_ url: String, withFileExtension fileExtension: FileExtension, failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
 
     let requestParameters = [
         "extname": fileExtension.rawValue
     ]
 
-    let parse: JSONDictionary -> S3UploadParams? = { data in
+    let parse: (JSONDictionary) -> S3UploadParams? = { data in
         //println("s3FormData: \(data)")
         
         if let options = data["options"] as? JSONDictionary {
@@ -168,7 +168,7 @@ private func s3UploadParams(url: String, withFileExtension fileExtension: FileEx
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-private func s3UploadParamsOfKind(kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, failureHandler: FailureHandler?, completion: (S3UploadParams) -> Void) {
+private func s3UploadParamsOfKind(_ kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, failureHandler: FailureHandler?, completion: @escaping (S3UploadParams) -> Void) {
 
     s3UploadParams("/v1/attachments/\(kind.rawValue)/s3_upload_form_fields", withFileExtension: fileExtension, failureHandler: { (reason, error)  in
         if let failureHandler = failureHandler {
@@ -184,7 +184,7 @@ private func s3UploadParamsOfKind(kind: S3UploadParams.Kind, withFileExtension f
 
 // MARK: - API
 
-func s3UploadFileOfKind(kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> ()) {
+func s3UploadFileOfKind(_ kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, inFilePath filePath: String?, orFileData fileData: Data?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: @escaping (S3UploadParams) -> ()) {
 
     s3UploadParamsOfKind(kind, withFileExtension: fileExtension, failureHandler: failureHandler) { s3UploadParams in
         uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams, failureHandler: failureHandler) {

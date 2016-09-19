@@ -10,7 +10,7 @@ import ReSwift
 
 struct MobilePhoneReducer: Reducer {
 
-    func handleAction(action: Action, state: AppState?) -> AppState {
+    func handleAction(_ action: Action, state: AppState?) -> AppState {
 
         var state = state ?? AppState()
 

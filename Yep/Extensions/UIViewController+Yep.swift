@@ -20,7 +20,7 @@ extension UIViewController {
     var statusBarHeight: CGFloat {
 
         if let window = view.window {
-            let statusBarFrame = window.convertRect(UIApplication.sharedApplication().statusBarFrame, toView: view)
+            let statusBarFrame = window.convert(UIApplication.shared.statusBarFrame, to: view)
             return statusBarFrame.height
 
         } else {
@@ -64,14 +64,14 @@ extension ReportReason {
 extension UIViewController {
 
     enum ReportObject {
-        case User(ProfileUser)
-        case Feed(feedID: String)
-        case Message(messageID: String)
+        case user(ProfileUser)
+        case feed(feedID: String)
+        case message(messageID: String)
     }
 
-    func report(object: ReportObject) {
+    func report(_ object: ReportObject) {
 
-        let reportWithReason: ReportReason -> Void = { [weak self] reason in
+        let reportWithReason: (ReportReason) -> Void = { [weak self] reason in
 
             switch object {
 
@@ -110,7 +110,7 @@ extension UIViewController {
             }
         }
 
-        let reportAlertController = UIAlertController(title: NSLocalizedString("Report Reason", comment: ""), message: nil, preferredStyle: .ActionSheet)
+        let reportAlertController = UIAlertController(title: NSLocalizedString("Report Reason", comment: ""), message: nil, preferredStyle: .actionSheet)
 
         let pornoReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Porno.title, style: .Default) { _ in
             reportWithReason(.Porno)
@@ -134,12 +134,12 @@ extension UIViewController {
         }
         reportAlertController.addAction(otherReasonAction)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { [weak self] _ in
-            self?.dismissViewControllerAnimated(true, completion: nil)
+        let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .cancel) { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
         }
         reportAlertController.addAction(cancelAction)
         
-        self.presentViewController(reportAlertController, animated: true, completion: nil)
+        self.present(reportAlertController, animated: true, completion: nil)
     }
 }
 
@@ -147,11 +147,11 @@ extension UIViewController {
 
 extension UIViewController {
 
-    func yep_openURL(URL: NSURL) {
+    func yep_openURL(_ URL: Foundation.URL) {
 
         if let URL = URL.yep_validSchemeNetworkURL {
-            let safariViewController = SFSafariViewController(URL: URL)
-            presentViewController(safariViewController, animated: true, completion: nil)
+            let safariViewController = SFSafariViewController(url: URL)
+            present(safariViewController, animated: true, completion: nil)
 
         } else {
             YepAlert.alertSorry(message: String.trans_promptInvalidURL, inViewController: self)
@@ -165,7 +165,7 @@ extension UIViewController {
 
     func remindUserToReview() {
 
-        let remindAction: dispatch_block_t = { [weak self] in
+        let remindAction: ()->() = { [weak self] in
 
             guard self?.view.window != nil else {
                 return
@@ -199,7 +199,7 @@ extension UIViewController {
 
 extension UIViewController {
 
-    func yep_share<T: AnyObject where T: Shareable>(info sessionInfo: MonkeyKing.Info, timelineInfo: MonkeyKing.Info? = nil, defaultActivityItem activityItem: T, description: String? = nil) {
+    func yep_share<T: AnyObject>(info sessionInfo: MonkeyKing.Info, timelineInfo: MonkeyKing.Info? = nil, defaultActivityItem activityItem: T, description: String? = nil) where T: Shareable {
 
         func weChatSessionActivity() -> WeChatActivity {
 

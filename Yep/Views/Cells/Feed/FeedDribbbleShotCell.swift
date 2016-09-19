@@ -11,20 +11,20 @@ import YepKit
 import YepPreview
 import Ruler
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+private let screenWidth: CGFloat = UIScreen.main.bounds.width
 private let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
 
 final class FeedDribbbleShotCell: FeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + (dribbbleShotHeight + 15)
 
         return ceil(height)
     }
 
-    var tapDribbbleShotLinkAction: (NSURL -> Void)?
-    var tapDribbbleShotMediaAction: ((transitionReference: Reference, image: UIImage?, imageURL: NSURL, linkURL: NSURL) -> Void)?
+    var tapDribbbleShotLinkAction: ((URL) -> Void)?
+    var tapDribbbleShotMediaAction: ((_ transitionReference: Reference, _ image: UIImage?, _ imageURL: URL, _ linkURL: URL) -> Void)?
     
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -69,13 +69,13 @@ final class FeedDribbbleShotCell: FeedBasicCell {
         mediaContainerView.mediaImageView.image = nil
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
             if case let .Dribbble(dribbbleShot) = attachment {
-                if let URL = NSURL(string: dribbbleShot.imageURLString) {
+                if let URL = URL(string: dribbbleShot.imageURLString) {
                     mediaContainerView.mediaImageView.kf_showIndicatorWhenLoading = true
                     mediaContainerView.mediaImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
                 }
@@ -91,7 +91,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
             }
 
             if case .DribbbleShot = feed.kind {
-                if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
+                if case let .Dribbble(shot) = attachment, let imageURL = URL(string: shot.imageURLString), let linkURL = URL(string: shot.htmlURLString) {
                     self?.tapDribbbleShotMediaAction?(transitionReference: transitionReference, image: transitionReference.image, imageURL: imageURL, linkURL: linkURL)
                 }
             }
@@ -104,7 +104,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
             }
 
             if case .DribbbleShot = feed.kind {
-                if case let .Dribbble(shot) = attachment, let URL = NSURL(string: shot.htmlURLString) {
+                if case let .Dribbble(shot) = attachment, let URL = URL(string: shot.htmlURLString) {
                     self?.tapDribbbleShotLinkAction?(URL)
                 }
             }
@@ -127,7 +127,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
         mediaContainerView.layoutIfNeeded()
 
         halfMaskImageView.frame = mediaContainerView.mediaImageView.bounds
-        mediaContainerView.mediaImageView.maskView = halfMaskImageView
+        mediaContainerView.mediaImageView.mask = halfMaskImageView
     }
 }
 

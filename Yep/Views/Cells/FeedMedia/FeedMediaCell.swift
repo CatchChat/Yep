@@ -24,10 +24,10 @@ final class FeedMediaCell: UICollectionViewCell {
         super.awakeFromNib()
 
         imageView.backgroundColor = YepConfig.FeedMedia.backgroundColor
-        imageView.layer.borderWidth = 1.0 / UIScreen.mainScreen().scale
-        imageView.layer.borderColor = UIColor.yepBorderColor().CGColor
-        imageView.userInteractionEnabled = true
-        contentView.backgroundColor = UIColor.clearColor()
+        imageView.layer.borderWidth = 1.0 / UIScreen.main.scale
+        imageView.layer.borderColor = UIColor.yepBorderColor().cgColor
+        imageView.isUserInteractionEnabled = true
+        contentView.backgroundColor = UIColor.clear
         
         let tapGesture = UITapGestureRecognizer(target: self, action:  #selector(FeedMediaCell.deleteImage));
         deleteImageView.addGestureRecognizer(tapGesture);
@@ -35,7 +35,7 @@ final class FeedMediaCell: UICollectionViewCell {
     }
     
     
-    @objc private func deleteImage() {
+    @objc fileprivate func deleteImage() {
         delete?()
     }
  
@@ -45,14 +45,14 @@ final class FeedMediaCell: UICollectionViewCell {
         imageView.image = nil
     }
 
-    func configureWithImage(image: UIImage) {
+    func configureWithImage(_ image: UIImage) {
 
         imageView.image = image
-        deleteImageView.hidden = false
+        deleteImageView.isHidden = false
         
     }
 
-    func configureWithAttachment(attachment: DiscoveredAttachment, bigger: Bool) {
+    func configureWithAttachment(_ attachment: DiscoveredAttachment, bigger: Bool) {
 
         if attachment.isTemporary {
             imageView.image = attachment.image
@@ -64,7 +64,7 @@ final class FeedMediaCell: UICollectionViewCell {
             imageView.yep_setImageOfAttachment(attachment, withSize: size)
         }
 
-        deleteImageView.hidden = true
+        deleteImageView.isHidden = true
     }
 }
 

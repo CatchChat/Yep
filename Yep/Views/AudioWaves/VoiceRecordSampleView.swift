@@ -21,30 +21,30 @@ final class VoiceRecordSampleCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
     }
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
 
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextSetStrokeColorWithColor(context!, UIColor(red: 171/255.0, green: 181/255.0, blue: 190/255.0, alpha: 1).CGColor)
-        CGContextSetLineWidth(context!, bounds.width)
-        CGContextSetLineCap(context!, .Round)
+        context!.setStrokeColor(UIColor(red: 171/255.0, green: 181/255.0, blue: 190/255.0, alpha: 1).cgColor)
+        context!.setLineWidth(bounds.width)
+        context!.setLineCap(.round)
 
         let x = bounds.width / 2
         let height = bounds.height
         let valueHeight = height * value
         let offset = (height - valueHeight) / 2
 
-        CGContextMoveToPoint(context!, x, height - offset)
-        CGContextAddLineToPoint(context!, x, height - valueHeight - offset)
+        context!.move(to: CGPoint(x: x, y: height - offset))
+        context!.addLine(to: CGPoint(x: x, y: height - valueHeight - offset))
 
-        CGContextStrokePath(context!)
+        context!.strokePath()
     }
 }
 
@@ -56,23 +56,23 @@ class VoiceRecordSampleView: UIView {
         let layout = UICollectionViewFlowLayout()
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 2
-        layout.sectionInset = UIEdgeInsetsZero
+        layout.sectionInset = UIEdgeInsets.zero
         layout.itemSize = CGSize(width: 4, height: 60)
-        layout.scrollDirection = .Horizontal
+        layout.scrollDirection = .horizontal
         return layout
     }()
 
     lazy var sampleCollectionView: UICollectionView = {
-        let view = UICollectionView(frame: CGRectZero, collectionViewLayout: self.sampleCollectionViewLayout)
-        view.userInteractionEnabled = false
-        view.backgroundColor = UIColor.clearColor()
+        let view = UICollectionView(frame: CGRect.zero, collectionViewLayout: self.sampleCollectionViewLayout)
+        view.isUserInteractionEnabled = false
+        view.backgroundColor = UIColor.clear
         view.dataSource = self
         view.registerClassOf(VoiceRecordSampleCell)
         return view
     }()
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         println("deinit VoiceRecordSampleView")
     }
 
@@ -103,25 +103,25 @@ class VoiceRecordSampleView: UIView {
             "sampleCollectionView": sampleCollectionView,
         ]
 
-        let sampleCollectionViewConstraintH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[sampleCollectionView]|", options: [], metrics: nil, views: views)
-        let sampleCollectionViewConstraintV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[sampleCollectionView]|", options: [], metrics: nil, views: views)
+        let sampleCollectionViewConstraintH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[sampleCollectionView]|", options: [], metrics: nil, views: views)
+        let sampleCollectionViewConstraintV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[sampleCollectionView]|", options: [], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(sampleCollectionViewConstraintH)
-        NSLayoutConstraint.activateConstraints(sampleCollectionViewConstraintV)
+        NSLayoutConstraint.activate(sampleCollectionViewConstraintH)
+        NSLayoutConstraint.activate(sampleCollectionViewConstraintV)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(VoiceRecordSampleView.reloadSampleCollectionView(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(VoiceRecordSampleView.reloadSampleCollectionView(_:)), name: NSNotification.Name(rawValue: AppDelegate.Notification.applicationDidBecomeActive), object: nil)
     }
 
-    @objc private func reloadSampleCollectionView(notification: NSNotification) {
+    @objc fileprivate func reloadSampleCollectionView(_ notification: Notification) {
         sampleCollectionView.reloadData()
     }
 
-    func appendSampleValue(value: CGFloat) {
+    func appendSampleValue(_ value: CGFloat) {
         sampleValues.append(value)
 
-        let indexPath = NSIndexPath(forItem: sampleValues.count - 1, inSection: 0)
-        sampleCollectionView.insertItemsAtIndexPaths([indexPath])
-        sampleCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .Right, animated: false)
+        let indexPath = IndexPath(item: sampleValues.count - 1, section: 0)
+        sampleCollectionView.insertItems(at: [indexPath])
+        sampleCollectionView.scrollToItem(at: indexPath, at: .right, animated: false)
     }
 
     func reset() {
@@ -132,19 +132,19 @@ class VoiceRecordSampleView: UIView {
 
 extension VoiceRecordSampleView: UICollectionViewDataSource {
 
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return sampleValues.count
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         let cell: VoiceRecordSampleCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
-        let value = sampleValues[indexPath.item]
+        let value = sampleValues[(indexPath as NSIndexPath).item]
         cell.value = value
 
         return cell

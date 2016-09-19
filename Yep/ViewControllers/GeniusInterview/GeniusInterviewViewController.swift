@@ -18,17 +18,17 @@ final class GeniusInterviewViewController: BaseViewController {
 
     var interview: InterviewRepresentation!
 
-    private static let actionViewHeight: CGFloat = 49
+    fileprivate static let actionViewHeight: CGFloat = 49
 
-    private lazy var disposeBag = DisposeBag()
+    fileprivate lazy var disposeBag = DisposeBag()
 
-    private lazy var webView: WKWebView = {
+    fileprivate lazy var webView: WKWebView = {
 
         let view = WKWebView()
 
         view.navigationDelegate = self
 
-        view.scrollView.scrollEnabled = false
+        view.scrollView.isScrollEnabled = false
         view.scrollView.contentInset.bottom = GeniusInterviewViewController.actionViewHeight
         view.scrollView.rx_contentOffset.map({ $0.y }).subscribeNext({ [weak self] (scrollViewContentOffsetY) in
             guard scrollViewContentOffsetY > 0, let scrollView = self?.webView.scrollView else {
@@ -40,29 +40,29 @@ final class GeniusInterviewViewController: BaseViewController {
             let y = (scrollViewContentOffsetY + scrollViewHeight) - scrollViewContentSizeHeight
             if y > 0 {
                 let actionViewHeight = GeniusInterviewViewController.actionViewHeight
-                UIView.animateWithDuration(0.5) { [weak self] in
+                UIView.animate(withDuration: 0.5, animations: { [weak self] in
                     self?.actionViewTopConstraint?.constant = -actionViewHeight
                     self?.view.layoutIfNeeded()
-                }
+                }) 
             } else {
-                UIView.animateWithDuration(0.5) { [weak self] in
+                UIView.animate(withDuration: 0.5, animations: { [weak self] in
                     self?.actionViewTopConstraint?.constant = 0
                     self?.view.layoutIfNeeded()
-                }
+                }) 
             }
         }).addDisposableTo(self.disposeBag)
 
         return view
     }()
 
-    private lazy var indicatorView: UIActivityIndicatorView = {
+    fileprivate lazy var indicatorView: UIActivityIndicatorView = {
 
-        let view = UIActivityIndicatorView(activityIndicatorStyle: .Gray)
+        let view = UIActivityIndicatorView(activityIndicatorStyle: .gray)
         view.hidesWhenStopped = true
         return view
     }()
 
-    private var actionViewTopConstraint: NSLayoutConstraint?
+    fileprivate var actionViewTopConstraint: NSLayoutConstraint?
     lazy var actionView: GeniusInterviewActionView = {
 
         let view = GeniusInterviewActionView()
@@ -128,37 +128,37 @@ final class GeniusInterviewViewController: BaseViewController {
             webView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(webView)
 
-            let leading = webView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor)
-            let trailing = webView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor)
-            let top = webView.topAnchor.constraintEqualToAnchor(view.topAnchor)
-            let bottom = webView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor)
-            NSLayoutConstraint.activateConstraints([leading, trailing, top, bottom])
+            let leading = webView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            let trailing = webView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            let top = webView.topAnchor.constraint(equalTo: view.topAnchor)
+            let bottom = webView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            NSLayoutConstraint.activate([leading, trailing, top, bottom])
         }
 
         do {
             indicatorView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(indicatorView)
 
-            let centerX = indicatorView.centerXAnchor.constraintEqualToAnchor(view.centerXAnchor)
-            let top = indicatorView.topAnchor.constraintEqualToAnchor(view.topAnchor, constant: 64 + 120)
-            NSLayoutConstraint.activateConstraints([centerX, top])
+            let centerX = indicatorView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            let top = indicatorView.topAnchor.constraint(equalTo: view.topAnchor, constant: 64 + 120)
+            NSLayoutConstraint.activate([centerX, top])
         }
 
         do {
             actionView.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(actionView)
 
-            let leading = actionView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor)
-            let trailing = actionView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor)
-            let top = actionView.topAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: 0)
+            let leading = actionView.leadingAnchor.constraint(equalTo: view.leadingAnchor)
+            let trailing = actionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            let top = actionView.topAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
             self.actionViewTopConstraint = top
-            let height = actionView.heightAnchor.constraintEqualToConstant(GeniusInterviewViewController.actionViewHeight)
-            NSLayoutConstraint.activateConstraints([leading, trailing, top, height])
+            let height = actionView.heightAnchor.constraint(equalToConstant: GeniusInterviewViewController.actionViewHeight)
+            NSLayoutConstraint.activate([leading, trailing, top, height])
         }
 
         do {
-            let request = NSURLRequest(URL: interview.linkURL)
-            webView.loadRequest(request)
+            let request = URLRequest(url: interview.linkURL as URL)
+            webView.load(request)
 
             indicatorView.startAnimating()
         }
@@ -169,7 +169,7 @@ final class GeniusInterviewViewController: BaseViewController {
         }
     }
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -179,14 +179,14 @@ final class GeniusInterviewViewController: BaseViewController {
 
         case "showProfile":
 
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
             let discoveredUser = (sender as! Box<DiscoveredUser>).value
             vc.prepare(with: discoveredUser)
 
         case "showConversation":
 
-            let vc = segue.destinationViewController as! ConversationViewController
+            let vc = segue.destination as! ConversationViewController
             vc.conversation = sender as! Conversation
 
         default:
@@ -199,12 +199,12 @@ final class GeniusInterviewViewController: BaseViewController {
 
 extension GeniusInterviewViewController: WKNavigationDelegate {
 
-    func webView(webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didStartProvisionalNavigation navigation: WKNavigation!) {
 
         indicatorView.startAnimating()
     }
 
-    func webView(webView: WKWebView, didCommitNavigation navigation: WKNavigation!) {
+    func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
 
         delay(1) { [weak self] in
             self?.indicatorView.stopAnimating()

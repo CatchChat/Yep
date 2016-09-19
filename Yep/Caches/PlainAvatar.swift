@@ -11,7 +11,7 @@ import YepKit
 import RealmSwift
 import Navi
 
-private let screenScale = UIScreen.mainScreen().scale
+private let screenScale = UIScreen.main.scale
 
 struct PlainAvatar {
 
@@ -21,8 +21,8 @@ struct PlainAvatar {
 
 extension PlainAvatar: Navi.Avatar {
 
-    var URL: NSURL? {
-        return NSURL(string: avatarURLString)
+    var URL: Foundation.URL? {
+        return Foundation.URL(string: avatarURLString)
     }
 
     var style: AvatarStyle {
@@ -51,10 +51,10 @@ extension PlainAvatar: Navi.Avatar {
 
         if let
             realm = try? Realm(),
-            avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm),
-            avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
-            avatarFilePath = avatarFileURL.path,
-            image = UIImage(contentsOfFile: avatarFilePath) {
+            let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm),
+            let avatarFileURL = FileManager.yepAvatarURLWithName(avatar.avatarFileName),
+            let avatarFilePath = avatarFileURL.path,
+            let image = UIImage(contentsOfFile: avatarFilePath) {
                 return image
         }
 
@@ -68,14 +68,14 @@ extension PlainAvatar: Navi.Avatar {
         case miniAvatarStyle:
             if let
                 realm = try? Realm(),
-                avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
+                let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
                     return UIImage(data: avatar.roundMini, scale: screenScale)
             }
 
         case nanoAvatarStyle:
             if let
                 realm = try? Realm(),
-                avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
+                let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
                     return UIImage(data: avatar.roundNano, scale: screenScale)
             }
 
@@ -86,7 +86,7 @@ extension PlainAvatar: Navi.Avatar {
         return nil
     }
 
-    func saveOriginalImage(originalImage: UIImage, styledImage: UIImage) {
+    func saveOriginalImage(_ originalImage: UIImage, styledImage: UIImage) {
 
         guard let realm = try? Realm() else {
             return
@@ -110,9 +110,9 @@ extension PlainAvatar: Navi.Avatar {
             return
         }
 
-        let avatarFileName = NSUUID().UUIDString
+        let avatarFileName = UUID().uuidString
 
-        if avatar.avatarFileName.isEmpty, let _ = NSFileManager.saveAvatarImage(originalImage, withName: avatarFileName) {
+        if avatar.avatarFileName.isEmpty, let _ = FileManager.saveAvatarImage(originalImage, withName: avatarFileName) {
 
             let _ = try? realm.write {
                 avatar.avatarFileName = avatarFileName

@@ -20,12 +20,12 @@ final class DeletedFeedConversationCell: UITableViewCell {
         super.awakeFromNib()
 
         deletedPromptLabel.text = NSLocalizedString("[Deleted]", comment: "")
-        deletedPromptLabel.textColor = UIColor.lightGrayColor()
+        deletedPromptLabel.textColor = UIColor.lightGray
 
-        selectionStyle = .None
+        selectionStyle = .none
     }
 
-    func configureWithConversation(conversation: Conversation) {
+    func configureWithConversation(_ conversation: Conversation) {
 
         guard let feed = conversation.withGroup?.withFeed else {
             return

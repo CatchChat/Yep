@@ -10,19 +10,19 @@ import UIKit
 
 class TitleSwitchCell: UITableViewCell {
 
-    var toggleSwitchStateChangedAction: ((on: Bool) -> Void)?
+    var toggleSwitchStateChangedAction: ((_ on: Bool) -> Void)?
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.blackColor()
-        label.font = UIFont.systemFontOfSize(18, weight: UIFontWeightLight)
+        label.textColor = UIColor.black
+        label.font = UIFont.systemFont(ofSize: 18, weight: UIFontWeightLight)
         label.text = "Title"
         return label
     }()
 
     lazy var toggleSwitch: UISwitch = {
         let s = UISwitch()
-        s.addTarget(self, action: #selector(TitleSwitchCell.toggleSwitchStateChanged(_:)), forControlEvents: .ValueChanged)
+        s.addTarget(self, action: #selector(TitleSwitchCell.toggleSwitchStateChanged(_:)), for: .valueChanged)
         return s
     }()
 
@@ -36,12 +36,12 @@ class TitleSwitchCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    @objc private func toggleSwitchStateChanged(sender: UISwitch) {
+    @objc fileprivate func toggleSwitchStateChanged(_ sender: UISwitch) {
 
-        toggleSwitchStateChangedAction?(on: sender.on)
+        toggleSwitchStateChangedAction?(sender.isOn)
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         contentView.addSubview(titleLabel)
         contentView.addSubview(toggleSwitch)
@@ -52,14 +52,14 @@ class TitleSwitchCell: UITableViewCell {
         let views = [
             "titleLable": titleLabel,
             "toggleSwitch": toggleSwitch,
-        ]
+        ] as [String : Any]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[titleLable]-[toggleSwitch]-20-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[titleLable]-[toggleSwitch]-20-|", options: [.alignAllCenterY], metrics: nil, views: views)
 
-        let centerY = titleLabel.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor)
+        let centerY = titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints([centerY])
+        NSLayoutConstraint.activate(constraintsH)
+        NSLayoutConstraint.activate([centerY])
     }
 }
 

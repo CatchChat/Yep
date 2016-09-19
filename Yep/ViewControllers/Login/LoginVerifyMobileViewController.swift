@@ -44,7 +44,7 @@ final class LoginVerifyMobileViewController: BaseVerifyMobileViewController {
         tryLogin()
     }
 
-    private func tryLogin() {
+    fileprivate func tryLogin() {
 
         view.endEditing(true)
 

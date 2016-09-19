@@ -12,7 +12,7 @@ import YepKit
 
 final class ChatRightLocationCell: ChatRightBaseCell {
 
-    static private let mapSize = CGSize(width: 192, height: 108)
+    static fileprivate let mapSize = CGSize(width: 192, height: 108)
 
     lazy var mapImageView: UIImageView = {
         let imageView = UIImageView()
@@ -22,9 +22,9 @@ final class ChatRightLocationCell: ChatRightBaseCell {
 
     lazy var locationNameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.whiteColor()
-        label.font = UIFont.systemFontOfSize(12)
-        label.textAlignment = .Center
+        label.textColor = UIColor.white
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textAlignment = .center
         return label
     }()
 
@@ -38,20 +38,20 @@ final class ChatRightLocationCell: ChatRightBaseCell {
 
     func makeUI() {
 
-        let fullWidth = UIScreen.mainScreen().bounds.width
+        let fullWidth = UIScreen.main.bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
 
         avatarImageView.center = CGPoint(x: fullWidth - halfAvatarSize - YepConfig.chatCellGapBetweenWallAndAvatar(), y: halfAvatarSize)
 
-        mapImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - 192, y: 0, width: 192, height: 108)
+        mapImageView.frame = CGRect(x: avatarImageView.frame.minX - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - 192, y: 0, width: 192, height: 108)
 
         borderImageView.frame = mapImageView.frame
 
-        dotImageView.center = CGPoint(x: CGRectGetMinX(mapImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(mapImageView.frame))
+        dotImageView.center = CGPoint(x: mapImageView.frame.minX - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: mapImageView.frame.midY)
 
         let locationNameLabelHeight = YepConfig.ChatCell.locationNameLabelHeight
-        locationNameLabel.frame = CGRect(x: CGRectGetMinX(mapImageView.frame) + 20, y: CGRectGetMaxY(mapImageView.frame) - locationNameLabelHeight, width: 192 - 20 * 2 - 7, height: locationNameLabelHeight)
+        locationNameLabel.frame = CGRect(x: mapImageView.frame.minX + 20, y: mapImageView.frame.maxY - locationNameLabelHeight, width: 192 - 20 * 2 - 7, height: locationNameLabelHeight)
     }
 
     override init(frame: CGRect) {
@@ -65,12 +65,12 @@ final class ChatRightLocationCell: ChatRightBaseCell {
             self?.makeUI()
         }
 
-        mapImageView.userInteractionEnabled = true
+        mapImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatRightLocationCell.tapMediaView))
         mapImageView.addGestureRecognizer(tap)
 
         prepareForMenuAction = { otherGesturesEnabled in
-            tap.enabled = otherGesturesEnabled
+            tap.isEnabled = otherGesturesEnabled
         }
     }
 
@@ -82,7 +82,7 @@ final class ChatRightLocationCell: ChatRightBaseCell {
         mediaTapAction?()
     }
 
-    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?) {
+    func configureWithMessage(_ message: Message, mediaTapAction: MediaTapAction?) {
 
         self.message = message
         self.user = message.fromFriend

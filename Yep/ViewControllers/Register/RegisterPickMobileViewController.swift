@@ -15,12 +15,12 @@ import RxCocoa
 
 final class RegisterPickMobileViewController: BaseInputMobileViewController {
 
-    private lazy var disposeBag = DisposeBag()
+    fileprivate lazy var disposeBag = DisposeBag()
     
-    @IBOutlet private weak var pickMobileNumberPromptLabel: UILabel!
-    @IBOutlet private weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var pickMobileNumberPromptLabel: UILabel!
+    @IBOutlet fileprivate weak var pickMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
-    private lazy var nextButton: UIBarButtonItem = {
+    fileprivate lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.title = String.trans_buttonNextStep
         button.rx_tap
@@ -46,8 +46,8 @@ final class RegisterPickMobileViewController: BaseInputMobileViewController {
 
         let mobilePhone = sharedStore().state.mobilePhone
 
-        areaCodeTextField.text = mobilePhone?.areaCode ?? NSTimeZone.areaCode
-        areaCodeTextField.backgroundColor = UIColor.whiteColor()
+        areaCodeTextField.text = mobilePhone?.areaCode ?? TimeZone.areaCode
+        areaCodeTextField.backgroundColor = UIColor.white
         areaCodeTextField.delegate = self
         areaCodeTextField.rx_text
             .subscribeNext({ [weak self] _ in self?.adjustAreaCodeTextFieldWidth() })
@@ -55,7 +55,7 @@ final class RegisterPickMobileViewController: BaseInputMobileViewController {
 
         //mobileNumberTextField.placeholder = ""
         mobileNumberTextField.text = mobilePhone?.number
-        mobileNumberTextField.backgroundColor = UIColor.whiteColor()
+        mobileNumberTextField.backgroundColor = UIColor.white
         mobileNumberTextField.textColor = UIColor.yepInputTextColor()
         mobileNumberTextField.delegate = self
 
@@ -66,11 +66,11 @@ final class RegisterPickMobileViewController: BaseInputMobileViewController {
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
 
         if mobilePhone?.number == nil {
-            nextButton.enabled = false
+            nextButton.isEnabled = false
         }
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         mobileNumberTextField.becomeFirstResponder()
@@ -86,7 +86,7 @@ final class RegisterPickMobileViewController: BaseInputMobileViewController {
         
         view.endEditing(true)
         
-        guard let number = mobileNumberTextField.text, areaCode = areaCodeTextField.text else {
+        guard let number = mobileNumberTextField.text, let areaCode = areaCodeTextField.text else {
             return
         }
         let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
