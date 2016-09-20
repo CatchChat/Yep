@@ -9,7 +9,6 @@
 import UIKit
 import YepKit
 import RealmSwift
-import DeviceGuru
 
 func configureDynamicShortcuts() {
 

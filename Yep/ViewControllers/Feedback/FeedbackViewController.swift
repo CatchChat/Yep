@@ -10,7 +10,7 @@ import UIKit
 import YepKit
 import YepNetworking
 import KeyboardMan
-import DeviceGuru
+import DeviceUtil
 
 final class FeedbackViewController: UIViewController {
 
@@ -102,7 +102,7 @@ final class FeedbackViewController: UIViewController {
 
         feedbackTextView.resignFirstResponder()
 
-        let deviceInfo = (DeviceGuru.hardwareDescription() ?? "nixDevice") + ", " + ProcessInfo().operatingSystemVersionString
+        let deviceInfo = (DeviceUtil.hardwareDescription() ?? "nixDevice") + ", " + ProcessInfo().operatingSystemVersionString
         let feedback = Feedback(content: feedbackTextView.text, deviceInfo: deviceInfo)
 
         sendFeedback(feedback, failureHandler: { [weak self] (reason, errorMessage) in
