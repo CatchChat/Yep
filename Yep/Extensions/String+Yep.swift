@@ -64,8 +64,9 @@ extension String {
 
     func yep_rangeFromNSRange(_ nsRange: NSRange) -> Range<Index>? {
 
-        let from16 = utf16.startIndex.advancedBy(nsRange.location, limit: utf16.endIndex)
-        let to16 = from16.advancedBy(nsRange.length, limit: utf16.endIndex)
+
+        let from16 = utf16.startIndex.advanced(by: nsRange.location)
+        let to16 = from16.advanced(by: nsRange.length)
 
         guard let from = String.Index(from16, within: self),
             let to = String.Index(to16, within: self) else {
@@ -81,7 +82,7 @@ extension String {
         let from = String.UTF16View.Index(range.lowerBound, within: utf16view)
         let to = String.UTF16View.Index(range.upperBound, within: utf16view)
 
-        return NSMakeRange(utf16view.startIndex.distanceTo(from), from.distanceTo(to))
+        return NSMakeRange(utf16view.startIndex.distance(to: from), from.distance(to: to))
     }
 }
 
@@ -125,7 +126,7 @@ extension String {
             return nil
         }
 
-        let mentionWordRange = <#T##String.CharacterView corresponding to your index##String.CharacterView#>.index(_wordRange.lowerBound, offsetBy: -1)..<_wordRange.upperBound
+        let mentionWordRange = self.index(_wordRange.lowerBound, offsetBy: -1)..<_wordRange.upperBound
 
         let mentionWord = substring(with: mentionWordRange)
 
