@@ -2234,7 +2234,7 @@ public func createAndSendMessageWithMediaType(_ mediaType: MessageMediaType, inF
             conversation.updatedUnixTime = NSDate().timeIntervalSince1970
 
             SafeDispatch.async {
-                NotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
             }
         }
     }
