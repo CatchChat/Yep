@@ -54,7 +54,7 @@ class ChooseChannelViewController: UITableViewController {
 
     @IBAction func done(_ sender: UIBarButtonItem) {
 
-        pickedSkillAction?(skill: currentPickedSkill)
+        pickedSkillAction?(currentPickedSkill)
 
         dismiss(animated: true, completion: nil)
     }

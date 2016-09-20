@@ -160,17 +160,17 @@ class ShareViewController: SLComposeServiceViewController {
             let coordinate = YepUserDefaults.userCoordinate
 
             createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
                 SafeDispatch.async {
-                    completion(finish: false)
+                    completion(false)
                 }
 
             }, completion: { data in
                 //print("createFeedWithKind: \(data)")
 
                 SafeDispatch.async {
-                    completion(finish: true)
+                    completion(true)
                 }
             })
         }
@@ -183,13 +183,14 @@ class ShareViewController: SLComposeServiceViewController {
 
         case .audio(_, let fileURL):
 
-            let tempPath = NSTemporaryDirectory().stringByAppendingString("\(UUID().UUIDString).\(FileExtension.M4A.rawValue)")
+            let tempPath = NSTemporaryDirectory().appending("\(UUID().uuidString).\(FileExtension.M4A.rawValue)")
             let tempURL = URL(fileURLWithPath: tempPath)
-            try! FileManager.defaultManager().copyItemAtURL(fileURL, toURL: tempURL)
+            try! FileManager.default.copyItem(at: fileURL, to: tempURL)
 
-            let audioAsset = AVURLAsset(URL: tempURL, options: nil)
+            let audioAsset = AVURLAsset(url: tempURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
+            /*
             var audioSamples: [CGFloat] = []
             var audioSampleMax: CGFloat = 0
             do {
@@ -203,14 +204,14 @@ class ShareViewController: SLComposeServiceViewController {
                     AVLinearPCMIsNonInterleaved: false as AnyObject,
                 ]
                 let output = AVAssetReaderTrackOutput(track: track, outputSettings: outputSettings)
-                reader.addOutput(output)
+                reader.add(output)
 
                 var sampleRate: Double = 0
                 var channelCount: Int = 0
                 for item in track.formatDescriptions as! [CMAudioFormatDescription] {
                     let formatDescription = CMAudioFormatDescriptionGetStreamBasicDescription(item)
-                    sampleRate = Double(formatDescription.memory.mSampleRate)
-                    channelCount = Int(formatDescription.memory.mChannelsPerFrame)
+                    sampleRate = Double(formatDescription!.pointee.mSampleRate)
+                    channelCount = Int(formatDescription!.pointee.mChannelsPerFrame)
                     //print("sampleRate: \(sampleRate)")
                     //print("channelCount: \(channelCount)")
                 }
@@ -223,14 +224,15 @@ class ShareViewController: SLComposeServiceViewController {
                     return 20 * log10(abs(amplitude) / 32767)
                 }
 
-                while reader.status == AVAssetReaderStatus.Reading {
+                while reader.status == .reading {
                     guard let trachOutput = reader.outputs.first else { continue }
                     guard let sampleBuffer = trachOutput.copyNextSampleBuffer() else { continue }
                     guard let blockBuffer = CMSampleBufferGetDataBuffer(sampleBuffer) else { continue }
                     let length = CMBlockBufferGetDataLength(blockBuffer)
                     let data = NSMutableData(length: length)!
                     CMBlockBufferCopyDataBytes(blockBuffer, 0, length, data.mutableBytes)
-                    let samples = UnsafeMutablePointer<Int16>(data.mutableBytes)
+                    //UnsafeMutableRawPointer(data.mutableBytes)
+                    let samples = UnsafeMutableRawPointer(data.mutableBytes)
                     let samplesCount = length / bytesPerSample
                     if samplesCount > 0 {
                         let left = samples.memory
@@ -250,23 +252,22 @@ class ShareViewController: SLComposeServiceViewController {
 
             let finalCount = limitedAudioSamplesCount(audioSamples.count)
             let limitedAudioSamples = averageSamplingFrom(audioSamples, withCount: finalCount)
+            */
 
-            /*
             let fakeAudioSamples: [CGFloat] = (0..<Int(audioDuration * 10)).map({ _ in
                 CGFloat(arc4random() % 100) / 100
             })
             let finalCount = limitedAudioSamplesCount(fakeAudioSamples.count)
             let limitedAudioSamples = averageSamplingFrom(fakeAudioSamples, withCount: finalCount)
-             */
 
-            let audioMetaDataInfo = [
+            let audioMetaDataInfo: JSONDictionary = [
                 Config.MetaData.audioDuration: audioDuration,
                 Config.MetaData.audioSamples: limitedAudioSamples,
             ]
 
             var metaDataString = ""
-            if let audioMetaData = try? JSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
-                if let audioMetaDataString = NSString(data: audioMetaData, encoding: String.Encoding.utf8) as? String {
+            if let audioMetaData = try? JSONSerialization.data(withJSONObject: audioMetaDataInfo, options: []) {
+                if let audioMetaDataString = String(data: audioMetaData, encoding: .utf8) {
                     metaDataString = audioMetaDataString
                 }
             }
@@ -275,16 +276,16 @@ class ShareViewController: SLComposeServiceViewController {
 
             uploadVoiceGroup.enter()
 
-            let source: UploadAttachment.Source = .FilePath(fileURL.path!)
+            let source: UploadAttachment.Source = .filePath(fileURL.path)
 
             let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .M4A, metaDataString: metaDataString)
 
             tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
 
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
                 SafeDispatch.async {
-                    dispatch_group_leave(uploadVoiceGroup)
+                    uploadVoiceGroup.leave()
                 }
 
             }, completion: { uploadedAttachment in
@@ -296,7 +297,7 @@ class ShareViewController: SLComposeServiceViewController {
                 attachments = [audioInfo]
 
                 SafeDispatch.async {
-                    dispatch_group_leave(uploadVoiceGroup)
+                    uploadVoiceGroup.leave()
                 }
             })
 
@@ -314,10 +315,10 @@ class ShareViewController: SLComposeServiceViewController {
             parseOpenGraphGroup.enter()
 
             openGraphWithURL(URL, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
                 SafeDispatch.async {
-                    dispatch_group_leave(parseOpenGraphGroup)
+                    parseOpenGraphGroup.leave()
                 }
 
             }, completion: { openGraph in
@@ -335,7 +336,7 @@ class ShareViewController: SLComposeServiceViewController {
                 attachments = [URLInfo]
 
                 SafeDispatch.async {
-                    dispatch_group_leave(parseOpenGraphGroup)
+                    parseOpenGraphGroup.leave()
                 }
             })
 
@@ -365,17 +366,17 @@ class ShareViewController: SLComposeServiceViewController {
 
                 // resize to smaller, not need fixRotation
 
-                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .High), let imageData = UIImageJPEGRepresentation(image, 0.95) {
+                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .high), let imageData = UIImageJPEGRepresentation(image, 0.95) {
 
-                    let source: UploadAttachment.Source = .Data(imageData)
+                    let source: UploadAttachment.Source = .data(imageData)
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
                     let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .JPEG, metaDataString: metaDataString)
 
                     let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment) { result in
                         switch result {
-                        case .Failed(let errorMessage):
+                        case .failed(let errorMessage):
                             print("UploadAttachmentOperation errorMessage: \(errorMessage)")
-                        case .Success(let uploadedAttachment):
+                        case .success(let uploadedAttachment):
                             uploadedAttachments.append(uploadedAttachment)
                         }
                     }
