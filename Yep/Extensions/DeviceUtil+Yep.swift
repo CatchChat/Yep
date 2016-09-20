@@ -1,32 +1,31 @@
 //
-//  DeviceGuru+Yep.swift
+//  DeviceUtil+Yep.swift
 //  Yep
 //
-//  Created by NIX on 16/4/29.
+//  Created by NIX on 16/9/20.
 //  Copyright © 2016年 Catch Inc. All rights reserved.
 //
 
-/*
-import DeviceGuru
+import DeviceUtil
 
-extension DeviceGuru {
+extension DeviceUtil {
 
     static var yep_isLowEndDevice: Bool {
 
         switch UIDevice.current.userInterfaceIdiom {
         case .phone:
-            if DeviceGuru.hardwareNumber() < 6 {
+            if DeviceUtil.hardwareNumber() < 6 {
                 return true
             }
         case .pad:
-            if DeviceGuru.hardwareNumber() < 4 {
+            if DeviceUtil.hardwareNumber() < 4 {
                 return true
             }
         default:
             return false
         }
- 
+
         return false
     }
 }
-*/
+
