@@ -18,10 +18,10 @@ final class SearchContactsViewController: BaseSearchViewController {
             //contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor // not work here
             contactsTableView.backgroundColor = YepConfig.SearchTableView.backgroundColor
 
-            contactsTableView.registerHeaderFooterClassOf(TableSectionTitleView)
-            contactsTableView.registerNibOf(SearchSectionTitleCell)
-            contactsTableView.registerNibOf(SearchedUserCell)
-            contactsTableView.registerNibOf(SearchedDiscoveredUserCell)
+            contactsTableView.registerHeaderFooterClassOf(TableSectionTitleView.self)
+            contactsTableView.registerNibOf(SearchSectionTitleCell.self)
+            contactsTableView.registerNibOf(SearchedUserCell.self)
+            contactsTableView.registerNibOf(SearchedDiscoveredUserCell.self)
 
             contactsTableView.sectionHeaderHeight = 0
             contactsTableView.sectionFooterHeight = 0
@@ -141,7 +141,7 @@ extension SearchContactsViewController: UISearchBarDelegate {
             self?.searchBarBottomLineView.alpha = 0
         }, completion: nil)
 
-        navigationController?.popViewController(animated: true)
+        _ = navigationController?.popViewController(animated: true)
     }
 
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -404,13 +404,13 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         case .local:
 
             if let friend = friendAtIndex(itemIndex) {
-                performSegueWithIdentifier("showProfile", sender: friend)
+                performSegue(withIdentifier: "showProfile", sender: friend)
             }
 
         case .online:
 
             let discoveredUser = searchedUsers[itemIndex]
-            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+            performSegue(withIdentifier: "showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
     }
 }
