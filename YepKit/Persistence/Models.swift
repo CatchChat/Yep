@@ -841,7 +841,11 @@ open class Conversation: Object {
     open dynamic var hasOlderMessages: Bool = true
 
     open var latestValidMessage: Message? {
-        return messages.filter({ ($0.hidden == false) && ($0.isIndicator == false && ($0.mediaType != MessageMediaType.sectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+        return messages.filter({
+            ($0.hidden == false) && ($0.isIndicator == false && ($0.mediaType != MessageMediaType.sectionDate.rawValue))
+        }).sorted(by: {
+            $0.createdUnixTime > $1.createdUnixTime
+        }).first
     }
 
     open var latestMessageTextContentOrPlaceholder: String? {
@@ -1250,17 +1254,17 @@ public func conversationWithDiscoveredUser(_ discoveredUser: DiscoveredUser, inR
 
     user.learningSkills.removeAll()
     let learningUserSkills = userSkillsFromSkills(discoveredUser.learningSkills, inRealm: realm)
-    user.learningSkills.appendContentsOf(learningUserSkills)
+    user.learningSkills.append(objectsIn: learningUserSkills)
 
     user.masterSkills.removeAll()
     let masterUserSkills = userSkillsFromSkills(discoveredUser.masterSkills, inRealm: realm)
-    user.masterSkills.appendContentsOf(masterUserSkills)
+    user.masterSkills.append(objectsIn: masterUserSkills)
 
     // 更新 Social Account Provider
 
     user.socialAccountProviders.removeAll()
     let socialAccountProviders = userSocialAccountProvidersFromSocialAccountProviders(discoveredUser.socialAccountProviders)
-    user.socialAccountProviders.appendContentsOf(socialAccountProviders)
+    user.socialAccountProviders.append(objectsIn: socialAccountProviders)
 
     if user.conversation == nil {
         let newConversation = Conversation()
@@ -1379,7 +1383,7 @@ public func countOfUnreadMessagesInConversation(_ conversation: Conversation) ->
 
     return conversation.messages.filter({ message in
         if let fromFriend = message.fromFriend {
-            return (message.readed == false) && (fromFriend.friendState != UserFriendState.Me.rawValue)
+            return (message.readed == false) && (fromFriend.friendState != UserFriendState.me.rawValue)
         } else {
             return false
         }
@@ -1391,7 +1395,7 @@ public func firstValidMessageInMessageResults(_ results: Results<Message>) -> (m
     var headInvalidMessageIDSet: Set<String> = []
 
     for message in results {
-        if !message.deletedByCreator && (message.mediaType != MessageMediaType.SectionDate.rawValue) {
+        if !message.deletedByCreator && (message.mediaType != MessageMediaType.sectionDate.rawValue) {
             return (message, headInvalidMessageIDSet)
         } else {
             headInvalidMessageIDSet.insert(message.messageID)
@@ -1403,10 +1407,10 @@ public func firstValidMessageInMessageResults(_ results: Results<Message>) -> (m
 
 public func latestValidMessageInRealm(_ realm: Realm) -> Message? {
 
-    let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .Group)
-    let latestOneToOneMessage = latestValidMessageInRealm(realm, withConversationType: .OneToOne)
+    let latestGroupMessage = latestValidMessageInRealm(realm, withConversationType: .group)
+    let latestOneToOneMessage = latestValidMessageInRealm(realm, withConversationType: .oneToOne)
 
-    let latestMessage: Message? = [latestGroupMessage, latestOneToOneMessage].flatMap({ $0 }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+    let latestMessage: Message? = [latestGroupMessage, latestOneToOneMessage].flatMap({ $0 }).sorted(by: { $0.createdUnixTime > $1.createdUnixTime }).first
 
     return latestMessage
 }
@@ -1423,7 +1427,7 @@ public func latestValidMessageInRealm(_ realm: Realm, withConversationType conve
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.public.rawValue)
         let messages: [Message]? = realm.objects(Conversation.self).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first?.messages.sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
 
-        return messages?.filter({ ($0.hidden == false) && ($0.isIndicator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue)}).first
+        return messages?.filter({ ($0.hidden == false) && ($0.isIndicator == false) && ($0.mediaType != MessageMediaType.sectionDate.rawValue)}).first
     }
 }
 
@@ -1439,7 +1443,7 @@ public func latestUnreadValidMessageInRealm(_ realm: Realm, withConversationType
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.public.rawValue)
         let messages: [Message]? = realm.objects(Conversation.self).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
 
-        return messages?.filter({ ($0.hidden == false) && ($0.isIndicator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue) }).first
+        return messages?.filter({ ($0.hidden == false) && ($0.isIndicator == false) && ($0.mediaType != MessageMediaType.sectionDate.rawValue) }).first
     }
 }
 
@@ -1508,7 +1512,7 @@ public func saveFeedWithDiscoveredFeed(_ feedData: DiscoveredFeed, group: Group,
 
             feed.attachments.removeAll()
             let attachments = attachmentFromDiscoveredAttachment(attachments)
-            feed.attachments.appendContentsOf(attachments)
+            feed.attachments.append(objectsIn: attachments)
 
         case .github(let repo):
 
@@ -1602,7 +1606,7 @@ public func saveFeedWithDiscoveredFeed(_ feedData: DiscoveredFeed, group: Group,
                 break
             }
 
-            let openGraphInfo = OpenGraphInfo(URLString: info.URL.absoluteString!, siteName: info.siteName, title: info.title, infoDescription: info.infoDescription, thumbnailImageURLString: info.thumbnailImageURLString)
+            let openGraphInfo = OpenGraphInfo(URLString: info.URL.absoluteString, siteName: info.siteName, title: info.title, infoDescription: info.infoDescription, thumbnailImageURLString: info.thumbnailImageURLString)
 
             realm.add(openGraphInfo, update: true)
 
@@ -1680,7 +1684,7 @@ public func oneToOneConversationsInRealm(_ realm: Realm) -> Results<Conversation
 
 public func messagesInConversationFromFriend(_ conversation: Conversation) -> Results<Message> {
     
-    let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState != %d", argumentArray: [conversation, UserFriendState.Me.rawValue])
+    let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState != %d", argumentArray: [conversation, UserFriendState.me.rawValue])
     
     if let realm = conversation.realm {
         return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
@@ -1950,13 +1954,13 @@ public func updateUserWithUserID(_ userID: String, useUserInfo userInfo: JSONDic
         if let learningSkillsData = userInfo["learning_skills"] as? [JSONDictionary] {
             user.learningSkills.removeAll()
             let userSkills = userSkillsFromSkillsData(learningSkillsData, inRealm: realm)
-            user.learningSkills.appendContentsOf(userSkills)
+            user.learningSkills.append(objectsIn: userSkills)
         }
 
         if let masterSkillsData = userInfo["master_skills"] as? [JSONDictionary] {
             user.masterSkills.removeAll()
             let userSkills = userSkillsFromSkillsData(masterSkillsData, inRealm: realm)
-            user.masterSkills.appendContentsOf(userSkills)
+            user.masterSkills.append(objectsIn: userSkills)
         }
 
         // 更新 Social Account Provider
