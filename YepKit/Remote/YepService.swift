@@ -2165,7 +2165,7 @@ public func createAndSendMessageWithMediaType(_ mediaType: MessageMediaType, inF
     println("send newMessage.createdUnixTime: \(message.createdUnixTime)")
 
     // 确保本地刚创建的消息比任何已有的消息都要新
-    if let latestMessage = realm.objects(Message).sorted(byProperty: "createdUnixTime", ascending: true).last {
+    if let latestMessage = realm.objects(Message.self).sorted(byProperty: "createdUnixTime", ascending: true).last {
         if message.createdUnixTime < latestMessage.createdUnixTime {
             message.createdUnixTime = latestMessage.createdUnixTime + Config.Message.localNewerTimeInterval
             println("adjust message.createdUnixTime")
@@ -2195,11 +2195,11 @@ public func createAndSendMessageWithMediaType(_ mediaType: MessageMediaType, inF
     let _ = try? realm.write {
 
         switch recipient.type {
-        case .OneToOne:
+        case .oneToOne:
             if let withFriend = userWithUserID(recipient.ID, inRealm: realm) {
                 conversation = withFriend.conversation
             }
-        case .Group:
+        case .group:
             if let withGroup = groupWithGroupID(recipient.ID, inRealm: realm) {
                 conversation = withGroup.conversation
             }
@@ -2211,11 +2211,11 @@ public func createAndSendMessageWithMediaType(_ mediaType: MessageMediaType, inF
             newConversation.type = recipient.type.rawValue
 
             switch recipient.type {
-            case .OneToOne:
+            case .oneToOne:
                 if let withFriend = userWithUserID(recipient.ID, inRealm: realm) {
                     newConversation.withFriend = withFriend
                 }
-            case .Group:
+            case .group:
                 if let withGroup = groupWithGroupID(recipient.ID, inRealm: realm) {
                     newConversation.withGroup = withGroup
                 }
@@ -2282,7 +2282,7 @@ public func createAndSendMessageWithMediaType(_ mediaType: MessageMediaType, inF
             let realm = message.realm
 
             let _ = try? realm?.write {
-                message.sendState = MessageSendState.Failed.rawValue
+                message.sendState = MessageSendState.failed.rawValue
             }
 
             NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
@@ -2324,10 +2324,10 @@ public func sendMessage(_ message: Message, inFilePath filePath: String?, orFile
 
                 let _ = try? realm?.write {
                     message.messageID = messageID
-                    message.sendState = MessageSendState.Successed.rawValue
+                    message.sendState = MessageSendState.successed.rawValue
                 }
 
-                completion(success: true)
+                completion(true)
 
                 NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
             }
@@ -2355,10 +2355,10 @@ public func sendMessage(_ message: Message, inFilePath filePath: String?, orFile
                         let realm = message.realm
                         let _ = try? realm?.write {
                             message.messageID = messageID
-                            message.sendState = MessageSendState.Successed.rawValue
+                            message.sendState = MessageSendState.successed.rawValue
                         }
 
-                        completion(success: true)
+                        completion(true)
 
                         NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
                     }
@@ -2391,7 +2391,7 @@ public func resendMessage(_ message: Message, failureHandler: FailureHandler?, c
         let realm = message.realm
 
         let _ = try? realm?.write {
-            message.sendState = MessageSendState.NotSend.rawValue
+            message.sendState = MessageSendState.notSend.rawValue
         }
 
         NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
@@ -2408,7 +2408,7 @@ public func resendMessage(_ message: Message, failureHandler: FailureHandler?, c
             let realm = message.realm
 
             let _ = try? realm?.write {
-                message.sendState = MessageSendState.Failed.rawValue
+                message.sendState = MessageSendState.failed.rawValue
             }
 
             NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
