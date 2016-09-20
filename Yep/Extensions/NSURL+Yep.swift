@@ -89,8 +89,12 @@ extension URL {
 
     var yep_isNetworkURL: Bool {
 
+        guard let scheme = scheme else {
+            return false
+        }
+
         switch scheme {
-        case ?"http", ?"https":
+        case "http", "https":
             return true
         default:
             return false
