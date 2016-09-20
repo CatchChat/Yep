@@ -410,7 +410,7 @@ open class SocialWorkGithubRepo: Object {
 
     open class func getWithRepoID(_ repoID: Int, inRealm realm: Realm) -> SocialWorkGithubRepo? {
         let predicate = NSPredicate(format: "repoID = %d", repoID)
-        return realm.objects(SocialWorkGithubRepo).filter(predicate).first
+        return realm.objects(SocialWorkGithubRepo.self).filter(predicate).first
     }
 
     open func fillWithGithubRepo(_ githubRepo: GithubRepo) {
@@ -446,7 +446,7 @@ open class SocialWorkDribbbleShot: Object {
 
     open class func getWithShotID(_ shotID: Int, inRealm realm: Realm) -> SocialWorkDribbbleShot? {
         let predicate = NSPredicate(format: "shotID = %d", shotID)
-        return realm.objects(SocialWorkDribbbleShot).filter(predicate).first
+        return realm.objects(SocialWorkDribbbleShot.self).filter(predicate).first
     }
 
     open func fillWithDribbbleShot(_ dribbbleShot: DribbbleShot) {
@@ -814,7 +814,7 @@ open class Conversation: Object {
             )
         })
 
-        let uniqueSortedUsers = Array(Set(usernamePrefixMatchedUser)).sort({
+        let uniqueSortedUsers = Array(Set(usernamePrefixMatchedUser)).sorted(by: {
             $0.lastSignInUnixTime > $1.lastSignInUnixTime
         })
 
@@ -841,7 +841,7 @@ open class Conversation: Object {
     open dynamic var hasOlderMessages: Bool = true
 
     open var latestValidMessage: Message? {
-        return messages.filter({ ($0.hidden == false) && ($0.isIndicator == false && ($0.mediaType != MessageMediaType.SectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
+        return messages.filter({ ($0.hidden == false) && ($0.isIndicator == false && ($0.mediaType != MessageMediaType.sectionDate.rawValue)) }).sort({ $0.createdUnixTime > $1.createdUnixTime }).first
     }
 
     open var latestMessageTextContentOrPlaceholder: String? {
@@ -901,7 +901,7 @@ open class FeedAudio: Object {
 
     open class func feedAudioWithFeedID(_ feedID: String, inRealm realm: Realm) -> FeedAudio? {
         let predicate = NSPredicate(format: "feedID = %@", feedID)
-        return realm.objects(FeedAudio).filter(predicate).first
+        return realm.objects(FeedAudio.self).filter(predicate).first
     }
 
     open var audioMetaInfo: (duration: TimeInterval, samples: [CGFloat])? {
@@ -963,7 +963,7 @@ open class OpenGraphInfo: Object {
     }
 
     open class func withURLString(_ URLString: String, inRealm realm: Realm) -> OpenGraphInfo? {
-        return realm.objects(OpenGraphInfo).filter("URLString = %@", URLString).first
+        return realm.objects(OpenGraphInfo.self).filter("URLString = %@", URLString).first
     }
 }
 
@@ -1084,7 +1084,7 @@ open class OfflineJSON: Object {
     }
 
     open class func withName(_ name: OfflineJSONName, inRealm realm: Realm) -> OfflineJSON? {
-        return realm.objects(OfflineJSON).filter("name = %@", name.rawValue).first
+        return realm.objects(OfflineJSON.self).filter("name = %@", name.rawValue).first
     }
 }
 
@@ -1109,7 +1109,7 @@ open class UserLocationName: Object {
     }
 
     open class func withUserID(_ userID: String, inRealm realm: Realm) -> UserLocationName? {
-        return realm.objects(UserLocationName).filter("userID = %@", userID).first
+        return realm.objects(UserLocationName.self).filter("userID = %@", userID).first
     }
 }
 
@@ -1135,7 +1135,7 @@ open class SubscriptionViewShown: Object {
         guard let realm = try? Realm() else {
             return false
         }
-        return realm.objects(SubscriptionViewShown).filter("groupID = %@", groupID).isEmpty
+        return realm.objects(SubscriptionViewShown.self).filter("groupID = %@", groupID).isEmpty
     }
 }
 
@@ -1144,36 +1144,36 @@ open class SubscriptionViewShown: Object {
 public func normalFriends() -> Results<User> {
     let realm = try! Realm()
     let predicate = NSPredicate(format: "friendState = %d", UserFriendState.normal.rawValue)
-    return realm.objects(User).filter(predicate).sorted(byProperty: "lastSignInUnixTime", ascending: false)
+    return realm.objects(User.self).filter(predicate).sorted(byProperty: "lastSignInUnixTime", ascending: false)
 }
 
 public func normalUsers() -> Results<User> {
     let realm = try! Realm()
     let predicate = NSPredicate(format: "friendState != %d", UserFriendState.blocked.rawValue)
-    return realm.objects(User).filter(predicate)
+    return realm.objects(User.self).filter(predicate)
 }
 
 public func userSkillWithSkillID(_ skillID: String, inRealm realm: Realm) -> UserSkill? {
     let predicate = NSPredicate(format: "skillID = %@", skillID)
-    return realm.objects(UserSkill).filter(predicate).first
+    return realm.objects(UserSkill.self).filter(predicate).first
 }
 
 public func userSkillCategoryWithSkillCategoryID(_ skillCategoryID: String, inRealm realm: Realm) -> UserSkillCategory? {
     let predicate = NSPredicate(format: "skillCategoryID = %@", skillCategoryID)
-    return realm.objects(UserSkillCategory).filter(predicate).first
+    return realm.objects(UserSkillCategory.self).filter(predicate).first
 }
 
 public func userWithUserID(_ userID: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "userID = %@", userID)
 
     #if DEBUG
-    let users = realm.objects(User).filter(predicate)
+    let users = realm.objects(User.self).filter(predicate)
     if users.count > 1 {
         println("Warning: same userID: \(users.count), \(userID)")
     }
     #endif
 
-    return realm.objects(User).filter(predicate).first
+    return realm.objects(User.self).filter(predicate).first
 }
 
 public func meInRealm(_ realm: Realm) -> User? {
@@ -1192,12 +1192,12 @@ public func me() -> User? {
 
 public func userWithUsername(_ username: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "username = %@", username)
-    return realm.objects(User).filter(predicate).first
+    return realm.objects(User.self).filter(predicate).first
 }
 
 public func userWithAvatarURLString(_ avatarURLString: String, inRealm realm: Realm) -> User? {
     let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
-    return realm.objects(User).filter(predicate).first
+    return realm.objects(User.self).filter(predicate).first
 }
 
 public func conversationWithDiscoveredUser(_ discoveredUser: DiscoveredUser, inRealm realm: Realm) -> Conversation? {
@@ -1276,15 +1276,15 @@ public func conversationWithDiscoveredUser(_ discoveredUser: DiscoveredUser, inR
 
 public func groupWithGroupID(_ groupID: String, inRealm realm: Realm) -> Group? {
     let predicate = NSPredicate(format: "groupID = %@", groupID)
-    return realm.objects(Group).filter(predicate).first
+    return realm.objects(Group.self).filter(predicate).first
 }
 
 public func refreshGroupTypeForAllGroups() {
     if let realm = try? Realm() {
         realm.beginWrite()
-        realm.objects(Group).forEach({
+        realm.objects(Group.self).forEach({
             if $0.withFeed == nil {
-                $0.groupType = GroupType.Private.rawValue
+                $0.groupType = GroupType.private.rawValue
                 println("We have group with NO feed")
             }
         })
@@ -1296,13 +1296,13 @@ public func feedWithFeedID(_ feedID: String, inRealm realm: Realm) -> Feed? {
     let predicate = NSPredicate(format: "feedID = %@", feedID)
 
     #if DEBUG
-    let feeds = realm.objects(Feed).filter(predicate)
+    let feeds = realm.objects(Feed.self).filter(predicate)
     if feeds.count > 1 {
         println("Warning: same feedID: \(feeds.count), \(feedID)")
     }
     #endif
 
-    return realm.objects(Feed).filter(predicate).first
+    return realm.objects(Feed.self).filter(predicate).first
 }
 
 public func filterValidFeeds(_ feeds: Results<Feed>) -> [Feed] {
@@ -1342,21 +1342,21 @@ public func feedConversationsInRealm(_ realm: Realm) -> Results<Conversation> {
     let a = SortDescriptor(property: "mentionedMe", ascending: false)
     let b = SortDescriptor(property: "hasUnreadMessages", ascending: false)
     let c = SortDescriptor(property: "updatedUnixTime", ascending: false)
-    return realm.objects(Conversation).filter(predicate).sorted(by: [a, b, c])
+    return realm.objects(Conversation.self).filter(predicate).sorted(by: [a, b, c])
 }
 
 public func mentionedMeInFeedConversationsInRealm(_ realm: Realm) -> Bool {
     let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d AND mentionedMe = true", GroupType.public.rawValue)
-    return realm.objects(Conversation).filter(predicate).count > 0
+    return realm.objects(Conversation.self).filter(predicate).count > 0
 }
 
 public func countOfConversationsInRealm(_ realm: Realm) -> Int {
-    return realm.objects(Conversation).filter({ !$0.isInvalidated }).count
+    return realm.objects(Conversation.self).filter({ !$0.isInvalidated }).count
 }
 
 public func countOfConversationsInRealm(_ realm: Realm, withConversationType conversationType: ConversationType) -> Int {
     let predicate = NSPredicate(format: "type = %d", conversationType.rawValue)
-    return realm.objects(Conversation).filter(predicate).count
+    return realm.objects(Conversation.self).filter(predicate).count
 }
 
 public func countOfUnreadMessagesInRealm(_ realm: Realm, withConversationType conversationType: ConversationType) -> Int {
@@ -1365,11 +1365,11 @@ public func countOfUnreadMessagesInRealm(_ realm: Realm, withConversationType co
 
     case .oneToOne:
         let predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d AND conversation != nil AND conversation.type = %d", UserFriendState.me.rawValue, conversationType.rawValue)
-        return realm.objects(Message).filter(predicate).count
+        return realm.objects(Message.self).filter(predicate).count
 
     case .group: // Public for now
         let predicate = NSPredicate(format: "includeMe = true AND groupType = %d", GroupType.public.rawValue)
-        let count = realm.objects(Group).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).filter({ !$0.isInvalidated }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, +)
+        let count = realm.objects(Group.self).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).filter({ !$0.isInvalidated }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, +)
 
         return Int(count)
     }
@@ -1417,11 +1417,11 @@ public func latestValidMessageInRealm(_ realm: Realm, withConversationType conve
 
     case .oneToOne:
         let predicate = NSPredicate(format: "hidden = false AND deletedByCreator = false AND blockedByRecipient == false AND mediaType != %d AND fromFriend != nil AND conversation != nil AND conversation.type = %d", MessageMediaType.socialWork.rawValue, conversationType.rawValue)
-        return realm.objects(Message).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first
+        return realm.objects(Message.self).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first
 
     case .group: // Public for now
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.public.rawValue)
-        let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first?.messages.sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
+        let messages: [Message]? = realm.objects(Conversation.self).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first?.messages.sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
 
         return messages?.filter({ ($0.hidden == false) && ($0.isIndicator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue)}).first
     }
@@ -1433,11 +1433,11 @@ public func latestUnreadValidMessageInRealm(_ realm: Realm, withConversationType
 
     case .oneToOne:
         let predicate = NSPredicate(format: "readed = false AND hidden = false AND deletedByCreator = false AND blockedByRecipient == false AND mediaType != %d AND fromFriend != nil AND conversation != nil AND conversation.type = %d", MessageMediaType.socialWork.rawValue, conversationType.rawValue)
-        return realm.objects(Message).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first
+        return realm.objects(Message.self).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first
 
     case .group: // Public for now
         let predicate = NSPredicate(format: "withGroup != nil AND withGroup.includeMe = true AND withGroup.groupType = %d", GroupType.public.rawValue)
-        let messages: [Message]? = realm.objects(Conversation).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
+        let messages: [Message]? = realm.objects(Conversation.self).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false).first?.messages.filter({ $0.readed == false && $0.fromFriend?.userID != YepUserDefaults.userID.value }).sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
 
         return messages?.filter({ ($0.hidden == false) && ($0.isIndicator == false) && ($0.mediaType != MessageMediaType.SectionDate.rawValue) }).first
     }
@@ -1618,14 +1618,14 @@ public func messageWithMessageID(_ messageID: String, inRealm realm: Realm) -> M
 
     let predicate = NSPredicate(format: "messageID = %@", messageID)
 
-    let messages = realm.objects(Message).filter(predicate)
+    let messages = realm.objects(Message.self).filter(predicate)
 
     return messages.first
 }
 
 public func avatarWithAvatarURLString(_ avatarURLString: String, inRealm realm: Realm) -> Avatar? {
     let predicate = NSPredicate(format: "avatarURLString = %@", avatarURLString)
-    return realm.objects(Avatar).filter(predicate).first
+    return realm.objects(Avatar.self).filter(predicate).first
 }
 
 public func tryGetOrCreateMeInRealm(_ realm: Realm) -> User? {
@@ -1675,7 +1675,7 @@ public func mediaMetaDataFromString(_ metaDataString: String, inRealm realm: Rea
 
 public func oneToOneConversationsInRealm(_ realm: Realm) -> Results<Conversation> {
     let predicate = NSPredicate(format: "type = %d", ConversationType.oneToOne.rawValue)
-    return realm.objects(Conversation).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false)
+    return realm.objects(Conversation.self).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false)
 }
 
 public func messagesInConversationFromFriend(_ conversation: Conversation) -> Results<Message> {
@@ -1696,17 +1696,17 @@ public func messagesInConversation(_ conversation: Conversation) -> Results<Mess
     let predicate = NSPredicate(format: "conversation = %@", argumentArray: [conversation])
 
     if let realm = conversation.realm {
-        return realm.objects(Message).filter(predicate).sorted(byProperty: "createdUnixTime", ascending: true)
+        return realm.objects(Message.self).filter(predicate).sorted(byProperty: "createdUnixTime", ascending: true)
 
     } else {
         let realm = try! Realm()
-        return realm.objects(Message).filter(predicate).sorted(byProperty: "createdUnixTime", ascending: true)
+        return realm.objects(Message.self).filter(predicate).sorted(byProperty: "createdUnixTime", ascending: true)
     }
 }
 
 public func messagesOfConversation(_ conversation: Conversation, inRealm realm: Realm) -> Results<Message> {
     let predicate = NSPredicate(format: "conversation = %@ AND hidden = false", argumentArray: [conversation])
-    let messages = realm.objects(Message).filter(predicate).sorted(byProperty: "createdUnixTime", ascending: true)
+    let messages = realm.objects(Message.self).filter(predicate).sorted(byProperty: "createdUnixTime", ascending: true)
     return messages
 }
 
@@ -1899,7 +1899,7 @@ public func videoMetaOfMessage(_ message: Message) -> (width: CGFloat, height: C
 
 // MARK: Update with info
 
-public func updateUserWithUserID(_ userID: String, useUserInfo userInfo: [String: AnyObject], inRealm realm: Realm) {
+public func updateUserWithUserID(_ userID: String, useUserInfo userInfo: JSONDictionary, inRealm realm: Realm) {
 
     if let user = userWithUserID(userID, inRealm: realm) {
 
@@ -2130,7 +2130,7 @@ public func clearUselessRealmObjects() {
             //let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: 0).timeIntervalSince1970 // for test
 
             let predicate = NSPredicate(format: "createdUnixTime < %f", oldThresholdUnixTime)
-            let oldMessages = realm.objects(Message).filter(predicate)
+            let oldMessages = realm.objects(Message.self).filter(predicate)
 
             println("oldMessages.count: \(oldMessages.count)")
 
@@ -2144,7 +2144,7 @@ public func clearUselessRealmObjects() {
 
         do {
             let predicate = NSPredicate(format: "group == nil")
-            let noGroupFeeds = realm.objects(Feed).filter(predicate)
+            let noGroupFeeds = realm.objects(Feed.self).filter(predicate)
 
             println("noGroupFeeds.count: \(noGroupFeeds.count)")
 
@@ -2163,7 +2163,7 @@ public func clearUselessRealmObjects() {
             //let oldThresholdUnixTime = NSDate(timeIntervalSinceNow: 0).timeIntervalSince1970 // for test
 
             let predicate = NSPredicate(format: "group != nil AND group.includeMe = false AND createdUnixTime < %f", oldThresholdUnixTime)
-            let notJoinedFeeds = realm.objects(Feed).filter(predicate)
+            let notJoinedFeeds = realm.objects(Feed.self).filter(predicate)
 
             println("notJoinedFeeds.count: \(notJoinedFeeds.count)")
 
@@ -2185,7 +2185,7 @@ public func clearUselessRealmObjects() {
             let predicate = NSPredicate(format: "friendState == %d AND createdUnixTime < %f", UserFriendState.stranger.rawValue, oldThresholdUnixTime)
             //let predicate = NSPredicate(format: "friendState == %d ", UserFriendState.Stranger.rawValue)
 
-            let strangers = realm.objects(User).filter(predicate)
+            let strangers = realm.objects(User.self).filter(predicate)
 
             // 再仔细过滤，避免把需要的去除了（参与对话的，有Group的，Feed创建着，关联有消息的）
             let realStrangers = strangers.filter({
