@@ -426,13 +426,46 @@ public func updateAvatarWithImageData(_ imageData: Data, failureHandler: Failure
         return
     }
 
-    let parameters: [String: String] = [
+    let headers: [String: String] = [
         "Authorization": "Token token=\"\(token)\"",
     ]
 
     let filename = "avatar.jpg"
     let url = URL(string: yepBaseURL.absoluteString + "/v1/user/set_avatar")!
 
+    Alamofire.upload(multipartFormData: { multipartFormData in
+
+        multipartFormData.append(imageData, withName: "avatar", fileName: filename, mimeType: "image/jpeg")
+
+    }, to: url, method: .patch, headers: headers, encodingCompletion: { encodingResult in
+
+        switch encodingResult {
+
+        case .success(let upload, _, _):
+
+            upload.responseJSON(completionHandler: { response in
+
+                guard
+                    let data = response.data,
+                    let json = decodeJSON(data),
+                    let avatarInfo = json["avatar"] as? JSONDictionary,
+                    let avatarURLString = avatarInfo["url"] as? String else {
+                        failureHandler?(.couldNotParseJSON, "failed parse JSON in updateAvatarWithImageData")
+                        return
+                }
+
+                completion(avatarURLString)
+            })
+
+        case .failure(let encodingError):
+
+            if let failureHandler = failureHandler {
+                failureHandler(.other(nil), "\(encodingError)")
+            } else {
+                defaultFailureHandler(.other(nil), "\(encodingError)")
+            }
+        }
+    })
     /*
     Alamofire.upload(multipartFormData: { (multipartFormData) in
 
