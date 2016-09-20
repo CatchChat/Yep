@@ -1374,9 +1374,9 @@ public func countOfUnreadMessagesInRealm(_ realm: Realm, withConversationType co
 
     case .group: // Public for now
         let predicate = NSPredicate(format: "includeMe = true AND groupType = %d", GroupType.public.rawValue)
-        let count = realm.objects(Group.self).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).filter({ !$0.isInvalidated }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, +)
+        let count: Int = realm.objects(Group.self).filter(predicate).map({ $0.conversation }).flatMap({ $0 }).filter({ !$0.isInvalidated }).map({ $0.hasUnreadMessages ? 1 : 0 }).reduce(0, +)
 
-        return Int(count)
+        return count
     }
 }
 

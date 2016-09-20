@@ -433,6 +433,7 @@ public func updateAvatarWithImageData(_ imageData: Data, failureHandler: Failure
     let filename = "avatar.jpg"
     let url = URL(string: yepBaseURL.absoluteString + "/v1/user/set_avatar")!
 
+    /*
     Alamofire.upload(multipartFormData: { (multipartFormData) in
 
         multipartFormData.appendBodyPart(data: imageData, name: "avatar", fileName: filename, mimeType: "image/jpeg")
@@ -467,6 +468,7 @@ public func updateAvatarWithImageData(_ imageData: Data, failureHandler: Failure
             }
         }
     })
+     */
 
 
     /*
@@ -1593,6 +1595,9 @@ public func tryUploadAttachment(_ uploadAttachment: UploadAttachment, failureHan
     let filename = "file.\(uploadAttachment.fileExtension.rawValue)"
     let mimeType = uploadAttachment.fileExtension.mimeType
 
+
+
+    /*
     Alamofire.upload(.POST, yepBaseURL.absoluteString + "/v1/attachments", headers: headers, multipartFormData: { multipartFormData in
 
         for parameter in parameters {
@@ -1645,6 +1650,7 @@ public func tryUploadAttachment(_ uploadAttachment: UploadAttachment, failureHan
             failureHandler?(reason: .Other(nil), errorMessage: "\(encodingError)")
         }
     })
+    */
 }
 
 // MARK: - Messages
@@ -2708,14 +2714,14 @@ public struct DiscoveredFeed: Hashable {
         }
 
         public static func fromJSONDictionary(_ json: JSONDictionary, feedID: String) -> AudioInfo? {
-            guard let
-                fileInfo = json["file"] as? JSONDictionary,
+            guard
+                let fileInfo = json["file"] as? JSONDictionary,
                 let URLString = fileInfo["url"] as? String,
-                let metaDataString = json["metadata"] else {
+                let metaDataString = json["metadata"] as? String else {
                     return nil
             }
 
-            if let metaData = metaDataString.data(using: String.Encoding.utf8, allowLossyConversion: false) {
+            if let metaData = metaDataString.data(using: .utf8, allowLossyConversion: false) {
                 if let metaDataInfo = decodeJSON(metaData) {
 
                     guard let
