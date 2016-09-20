@@ -9,7 +9,7 @@ def pods
     pod 'AudioBot'
     pod 'AsyncDisplayKit'
     pod 'Appsee'
-    pod 'DeviceGuru'
+    pod 'DeviceUtil'
     pod 'FXBlurView'
     pod 'TPKeyboardAvoiding'
     pod 'pop'
