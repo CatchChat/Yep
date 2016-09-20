@@ -106,7 +106,7 @@ final class FeedbackViewController: UIViewController {
         let feedback = Feedback(content: feedbackTextView.text, deviceInfo: deviceInfo)
 
         sendFeedback(feedback, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             let message = errorMessage ?? "Faild to send feedback!"
             YepAlert.alertSorry(message: message, inViewController: self)
@@ -115,7 +115,7 @@ final class FeedbackViewController: UIViewController {
             YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Thanks! Your feedback has been recorded!", comment: ""), dismissTitle: String.trans_titleOK, inViewController: self, withDismissAction: {
 
                 SafeDispatch.async { [weak self] in
-                    self?.navigationController?.popViewControllerAnimated(true)
+                    _ = self?.navigationController?.popViewController(animated: true)
                 }
             })
         })
