@@ -1550,7 +1550,7 @@ public struct UploadAttachment {
     public let type: Type
 
     public enum Source {
-        case data(Foundation.Data)
+        case data(Data)
         case filePath(String)
     }
     public let source: Source
@@ -1595,7 +1595,60 @@ public func tryUploadAttachment(_ uploadAttachment: UploadAttachment, failureHan
     let filename = "file.\(uploadAttachment.fileExtension.rawValue)"
     let mimeType = uploadAttachment.fileExtension.mimeType
 
+    let url = URL(string: yepBaseURL.absoluteString + "/v1/attachments")!
 
+    Alamofire.upload(multipartFormData: { multipartFormData in
+
+        for (key, value) in parameters {
+            multipartFormData.append(value.data(using: .utf8)!, withName: key)
+        }
+
+        switch uploadAttachment.source {
+
+        case .data(let data):
+            multipartFormData.append(data, withName: name, fileName: filename, mimeType: mimeType)
+
+        case .filePath(let filePath):
+            multipartFormData.append(URL(fileURLWithPath: filePath), withName: name, fileName: filename, mimeType: mimeType)
+        }
+
+    }, to: url, method: .post, headers: headers, encodingCompletion: { encodingResult in
+
+        switch encodingResult {
+
+        case .success(let upload, _, _):
+
+            upload.responseJSON(completionHandler: { response in
+
+                guard let
+                    data = response.data,
+                    let json = decodeJSON(data)
+                    else {
+                        failureHandler?(.couldNotParseJSON, nil)
+                        return
+                }
+
+                println("tryUploadAttachment json: \(json)")
+
+                guard let
+                    attachmentID = json["id"] as? String,
+                    let fileInfo = json["file"] as? JSONDictionary,
+                    let attachmentURLString = fileInfo["url"] as? String
+                    else {
+                        failureHandler?(.couldNotParseJSON, nil)
+                        return
+                }
+
+                let uploadedAttachment = UploadedAttachment(ID: attachmentID, URLString: attachmentURLString)
+                
+                completion(uploadedAttachment)
+            })
+            
+        case .failure(let encodingError):
+            
+            failureHandler?(.other(nil), "\(encodingError)")
+        }
+    })
 
     /*
     Alamofire.upload(.POST, yepBaseURL.absoluteString + "/v1/attachments", headers: headers, multipartFormData: { multipartFormData in
