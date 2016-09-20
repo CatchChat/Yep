@@ -1756,7 +1756,7 @@ public func officialMessages(completion: @escaping (Int) -> Void) {
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
 }
 
-public func unreadMessages(failureHandler: FailureHandler?, completion: ([JSONDictionary]) -> Void) {
+public func unreadMessages(failureHandler: FailureHandler?, completion: @escaping ([JSONDictionary]) -> Void) {
 
     guard let realm = try? Realm() else { return }
 
@@ -1978,7 +1978,7 @@ public func messagesFromRecipient(_ recipient: Recipient, withTimeDirection time
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func createMessageWithMessageInfo(_ messageInfo: JSONDictionary, failureHandler: FailureHandler?, completion: (_ messageID: String) -> Void) {
+public func createMessageWithMessageInfo(_ messageInfo: JSONDictionary, failureHandler: FailureHandler?, completion: @escaping (_ messageID: String) -> Void) {
 
     println("Message info \(messageInfo)")
 
@@ -2074,7 +2074,7 @@ public func createMessageWithMessageInfo(_ messageInfo: JSONDictionary, failureH
     */
 }
 
-public func sendText(_ text: String, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (_ success: Bool) -> Void) {
+public func sendText(_ text: String, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: @escaping (_ success: Bool) -> Void) {
 
     let fillMoreInfo: (JSONDictionary) -> JSONDictionary = { info in
         var moreInfo = info
@@ -2084,22 +2084,22 @@ public func sendText(_ text: String, toRecipient recipient: Recipient, afterCrea
     createAndSendMessageWithMediaType(.text, inFilePath: nil, orFileData: nil, metaData: nil, fillMoreInfo: fillMoreInfo, toRecipient: recipient, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-public func sendImageInFilePath(_ filePath: String?, orFileData fileData: Data?, metaData: String?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (_ success: Bool) -> Void) {
+public func sendImageInFilePath(_ filePath: String?, orFileData fileData: Data?, metaData: String?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: @escaping (_ success: Bool) -> Void) {
 
     createAndSendMessageWithMediaType(.image, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipient, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-public func sendAudioInFilePath(_ filePath: String?, orFileData fileData: Data?, metaData: String?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (_ success: Bool) -> Void) {
+public func sendAudioInFilePath(_ filePath: String?, orFileData fileData: Data?, metaData: String?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: @escaping (_ success: Bool) -> Void) {
 
     createAndSendMessageWithMediaType(.audio, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipient, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-public func sendVideoInFilePath(_ filePath: String?, orFileData fileData: Data?, metaData: String?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (_ success: Bool) -> Void) {
+public func sendVideoInFilePath(_ filePath: String?, orFileData fileData: Data?, metaData: String?, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: @escaping (_ success: Bool) -> Void) {
 
     createAndSendMessageWithMediaType(.video, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: nil, toRecipient: recipient, afterCreatedMessage: afterCreatedMessage, failureHandler: failureHandler, completion: completion)
 }
 
-public func sendLocationWithLocationInfo(_ locationInfo: PickLocationViewControllerLocation.Info, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: (_ success: Bool) -> Void) {
+public func sendLocationWithLocationInfo(_ locationInfo: PickLocationViewControllerLocation.Info, toRecipient recipient: Recipient, afterCreatedMessage: (Message) -> Void, failureHandler: FailureHandler?, completion: @escaping (_ success: Bool) -> Void) {
 
     let fillMoreInfo: (JSONDictionary) -> JSONDictionary = { info in
         var moreInfo = info
@@ -3183,7 +3183,7 @@ private func headCreatorsOfBlockedFeeds(failureHandler: FailureHandler?, complet
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-private func moreCreatorsOfBlockedFeeds(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: (JSONDictionary) -> Void) {
+private func moreCreatorsOfBlockedFeeds(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: @escaping (JSONDictionary) -> Void) {
 
     let requestParameters: JSONDictionary = [
         "page": page,
@@ -3257,7 +3257,7 @@ public func creatorsOfBlockedFeeds(failureHandler: FailureHandler?, completion: 
     }
 }
 
-public func amIBlockedFeedsFromCreator(userID: String, failureHandler: FailureHandler?, completion: (Bool) -> Void) {
+public func amIBlockedFeedsFromCreator(userID: String, failureHandler: FailureHandler?, completion: @escaping (Bool) -> Void) {
 
     let requestParameters: JSONDictionary = [
         "id": userID,
@@ -3273,7 +3273,7 @@ public func amIBlockedFeedsFromCreator(userID: String, failureHandler: FailureHa
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func blockFeedsFromCreator(userID: String, failureHandler: FailureHandler?, completion: () -> Void) {
+public func blockFeedsFromCreator(userID: String, failureHandler: FailureHandler?, completion: @escaping () -> Void) {
 
     let requestParameters: JSONDictionary = [
         "user_id": userID,
@@ -3288,7 +3288,7 @@ public func blockFeedsFromCreator(userID: String, failureHandler: FailureHandler
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-public func unblockFeedsFromCreator(userID: String, failureHandler: FailureHandler?, completion: () -> Void) {
+public func unblockFeedsFromCreator(userID: String, failureHandler: FailureHandler?, completion: @escaping () -> Void) {
 
     let requestParameters: JSONDictionary = [
         "user_id": userID,
@@ -3311,7 +3311,7 @@ public struct TokensOfSocialAccounts {
     public let instagramToken: String?
 }
 
-public func tokensOfSocialAccounts(failureHandler: ((Reason, String?) -> Void)?, completion: (TokensOfSocialAccounts) -> Void) {
+public func tokensOfSocialAccounts(failureHandler: ((Reason, String?) -> Void)?, completion: @escaping (TokensOfSocialAccounts) -> Void) {
 
     let parse: (JSONDictionary) -> TokensOfSocialAccounts? = { data in
 
@@ -3338,7 +3338,7 @@ public func authURLRequestWithURL(_ url: URL) -> URLRequest {
     return request as URLRequest
 }
 
-public func socialAccountWithProvider(_ provider: String, failureHandler: FailureHandler?, completion: (JSONDictionary) -> Void) {
+public func socialAccountWithProvider(_ provider: String, failureHandler: FailureHandler?, completion: @escaping (JSONDictionary) -> Void) {
     
     let parse: (JSONDictionary) -> JSONDictionary? = { data in
         return data
@@ -3372,7 +3372,7 @@ public struct GithubWork {
     public let user: User
 }
 
-public func githubWorkOfUserWithUserID(_ userID: String, failureHandler: FailureHandler?, completion: (GithubWork) -> Void) {
+public func githubWorkOfUserWithUserID(_ userID: String, failureHandler: FailureHandler?, completion: @escaping (GithubWork) -> Void) {
 
     let parse: (JSONDictionary) -> GithubWork? = { data in
 
@@ -3443,7 +3443,7 @@ public struct DribbbleWork {
     public let userURLString: String
 }
 
-public func dribbbleWorkOfUserWithUserID(_ userID: String, failureHandler: FailureHandler?, completion: (DribbbleWork) -> Void) {
+public func dribbbleWorkOfUserWithUserID(_ userID: String, failureHandler: FailureHandler?, completion: @escaping (DribbbleWork) -> Void) {
 
     let parse: (JSONDictionary) -> DribbbleWork? = { data in
 
@@ -3513,7 +3513,7 @@ public struct InstagramWork {
     public let medias: [Media]
 }
 
-public func instagramWorkOfUserWithUserID(_ userID: String, failureHandler: FailureHandler?, completion: (InstagramWork) -> Void) {
+public func instagramWorkOfUserWithUserID(_ userID: String, failureHandler: FailureHandler?, completion: @escaping (InstagramWork) -> Void) {
 
     let parse: (JSONDictionary) -> InstagramWork? = { data in
 
@@ -3580,7 +3580,7 @@ public struct Feedback {
     }
 }
 
-public func sendFeedback(_ feedback: Feedback, failureHandler: FailureHandler?, completion: () -> Void) {
+public func sendFeedback(_ feedback: Feedback, failureHandler: FailureHandler?, completion: @escaping () -> Void) {
 
     let requestParameters: JSONDictionary = [
         "content": feedback.content,
@@ -3609,7 +3609,7 @@ public struct FoursquareVenue {
     }
 }
 
-public func foursquareVenuesNearby(coordinate: CLLocationCoordinate2D, failureHandler: FailureHandler?, completion: ([FoursquareVenue]) -> Void) {
+public func foursquareVenuesNearby(coordinate: CLLocationCoordinate2D, failureHandler: FailureHandler?, completion: @escaping ([FoursquareVenue]) -> Void) {
 
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyyMMdd"
@@ -3683,7 +3683,7 @@ extension UsernamePrefixMatchedUser: Hashable {
     }
 }
 
-public func usersMatchWithUsernamePrefix(_ usernamePrefix: String, failureHandler: FailureHandler?, completion: ([UsernamePrefixMatchedUser]) -> Void) {
+public func usersMatchWithUsernamePrefix(_ usernamePrefix: String, failureHandler: FailureHandler?, completion: @escaping ([UsernamePrefixMatchedUser]) -> Void) {
 
     let requestParameters: JSONDictionary = [
         "q": usernamePrefix,
@@ -3756,7 +3756,7 @@ public struct GeniusInterview {
     }
 }
 
-public func geniusInterviewsWithCount(_ count: Int, afterNumber number: Int?, failureHandler: FailureHandler?, completion: ([GeniusInterview]) -> Void) {
+public func geniusInterviewsWithCount(_ count: Int, afterNumber number: Int?, failureHandler: FailureHandler?, completion: @escaping ([GeniusInterview]) -> Void) {
 
     var requestParameters: JSONDictionary = [
         "count": count,
@@ -3828,7 +3828,7 @@ public struct GeniusInterviewBanner {
     }
 }
 
-public func latestGeniusInterviewBanner(failureHandler: FailureHandler?, completion: (GeniusInterviewBanner) -> Void) {
+public func latestGeniusInterviewBanner(failureHandler: FailureHandler?, completion: @escaping (GeniusInterviewBanner) -> Void) {
 
     let parse: (JSONDictionary) -> GeniusInterviewBanner? = { data in
 
