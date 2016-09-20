@@ -16,9 +16,9 @@ let bigAvatarFadeTransitionDuration: TimeInterval = 0.15
 let imageFadeTransitionDuration: TimeInterval = 0.2
 
 let MediaOptionsInfos: KingfisherOptionsInfo = [
-    .PreloadAllGIFData,
-    .BackgroundDecode,
-    .Transition(ImageTransition.Fade(imageFadeTransitionDuration))
+    .preloadAllGIFData,
+    .backgroundDecode,
+    .transition(ImageTransition.fade(imageFadeTransitionDuration))
 ]
 
 final class YepConfig {
