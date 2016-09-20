@@ -11,14 +11,6 @@ import RealmSwift
 
 public extension String {
 
-    public func contains(_ find: String) -> Bool{
-        return self.range(of: find) != nil
-    }
-}
-
-
-public extension String {
-
     public func yep_mentionedMeInRealm(_ realm: Realm) -> Bool {
 
         guard let me = meInRealm(realm) else {

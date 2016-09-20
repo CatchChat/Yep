@@ -39,7 +39,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         case `default`
         case message
     }
-    var lauchStyle = Listenable<LaunchStyle>(.Default) { _ in }
+    var lauchStyle = Listenable<LaunchStyle>(.default) { _ in }
 
     struct Notification {
         static let applicationDidBecomeActive = "applicationDidBecomeActive"
@@ -59,7 +59,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 switch type {
 
                 case .Message, .OfficialMessage:
-                    lauchStyle.value = .Message
+                    lauchStyle.value = .message
 
                 default:
                     break
@@ -82,7 +82,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         cacheInAdvance()
 
-        delay(0.5) {
+        _ = delay(0.5) {
             //Fabric.with([Crashlytics.self])
             Fabric.with([Appsee.self])
 
@@ -92,7 +92,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 let apsForProduction = true
                 JPUSHService.setLogOFF()
             #endif
-            JPUSHService.setupWithOption(launchOptions, appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
+            JPUSHService.setup(withOption: launchOptions, appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
         }
         
         let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.defaultToSpeaker)
@@ -135,7 +135,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             sync()
 
             // 延迟一些，减少线程切换压力
-            delay(2) { [weak self] in
+            _ = delay(2) { [weak self] in
                 self?.startFaye()
             }
         }
@@ -265,18 +265,18 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             syncUnreadMessages() {
                 SafeDispatch.async {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
 
                     configureDynamicShortcuts()
 
-                    completionHandler(UIBackgroundFetchResult.NewData)
+                    completionHandler(.newData)
                 }
             }
 
         case .OfficialMessage:
 
             officialMessages { messagesCount in
-                completionHandler(UIBackgroundFetchResult.NewData)
+                completionHandler(.newData)
                 println("new officialMessages count: \(messagesCount)")
             }
 
@@ -285,13 +285,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             if let subType = userInfo["subtype"] as? String {
                 if subType == "accepted" {
                     syncFriendshipsAndDoFurtherAction {
-                        completionHandler(UIBackgroundFetchResult.NewData)
+                        completionHandler(.newData)
                     }
                 } else {
-                    completionHandler(UIBackgroundFetchResult.noData)
+                    completionHandler(.noData)
                 }
             } else {
-                completionHandler(UIBackgroundFetchResult.noData)
+                completionHandler(.noData)
             }
 
         case .MessageDeleted:
@@ -315,20 +315,20 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             syncUnreadMessagesAndDoFurtherAction({ _ in
                 SafeDispatch.async {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
 
                     configureDynamicShortcuts()
 
-                    completionHandler(UIBackgroundFetchResult.NewData)
+                    completionHandler(UIBackgroundFetchResult.newData)
                 }
             })
         }
     }
 
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-
-        println(error.description)
-    }
+//    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+//
+//        println(error)
+//    }
 
     // MARK: Shortcuts
 
@@ -439,9 +439,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             vc.conversation = feedConversation
-            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+            vc.conversationFeed = ConversationFeed.discoveredFeedType(feed)
 
-            delay(0.25) {
+            _ = delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
             }
 
@@ -459,7 +459,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             let vc = UIStoryboard.Scene.profile
             vc.prepare(with: discoveredUser)
 
-            delay(0.25) {
+            _ = delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
             }
         })
@@ -483,7 +483,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             let vc = UIStoryboard.Scene.profile
             vc.prepare(withUser: user)
 
-            delay(0.25) {
+            _ = delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
             }
 
@@ -510,7 +510,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             let vc = UIStoryboard.Scene.conversation
             vc.conversation = conversation
 
-            delay(0.25) {
+            _ = delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
             }
 
@@ -646,7 +646,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         YepKit.Config.updatedAccessTokenAction = {
 
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
                 // 注册或初次登录时同步数据的好时机
                 appDelegate.sync()
 
@@ -657,7 +657,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         YepKit.Config.updatedPusherIDAction = { pusherID in
 
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
                 if let deviceToken = appDelegate.deviceToken {
                     appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
                 }
@@ -676,8 +676,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         YepKit.Config.isAppActive = {
 
-            let state = UIApplication.sharedApplication().applicationState
-            return state == .Active
+            let state = UIApplication.shared.applicationState
+            return state == .active
         }
     }
 
@@ -700,7 +700,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             case 401:
                 SafeDispatch.async {
                     YepUserDefaults.maybeUserNeedRelogin(prerequisites: {
-                        guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate , appDelegate.inMainStory else {
+                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate , appDelegate.inMainStory else {
                             return false
                         }
                         return true
@@ -727,7 +727,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         YepNetworking.Manager.networkActivityCountChangedAction = { count in
 
             SafeDispatch.async {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = (count > 0)
+                UIApplication.shared.isNetworkActivityIndicatorVisible = (count > 0)
             }
         }
     }
@@ -740,7 +740,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 title: nil,
                 description: nil,
                 thumbnail: image.navi_centerCropWithSize(CGSize(width: 100, height: 100)),
-                media: .Image(image)
+                media: .image(image)
             )
             vc.yep_share(info: info, defaultActivityItem: image)
         }
@@ -764,7 +764,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let users = normalFriends()
 
-        let searchableItems = users.map({
+        let searchableItems: [CSSearchableItem] = users.map({
             CSSearchableItem(
                 uniqueIdentifier: searchableItemID(searchableItemType: .User, itemID: $0.userID),
                 domainIdentifier: YepConfig.Domain.user,
@@ -774,7 +774,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         println("userSearchableItems: \(searchableItems.count)")
 
-        CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(searchableItems) { error in
+        CSSearchableIndex.default().indexSearchableItems(searchableItems) { (error) in
             if error != nil {
                 println(error!.localizedDescription)
 
@@ -790,7 +790,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             return
         }
 
-        let feeds = filterValidFeeds(realm.objects(Feed))
+        let feeds = filterValidFeeds(realm.objects(Feed.self))
 
         let searchableItems = feeds.map({
             CSSearchableItem(
@@ -802,7 +802,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         println("feedSearchableItems: \(searchableItems.count)")
 
-        CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(searchableItems) { error in
+        CSSearchableIndex.default().indexSearchableItems(searchableItems) { error in
             if error != nil {
                 println(error!.localizedDescription)
 
@@ -837,7 +837,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     fileprivate func cacheInAdvance() {
 
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+        DispatchQueue.global(qos: .background).async {
 
             guard let realm = try? Realm() else {
                 return
@@ -845,8 +845,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             // 主界面的头像
 
-            let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
-            let conversations = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+            let predicate = NSPredicate(format: "type = %d", ConversationType.oneToOne.rawValue)
+            let conversations = realm.objects(Conversation.self).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false)
 
             conversations.forEach { conversation in
                 if let latestMessage = conversation.messages.last, let user = latestMessage.fromFriend {
