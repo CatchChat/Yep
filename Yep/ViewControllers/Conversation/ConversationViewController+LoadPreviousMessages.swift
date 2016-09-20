@@ -15,7 +15,7 @@ extension ConversationViewController {
     func loadMessagesFromServer(with timeDirection: TimeDirection, excludeMessagesIn invalidMessageIDSet: Set<String>? = nil, failed: (() -> Void)? = nil, completion: ((_ messageIDs: [String], _ noMore: Bool) -> Void)? = nil) {
 
         messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async {
                 failed?()
@@ -36,7 +36,7 @@ extension ConversationViewController {
             println("# messagesFromRecipient: \(messageIDs.count)")
 
             SafeDispatch.async {
-                completion?(messageIDs: messageIDs, noMore: noMore)
+                completion?(messageIDs, noMore)
             }
         })
     }
@@ -48,7 +48,7 @@ extension ConversationViewController {
             return
         }
 
-        guard !conversation.invalidated else {
+        guard !conversation.isInvalidated else {
             return
         }
 
@@ -70,10 +70,10 @@ extension ConversationViewController {
             var invalidMessageIDSet: Set<String>?
             if let (message, headInvalidMessageIDSet) = firstValidMessageInMessageResults(messages) {
                 let maxMessageID = message.messageID
-                timeDirection = .Past(maxMessageID: maxMessageID)
+                timeDirection = .past(maxMessageID: maxMessageID)
                 invalidMessageIDSet = headInvalidMessageIDSet
             } else {
-                timeDirection = .None
+                timeDirection = .none
             }
 
             loadMessagesFromServer(with: timeDirection, excludeMessagesIn: invalidMessageIDSet, failed: { [weak self] in
@@ -81,7 +81,7 @@ extension ConversationViewController {
                 completion()
 
             }, completion: { [weak self] messageIDs, noMore in
-                if case .Past = timeDirection {
+                if case .past = timeDirection {
                     self?.noMorePreviousMessages = noMore
                 }
 
