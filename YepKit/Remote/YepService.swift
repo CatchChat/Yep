@@ -466,80 +466,6 @@ public func updateAvatarWithImageData(_ imageData: Data, failureHandler: Failure
             }
         }
     })
-    /*
-    Alamofire.upload(multipartFormData: { (multipartFormData) in
-
-        multipartFormData.appendBodyPart(data: imageData, name: "avatar", fileName: filename, mimeType: "image/jpeg")
-        
-    }, to: url, method: .patch, headers: parameters, encodingCompletion: { encodingResult in
-
-        switch encodingResult {
-
-        case .Success(let upload, _, _):
-
-            upload.responseJSON(completionHandler: { response in
-
-                guard let
-                    data = response.data,
-                    let json = decodeJSON(data),
-                    let avatarInfo = json["avatar"] as? JSONDictionary,
-                    let avatarURLString = avatarInfo["url"] as? String
-                    else {
-                        failureHandler?(reason: .CouldNotParseJSON, errorMessage: "failed parse JSON in updateAvatarWithImageData")
-                        return
-                }
-
-                completion(avatarURLString)
-            })
-
-        case .Failure(let encodingError):
-
-            if let failureHandler = failureHandler {
-                failureHandler(reason: .Other(nil), errorMessage: "\(encodingError)")
-            } else {
-                defaultFailureHandler(reason: .Other(nil), errorMessage: "\(encodingError)")
-            }
-        }
-    })
-     */
-
-
-    /*
-    Alamofire.upload(.PATCH, yepBaseURL.absoluteString + "/v1/user/set_avatar", headers: parameters, multipartFormData: { multipartFormData in
-
-        multipartFormData.appendBodyPart(data: imageData, name: "avatar", fileName: filename, mimeType: "image/jpeg")
-
-    }, encodingCompletion: { encodingResult in
-
-        switch encodingResult {
-
-        case .Success(let upload, _, _):
-
-            upload.responseJSON(completionHandler: { response in
-
-                guard let
-                    data = response.data,
-                    let json = decodeJSON(data),
-                    let avatarInfo = json["avatar"] as? JSONDictionary,
-                    let avatarURLString = avatarInfo["url"] as? String
-                else {
-                    failureHandler?(reason: .CouldNotParseJSON, errorMessage: "failed parse JSON in updateAvatarWithImageData")
-                    return
-                }
-
-                completion(avatarURLString)
-            })
-
-        case .Failure(let encodingError):
-
-            if let failureHandler = failureHandler {
-                failureHandler(reason: .Other(nil), errorMessage: "\(encodingError)")
-            } else {
-                defaultFailureHandler(reason: .Other(nil), errorMessage: "\(encodingError)")
-            }
-        }
-    })
-     */
 }
 
 public enum VerifyCodeMethod: String {
@@ -1653,21 +1579,19 @@ public func tryUploadAttachment(_ uploadAttachment: UploadAttachment, failureHan
 
             upload.responseJSON(completionHandler: { response in
 
-                guard let
-                    data = response.data,
-                    let json = decodeJSON(data)
-                    else {
+                guard
+                    let data = response.data,
+                    let json = decodeJSON(data) else {
                         failureHandler?(.couldNotParseJSON, nil)
                         return
                 }
 
                 println("tryUploadAttachment json: \(json)")
 
-                guard let
-                    attachmentID = json["id"] as? String,
+                guard
+                    let attachmentID = json["id"] as? String,
                     let fileInfo = json["file"] as? JSONDictionary,
-                    let attachmentURLString = fileInfo["url"] as? String
-                    else {
+                    let attachmentURLString = fileInfo["url"] as? String else {
                         failureHandler?(.couldNotParseJSON, nil)
                         return
                 }
@@ -1682,61 +1606,6 @@ public func tryUploadAttachment(_ uploadAttachment: UploadAttachment, failureHan
             failureHandler?(.other(nil), "\(encodingError)")
         }
     })
-
-    /*
-    Alamofire.upload(.POST, yepBaseURL.absoluteString + "/v1/attachments", headers: headers, multipartFormData: { multipartFormData in
-
-        for parameter in parameters {
-            multipartFormData.appendBodyPart(data: parameter.1.dataUsingEncoding(NSUTF8StringEncoding)!, name: parameter.0)
-        }
-
-        switch uploadAttachment.source {
-
-        case .Data(let data):
-            multipartFormData.appendBodyPart(data: data, name: name, fileName: filename, mimeType: mimeType)
-
-        case .FilePath(let filePath):
-            multipartFormData.appendBodyPart(fileURL: NSURL(fileURLWithPath: filePath), name: name, fileName: filename, mimeType: mimeType)
-        }
-
-    }, encodingCompletion: { encodingResult in
-
-        switch encodingResult {
-
-        case .Success(let upload, _, _):
-
-            upload.responseJSON(completionHandler: { response in
-
-                guard let
-                    data = response.data,
-                    let json = decodeJSON(data)
-                else {
-                    failureHandler?(reason: .CouldNotParseJSON, errorMessage: nil)
-                    return
-                }
-
-                println("tryUploadAttachment json: \(json)")
-
-                guard let
-                    attachmentID = json["id"] as? String,
-                    let fileInfo = json["file"] as? JSONDictionary,
-                    let attachmentURLString = fileInfo["url"] as? String
-                else {
-                    failureHandler?(reason: .CouldNotParseJSON, errorMessage: nil)
-                    return
-                }
-
-                let uploadedAttachment = UploadedAttachment(ID: attachmentID, URLString: attachmentURLString)
-
-                completion(uploadedAttachment)
-            })
-            
-        case .Failure(let encodingError):
-            
-            failureHandler?(reason: .Other(nil), errorMessage: "\(encodingError)")
-        }
-    })
-    */
 }
 
 // MARK: - Messages
