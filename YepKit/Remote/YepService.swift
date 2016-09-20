@@ -431,7 +431,45 @@ public func updateAvatarWithImageData(_ imageData: Data, failureHandler: Failure
     ]
 
     let filename = "avatar.jpg"
+    let url = URL(string: yepBaseURL.absoluteString + "/v1/user/set_avatar")!
 
+    Alamofire.upload(multipartFormData: { (multipartFormData) in
+
+        multipartFormData.appendBodyPart(data: imageData, name: "avatar", fileName: filename, mimeType: "image/jpeg")
+        
+    }, to: url, method: .patch, headers: parameters, encodingCompletion: { encodingResult in
+
+        switch encodingResult {
+
+        case .Success(let upload, _, _):
+
+            upload.responseJSON(completionHandler: { response in
+
+                guard let
+                    data = response.data,
+                    let json = decodeJSON(data),
+                    let avatarInfo = json["avatar"] as? JSONDictionary,
+                    let avatarURLString = avatarInfo["url"] as? String
+                    else {
+                        failureHandler?(reason: .CouldNotParseJSON, errorMessage: "failed parse JSON in updateAvatarWithImageData")
+                        return
+                }
+
+                completion(avatarURLString)
+            })
+
+        case .Failure(let encodingError):
+
+            if let failureHandler = failureHandler {
+                failureHandler(reason: .Other(nil), errorMessage: "\(encodingError)")
+            } else {
+                defaultFailureHandler(reason: .Other(nil), errorMessage: "\(encodingError)")
+            }
+        }
+    })
+
+
+    /*
     Alamofire.upload(.PATCH, yepBaseURL.absoluteString + "/v1/user/set_avatar", headers: parameters, multipartFormData: { multipartFormData in
 
         multipartFormData.appendBodyPart(data: imageData, name: "avatar", fileName: filename, mimeType: "image/jpeg")
@@ -466,6 +504,7 @@ public func updateAvatarWithImageData(_ imageData: Data, failureHandler: Failure
             }
         }
     })
+     */
 }
 
 public enum VerifyCodeMethod: String {
