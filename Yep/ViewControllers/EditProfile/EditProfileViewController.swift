@@ -41,9 +41,9 @@ final class EditProfileViewController: SegueViewController {
 
     @IBOutlet fileprivate weak var editProfileTableView: TPKeyboardAvoidingTableView! {
         didSet {
-            editProfileTableView.registerNibOf(EditProfileLessInfoCell)
-            editProfileTableView.registerNibOf(EditProfileMoreInfoCell)
-            editProfileTableView.registerNibOf(EditProfileColoredTitleCell)
+            editProfileTableView.registerNibOf(EditProfileLessInfoCell.self)
+            editProfileTableView.registerNibOf(EditProfileMoreInfoCell.self)
+            editProfileTableView.registerNibOf(EditProfileColoredTitleCell.self)
         }
     }
 
@@ -154,7 +154,7 @@ final class EditProfileViewController: SegueViewController {
         friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
             YepHUD.hideActivityIndicator()
 
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
         }, completion: { [weak self] discoveredUsers in
             YepHUD.hideActivityIndicator()
@@ -170,7 +170,7 @@ final class EditProfileViewController: SegueViewController {
             println("avatarURLString: \(avatarURLString)")
 
             let avatarSize = YepConfig.editProfileAvatarSize()
-            let avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
+            let avatarStyle: AvatarStyle = .roundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
             let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
             avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
             
@@ -197,7 +197,7 @@ final class EditProfileViewController: SegueViewController {
                 }
             }
 
-            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
+            proposeToAccess(.photos, agreed: openCameraRoll, rejected: { [weak self] in
                 self?.alertCanNotAccessCameraRoll()
             })
         }
@@ -218,7 +218,7 @@ final class EditProfileViewController: SegueViewController {
                 }
             }
 
-            proposeToAccess(.Camera, agreed: openCamera, rejected: { [weak self] in
+            proposeToAccess(.camera, agreed: openCamera, rejected: { [weak self] in
                 self?.alertCanNotOpenCamera()
             })
         }
@@ -232,7 +232,7 @@ final class EditProfileViewController: SegueViewController {
         self.present(alertController, animated: true, completion: nil)
 
         // touch to create (if need) for faster appear
-        delay(0.2) { [weak self] in
+        _ = delay(0.2) { [weak self] in
             self?.imagePicker.hidesBarsOnTap = false
         }
     }
@@ -430,7 +430,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         updateMyselfWithInfo(["introduction": ""], failureHandler: { (reason, errorMessage) in
                             YepHUD.hideActivityIndicator()
 
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                            defaultFailureHandler(reason, errorMessage)
 
                         }, completion: { success in
                             YepHUD.hideActivityIndicator()
@@ -446,7 +446,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     YepHUD.showActivityIndicator()
 
                     updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason, errorMessage)
 
                         YepHUD.hideActivityIndicator()
 
@@ -513,7 +513,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
                             YepHUD.hideActivityIndicator()
 
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                            defaultFailureHandler(reason, errorMessage)
 
                         }, completion: { success in
                             YepHUD.hideActivityIndicator()
@@ -542,7 +542,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                         YepHUD.hideActivityIndicator()
 
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason, errorMessage)
 
                         YepAlert.alert(title: NSLocalizedString("Ooops!", comment: ""), message: NSLocalizedString("You have entered an invalid URL!", comment: ""), dismissTitle: String.trans_titleModify, inViewController: self, withDismissAction: { [weak cell] in
 
@@ -559,7 +559,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         ]
 
                         updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                            defaultFailureHandler(reason, errorMessage)
 
                             YepHUD.hideActivityIndicator()
 
@@ -652,7 +652,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     let newUsername = text
 
                     updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason, errorMessage)
 
                         YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
 
@@ -670,11 +670,11 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                             // update UI
 
-                            if let usernameCell = tableView?.cellForRowAtIndexPath(indexPath) as? EditProfileLessInfoCell {
+                            if let usernameCell = tableView?.cellForRow(at: indexPath) as? EditProfileLessInfoCell {
                                 usernameCell.infoLabel.text = newUsername
                             }
 
-                            NSNotificationCenter.defaultCenter().postNotificationName(Notification.NewUsername, object: nil)
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.NewUsername), object: nil)
                         }
                     })
                     
@@ -693,13 +693,13 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String.trans_promptTryLogout, confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { () -> Void in
 
                 logout(failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
                     YepAlert.alertSorry(message: "Logout failed!", inViewController: self)
 
                 }, completion: {
                     SafeDispatch.async {
 
-                        guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate else {
+                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                             return
                         }
 
@@ -738,7 +738,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
             updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
 
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
                 SafeDispatch.async { [weak self] in
                     self?.activityIndicator.stopAnimating()
