@@ -717,7 +717,7 @@ public func blockedUsersByMe(failureHandler: FailureHandler?, completion: @escap
                 downloadGroup.enter()
 
                 moreBlockedUsers(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
-                    failureHandler?(reason: reason, errorMessage: errorMessage)
+                    failureHandler?(reason, errorMessage)
 
                     downloadGroup.leave()
 
@@ -1435,7 +1435,7 @@ public func friendships(failureHandler: FailureHandler?, completion: @escaping (
 
                 moreFriendships(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
                     allGood = false
-                    failureHandler?(reason: reason, errorMessage: errorMessage)
+                    failureHandler?(reason, errorMessage)
                     downloadGroup.leave()
 
                 }, completion: { result in
@@ -1885,7 +1885,7 @@ public func unreadMessagesAfterMessageWithID(_ messageID: String?, failureHandle
                 downloadGroup.enter()
 
                 moreUnreadMessagesAfterMessageWithID(messageID, inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
-                    failureHandler?(reason: reason, errorMessage: errorMessage)
+                    failureHandler?(reason, errorMessage)
 
                     downloadGroup.leave()
 
@@ -2275,7 +2275,7 @@ public func createAndSendMessageWithMediaType(_ mediaType: MessageMediaType, inF
     // 下面开始真正的消息发送
     sendMessage(message, inFilePath: filePath, orFileData: fileData, metaData: metaData, fillMoreInfo: fillMoreInfo, toRecipient: recipient, failureHandler: { (reason, errorMessage) in
 
-        failureHandler?(reason: reason, errorMessage: errorMessage)
+        failureHandler?(reason, errorMessage)
 
         SafeDispatch.async {
 
@@ -2401,7 +2401,7 @@ public func resendMessage(_ message: Message, failureHandler: FailureHandler?, c
 
     let resendFailureHandler: FailureHandler = { reason, errorMessage in
 
-        failureHandler?(reason: reason, errorMessage: errorMessage)
+        failureHandler?(reason, errorMessage)
 
         SafeDispatch.async {
 
@@ -3275,7 +3275,7 @@ public func creatorsOfBlockedFeeds(failureHandler: FailureHandler?, completion: 
 
                 moreCreatorsOfBlockedFeeds(inPage: page, withPerPage: perPage, failureHandler: { (reason, errorMessage) in
                     allGood = false
-                    failureHandler?(reason: reason, errorMessage: errorMessage)
+                    failureHandler?(reason, errorMessage)
                     downloadGroup.leave()
 
                 }, completion: { result in
