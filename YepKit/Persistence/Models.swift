@@ -13,7 +13,8 @@ import RealmSwift
 
 // 总是在这个队列里使用 Realm
 //let realmQueue = dispatch_queue_create("com.Yep.realmQueue", DISPATCH_QUEUE_SERIAL)
-public let realmQueue = DispatchQueue(label: "com.Yep.realmQueue", attributes: dispatch_queue_attr_make_with_qos_class(DispatchQueue.Attributes(), DispatchQoS.QoSClass.utility, 0))
+public let realmQueue = DispatchQueue(label: "com.Yep.realmQueue", qos: .utility, attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+//public let realmQueue = DispatchQueue(label: "com.Yep.realmQueue", attributes: dispatch_queue_attr_make_with_qos_class(DispatchQueue.Attributes(), DispatchQoS.QoSClass.utility, 0))
 
 // MARK: User
 
