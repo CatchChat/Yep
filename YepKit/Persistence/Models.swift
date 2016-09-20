@@ -1687,11 +1687,11 @@ public func messagesInConversationFromFriend(_ conversation: Conversation) -> Re
     let predicate = NSPredicate(format: "conversation = %@ AND fromFriend.friendState != %d", argumentArray: [conversation, UserFriendState.me.rawValue])
     
     if let realm = conversation.realm {
-        return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
+        return realm.objects(Message.self).filter(predicate).sorted(byProperty: "createdUnixTime", ascending: true)
         
     } else {
         let realm = try! Realm()
-        return realm.objects(Message).filter(predicate).sorted("createdUnixTime", ascending: true)
+        return realm.objects(Message.self).filter(predicate).sorted(byProperty: "createdUnixTime", ascending: true)
     }
 }
 
