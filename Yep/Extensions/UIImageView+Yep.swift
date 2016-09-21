@@ -89,7 +89,7 @@ extension UIImageView {
                 return
             }
 
-            completion(loadingProgress: progress, image: image)
+            completion(progress, image)
         })
     }
 }
@@ -165,13 +165,13 @@ extension UIImageView {
                 return
             }
 
-            if cacheType != .Memory {
-                UIView.transitionWithView(strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
-                    self?.image = image
-                }, completion: nil)
+            if case .memory = cacheType {
+                strongSelf.image = image
 
             } else {
-                strongSelf.image = image
+                UIView.transition(with: strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
+                    self?.image = image
+                }, completion: nil)
             }
 
             activityIndicator?.stopAnimating()
