@@ -18,13 +18,13 @@ final class SearchConversationsViewController: BaseSearchViewController {
             //resultsTableView.separatorColor = YepConfig.SearchTableView.separatorColor // not work here
             resultsTableView.backgroundColor = YepConfig.SearchTableView.backgroundColor
 
-            resultsTableView.registerHeaderFooterClassOf(TableSectionTitleView)
+            resultsTableView.registerHeaderFooterClassOf(TableSectionTitleView.self)
 
-            resultsTableView.registerNibOf(SearchSectionTitleCell)
-            resultsTableView.registerNibOf(SearchedUserCell)
-            resultsTableView.registerNibOf(SearchedMessageCell)
-            resultsTableView.registerNibOf(SearchedFeedCell)
-            resultsTableView.registerNibOf(SearchMoreResultsCell)
+            resultsTableView.registerNibOf(SearchSectionTitleCell.self)
+            resultsTableView.registerNibOf(SearchedUserCell.self)
+            resultsTableView.registerNibOf(SearchedMessageCell.self)
+            resultsTableView.registerNibOf(SearchedFeedCell.self)
+            resultsTableView.registerNibOf(SearchMoreResultsCell.self)
 
             resultsTableView.sectionHeaderHeight = 0
             resultsTableView.sectionFooterHeight = 0
@@ -44,7 +44,7 @@ final class SearchConversationsViewController: BaseSearchViewController {
     fileprivate var realm: Realm!
 
     fileprivate lazy var users: Results<User> = {
-        return self.realm.objects(User)
+        return self.realm.objects(User.self)
     }()
 
     struct UserMessages {
@@ -54,7 +54,7 @@ final class SearchConversationsViewController: BaseSearchViewController {
     fileprivate var filteredUserMessages: [UserMessages]?
 
     fileprivate lazy var feeds: Results<Feed> = {
-        return self.realm.objects(Feed)
+        return self.realm.objects(Feed.self)
     }()
     fileprivate var filteredFeeds: [Feed]?
 
@@ -157,7 +157,7 @@ final class SearchConversationsViewController: BaseSearchViewController {
 
         case "showConversation":
             let vc = segue.destination as! ConversationViewController
-            let info = (sender as! Box<[String: AnyObject]>).value
+            let info = sender as! [String: Any]
             vc.conversation = info["conversation"] as! Conversation
             vc.indexOfSearchedMessage = info["indexOfSearchedMessage"] as? Int
 
@@ -217,7 +217,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
             self?.searchBarBottomLineView.alpha = 0
         }, completion: nil)
 
-        navigationController?.popViewController(animated: true)
+        _ = navigationController?.popViewController(animated: true)
     }
 
     func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
@@ -294,10 +294,10 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         // messages
         do {
             let filteredUserMessages: [UserMessages] = users.map({
-                let messages = $0.messages.map({ $0 })
+                let messages: [Message] = $0.messages.map({ $0 })
                 let filteredMessages = filterValidMessages(messages)
                 let searchedMessages = filteredMessages
-                    .filter({ $0.textContent.localizedStandardContainsString(searchText) })
+                    .filter({ $0.textContent.localizedStandardContains(searchText) })
                 let sortedMessages = searchedMessages.sort({ $0.createdUnixTime > $1.createdUnixTime })
 
                 guard !sortedMessages.isEmpty else {
@@ -315,7 +315,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         do {
             let predicate = NSPredicate(format: "body CONTAINS[c] %@", searchText)
             let filteredFeeds = filterValidFeeds(feeds.filter(predicate))
-            let sortedFilteredFeeds = filteredFeeds.sort({ $0.createdUnixTime > $1.createdUnixTime })
+            let sortedFilteredFeeds = filteredFeeds.sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
             self.filteredFeeds = sortedFilteredFeeds
 
             scrollsToTop = !sortedFilteredFeeds.isEmpty
@@ -582,7 +582,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                     return
                 }
 
-                performSegueWithIdentifier("showProfile", sender: friend)
+                performSegue(withIdentifier: "showProfile", sender: friend)
 
             } else {
                 if let cell = tableView.cellForRow(at: indexPath) as? SearchMoreResultsCell {
@@ -606,16 +606,15 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
                     let messages = messagesOfConversation(conversation, inRealm: realm)
 
-                    guard let indexOfSearchedMessage = messages.indexOf(message) else {
+                    guard let indexOfSearchedMessage = messages.index(of: message) else {
                         return
                     }
 
-                    let info: [String: AnyObject] = [
+                    let info: [String: Any] = [
                         "conversation":conversation,
                         "indexOfSearchedMessage": indexOfSearchedMessage,
                     ]
-                    let sender = Box<[String: AnyObject]>(info)
-                    performSegue(withIdentifier: "showConversation", sender: sender)
+                    performSegue(withIdentifier: "showConversation", sender: info)
 
                 } else {
                     performSegue(withIdentifier: "showSearchedUserMessages", sender: Box<UserMessages>(userMessages))
@@ -636,11 +635,10 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                         return
                 }
 
-                let info: [String: AnyObject] = [
-                    "conversation":conversation,
+                let info: [String: Any] = [
+                    "conversation": conversation,
                 ]
-                let sender = Box<[String: AnyObject]>(info)
-                performSegue(withIdentifier: "showConversation", sender: sender)
+                performSegue(withIdentifier: "showConversation", sender: info)
 
             } else {
                 if let cell = tableView.cellForRow(at: indexPath) as? SearchMoreResultsCell {
