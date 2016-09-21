@@ -47,7 +47,7 @@ final class FeedMediaView: UIView {
         let halfRect = CGRect(x: 0, y: 0, width: fullRect.width * 0.5 - 0.5, height: fullRect.height)
         let quarterRect = CGRect(x: 0, y: 0, width: fullRect.width * 0.5 - 0.5, height: fullRect.height * 0.5 - 0.5)
 
-        hidden = (attachments.count == 0)
+        isHidden = (attachments.count == 0)
         
         attachmentURLs = attachments.map({ URL(string: $0.URLString) }).flatMap({ $0 })
 
