@@ -206,7 +206,7 @@ extension UIViewController {
             let sessionMessage = MonkeyKing.Message.weChat(.session(info: sessionInfo))
 
             return WeChatActivity(
-                type: .Session,
+                type: .session,
                 message: sessionMessage,
                 completionHandler: { success in
                     println("share to WeChat Session success: \(success)")
@@ -219,7 +219,7 @@ extension UIViewController {
             let timelineMessage = MonkeyKing.Message.weChat(.timeline(info: timelineInfo ?? sessionInfo))
 
             return WeChatActivity(
-                type: .Timeline,
+                type: .timeline,
                 message: timelineMessage,
                 completionHandler: { success in
                     println("share to WeChat Timeline success: \(success)")
