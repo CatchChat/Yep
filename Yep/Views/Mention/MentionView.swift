@@ -121,7 +121,7 @@ final class MentionView: UIView {
 
         tableView.separatorEffect = UIVibrancyEffect(blurEffect: effect)
 
-        tableView.registerClassOf(MentionUserCell)
+        tableView.registerClassOf(MentionUserCell.self)
 
         tableView.rowHeight = MentionView.tableViewRowHeight
 
@@ -208,7 +208,7 @@ extension MentionView: UITableViewDataSource, UITableViewDelegate {
         }
 
         let username = users[indexPath.row].username
-        pickUserAction?(username: username)
+        pickUserAction?(username)
     }
 }
 
