@@ -20,7 +20,7 @@ private let screenHeight: CGFloat = UIScreen.main.bounds.height
 
 final class SearchFeedsViewController: BaseSearchViewController {
 
-    static let feedNormalImagesCountThreshold: Int = Ruler.UniversalHorizontal(3, 4, 4, 3, 4).value
+    static let feedNormalImagesCountThreshold: Int = Ruler.universalHorizontal(3, 4, 4, 3, 4).value
 
     var skill: Skill?
     var profileUser: ProfileUser?
@@ -82,17 +82,17 @@ final class SearchFeedsViewController: BaseSearchViewController {
             feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             feedsTableView.separatorStyle = UITableViewCellSeparatorStyle.singleLine
 
-            feedsTableView.registerClassOf(SearchedFeedBasicCell)
-            feedsTableView.registerClassOf(SearchedFeedNormalImagesCell)
-            feedsTableView.registerClassOf(SearchedFeedAnyImagesCell)
+            feedsTableView.registerClassOf(SearchedFeedBasicCell.self)
+            feedsTableView.registerClassOf(SearchedFeedNormalImagesCell.self)
+            feedsTableView.registerClassOf(SearchedFeedAnyImagesCell.self)
 
-            feedsTableView.registerClassOf(SearchedFeedGithubRepoCell)
-            feedsTableView.registerClassOf(SearchedFeedDribbbleShotCell)
-            feedsTableView.registerClassOf(SearchedFeedVoiceCell)
-            feedsTableView.registerClassOf(SearchedFeedLocationCell)
-            feedsTableView.registerClassOf(SearchedFeedURLCell)
+            feedsTableView.registerClassOf(SearchedFeedGithubRepoCell.self)
+            feedsTableView.registerClassOf(SearchedFeedDribbbleShotCell.self)
+            feedsTableView.registerClassOf(SearchedFeedVoiceCell.self)
+            feedsTableView.registerClassOf(SearchedFeedLocationCell.self)
+            feedsTableView.registerClassOf(SearchedFeedURLCell.self)
 
-            feedsTableView.registerNibOf(LoadMoreTableViewCell)
+            feedsTableView.registerNibOf(LoadMoreTableViewCell.self)
 
             feedsTableView.keyboardDismissMode = .onDrag
         }
@@ -125,7 +125,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
         searchTask = delay(YepConfig.Search.delayInterval) { [weak self] in
             if let footer = self?.feedsTableView.tableFooterView as? SearchFeedsFooterView {
-                footer.style = .Searching
+                footer.style = .searching
             }
 
             self?.updateSearchResultsWithText(searchText)
@@ -204,9 +204,9 @@ final class SearchFeedsViewController: BaseSearchViewController {
                 let feed = feeds[index]
                 if feed.id == feedID {
 
-                    let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+                    let indexPath = IndexPath(row: index, section: Section.feed.rawValue)
 
-                    if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? SearchedFeedVoiceCell {
+                    if let cell = feedsTableView.cellForRow(at: indexPath) as? SearchedFeedVoiceCell {
                         cell.audioPlayedDuration = 0
                     }
                     
@@ -224,9 +224,9 @@ final class SearchFeedsViewController: BaseSearchViewController {
             let feed = feeds[index]
             if feed.id == feedID {
 
-                let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+                let indexPath = IndexPath(row: index, section: Section.feed.rawValue)
 
-                if let cell = feedsTableView.cellForRowAtIndexPath(indexPath) as? SearchedFeedVoiceCell {
+                if let cell = feedsTableView.cellForRow(at: indexPath) as? SearchedFeedVoiceCell {
                     cell.audioPlayedDuration = currentTime
                 }
 
@@ -330,7 +330,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
                 finish?()
             }
 
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
         }
 
         let perPage: Int = 30
@@ -355,25 +355,25 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
                 self?.canLoadMore = (originalFeedsCount == perPage)
 
-                var wayToUpdate: UITableView.WayToUpdate = .None
+                var wayToUpdate: UITableView.WayToUpdate = .none
 
                 if strongSelf.feeds.isEmpty {
-                    wayToUpdate = .ReloadData
+                    wayToUpdate = .reloadData
                 }
 
                 switch mode {
 
-                case .Init:
+                case .init:
                     strongSelf.feeds = newFeeds
 
                     if Set(oldFeeds.map({ $0.id })) == Set(newFeeds.map({ $0.id })) {
-                        wayToUpdate = .None
+                        wayToUpdate = .none
 
                     } else {
-                        wayToUpdate = .ReloadData
+                        wayToUpdate = .reloadData
                     }
 
-                case .LoadMore:
+                case .loadMore:
                     let oldFeedsCount = oldFeeds.count
 
                     let oldFeedIDSet = Set<String>(strongSelf.feeds.map({ $0.id }))
@@ -387,9 +387,9 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
                     let newFeedsCount = strongSelf.feeds.count
 
-                    let indexPaths = Array(oldFeedsCount..<newFeedsCount).map({ NSIndexPath(forRow: $0, inSection: Section.Feed.rawValue) })
+                    let indexPaths = Array(oldFeedsCount..<newFeedsCount).map({ IndexPath(row: $0, section: Section.feed.rawValue) })
                     if !indexPaths.isEmpty {
-                        wayToUpdate = .Insert(indexPaths)
+                        wayToUpdate = .insert(indexPaths)
                     }
                 }
 
@@ -455,7 +455,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
             let _ = try? realm.commitWrite()
 
             vc.conversation = feedConversation
-            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+            vc.conversationFeed = ConversationFeed.discoveredFeedType(feed)
 
             vc.afterDeletedFeedAction = { feedID in
                 SafeDispatch.async { [weak self] in
@@ -469,11 +469,11 @@ final class SearchFeedsViewController: BaseSearchViewController {
                         }
                     }
 
-                    if let deletedFeed = deletedFeed, let index = strongSelf.feeds.indexOf(deletedFeed) {
-                        strongSelf.feeds.removeAtIndex(index)
+                    if let deletedFeed = deletedFeed, let index = strongSelf.feeds.index(of: deletedFeed) {
+                        strongSelf.feeds.remove(at: index)
 
-                        let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
-                        strongSelf.feedsTableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .None)
+                        let indexPath = IndexPath(row: index, section: Section.feed.rawValue)
+                        strongSelf.feedsTableView.deleteRows(at: [indexPath], with: .none)
 
                         return
                     }
@@ -492,12 +492,12 @@ final class SearchFeedsViewController: BaseSearchViewController {
                             return
                         }
 
-                        if let index = strongSelf.feeds.indexOf(feed) {
+                        if let index = strongSelf.feeds.index(of: feed) {
                             if strongSelf.feeds[index].messagesCount != feed.messagesCount {
                                 strongSelf.feeds[index].messagesCount = feed.messagesCount
 
-                                let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
-                                let wayToUpdate: UITableView.WayToUpdate = .ReloadIndexPaths([indexPath])
+                                let indexPath = IndexPath(row: index, section: Section.feed.rawValue)
+                                let wayToUpdate: UITableView.WayToUpdate = .reloadIndexPaths([indexPath])
                                 SafeDispatch.async {
                                     wayToUpdate.performWithTableView(strongSelf.feedsTableView)
                                 }
@@ -556,7 +556,7 @@ extension SearchFeedsViewController: UISearchBarDelegate {
                 self?.searchBarBottomLineView.alpha = 0
             }, completion: nil)
 
-            navigationController?.popViewController(animated: true)
+            _ = navigationController?.popViewController(animated: true)
         }
     }
 
@@ -716,15 +716,15 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                 guard let indexPath = tableView.indexPath(for: cell) else {
                     return
                 }
-                self?.tableView(tableView, willSelectRowAt: indexPath)
+                _ = self?.tableView(tableView, willSelectRowAt: indexPath)
                 tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
             }
             cell.touchesEndedAction = { [weak self] cell in
                 guard let indexPath = tableView.indexPath(for: cell) else {
                     return
                 }
-                delay(0.03) { [weak self] in
-                    self?.tableView(tableView, didSelectRowAtIndexPath: indexPath)
+                _ = delay(0.03) { [weak self] in
+                    self?.tableView(tableView, didSelectRowAt: indexPath)
                 }
             }
             cell.touchesCancelledAction = { cell in
@@ -770,7 +770,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     let initialPhoto = photos[index]
 
                     let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
-                    self?.presentViewController(photosViewController, animated: true, completion: nil)
+                    self?.present(photosViewController, animated: true, completion: nil)
                 }
 
                 if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
@@ -862,7 +862,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
                                 strongSelf.feedAudioPlaybackTimer?.invalidate()
 
-                                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(SearchFeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+                                let playbackTimer = Timer.scheduledTimer(timeInterval: 0.02, target: strongSelf, selector: #selector(SearchFeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
                                 YepAudioService.sharedManager.playbackTimer = playbackTimer
 
                                 cell.audioPlaying = true
@@ -886,9 +886,9 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                                 let feed = strongSelf.feeds[index]
                                 if feed.id == feedID {
 
-                                    let indexPath = NSIndexPath(forRow: index, inSection: Section.Feed.rawValue)
+                                    let indexPath = IndexPath(row: index, section: Section.feed.rawValue)
 
-                                    if let cell = strongSelf.feedsTableView.cellForRowAtIndexPath(indexPath) as? FeedVoiceCell {
+                                    if let cell = strongSelf.feedsTableView.cellForRow(at: indexPath) as? FeedVoiceCell {
                                         cell.audioPlaying = false
                                     }
 
@@ -957,8 +957,8 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
             }
 
             if let keyword = self.keyword {
-                searchFeedsWithKeyword(keyword, mode: .LoadMore, finish: {
-                    delay(0.5) { [weak cell] in
+                searchFeedsWithKeyword(keyword, mode: .loadMore, finish: {
+                    _ = delay(0.5) { [weak cell] in
                         cell?.isLoading = false
                     }
                 })
@@ -1045,7 +1045,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
             let reportAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Report", comment: "")) { [weak self] action, indexPath in
 
                 if let feed = self?.feeds[indexPath.row] {
-                    self?.report(.Feed(feedID: feed.id))
+                    self?.report(.feed(feedID: feed.id))
                 }
 
                 tableView.setEditing(false, animated: true)
@@ -1096,8 +1096,8 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
     }
     
     func tableView(_ tableView: UITableView, canPerformAction action: Selector, forRowAt indexPath: IndexPath, withSender sender: Any?) -> Bool {
-        
-        if action == #selector(NSObject.copy(_:)) {
+
+        if action == #selector(NSObject.copy) {
             return true
         }
         
@@ -1110,7 +1110,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
             return
         }
         
-        if action == #selector(NSObject.copy(_:)) {
+        if action == #selector(NSObject.copy) {
             UIPasteboard.general.string = cell.messageTextView.text
         }
     }
