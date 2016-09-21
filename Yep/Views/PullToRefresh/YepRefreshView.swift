@@ -155,6 +155,7 @@ final class YepRefreshView: UIView {
     }
 
     func generateRamdonShapePositionsWithCount(_ count: Int) -> [CGPoint] {
+
         func randomInRange(_ range: Range<Int>) -> CGFloat {
             var offset = 0
 
@@ -170,8 +171,10 @@ final class YepRefreshView: UIView {
 
         var positions = [CGPoint]()
 
+        let range = Range<Int>(uncheckedBounds: (lower: -200, upper: 200))
+
         for _ in 0..<count {
-            positions.append(CGPoint(x: randomInRange(-200...200), y: randomInRange(-200...200)))
+            positions.append(CGPoint(x: randomInRange(range), y: randomInRange(range)))
         }
 
         return positions
