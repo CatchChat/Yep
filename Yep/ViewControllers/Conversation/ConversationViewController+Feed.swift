@@ -32,13 +32,13 @@ extension ConversationViewController {
             return nil
         }
 
-        feedGroup.groupType = GroupType.Public.rawValue
+        feedGroup.groupType = GroupType.public.rawValue
 
         if feedGroup.conversation == nil {
 
             let newConversation = Conversation()
 
-            newConversation.type = ConversationType.Group.rawValue
+            newConversation.type = ConversationType.group.rawValue
             newConversation.withGroup = feedGroup
 
             realm.add(newConversation)
