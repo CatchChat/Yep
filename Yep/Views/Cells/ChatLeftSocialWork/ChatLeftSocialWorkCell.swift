@@ -123,7 +123,7 @@ final class ChatLeftSocialWorkCell: UICollectionViewCell {
             }
 
             if let URL = socialWorkImageURL {
-                socialWorkImageView.kf_setImage(with: URL, placeholderImage: nil)
+                socialWorkImageView.kf_setImage(with: URL, placeholder: nil)
             }
         }
     }
