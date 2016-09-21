@@ -20,7 +20,7 @@ final class BlackListViewController: BaseViewController {
             blockedUsersTableView.rowHeight = 80
             blockedUsersTableView.tableFooterView = UIView()
 
-            blockedUsersTableView.registerNibOf(ContactsCell)
+            blockedUsersTableView.registerNibOf(ContactsCell.self)
         }
     }
     @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
@@ -108,7 +108,7 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         let discoveredUser = blockedUsers[indexPath.row]
-        performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+        performSegue(withIdentifier: "showProfile", sender: Box<DiscoveredUser>(discoveredUser))
     }
 
     // Edit (for Unblock)
@@ -139,12 +139,12 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
                     }
 
                     if let strongSelf = self {
-                        if let index = strongSelf.blockedUsers.indexOf(discoveredUser)  {
+                        if let index = strongSelf.blockedUsers.index(of: discoveredUser)  {
 
-                            strongSelf.blockedUsers.removeAtIndex(index)
+                            strongSelf.blockedUsers.remove(at: index)
 
-                            let indexPathToDelete = NSIndexPath(forRow: index, inSection: 0)
-                            strongSelf.blockedUsersTableView.deleteRowsAtIndexPaths([indexPathToDelete], withRowAnimation: .Automatic)
+                            let indexPathToDelete = IndexPath(row: index, section: 0)
+                            strongSelf.blockedUsersTableView.deleteRows(at: [indexPathToDelete], with: .automatic)
                         }
                     }
                 }
