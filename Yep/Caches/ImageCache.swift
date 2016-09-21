@@ -50,18 +50,18 @@ final class ImageCache {
 
         //查找当前 Size 的 Cache
 
-        Kingfisher.ImageCache.default.retrieveImageForKey(attachmentSideLengthKey, options: options) { (image, type) -> () in
+        Kingfisher.ImageCache.default.retrieveImage(forKey: attachmentSideLengthKey, options: options) { (image, type) -> () in
 
             if let image = image?.decodedImage() {
                 SafeDispatch.async {
-                    completion(url: url, image: image, cacheType: type)
+                    completion(url, image, type)
                 }
 
             } else {
 
                 //查找原图
 
-                Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentOriginKey, options: options) { (image, type) -> () in
+                Kingfisher.ImageCache.default.retrieveImage(forKey: attachmentOriginKey, options: options) { (image, type) -> () in
 
                     if let image = image {
 
@@ -73,19 +73,19 @@ final class ImageCache {
 
                             let originalData = UIImageJPEGRepresentation(finalImage, 1.0)
                             //let originalData = UIImagePNGRepresentation(finalImage)
-                            Kingfisher.ImageCache.defaultCache.storeImage(finalImage, originalData: originalData, forKey: attachmentSideLengthKey, toDisk: true, completionHandler: { () -> () in
+                            Kingfisher.ImageCache.default.store(finalImage, originalData: originalData, forKey: attachmentSideLengthKey, toDisk: true, completionHandler: { () -> () in
                             })
                         }
 
                         SafeDispatch.async {
-                            completion(url: url, image: finalImage, cacheType: type)
+                            completion(url, finalImage, type)
                         }
 
                     } else {
 
                         // 下载
 
-                        ImageDownloader.defaultDownloader.downloadImageWithURL(url, options: options, progressBlock: { receivedSize, totalSize  in
+                        ImageDownloader.default.downloadImage(with: url, options: options, progressBlock: { receivedSize, totalSize  in
 
                         }, completionHandler: { image, error , imageURL, originalData in
 
@@ -132,11 +132,11 @@ final class ImageCache {
 
     func imageOfMessage(_ message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: @escaping (_ loadingProgress: Double, _ image: UIImage?) -> Void) {
 
-        let imageKey = message.imageKey
+        let imageKey = message.imageKey as NSString
 
         // 先看看缓存
-        if let image = cache.objectForKey(imageKey) as? UIImage {
-            completion(loadingProgress: 1.0, image: image)
+        if let image = cache.object(forKey: imageKey) {
+            completion(1.0, image)
 
         } else {
             let messageID = message.messageID
@@ -157,9 +157,9 @@ final class ImageCache {
 
             // 若可以，先显示 blurredThumbnailImage, Video 仍然需要
 
-            let thumbnailKey = "thumbnail" + imageKey
+            let thumbnailKey: NSString = "thumbnail_\(imageKey)"
 
-            if let thumbnail = cache.objectForKey(thumbnailKey) as? UIImage {
+            if let thumbnail = cache.objectForKey(thumbnailKey) {
                 completion(loadingProgress: preloadingPropgress, image: thumbnail)
 
             } else {
@@ -315,12 +315,12 @@ final class ImageCache {
 
     func mapImageOfMessage(_ message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, bottomShadowEnabled: Bool, completion: @escaping (UIImage) -> ()) {
 
-        let imageKey = "mapImage-\(message.messageID)-\(message.coordinate)"
+        let imageKey = "mapImage-\(message.messageID)-\(message.coordinate)" as NSString
 
         //println("mapImageOfMessage imageKey: \(imageKey)")
 
         // 先看看缓存
-        if let image = cache.objectForKey(imageKey) as? UIImage {
+        if let image = cache.object(forKey: imageKey) {
             completion(image)
 
         } else {
@@ -433,7 +433,7 @@ final class ImageCache {
 
     func mapImageOfLocationCoordinate(_ locationCoordinate: CLLocationCoordinate2D, withSize size: CGSize, completion: @escaping (UIImage) -> ()) {
 
-        let imageKey = "feedMapImage-\(size)-\(locationCoordinate)"
+        let imageKey: NSString = "feedMapImage-\(size)-\(locationCoordinate)"
 
         // 先看看缓存
         if let image = cache.object(forKey: imageKey) as? UIImage {
