@@ -68,9 +68,9 @@ final class NotificationsViewController: SegueViewController {
 
     @IBOutlet fileprivate weak var tableView: UITableView! {
         didSet {
-            tableView.registerNibOf(DoNotDisturbSwitchCell)
-            tableView.registerNibOf(DoNotDisturbPeriodCell)
-            tableView.registerNibOf(SettingsMoreCell)
+            tableView.registerNibOf(DoNotDisturbSwitchCell.self)
+            tableView.registerNibOf(DoNotDisturbPeriodCell.self)
+            tableView.registerNibOf(SettingsMoreCell.self)
 
             tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         }
@@ -147,7 +147,7 @@ final class NotificationsViewController: SegueViewController {
         ]
 
         updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             YepAlert.alertSorry(message: String.trans_promptEnableDoNotDisturbFailed, inViewController: self)
 
@@ -184,7 +184,7 @@ final class NotificationsViewController: SegueViewController {
             ]
 
             updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
                 YepAlert.alertSorry(message: String.trans_promptDisableDoNotDisturbFailed, inViewController: self)
 
@@ -278,7 +278,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                         self?.enableDoNotDisturb(failed: {
                             SafeDispatch.async { [weak self] in
                                 self?.doNotDisturbPeriod.isOn = false
-                                self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
                             }
                         })
 
@@ -286,7 +286,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                         self?.disableDoNotDisturb(failed: {
                             SafeDispatch.async { [weak self] in
                                 self?.doNotDisturbPeriod.isOn = true
-                                self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                                self?.tableView.insertRows(at: [indexPath], with: .automatic)
                             }
                         })
                     }
