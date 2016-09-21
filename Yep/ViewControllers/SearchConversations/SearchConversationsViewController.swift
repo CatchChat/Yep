@@ -298,7 +298,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
                 let filteredMessages = filterValidMessages(messages)
                 let searchedMessages = filteredMessages
                     .filter({ $0.textContent.localizedStandardContains(searchText) })
-                let sortedMessages = searchedMessages.sort({ $0.createdUnixTime > $1.createdUnixTime })
+                let sortedMessages = searchedMessages.sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
 
                 guard !sortedMessages.isEmpty else {
                     return nil
