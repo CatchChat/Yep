@@ -18,7 +18,7 @@ class SearchedFeedBasicCell: UITableViewCell {
 
     class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: SearchedFeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
+        let rect = feed.body.boundingRect(with: CGSize(width: SearchedFeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
         let height: CGFloat = 15 + 30 + 4 + ceil(rect.height) + 15
 
@@ -169,7 +169,7 @@ class SearchedFeedBasicCell: UITableViewCell {
         messageTextView.frame = basicLayout.messageTextViewFrame
 
         if let skill = feed.skill {
-            skillButton.setTitle(skill.localName, forState: .Normal)
+            skillButton.setTitle(skill.localName, for: .normal)
             skillButton.isHidden = false
             skillButton.frame = basicLayout.skillButtonFrame
             nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: true)
