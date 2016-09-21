@@ -49,13 +49,13 @@ extension ReportReason {
 
     var title: String {
         switch self {
-        case .Porno:
+        case .porno:
             return String.trans_reportPorno
-        case .Advertising:
+        case .advertising:
             return String.trans_reportAdvertising
-        case .Scams:
+        case .scams:
             return String.trans_reportScams
-        case .Other:
+        case .other:
             return String.trans_reportOther
         }
     }
@@ -75,9 +75,9 @@ extension UIViewController {
 
             switch object {
 
-            case .User(let profileUser):
+            case .user(let profileUser):
                 reportProfileUser(profileUser, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
 
                     if let errorMessage = errorMessage {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
@@ -86,9 +86,9 @@ extension UIViewController {
                 }, completion: {
                 })
 
-            case .Feed(let feedID):
+            case .feed(let feedID):
                 reportFeedWithFeedID(feedID, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
 
                     if let errorMessage = errorMessage {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
@@ -97,9 +97,9 @@ extension UIViewController {
                 }, completion: {
                 })
 
-            case .Message(let messageID):
+            case .message(let messageID):
                 reportMessageWithMessageID(messageID, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
 
                     if let errorMessage = errorMessage {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
@@ -112,24 +112,24 @@ extension UIViewController {
 
         let reportAlertController = UIAlertController(title: NSLocalizedString("Report Reason", comment: ""), message: nil, preferredStyle: .actionSheet)
 
-        let pornoReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Porno.title, style: .Default) { _ in
-            reportWithReason(.Porno)
+        let pornoReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.porno.title, style: .default) { _ in
+            reportWithReason(.porno)
         }
         reportAlertController.addAction(pornoReasonAction)
 
-        let advertisingReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Advertising.title, style: .Default) { _ in
-            reportWithReason(.Advertising)
+        let advertisingReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.advertising.title, style: .default) { _ in
+            reportWithReason(.advertising)
         }
         reportAlertController.addAction(advertisingReasonAction)
 
-        let scamsReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Scams.title, style: .Default) { _ in
-            reportWithReason(.Scams)
+        let scamsReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.scams.title, style: .default) { _ in
+            reportWithReason(.scams)
         }
         reportAlertController.addAction(scamsReasonAction)
 
-        let otherReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.Other("").title, style: .Default) { [weak self] _ in
+        let otherReasonAction: UIAlertAction = UIAlertAction(title: ReportReason.other("").title, style: .default) { [weak self] _ in
             YepAlert.textInput(title: String.trans_titleOtherReason, message: nil, placeholder: nil, oldText: nil, confirmTitle: String.trans_titleOK, cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { text in
-                reportWithReason(.Other(text))
+                reportWithReason(.other(text))
             }, cancelAction: nil)
         }
         reportAlertController.addAction(otherReasonAction)
@@ -182,7 +182,7 @@ extension UIViewController {
             self?.autoreview_tryReviewApp(withInfo: info)
         }
 
-        delay(3, work: remindAction)
+        _ = delay(3, work: remindAction)
     }
 }
 
@@ -199,11 +199,11 @@ extension UIViewController {
 
 extension UIViewController {
 
-    func yep_share<T: AnyObject>(info sessionInfo: MonkeyKing.Info, timelineInfo: MonkeyKing.Info? = nil, defaultActivityItem activityItem: T, description: String? = nil) where T: Shareable {
+    func yep_share<T: Any>(info sessionInfo: MonkeyKing.Info, timelineInfo: MonkeyKing.Info? = nil, defaultActivityItem activityItem: T, description: String? = nil) where T: Shareable {
 
         func weChatSessionActivity() -> WeChatActivity {
 
-            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: sessionInfo))
+            let sessionMessage = MonkeyKing.Message.weChat(.session(info: sessionInfo))
 
             return WeChatActivity(
                 type: .Session,
@@ -216,7 +216,7 @@ extension UIViewController {
 
         func weChatTimelineActivity() -> WeChatActivity {
 
-            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: timelineInfo ?? sessionInfo))
+            let timelineMessage = MonkeyKing.Message.weChat(.timeline(info: timelineInfo ?? sessionInfo))
 
             return WeChatActivity(
                 type: .Timeline,
@@ -228,7 +228,7 @@ extension UIViewController {
         }
 
         SafeDispatch.async { [weak self] in
-            var activityItems: [AnyObject] = [activityItem]
+            var activityItems: [Any] = [activityItem]
             if let description = description {
                 activityItems.append(description)
             }
@@ -239,7 +239,7 @@ extension UIViewController {
                     weChatTimelineActivity()
                 ]
             )
-            self?.presentViewController(activityViewController, animated: true, completion: nil)
+            self?.present(activityViewController, animated: true, completion: nil)
         }
     }
 }
