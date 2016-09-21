@@ -102,7 +102,7 @@ final class ChatRightLocationCell: ChatRightBaseCell {
         
         locationNameLabel.text = locationName
 
-        mapImageView.yep_setMapImageOfMessage(message, withSize: ChatRightLocationCell.mapSize, tailDirection: .Right)
+        mapImageView.yep_setMapImageOfMessage(message, withSize: ChatRightLocationCell.mapSize, tailDirection: .right)
     }
 }
 
