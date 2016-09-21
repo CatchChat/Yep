@@ -137,7 +137,7 @@ final class SearchedFeedNormalImagesCell: SearchedFeedBasicCell {
             Reference(view: $0.view, image: $0.image)
         })
         let image = imageNodes[index].image
-        tapImagesAction?(transitionReferences: transitionReferences, attachments: attachments, image: image, index: index)
+        tapImagesAction?(transitionReferences, attachments, image, index)
     }
 }
 
