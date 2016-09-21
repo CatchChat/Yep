@@ -21,7 +21,7 @@ class FeedBasicCell: UITableViewCell {
 
     class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: FeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
+        let rect = feed.body.boundingRect(with: CGSize(width: FeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
         let height: CGFloat = 10 + 40 + ceil(rect.height) + 4 + 15 + 17 + 15
 
@@ -233,7 +233,7 @@ class FeedBasicCell: UITableViewCell {
         configureLeftBottomLabel()
         disposableTimer = Observable<Int>
             .interval(1, scheduler: MainScheduler.instance)
-            .subscribeNext({ _ in
+            .subscribe(onNext: { _ in
                 configureLeftBottomLabel()
             })
 
@@ -246,7 +246,7 @@ class FeedBasicCell: UITableViewCell {
         messageTextView.frame = basicLayout.messageTextViewFrame
 
         if needShowSkill, let skill = feed.skill {
-            skillButton.setTitle(skill.localName, forState: .Normal)
+            skillButton.setTitle(skill.localName, for: .normal)
             skillButton.isHidden = false
 
             skillButton.frame = basicLayout.skillButtonFrame
