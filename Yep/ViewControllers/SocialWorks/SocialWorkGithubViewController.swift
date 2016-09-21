@@ -42,7 +42,7 @@ final class SocialWorkGithubViewController: BaseViewController {
                 infoView.isHidden = false
 
                 let avatarSize = avatarImageView.bounds.width
-                let avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
+                let avatarStyle: AvatarStyle = .roundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
                 let plainAvatar = PlainAvatar(avatarURLString: user.avatarURLString, avatarStyle: avatarStyle)
                 avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
@@ -55,7 +55,7 @@ final class SocialWorkGithubViewController: BaseViewController {
     fileprivate var githubRepos = Array<GithubWork.Repo>() {
         didSet {
             let repos = githubRepos
-            let starsCount = repos.reduce(0, combine: { (result, repo) -> Int in
+            let starsCount = repos.reduce(0, { (result, repo) -> Int in
                 result + repo.stargazersCount
             })
 
@@ -80,7 +80,7 @@ final class SocialWorkGithubViewController: BaseViewController {
         shareButton.isEnabled = false
         navigationItem.rightBarButtonItem = shareButton
 
-        githubTableView.registerNibOf(GithubRepoCell)
+        githubTableView.registerNibOf(GithubRepoCell.self)
 
         githubTableView.rowHeight = 100
         githubTableView.contentInset.bottom = YepConfig.SocialWorkGithub.Repo.rightEdgeInset - 10
@@ -105,7 +105,7 @@ final class SocialWorkGithubViewController: BaseViewController {
             if let userID = profileUser?.userID {
 
                 githubWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
 
                     YepAlert.alertSorry(message: NSLocalizedString("Yep can't reach GitHub.\nWe blame GFW!", comment: ""), inViewController: self)
 
@@ -153,7 +153,7 @@ final class SocialWorkGithubViewController: BaseViewController {
             title: title,
             description: nil,
             thumbnail: thumbnail,
-            media: .URL(githubURL)
+            media: .url(githubURL)
         )
         self.yep_share(info: info, defaultActivityItem: githubURL)
     }

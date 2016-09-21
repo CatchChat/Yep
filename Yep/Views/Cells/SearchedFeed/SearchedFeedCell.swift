@@ -38,7 +38,7 @@ final class SearchedFeedCell: UITableViewCell {
             nameLabel.text = feed.body
         }
 
-        let attachments = feed.attachments.map({
+        let attachments: [DiscoveredAttachment] = feed.attachments.map({
             DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString, image: nil)
         })
         mediaView.setImagesWithAttachments(attachments)
