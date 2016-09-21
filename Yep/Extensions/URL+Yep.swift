@@ -1,5 +1,5 @@
 //
-//  NSURL+Yep.swift
+//  URL+Yep.swift
 //  Yep
 //
 //  Created by nixzhu on 15/11/9.
@@ -26,31 +26,27 @@ extension URL {
         return (allQueryItems as NSArray).filtered(using: predicate).first as? URLQueryItem
     }
     
-    func yep_matchSharedFeed(_ completion: (_ feed: DiscoveredFeed?) -> Void) -> Bool {
+    func yep_matchSharedFeed(_ completion: @escaping (_ feed: DiscoveredFeed?) -> Void) -> Bool {
 
         guard let host = host , host == yepHost else {
             return false
         }
 
-        guard let pathComponents = pathComponents else {
-            return false
-        }
-
         guard
-            let first = pathComponents[1] , first == "groups",
-            let second = pathComponents[2] , second == "share",
+            let first = pathComponents[safe: 1], first == "groups",
+            let second = pathComponents[safe: 2], second == "share",
             let sharedToken = queryItemForKey("token")?.value else {
                 return false
         }
 
         feedWithSharedToken(sharedToken, failureHandler: { reason, errorMessage in
             SafeDispatch.async {
-                completion(feed: nil)
+                completion(nil)
             }
 
         }, completion: { feed in
             SafeDispatch.async {
-                completion(feed: feed)
+                completion(feed)
             }
         })
 
@@ -59,17 +55,13 @@ extension URL {
 
     // make sure put it in last
 
-    func yep_matchProfile(_ completion: (DiscoveredUser) -> Void) -> Bool {
+    func yep_matchProfile(_ completion: @escaping (DiscoveredUser) -> Void) -> Bool {
 
         guard let host = host , host == yepHost else {
             return false
         }
 
-        guard let pathComponents = pathComponents else {
-            return false
-        }
-
-        if let username = pathComponents[1] {
+        if let username = pathComponents[safe: 1] {
 
             discoverUserByUsername(username, failureHandler: nil, completion: { discoveredUser in
 
@@ -105,7 +97,7 @@ extension URL {
 
         if scheme!.isEmpty {
 
-            guard let URLComponents = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
+            guard var URLComponents = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
                 return nil
             }
 
