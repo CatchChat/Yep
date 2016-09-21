@@ -26,7 +26,7 @@ extension Message {
 
     var sectionDateString: String {
         let createdAt = NSDate(timeIntervalSince1970: createdUnixTime)
-        if createdAt.isInCurrentWeek() {
+        if createdAt.yep_isInWeekend {
             return sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
         } else {
             return sectionDateFormatter.stringFromDate(createdAt)

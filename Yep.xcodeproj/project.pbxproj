@@ -196,7 +196,7 @@
 		505509871D0679D400F08992 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; };
 		50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */; };
 		50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */; };
-		50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F921ADBA50600F80B59 /* NSDate+Yep.swift */; };
+		50553F931ADBA50600F80B59 /* Date+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F921ADBA50600F80B59 /* Date+Yep.swift */; };
 		5056AD6E1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056AD6C1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift */; };
 		5056AD6F1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5056AD6D1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib */; };
 		5056EA8E1CF2C55200FDE07E /* YepKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5056EA8D1CF2C55200FDE07E /* YepKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -952,7 +952,7 @@
 		5054CCB01D3F0D15000CFA92 /* NextRunloopJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NextRunloopJob.swift; path = RunLoop/NextRunloopJob.swift; sourceTree = "<group>"; };
 		50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatSectionDateCell.swift; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.swift; sourceTree = "<group>"; };
 		50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatSectionDateCell.xib; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.xib; sourceTree = "<group>"; };
-		50553F921ADBA50600F80B59 /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
+		50553F921ADBA50600F80B59 /* Date+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Date+Yep.swift"; path = "Extensions/Date+Yep.swift"; sourceTree = "<group>"; };
 		5056AD6C1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountImagesCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountImagesCell.swift; sourceTree = "<group>"; };
 		5056AD6D1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountImagesCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountImagesCell.xib; sourceTree = "<group>"; };
 		5056EA8B1CF2C55100FDE07E /* YepKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1939,7 +1939,7 @@
 				506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */,
 				0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */,
 				5010BD231D5D734200111342 /* String+Trans.swift */,
-				50553F921ADBA50600F80B59 /* NSDate+Yep.swift */,
+				50553F921ADBA50600F80B59 /* Date+Yep.swift */,
 				0AEB1CC51B0E742400178C9C /* Double+Yep.swift */,
 				504F8C031D49E8810046F6AA /* UIApplication+Yep.swift */,
 				50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */,
@@ -4585,7 +4585,7 @@
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
 				506D01F91CE029B100B3867D /* UploadContactsMaker.swift in Sources */,
 				50CB05881CC60F400024BE06 /* SearchedFeedCellLayout.swift in Sources */,
-				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
+				50553F931ADBA50600F80B59 /* Date+Yep.swift in Sources */,
 				50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */,
 				50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */,
 				500D35E11C3A5134006D17E3 /* PHImageRequestOptions+Yep.swift in Sources */,
