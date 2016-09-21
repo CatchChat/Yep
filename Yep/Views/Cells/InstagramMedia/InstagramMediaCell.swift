@@ -27,7 +27,7 @@ final class InstagramMediaCell: UICollectionViewCell {
 
     func configureWithInstagramMedia(_ media: InstagramWork.Media) {
 
-        imageView.kf_showIndicatorWhenLoading = true
-        imageView.kf_setImageWithURL(URL(string: media.images.lowResolution)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+        //imageView.kf_showIndicatorWhenLoading = true
+        imageView.kf_setImage(with: URL(string: media.images.lowResolution)!, placeholder: nil, options: MediaOptionsInfos)
     }
 }
