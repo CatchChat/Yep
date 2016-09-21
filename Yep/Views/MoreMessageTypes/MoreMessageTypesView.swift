@@ -27,8 +27,8 @@ final class MoreMessageTypesView: UIView {
         view.rowHeight = 60
         view.isScrollEnabled = false
 
-        view.registerNibOf(TitleCell)
-        view.registerNibOf(QuickPickPhotosCell)
+        view.registerNibOf(TitleCell.self)
+        view.registerNibOf(QuickPickPhotosCell.self)
 
         return view
     }()
@@ -96,7 +96,7 @@ final class MoreMessageTypesView: UIView {
             self?.removeFromSuperview()
         })
 
-        delay(0.1) {
+        _ = delay(0.1) {
             afterHideAction?()
         }
     }
@@ -304,7 +304,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
 
                         imageManager.requestImageData(for: imageAsset, options: options, resultHandler: { (data, String, imageOrientation, _) -> Void in
                             if let data = data, let image = UIImage(data: data) {
-                                if let image = image.resizeToSize(targetSize, withInterpolationQuality: .Medium) {
+                                if let image = image.resizeToSize(targetSize, withInterpolationQuality: .medium) {
                                     images.append(image)
                                 }
                             }
@@ -312,9 +312,9 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
                     }
                     
                     for (index, image) in images.enumerated() {
-                        delay(0.1*Double(index), work: { [weak self] in
+                        _ = delay(0.1 * Double(index)) { [weak self] in
                             self?.sendImageAction?(image)
-                        })
+                        }
                     }
 
                     // clean UI
