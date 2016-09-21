@@ -153,7 +153,7 @@ class SearchFeedsFooterView: UIView {
     lazy var keywordsTableView: UITableView = {
 
         let tableView = UITableView()
-        tableView.registerClassOf(KeywordCell)
+        tableView.registerClassOf(KeywordCell.self)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = 36
