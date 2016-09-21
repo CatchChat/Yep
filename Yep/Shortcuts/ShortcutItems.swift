@@ -45,9 +45,9 @@ func configureDynamicShortcuts() {
             let e = feedConversations[safe: 1]
             let f = feedConversations[safe: 2]
 
-            let conversations = [a, b, c, d, e, f].flatMap({ $0 }).sort({ $0.updatedUnixTime > $1.updatedUnixTime })
+            let conversations = [a, b, c, d, e, f].flatMap({ $0 }).sorted(by: { $0.updatedUnixTime > $1.updatedUnixTime })
 
-            for (index, conversation) in conversations.enumerate() {
+            for (index, conversation) in conversations.enumerated() {
 
                 if index > 2 {
                     break
@@ -141,7 +141,7 @@ func tryQuickActionWithShortcutItem(_ shortcutItem: UIApplicationShortcutItem, i
                     if let realm = try? Realm() {
                         let user = userWithUserID(userID, inRealm: realm)
                         if let conversation = user?.conversation {
-                            vc.performSegueWithIdentifier("showConversation", sender: conversation)
+                            vc.performSegue(withIdentifier: "showConversation", sender: conversation)
                         }
                     }
                 }
@@ -173,7 +173,7 @@ func tryQuickActionWithShortcutItem(_ shortcutItem: UIApplicationShortcutItem, i
                     if let realm = try? Realm() {
                         let feed = feedWithFeedID(feedID, inRealm: realm)
                         if let conversation = feed?.group?.conversation {
-                            vc.performSegueWithIdentifier("showConversation", sender: conversation)
+                            vc.performSegue(withIdentifier: "showConversation", sender: conversation)
                         }
                     }
                 }
