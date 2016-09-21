@@ -255,8 +255,8 @@ final class ConversationViewController: BaseViewController {
 
         lastTimeMessagesCount = messages.count
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: Config.Notification.newMessages, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: Config.Notification.deletedMessages, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: NSNotification.Name(rawValue: Config.Notification.newMessages), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: NSNotification.Name(rawValue: Config.Notification.deletedMessages), object: nil)
 
         NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.cleanForLogout(_:)), name: NSNotification.Name(rawValue: EditProfileViewController.Notification.Logout), object: nil)
 
@@ -266,7 +266,7 @@ final class ConversationViewController: BaseViewController {
 
         NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillHideNotification(_:)), name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: Config.Message.Notification.MessageBatchMarkAsRead, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: NSNotification.Name(rawValue: Config.Message.Notification.MessageBatchMarkAsRead), object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             SafeDispatch.async {
@@ -446,7 +446,7 @@ final class ConversationViewController: BaseViewController {
 
                 if previousState != currentState {
                     //println("messageToolbar.messageTextView.text 2: \(messageToolbar.messageTextView.text)")
-                    NotificationCenter.default.postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: MessageToolbar.Notification.updateDraft), object: nil)
                 }
             }
 
@@ -615,11 +615,11 @@ final class ConversationViewController: BaseViewController {
                         strongSelf.view.addSubview(strongSelf.waverView)
 
                         strongSelf.swipeUpPromptView.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
-                        strongSelf.swipeUpPromptView.hidden = false
+                        strongSelf.swipeUpPromptView.isHidden = false
 
-                        strongSelf.view.bringSubviewToFront(strongSelf.swipeUpPromptView)
-                        strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
-                        strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
+                        strongSelf.view.bringSubview(toFront: strongSelf.swipeUpPromptView)
+                        strongSelf.view.bringSubview(toFront: strongSelf.messageToolbar)
+                        strongSelf.view.bringSubview(toFront: strongSelf.moreMessageTypesView)
 
                         strongSelf.waverView.waver.resetWaveSamples()
                     }
@@ -637,7 +637,7 @@ final class ConversationViewController: BaseViewController {
 
                         AudioBot.mixWithOthersWhenRecording = true
 
-                        try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
+                        try AudioBot.startRecordAudioToFileURL(nil, forUsage: .normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
 
                         AudioBot.reportRecordingDuration = { duration in
 
@@ -648,7 +648,7 @@ final class ConversationViewController: BaseViewController {
                             }
                         }
                         
-                        self?.trySendInstantMessageWithType(.Audio)
+                        self?.trySendInstantMessageWithType(.audio)
                         
                     } catch let error {
                         println("record error: \(error)")
@@ -1031,7 +1031,7 @@ final class ConversationViewController: BaseViewController {
                 group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
             }
 
-            NotificationCenter.default.postNotificationName(Config.Notification.changedConversation, object: nil)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
 
             strongSelf.moreViewManager.updateForGroupAffair()
 
@@ -1183,15 +1183,15 @@ final class ConversationViewController: BaseViewController {
 
             if let sender = message.fromFriend, let index = messages.index(of: message) {
 
-                let indexPath = IndexPath(forItem: index - displayedMessagesRange.location, inSection: Section.message.rawValue)
+                let indexPath = IndexPath(item: index - displayedMessagesRange.location, section: Section.message.rawValue)
 
                 if sender.friendState != UserFriendState.me.rawValue { // from Friend
-                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                    if let cell = conversationCollectionView.cellForItem(at: indexPath) as? ChatLeftAudioCell {
                         cell.audioPlayedDuration = 0
                     }
 
                 } else {
-                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                    if let cell = conversationCollectionView.cellForItem(at: indexPath) as? ChatRightAudioCell {
                         cell.audioPlayedDuration = 0
                     }
                 }
@@ -1422,7 +1422,7 @@ final class ConversationViewController: BaseViewController {
                 conversation.withGroup?.includeMe = true
                 let _ = try? realm.commitWrite()
 
-                delay(0.5) { [weak self] in
+                _ = delay(0.5) { [weak self] in
                     self?.subscribeView.hide()
                 }
 
@@ -1472,7 +1472,7 @@ final class ConversationViewController: BaseViewController {
                     if let
                         message = messageWithMessageID(messageID, inRealm: realm),
                         let index = messages.index(of: message) {
-                        let indexPath = IndexPath(forItem: index - displayedMessagesRange.location, inSection: Section.message.rawValue)
+                        let indexPath = IndexPath(item: index - displayedMessagesRange.location, section: Section.message.rawValue)
                         indexPaths.append(indexPath)
 
                     } else {
