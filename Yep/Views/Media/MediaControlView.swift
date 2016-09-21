@@ -11,7 +11,7 @@ import UIKit
 //@IBDesignable
 final class MediaControlView: UIView {
 
-    enum Type {
+    enum `Type` {
         case image
         case video
     }
