@@ -56,7 +56,7 @@ final class ProfileHeaderCell: UICollectionViewCell {
             completion(blurredAvatarImage)
 
         } else {
-            DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.default).async {
+            DispatchQueue.global(qos: .default).async {
                 let blurredImage = image.blurredImage(withRadius: 20, iterations: 20, tintColor: UIColor.black)
                 completion(blurredImage!)
             }
@@ -70,7 +70,7 @@ final class ProfileHeaderCell: UICollectionViewCell {
             avatarBlurImageView.alpha = 0
         }
 
-        let avatarStyle = AvatarStyle.Original
+        let avatarStyle = AvatarStyle.original
         let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
 
         AvatarPod.wakeAvatar(plainAvatar) { [weak self] finished, image, _ in
@@ -92,7 +92,7 @@ final class ProfileHeaderCell: UICollectionViewCell {
 
                 self?.updatePrettyColorAction?(prettyColor)
 
-                UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { [weak self] in
+                UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut, animations: { [weak self] in
                     self?.avatarImageView.alpha = 1
                 }, completion: nil)
             }
