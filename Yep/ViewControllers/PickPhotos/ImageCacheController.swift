@@ -14,11 +14,11 @@ final class ImageCacheController {
     fileprivate var cachedIndices = IndexSet()
     fileprivate let cachePreheatSize: Int
     fileprivate let imageCache: PHCachingImageManager
-    fileprivate let images: PHFetchResult<AnyObject>
+    fileprivate let images: PHFetchResult<PHAsset>
     fileprivate let targetSize = CGSize(width: 80, height: 80)
     fileprivate let contentMode = PHImageContentMode.aspectFill
 
-    init(imageManager: PHCachingImageManager, images: PHFetchResult<AnyObject>, preheatSize: Int = 1) {
+    init(imageManager: PHCachingImageManager, images: PHFetchResult<PHAsset>, preheatSize: Int = 1) {
         self.cachePreheatSize = preheatSize
         self.imageCache = imageManager
         self.images = images

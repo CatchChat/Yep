@@ -17,7 +17,7 @@ protocol ReturnPickedPhotosDelegate: class {
 
 final class PickPhotosViewController: UICollectionViewController, PHPhotoLibraryChangeObserver {
 
-    var images: PHFetchResult<AnyObject>? {
+    var images: PHFetchResult<PHAsset>? {
         didSet {
             collectionView?.reloadData()
             guard let images = images, let collectionView = collectionView else { return }
@@ -50,7 +50,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
         collectionView?.alwaysBounceVertical = true
         automaticallyAdjustsScrollViewInsets = false
 
-        collectionView?.registerNibOf(PhotoCell)
+        collectionView?.registerNibOf(PhotoCell.self)
 
         if let layout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout {
 
@@ -111,7 +111,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
     func back(_ sender: UIBarButtonItem) {
         album?.imageLimit   = imageLimit
         album?.pickedImages.append(contentsOf: pickedImages)
-        navigationController?.popViewController(animated: true)
+        _ = navigationController?.popViewController(animated: true)
     }
     
     func done(_ sender: UIBarButtonItem) {
@@ -149,7 +149,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
 
             imageManager.requestImageData(for: imageAsset, options: options, resultHandler: { (data, String, imageOrientation, _) -> Void in
                 if let data = data, let image = UIImage(data: data) {
-                    if let image = image.resizeToSize(targetSize, withInterpolationQuality: .Medium) {
+                    if let image = image.resizeToSize(targetSize, withInterpolationQuality: .medium) {
                         images.append(image)
                     }
                 }
@@ -167,7 +167,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
                 }
             }
             if let destVC = destVC {
-                navigationController?.popToViewController(destVC, animated: true)
+                _ = navigationController?.popToViewController(destVC, animated: true)
             }
         }
     }
@@ -193,7 +193,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
         if let cell = cell as? PhotoCell {
             cell.imageManager = imageManager
 
-            if let imageAsset = images?[(indexPath as NSIndexPath).item] as? PHAsset {
+            if let imageAsset = images?[(indexPath as NSIndexPath).item] {
                 cell.imageAsset = imageAsset
                 cell.photoPickedImageView.isHidden = !pickedImageSet.contains(imageAsset)
             }
@@ -202,7 +202,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if let imageAsset = images?[(indexPath as NSIndexPath).item] as? PHAsset {
+        if let imageAsset = images?[(indexPath as NSIndexPath).item] {
             if pickedImageSet.contains(imageAsset) {
                 pickedImageSet.remove(imageAsset)
                 if let index = pickedImages.index(of: imageAsset) {
@@ -239,7 +239,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
 
     func photoLibraryDidChange(_ changeInstance: PHChange) {
 
-        guard let changeDetails = changeInstance.changeDetails(for: images! as! PHFetchResult<PHObject>) else {
+        guard let changeDetails = changeInstance.changeDetails(for: images!) else {
             return
         }
 
@@ -248,15 +248,15 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
         SafeDispatch.async {
             // Loop through the visible cell indices
             guard let
-                indexPaths = self.collectionView?.indexPathsForVisibleItems(),
+                indexPaths = self.collectionView?.indexPathsForVisibleItems,
                 let changedIndexes = changeDetails.changedIndexes else {
                     return
             }
 
             for indexPath in indexPaths {
-                if changedIndexes.containsIndex(indexPath.item) {
-                    let cell = self.collectionView?.cellForItemAtIndexPath(indexPath) as! PhotoCell
-                    cell.imageAsset = changeDetails.fetchResultAfterChanges[indexPath.item] as? PHAsset
+                if changedIndexes.contains(indexPath.item) {
+                    let cell = self.collectionView?.cellForItem(at: indexPath) as! PhotoCell
+                    cell.imageAsset = changeDetails.fetchResultAfterChanges[indexPath.item]
                 }
             }
         }
