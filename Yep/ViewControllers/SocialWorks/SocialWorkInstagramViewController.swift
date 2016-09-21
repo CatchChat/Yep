@@ -19,11 +19,10 @@ final class SocialWorkInstagramViewController: BaseViewController {
 
     var afterGetInstagramWork: ((InstagramWork) -> Void)?
 
-
     fileprivate lazy var shareButton: UIBarButtonItem = {
         let button = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(SocialWorkInstagramViewController.share(_:)))
         return button
-        }()
+    }()
 
     @IBOutlet fileprivate weak var instagramCollectionView: UICollectionView!
 
@@ -56,7 +55,7 @@ final class SocialWorkInstagramViewController: BaseViewController {
         shareButton.isEnabled = false
         navigationItem.rightBarButtonItem = shareButton
 
-        instagramCollectionView.registerNibOf(InstagramMediaCell)
+        instagramCollectionView.registerNibOf(InstagramMediaCell.self)
 
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -77,7 +76,7 @@ final class SocialWorkInstagramViewController: BaseViewController {
             if let userID = profileUser?.userID {
 
                 instagramWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
 
                     let message = errorMessage ?? String.trans_promptNetworkConnectionIsNotGood
                     YepAlert.alertSorry(message: message, inViewController: self)
@@ -121,7 +120,7 @@ final class SocialWorkInstagramViewController: BaseViewController {
             title: title,
             description: nil,
             thumbnail: thumbnail,
-            media: .URL(profileURL)
+            media: .url(profileURL)
         )
         self.yep_share(info: info, defaultActivityItem: profileURL)
     }
