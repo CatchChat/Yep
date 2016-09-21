@@ -41,7 +41,7 @@ class ChatBaseCell: UICollectionViewCell {
     var reportMessageAction: (() -> Void)?
 
     deinit {
-        NotificationCenter.default
+        NotificationCenter.default.removeObserver(self)
     }
 
     override init(frame: CGRect) {
@@ -73,7 +73,7 @@ class ChatBaseCell: UICollectionViewCell {
         println("tapAvatar")
 
         if let user = user {
-            tapAvatarAction?(user: user)
+            tapAvatarAction?(user)
         }
     }
 
