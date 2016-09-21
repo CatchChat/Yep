@@ -20,7 +20,7 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
             blockedCreatorsTableView.rowHeight = 80
             blockedCreatorsTableView.tableFooterView = UIView()
 
-            blockedCreatorsTableView.registerNibOf(ContactsCell)
+            blockedCreatorsTableView.registerNibOf(ContactsCell.self)
         }
     }
     @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
@@ -80,7 +80,7 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
     }
 }
 
-extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarDelegate {
+extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         return 1
@@ -103,14 +103,14 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAtIndexPath indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
         let discoveredUser = blockedCreators[indexPath.row]
-        performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+        performSegue(withIdentifier: "showProfile", sender: Box<DiscoveredUser>(discoveredUser))
     }
 
     // Edit (for Unblock)
@@ -131,12 +131,12 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
                 SafeDispatch.async { [weak self] in
 
                     if let strongSelf = self {
-                        if let index = strongSelf.blockedCreators.indexOf(discoveredUser)  {
+                        if let index = strongSelf.blockedCreators.index(of: discoveredUser)  {
 
-                            strongSelf.blockedCreators.removeAtIndex(index)
+                            strongSelf.blockedCreators.remove(at: index)
 
-                            let indexPathToDelete = NSIndexPath(forRow: index, inSection: 0)
-                            strongSelf.blockedCreatorsTableView.deleteRowsAtIndexPaths([indexPathToDelete], withRowAnimation: .Automatic)
+                            let indexPathToDelete = IndexPath(row: index, section: 0)
+                            strongSelf.blockedCreatorsTableView.deleteRows(at: [indexPathToDelete], with: .automatic)
                         }
                     }
                 }
@@ -144,7 +144,7 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
         }
     }
     
-    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: IndexPath) -> String? {
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return NSLocalizedString("Unblock", comment: "")
     }
 }
