@@ -45,7 +45,7 @@ class ChatLeftTextCell: ChatBaseCell, Copyable {
         }
 
         view.tapFeedAction = { [weak self] feed in
-            self?.tapFeedAction?(feed: feed)
+            self?.tapFeedAction?(feed)
         }
 
         return view
