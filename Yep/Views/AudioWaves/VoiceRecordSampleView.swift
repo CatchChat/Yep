@@ -67,7 +67,7 @@ class VoiceRecordSampleView: UIView {
         view.isUserInteractionEnabled = false
         view.backgroundColor = UIColor.clear
         view.dataSource = self
-        view.registerClassOf(VoiceRecordSampleCell)
+        view.registerClassOf(VoiceRecordSampleCell.self)
         return view
     }()
 
