@@ -88,7 +88,7 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
-        if let attachment = feed.attachment, case let .Images(attachments) = attachment {
+        if let attachment = feed.attachment, case .images(let attachments) = attachment {
             self.attachments = attachments
         }
 
@@ -133,7 +133,7 @@ extension SearchedFeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegat
         }
 
         let references: [Reference?] = (0..<attachments.count).map({
-            let indexPath = NSIndexPath(forItem: $0, inSection: indexPath.section)
+            let indexPath = IndexPath(item: $0, section: indexPath.section)
             let node = mediaCollectionNode.view.nodeForItemAtIndexPath(indexPath) as? FeedImageCellNode
 
             if node?.view.superview == nil {
@@ -142,7 +142,7 @@ extension SearchedFeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegat
                 return node?.transitionReference
             }
         })
-        tapImagesAction?(transitionReferences: references, attachments: attachments, image: node.imageNode.image, index: indexPath.item)
+        tapImagesAction?(references, attachments, node.imageNode.image, indexPath.item)
     }
 }
 
