@@ -35,9 +35,9 @@ final class ChatSectionDateCell: UICollectionViewCell {
 
         let createdAt = Date(timeIntervalSince1970: message.createdUnixTime)
         if createdAt.isInCurrentWeek() {
-            sectionDateLabel.text = ChatSectionDateCell.sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
+            sectionDateLabel.text = ChatSectionDateCell.sectionDateInCurrentWeekFormatter.string(from: createdAt)
         } else {
-            sectionDateLabel.text = ChatSectionDateCell.sectionDateFormatter.stringFromDate(createdAt)
+            sectionDateLabel.text = ChatSectionDateCell.sectionDateFormatter.string(from: createdAt)
         }
     }
 }
