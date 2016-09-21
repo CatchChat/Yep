@@ -169,7 +169,7 @@ extension UIImageView {
                 strongSelf.image = image
 
             } else {
-                UIView.transition(with: strongSelf, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
+                UIView.transition(with: strongSelf, duration: imageFadeTransitionDuration, options: .transitionCrossDissolve, animations: { [weak self] in
                     self?.image = image
                 }, completion: nil)
             }

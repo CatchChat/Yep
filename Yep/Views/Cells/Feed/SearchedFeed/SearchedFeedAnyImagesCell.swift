@@ -134,7 +134,7 @@ extension SearchedFeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegat
 
         let references: [Reference?] = (0..<attachments.count).map({
             let indexPath = IndexPath(item: $0, section: indexPath.section)
-            let node = mediaCollectionNode.view.nodeForItemAtIndexPath(indexPath) as? FeedImageCellNode
+            let node = mediaCollectionNode.view.nodeForItem(at: indexPath) as? FeedImageCellNode
 
             if node?.view.superview == nil {
                 return nil
