@@ -356,17 +356,17 @@ extension YepFayeService {
 
 extension YepFayeService: FayeClientDelegate {
 
-    func fayeClient(_ client: FayeClient, didConnectToURL URL: Foundation.URL) {
+    func fayeClient(_ client: FayeClient, didConnectToURL URL: URL) {
 
         println("fayeClient didConnectToURL \(URL)")
 
         subscribeChannel()
     }
 
-    func fayeClient(_ client: FayeClient, didDisconnectWithError error: Error?) {
+    func fayeClient(_ client: FayeClient, didDisconnectWithError error: Swift.Error?) {
 
         if let error = error {
-            println("fayeClient didDisconnectWithError \(error.description)")
+            println("fayeClient didDisconnectWithError \(error)")
         }
     }
 
@@ -380,17 +380,17 @@ extension YepFayeService: FayeClientDelegate {
         println("fayeClient didUnsubscribeFromChannel \(channel)")
     }
 
-    func fayeClient(_ client: FayeClient, didFailWithError error: Error?) {
+    func fayeClient(_ client: FayeClient, didFailWithError error: Swift.Error?) {
 
         if let error = error {
-            println("fayeClient didFailWithError \(error.description)")
+            println("fayeClient didFailWithError \(error)")
         }
     }
 
-    func fayeClient(_ client: FayeClient, didFailDeserializeMessage message: [String: AnyObject]?, withError error: Error?) {
+    func fayeClient(_ client: FayeClient, didFailDeserializeMessage message: [String: AnyObject]?, withError error: Swift.Error?) {
 
         if let error = error {
-            println("fayeClient didFailDeserializeMessage \(error.description)")
+            println("fayeClient didFailDeserializeMessage \(error)")
         }
     }
 
