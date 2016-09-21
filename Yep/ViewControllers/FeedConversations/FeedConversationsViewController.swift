@@ -14,8 +14,8 @@ final class FeedConversationsViewController: SegueViewController {
 
     @IBOutlet weak var feedConversationsTableView: UITableView! {
         didSet {
-            feedConversationsTableView.registerNibOf(FeedConversationCell)
-            feedConversationsTableView.registerNibOf(DeletedFeedConversationCell)
+            feedConversationsTableView.registerNibOf(FeedConversationCell.self)
+            feedConversationsTableView.registerNibOf(DeletedFeedConversationCell.self)
         }
     }
 
@@ -74,7 +74,7 @@ final class FeedConversationsViewController: SegueViewController {
 
         _ = try? realm.commitWrite()
 
-        NotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
     }
 
     override func viewDidLoad() {
@@ -102,11 +102,11 @@ final class FeedConversationsViewController: SegueViewController {
             }
         }
 
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.Notification.newMessages, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.newMessages), object: nil)
 
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.Notification.deletedMessages, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.deletedMessages), object: nil)
 
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.Notification.changedFeedConversation, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
 
         if traitCollection.forceTouchCapability == .available {
             registerForPreviewing(with: self, sourceView: feedConversationsTableView)
@@ -119,7 +119,7 @@ final class FeedConversationsViewController: SegueViewController {
         super.viewWillAppear(animated)
 
         if !isFirstAppear {
-            haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
+            haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: .group) > 0
         }
 
         isFirstAppear = false
@@ -220,7 +220,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
             return
         }
 
-        performSegueWithIdentifier("showConversation", sender: conversation)
+        performSegue(withIdentifier: "showConversation", sender: conversation)
     }
 
     // Edit (for Delete)
@@ -270,8 +270,8 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                 tableView.endUpdates()
 
                 // 延迟一些再发通知，避免影响 tableView 的删除
-                delay(0.5) {
-                    NotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                _ = delay(0.5) {
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
                 }
 
                 deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
