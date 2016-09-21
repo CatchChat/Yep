@@ -30,7 +30,7 @@ final class GeniusInterviewViewController: BaseViewController {
 
         view.scrollView.isScrollEnabled = false
         view.scrollView.contentInset.bottom = GeniusInterviewViewController.actionViewHeight
-        view.scrollView.rx_contentOffset.map({ $0.y }).subscribeNext({ [weak self] (scrollViewContentOffsetY) in
+        view.scrollView.rx.contentOffset.map({ $0.y }).subscribe(onNext: { [weak self] (scrollViewContentOffsetY) in
             guard scrollViewContentOffsetY > 0, let scrollView = self?.webView.scrollView else {
                 return
             }
@@ -73,7 +73,7 @@ final class GeniusInterviewViewController: BaseViewController {
             }
 
             SafeDispatch.async { [weak self] in
-                self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(user))
+                self?.performSegue(withIdentifier: "showProfile", sender: Box<DiscoveredUser>(user))
             }
         }
 
@@ -93,9 +93,9 @@ final class GeniusInterviewViewController: BaseViewController {
                 _ = try? realm.commitWrite()
 
                 if let conversation = conversation {
-                    self?.performSegueWithIdentifier("showConversation", sender: conversation)
+                    self?.performSegue(withIdentifier: "showConversation", sender: conversation)
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
                 }
             }
         }
@@ -109,7 +109,7 @@ final class GeniusInterviewViewController: BaseViewController {
                 title: nil,
                 description: nil,
                 thumbnail: nil,
-                media: .URL(url)
+                media: .url(url)
             )
             self?.yep_share(info: info, defaultActivityItem: url)
         }
@@ -206,10 +206,10 @@ extension GeniusInterviewViewController: WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
 
-        delay(1) { [weak self] in
+        _ = delay(1) { [weak self] in
             self?.indicatorView.stopAnimating()
 
-            webView.scrollView.scrollEnabled = true
+            webView.scrollView.isScrollEnabled = true
         }
     }
 }
