@@ -11,17 +11,17 @@ import MonkeyKing
 
 final class WeChatActivity: AnyActivity {
 
-    enum Type {
+    enum `Type` {
 
         case session
         case timeline
 
-        var type: String {
+        var activityType: UIActivityType {
             switch self {
             case .session:
-                return YepConfig.ChinaSocialNetwork.WeChat.sessionType
+                return UIActivityType(rawValue: YepConfig.ChinaSocialNetwork.WeChat.sessionType)
             case .timeline:
-                return YepConfig.ChinaSocialNetwork.WeChat.timelineType
+                return UIActivityType(rawValue: YepConfig.ChinaSocialNetwork.WeChat.timelineType)
             }
         }
 
@@ -44,12 +44,12 @@ final class WeChatActivity: AnyActivity {
         }
     }
 
-    init(type: Type, message: MonkeyKing.Message, completionHandler: MonkeyKing.SharedCompletionHandler) {
+    init(type: Type, message: MonkeyKing.Message, completionHandler: @escaping MonkeyKing.DeliverCompletionHandler) {
 
-        MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID, appKey: ""))
+        MonkeyKing.registerAccount(.weChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID, appKey: ""))
 
         super.init(
-            type: type.type,
+            type: type.activityType,
             title: type.title,
             image: type.image,
             message: message,
