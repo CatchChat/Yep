@@ -86,7 +86,7 @@ final class ChatLeftSocialWorkCell: UICollectionViewCell {
 
             switch socialWorkType {
 
-            case .GithubRepo:
+            case .githubRepo:
 
                 socialWorkImageView.isHidden = true
                 githubRepoContainerView.isHidden = false
@@ -96,10 +96,10 @@ final class ChatLeftSocialWorkCell: UICollectionViewCell {
                     githubRepoNameLabel.text = githubRepo.name
                     githubRepoDescriptionLabel.text = githubRepo.repoDescription
 
-                    syncButton.enabled = !githubRepo.synced
+                    syncButton.isEnabled = !githubRepo.synced
                 }
 
-            case .DribbbleShot:
+            case .dribbbleShot:
 
                 socialWorkImageView.isHidden = false
                 githubRepoContainerView.isHidden = true
@@ -108,10 +108,10 @@ final class ChatLeftSocialWorkCell: UICollectionViewCell {
                 if let dribbbleShot = socialWork.dribbbleShot {
                     socialWorkImageURL = URL(string: dribbbleShot.imageURLString)
 
-                    syncButton.enabled = !dribbbleShot.synced
+                    syncButton.isEnabled = !dribbbleShot.synced
                 }
 
-            case .InstagramMedia:
+            case .instagramMedia:
 
                 socialWorkImageView.isHidden = false
                 githubRepoContainerView.isHidden = true
@@ -123,7 +123,7 @@ final class ChatLeftSocialWorkCell: UICollectionViewCell {
             }
 
             if let URL = socialWorkImageURL {
-                socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
+                socialWorkImageView.kf_setImage(with: URL, placeholderImage: nil)
             }
         }
     }
@@ -134,7 +134,7 @@ final class ChatLeftSocialWorkCell: UICollectionViewCell {
             return
         }
 
-        createFeedAction?(socialWork: socialWork)
+        createFeedAction?(socialWork)
     }
 }
 
