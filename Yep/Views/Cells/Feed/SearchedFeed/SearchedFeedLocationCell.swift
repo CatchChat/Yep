@@ -44,7 +44,7 @@ final class SearchedFeedLocationCell: SearchedFeedBasicCell {
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
         if let attachment = feed.attachment {
-            if case let .Location(locationInfo) = attachment {
+            if case let .location(locationInfo) = attachment {
 
                 if locationInfo.name.isEmpty {
                     locationContainerView.titleLabel.text = NSLocalizedString("Unknown location", comment: "")
@@ -61,7 +61,7 @@ final class SearchedFeedLocationCell: SearchedFeedBasicCell {
             }
 
             if case .Location = feed.kind {
-                if case let .Location(locationInfo) = attachment {
+                if case let .location(locationInfo) = attachment {
                     self?.tapLocationAction?(locationName: locationInfo.name, locationCoordinate: locationInfo.coordinate)
                 }
             }
