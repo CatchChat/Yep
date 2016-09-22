@@ -90,7 +90,7 @@ final class FeedVoiceCell: FeedBasicCell {
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
-            if case let .Audio(audioInfo) = attachment {
+            if case let .audio(audioInfo) = attachment {
 
                 voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
                 voiceContainerView.voiceSampleView.samples = audioInfo.sampleValues
@@ -106,7 +106,7 @@ final class FeedVoiceCell: FeedBasicCell {
                     let feedAudio = FeedAudio.feedAudioWithFeedID(audioInfo.feedID, inRealm: realm)
 
                     if let feedAudio = feedAudio, let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-                        audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID) && audioPlayer.playing
+                        audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID) && audioPlayer.isPlaying
 
                     } else {
                         let newFeedAudio = FeedAudio()
