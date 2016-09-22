@@ -53,8 +53,7 @@ final class FeedConversationCell: UITableViewCell {
 
         nameLabel.text = feed.body
 
-        let attachments = feed.attachments.map({
-            //DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
+        let attachments: [DiscoveredAttachment] = feed.attachments.map({
             DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString, image: nil)
         })
         mediaView.setImagesWithAttachments(attachments)
@@ -71,7 +70,7 @@ final class FeedConversationCell: UITableViewCell {
 
                     let attributedString = NSMutableAttributedString(string: string)
                     let mentionedYouRange = NSMakeRange(0, (mentionedYouString as NSString).length)
-                    attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: mentionedYouRange)
+                    attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: mentionedYouRange)
 
                     self.chatLabel.attributedText = attributedString
 
