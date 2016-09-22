@@ -42,12 +42,12 @@ final class SearchedFeedURLCell: SearchedFeedBasicCell {
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
         if let attachment = feed.attachment {
-            if case let .URL(openGraphInfo) = attachment {
+            if case let .url(openGraphInfo) = attachment {
 
                 feedURLContainerView.titleLabel.text = openGraphInfo.title
 
                 feedURLContainerView.tapAction = { [weak self] in
-                    self?.tapURLInfoAction?(URL: openGraphInfo.URL)
+                    self?.tapURLInfoAction?(openGraphInfo.URL)
                 }
             }
         }
