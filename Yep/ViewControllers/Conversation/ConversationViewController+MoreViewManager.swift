@@ -109,11 +109,11 @@ extension ConversationViewController {
     fileprivate func tryReport() {
 
         if let user = conversation.withFriend {
-            let profileUser = ProfileUser.UserType(user)
-            report(.User(profileUser))
+            let profileUser = ProfileUser.userType(user)
+            report(.user(profileUser))
 
         } else if let feed = conversation.withGroup?.withFeed {
-            report(.Feed(feedID: feed.feedID))
+            report(.feed(feedID: feed.feedID))
         }
     }
 
@@ -177,14 +177,14 @@ extension ConversationViewController {
             title: String.trans_titleShareFeed,
             description: description,
             thumbnail: feedView?.mediaView.imageView1.image,
-            media: .URL(groupShareURL)
+            media: .url(groupShareURL)
         )
 
         let timeLineinfo = MonkeyKing.Info(
             title: String.trans_shareFeedWithDescription(description),
             description: description,
             thumbnail: feedView?.mediaView.imageView1.image,
-            media: .URL(groupShareURL)
+            media: .url(groupShareURL)
         )
 
         self.yep_share(info: info, timelineInfo: timeLineinfo, defaultActivityItem: groupShareURL, description: description)
@@ -220,7 +220,7 @@ extension ConversationViewController {
 
                 realm.refresh()
 
-                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
 
                 deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
             }
@@ -237,20 +237,20 @@ extension ConversationViewController {
                         println("deleted feed: \(feedID)")
                     })
 
-                    self?.afterDeletedFeedAction?(feedID: feedID)
+                    self?.afterDeletedFeedAction?(feedID)
 
                     SafeDispatch.async { [weak self] in
 
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedFeed, object: feedID)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: YepConfig.Notification.deletedFeed), object: feedID)
 
-                        self?.navigationController?.popViewControllerAnimated(true)
+                        _ = self?.navigationController?.popViewController(animated: true)
                     }
                 })
 
             }, cancelAction: { [weak self] in
                 doDeleteConversation(afterLeaveGroup: {
                     SafeDispatch.async { [weak self] in
-                        self?.navigationController?.popViewControllerAnimated(true)
+                        _ = self?.navigationController?.popViewController(animated: true)
                     }
                 })
             })
@@ -261,7 +261,7 @@ extension ConversationViewController {
             if includeMe {
                 doDeleteConversation(afterLeaveGroup: {
                     SafeDispatch.async { [weak self] in
-                        self?.navigationController?.popViewControllerAnimated(true)
+                        _ = self?.navigationController?.popViewController(animated: true)
                     }
                 })
 
