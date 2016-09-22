@@ -25,17 +25,17 @@ extension ConversationViewController {
                 playbackTimer.invalidate()
             }
 
-            if let sender = playingMessage.fromFriend, let playingMessageIndex = messages.indexOf(playingMessage) {
+            if let sender = playingMessage.fromFriend, let playingMessageIndex = messages.index(of: playingMessage) {
 
-                let indexPath = IndexPath(forItem: playingMessageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
+                let indexPath = IndexPath(item: playingMessageIndex - displayedMessagesRange.location, section: Section.message.rawValue)
 
-                if sender.friendState != UserFriendState.Me.rawValue {
-                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                if sender.friendState != UserFriendState.me.rawValue {
+                    if let cell = conversationCollectionView.cellForItem(at: indexPath) as? ChatLeftAudioCell {
                         cell.playing = false
                     }
 
                 } else {
-                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                    if let cell = conversationCollectionView.cellForItem(at: indexPath) as? ChatRightAudioCell {
                         cell.playing = false
                     }
                 }
@@ -53,7 +53,7 @@ extension ConversationViewController {
             let audioPlayedDuration = audioPlayedDurationOfMessage(message)
             
             YepAudioService.sharedManager.playAudioWithMessage(message, beginFromTime: audioPlayedDuration, delegate: self) {
-                let playbackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: self, selector: #selector(ConversationViewController.updateAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+                let playbackTimer = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(ConversationViewController.updateAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
                 YepAudioService.sharedManager.playbackTimer = playbackTimer
             }
 
@@ -66,20 +66,20 @@ extension ConversationViewController {
 
         func updateAudioCell(for message: Message, withCurrentTime currentTime: TimeInterval) {
 
-            guard let messageIndex = messages.indexOf(message) else {
+            guard let messageIndex = messages.index(of: message) else {
                 return
             }
 
-            let indexPath = IndexPath(forItem: messageIndex - displayedMessagesRange.location, inSection: Section.Message.rawValue)
+            let indexPath = IndexPath(item: messageIndex - displayedMessagesRange.location, section: Section.message.rawValue)
 
             if let sender = message.fromFriend {
-                if sender.friendState != UserFriendState.Me.rawValue {
-                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                if sender.friendState != UserFriendState.me.rawValue {
+                    if let cell = conversationCollectionView.cellForItem(at: indexPath) as? ChatLeftAudioCell {
                         cell.audioPlayedDuration = currentTime
                     }
 
                 } else {
-                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                    if let cell = conversationCollectionView.cellForItem(at: indexPath) as? ChatRightAudioCell {
                         cell.audioPlayedDuration = currentTime
                     }
                 }
@@ -130,11 +130,11 @@ extension ConversationViewController: AVAudioPlayerDelegate {
 
         func nextUnplayedAudioMessageFrom(_ message: Message) -> Message? {
 
-            if let index = messages.indexOf(message) {
+            if let index = messages.index(of: message) {
                 for i in (index + 1)..<messages.count {
                     if let message = messages[safe: i], let friend = message.fromFriend {
-                        if friend.friendState != UserFriendState.Me.rawValue {
-                            if (message.mediaType == MessageMediaType.Audio.rawValue) && (message.mediaPlayed == false) {
+                        if friend.friendState != UserFriendState.me.rawValue {
+                            if (message.mediaType == MessageMediaType.audio.rawValue) && (message.mediaPlayed == false) {
                                 return message
                             }
                         }
@@ -153,11 +153,6 @@ extension ConversationViewController: AVAudioPlayerDelegate {
         } else {
             YepAudioService.sharedManager.resetToDefault()
         }
-    }
-
-    func audioPlayerEndInterruption(_ player: AVAudioPlayer) {
-
-        println("audioPlayerEndInterruption")
     }
 }
 
