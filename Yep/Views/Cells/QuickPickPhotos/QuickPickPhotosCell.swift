@@ -19,7 +19,7 @@ final class QuickPickPhotosCell: UITableViewCell {
     var takePhotoAction: (() -> Void)?
     var pickedPhotosAction: ((Set<PHAsset>) -> Void)?
 
-    var images: PHFetchResult<AnyObject>?
+    var images: PHFetchResult<PHAsset>?
     lazy var imageManager = PHCachingImageManager()
     var imageCacheController: ImageCacheController!
 
@@ -37,8 +37,8 @@ final class QuickPickPhotosCell: UITableViewCell {
 
         photosCollectionView.backgroundColor = UIColor.clear
 
-        photosCollectionView.registerNibOf(CameraCell)
-        photosCollectionView.registerNibOf(PhotoCell)
+        photosCollectionView.registerNibOf(CameraCell.self)
+        photosCollectionView.registerNibOf(PhotoCell.self)
 
         photosCollectionView.showsHorizontalScrollIndicator = false
 
@@ -50,7 +50,7 @@ final class QuickPickPhotosCell: UITableViewCell {
             photosCollectionView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         }
 
-        proposeToAccess(.Photos, agreed: {
+        proposeToAccess(.photos, agreed: {
             SafeDispatch.async { [weak self] in
                 if let strongSelf = self {
                     let options = PHFetchOptions()
@@ -82,9 +82,9 @@ extension QuickPickPhotosCell: PHPhotoLibraryChangeObserver {
 
     func photoLibraryDidChange(_ changeInstance: PHChange) {
 
-        if let
-            _images = images,
-            let changeDetails = changeInstance.changeDetails(for: _images as! PHFetchResult<PHObject>) {
+        if
+            let _images = images,
+            let changeDetails = changeInstance.changeDetails(for: _images) {
 
                 SafeDispatch.async { [weak self] in
                     self?.images = changeDetails.fetchResultAfterChanges
