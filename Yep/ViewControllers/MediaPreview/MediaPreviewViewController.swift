@@ -28,9 +28,9 @@ final class MediaPreviewViewController: UIViewController {
     var startIndex: Int = 0
     var currentIndex: Int = 0 {
         didSet {
-            if let previewMedia = previewMedias[currentIndex] {
+            if let previewMedia = previewMedias[safe: currentIndex] {
                 switch previewMedia {
-                case .MessageType(let message):
+                case .messageType(let message):
                     guard !message.mediaPlayed else {
                         break
                     }
@@ -40,9 +40,9 @@ final class MediaPreviewViewController: UIViewController {
                     let _ = try? realm.write {
                         message.mediaPlayed = true
                     }
-                case .AttachmentType:
+                case .attachmentType:
                     break
-                case .WebImage:
+                case .webImage:
                     break
                 }
             }
@@ -107,7 +107,7 @@ final class MediaPreviewViewController: UIViewController {
 
         mediasCollectionView.backgroundColor = UIColor.clear
 
-        mediasCollectionView.registerNibOf(MediaViewCell)
+        mediasCollectionView.registerNibOf(MediaViewCell.self)
 
         guard let previewImageViewInitalFrame = previewImageViewInitalFrame else {
             return
@@ -181,11 +181,11 @@ final class MediaPreviewViewController: UIViewController {
             })
         })
 
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewViewController.dismiss))
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewViewController.tryDismiss))
         swipeUp.direction = .up
         view.addGestureRecognizer(swipeUp)
 
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewViewController.dismiss))
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(MediaPreviewViewController.tryDismiss))
         swipeDown.direction = .down
         view.addGestureRecognizer(swipeDown)
 
@@ -206,9 +206,9 @@ final class MediaPreviewViewController: UIViewController {
             let indexPath = IndexPath(item: item, section: 0)
             mediasCollectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
 
-            delay(0.1) { [weak self] in
+            _ = delay(0.1) { [weak self] in
 
-                guard let cell = self?.mediasCollectionView.cellForItemAtIndexPath(indexPath) as? MediaViewCell else {
+                guard let cell = self?.mediasCollectionView.cellForItem(at: indexPath) as? MediaViewCell else {
                     return
                 }
 
@@ -229,7 +229,7 @@ final class MediaPreviewViewController: UIViewController {
 
         for previewMedia in previewMedias {
 
-            if case let .AttachmentType(attachment) = previewMedia {
+            if case let .attachmentType(attachment) = previewMedia {
 
                 ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil, completion: { [weak self] (url, image, _) in
                     if let image = image {
@@ -242,7 +242,7 @@ final class MediaPreviewViewController: UIViewController {
 
     // MARK: Actions
 
-    func dismiss() {
+    func tryDismiss() {
 
         guard showFinished else {
             return
@@ -257,12 +257,12 @@ final class MediaPreviewViewController: UIViewController {
 
             self?.afterDismissAction?()
 
-            delay(0.05) {
+            _ = delay(0.05) {
                 mediaPreviewWindow.rootViewController = nil
             }
         }
 
-        if case .MessageType = previewMedias[0] {
+        if case .messageType = previewMedias[0] {
 
             guard currentIndex == startIndex else {
 
@@ -298,7 +298,7 @@ final class MediaPreviewViewController: UIViewController {
 
         var frame = self.previewImageViewInitalFrame ?? CGRect.zero
 
-        if case .AttachmentType = previewMedias[0] {
+        if case .attachmentType = previewMedias[0] {
             let offsetIndex = currentIndex - startIndex
             if abs(offsetIndex) > 0 {
                 let offsetX = CGFloat(offsetIndex) * frame.width + CGFloat(offsetIndex) * 5
@@ -345,8 +345,8 @@ final class MediaPreviewViewController: UIViewController {
                         SafeDispatch.async {
                             cell.mediaView.videoPlayerLayer.player?.play()
 
-                            cell.mediaView.videoPlayerLayer.hidden = false
-                            cell.mediaView.scrollView.hidden = true
+                            cell.mediaView.videoPlayerLayer.isHidden = false
+                            cell.mediaView.scrollView.isHidden = true
                         }
 
                     case AVPlayerStatus.unknown:
@@ -384,11 +384,11 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
         switch previewMedia {
 
-        case .MessageType(let message):
+        case .messageType(let message):
 
             switch message.mediaType {
 
-            case MessageMediaType.Image.rawValue:
+            case MessageMediaType.image.rawValue:
 
                 mediaControlView.type = .image
 
@@ -397,20 +397,20 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
                 if
                     let imageFileURL = message.imageFileURL,
-                    let image = UIImage(contentsOfFile: imageFileURL.path!) {
+                    let image = UIImage(contentsOfFile: imageFileURL.path) {
                         cell.mediaView.image = image
                 }
 
                 cell.activityIndicator.stopAnimating()
 
-            case MessageMediaType.Video.rawValue:
+            case MessageMediaType.video.rawValue:
 
                 mediaControlView.type = .video
                 mediaControlView.playState = .playing
 
                 if
                     let imageFileURL = message.videoThumbnailFileURL,
-                    let image = UIImage(contentsOfFile: imageFileURL.path!) {
+                    let image = UIImage(contentsOfFile: imageFileURL.path) {
                         cell.mediaView.image = image
                 }
 
@@ -420,7 +420,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 cell.activityIndicator.stopAnimating()
             }
 
-        case .AttachmentType(let attachment):
+        case .attachmentType(let attachment):
 
             mediaControlView.type = .image
 
@@ -451,14 +451,14 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
             let imageView = UIImageView()
 
-            imageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: nil, completionHandler: { (image, error, cacheType, imageURL) -> () in
+            imageView.kf_setImage(with: imageURL, placeholder: nil, options: nil) { (image, error, cacheType, imageURL) in
 
                 SafeDispatch.async {
                     cell.mediaView.image = image
 
                     cell.activityIndicator.stopAnimating()
                 }
-            })
+            }
         }
     }
 
@@ -475,7 +475,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
             configureCell(cell, withPreviewMedia: previewMedia)
 
             cell.mediaView.tapToDismissAction = { [weak self] in
-                self?.dismiss()
+                self?.tryDismiss()
             }
         }
     }
@@ -516,7 +516,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
             transitionView?.alpha = (currentIndex == startIndex) ? 0 : 1
 
-            if case .AttachmentType = previewMedias[0] {
+            if case .attachmentType = previewMedias[0] {
 
                 guard let image = cell.mediaView.image else {
                     return
@@ -544,7 +544,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
         switch previewMedia {
 
-        case .MessageType(let message):
+        case .messageType(let message):
 
             guard let mediaType = MessageMediaType(rawValue: message.mediaType) else {
                 break
@@ -552,48 +552,48 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
             switch mediaType {
 
-            case .Image:
+            case .image:
 
                 mediaControlView.type = .image
 
                 guard let imageFileURL = message.imageFileURL else { break }
-                guard let image = UIImage(contentsOfFile: imageFileURL.path!) else { break }
+                guard let image = UIImage(contentsOfFile: imageFileURL.path) else { break }
 
                 mediaControlView.shareAction = { [weak self] in
                     let info = MonkeyKing.Info(
                         title: nil,
                         description: nil,
                         thumbnail: nil,
-                        media: .Image(image)
+                        media: .image(image)
                     )
                     self?.yep_share(info: info, defaultActivityItem: image)
                 }
 
-            case .Video:
+            case .video:
 
                 mediaControlView.type = .video
                 mediaControlView.playState = .playing
 
-                if let imageFileURL = message.videoThumbnailFileURL, let image = UIImage(contentsOfFile: imageFileURL.path!) {
+                if let imageFileURL = message.videoThumbnailFileURL, let image = UIImage(contentsOfFile: imageFileURL.path) {
                         cell.mediaView.image = image
                 }
 
                 if let videoFileURL = message.videoFileURL {
-                    let asset = AVURLAsset(URL: videoFileURL, options: [:])
+                    let asset = AVURLAsset(url: videoFileURL, options: [:])
                     let playerItem = AVPlayerItem(asset: asset)
 
-                    playerItem.seekToTime(kCMTimeZero)
+                    playerItem.seek(to: kCMTimeZero)
                     let player = AVPlayer(playerItem: playerItem)
 
                     mediaControlView.timeLabel.text = ""
 
-                    player.addPeriodicTimeObserverForInterval(CMTimeMakeWithSeconds(0.1, Int32(NSEC_PER_SEC)), queue: nil, usingBlock: { [weak self] time in
+                    player.addPeriodicTimeObserver(forInterval: CMTimeMakeWithSeconds(0.1, Int32(NSEC_PER_SEC)), queue: nil, using: { [weak self] time in
 
                         guard let currentItem = player.currentItem else {
                             return
                         }
 
-                        if currentItem.status == .ReadyToPlay {
+                        if currentItem.status == .readyToPlay {
                             let durationSeconds = CMTimeGetSeconds(currentItem.duration)
                             let currentSeconds = CMTimeGetSeconds(time)
                             let coundDownTime = Double(Int((durationSeconds - currentSeconds) * 10)) / 10
@@ -601,7 +601,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                         }
                     })
 
-                    NotificationCenter.defaultCenter().addObserver(self, selector: #selector(MediaPreviewViewController.playerItemDidReachEnd(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem)
+                    NotificationCenter.default.addObserver(self, selector: #selector(MediaPreviewViewController.playerItemDidReachEnd(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem)
 
                     mediaControlView.playAction = { mediaControlView in
                         player.play()
@@ -624,7 +624,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                     mediaControlView.shareAction = { [weak self] in
                         let activityViewController = UIActivityViewController(activityItems: [videoFileURL], applicationActivities: nil)
 
-                        self?.presentViewController(activityViewController, animated: true, completion: nil)
+                        self?.present(activityViewController, animated: true, completion: nil)
                     }
                 }
 
@@ -632,7 +632,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                 break
             }
 
-        case .AttachmentType:
+        case .attachmentType:
 
             mediaControlView.type = .image
 
@@ -646,7 +646,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                     title: nil,
                     description: nil,
                     thumbnail: nil,
-                    media: .Image(image)
+                    media: .image(image)
                 )
                 self?.yep_share(info: info, defaultActivityItem: image)
             }
@@ -659,7 +659,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                     title: nil,
                     description: nil,
                     thumbnail: nil,
-                    media: .URL(linkURL)
+                    media: .url(linkURL)
                 )
                 self?.yep_share(info: info, defaultActivityItem: linkURL)
             }
