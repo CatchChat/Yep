@@ -164,7 +164,7 @@ final class ChatLeftVideoCell: ChatBaseCell {
 
         let videoSize = message.fixedVideoSize
 
-        thumbnailImageView.yep_setImageOfMessage(message, withSize: videoSize, tailDirection: .Left, completion: { loadingProgress, image in
+        thumbnailImageView.yep_setImageOfMessage(message, withSize: videoSize, tailDirection: .left, completion: { loadingProgress, image in
             SafeDispatch.async { [weak self] in
                 self?.loadingWithProgress(loadingProgress, image: image)
             }
