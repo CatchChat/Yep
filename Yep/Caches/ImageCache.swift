@@ -73,7 +73,7 @@ final class ImageCache {
 
                             let originalData = UIImageJPEGRepresentation(finalImage, 1.0)
                             //let originalData = UIImagePNGRepresentation(finalImage)
-                            Kingfisher.ImageCache.default.store(finalImage, originalData: originalData, forKey: attachmentSideLengthKey, toDisk: true, completionHandler: { () -> () in
+                            Kingfisher.ImageCache.default.store(finalImage, original: originalData, forKey: attachmentSideLengthKey, toDisk: true, completionHandler: { () -> () in
                             })
                         }
 
@@ -91,7 +91,7 @@ final class ImageCache {
 
                             if let image = image {
 
-                                Kingfisher.ImageCache.defaultCache.storeImage(image, originalData: originalData, forKey: attachmentOriginKey, toDisk: true, completionHandler: nil)
+                                Kingfisher.ImageCache.default.store(image, original: originalData, forKey: attachmentOriginKey, toDisk: true, completionHandler: nil)
 
                                 var storeImage = image
 
@@ -99,19 +99,19 @@ final class ImageCache {
                                     storeImage = storeImage.scaleToMinSideLength(sideLength)
                                 }
 
-                                Kingfisher.ImageCache.defaultCache.storeImage(storeImage,  originalData: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSideLengthKey, toDisk: true, completionHandler: nil)
+                                Kingfisher.ImageCache.default.store(storeImage,  original: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSideLengthKey, toDisk: true, completionHandler: nil)
 
                                 let finalImage = storeImage.decodedImage()
 
                                 //println("Image Decode size \(storeImage.size)")
 
                                 SafeDispatch.async {
-                                    completion(url: url, image: finalImage, cacheType: .None)
+                                    completion(url, finalImage, .none)
                                 }
 
                             } else {
                                 SafeDispatch.async {
-                                    completion(url: url, image: nil, cacheType: .None)
+                                    completion(url, nil, .none)
                                 }
                             }
                         })
@@ -157,10 +157,10 @@ final class ImageCache {
 
             // 若可以，先显示 blurredThumbnailImage, Video 仍然需要
 
-            let thumbnailKey: NSString = "thumbnail_\(imageKey)"
+            let thumbnailKey = "thumbnail_\(imageKey)" as NSString
 
-            if let thumbnail = cache.objectForKey(thumbnailKey) {
-                completion(loadingProgress: preloadingPropgress, image: thumbnail)
+            if let thumbnail = cache.object(forKey: thumbnailKey) {
+                completion(preloadingPropgress, thumbnail)
 
             } else {
                 self.cacheQueue.async {
@@ -350,9 +350,16 @@ final class ImageCache {
 
                         return
                     }
-                    
-                    let defaultImage = (tailDirection == .Left) ? UIImage.yep_leftTailImageBubble.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: .Stretch) : UIImage.yep_rightTailImageBubble.resizableImageWithCapInsets(UIEdgeInsets(top: 24, left: 20, bottom: 20, right: 27), resizingMode: .Stretch)
-                    completion(defaultImage)    
+
+                    let defaultImage: UIImage
+                    switch tailDirection {
+                    case .left:
+                        defaultImage = UIImage.yep_leftTailImageBubble.resizableImage(withCapInsets: UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: .stretch)
+                    case .right:
+                        defaultImage = UIImage.yep_rightTailImageBubble.resizableImage(withCapInsets: UIEdgeInsets(top: 24, left: 20, bottom: 20, right: 27), resizingMode: .stretch)
+                    }
+
+                    completion(defaultImage)
 
                     // 没有地图图片文件，只能生成了
 
@@ -433,10 +440,10 @@ final class ImageCache {
 
     func mapImageOfLocationCoordinate(_ locationCoordinate: CLLocationCoordinate2D, withSize size: CGSize, completion: @escaping (UIImage) -> ()) {
 
-        let imageKey: NSString = "feedMapImage-\(size)-\(locationCoordinate)"
+        let imageKey = "feedMapImage-\(size)-\(locationCoordinate)" as NSString
 
         // 先看看缓存
-        if let image = cache.object(forKey: imageKey) as? UIImage {
+        if let image = cache.object(forKey: imageKey) {
             completion(image)
 
         } else {
