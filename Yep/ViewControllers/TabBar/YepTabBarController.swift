@@ -105,14 +105,14 @@ final class YepTabBarController: UITabBarController {
 
         if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
             appDelegate.lauchStyle.bindListener(Listener.lauchStyle) { [weak self] style in
-                if style == .Message {
+                if case .message = style {
                     self?.selectedIndex = 0
                 }
             }
         }
 
-        delay(3) {
-            if PrivateResource.Location(.WhenInUse).isAuthorized {
+        _ = delay(3) {
+            if PrivateResource.location(.whenInUse).isAuthorized {
                 YepLocationService.turnOn()
             }
         }
