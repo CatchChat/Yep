@@ -43,8 +43,8 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
             conversationsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             conversationsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-            conversationsTableView.registerNibOf(FeedConversationDockCell)
-            conversationsTableView.registerNibOf(ConversationCell)
+            conversationsTableView.registerNibOf(FeedConversationDockCell.self)
+            conversationsTableView.registerNibOf(ConversationCell.self)
 
             conversationsTableView.rowHeight = 80
             conversationsTableView.tableFooterView = UIView()
@@ -141,20 +141,20 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
         view.backgroundColor = UIColor.white
 
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.newMessages, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.newMessages), object: nil)
 
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.deletedMessages, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.deletedMessages), object: nil)
 
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.changedConversation, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
 
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadFeedConversationsDock), name: Config.Notification.changedFeedConversation, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadFeedConversationsDock), name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
 
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.markAsReaded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.markAsReaded), object: nil)
 
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Notification.updatedUser, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.updatedUser), object: nil)
         
         // 确保自己发送消息的时候，会话列表也会刷新，避免时间戳不一致
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.Message.Notification.MessageStateChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
             SafeDispatch.async {
@@ -179,10 +179,10 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
         realmNotificationToken = realm.addNotificationBlock { [weak self] notification, realm in
             if let strongSelf = self {
 
-                strongSelf.unreadMessagesCount = countOfUnreadMessagesInRealm(realm, withConversationType: .OneToOne)
+                strongSelf.unreadMessagesCount = countOfUnreadMessagesInRealm(realm, withConversationType: .oneToOne)
 
                 let haveOneToOneUnreadMessages = strongSelf.unreadMessagesCount > 0
-                strongSelf.haveUnreadMessages = haveOneToOneUnreadMessages || (countOfUnreadMessagesInRealm(realm, withConversationType: .Group) > 0)
+                strongSelf.haveUnreadMessages = haveOneToOneUnreadMessages || (countOfUnreadMessagesInRealm(realm, withConversationType: .group) > 0)
                 /*
                 let predicate = YepConfig.Conversation.hasUnreadMessagesPredicate
                 let haveUnreadMessages = (!strongSelf.conversations.filter(predicate).isEmpty)
@@ -207,7 +207,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
     fileprivate func cacheInAdvance() {
 
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.background).async {
+        DispatchQueue.global(qos: .background).async {
 
             // 最近两天活跃的好友
 
@@ -232,7 +232,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
         super.viewDidAppear(animated)
 
         if isFirstAppear {
-            delay(0.5) { [weak self] in
+            _ = delay(0.5) { [weak self] in
                 self?.askForRemotePushNotifications()
             }
         }
@@ -317,13 +317,13 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
             SafeDispatch.async { [weak self] in
 
-                guard let row = self?.conversations.indexOf(conversation) else {
+                guard let row = self?.conversations.index(of: conversation) else {
                     return
                 }
 
-                let indexPath = NSIndexPath(forRow: row, inSection: Section.Conversation.rawValue)
+                let indexPath = IndexPath(row: row, section: Section.conversation.rawValue)
 
-                if let cell = self?.conversationsTableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                if let cell = self?.conversationsTableView.cellForRowAtIndexPath(at: indexPath) as? ConversationCell {
                     cell.updateInfoLabels()
                 }
             }
@@ -342,13 +342,13 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
     @objc fileprivate func reloadFeedConversationsDock() {
 
         SafeDispatch.async { [weak self] in
-            let sectionIndex = Section.FeedConversation.rawValue
+            let sectionIndex = Section.feedConversation.rawValue
             guard (self?.conversationsTableView.numberOfSections ?? 0) > sectionIndex else {
                 self?.conversationsTableView.reloadData()
                 return
             }
 
-            self?.conversationsTableView.reloadSections(NSIndexSet(index: sectionIndex), withRowAnimation: .None)
+            self?.conversationsTableView.reloadSections(IndexSet(integer: sectionIndex), with: .none)
         }
     }
 }
@@ -417,10 +417,10 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                 break
             }
 
-            cell.haveGroupUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
+            cell.haveGroupUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.group) > 0
 
             // 先找最新且未读的消息
-            let latestUnreadMessage = latestUnreadValidMessageInRealm(realm, withConversationType: .Group)
+            let latestUnreadMessage = latestUnreadValidMessageInRealm(realm, withConversationType: .group)
             // 找不到就找最新的消息
             if let latestMessage = (latestUnreadMessage ?? latestValidMessageInRealm(realm, withConversationType: .Group)) {
 
@@ -538,9 +538,9 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                     // update cell
 
-                    if let cell = tableView.cellForRowAtIndexPath(indexPath) as? ConversationCell {
+                    if let cell = tableView.cellForRow(at: indexPath) as? ConversationCell {
                         if let conversation = self?.conversations[safe: indexPath.row] {
-                            let radius = min(CGRectGetWidth(cell.avatarImageView.bounds), CGRectGetHeight(cell.avatarImageView.bounds)) * 0.5
+                            let radius = min(cell.avatarImageView.bounds.width, cell.avatarImageView.bounds.height) * 0.5
                             cell.configureWithConversation(conversation, avatarRadius: radius, tableView: tableView, indexPath: indexPath)
                         }
                     }
@@ -558,7 +558,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                         return
                     }
 
-                    tableView?.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                    tableView?.deleteRows(at: [indexPath], with: .Automatic)
                 }
 
             }, orCanceled: {
