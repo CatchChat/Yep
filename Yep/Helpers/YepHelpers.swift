@@ -58,7 +58,7 @@ func cleanRealmAndCaches() {
     clearDynamicShortcuts()
 
     SafeDispatch.async {
-        NotificationCenter.defaultCenter().postNotificationName(EditProfileViewController.Notification.Logout, object: nil)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: EditProfileViewController.Notification.Logout), object: nil)
     }
 }
 
