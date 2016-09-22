@@ -49,7 +49,7 @@ final class SearchedMessageCell: UITableViewCell {
             messageLabel.text = message.textContent
         }
 
-        timeLabel.text = Date(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercaseString
+        timeLabel.text = Date(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercased()
     }
 
     func configureWithUserMessages(_ userMessages: SearchConversationsViewController.UserMessages, keyword: String?) {
@@ -83,7 +83,7 @@ final class SearchedMessageCell: UITableViewCell {
                 }
 
                 timeLabel.isHidden = false
-                timeLabel.text = Date(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercaseString
+                timeLabel.text = Date(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercased()
             }
         }
     }
