@@ -12,7 +12,7 @@ import Ruler
 
 final class AddSkillsReusableView: UICollectionReusableView {
     
-    var skillSet: SkillSet = .Master {
+    var skillSet: SkillSet = .master {
         willSet {
             skillTypeLabel.text = "\(newValue.name)"
         }
