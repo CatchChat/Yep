@@ -14,7 +14,7 @@ extension ProfileViewController {
     func prepare(with discoveredUser: DiscoveredUser) {
 
         if discoveredUser.id != YepUserDefaults.userID.value {
-            self.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+            self.profileUser = ProfileUser.discoveredUserType(discoveredUser)
         }
 
         prepareUI()
@@ -23,7 +23,7 @@ extension ProfileViewController {
     func prepare(withUser user: User) {
 
         if user.userID != YepUserDefaults.userID.value {
-            self.profileUser = ProfileUser.UserType(user)
+            self.profileUser = ProfileUser.userType(user)
         }
 
         prepareUI()
