@@ -62,7 +62,7 @@ final class ProfileFeedsCell: UICollectionViewCell {
 
             // 不足补空
             if shortagesCount > 0 {
-                let shortages = Array<DiscoveredAttachment?>(count: shortagesCount, repeatedValue: nil)
+                let shortages = Array<DiscoveredAttachment?>(repeatedValue: nil, count: shortagesCount)
                 attachments.insertContentsOf(shortages, at: 0)
             }
 
@@ -71,7 +71,7 @@ final class ProfileFeedsCell: UICollectionViewCell {
                     imageViews[i]?.image = nil
                 } else {
                     if let thumbnailImage = attachments[i]?.thumbnailImage {
-                        imageViews[i].image = thumbnailImage
+                        imageViews[i]?.image = thumbnailImage
                     } else {
                         imageViews[i]?.image = UIImage.yep_iconFeedText
                     }
@@ -124,7 +124,7 @@ final class ProfileFeedsCell: UICollectionViewCell {
 
                 let feedAttachments = validFeeds.map({ feed -> DiscoveredAttachment? in
                     if let attachment = feed.attachment {
-                        if case let .Images(attachments) = attachment {
+                        if case let .images(attachments) = attachment {
                             return attachments.first
                         }
                     }
@@ -135,7 +135,7 @@ final class ProfileFeedsCell: UICollectionViewCell {
                 SafeDispatch.async { [weak self] in
                     self?.feedAttachments = feedAttachments
 
-                    completion?(feeds: validFeeds, feedAttachments: feedAttachments)
+                    completion?(validFeeds, feedAttachments)
                 }
             })
         }
