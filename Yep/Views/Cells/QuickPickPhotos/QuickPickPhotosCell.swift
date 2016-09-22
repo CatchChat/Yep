@@ -57,7 +57,7 @@ final class QuickPickPhotosCell: UITableViewCell {
                     options.sortDescriptors = [
                         NSSortDescriptor(key: "creationDate", ascending: false)
                     ]
-                    let images = PHAsset.fetchAssetsWithMediaType(.Image, options: options)
+                    let images = PHAsset.fetchAssets(with: .image, options: options)
                     strongSelf.images = images
                     strongSelf.imageCacheController = ImageCacheController(imageManager: strongSelf.imageManager, images: images, preheatSize: 1)
 
@@ -66,7 +66,7 @@ final class QuickPickPhotosCell: UITableViewCell {
 
                     strongSelf.photosCollectionView.reloadData()
 
-                    PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(strongSelf)
+                    PHPhotoLibrary.shared().register(strongSelf)
                 }
             }
 
@@ -135,7 +135,7 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
         if let cell = cell as? PhotoCell {
             cell.imageManager = imageManager
 
-            if let imageAsset = images?[(indexPath as NSIndexPath).item] as? PHAsset {
+            if let imageAsset = images?[(indexPath as NSIndexPath).item] {
                 cell.imageAsset = imageAsset
                 cell.photoPickedImageView.isHidden = !pickedImageSet.contains(imageAsset)
             }
@@ -150,7 +150,7 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
             takePhotoAction?()
 
         case 1:
-            if let imageAsset = images?[(indexPath as NSIndexPath).item] as? PHAsset {
+            if let imageAsset = images?[(indexPath as NSIndexPath).item] {
 
                 if pickedImageSet.contains(imageAsset) {
                     pickedImageSet.remove(imageAsset)
