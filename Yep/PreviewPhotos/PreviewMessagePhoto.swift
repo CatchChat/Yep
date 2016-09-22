@@ -26,17 +26,17 @@ class PreviewMessagePhoto: NSObject, Photo {
         let imageFileURL = message.imageFileURL
         let attachmentURLString = message.attachmentURLString
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) { [weak self] in
+        DispatchQueue.global(qos: .background).async { [weak self] in
             if let
                 imageFileURL = imageFileURL,
-                let image = UIImage(contentsOfFile: imageFileURL.path!)?.decodedImage() {
+                let image = UIImage(contentsOfFile: imageFileURL.path)?.decodedImage() {
 
-                delay(0.4) { [weak self] in
+                _ = delay(0.4) { [weak self] in
                     self?.image = image
                 }
 
             } else {
-                if let url = NSURL(string: attachmentURLString) {
+                if let url = URL(string: attachmentURLString) {
                     ImageCache.sharedInstance.imageOfURL(url, withMinSideLength: nil, completion: { [weak self] (url, image, cacheType) in
                         if let image = image {
                             self?.image = image
