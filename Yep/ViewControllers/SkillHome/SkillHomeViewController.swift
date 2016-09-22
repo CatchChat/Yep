@@ -52,10 +52,10 @@ final class SkillHomeViewController: BaseViewController {
 
     var preferedSkillSet: SkillSet?
     
-    fileprivate var skillSet: SkillSet = .Master {
+    fileprivate var skillSet: SkillSet = .master {
         willSet {
             switch newValue {
-            case .Master:
+            case .master:
                 headerView.learningButton.setInActive(animated: !isFirstAppear)
                 headerView.masterButton.setActive(animated: !isFirstAppear)
                 skillHomeScrollView.setContentOffset(CGPoint(x: 0, y: 0), animated: !isFirstAppear)
@@ -64,7 +64,7 @@ final class SkillHomeViewController: BaseViewController {
                     discoverUsersMasterSkill()
                 }
                 
-            case .Learning:
+            case .learning:
                 headerView.masterButton.setInActive(animated: !isFirstAppear)
                 headerView.learningButton.setActive(animated: !isFirstAppear)
                 skillHomeScrollView.setContentOffset(CGPoint(x: UIScreen.main.bounds.width, y: 0), animated: !isFirstAppear)
@@ -98,7 +98,7 @@ final class SkillHomeViewController: BaseViewController {
         skillHomeScrollView.contentSize = CGSize(width: YepConfig.getScreenRect().width * 2, height: height)
 
         if isFirstAppear {
-            skillSet = preferedSkillSet ?? .Master
+            skillSet = preferedSkillSet ?? .master
 
             isFirstAppear = false
         }
@@ -115,26 +115,26 @@ final class SkillHomeViewController: BaseViewController {
         masterTableView.separatorColor = UIColor.yepCellSeparatorColor()
         masterTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-        masterTableView.registerNibOf(ContactsCell)
-        masterTableView.registerNibOf(LoadMoreTableViewCell)
+        masterTableView.registerNibOf(ContactsCell.self)
+        masterTableView.registerNibOf(LoadMoreTableViewCell.self)
 
         masterTableView.rowHeight = 80
         masterTableView.tableFooterView = UIView()
         masterTableView.dataSource = self
         masterTableView.delegate = self
-        masterTableView.tag = SkillSet.Master.rawValue
+        masterTableView.tag = SkillSet.master.rawValue
 
         learningtTableView.separatorColor = UIColor.yepCellSeparatorColor()
         learningtTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-        learningtTableView.registerNibOf(ContactsCell)
-        learningtTableView.registerNibOf(LoadMoreTableViewCell)
+        learningtTableView.registerNibOf(ContactsCell.self)
+        learningtTableView.registerNibOf(LoadMoreTableViewCell.self)
 
         learningtTableView.rowHeight = 80
         learningtTableView.tableFooterView = UIView()
         learningtTableView.dataSource = self
         learningtTableView.delegate = self
-        learningtTableView.tag = SkillSet.Learning.rawValue
+        learningtTableView.tag = SkillSet.learning.rawValue
 
         headerViewHeightLayoutConstraint.constant = YepConfig.skillHomeHeaderViewHeight
 
@@ -276,7 +276,7 @@ final class SkillHomeViewController: BaseViewController {
             let doAddSkillToSkillSet: (SkillSet) -> Void = { skillSet in
 
                 addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
 
                 }, completion: { [weak self] _ in
 
@@ -292,32 +292,32 @@ final class SkillHomeViewController: BaseViewController {
                 })
             }
 
-            let alertController = UIAlertController(title: String.trans_titleChooseSkillSet, message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .Alert)
+            let alertController = UIAlertController(title: String.trans_titleChooseSkillSet, message: String(format: NSLocalizedString("Which skill set do you want %@ to be?", comment: ""), skillLocalName), preferredStyle: .alert)
 
             let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .cancel) { action in
             }
             alertController.addAction(cancelAction)
 
-            let learningAction: UIAlertAction = UIAlertAction(title: SkillSet.Learning.name, style: .Default) { action in
-                doAddSkillToSkillSet(.Learning)
+            let learningAction: UIAlertAction = UIAlertAction(title: SkillSet.learning.name, style: .default) { action in
+                doAddSkillToSkillSet(.learning)
             }
             alertController.addAction(learningAction)
 
-            let masterAction: UIAlertAction = UIAlertAction(title: SkillSet.Master.name, style: .Default) { action in
-                doAddSkillToSkillSet(.Master)
+            let masterAction: UIAlertAction = UIAlertAction(title: SkillSet.master.name, style: .default) { action in
+                doAddSkillToSkillSet(.master)
             }
             alertController.addAction(masterAction)
 
-            presentViewController(alertController, animated: true, completion: nil)
+            present(alertController, animated: true, completion: nil)
         }
     }
 
     @objc fileprivate func changeToMaster(_ sender: AnyObject) {
-        skillSet = .Master
+        skillSet = .master
     }
     
     @objc fileprivate func changeToLearning(_ sender: AnyObject) {
-        skillSet = .Learning
+        skillSet = .learning
     }
 
     fileprivate var masterPage = 1
@@ -338,8 +338,8 @@ final class SkillHomeViewController: BaseViewController {
             masterPage = 1
         }
 
-        discoverUsersWithSkill(skillID, ofSkillSet: .Master, inPage: masterPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+        discoverUsersWithSkill(skillID, ofSkillSet: .master, inPage: masterPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
@@ -383,8 +383,8 @@ final class SkillHomeViewController: BaseViewController {
             learningPage = 1
         }
 
-        discoverUsersWithSkill(skillID, ofSkillSet: .Learning, inPage: learningPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+        discoverUsersWithSkill(skillID, ofSkillSet: .learning, inPage: learningPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
@@ -413,9 +413,9 @@ final class SkillHomeViewController: BaseViewController {
 
         if let skillSet = skillSet {
             switch skillSet {
-            case .Master:
+            case .master:
                 return discoveredMasterUsers
-            case .Learning:
+            case .learning:
                 return discoveredLearningUsers
             }
 
@@ -454,13 +454,13 @@ extension SkillHomeViewController: UIScrollViewDelegate {
         println("Did end decelerating \(scrollView.contentOffset.x)")
 
         if scrollView.contentOffset.x + 10 >= scrollView.contentSize.width / 2.0 {
-            if skillSet != .Learning {
-                skillSet = .Learning
+            if skillSet != .learning {
+                skillSet = .learning
             }
 
         } else {
-            if skillSet != .Master {
-                skillSet = .Master
+            if skillSet != .master {
+                skillSet = .master
             }
         }
     }
@@ -484,7 +484,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: .High) {
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: .high) {
 
                         let data = UIImageJPEGRepresentation(fixedImage, 0.95)
 
@@ -498,7 +498,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                                 YepHUD.hideActivityIndicator()
 
-                                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                                defaultFailureHandler(reason, errorMessage)
                                 YepAlert.alertSorry(message: NSLocalizedString("Upload skill cover failed!", comment: ""), inViewController: self)
 
                             }, completion: { s3UploadParams in
@@ -509,7 +509,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                                     YepHUD.hideActivityIndicator()
 
-                                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                                    defaultFailureHandler(reason, errorMessage)
                                     YepAlert.alertSorry(message: NSLocalizedString("Update skill cover failed!", comment: ""), inViewController: self)
                                     
                                 }, completion: { [weak self] success in
@@ -610,12 +610,12 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
 
                 switch skillSet {
 
-                case .Master:
+                case .master:
                     discoverUsersMasterSkill(isLoadMore: true, finish: { [weak cell] in
                         cell?.loadingActivityIndicator.stopAnimating()
                     })
 
-                case .Learning:
+                case .learning:
                     discoverUsersLearningSkill(isLoadMore: true, finish: { [weak cell] in
                         cell?.loadingActivityIndicator.stopAnimating()
                     })
