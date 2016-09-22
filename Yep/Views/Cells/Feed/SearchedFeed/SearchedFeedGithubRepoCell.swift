@@ -59,7 +59,7 @@ final class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
         if let attachment = feed.attachment {
-            if case let .Github(githubRepo) = attachment {
+            if case let .github(githubRepo) = attachment {
                 githubRepoContainerView.nameLabel.text = githubRepo.name
                 githubRepoContainerView.descriptionLabel.text = githubRepo.description
             }
@@ -71,7 +71,7 @@ final class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
             }
 
             if case .GithubRepo = feed.kind {
-                if case let .Github(repo) = attachment, let URL = URL(string: repo.URLString) {
+                if case let .github(repo) = attachment, let URL = URL(string: repo.URLString) {
                     self?.tapGithubRepoLinkAction?(URL)
                 }
             }
