@@ -170,7 +170,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
         isFetchingUnreadMessages.bindListener(Listener.isFetchingUnreadMessages) { [weak self] isFetching in
             SafeDispatch.async {
-                self?.activityIndicatorTitleView.state = isFetching ? .Active : .Normal
+                self?.activityIndicatorTitleView.state = isFetching ? .active : .normal
             }
         }
 
@@ -323,7 +323,7 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
                 let indexPath = IndexPath(row: row, section: Section.conversation.rawValue)
 
-                if let cell = self?.conversationsTableView.cellForRowAtIndexPath(at: indexPath) as? ConversationCell {
+                if let cell = self?.conversationsTableView.cellForRow(at: indexPath) as? ConversationCell {
                     cell.updateInfoLabels()
                 }
             }
@@ -422,7 +422,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
             // 先找最新且未读的消息
             let latestUnreadMessage = latestUnreadValidMessageInRealm(realm, withConversationType: .group)
             // 找不到就找最新的消息
-            if let latestMessage = (latestUnreadMessage ?? latestValidMessageInRealm(realm, withConversationType: .Group)) {
+            if let latestMessage = (latestUnreadMessage ?? latestValidMessageInRealm(realm, withConversationType: .group)) {
 
                 if let mediaType = MessageMediaType(rawValue: latestMessage.mediaType), let placeholder = mediaType.placeholder {
                     cell.chatLabel.text = placeholder
@@ -434,7 +434,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
                         let attributedString = NSMutableAttributedString(string: string)
                         let mentionedYouRange = NSMakeRange(0, (mentionedYouString as NSString).length)
-                        attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: mentionedYouRange)
+                        attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: mentionedYouRange)
 
                         cell.chatLabel.attributedText = attributedString
 
@@ -498,7 +498,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
         case Section.conversation.rawValue:
             if let cell = tableView.cellForRow(at: indexPath) as? ConversationCell {
-                performSegueWithIdentifier("showConversation", sender: cell.conversation)
+                performSegue(withIdentifier: "showConversation", sender: cell.conversation)
             }
 
         default:
@@ -558,7 +558,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
                         return
                     }
 
-                    tableView?.deleteRows(at: [indexPath], with: .Automatic)
+                    tableView?.deleteRows(at: [indexPath], with: .automatic)
                 }
 
             }, orCanceled: {
