@@ -11,7 +11,7 @@ import Photos
 
 final class ImageCacheController {
 
-    fileprivate var cachedIndices = IndexSet()
+    fileprivate var cachedIndices = NSIndexSet()
     fileprivate let cachePreheatSize: Int
     fileprivate let imageCache: PHCachingImageManager
     fileprivate let images: PHFetchResult<PHAsset>
@@ -35,29 +35,29 @@ final class ImageCacheController {
             updatedCache.add((path as NSIndexPath).item)
         }
 
-        let minCache = max(0, updatedCache.first - cachePreheatSize)
-        let maxCache = min(images.count - 1, updatedCache.last + cachePreheatSize)
+        let minCache = max(0, updatedCache.firstIndex - cachePreheatSize)
+        let maxCache = min(images.count - 1, updatedCache.lastIndex + cachePreheatSize)
 
         updatedCache.add(in: NSMakeRange(minCache, maxCache - minCache + 1))
 
         // Which indices can be chucked?
-        (self.cachedIndices as NSIndexSet).enumerate { index, _ in
+        cachedIndices.enumerated().forEach { (index, _) in
             if !updatedCache.contains(index) {
-                let asset: PHAsset! = self.images[index] as! PHAsset
+                let asset: PHAsset! = self.images[index]
                 self.imageCache.stopCachingImages(for: [asset], targetSize: self.targetSize, contentMode: self.contentMode, options: nil)
                 //println("Stopping caching image \(index)")
             }
         }
         // And which are new?
-        updatedCache.enumerate { index, _ in
+        updatedCache.enumerated().forEach { (index, _) in
             if !self.cachedIndices.contains(index) {
-                let asset: PHAsset! = self.images[index] as! PHAsset
+                let asset: PHAsset = self.images[index]
                 self.imageCache.startCachingImages(for: [asset], targetSize: self.targetSize, contentMode: self.contentMode, options: nil)
                 //println("Starting caching image \(index)")
             }
         }
 
-        cachedIndices = IndexSet(updatedCache)
+        cachedIndices = updatedCache
     }
 }
 
