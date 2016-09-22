@@ -92,7 +92,7 @@ final class FeedMediaContainerView: UIView {
     }
 
     @objc fileprivate func tapMedia(_ sender: UITapGestureRecognizer) {
-        tapMediaAction?(transitionReference: transitionReference)
+        tapMediaAction?(transitionReference)
     }
 }
 

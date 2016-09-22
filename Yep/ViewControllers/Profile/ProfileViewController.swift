@@ -1616,7 +1616,7 @@ extension ProfileViewController {
                 println("provider: \(provider)")
 
                 SafeDispatch.async { [weak self] in
-                    self?.afterOAuthAction?(socialAccount: socialAccount)
+                    self?.afterOAuthAction?(socialAccount)
                 }
             })
             
