@@ -20,7 +20,7 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
                 reposCountLabel.text = "\(user.publicReposCount)"
 
                 let repos = work.repos
-                let starsCount = repos.reduce(0, combine: { (result, repo) -> Int in
+                let starsCount = repos.reduce(0, { (result, repo) -> Int in
                     result + repo.stargazersCount
                 })
                 starsCountLabel.text = "\(starsCount)"
@@ -108,7 +108,7 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
                 if let userID = profileUser?.userID {
 
                     githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason, errorMessage)
 
                     }, completion: { githubWork in
                         //println("githubWork: \(githubWork)")
