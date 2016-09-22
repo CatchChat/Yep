@@ -83,7 +83,7 @@ class FeedBiggerImageCell: FeedBasicCell {
         }
 
         if let attachments = feed?.imageAttachments {
-            tapImagesAction?(transitionReferences: [transitionReference], attachments: attachments, image: imageNode.image, index: 0)
+            tapImagesAction?([transitionReference], attachments, imageNode.image, 0)
         }
     }
 }
