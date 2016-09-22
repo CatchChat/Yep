@@ -49,7 +49,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
 
     fileprivate var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
         didSet {
-            didChangeSortStyleAction?(sortStyle: discoveredUserSortStyle)
+            didChangeSortStyleAction?(discoveredUserSortStyle)
 
             discoveredUsers = []
             SafeDispatch.async { [weak self] in
@@ -76,7 +76,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
     ]
 
     fileprivate func filterItemWithSortStyle(_ sortStyle: DiscoveredUserSortStyle, currentSortStyle: DiscoveredUserSortStyle) -> ActionSheetView.Item {
-        return .Check(
+        return .check(
             title: sortStyle.name,
             titleColor: UIColor.yepTintColor(),
             checked: sortStyle == currentSortStyle,
@@ -93,7 +93,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
         var items = filterStyles.map({
            filterItemWithSortStyle($0, currentSortStyle: currentSortStyle)
         })
-        items.append(.Cancel)
+        items.append(.cancel)
         return items
     }
 
@@ -142,9 +142,9 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
         discoveredUsersCollectionView.delegate = self
         discoveredUsersCollectionView.dataSource = self
 
-        discoveredUsersCollectionView.registerNibOf(DiscoverNormalUserCell)
-        discoveredUsersCollectionView.registerNibOf(DiscoverCardUserCell)
-        discoveredUsersCollectionView.registerNibOf(LoadMoreCollectionViewCell)
+        discoveredUsersCollectionView.registerNibOf(DiscoverNormalUserCell.self)
+        discoveredUsersCollectionView.registerNibOf(DiscoverCardUserCell.self)
+        discoveredUsersCollectionView.registerNibOf(LoadMoreCollectionViewCell.self)
 
         layoutMode = .card
 
@@ -169,7 +169,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
 
     @objc fileprivate func refresh(_ sender: UIRefreshControl) {
 
-        updateDiscoverUsers(mode: .TopRefresh) {
+        updateDiscoverUsers(mode: .topRefresh) {
             SafeDispatch.async {
                 sender.endRefreshing()
             }
@@ -223,7 +223,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
         }
 
         discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, inPage: currentPageIndex, withPerPage: 21, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
@@ -238,14 +238,14 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
 
                 for skill in user.masterSkills {
 
-                    let skillLocalName = skill.localName ?? ""
+                    let skillLocalName = skill.localName
 
                     let skillID =  skill.id
 
                     if let _ = skillSizeCache[skillID] {
 
                     } else {
-                        let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+                        let rect = skillLocalName.boundingRect(with: CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: skillTextAttributes, context: nil)
 
                         skillSizeCache[skillID] = rect
                     }
@@ -258,16 +258,16 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
                     return
                 }
 
-                var wayToUpdate: UICollectionView.WayToUpdate = .None
+                var wayToUpdate: UICollectionView.WayToUpdate = .none
 
-                if case .LoadMore = mode {
+                if case .loadMore = mode {
                     let oldDiscoveredUsersCount = strongSelf.discoveredUsers.count
                     strongSelf.discoveredUsers += discoveredUsers
                     let newDiscoveredUsersCount = strongSelf.discoveredUsers.count
 
-                    let indexPaths = Array(oldDiscoveredUsersCount..<newDiscoveredUsersCount).map({ NSIndexPath(forItem: $0, inSection: Section.User.rawValue) })
+                    let indexPaths = Array(oldDiscoveredUsersCount..<newDiscoveredUsersCount).map({ IndexPath(item: $0, section: Section.user.rawValue) })
                     if !indexPaths.isEmpty {
-                        wayToUpdate = .Insert(indexPaths)
+                        wayToUpdate = .insert(indexPaths)
                     }
 
                 } else {
@@ -277,10 +277,10 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
                     strongSelf.discoveredUsers = newDiscoveredUsers
 
                     if Set(oldDiscoveredUsers.map({ $0.id })) == Set(newDiscoveredUsers.map({ $0.id })) {
-                        wayToUpdate = .None
+                        wayToUpdate = .none
 
                     } else {
-                        wayToUpdate = .ReloadData
+                        wayToUpdate = .reloadData
                     }
                 }
 
@@ -442,7 +442,7 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
         collectionView.deselectItem(at: indexPath, animated: true)
 
         let discoveredUser = discoveredUsers[indexPath.row]
-        showProfileOfDiscoveredUserAction?(discoveredUser: discoveredUser)
+        showProfileOfDiscoveredUserAction?(discoveredUser)
     }
 }
 
