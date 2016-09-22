@@ -17,7 +17,7 @@ final class FriendsInContactsViewController: BaseViewController {
             friendsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             friendsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-            friendsTableView.registerNibOf(ContactsCell)
+            friendsTableView.registerNibOf(ContactsCell.self)
             friendsTableView.rowHeight = 80
             friendsTableView.tableFooterView = UIView()
         }
@@ -64,7 +64,7 @@ final class FriendsInContactsViewController: BaseViewController {
         }
 
         friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
