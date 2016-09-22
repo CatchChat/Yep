@@ -16,7 +16,7 @@ protocol InterviewRepresentation {
 
 extension GeniusInterview: InterviewRepresentation {
 
-    var linkURL: NSURL {
+    var linkURL: URL {
         return url
     }
 }
