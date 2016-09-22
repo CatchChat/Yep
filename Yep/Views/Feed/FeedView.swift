@@ -315,7 +315,7 @@ final class FeedView: UIView {
         mediaCollectionView.showsHorizontalScrollIndicator = false
         mediaCollectionView.backgroundColor = UIColor.clear
 
-        mediaCollectionView.registerNibOf(FeedMediaCell)
+        mediaCollectionView.registerNibOf(FeedMediaCell.self)
 
         mediaCollectionView.dataSource = self
         mediaCollectionView.delegate = self
@@ -423,7 +423,7 @@ final class FeedView: UIView {
         configureTimeLabel()
         disposableTimer = Observable<Int>
             .interval(1, scheduler: MainScheduler.instance)
-            .subscribeNext({ _ in
+            .subscribe(onNext: { _ in
                 configureTimeLabel()
             })
 
@@ -554,8 +554,8 @@ final class FeedView: UIView {
             break
         }
         
-        if let URL = socialWorkImageURL {
-            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
+        if let url = socialWorkImageURL {
+            socialWorkImageView.kf_setImage(with: url, placeholder: nil)
         }
     }
 
@@ -595,11 +595,12 @@ final class FeedView: UIView {
     }
 
     func tapURLInfo(_ sender: UITapGestureRecognizer) {
-        guard let URL = feed?.openGraphInfo?.URL else {
+
+        guard let url = feed?.openGraphInfo?.URL else {
             return
         }
 
-        tapURLInfoAction?(URL: URL)
+        tapURLInfoAction?(url)
     }
 
     var syncPlayAudioAction: (() -> Void)?
@@ -627,7 +628,7 @@ final class FeedView: UIView {
                 if let strongSelf = self {
 
                     strongSelf.audioPlaybackTimer?.invalidate()
-                    strongSelf.audioPlaybackTimer = NSTimer.scheduledTimerWithTimeInterval(0.02, target: strongSelf, selector: #selector(FeedView.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+                    strongSelf.audioPlaybackTimer = Timer.scheduledTimer(timeInterval: 0.02, target: strongSelf, selector: #selector(FeedView.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
 
                     YepAudioService.sharedManager.playbackTimer = strongSelf.audioPlaybackTimer
 
@@ -727,10 +728,10 @@ extension FeedView: UICollectionViewDataSource, UICollectionViewDelegate {
 //        tapMediaAction?(transitionView: transitionView, image: cell.imageView.image, attachments: attachments, index: indexPath.item)
 
         let references: [Reference?] = (0..<attachments.count).map({
-            let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
+            let cell = collectionView.cellForItem(at: IndexPath(item: $0, section: indexPath.section)) as? FeedMediaCell
             return cell?.transitionReference
         })
-        tapImagesAction?(references: references, attachments: attachments, image: cell.imageView.image, index: indexPath.item)
+        tapImagesAction?(references, attachments, cell.imageView.image, indexPath.item)
     }
 }
 
