@@ -49,12 +49,11 @@ extension PlainAvatar: Navi.Avatar {
 
     var localOriginalImage: UIImage? {
 
-        if let
-            realm = try? Realm(),
+        if
+            let realm = try? Realm(),
             let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm),
             let avatarFileURL = FileManager.yepAvatarURLWithName(avatar.avatarFileName),
-            let avatarFilePath = avatarFileURL.path,
-            let image = UIImage(contentsOfFile: avatarFilePath) {
+            let image = UIImage(contentsOfFile: avatarFileURL.path) {
                 return image
         }
 
@@ -121,19 +120,19 @@ extension PlainAvatar: Navi.Avatar {
 
         switch style {
 
-        case .RoundedRectangle(let size, _, _):
+        case .roundedRectangle(let size, _, _):
 
             switch size.width {
 
             case 60:
-                if avatar.roundMini.length == 0, let data = UIImagePNGRepresentation(styledImage) {
+                if avatar.roundMini.count == 0, let data = UIImagePNGRepresentation(styledImage) {
                     let _ = try? realm.write {
                         avatar.roundMini = data
                     }
                 }
 
             case 40:
-                if avatar.roundNano.length == 0, let data = UIImagePNGRepresentation(styledImage) {
+                if avatar.roundNano.count == 0, let data = UIImagePNGRepresentation(styledImage) {
                     let _ = try? realm.write {
                         avatar.roundNano = data
                     }
