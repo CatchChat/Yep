@@ -62,7 +62,7 @@ final class ProfileFeedsCell: UICollectionViewCell {
 
             // 不足补空
             if shortagesCount > 0 {
-                let shortages = Array<DiscoveredAttachment?>(repeatedValue: nil, count: shortagesCount)
+                let shortages = Array<DiscoveredAttachment?>(repeating: nil, count: shortagesCount)
                 attachments.insertContentsOf(shortages, at: 0)
             }
 
