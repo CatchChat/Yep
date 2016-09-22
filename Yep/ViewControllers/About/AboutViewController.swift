@@ -21,7 +21,7 @@ final class AboutViewController: SegueViewController {
     
     @IBOutlet fileprivate weak var aboutTableView: UITableView! {
         didSet {
-            aboutTableView.registerNibOf(AboutCell)
+            aboutTableView.registerNibOf(AboutCell.self)
         }
     }
     @IBOutlet fileprivate weak var aboutTableViewHeightConstraint: NSLayoutConstraint!
@@ -119,7 +119,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
                 title: "Yep",
                 description: String.trans_aboutYepDescription,
                 thumbnail: UIImage.yep_yepIconSolo,
-                media: .URL(yepURL)
+                media: .url(yepURL)
             )
             self.yep_share(info: info, defaultActivityItem: yepURL, description: String.trans_aboutYepDescription)
 
