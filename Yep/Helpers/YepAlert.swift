@@ -9,25 +9,25 @@
 import UIKit
 import YepKit
 import Proposer
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l >= r
-  default:
-    return !(lhs < rhs)
-  }
-}
+//fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+//  switch (lhs, rhs) {
+//  case let (l?, r?):
+//    return l < r
+//  case (nil, _?):
+//    return true
+//  default:
+//    return false
+//  }
+//}
+//
+//fileprivate func >= <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+//  switch (lhs, rhs) {
+//  case let (l?, r?):
+//    return l >= r
+//  default:
+//    return !(lhs < rhs)
+//  }
+//}
 
 
 final class YepAlert {
@@ -36,16 +36,16 @@ final class YepAlert {
 
         SafeDispatch.async {
 
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-            let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action in
+            let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .default) { action in
                 if let dismissAction = dismissAction {
                     dismissAction()
                 }
             }
             alertController.addAction(action)
 
-            viewController?.presentViewController(alertController, animated: true, completion: nil)
+            viewController?.present(alertController, animated: true, completion: nil)
         }
     }
 
@@ -63,23 +63,23 @@ final class YepAlert {
 
         SafeDispatch.async {
 
-            let alertController = UIAlertController(title: title, message: nil, preferredStyle: .Alert)
+            let alertController = UIAlertController(title: title, message: nil, preferredStyle: .alert)
 
-            alertController.addTextFieldWithConfigurationHandler { textField in
+            alertController.addTextField { textField in
                 textField.placeholder = placeholder
                 textField.text = oldText
             }
 
-            let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .Default) { action in
+            let action: UIAlertAction = UIAlertAction(title: dismissTitle, style: .default) { action in
                 if let finishedAction = finishedAction {
                     if let textField = alertController.textFields?.first, let text = textField.text {
-                        finishedAction(text: text)
+                        finishedAction(text)
                     }
                 }
             }
             alertController.addAction(action)
 
-            viewController?.presentViewController(alertController, animated: true, completion: nil)
+            viewController?.present(alertController, animated: true, completion: nil)
         }
     }
     
@@ -89,57 +89,58 @@ final class YepAlert {
 
         SafeDispatch.async {
 
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-            alertController.addTextFieldWithConfigurationHandler { textField in
+            alertController.addTextField { textField in
                 textField.placeholder = placeholder
                 textField.text = oldText
-                textField.addTarget(self, action: #selector(YepAlert.handleTextFieldTextDidChangeNotification(_:)), forControlEvents: .EditingChanged)
+                textField.addTarget(self, action: #selector(YepAlert.handleTextFieldTextDidChangeNotification(_:)), for: .editingChanged)
             }
 
-            let _cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action in
+            let _cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .cancel) { action in
                 cancelAction?()
             }
             
             alertController.addAction(_cancelAction)
             
-            let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
+            let _confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .default) { action in
                 if let textField = alertController.textFields?.first, let text = textField.text {
                     
-                    confirmAction?(text: text)
+                    confirmAction?(text)
                 }
             }
-            _confirmAction.enabled = false
+            _confirmAction.isEnabled = false
             self.confirmAlertAction = _confirmAction
             
             alertController.addAction(_confirmAction)
 
-            viewController?.presentViewController(alertController, animated: true, completion: nil)
+            viewController?.present(alertController, animated: true, completion: nil)
         }
     }
 
     @objc class func handleTextFieldTextDidChangeNotification(_ sender: UITextField) {
 
-        YepAlert.confirmAlertAction?.isEnabled = sender.text?.utf16.count >= 1
+        guard let text = sender.text else { return }
+        YepAlert.confirmAlertAction?.isEnabled = text.utf16.count >= 1
     }
     
     class func confirmOrCancel(title: String, message: String, confirmTitle: String, cancelTitle: String, inViewController viewController: UIViewController?, withConfirmAction confirmAction: @escaping () -> Void, cancelAction: @escaping () -> Void) {
 
         SafeDispatch.async {
 
-            let alertController = UIAlertController(title: title, message: message, preferredStyle: .Alert)
+            let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
 
-            let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .Cancel) { action in
+            let cancelAction: UIAlertAction = UIAlertAction(title: cancelTitle, style: .cancel) { action in
                 cancelAction()
             }
             alertController.addAction(cancelAction)
 
-            let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .Default) { action in
+            let confirmAction: UIAlertAction = UIAlertAction(title: confirmTitle, style: .default) { action in
                 confirmAction()
             }
             alertController.addAction(confirmAction)
 
-            viewController?.presentViewController(alertController, animated: true, completion: nil)
+            viewController?.present(alertController, animated: true, completion: nil)
         }
     }
 }
@@ -151,7 +152,7 @@ extension UIViewController {
         SafeDispatch.async {
             YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Camera Roll!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: String.trans_titleChangeItNow, cancelTitle: String.trans_titleDismiss, inViewController: self, withConfirmAction: {
 
-                UIApplication.sharedApplication().openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+                UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
 
             }, cancelAction: {
             })
@@ -163,7 +164,7 @@ extension UIViewController {
         SafeDispatch.async {
             YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not open your Camera!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: String.trans_titleChangeItNow, cancelTitle: String.trans_titleDismiss, inViewController: self, withConfirmAction: {
 
-                UIApplication.sharedApplication().openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+                UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
 
             }, cancelAction: {
             })
@@ -175,7 +176,7 @@ extension UIViewController {
         SafeDispatch.async {
             YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not access your Microphone!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: String.trans_titleChangeItNow, cancelTitle: String.trans_titleDismiss, inViewController: self, withConfirmAction: {
 
-                UIApplication.sharedApplication().openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+                UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
 
             }, cancelAction: {
             })
@@ -187,7 +188,7 @@ extension UIViewController {
         SafeDispatch.async {
             YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not read your Contacts!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: String.trans_titleChangeItNow, cancelTitle: String.trans_titleDismiss, inViewController: self, withConfirmAction: {
 
-            UIApplication.sharedApplication().openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+            UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
 
             }, cancelAction: {
             })
@@ -199,7 +200,7 @@ extension UIViewController {
         SafeDispatch.async {
             YepAlert.confirmOrCancel(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("Yep can not get your Location!\nBut you can change it in iOS Settings.", comment: ""), confirmTitle: String.trans_titleChangeItNow, cancelTitle: String.trans_titleDismiss, inViewController: self, withConfirmAction: {
 
-                UIApplication.sharedApplication().openURL(URL(string: UIApplicationOpenSettingsURLString)!)
+                UIApplication.shared.openURL(URL(string: UIApplicationOpenSettingsURLString)!)
 
             }, cancelAction: {
             })
@@ -208,7 +209,7 @@ extension UIViewController {
 
     func showProposeMessageIfNeedForContactsAndTryPropose(_ propose: @escaping Propose) {
 
-        if PrivateResource.Contacts.isNotDeterminedAuthorization {
+        if PrivateResource.contacts.isNotDeterminedAuthorization {
 
             SafeDispatch.async {
 
