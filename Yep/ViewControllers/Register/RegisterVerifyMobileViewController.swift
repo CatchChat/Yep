@@ -30,7 +30,7 @@ final class RegisterVerifyMobileViewController: BaseVerifyMobileViewController {
     override func requestCallMe() {
 
         requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .Call, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             self?.requestCallMeFailed(errorMessage)
 
@@ -55,12 +55,12 @@ final class RegisterVerifyMobileViewController: BaseVerifyMobileViewController {
         YepHUD.showActivityIndicator()
 
         verifyMobilePhone(mobilePhone, verifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 
             SafeDispatch.async { [weak self] in
-                self?.nextButton.enabled = false
+                self?.nextButton.isEnabled = false
             }
 
             let message = errorMessage ?? "Register verify mobile failed!"
@@ -79,7 +79,7 @@ final class RegisterVerifyMobileViewController: BaseVerifyMobileViewController {
 
                 saveTokenAndUserInfoOfLoginUser(loginUser)
 
-                self?.performSegueWithIdentifier("showRegisterPickAvatar", sender: nil)
+                self?.performSegue(withIdentifier: "showRegisterPickAvatar", sender: nil)
             }
         })
     }
