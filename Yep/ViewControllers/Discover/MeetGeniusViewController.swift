@@ -26,8 +26,8 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
             tableView.separatorInset = UIEdgeInsets(top: 0, left: 95, bottom: 0, right: 0)
 
-            tableView.registerNibOf(GeniusInterviewCell)
-            tableView.registerNibOf(LoadMoreTableViewCell)
+            tableView.registerNibOf(GeniusInterviewCell.self)
+            tableView.registerNibOf(LoadMoreTableViewCell.self)
         }
     }
 
@@ -51,7 +51,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
     fileprivate lazy var meetGeniusShowView: MeetGeniusShowView = {
         let view = MeetGeniusShowView(frame: CGRect(x: 0, y: 0, width: 100, height: 180))
         view.tapAction = { [weak self] banner in
-            self?.tapBannerAction?(banner: banner)
+            self?.tapBannerAction?(banner)
         }
         return view
     }()
@@ -122,7 +122,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
             SafeDispatch.async { [weak self] in
 
-                if case .Top = mode {
+                if case .top = mode {
                     self?.geniusInterviews = []
                     self?.tableView.reloadData()
                 }
@@ -134,15 +134,15 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
                 finish?()
             }
 
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
         }
 
-        let count: Int = Ruler.UniversalHorizontal(10, 12, 15, 20, 25).value
+        let count: Int = Ruler.universalHorizontal(10, 12, 15, 20, 25).value
         geniusInterviewsWithCount(count, afterNumber: maxNumber, failureHandler: failureHandler, completion: { [weak self] geniusInterviews in
 
             SafeDispatch.async { [weak self] in
 
-                if case .Top = mode , geniusInterviews.isEmpty {
+                if case .top = mode , geniusInterviews.isEmpty {
                     self?.tableView.tableFooterView = self?.noGeniusInterviewsFooterView
                 } else {
                     self?.tableView.tableFooterView = UIView()
@@ -157,25 +157,25 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
                 let newGeniusInterviews = geniusInterviews
                 let oldGeniusInterviews = strongSelf.geniusInterviews
 
-                var wayToUpdate: UITableView.WayToUpdate = .None
+                var wayToUpdate: UITableView.WayToUpdate = .none
 
                 if oldGeniusInterviews.isEmpty {
-                    wayToUpdate = .ReloadData
+                    wayToUpdate = .reloadData
                 }
 
                 switch mode {
 
-                case .Top:
+                case .top:
                     strongSelf.geniusInterviews = newGeniusInterviews
 
                     if Set(oldGeniusInterviews.map({ $0.number })) == Set(newGeniusInterviews.map({ $0.number })) {
-                        wayToUpdate = .None
+                        wayToUpdate = .none
 
                     } else {
-                        wayToUpdate = .ReloadData
+                        wayToUpdate = .reloadData
                     }
 
-                case .LoadMore:
+                case .loadMore:
                     let oldGeniusInterviewsCount = oldGeniusInterviews.count
 
                     let oldGeniusInterviewNumberSet = Set<Int>(oldGeniusInterviews.map({ $0.number }))
@@ -189,9 +189,9 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
                     let newGeniusInterviewsCount = strongSelf.geniusInterviews.count
 
-                    let indexPaths = Array(oldGeniusInterviewsCount..<newGeniusInterviewsCount).map({ NSIndexPath(forRow: $0, inSection: Section.GeniusInterview.rawValue) })
+                    let indexPaths = Array(oldGeniusInterviewsCount..<newGeniusInterviewsCount).map({ IndexPath(row: $0, section: Section.geniusInterview.rawValue) })
                     if !indexPaths.isEmpty {
-                        wayToUpdate = .Insert(indexPaths)
+                        wayToUpdate = .insert(indexPaths)
                     }
                 }
 
@@ -208,7 +208,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
         meetGeniusShowView.getLatestGeniusInterviewBanner()
 
-        updateGeniusInterviews(mode: .Top) {
+        updateGeniusInterviews(mode: .top) {
             SafeDispatch.async {
                 sender.endRefreshing()
             }
@@ -295,8 +295,8 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.isLoading = true
             }
 
-            updateGeniusInterviews(mode: .LoadMore, finish: {
-                delay(0.5) { [weak cell] in
+            updateGeniusInterviews(mode: .loadMore, finish: {
+                _ = delay(0.5) { [weak cell] in
                     cell?.isLoading = false
                 }
             })
@@ -333,7 +333,7 @@ extension MeetGeniusViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .geniusInterview:
             let geniusInterview = geniusInterviews[indexPath.row]
-            showGeniusInterviewAction?(geniusInterview: geniusInterview)
+            showGeniusInterviewAction?(geniusInterview)
 
         case .loadMore:
             break
