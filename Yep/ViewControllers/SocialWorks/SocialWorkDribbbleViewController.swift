@@ -52,7 +52,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
 
         navigationItem.rightBarButtonItem = shareButton
         
-        dribbbleCollectionView.registerNibOf(DribbbleShotCell)
+        dribbbleCollectionView.registerNibOf(DribbbleShotCell.self)
 
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
@@ -73,7 +73,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
             if let userID = profileUser?.userID {
 
                 dribbbleWorkOfUserWithUserID(userID, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
 
                     let message = errorMessage ?? String.trans_promptNetworkConnectionIsNotGood
                     YepAlert.alertSorry(message: message, inViewController: self)
@@ -117,7 +117,7 @@ final class SocialWorkDribbbleViewController: BaseViewController {
             title: title,
             description: nil,
             thumbnail: thumbnail,
-            media: .URL(profileURL)
+            media: .url(profileURL)
         )
         self.yep_share(info: info, defaultActivityItem: profileURL)
     }
