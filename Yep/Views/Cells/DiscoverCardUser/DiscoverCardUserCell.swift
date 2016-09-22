@@ -61,7 +61,7 @@ final class DiscoverCardUserCell: UICollectionViewCell {
         let avatarURLString = discoveredUser.avatarURLString
 
         let avatarSize: CGFloat = 170
-        let avatarStyle: AvatarStyle = .Rectangle(size: CGSize(width: avatarSize, height: avatarSize))
+        let avatarStyle: AvatarStyle = .rectangle(size: CGSize(width: avatarSize, height: avatarSize))
         let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: bigAvatarFadeTransitionDuration)
 
@@ -76,7 +76,7 @@ final class DiscoverCardUserCell: UICollectionViewCell {
 
         usernameLabel.text = discoveredUser.nickname
         
-        DispatchQueue.global(priority: DispatchQueue.GlobalQueuePriority.high).async { [weak self] in
+        DispatchQueue.global(qos: .utility).async { [weak self] in
             self?.prepareSkillImage()
         }
     }
@@ -121,7 +121,7 @@ final class DiscoverCardUserCell: UICollectionViewCell {
         //let context = UIGraphicsGetCurrentContext()
         UIGraphicsBeginImageContextWithOptions(CGSize(width: maxWidth, height: 50), false, UIScreen.main.scale)
         
-        for (index, skill) in skills.enumerate() {
+        for (index, skill) in skills.enumerated() {
             
             var skillLocal = skill.localName
             
@@ -136,22 +136,22 @@ final class DiscoverCardUserCell: UICollectionViewCell {
             }
             
             //// Text Drawing
-            let textRect = CGRectMake(0, 0, 0, 14)
+            let textRect = CGRect(x: 0, y: 0, width: 0, height: 14)
             let textTextContent = NSString(string: skillLocal)
-            let textStyle = NSParagraphStyle.defaultParagraphStyle().mutableCopy() as! NSMutableParagraphStyle
-            textStyle.alignment = .Center
+            let textStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
+            textStyle.alignment = .center
             
             let textFontAttributes: [String: AnyObject] = {
                 if index == 4 && skills.count != 5 {
-                    return  [NSFontAttributeName: UIFont.systemFontOfSize(12), NSForegroundColorAttributeName: UIColor.yepTintColor(), NSParagraphStyleAttributeName: textStyle]
+                    return  [NSFontAttributeName: UIFont.systemFont(ofSize: 12), NSForegroundColorAttributeName: UIColor.yepTintColor(), NSParagraphStyleAttributeName: textStyle]
                 } else {
-                    return [NSFontAttributeName: UIFont.systemFontOfSize(12), NSForegroundColorAttributeName: UIColor.whiteColor(), NSParagraphStyleAttributeName: textStyle]
+                    return [NSFontAttributeName: UIFont.systemFont(ofSize: 12), NSForegroundColorAttributeName: UIColor.white, NSParagraphStyleAttributeName: textStyle]
                 }
             }()
             
-            let textTextWidth: CGFloat = textTextContent.boundingRectWithSize(CGSizeMake(CGFloat.infinity, 12), options: NSStringDrawingOptions.UsesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.width
+            let textTextWidth: CGFloat = textTextContent.boundingRect(with: CGSize(width: CGFloat.infinity, height: 12), options: .usesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.width
             
-            var rect = CGRectMake(0, marginTop, textTextWidth, textRect.height)
+            var rect = CGRect(x: 0, y: marginTop, width: textTextWidth, height: textRect.height)
             
             var lastLabel: CGRect = rect
             
@@ -173,9 +173,9 @@ final class DiscoverCardUserCell: UICollectionViewCell {
                 y = lastLabel.origin.y
             }
             
-            rect = CGRectMake(x + marginLeft, y , rect.width, rect.height)
+            rect = CGRect(x: x + marginLeft, y: y, width: rect.width, height: rect.height)
             
-            let rectanglePath = UIBezierPath(roundedRect: CGRectMake(rect.origin.x - marginLeft, rect.origin.y - marginTop , textTextWidth + marginLeft * 2, textRect.height + marginTop*2), cornerRadius: (textRect.height + marginTop*2)*0.5)
+            let rectanglePath = UIBezierPath(roundedRect: CGRect(x: rect.origin.x - marginLeft, y: rect.origin.y - marginTop, width: textTextWidth + marginLeft * 2, height: textRect.height + marginTop*2), cornerRadius: (textRect.height + marginTop*2)*0.5)
             
             let fillColor: UIColor = {
                 if index == 4 && skills.count != 5 {
@@ -191,14 +191,14 @@ final class DiscoverCardUserCell: UICollectionViewCell {
             
             skillLabels.append(rect)
             
-            textTextContent.drawInRect(rect, withAttributes: textFontAttributes)
+            textTextContent.draw(in: rect, withAttributes: textFontAttributes)
         }
 
         //CGContextSaveGState(context)
         //CGContextClipToRect(context, CGRectMake(0, 0, maxWidth, 50))
         //CGContextRestoreGState(context)
         
-        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()
+        let backgroundImage = UIGraphicsGetImageFromCurrentImageContext()!
         UIGraphicsEndImageContext()
         
         return backgroundImage
