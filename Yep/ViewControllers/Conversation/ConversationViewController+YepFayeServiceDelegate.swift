@@ -12,7 +12,7 @@ extension ConversationViewController: YepFayeServiceDelegate {
 
     func fayeRecievedInstantStateType(_ instantStateType: YepFayeService.InstantStateType, userID: String) {
 
-        guard !conversation.invalidated else {
+        guard !conversation.isInvalidated else {
             return
         }
         guard let user = conversation.withFriend , user.userID == userID else {
