@@ -72,7 +72,7 @@ final class ConversationMoreViewManager {
         if let user = self.conversation?.withFriend {
 
             view = ActionSheetView(items: [
-                .Detail(
+                .detail(
                     title: NSLocalizedString("View profile", comment: ""),
                     titleColor: UIColor.darkGrayColor(),
                     action: { [weak self] in
@@ -90,7 +90,7 @@ final class ConversationMoreViewManager {
                 let userID = user.userID
 
                 settingsForUser(userID: userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
-                    self?.afterGotSettingsForUserAction?(userID: userID, blocked: blocked, doNotDisturb: doNotDisturb)
+                    self?.afterGotSettingsForUserAction?(userID, blocked, doNotDisturb)
                 })
             }
 
@@ -98,7 +98,7 @@ final class ConversationMoreViewManager {
 
             view = ActionSheetView(items: [
                 self.makePushNotificationsItem(notificationEnabled: group.notificationEnabled), // 0
-                .Default(
+                .default(
                     title: NSLocalizedString("Share this feed", comment: ""),
                     titleColor: UIColor.yepTintColor(),
                     action: { [weak self] in
@@ -122,7 +122,7 @@ final class ConversationMoreViewManager {
                 let groupID = group.groupID
 
                 settingsForGroup(groupID: groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
-                    self?.afterGotSettingsForGroupAction?(groupID: groupID, notificationEnabled: !doNotDisturb)
+                    self?.afterGotSettingsForGroupAction?(groupID, !doNotDisturb)
                 })
             }
             
@@ -196,7 +196,7 @@ final class ConversationMoreViewManager {
             }
         }
 
-        return .Default(
+        return .default(
             title: groupActionTitle,
             titleColor: UIColor.redColor(),
             action: { [weak self] in
