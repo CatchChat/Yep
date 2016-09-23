@@ -25,11 +25,11 @@ private let sectionDateInCurrentWeekFormatter: DateFormatter =  {
 extension Message {
 
     var sectionDateString: String {
-        let createdAt = NSDate(timeIntervalSince1970: createdUnixTime)
+        let createdAt = Date(timeIntervalSince1970: createdUnixTime)
         if createdAt.yep_isInWeekend {
-            return sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
+            return sectionDateInCurrentWeekFormatter.string(from: createdAt)
         } else {
-            return sectionDateFormatter.stringFromDate(createdAt)
+            return sectionDateFormatter.string(from: createdAt)
         }
     }
 }
