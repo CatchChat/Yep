@@ -46,7 +46,7 @@ extension UICollectionView {
             case .insert(let indexPaths):
                 println("collectionView WayToUpdate: Insert")
                 SafeDispatch.async {
-                    collectionView.insertItemsAtIndexPaths(indexPaths)
+                    collectionView.insertItems(at: indexPaths)
                 }
             }
         }
