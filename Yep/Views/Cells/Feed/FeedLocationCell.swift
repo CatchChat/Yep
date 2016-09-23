@@ -60,7 +60,7 @@ final class FeedLocationCell: FeedBasicCell {
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
-            if case let .Location(locationInfo) = attachment {
+            if case let .location(locationInfo) = attachment {
 
                 let location = CLLocation(latitude: locationInfo.latitude, longitude: locationInfo.longitude)
                 let size = CGSize(width: UIScreen.main.bounds.width - 65 - 60, height: 110 - locationContainerView.nameLabel.bounds.height)
@@ -84,8 +84,8 @@ final class FeedLocationCell: FeedBasicCell {
             }
 
             if case .Location = feed.kind {
-                if case let .Location(locationInfo) = attachment {
-                    self?.tapLocationAction?(locationName: locationInfo.name, locationCoordinate: locationInfo.coordinate)
+                if case let .location(locationInfo) = attachment {
+                    self?.tapLocationAction?(locationInfo.name, locationInfo.coordinate)
                 }
             }
         }
