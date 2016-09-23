@@ -16,7 +16,7 @@ final class SearchedUsersViewController: BaseViewController {
 
     @IBOutlet fileprivate weak var searchedUsersTableView: UITableView! {
         didSet {
-            searchedUsersTableView.registerNibOf(ContactsCell)
+            searchedUsersTableView.registerNibOf(ContactsCell.self)
 
             searchedUsersTableView.rowHeight = 80
 
@@ -46,7 +46,7 @@ final class SearchedUsersViewController: BaseViewController {
         activityIndicator.startAnimating()
 
         searchUsersByQ(searchText, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
