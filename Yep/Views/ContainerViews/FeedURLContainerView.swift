@@ -115,8 +115,8 @@ final class FeedURLContainerView: UIView {
         do {
             let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[siteNameLabel]-|", options: [], metrics: nil, views: views)
 
-            let metrics: [String: AnyObject] = [
-                "top": compressionMode ? 4 : 8 as AnyObject,
+            let metrics: [String: CGFloat] = [
+                "top": compressionMode ? 4 : 8,
                 "gap": compressionMode ? 4 : 8,
                 "bottom": compressionMode ? 4 : 8,
             ]
@@ -127,8 +127,8 @@ final class FeedURLContainerView: UIView {
         }
 
         do {
-            let metrics: [String: AnyObject] = [
-                "imageSize": compressionMode ? 35 : 40 as AnyObject,
+            let metrics: [String: CGFloat] = [
+                "imageSize": compressionMode ? 35 : 40,
             ]
 
             let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[descriptionLabel]-[thumbnailImageView(imageSize)]|", options: [.alignAllTop], metrics: metrics, views: views)
@@ -153,8 +153,8 @@ final class FeedURLContainerView: UIView {
         titleLabel.text = openGraphInfo.title
         descriptionLabel.text = openGraphInfo.infoDescription
 
-        if let thumbnailImageURL = URL(string: openGraphInfo.thumbnailImageURLString) {
-            thumbnailImageView.kf_setImageWithURL(thumbnailImageURL, placeholderImage: nil)
+        if let url = URL(string: openGraphInfo.thumbnailImageURLString) {
+            thumbnailImageView.kf_setImage(with: url, placeholder: nil)
         } else {
             thumbnailImageView.image = nil
             thumbnailImageView.backgroundColor = UIColor.lightGray
