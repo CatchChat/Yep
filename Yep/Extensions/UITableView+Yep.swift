@@ -49,13 +49,13 @@ extension UITableView {
             case .reloadIndexPaths(let indexPaths):
                 println("tableView WayToUpdate: ReloadIndexPaths")
                 SafeDispatch.async {
-                    tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                    tableView.reloadRows(at: indexPaths, with: .none)
                 }
 
             case .insert(let indexPaths):
                 println("tableView WayToUpdate: Insert")
                 SafeDispatch.async {
-                    tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                    tableView.insertRows(at: indexPaths, with: .none)
                 }
             }
         }
