@@ -25,13 +25,13 @@ final class YepDownloader: NSObject {
 
         message.localAttachmentName = attachmentFileName
 
-        if message.mediaType == MessageMediaType.Video.rawValue {
+        if message.mediaType == MessageMediaType.video.rawValue {
             if !message.localThumbnailName.isEmpty {
-                message.downloadState = MessageDownloadState.Downloaded.rawValue
+                message.downloadState = MessageDownloadState.downloaded.rawValue
             }
 
         } else {
-            message.downloadState = MessageDownloadState.Downloaded.rawValue
+            message.downloadState = MessageDownloadState.downloaded.rawValue
         }
     }
 
@@ -39,9 +39,9 @@ final class YepDownloader: NSObject {
 
         message.localThumbnailName = thumbnailFileName
 
-        if message.mediaType == MessageMediaType.Video.rawValue {
+        if message.mediaType == MessageMediaType.video.rawValue {
             if !message.localAttachmentName.isEmpty {
-                message.downloadState = MessageDownloadState.Downloaded.rawValue
+                message.downloadState = MessageDownloadState.downloaded.rawValue
             }
         }
     }
@@ -89,7 +89,7 @@ final class YepDownloader: NSObject {
 
         let downloadState = message.downloadState
 
-        if downloadState == MessageDownloadState.Downloaded.rawValue {
+        if downloadState == MessageDownloadState.downloaded.rawValue {
             return
         }
 
@@ -101,9 +101,9 @@ final class YepDownloader: NSObject {
 
         let attachmentURLString = message.attachmentURLString
         
-        if !attachmentURLString.isEmpty && message.localAttachmentName.isEmpty, let URL = URL(string: attachmentURLString) {
+        if !attachmentURLString.isEmpty && message.localAttachmentName.isEmpty, let url = URL(string: attachmentURLString) {
 
-            attachmentDownloadTask = sharedDownloader.session.dataTaskWithURL(URL)
+            attachmentDownloadTask = sharedDownloader.session.dataTask(with: url)
 
             attachmentFinishedAction = { data in
 
@@ -117,15 +117,15 @@ final class YepDownloader: NSObject {
 
                         if message.localAttachmentName.isEmpty {
 
-                            let fileName = NSUUID().UUIDString
+                            let fileName = NSUUID().uuidString
 
                             realm.beginWrite()
 
                             switch mediaType {
 
-                            case MessageMediaType.Image.rawValue:
+                            case MessageMediaType.image.rawValue:
 
-                                if let _ = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                if let _ = FileManager.saveMessageImageData(data, withName: fileName) {
 
                                     self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
 
@@ -134,15 +134,15 @@ final class YepDownloader: NSObject {
                                     }
                                 }
 
-                            case MessageMediaType.Video.rawValue:
+                            case MessageMediaType.video.rawValue:
 
-                                if let _ = NSFileManager.saveMessageVideoData(data, withName: fileName) {
+                                if let _ = FileManager.saveMessageVideoData(data, withName: fileName) {
                                     self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
                                 }
 
-                            case MessageMediaType.Audio.rawValue:
+                            case MessageMediaType.audio.rawValue:
 
-                                if let _ = NSFileManager.saveMessageAudioData(data, withName: fileName) {
+                                if let _ = FileManager.saveMessageAudioData(data, withName: fileName) {
                                     self.updateAttachmentOfMessage(message, withAttachmentFileName: fileName, inRealm: realm)
                                 }
                                 
@@ -160,13 +160,13 @@ final class YepDownloader: NSObject {
         var thumbnailDownloadTask: URLSessionDataTask?
         var thumbnailFinishedAction: ProgressReporter.Task.FinishedAction?
 
-        if mediaType == MessageMediaType.Video.rawValue {
+        if mediaType == MessageMediaType.video.rawValue {
 
             let thumbnailURLString = message.thumbnailURLString
 
-            if !thumbnailURLString.isEmpty && message.localThumbnailName.isEmpty, let URL = URL(string: thumbnailURLString) {
+            if !thumbnailURLString.isEmpty && message.localThumbnailName.isEmpty, let url = URL(string: thumbnailURLString) {
 
-                thumbnailDownloadTask = sharedDownloader.session.dataTaskWithURL(URL)
+                thumbnailDownloadTask = sharedDownloader.session.dataTask(with: url)
 
                 thumbnailFinishedAction = { data in
 
@@ -179,9 +179,9 @@ final class YepDownloader: NSObject {
 
                             if message.localThumbnailName.isEmpty {
 
-                                let fileName = NSUUID().UUIDString
+                                let fileName = NSUUID().uuidString
 
-                                if let _ = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                if let _ = FileManager.saveMessageImageData(data, withName: fileName) {
 
                                     realm.beginWrite()
                                     self.updateThumbnailOfMessage(message, withThumbnailFileName: fileName, inRealm: realm)
@@ -221,9 +221,10 @@ final class YepDownloader: NSObject {
         }
     }
 
-    class func downloadDataFromURL(_ URL: Foundation.URL, reportProgress: ProgressReporter.ReportProgress?, finishedAction: ProgressReporter.Task.FinishedAction) {
+    class func downloadDataFromURL(_ url: URL, reportProgress: ProgressReporter.ReportProgress?, finishedAction: YepDownloader.ProgressReporter.Task.FinishedAction) {
 
-        let downloadTask = sharedDownloader.session.dataTask(with: URL)
+        let downloadTask = sharedDownloader.session.dataTask(with: url)
+
         let task = ProgressReporter.Task(downloadTask: downloadTask, finishedAction: finishedAction, imageTransform: nil)
 
         let progressReporter = ProgressReporter(tasks: [task], reportProgress: reportProgress)
