@@ -38,10 +38,10 @@ class BaseSearchViewController: SegueViewController, SearchActionRepresentation 
         navigationController?.setNavigationBarHidden(true, animated: true)
 
         if isFirstAppear {
-            delay(0.3) { [weak self] in
+            _ = delay(0.3) { [weak self] in
                 self?.searchBar.becomeFirstResponder()
             }
-            delay(0.4) { [weak self] in
+            _ = delay(0.4) { [weak self] in
                 self?.searchBar.setShowsCancelButton(true, animated: true)
 
                 self?.searchBarCancelButtonEnabledObserver = self?.searchBar.yep_makeSureCancelButtonAlwaysEnabled()
