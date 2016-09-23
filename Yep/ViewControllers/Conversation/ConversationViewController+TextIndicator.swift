@@ -15,7 +15,7 @@ extension ConversationViewController {
 
     func promptSendMessageFailed(reason: Reason, errorMessage: String?, reserveErrorMessage: String) {
 
-        if case .noSuccessStatusCode(_, let errorCode) = reason , errorCode == ErrorCode.BlockedByRecipient {
+        if case .noSuccessStatusCode(_, let errorCode) = reason, errorCode == .blockedByRecipient {
             indicateBlockedByRecipient()
 
         } else {
@@ -46,7 +46,7 @@ extension ConversationViewController {
 
         SafeDispatch.async { [weak self] in
             guard let strongSelf = self else { return }
-            guard !strongSelf.conversation.invalidated else { return }
+            guard !strongSelf.conversation.isInvalidated else { return }
             indicateBlockedByRecipientInConversation(strongSelf.conversation)
         }
     }
