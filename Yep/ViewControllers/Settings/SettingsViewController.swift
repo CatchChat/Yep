@@ -13,9 +13,9 @@ final class SettingsViewController: BaseViewController {
 
     @IBOutlet fileprivate weak var settingsTableView: UITableView! {
         didSet {
-            settingsTableView.registerNibOf(SettingsUserCell)
-            settingsTableView.registerNibOf(SettingsMoreCell)
-            settingsTableView.registerClassOf(TitleSwitchCell)
+            settingsTableView.registerNibOf(SettingsUserCell.self)
+            settingsTableView.registerNibOf(SettingsMoreCell.self)
+            settingsTableView.registerClassOf(TitleSwitchCell.self)
         }
     }
 
@@ -137,7 +137,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             case .tabBarTitleEnabled:
                 let cell: TitleSwitchCell = tableView.dequeueReusableCell()
                 cell.titleLabel.text = NSLocalizedString("Show Tab Bar Title", comment: "")
-                cell.toggleSwitch.on = YepUserDefaults.tabBarItemTextEnabled.value ?? !(YepUserDefaults.appLaunchCount.value > YepUserDefaults.appLaunchCountThresholdForTabBarItemTextEnabled)
+                cell.toggleSwitch.isOn = YepUserDefaults.tabBarItemTextEnabled.value ?? !(YepUserDefaults.appLaunchCount.value > YepUserDefaults.appLaunchCountThresholdForTabBarItemTextEnabled)
                 cell.toggleSwitchStateChangedAction = { on in
                     YepUserDefaults.tabBarItemTextEnabled.value = on
                 }
