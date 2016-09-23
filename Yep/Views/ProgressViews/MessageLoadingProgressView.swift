@@ -26,6 +26,7 @@ final class MessageLoadingProgressView: UIView {
         let lineWidth: CGFloat = 4
         let radius = min(rect.width, rect.height) * 0.5 - lineWidth * 0.5
 
+        /*
         let context = UIGraphicsGetCurrentContext()
 
         // base circle
@@ -58,15 +59,15 @@ final class MessageLoadingProgressView: UIView {
         context!.drawPath(using: CGPathDrawingMode.stroke)
 
         context!.restoreGState()
+         */
 
-        /*
         // base circle
 
         let baseCircle = UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: CGFloat(M_PI * 2), clockwise: true)
         baseCircle.lineWidth = lineWidth
-        baseCircle.lineCapStyle = kCGLineCapRound
+        baseCircle.lineCapStyle = .round
 
-        UIColor.lightGrayColor().setStroke()
+        UIColor.lightGray.setStroke()
 
         baseCircle.stroke()
 
@@ -75,11 +76,11 @@ final class MessageLoadingProgressView: UIView {
         let progressArc = UIBezierPath(arcCenter: center, radius: radius, startAngle: CGFloat(-M_PI_2), endAngle: CGFloat(M_PI * 2 * progress - M_PI_2), clockwise: true)
 
         progressArc.lineWidth = lineWidth
-        progressArc.lineCapStyle = kCGLineCapRound
+        progressArc.lineCapStyle = .round
 
-        UIColor.whiteColor().setStroke()
+        UIColor.white.setStroke()
 
         progressArc.stroke()
-        */
     }
 }
+
