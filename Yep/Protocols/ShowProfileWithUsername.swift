@@ -23,15 +23,15 @@ extension ShowProfileWithUsername where Self: UIViewController {
             return
         }
 
-        performSegueWithIdentifier("showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
+        performSegue(withIdentifier: "showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
     }
 
     func tryShowProfileWithUsername(_ username: String) {
 
         if let realm = try? Realm(), let user = userWithUsername(username, inRealm: realm) {
-            let profileUser = ProfileUser.UserType(user)
+            let profileUser = ProfileUser.userType(user)
 
-            delay(0.1) { [weak self] in
+            _ = delay(0.1) { [weak self] in
                 self?.show(profileUser)
             }
 
@@ -41,7 +41,7 @@ extension ShowProfileWithUsername where Self: UIViewController {
 
             }, completion: { discoveredUser in
                 SafeDispatch.async { [weak self] in
-                    let profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                    let profileUser = ProfileUser.discoveredUserType(discoveredUser)
                     self?.show(profileUser)
                 }
             })
