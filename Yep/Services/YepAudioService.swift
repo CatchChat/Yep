@@ -11,26 +11,6 @@ import AVFoundation
 import AudioToolbox
 import YepKit
 import Proposer
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 extension AVPlayer {
 
@@ -112,8 +92,10 @@ final class YepAudioService: NSObject {
     }
 
     func checkRecordTimeout(_ timer: Timer) {
-        
-        if audioRecorder?.currentTime > YepConfig.AudioRecord.longestDuration {
+
+        guard let audioRecorder = audioRecorder else { return }
+
+        if audioRecorder.currentTime > YepConfig.AudioRecord.longestDuration {
 
             endRecord()
 
@@ -135,13 +117,13 @@ final class YepAudioService: NSObject {
             //AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker,error: nil)
             //AVAudioSession.sharedInstance().setActive(true, error: nil)
 
-            proposeToAccess(.Microphone, agreed: {
+            proposeToAccess(.microphone, agreed: {
                 
                 self.prepareAudioRecorderWithFileURL(fileURL, audioRecorderDelegate: audioRecorderDelegate)
                 
                 if let audioRecorder = self.audioRecorder {
                     
-                    if (audioRecorder.recording){
+                    if (audioRecorder.isRecording){
                         audioRecorder.stop()
                         
                     } else {
@@ -154,7 +136,7 @@ final class YepAudioService: NSObject {
                 
             }, rejected: {
                 if let
-                    appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate,
+                    appDelegate = UIApplication.shared.delegate as? AppDelegate,
                     let viewController = appDelegate.window?.rootViewController {
                         viewController.alertCanNotAccessMicrophone()
                 }
@@ -190,7 +172,7 @@ final class YepAudioService: NSObject {
     var playingMessage: Message? {
         guard let playingItem = playingItem else { return nil }
 
-        if case .MessageType(let message) = playingItem {
+        if case .messageType(let message) = playingItem {
             return message
         }
 
@@ -199,7 +181,7 @@ final class YepAudioService: NSObject {
     var playingFeedAudio: FeedAudio? {
         guard let playingItem = playingItem else { return nil }
 
-        if case .FeedAudioType(let feedAUdio) = playingItem {
+        if case .feedAudioType(let feedAUdio) = playingItem {
             return feedAUdio
         }
 
@@ -226,7 +208,7 @@ final class YepAudioService: NSObject {
 
         if let audioFileURL = message.audioFileURL {
             do {
-                let audioPlayer = try AVAudioPlayer(contentsOfURL: audioFileURL)
+                let audioPlayer = try AVAudioPlayer(contentsOf: audioFileURL)
                 self.audioPlayer = audioPlayer
                 audioPlayer.delegate = delegate
                 audioPlayer.prepareToPlay()
@@ -236,7 +218,7 @@ final class YepAudioService: NSObject {
                 if audioPlayer.play() {
                     println("do play audio")
 
-                    playingItem = .MessageType(message)
+                    playingItem = .messageType(message)
 
                     UIDevice.current.isProximityMonitoringEnabled = true
 
@@ -272,7 +254,7 @@ final class YepAudioService: NSObject {
 
         if let audioFileURL = feedAudio.audioFileURL {
             do {
-                let audioPlayer = try AVAudioPlayer(contentsOfURL: audioFileURL)
+                let audioPlayer = try AVAudioPlayer(contentsOf: audioFileURL)
                 self.audioPlayer = audioPlayer
                 audioPlayer.delegate = delegate
                 audioPlayer.prepareToPlay()
@@ -282,7 +264,7 @@ final class YepAudioService: NSObject {
                 if audioPlayer.play() {
                     println("do play audio")
 
-                    playingItem = .FeedAudioType(feedAudio)
+                    playingItem = .feedAudioType(feedAudio)
 
                     success()
                 }
@@ -298,7 +280,7 @@ final class YepAudioService: NSObject {
 
     func playOnlineAudioWithFeedAudio(_ feedAudio: FeedAudio, beginFromTime time: TimeInterval, delegate: AVAudioPlayerDelegate, success: () -> Void) {
 
-        guard let URL = URL(string: feedAudio.URLString) else {
+        guard let url = URL(string: feedAudio.URLString) else {
             return
         }
 
@@ -310,15 +292,15 @@ final class YepAudioService: NSObject {
             }
         }
 
-        let playerItem = AVPlayerItem(URL: URL)
+        let playerItem = AVPlayerItem(url: url)
         let player = AVPlayer(playerItem: playerItem)
         player.rate = 1.0
 
         let time = CMTime(seconds: time, preferredTimescale: 1)
-        playerItem.seekToTime(time)
+        playerItem.seek(to: time)
         player.play()
 
-        playingItem = .FeedAudioType(feedAudio)
+        playingItem = .feedAudioType(feedAudio)
 
         success()
 
