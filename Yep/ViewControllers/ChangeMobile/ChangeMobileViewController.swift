@@ -26,8 +26,8 @@ final class ChangeMobileViewController: BaseInputMobileViewController {
     fileprivate lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.title = String.trans_buttonNextStep
-        button.rx_tap
-            .subscribeNext({ [weak self] in self?.tryShowVerifyChangedMobile() })
+        button.rx.tap
+            .subscribe(onNext: { [weak self] in self?.tryShowVerifyChangedMobile() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
@@ -50,8 +50,8 @@ final class ChangeMobileViewController: BaseInputMobileViewController {
         areaCodeTextField.backgroundColor = UIColor.white
 
         areaCodeTextField.delegate = self
-        areaCodeTextField.rx_text
-            .subscribeNext({ [weak self] _ in self?.adjustAreaCodeTextFieldWidth() })
+        areaCodeTextField.rx.textInput.text
+            .subscribe(onNext: { [weak self] _ in self?.adjustAreaCodeTextFieldWidth() })
             .addDisposableTo(disposeBag)
 
         mobileNumberTextField.placeholder = ""
@@ -60,7 +60,7 @@ final class ChangeMobileViewController: BaseInputMobileViewController {
         mobileNumberTextField.delegate = self
 
         Observable.combineLatest(areaCodeTextField.rx_text, mobileNumberTextField.rx_text) { !$0.isEmpty && !$1.isEmpty }
-            .bindTo(nextButton.rx_enabled)
+            .bindTo(nextButton.rx.enabled)
             .addDisposableTo(disposeBag)
 
         changeMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
@@ -103,7 +103,7 @@ final class ChangeMobileViewController: BaseInputMobileViewController {
         YepHUD.showActivityIndicator()
 
         requestSendVerifyCodeOfNewMobilePhone(mobilePhone, useMethod: .SMS, failureHandler: { reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 
