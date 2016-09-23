@@ -77,7 +77,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
             if case let .dribbble(dribbbleShot) = attachment {
                 if let url = URL(string: dribbbleShot.imageURLString) {
                     //mediaContainerView.mediaImageView.kf_showIndicatorWhenLoading = true
-                    mediaContainerView.mediaImageView.kf_setImage(url, placeholder: nil, options: MediaOptionsInfos)
+                    mediaContainerView.mediaImageView.kf_setImage(with: url, placeholder: nil, options: MediaOptionsInfos)
                 }
 
                 mediaContainerView.linkContainerView.textLabel.text = dribbbleShot.title
@@ -90,9 +90,9 @@ final class FeedDribbbleShotCell: FeedBasicCell {
                 return
             }
 
-            if case .dribbbleShot = feed.kind {
+            if case .DribbbleShot = feed.kind {
                 if case let .dribbble(shot) = attachment, let imageURL = URL(string: shot.imageURLString), let linkURL = URL(string: shot.htmlURLString) {
-                    self?.tapDribbbleShotMediaAction?(transitionReference: transitionReference, image: transitionReference.image, imageURL: imageURL, linkURL: linkURL)
+                    self?.tapDribbbleShotMediaAction?(transitionReference, transitionReference.image, imageURL, linkURL)
                 }
             }
         }
@@ -103,7 +103,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
                 return
             }
 
-            if case .dribbbleShot = feed.kind {
+            if case .DribbbleShot = feed.kind {
                 if case let .dribbble(shot) = attachment, let url = URL(string: shot.htmlURLString) {
                     self?.tapDribbbleShotLinkAction?(url)
                 }
