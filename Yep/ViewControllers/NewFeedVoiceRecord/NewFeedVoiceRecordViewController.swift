@@ -227,7 +227,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
                 guard duration > YepConfig.AudioRecord.shortestDuration else {
                     YepAlert.alertSorry(message: NSLocalizedString("Voice recording time is too short!", comment: ""), inViewController: self, withDismissAction: { [weak self] in
-                        self?.state = .Default
+                        self?.state = .default
                     })
                     return
                 }
@@ -236,11 +236,11 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                 let feedVoice = FeedVoice(fileURL: fileURL, sampleValuesCount: decibelSamples.count, limitedSampleValues: compressedDecibelSamples.map({ CGFloat($0) }))
                 self?.feedVoice = feedVoice
 
-                self?.state = .FinishRecord
+                self?.state = .finishRecord
             }
 
         } else {
-            proposeToAccess(.Microphone, agreed: { [weak self] in
+            proposeToAccess(.microphone, agreed: { [weak self] in
                 do {
                     let decibelSamplePeriodicReport: AudioBot.PeriodicReport = (reportingFrequency: 10, report: { decibelSample in
 
@@ -289,7 +289,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     self?.audioPlayedDuration = 0
 
                     if success {
-                        self?.state = .FinishRecord
+                        self?.state = .finishRecord
                     }
                 })
 
