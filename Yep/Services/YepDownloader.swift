@@ -221,11 +221,11 @@ final class YepDownloader: NSObject {
         }
     }
 
-    class func downloadDataFromURL(_ url: URL, reportProgress: ProgressReporter.ReportProgress?, finishedAction: YepDownloader.ProgressReporter.Task.FinishedAction) {
+    class func downloadDataFromURL(_ url: URL, reportProgress: ProgressReporter.ReportProgress?, finishedAction: ProgressReporter.Task.FinishedAction) {
 
         let downloadTask = sharedDownloader.session.dataTask(with: url)
 
-        let task = ProgressReporter.Task(downloadTask: downloadTask, finishedAction: finishedAction, imageTransform: nil)
+        let task: ProgressReporter.Task = ProgressReporter.Task(downloadTask: downloadTask, finishedAction: finishedAction, imageTransform: nil)
 
         let progressReporter = ProgressReporter(tasks: [task], reportProgress: reportProgress)
         sharedDownloader.progressReporters.append(progressReporter)
