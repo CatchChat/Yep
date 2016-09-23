@@ -47,7 +47,7 @@ extension ConversationViewController {
                 }, completion: { _ in })
 
                 if !strongSelf.messageToolbar.state.isAtBottom {
-                    strongSelf.messageToolbar.state = .Default
+                    strongSelf.messageToolbar.state = .default
                 }
             }
         }
@@ -65,7 +65,7 @@ extension ConversationViewController {
             let initialPhoto = photos[index]
 
             let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
-            self?.presentViewController(photosViewController, animated: true, completion: nil)
+            self?.present(photosViewController, animated: true, completion: nil)
         }
 
         feedView.tapGithubRepoAction = { [weak self] URL in
@@ -201,7 +201,7 @@ extension ConversationViewController {
                 }
             }
 
-            proposeToAccess(.Camera, agreed: openCamera, rejected: { [weak self] in
+            proposeToAccess(.camera, agreed: openCamera, rejected: { [weak self] in
                 self?.alertCanNotOpenCamera()
             })
         }
@@ -222,7 +222,7 @@ extension ConversationViewController {
                 }
             }
 
-            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
+            proposeToAccess(.photos, agreed: openCameraRoll, rejected: { [weak self] in
                 self?.alertCanNotAccessCameraRoll()
             })
         }
@@ -274,7 +274,7 @@ extension ConversationViewController {
 
             SafeDispatch.async { [weak self] in
                 if let strongSelf = self {
-                    if !group.invalidated {
+                    if !group.isInvalidated {
                         let _ = try? strongSelf.realm.write {
                             group.includeMe = meIsMember
                         }
@@ -291,9 +291,9 @@ extension ConversationViewController {
                 return
             }
 
-            delay(3) { [weak self] in
+            _ = delay(3) { [weak self] in
 
-                guard !group.invalidated else {
+                guard !group.isInvalidated else {
                     return
                 }
 
@@ -391,10 +391,10 @@ extension ConversationViewController {
 
         SafeDispatch.async { [weak self] in
             guard let strongSelf = self else { return }
-            guard !strongSelf.conversation.invalidated else { return }
+            guard !strongSelf.conversation.isInvalidated else { return }
 
             if let timeAgo = lastSignDateOfConversation(strongSelf.conversation)?.timeAgo {
-                titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(timeAgo.lowercaseString)
+                titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(timeAgo.lowercased())
 
             } else if let friend = strongSelf.conversation.withFriend {
                 titleView.stateInfoLabel.text = String.trans_promptLastSeenAt(friend.lastSignInUnixTime)
@@ -403,13 +403,13 @@ extension ConversationViewController {
                 titleView.stateInfoLabel.text = String.trans_infoBeginChatJustNow
             }
 
-            titleView.stateInfoLabel.textColor = UIColor.grayColor()
+            titleView.stateInfoLabel.textColor = UIColor.gray
         }
     }
 
     @objc fileprivate func showFriendProfile(_ sender: UITapGestureRecognizer) {
         if let user = conversation.withFriend {
-            performSegueWithIdentifier("showProfile", sender: user)
+            performSegue(withIdentifier: "showProfile", sender: user)
         }
     }
 }
@@ -447,7 +447,7 @@ extension ConversationViewController {
 
         let hideFriendRequestView: () -> Void = {
             SafeDispatch.async {
-                UIView.animateWithDuration(0.2, delay: 0.1, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
+                UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseInOut, animations: { [weak self] in
                     if let strongSelf = self {
                         strongSelf.conversationCollectionView.contentInset.top = 64 + strongSelf.conversationCollectionViewContentInsetYOffset
 
@@ -480,7 +480,7 @@ extension ConversationViewController {
                     }
                     if let user = userWithUserID(userID, inRealm: realm) {
                         let _ = try? realm.write {
-                            user.friendState = UserFriendState.IssuedRequest.rawValue
+                            user.friendState = UserFriendState.issuedRequest.rawValue
                         }
                     }
                 }
@@ -506,7 +506,7 @@ extension ConversationViewController {
                         }
                         if let user = userWithUserID(userID, inRealm: realm) {
                             let _ = try? realm.write {
-                                user.friendState = UserFriendState.Normal.rawValue
+                                user.friendState = UserFriendState.normal.rawValue
                             }
                         }
                     }
@@ -550,7 +550,7 @@ extension ConversationViewController {
         if let user = conversation.withFriend {
 
             // 若是陌生人或还未收到回应才显示 FriendRequestView
-            if user.friendState != UserFriendState.Stranger.rawValue && user.friendState != UserFriendState.IssuedRequest.rawValue {
+            if user.friendState != UserFriendState.stranger.rawValue && user.friendState != UserFriendState.issuedRequest.rawValue {
                 return
             }
 
@@ -558,7 +558,7 @@ extension ConversationViewController {
             let userNickname = user.nickname
 
             stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
             }, completion: { isFriend, receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState in
 
@@ -575,7 +575,7 @@ extension ConversationViewController {
                 SafeDispatch.async { [weak self] in
 
                     if receivedFriendRequestState == .Pending {
-                        self?.makeFriendRequestView(for: user, in: .Consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
+                        self?.makeFriendRequestView(for: user, in: .consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
 
                     } else if receivedFriendRequestState == .Blocked {
                         YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)")
@@ -593,11 +593,11 @@ extension ConversationViewController {
                     } else {
                         if sentFriendRequestState == .None {
                             if receivedFriendRequestState != .Rejected && receivedFriendRequestState != .Blocked {
-                                self?.makeFriendRequestView(for: user, in: .Add(prompt: NSLocalizedString("is not your friend.", comment: "")))
+                                self?.makeFriendRequestView(for: user, in: .add(prompt: NSLocalizedString("is not your friend.", comment: "")))
                             }
 
                         } else if sentFriendRequestState == .Rejected {
-                            self?.makeFriendRequestView(for: user, in: .Add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
+                            self?.makeFriendRequestView(for: user, in: .add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
 
                         } else if sentFriendRequestState == .Blocked {
                             YepAlert.alertSorry(message: String(format: NSLocalizedString("You have been blocked by %@!", comment: ""), "\(userNickname)"), inViewController: self)
