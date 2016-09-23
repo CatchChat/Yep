@@ -30,7 +30,7 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
     override func requestCallMe() {
 
         requestSendVerifyCodeOfNewMobilePhone(mobilePhone, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             self?.requestCallMeFailed(errorMessage)
 
@@ -55,12 +55,12 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
         YepHUD.showActivityIndicator()
 
         confirmNewMobilePhone(mobilePhone, withVerifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 
             SafeDispatch.async { [weak self] in
-                self?.nextButton.enabled = false
+                self?.nextButton.isEnabled = false
             }
 
             let message = errorMessage ?? "Confirm new mobile failed!"
@@ -85,7 +85,7 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
 
             YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("You have successfully updated your mobile for Yep! For now on, using the new number to login.", comment: ""), dismissTitle: String.trans_titleOK, inViewController: self, withDismissAction: { [weak self] in
 
-                self?.performSegueWithIdentifier("unwindToEditProfile", sender: nil)
+                self?.performSegue(withIdentifier: "unwindToEditProfile", sender: nil)
             })
         })
     }
