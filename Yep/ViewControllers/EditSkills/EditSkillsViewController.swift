@@ -54,7 +54,7 @@ final class EditSkillsViewController: BaseViewController {
         separatorInset.left = Ruler.iPhoneHorizontal(15, 20, 25).value
         skillsTableView.separatorInset = separatorInset
 
-        skillsTableView.registerNibOf(EditSkillCell)
+        skillsTableView.registerNibOf(EditSkillCell.self)
 
         // add skills view
 
@@ -80,10 +80,10 @@ final class EditSkillsViewController: BaseViewController {
                 vc.failedSelectSkillMessage = skillSet.failedSelectSkillMessage
 
                 switch skillSet {
-                case .Master:
+                case .master:
                     vc.selectedSkillsSet = Set(strongSelf.masterSkills)
                     vc.anotherSelectedSkillsSet = Set(strongSelf.learningSkills)
-                case .Learning:
+                case .learning:
                     vc.selectedSkillsSet = Set(strongSelf.learningSkills)
                     vc.anotherSelectedSkillsSet = Set(strongSelf.masterSkills)
                 }
@@ -102,7 +102,7 @@ final class EditSkillsViewController: BaseViewController {
 
                     switch skillSet {
 
-                    case .Master:
+                    case .master:
 
                         if selected {
 
@@ -110,7 +110,7 @@ final class EditSkillsViewController: BaseViewController {
 
                                 strongSelf.masterSkills.append(skill)
 
-                                addSkill(skill, toSkillSet: .Master, failureHandler: nil, completion: { _ in })
+                                addSkill(skill, toSkillSet: .master, failureHandler: nil, completion: { _ in })
 
                                 success = true
                             }
@@ -132,7 +132,7 @@ final class EditSkillsViewController: BaseViewController {
                                         }
                                     }
 
-                                    deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
+                                    deleteSkill(skill, fromSkillSet: .master, failureHandler: nil, completion: { success in
                                         println("deleteSkill \(skill.localName) from Master: \(success)")
                                     })
                                 }
@@ -143,14 +143,14 @@ final class EditSkillsViewController: BaseViewController {
                             }
                         }
 
-                    case .Learning:
+                    case .learning:
 
                         if selected {
                             if strongSelf.masterSkills.filter({ $0.id == skill.id }).count == 0 {
 
                                 strongSelf.learningSkills.append(skill)
 
-                                addSkill(skill, toSkillSet: .Learning, failureHandler: nil, completion: { _ in })
+                                addSkill(skill, toSkillSet: .learning, failureHandler: nil, completion: { _ in })
 
                                 success = true
                             }
@@ -172,7 +172,7 @@ final class EditSkillsViewController: BaseViewController {
                                         }
                                     }
 
-                                    deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
+                                    deleteSkill(skill, fromSkillSet: .learning, failureHandler: nil, completion: { success in
                                         println("deleteSkill \(skill.localName) from Learning: \(success)")
                                     })
                                 }
@@ -228,9 +228,9 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
         if let me = me, let skillSet = skillSet {
             switch skillSet {
-            case .Master:
+            case .master:
                 return me.masterSkills.count
-            case .Learning:
+            case .learning:
                 return me.learningSkills.count
             }
         }
@@ -245,9 +245,9 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
         var userSkill: UserSkill?
         if let me = me, let skillSet = skillSet {
             switch skillSet {
-            case .Master:
+            case .master:
                 userSkill = me.masterSkills[indexPath.row]
-            case .Learning:
+            case .learning:
                 userSkill = me.learningSkills[indexPath.row]
             }
         }
@@ -269,10 +269,10 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
                 // 不能直接捕捉 indexPath，不然删除一个后，再删除后面的 Skill 时 indexPath 就不对了
                 var rowToDelete: Int?
                 switch skillSet {
-                case .Master:
-                    rowToDelete = me.masterSkills.indexOf(userSkill)
-                case .Learning:
-                    rowToDelete = me.learningSkills.indexOf(userSkill)
+                case .master:
+                    rowToDelete = me.masterSkills.index(of: userSkill)
+                case .learning:
+                    rowToDelete = me.learningSkills.index(of: userSkill)
                 }
 
                 // delete from local
@@ -285,8 +285,8 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
 
                 if let rowToDelete = rowToDelete {
-                    let indexPathToDelete = NSIndexPath(forRow: rowToDelete, inSection: 0)
-                    self?.skillsTableView.deleteRowsAtIndexPaths([indexPathToDelete], withRowAnimation: .Automatic)
+                    let indexPathToDelete = IndexPath(row: rowToDelete, section: 0)
+                    self?.skillsTableView.deleteRows(at: [indexPathToDelete], with: .automatic)
                 }
 
                 // update Profile's UI
