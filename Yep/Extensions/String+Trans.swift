@@ -35,7 +35,7 @@ extension String {
     }
 
     static func trans_promptLastSeenAt(_ unixTime: TimeInterval) -> String {
-        let timeString = NSDate(timeIntervalSince1970: unixTime).timeAgo.lowercased()
+        let timeString = Date(timeIntervalSince1970: unixTime).timeAgo.lowercased()
         return trans_promptLastSeenAt(timeString)
     }
 }
