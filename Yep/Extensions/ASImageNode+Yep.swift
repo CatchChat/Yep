@@ -32,7 +32,7 @@ extension ASImageNode {
                 return
             }
 
-            if finished && cacheType != .Memory {
+            if finished && cacheType != .memory {
                 UIView.transition(with: strongSelf.view, duration: fadeTransitionDuration, options: .transitionCrossDissolve, animations: {
                     self?.image = image
                 }, completion: nil)
@@ -68,7 +68,7 @@ extension ASImageNode {
                 return
             }
 
-            completion(loadingProgress: progress, image: image)
+            completion(progress, image)
         })
     }
 }
@@ -163,8 +163,8 @@ extension ASImageNode {
                 return
             }
 
-            if cacheType != .Memory {
-                UIView.transitionWithView(strongSelf.view, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
+            if cacheType != .memory {
+                UIView.transition(with: strongSelf.view, duration: imageFadeTransitionDuration, options: .transitionCrossDissolve, animations: { [weak self] in
                     self?.image = image
                 }, completion: nil)
 
