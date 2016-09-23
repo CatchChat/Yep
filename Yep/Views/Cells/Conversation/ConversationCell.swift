@@ -68,7 +68,7 @@ final class ConversationCell: UITableViewCell {
 
     fileprivate func updateCountOfUnreadMessages() {
 
-        if !conversation.invalidated {
+        if !conversation.isInvalidated {
             countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
         }
     }
@@ -85,7 +85,7 @@ final class ConversationCell: UITableViewCell {
 
         updateCountOfUnreadMessages()
         
-        if conversation.type == ConversationType.OneToOne.rawValue {
+        if conversation.type == ConversationType.oneToOne.rawValue {
 
             if let conversationWithFriend = conversation.withFriend {
 
