@@ -59,7 +59,7 @@ final class ChangeMobileViewController: BaseInputMobileViewController {
         mobileNumberTextField.textColor = UIColor.yepInputTextColor()
         mobileNumberTextField.delegate = self
 
-        Observable.combineLatest(areaCodeTextField.rx_text, mobileNumberTextField.rx_text) { !$0.isEmpty && !$1.isEmpty }
+        Observable.combineLatest(areaCodeTextField.rx.textInput.text, mobileNumberTextField.rx.textInput.text) { !$0.isEmpty && !$1.isEmpty }
             .bindTo(nextButton.rx.enabled)
             .addDisposableTo(disposeBag)
 

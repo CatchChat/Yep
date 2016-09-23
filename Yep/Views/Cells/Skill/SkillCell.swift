@@ -52,7 +52,7 @@ final class SkillCell: UICollectionViewCell {
                 strongSelf.tapped = false
 
                 if let skill = strongSelf.skill {
-                    strongSelf.tapAction?(skill: skill)
+                    strongSelf.tapAction?(skill)
                 }
             }
         }
