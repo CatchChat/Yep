@@ -556,7 +556,7 @@ extension MessageToolbar: UITextViewDelegate {
                     self?.mentionUsernameRange = mentionWordRange
 
                     let wordString = wordString.trimming(.whitespace)
-                    self?.tryMentionUserAction?(usernamePrefix: wordString)
+                    self?.tryMentionUserAction?(wordString)
 
                     return
                 }

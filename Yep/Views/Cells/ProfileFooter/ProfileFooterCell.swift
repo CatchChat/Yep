@@ -119,12 +119,12 @@ final class ProfileFooterCell: UICollectionViewCell {
         userID = profileUser.userID
         profileUserIsMe = profileUser.isMe
 
-        configureWithNickname(profileUser.nickname ?? "", username: profileUser.username, introduction: introduction)
+        configureWithNickname(profileUser.nickname, username: profileUser.username, introduction: introduction)
 
         switch profileUser {
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
-        case .UserType(let user):
+        case .userType(let user):
             location = CLLocation(latitude: user.latitude, longitude: user.longitude)
         }
     }
