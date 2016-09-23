@@ -74,10 +74,10 @@ final class FeedDribbbleShotCell: FeedBasicCell {
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
-            if case let .Dribbble(dribbbleShot) = attachment {
-                if let URL = URL(string: dribbbleShot.imageURLString) {
-                    mediaContainerView.mediaImageView.kf_showIndicatorWhenLoading = true
-                    mediaContainerView.mediaImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            if case let .dribbble(dribbbleShot) = attachment {
+                if let url = URL(string: dribbbleShot.imageURLString) {
+                    //mediaContainerView.mediaImageView.kf_showIndicatorWhenLoading = true
+                    mediaContainerView.mediaImageView.kf_setImage(url, placeholder: nil, options: MediaOptionsInfos)
                 }
 
                 mediaContainerView.linkContainerView.textLabel.text = dribbbleShot.title
@@ -90,8 +90,8 @@ final class FeedDribbbleShotCell: FeedBasicCell {
                 return
             }
 
-            if case .DribbbleShot = feed.kind {
-                if case let .Dribbble(shot) = attachment, let imageURL = URL(string: shot.imageURLString), let linkURL = URL(string: shot.htmlURLString) {
+            if case .dribbbleShot = feed.kind {
+                if case let .dribbble(shot) = attachment, let imageURL = URL(string: shot.imageURLString), let linkURL = URL(string: shot.htmlURLString) {
                     self?.tapDribbbleShotMediaAction?(transitionReference: transitionReference, image: transitionReference.image, imageURL: imageURL, linkURL: linkURL)
                 }
             }
@@ -103,9 +103,9 @@ final class FeedDribbbleShotCell: FeedBasicCell {
                 return
             }
 
-            if case .DribbbleShot = feed.kind {
-                if case let .Dribbble(shot) = attachment, let URL = URL(string: shot.htmlURLString) {
-                    self?.tapDribbbleShotLinkAction?(URL)
+            if case .dribbbleShot = feed.kind {
+                if case let .dribbble(shot) = attachment, let url = URL(string: shot.htmlURLString) {
+                    self?.tapDribbbleShotLinkAction?(url)
                 }
             }
         }
