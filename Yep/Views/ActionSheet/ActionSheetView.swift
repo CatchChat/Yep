@@ -283,11 +283,11 @@ final class ActionSheetView: UIView {
         view.rowHeight = self.rowHeight
         view.isScrollEnabled = false
 
-        view.registerClassOf(ActionSheetDefaultCell)
-        view.registerClassOf(ActionSheetDetailCell)
-        view.registerClassOf(ActionSheetSwitchCell)
-        view.registerClassOf(ActionSheetSubtitleSwitchCell)
-        view.registerClassOf(ActionSheetCheckCell)
+        view.registerClassOf(ActionSheetDefaultCell.self)
+        view.registerClassOf(ActionSheetDetailCell.self)
+        view.registerClassOf(ActionSheetSwitchCell.self)
+        view.registerClassOf(ActionSheetSubtitleSwitchCell.self)
+        view.registerClassOf(ActionSheetCheckCell.self)
 
         return view
     }()
@@ -402,7 +402,7 @@ final class ActionSheetView: UIView {
             self?.removeFromSuperview()
         })
         
-        delay(0.1) {
+        _ = delay(0.1) {
             afterHideAction?()
         }
     }
