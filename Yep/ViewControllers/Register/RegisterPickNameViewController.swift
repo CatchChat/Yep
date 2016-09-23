@@ -27,8 +27,8 @@ final class RegisterPickNameViewController: BaseViewController {
     fileprivate lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.title = String.trans_buttonNextStep
-        button.rx_tap
-            .subscribeNext({ [weak self] in self?.showRegisterPickMobile() })
+        button.rx.tap
+            .subscribe(onNext: { [weak self] in self?.showRegisterPickMobile() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
@@ -80,9 +80,9 @@ final class RegisterPickNameViewController: BaseViewController {
         nameTextField.textColor = UIColor.yepInputTextColor()
         nameTextField.placeholder = " "
         nameTextField.delegate = self
-        nameTextField.rx_text
+        nameTextField.rx.textInput.text
             .map({ !$0.isEmpty })
-            .subscribeNext({ [weak self] in self?.isDirty = $0 })
+            .subscribe(onNext: { [weak self] in self?.isDirty = $0 })
             .addDisposableTo(disposeBag)
 
         pickNamePromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
