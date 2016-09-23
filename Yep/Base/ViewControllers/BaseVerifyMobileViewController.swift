@@ -36,8 +36,8 @@ class BaseVerifyMobileViewController: SegueViewController {
     lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.title = String.trans_buttonNextStep
-        button.rx_tap
-            .subscribeNext({ [weak self] in self?.next() })
+        button.rx.tap
+            .subscribe(onNext: { [weak self] in self?.next() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
@@ -75,8 +75,8 @@ class BaseVerifyMobileViewController: SegueViewController {
         navigationItem.rightBarButtonItem = nextButton
 
         NotificationCenter.default
-            .rx_notification(AppDelegate.Notification.applicationDidBecomeActive)
-            .subscribeNext({ [weak self] _ in self?.verifyCodeTextField.becomeFirstResponder() })
+            .rx.notification(Notification.Name(rawValue: AppDelegate.Notification.applicationDidBecomeActive))
+            .subscribe(onNext: { [weak self] _ in self?.verifyCodeTextField.becomeFirstResponder() })
             .addDisposableTo(disposeBag)
 
         verifyMobileNumberPromptLabel.text = String.trans_promptInputVerificationCode
@@ -86,9 +86,9 @@ class BaseVerifyMobileViewController: SegueViewController {
         verifyCodeTextField.placeholder = " "
         verifyCodeTextField.backgroundColor = UIColor.white
         verifyCodeTextField.textColor = UIColor.yepInputTextColor()
-        verifyCodeTextField.rx_text
+        verifyCodeTextField.rx.textInput.text
             .map({ $0.characters.count == YepConfig.verifyCodeLength() })
-            .subscribeNext({ [weak self] in self?.haveAppropriateInput = $0 })
+            .subscribe(onNext: { [weak self] in self?.haveAppropriateInput = $0 })
             .addDisposableTo(disposeBag)
 
         callMePromptLabel.text = String.trans_promptDidNotGetIt
@@ -160,11 +160,11 @@ class BaseVerifyMobileViewController: SegueViewController {
             self?.callMeButton.isEnabled = false
         }
 
-        delay(10) {
+        _ = delay(10) {
             UIView.performWithoutAnimation { [weak self] in
-                self?.callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
+                self?.callMeButton.setTitle(String.trans_buttonCallMe, for: .normal)
                 self?.callMeButton.layoutIfNeeded()
-                self?.callMeButton.enabled = true
+                self?.callMeButton.isEnabled = true
             }
         }
 
@@ -178,9 +178,9 @@ class BaseVerifyMobileViewController: SegueViewController {
 
         SafeDispatch.async {
             UIView.performWithoutAnimation { [weak self] in
-                self?.callMeButton.setTitle(String.trans_buttonCallMe, forState: .Normal)
+                self?.callMeButton.setTitle(String.trans_buttonCallMe, for: .normal)
                 self?.callMeButton.layoutIfNeeded()
-                self?.callMeButton.enabled = true
+                self?.callMeButton.isEnabled = true
             }
         }
     }
