@@ -27,32 +27,32 @@ class ChatRightBaseCell: ChatBaseCell {
         }
     }
     
-    var messageSendState: MessageSendState = .NotSend {
+    var messageSendState: MessageSendState = .notSend {
         didSet {
             switch messageSendState {
 
-            case MessageSendState.NotSend:
+            case .notSend:
                 dotImageView.image = UIImage.yep_iconDotSending
                 dotImageView.isHidden = false
                 
                 delay(0.1) { [weak self] in
-                    if let messageSendState = self?.messageSendState , messageSendState == .NotSend {
+                    if let messageSendState = self?.messageSendState , messageSendState == .notSend {
                         self?.showSendingAnimation()
                     }
                 }
 
-            case MessageSendState.Successed:
+            case .successed:
                 dotImageView.image = UIImage.yep_iconDotUnread
                 dotImageView.isHidden = false
 
                 removeSendingAnimation()
 
-            case MessageSendState.Read:
+            case .read:
                 dotImageView.isHidden = true
 
                 removeSendingAnimation()
 
-            case MessageSendState.Failed:
+            case .failed:
                 dotImageView.image = UIImage.yep_iconDotFailed
                 dotImageView.isHidden = false
 
@@ -76,7 +76,7 @@ class ChatRightBaseCell: ChatBaseCell {
 
         contentView.addSubview(dotImageView)
 
-        NotificationCenter.defaultCenter().addObserver(self, selector: #selector(ChatRightBaseCell.tryUpdateMessageState), name: Config.Message.Notification.MessageStateChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatRightBaseCell.tryUpdateMessageState), name: NSNotification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -90,7 +90,7 @@ class ChatRightBaseCell: ChatBaseCell {
         }
 
         if let message = message {
-            if !message.invalidated {
+            if !message.isInvalidated {
                 if let messageSendState = MessageSendState(rawValue: message.sendState) {
                     self.messageSendState = messageSendState
                 }
@@ -105,13 +105,13 @@ class ChatRightBaseCell: ChatBaseCell {
         animation.duration = 1.0
         animation.repeatCount = MAXFLOAT
         SafeDispatch.async { [weak self] in
-            self?.dotImageView.layer.addAnimation(animation, forKey: sendingAnimationName)
+            self?.dotImageView.layer.add(animation, forKey: sendingAnimationName)
         }
     }
 
     func removeSendingAnimation() {
         SafeDispatch.async { [weak self] in
-            self?.dotImageView.layer.removeAnimationForKey(sendingAnimationName)
+            self?.dotImageView.layer.removeAnimation(forKey: sendingAnimationName)
         }
     }
 }
