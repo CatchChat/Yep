@@ -25,7 +25,7 @@ public struct FayeMessage {
     let data: [String: AnyObject]
     let ext: [String: AnyObject]
 
-    static func messageFromDictionary(_ info: [String: AnyObject]) -> FayeMessage? {
+    static func fromDictionary(_ info: [String: Any]) -> FayeMessage? {
 
         let ID = info["id"] as? String
         guard let channel = info["channel"] as? String else { return nil }
