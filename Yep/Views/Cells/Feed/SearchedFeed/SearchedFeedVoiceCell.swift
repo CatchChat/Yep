@@ -71,7 +71,7 @@ final class SearchedFeedVoiceCell: SearchedFeedBasicCell {
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
         if let attachment = feed.attachment {
-            if case let .Audio(audioInfo) = attachment {
+            if case let .audio(audioInfo) = attachment {
 
                 voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
                 voiceContainerView.voiceSampleView.samples = audioInfo.sampleValues
