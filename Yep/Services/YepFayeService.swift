@@ -131,7 +131,7 @@ extension YepFayeService {
             strongSelf.prepareForChannel("handshake")
             strongSelf.prepareForChannel(personalChannel)
 
-            strongSelf.fayeClient.connect()
+            _ = strongSelf.fayeClient.connect()
         }
     }
 
@@ -215,7 +215,7 @@ extension YepFayeService {
                     }
 
                     SafeDispatch.async {
-                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageBatchMarkAsRead, object: Box<LastRead>(lastRead))
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Message.Notification.MessageBatchMarkAsRead), object: Box<LastRead>(lastRead))
                         //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
                     }
 
@@ -254,10 +254,10 @@ extension YepFayeService {
             self.fayeClient.sendMessage(data, toChannel: self.instantChannel(), usingExtension: extensionData, usingBlock: { message  in
 
                 if message.successful {
-                    completion(success: true)
+                    completion(true)
 
                 } else {
-                    completion(success: false)
+                    completion(false)
                 }
             })
         }
@@ -387,14 +387,14 @@ extension YepFayeService: FayeClientDelegate {
         }
     }
 
-    func fayeClient(_ client: FayeClient, didFailDeserializeMessage message: [String: AnyObject]?, withError error: Swift.Error?) {
+    func fayeClient(_ client: FayeClient, didFailDeserializeMessage message: [String: Any]?, withError error: Swift.Error?) {
 
         if let error = error {
             println("fayeClient didFailDeserializeMessage \(error)")
         }
     }
 
-    func fayeClient(_ client: FayeClient, didReceiveMessage messageData: [String: AnyObject], fromChannel channel: String) {
+    func fayeClient(_ client: FayeClient, didReceiveMessage messageData: [String: Any], fromChannel channel: String) {
 
         println("fayeClient didReceiveMessage \(messageData)")
     }
