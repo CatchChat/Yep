@@ -24,7 +24,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
             contactsTableView.rowHeight = 80
             contactsTableView.tableFooterView = UIView()
 
-            contactsTableView.registerNibOf(ContactsCell)
+            contactsTableView.registerNibOf(ContactsCell.self)
         }
     }
 
@@ -110,22 +110,24 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
             strongSelf.noContacts = strongSelf.friends.isEmpty
 
-            let tableView = strongSelf.contactsTableView
+            guard let tableView = strongSelf.contactsTableView else {
+                return
+            }
 
             switch change {
 
-            case .Initial:
+            case .initial:
                 tableView.reloadData()
 
-            case .Update(_, let deletions, let insertions, let modifications):
-                let section = Section.Local.rawValue
+            case .update(_, let deletions, let insertions, let modifications):
+                let section = Section.local.rawValue
                 tableView.beginUpdates()
-                tableView.insertRowsAtIndexPaths(insertions.map({ NSIndexPath(forRow: $0, inSection: section) }), withRowAnimation: .Automatic)
-                tableView.deleteRowsAtIndexPaths(deletions.map({ NSIndexPath(forRow: $0, inSection: section) }), withRowAnimation: .Automatic)
-                tableView.reloadRowsAtIndexPaths(modifications.map({ NSIndexPath(forRow: $0, inSection: section) }), withRowAnimation: .Automatic)
+                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: section) }), with: .automatic)
+                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: section) }), with: .automatic)
+                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: section) }), with: .automatic)
                 tableView.endUpdates()
 
-            case .Error(let error):
+            case .error(let error):
                 fatalError("\(error)")
             }
         })
@@ -203,7 +205,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
                 if user.conversation == nil {
                     let newConversation = Conversation()
                     
-                    newConversation.type = ConversationType.OneToOne.rawValue
+                    newConversation.type = ConversationType.oneToOne.rawValue
                     newConversation.withFriend = user
                     
                     let _ = try? realm.write {
@@ -213,7 +215,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
                 vc.conversation = user.conversation
 
-                NotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
             }
 
             recoverOriginalNavigationDelegate()
@@ -273,9 +275,9 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         return numberOfRowsInSection(section)
     }
 
-    fileprivate func friendAtIndexPath(_ indexPath: NSIndexPath) -> User? {
+    fileprivate func friendAtIndexPath(_ indexPath: IndexPath) -> User? {
 
-        let index = indexPath.row
+        let index = (indexPath as NSIndexPath).row
         let friend = friends[safe: index]
         return friend
     }
@@ -308,7 +310,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
             cell.showProfileAction = { [weak self] in
                 if let friend = self?.friendAtIndexPath(indexPath) {
-                    self?.performSegueWithIdentifier("showProfile", sender: friend)
+                    self?.performSegue(withIdentifier: "showProfile", sender: friend)
                 }
             }
         }
@@ -337,7 +339,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         switch section {
         case .local:
             if let friend = friendAtIndexPath(indexPath) {
-                performSegueWithIdentifier("showProfile", sender: friend)
+                performSegue(withIdentifier: "showProfile", sender: friend)
             }
         }
     }
@@ -376,7 +378,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
                     SafeDispatch.async { [weak self] in
                         if let user = self?.friends[indexPath.row], let realm = user.realm {
                             realm.beginWrite()
-                            user.friendState = UserFriendState.Stranger.rawValue
+                            user.friendState = UserFriendState.stranger.rawValue
                             _ = try? realm.commitWrite()
                         }
                     }
