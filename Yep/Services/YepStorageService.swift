@@ -60,7 +60,51 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: D
     ]
     
     let filename = "attachment"
-    
+
+    Alamofire.upload(multipartFormData: { multipartFormData in
+
+        for (key, value) in parameters {
+            multipartFormData.append(value.data(using: .utf8)!, withName: key)
+        }
+
+        if let filePath = filePath {
+            multipartFormData.append(URL(fileURLWithPath: filePath), withName: "file", fileName: filename, mimeType: mimeType)
+
+        } else if let fileData = fileData {
+            multipartFormData.append(fileData, withName: "file", fileName: filename, mimeType: mimeType)
+        }
+
+    }, to: s3UploadParams.url, method: .post, encodingCompletion: { encodingResult in
+
+        switch encodingResult {
+
+        case .success(let upload, _, _):
+
+            upload.response { (dataResponse) in
+
+                if let response = dataResponse.response {
+                    print(response.statusCode)
+
+                    if response.statusCode == 204 {
+                        completion()
+                    } else {
+                        failureHandler?(.other(nil), nil)
+                    }
+
+                } else {
+                    failureHandler?(.other(nil), nil)
+                }
+
+            }
+
+        case .failure(let encodingError):
+
+            println("Error \(encodingError)")
+
+            failureHandler?(.other(nil), nil)
+        }
+    })
+    /*
     Alamofire.upload(
         .POST,
         s3UploadParams.url,
@@ -106,7 +150,7 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: D
                 failureHandler?(reason: .Other(nil), errorMessage: nil)
             }
         }
-    )
+    )*/
 }
 
 /// Get S3  upload params
@@ -114,7 +158,7 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: D
 ///
 /// :S3UploadParams:     The Upload Params
 
-private func s3UploadParams(_ url: String, withFileExtension fileExtension: FileExtension, failureHandler: ((Reason, String?) -> ())?, completion: (S3UploadParams) -> Void) {
+private func s3UploadParams(_ url: String, withFileExtension fileExtension: FileExtension, failureHandler: ((Reason, String?) -> ())?, completion: @escaping (S3UploadParams) -> Void) {
 
     let requestParameters = [
         "extname": fileExtension.rawValue
@@ -172,9 +216,9 @@ private func s3UploadParamsOfKind(_ kind: S3UploadParams.Kind, withFileExtension
 
     s3UploadParams("/v1/attachments/\(kind.rawValue)/s3_upload_form_fields", withFileExtension: fileExtension, failureHandler: { (reason, error)  in
         if let failureHandler = failureHandler {
-            failureHandler(reason: reason, errorMessage: error)
+            failureHandler(reason, error)
         } else {
-            defaultFailureHandler(reason: reason, errorMessage: error)
+            defaultFailureHandler(reason, error)
         }
 
     }, completion: { S3PrivateUploadParams in
