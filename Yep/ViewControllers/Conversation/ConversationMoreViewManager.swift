@@ -74,7 +74,7 @@ final class ConversationMoreViewManager {
             view = ActionSheetView(items: [
                 .detail(
                     title: NSLocalizedString("View profile", comment: ""),
-                    titleColor: UIColor.darkGrayColor(),
+                    titleColor: UIColor.darkGray,
                     action: { [weak self] in
                         self?.showProfileAction?()
                     }
@@ -198,7 +198,7 @@ final class ConversationMoreViewManager {
 
         return .default(
             title: groupActionTitle,
-            titleColor: UIColor.redColor(),
+            titleColor: UIColor.red,
             action: { [weak self] in
                 self?.updateGroupAffairAction?()
                 return true
