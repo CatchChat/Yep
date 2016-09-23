@@ -159,7 +159,7 @@ final class ChatLeftImageCell: ChatBaseCell, Previewable {
 
         let imageSize = message.fixedImageSize
 
-        messageImageView.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .Left, completion: { loadingProgress, image in
+        messageImageView.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .left, completion: { loadingProgress, image in
             SafeDispatch.async { [weak self] in
                 self?.loadingWithProgress(loadingProgress, image: image)
             }
