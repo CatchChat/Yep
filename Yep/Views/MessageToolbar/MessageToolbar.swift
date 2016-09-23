@@ -37,19 +37,19 @@ final class MessageToolbar: UIToolbar {
 
     var stateTransitionAction: ((_ messageToolbar: MessageToolbar, _ previousState: MessageToolbarState, _ currentState: MessageToolbarState) -> Void)?
 
-    var previousState: MessageToolbarState = .Default
-    var state: MessageToolbarState = .Default {
+    var previousState: MessageToolbarState = .default
+    var state: MessageToolbarState = .default {
         willSet {
             updateHeightOfMessageTextView()
 
             previousState = state
 
             if let action = stateTransitionAction {
-                action(messageToolbar: self, previousState: previousState, currentState: newValue)
+                action(self, previousState, newValue)
             }
 
             switch newValue {
-            case .Default:
+            case .default:
                 moreButton.isHidden = false
                 sendButton.isHidden = true
 
@@ -64,13 +64,13 @@ final class MessageToolbar: UIToolbar {
 
                 hideVoiceButtonAnimation()
 
-            case .BeginTextInput:
+            case .beginTextInput:
                 moreButton.isHidden = false
                 sendButton.isHidden = true
 
                 moreButton.setImage(UIImage.yep_itemMore, for: UIControlState())
 
-            case .TextInputing:
+            case .textInputing:
                 moreButton.isHidden = true
                 sendButton.isHidden = false
 
@@ -79,7 +79,7 @@ final class MessageToolbar: UIToolbar {
                 
                 notifyTyping()
 
-            case .VoiceRecord:
+            case .voiceRecord:
                 moreButton.isHidden = false
                 sendButton.isHidden = true
                 
@@ -100,7 +100,7 @@ final class MessageToolbar: UIToolbar {
 
         didSet {
             switch state {
-            case .BeginTextInput, .TextInputing:
+            case .beginTextInput, .textInputing:
                 // 由用户手动触发键盘弹出，回复时要注意
                 break
             default:
@@ -211,7 +211,7 @@ final class MessageToolbar: UIToolbar {
         
         makeUI()
 
-        state = .Default
+        state = .default
     }
 
     var messageTextViewMinHeight: CGFloat {
@@ -359,7 +359,7 @@ final class MessageToolbar: UIToolbar {
 
     func updateDraft(_ notification: Foundation.Notification) {
 
-        guard let conversation = conversation , !conversation.invalidated, let realm = conversation.realm else {
+        guard let conversation = conversation , !conversation.isInvalidated, let realm = conversation.realm else {
             return
         }
 
@@ -393,11 +393,11 @@ final class MessageToolbar: UIToolbar {
 
     func toggleRecordVoice() {
 
-        if state == .VoiceRecord {
-            state = .Default
+        if state == .voiceRecord {
+            state = .default
 
         } else {
-            state = .VoiceRecord
+            state = .voiceRecord
         }
     }
 
@@ -417,9 +417,11 @@ final class MessageToolbar: UIToolbar {
             return
         }
 
-        let mentionUsernameWithSpaceSuffix = "@" + username + " "
+        guard var text = messageTextView.text else {
+            return
+        }
 
-        var text = messageTextView.text
+        let mentionUsernameWithSpaceSuffix = "@" + username + " "
 
         if let range = mentionUsernameRange {
             text.replaceSubrange(range, with: mentionUsernameWithSpaceSuffix)
@@ -485,14 +487,14 @@ extension MessageToolbar: UITextViewDelegate {
 
         guard let text = textView.text else { return }
 
-        state = text.isEmpty ? .BeginTextInput : .TextInputing
+        state = text.isEmpty ? .beginTextInput : .textInputing
     }
 
     func textViewDidChange(_ textView: UITextView) {
 
         guard let text = textView.text else { return }
 
-        state = text.isEmpty ? .BeginTextInput : .TextInputing
+        state = text.isEmpty ? .beginTextInput : .textInputing
 
         if needDetectMention {
 
@@ -510,35 +512,35 @@ extension MessageToolbar: UITextViewDelegate {
 
                 // 对于拼音输入法等，输入时会先显示拼音，然后才上字，拼音间有空格（这个空格似乎不是普通空格）
 
-                if let markedTextRange = textView.markedTextRange, let markedText = textView.textInRange(markedTextRange) {
+                if let markedTextRange = textView.markedTextRange, let markedText = textView.text(in: markedTextRange) {
 
                     var text = text
 
                     let beginning = textView.beginningOfDocument
                     let start = markedTextRange.start
                     let end = markedTextRange.end
-                    let location = textView.offsetFromPosition(beginning, toPosition: start)
+                    let location = textView.offset(from: beginning, to: start)
 
                     // 保证前面至少还有一个字符，for mentionNSRange
                     guard location > 0 else {
                         return
                     }
 
-                    let length = textView.offsetFromPosition(start, toPosition: end)
+                    let length = textView.offset(from: start, to: end)
                     let nsRange = NSMakeRange(location, length)
                     let mentionNSRange = NSMakeRange(location - 1, length + 1)
                     guard let range = text.yep_rangeFromNSRange(nsRange), let mentionRange = text.yep_rangeFromNSRange(mentionNSRange) else {
                         return
                     }
 
-                    text.removeRange(range)
+                    text.removeSubrange(range)
 
                     if text.hasSuffix("@") {
                         self?.mentionUsernameRange = mentionRange
 
                         let wordString = markedText.yep_removeAllWhitespaces
                         //println("wordString from markedText: >\(wordString)<")
-                        self?.tryMentionUserAction?(usernamePrefix: wordString)
+                        self?.tryMentionUserAction?(wordString)
 
                         return
                     }
@@ -553,7 +555,7 @@ extension MessageToolbar: UITextViewDelegate {
 
                     self?.mentionUsernameRange = mentionWordRange
 
-                    let wordString = wordString.trimming(.Whitespace)
+                    let wordString = wordString.trimming(.whitespace)
                     self?.tryMentionUserAction?(usernamePrefix: wordString)
 
                     return
