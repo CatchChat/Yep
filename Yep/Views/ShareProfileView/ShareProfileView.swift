@@ -62,14 +62,14 @@ final class ShareProfileView: UIView {
         
         animating = true
         
-        UIView.animateKeyframesWithDuration(0.3, delay: 0, options: UIViewKeyframeAnimationOptions.AllowUserInteraction, animations: { [weak self] in
-            
-            self?.transform = CGAffineTransformScale(CGAffineTransformIdentity, 3.0, 3.0)
+        UIView.animateKeyframes(withDuration: 0.3, delay: 0, options: .allowUserInteraction, animations: { [weak self] in
+
+            self?.transform = CGAffineTransform.identity.scaledBy(x: 3.0, y: 3.0)
             self?.alpha = 0
             
         }, completion: { [weak self] _ in
             
-            delay(0.5, work: { 
+            _ = delay(0.5, work: {
                 further()
                 self?.animating = false
             })
