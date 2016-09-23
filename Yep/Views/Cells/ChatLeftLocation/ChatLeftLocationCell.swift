@@ -107,7 +107,7 @@ final class ChatLeftLocationCell: ChatBaseCell {
 
         locationNameLabel.text = locationName
 
-        mapImageView.yep_setMapImageOfMessage(message, withSize: ChatLeftLocationCell.mapSize, tailDirection: .Left)
+        mapImageView.yep_setMapImageOfMessage(message, withSize: ChatLeftLocationCell.mapSize, tailDirection: .left)
     }
     
     fileprivate func configureNameLabel() {
