@@ -328,7 +328,7 @@
 		50A6A7BD1D23BED600E01190 /* GeniusInterviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7BC1D23BED600E01190 /* GeniusInterviewViewController.swift */; };
 		50A6A7BF1D23BEEF00E01190 /* GeniusInterview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50A6A7BE1D23BEEF00E01190 /* GeniusInterview.storyboard */; };
 		50A6A7C21D23C2D300E01190 /* GeniusInterviewActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7C11D23C2D300E01190 /* GeniusInterviewActionView.swift */; };
-		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
+		50A820241B969B0F007CD30E /* TimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* TimeZone+Yep.swift */; };
 		50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
 		50AACEC81BB54128004DD54B /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AACEC71BB54128004DD54B /* FeedView.swift */; };
@@ -1072,7 +1072,7 @@
 		50A6A7BC1D23BED600E01190 /* GeniusInterviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeniusInterviewViewController.swift; path = ViewControllers/GeniusInterview/GeniusInterviewViewController.swift; sourceTree = "<group>"; };
 		50A6A7BE1D23BEEF00E01190 /* GeniusInterview.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = GeniusInterview.storyboard; path = ViewControllers/GeniusInterview/GeniusInterview.storyboard; sourceTree = "<group>"; };
 		50A6A7C11D23C2D300E01190 /* GeniusInterviewActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeniusInterviewActionView.swift; path = Views/GeniusInterviewAction/GeniusInterviewActionView.swift; sourceTree = "<group>"; };
-		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
+		50A820231B969B0F007CD30E /* TimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TimeZone+Yep.swift"; path = "Extensions/TimeZone+Yep.swift"; sourceTree = "<group>"; };
 		50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillPickerItemView.swift; path = Views/PickerItems/FeedSkill/FeedSkillPickerItemView.swift; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
 		50AACEC71BB54128004DD54B /* FeedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedView.swift; path = Views/Feed/FeedView.swift; sourceTree = "<group>"; };
@@ -1945,7 +1945,7 @@
 				50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */,
 				50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */,
 				5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */,
-				50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */,
+				50A820231B969B0F007CD30E /* TimeZone+Yep.swift */,
 				50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */,
 				500EED951BF06AC900C6BABC /* URL+Yep.swift */,
 				5052D9321D5AC21D00D72EBD /* UIImage+Yep.swift */,
@@ -4861,7 +4861,7 @@
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
 				502C22391D62C07F00724368 /* SegueViewController.swift in Sources */,
-				50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */,
+				50A820241B969B0F007CD30E /* TimeZone+Yep.swift in Sources */,
 				50FD753D1C1FB4AC0050A382 /* FPSLabel.swift in Sources */,
 				50E392C21C22B9E400C0CECB /* FeedDribbbleShotCell.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,

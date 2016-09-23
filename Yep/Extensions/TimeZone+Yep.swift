@@ -1,5 +1,5 @@
 //
-//  NSTimeZone+Yep.swift
+//  TimeZone+Yep.swift
 //  Yep
 //
 //  Created by nixzhu on 15/9/2.
@@ -258,8 +258,8 @@ extension TimeZone {
 
         let timeZone = TimeZone.current
 
-        if let
-            shortAreaName = timeZone.localizedName(for: .shortGeneric, locale: Locale.system),
+        if
+            let shortAreaName = timeZone.localizedName(for: .shortGeneric, locale: nil),
             let areaCode = areaCodeInfo[shortAreaName] {
                 return areaCode
         }
