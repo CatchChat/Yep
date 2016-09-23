@@ -63,16 +63,13 @@ final class RegisterPickSkillsViewController: BaseViewController {
             navigationItem.titleView = NavigationTitleLabel(title: NSLocalizedString("Pick some skills", comment: ""))
         }
 
-        skillsCollectionView.registerNibOf(SkillSelectionCell)
-        skillsCollectionView.registerNibOf(SkillAddCell)
+        skillsCollectionView.registerNibOf(SkillSelectionCell.self)
+        skillsCollectionView.registerNibOf(SkillAddCell.self)
 
-        skillsCollectionView.registerHeaderNibOf(AddSkillsReusableView)
-        skillsCollectionView.registerFooterClassOf(UICollectionReusableView)
+        skillsCollectionView.registerHeaderNibOf(AddSkillsReusableView.self)
+        skillsCollectionView.registerFooterClassOf(UICollectionReusableView.self)
 
-        allSkillCategories(failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-            
-        }, completion: { [weak self] skillCategories in
+        allSkillCategories(failureHandler: nil, completion: { [weak self] skillCategories in
             self?.skillCategories = skillCategories
         })
     }
@@ -86,7 +83,7 @@ final class RegisterPickSkillsViewController: BaseViewController {
     }
 
     @objc fileprivate func cancel() {
-        navigationController?.popViewController(animated: true)
+        _ = navigationController?.popViewController(animated: true)
     }
 
     @objc fileprivate func saveSkills(_ sender: AnyObject) {
@@ -102,32 +99,32 @@ final class RegisterPickSkillsViewController: BaseViewController {
         let addSkillsGroup = DispatchGroup()
 
         for skill in masterSkills {
-            dispatch_group_enter(addSkillsGroup)
+            addSkillsGroup.enter()
 
-            addSkill(skill, toSkillSet: .Master, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            addSkill(skill, toSkillSet: .master, failureHandler: { (reason, errorMessage) in
+                defaultFailureHandler(reason, errorMessage)
 
                 saveSkillsErrorMessage = errorMessage
 
-                dispatch_group_leave(addSkillsGroup)
+                addSkillsGroup.leave()
 
             }, completion: { success in
-                dispatch_group_leave(addSkillsGroup)
+                addSkillsGroup.leave()
             })
         }
 
         for skill in learningSkills {
-            dispatch_group_enter(addSkillsGroup)
+            addSkillsGroup.enter()
 
-            addSkill(skill, toSkillSet: .Learning, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            addSkill(skill, toSkillSet: .learning, failureHandler: { (reason, errorMessage) in
+                defaultFailureHandler(reason, errorMessage)
 
                 saveSkillsErrorMessage = errorMessage
 
-                dispatch_group_leave(addSkillsGroup)
+                addSkillsGroup.leave()
 
             }, completion: { success in
-                dispatch_group_leave(addSkillsGroup)
+                addSkillsGroup.leave()
             })
         }
 
@@ -145,7 +142,7 @@ final class RegisterPickSkillsViewController: BaseViewController {
                     YepHUD.hideActivityIndicator()
 
                     SafeDispatch.async {
-                        if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+                        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
                             appDelegate.startMainStory()
                         }
                     }
@@ -158,9 +155,9 @@ final class RegisterPickSkillsViewController: BaseViewController {
                     YepAlert.alertSorry(message: errorMessage, inViewController: self)
 
                 } else {
-                    strongSelf.navigationController?.popViewController(animated: true)
+                    _ = strongSelf.navigationController?.popViewController(animated: true)
 
-                    strongSelf.afterChangeSkillsAction?(masterSkills: strongSelf.masterSkills, learningSkills: strongSelf.learningSkills)
+                    strongSelf.afterChangeSkillsAction?(strongSelf.masterSkills, strongSelf.learningSkills)
                 }
             }
         }
@@ -183,10 +180,10 @@ final class RegisterPickSkillsViewController: BaseViewController {
                 vc.failedSelectSkillMessage = skillSet.failedSelectSkillMessage
 
                 switch skillSet {
-                case .Master:
+                case .master:
                     vc.selectedSkillsSet = Set(masterSkills)
                     vc.anotherSelectedSkillsSet = Set(learningSkills)
-                case .Learning:
+                case .learning:
                     vc.selectedSkillsSet = Set(learningSkills)
                     vc.anotherSelectedSkillsSet = Set(masterSkills)
                 }
@@ -203,7 +200,7 @@ final class RegisterPickSkillsViewController: BaseViewController {
 
                         switch skillSet {
 
-                        case .Master:
+                        case .master:
 
                             if selected {
 
@@ -223,7 +220,7 @@ final class RegisterPickSkillsViewController: BaseViewController {
                                     for skill in skillsToDelete {
 
                                         if !strongSelf.isRegister {
-                                            deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
+                                            deleteSkill(skill, fromSkillSet: .master, failureHandler: nil, completion: { success in
                                                 println("deleteSkill \(skill.localName) from Master: \(success)")
                                             })
                                         }
@@ -235,7 +232,7 @@ final class RegisterPickSkillsViewController: BaseViewController {
                                 }
                             }
 
-                        case .Learning:
+                        case .learning:
 
                             if selected {
                                 if strongSelf.masterSkills.filter({ $0.id == skill.id }).count == 0 {
@@ -254,7 +251,7 @@ final class RegisterPickSkillsViewController: BaseViewController {
                                     for skill in skillsToDelete {
 
                                         if !strongSelf.isRegister {
-                                            deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
+                                            deleteSkill(skill, fromSkillSet: .learning, failureHandler: nil, completion: { success in
                                                 println("deleteSkill \(skill.localName) from Learning: \(success)")
                                             })
                                         }
@@ -326,18 +323,15 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
             } else {
                 let cell: SkillAddCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
-                cell.skillSet = .Master
+                cell.skillSet = .master
 
                 cell.addSkillsAction = { [weak self] skillSet in
 
                     if let _ = self?.skillCategories {
-                        self?.performSegueWithIdentifier("presentSelectSkills", sender: skillSet.rawValue)
+                        self?.performSegue(withIdentifier: "presentSelectSkills", sender: skillSet.rawValue)
 
                     } else {
-                        allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                        }, completion: { skillCategories -> Void in
+                        allSkillCategories(failureHandler: nil, completion: { (skillCategories) in
                             self?.skillCategories = skillCategories
                         })
                     }
@@ -359,18 +353,15 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
             } else {
                 let cell: SkillAddCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
-                cell.skillSet = .Learning
+                cell.skillSet = .learning
 
                 cell.addSkillsAction = { [weak self] skillSet in
 
                     if let _ = self?.skillCategories {
-                        self?.performSegueWithIdentifier("presentSelectSkills", sender: skillSet.rawValue)
+                        self?.performSegue(withIdentifier: "presentSelectSkills", sender: skillSet.rawValue)
 
                     } else {
-                        allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                        }, completion: { skillCategories -> Void in
+                        allSkillCategories(failureHandler: nil, completion: { (skillCategories) in
                             self?.skillCategories = skillCategories
                         })
                     }
@@ -393,10 +384,10 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
             switch (indexPath as NSIndexPath).section {
 
             case Section.master.rawValue:
-                header.skillSet = .Master
+                header.skillSet = .master
 
             case Section.learning.rawValue:
-                header.skillSet = .Learning
+                header.skillSet = .learning
 
             default:
                 break
