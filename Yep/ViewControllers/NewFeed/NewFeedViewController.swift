@@ -40,11 +40,11 @@ final class NewFeedViewController: SegueViewController {
             switch self {
             case .default:
                 return false
-            case .SocialWork:
+            case .socialWork:
                 return false
             case .voice:
                 return true
-            case .Location:
+            case .location:
                 return true
             }
         }
@@ -186,14 +186,14 @@ final class NewFeedViewController: SegueViewController {
         }
 
         var skills = skillsFromUserSkillList(me.masterSkills) + skillsFromUserSkillList(me.learningSkills)
-        skills.insert(NewFeedViewController.generalSkill, atIndex: 0)
+        skills.insert(NewFeedViewController.generalSkill, at: 0)
         return skills
     }()
     
     fileprivate var pickedSkill: Skill? {
         willSet {
             pickedSkillLabel.text = newValue?.localName
-            choosePromptLabel.hidden = (newValue != nil)
+            choosePromptLabel.isHidden = (newValue != nil)
         }
     }
 
@@ -232,8 +232,8 @@ final class NewFeedViewController: SegueViewController {
         
         mediaCollectionView.backgroundColor = UIColor.clear
 
-        mediaCollectionView.registerNibOf(FeedMediaAddCell)
-        mediaCollectionView.registerNibOf(FeedMediaCell)
+        mediaCollectionView.registerNibOf(FeedMediaAddCell.self)
+        mediaCollectionView.registerNibOf(FeedMediaCell.self)
 
         mediaCollectionView.contentInset.left = 15
         mediaCollectionView.dataSource = self
@@ -246,7 +246,7 @@ final class NewFeedViewController: SegueViewController {
         // pick skill
         
         // 只有自己也有，才使用准备的
-        if let skill = preparedSkill, let _ = skills.indexOf(skill) {
+        if let skill = preparedSkill, let _ = skills.index(of: skill) {
             pickedSkill = preparedSkill
         }
         
@@ -268,7 +268,7 @@ final class NewFeedViewController: SegueViewController {
         
         // try turn on location
         
-        proposeToAccess(.Location(.WhenInUse), agreed: {
+        proposeToAccess(.location(.whenInUse), agreed: {
             YepLocationService.turnOn()
             
         }, rejected: { [weak self] in
@@ -285,7 +285,7 @@ final class NewFeedViewController: SegueViewController {
 
             mediaCollectionViewHeightConstraint.constant = 80
 
-        case .SocialWork(let socialWork):
+        case .socialWork(let socialWork):
             mediaCollectionView.isHidden = true
             socialWorkContainerView.isHidden = false
             voiceContainerView.isHidden = true
@@ -316,7 +316,7 @@ final class NewFeedViewController: SegueViewController {
 
             voiceSampleViewWidthConstraint.constant = CGFloat(feedVoice.limitedSampleValues.count) * 3
 
-        case .Location(let location):
+        case .location(let location):
             mediaCollectionView.isHidden = true
             socialWorkContainerView.isHidden = true
             voiceContainerView.isHidden = true
@@ -372,7 +372,7 @@ final class NewFeedViewController: SegueViewController {
 
         switch socialWorkType {
 
-        case .GithubRepo:
+        case .githubRepo:
 
             socialWorkImageView.isHidden = true
             githubRepoContainerView.isHidden = false
@@ -384,7 +384,7 @@ final class NewFeedViewController: SegueViewController {
                 githubRepoDescriptionLabel.text = githubRepo.repoDescription
             }
 
-        case .DribbbleShot:
+        case .dribbbleShot:
 
             socialWorkImageView.isHidden = false
             githubRepoContainerView.isHidden = true
@@ -393,7 +393,7 @@ final class NewFeedViewController: SegueViewController {
                 socialWorkImageURL = URL(string: string)
             }
 
-        case .InstagramMedia:
+        case .instagramMedia:
 
             socialWorkImageView.isHidden = false
             githubRepoContainerView.isHidden = true
@@ -403,8 +403,8 @@ final class NewFeedViewController: SegueViewController {
             }
         }
         
-        if let URL = socialWorkImageURL {
-            socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
+        if let url = socialWorkImageURL {
+            socialWorkImageView.kf_setImage(with: url, placeholder: nil)
         }
     }
     
@@ -445,7 +445,7 @@ final class NewFeedViewController: SegueViewController {
             }
             
         } else {
-            if let skill = preparedSkill, let index = skills.indexOf(skill) {
+            if let skill = preparedSkill, let index = skills.index(of: skill) {
                 let selectedRow = index
                 skillPickerView.selectRow(selectedRow, inComponent: 0, animated: false)
                 pickedSkill = skills[selectedRow % skills.count]
@@ -551,14 +551,14 @@ final class NewFeedViewController: SegueViewController {
 
                     // resize to smaller, not need fixRotation
 
-                    if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .High) {
+                    if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .high) {
                         return DiscoveredAttachment(metadata: "", URLString: "", image: image)
                     } else {
                         return nil
                     }
                 }).flatMap({ $0 })
 
-                feedAttachment = .Images(imageAttachments)
+                feedAttachment = .images(imageAttachments)
             }
 
         case .voice(let feedVoice):
@@ -568,13 +568,16 @@ final class NewFeedViewController: SegueViewController {
             let audioAsset = AVURLAsset(url: feedVoice.fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
-            let audioMetaDataInfo = [Config.MetaData.audioSamples: feedVoice.limitedSampleValues, Config.MetaData.audioDuration: audioDuration]
+            let audioMetaDataInfo: [String: Any] = [
+                Config.MetaData.audioSamples: feedVoice.limitedSampleValues,
+                Config.MetaData.audioDuration: audioDuration
+            ]
 
-            let audioMetaData = try! JSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: [])
+            let audioMetaData = try! JSONSerialization.data(withJSONObject: audioMetaDataInfo, options: [])
 
             let audioInfo = DiscoveredFeed.AudioInfo(feedID: "", URLString: "", metaData: audioMetaData, duration: audioDuration, sampleValues: feedVoice.limitedSampleValues)
 
-            feedAttachment = .Audio(audioInfo)
+            feedAttachment = .audio(audioInfo)
 
         default:
             break
@@ -611,7 +614,7 @@ final class NewFeedViewController: SegueViewController {
             uploadState = .uploading
 
             if let feed = tryMakeUploadingFeed() , feed.kind.needBackgroundUpload {
-                beforeUploadingFeedAction?(feed: feed, newFeedViewController: self)
+                beforeUploadingFeedAction?(feed, self)
 
                 YepHUD.hideActivityIndicator()
                 dismiss(animated: true, completion: nil)
@@ -645,11 +648,11 @@ final class NewFeedViewController: SegueViewController {
                 }
 
                 createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
 
                     SafeDispatch.async { [weak self] in
                         let message = errorMessage ?? String.trans_promptCreateFeedFailed
-                        self?.uploadState = .Failed(message: message)
+                        self?.uploadState = .failed(message: message)
                     }
 
                 }, completion: { data in
@@ -657,16 +660,16 @@ final class NewFeedViewController: SegueViewController {
 
                     SafeDispatch.async { [weak self] in
 
-                        self?.uploadState = .Success
+                        self?.uploadState = .success
 
                         if let feed = DiscoveredFeed.fromFeedInfo(data, groupInfo: nil) {
-                            self?.afterCreatedFeedAction?(feed: feed)
+                            self?.afterCreatedFeedAction?(feed)
 
-                            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.createdFeed, object: Box<DiscoveredFeed>(feed))
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: YepConfig.Notification.createdFeed), object: Box<DiscoveredFeed>(feed))
                         }
 
                         if !kind.needBackgroundUpload {
-                            self?.dismissViewControllerAnimated(true, completion: nil)
+                            self?.dismiss(animated: true, completion: nil)
                         }
                     }
 
@@ -691,10 +694,10 @@ final class NewFeedViewController: SegueViewController {
             parseOpenGraphGroup.enter()
 
             openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
                 SafeDispatch.async {
-                    dispatch_group_leave(parseOpenGraphGroup)
+                    parseOpenGraphGroup.leave()
                 }
 
             }, completion: { _openGraph in
@@ -703,7 +706,7 @@ final class NewFeedViewController: SegueViewController {
                 SafeDispatch.async {
                     openGraph = _openGraph
 
-                    dispatch_group_leave(parseOpenGraphGroup)
+                    parseOpenGraphGroup.leave()
                 }
             })
 
@@ -729,19 +732,19 @@ final class NewFeedViewController: SegueViewController {
 
                 // resize to smaller, not need fixRotation
 
-                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .Default), let imageData = UIImageJPEGRepresentation(image, 0.95) {
+                if let image = image.resizeToSize(fixedSize, withInterpolationQuality: .default), let imageData = UIImageJPEGRepresentation(image, 0.95) {
 
-                    let source: UploadAttachment.Source = .Data(imageData)
+                    let source: UploadAttachment.Source = .data(imageData)
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
                     let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .JPEG, metaDataString: metaDataString)
 
                     let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment) { result in
                         switch result {
-                        case .Failed(let errorMessage):
+                        case .failed(let errorMessage):
                             if let errorMessage = errorMessage {
                                 uploadErrorMessage = errorMessage
                             }
-                        case .Success(let uploadedAttachment):
+                        case .success(let uploadedAttachment):
                             uploadedAttachments.append(uploadedAttachment)
                         }
                     }
@@ -806,13 +809,13 @@ final class NewFeedViewController: SegueViewController {
                             let scaledKey = ImageCache.attachmentSideLengthKeyWithURLString(URLString, sideLength: sideLength)
                             let scaledImage = image.scaleToMinSideLength(sideLength)
                             let scaledData = UIImageJPEGRepresentation(image, 1.0)
-                            Kingfisher.ImageCache.defaultCache.storeImage(scaledImage, originalData: scaledData, forKey: scaledKey, toDisk: true, completionHandler: nil)
+                            Kingfisher.ImageCache.default.store(scaledImage, original: scaledData, forKey: scaledKey, toDisk: true, completionHandler: nil)
                         }
 
                         do {
                             let originalKey = ImageCache.attachmentOriginKeyWithURLString(URLString)
                             let originalData = UIImageJPEGRepresentation(image, 1.0)
-                            Kingfisher.ImageCache.defaultCache.storeImage(image, originalData: originalData, forKey: originalKey, toDisk: true, completionHandler: nil)
+                            Kingfisher.ImageCache.default.store(image, original: originalData, forKey: originalKey, toDisk: true, completionHandler: nil)
                         }
                     }
                 }
@@ -825,7 +828,7 @@ final class NewFeedViewController: SegueViewController {
             uploadImagesQueue.addOperations(uploadAttachmentOperations, waitUntilFinished: false)
             uploadImagesQueue.addOperation(uploadFinishOperation)
 
-        case .SocialWork(let socialWork):
+        case .socialWork(let socialWork):
 
             guard let type = MessageSocialWorkType(rawValue: socialWork.type) else {
                 return
@@ -833,7 +836,7 @@ final class NewFeedViewController: SegueViewController {
 
             switch type {
 
-            case .GithubRepo:
+            case .githubRepo:
 
                 guard let githubRepo = socialWork.githubRepo else {
                     break
@@ -852,7 +855,7 @@ final class NewFeedViewController: SegueViewController {
 
                 kind = .GithubRepo
 
-            case .DribbbleShot:
+            case .dribbbleShot:
 
                 guard let dribbbleShot = socialWork.dribbbleShot else {
                     break
@@ -882,14 +885,14 @@ final class NewFeedViewController: SegueViewController {
             let audioAsset = AVURLAsset(url: feedVoice.fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
-            let audioMetaDataInfo = [
+            let audioMetaDataInfo: [String: Any] = [
                 Config.MetaData.audioDuration: audioDuration,
                 Config.MetaData.audioSamples: feedVoice.limitedSampleValues,
             ]
 
             var metaDataString = ""
-            if let audioMetaData = try? JSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
-                if let audioMetaDataString = NSString(data: audioMetaData, encoding: String.Encoding.utf8) as? String {
+            if let audioMetaData = try? JSONSerialization.data(withJSONObject: audioMetaDataInfo, options: []) {
+                if let audioMetaDataString = String(data: audioMetaData, encoding: .utf8) {
                     metaDataString = audioMetaDataString
                 }
             }
@@ -900,17 +903,17 @@ final class NewFeedViewController: SegueViewController {
 
             uploadVoiceGroup.enter()
 
-            let source: UploadAttachment.Source = .FilePath(feedVoice.fileURL.path!)
+            let source: UploadAttachment.Source = .filePath(feedVoice.fileURL.path)
 
             let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .M4A, metaDataString: metaDataString)
 
             tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
 
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
                 SafeDispatch.async {
                     uploadErrorMessage = errorMessage
-                    dispatch_group_leave(uploadVoiceGroup)
+                    uploadVoiceGroup.leave()
                 }
 
             }, completion: { uploadedAttachment in
@@ -922,7 +925,7 @@ final class NewFeedViewController: SegueViewController {
                 attachments = [audioInfo]
 
                 SafeDispatch.async {
-                    dispatch_group_leave(uploadVoiceGroup)
+                    uploadVoiceGroup.leave()
                 }
             })
 
@@ -942,7 +945,7 @@ final class NewFeedViewController: SegueViewController {
                 self?.tryDeleteFeedVoice()
             }
 
-        case .Location(let location):
+        case .location(let location):
 
             let locationInfo: JSONDictionary = [
                 "place": location.info.name ?? "",
@@ -1134,18 +1137,18 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             
             let pickAlertController = UIAlertController(title: String.trans_titleChooseSource, message: nil, preferredStyle: .actionSheet)
             
-            let cameraAction: UIAlertAction = UIAlertAction(title: String.trans_titleCamera, style: .Default) { _ in
+            let cameraAction: UIAlertAction = UIAlertAction(title: String.trans_titleCamera, style: .default) { _ in
 
-                proposeToAccess(.Camera, agreed: { [weak self] in
+                proposeToAccess(.camera, agreed: { [weak self] in
 
-                    guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+                    guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
                         self?.alertCanNotOpenCamera()
                         return
                     }
 
                     if let strongSelf = self {
-                        strongSelf.imagePicker.sourceType = .Camera
-                        strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                        strongSelf.imagePicker.sourceType = .camera
+                        strongSelf.present(strongSelf.imagePicker, animated: true, completion: nil)
                     }
                     
                 }, rejected: { [weak self] in
@@ -1155,10 +1158,10 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
             
             pickAlertController.addAction(cameraAction)
             
-            let albumAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("title.albums", comment: ""), style: .Default) { [weak self] _ in
+            let albumAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("title.albums", comment: ""), style: .default) { [weak self] _ in
 
-                proposeToAccess(.Photos, agreed: { [weak self] in
-                    self?.performSegueWithIdentifier("showPickPhotos", sender: nil)
+                proposeToAccess(.photos, agreed: { [weak self] in
+                    self?.performSegue(withIdentifier: "showPickPhotos", sender: nil)
 
                 }, rejected: { [weak self] in
                     self?.alertCanNotAccessCameraRoll()
