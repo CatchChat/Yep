@@ -41,7 +41,7 @@ final class FeedURLCell: FeedBasicCell {
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
-            if case let .URL(openGraphInfo) = attachment {
+            if case let .url(openGraphInfo) = attachment {
 
                 feedURLContainerView.configureWithOpenGraphInfoType(openGraphInfo)
 
