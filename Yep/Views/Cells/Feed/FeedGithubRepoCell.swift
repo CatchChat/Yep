@@ -59,7 +59,7 @@ final class FeedGithubRepoCell: FeedBasicCell {
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
-            if case let .Github(githubRepo) = attachment {
+            if case let .github(githubRepo) = attachment {
                 githubRepoContainerView.nameLabel.text = githubRepo.name
                 githubRepoContainerView.descriptionLabel.text = githubRepo.description
             }
@@ -70,9 +70,9 @@ final class FeedGithubRepoCell: FeedBasicCell {
                 return
             }
 
-            if case .GithubRepo = feed.kind {
-                if case let .Github(repo) = attachment, let URL = URL(string: repo.URLString) {
-                    self?.tapGithubRepoLinkAction?(URL)
+            if case .githubRepo = feed.kind {
+                if case let .github(repo) = attachment, let url = URL(string: repo.URLString) {
+                    self?.tapGithubRepoLinkAction?(url)
                 }
             }
         }
