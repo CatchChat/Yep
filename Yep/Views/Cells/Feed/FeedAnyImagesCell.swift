@@ -94,7 +94,7 @@ final class FeedAnyImagesCell: FeedBasicCell {
 
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
-        if let attachment = feed.attachment, case let .Images(attachments) = attachment {
+        if let attachment = feed.attachment, case let .images(attachments) = attachment {
             self.attachments = attachments
         }
 
@@ -139,8 +139,8 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
         }
 
         let references: [Reference?] = (0..<attachments.count).map({
-            let indexPath = NSIndexPath(forItem: $0, inSection: indexPath.section)
-            let node = mediaCollectionNode.view.nodeForItemAtIndexPath(indexPath) as? FeedImageCellNode
+            let indexPath = IndexPath(item: $0, section: indexPath.section)
+            let node = mediaCollectionNode.view.nodeForItem(at: indexPath) as? FeedImageCellNode
 
             if node?.view.superview == nil {
                 return nil
@@ -148,7 +148,7 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
                 return (node as? Previewable)?.transitionReference
             }
         })
-        tapImagesAction?(transitionReferences: references, attachments: attachments, image: node.imageNode.image, index: indexPath.item)
+        tapImagesAction?(references, attachments, node.imageNode.image, indexPath.item)
     }
 }
 
