@@ -23,8 +23,8 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
     fileprivate lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.title = String.trans_buttonNextStep
-        button.rx_tap
-            .subscribeNext({ [weak self] in self?.tryShowLoginVerifyMobile() })
+        button.rx.tap
+            .subscribe(onNext: { [weak self] in self?.tryShowLoginVerifyMobile() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
@@ -47,8 +47,8 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
         areaCodeTextField.text = TimeZone.areaCode
         areaCodeTextField.backgroundColor = UIColor.white
         areaCodeTextField.delegate = self
-        areaCodeTextField.rx_text
-            .subscribeNext({ [weak self] _ in self?.adjustAreaCodeTextFieldWidth() })
+        areaCodeTextField.rx.textInput.text
+            .subscribe(onNext: { [weak self] _ in self?.adjustAreaCodeTextFieldWidth() })
             .addDisposableTo(disposeBag)
 
         mobileNumberTextField.placeholder = ""
@@ -56,8 +56,8 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
         mobileNumberTextField.textColor = UIColor.yepInputTextColor()
         mobileNumberTextField.delegate = self
 
-        Observable.combineLatest(areaCodeTextField.rx_text, mobileNumberTextField.rx_text) { !$0.isEmpty && !$1.isEmpty }
-            .bindTo(nextButton.rx_enabled)
+        Observable.combineLatest(areaCodeTextField.rx.textInput.text, mobileNumberTextField.rx.textInput.text) { !$0.isEmpty && !$1.isEmpty }
+            .bindTo(nextButton.rx.enabled)
             .addDisposableTo(disposeBag)
 
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
@@ -94,15 +94,15 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
         YepHUD.showActivityIndicator()
         
         requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .SMS, failureHandler: { reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 
-            if case .NoSuccessStatusCode(_, let errorCode) = reason , errorCode == .NotYetRegistered {
+            if case .noSuccessStatusCode(_, let errorCode) = reason, errorCode == .notYetRegistered {
 
                 YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String(format: NSLocalizedString("This number (%@) not yet registered! Would you like to register it now?", comment: ""), mobilePhone.fullNumber), confirmTitle: String.trans_titleOK, cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { [weak self] in
 
-                    self?.performSegueWithIdentifier("showRegisterPickName", sender: nil)
+                    self?.performSegue(withIdentifier: "showRegisterPickName", sender: nil)
 
                 }, cancelAction: {
                 })
