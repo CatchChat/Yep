@@ -87,7 +87,7 @@ final class SearchedFeedVoiceCell: SearchedFeedBasicCell {
                     let feedAudio = FeedAudio.feedAudioWithFeedID(audioInfo.feedID, inRealm: realm)
 
                     if let feedAudio = feedAudio, let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-                        audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID) && audioPlayer.playing
+                        audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID) && audioPlayer.isPlaying
 
                     } else {
                         let newFeedAudio = FeedAudio()
