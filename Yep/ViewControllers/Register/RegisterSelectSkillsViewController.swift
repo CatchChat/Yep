@@ -25,8 +25,8 @@ final class RegisterSelectSkillsViewController: UIViewController {
         didSet {
             skillCategoriesCollectionView.backgroundColor = UIColor.clear
 
-            skillCategoriesCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
-            skillCategoriesCollectionView.registerNibOf(SkillCategoryCell)
+            skillCategoriesCollectionView.registerHeaderNibOf(SkillAnnotationHeader.self)
+            skillCategoriesCollectionView.registerNibOf(SkillCategoryCell.self)
         }
     }
 
@@ -34,8 +34,8 @@ final class RegisterSelectSkillsViewController: UIViewController {
         didSet {
             skillsCollectionView.backgroundColor = UIColor.clear
 
-            skillsCollectionView.registerHeaderNibOf(SkillAnnotationHeader)
-            skillsCollectionView.registerNibOf(SkillSelectionCell)
+            skillsCollectionView.registerHeaderNibOf(SkillAnnotationHeader.self)
+            skillsCollectionView.registerNibOf(SkillSelectionCell.self)
 
             skillsCollectionView.alpha = 0
         }
@@ -139,7 +139,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
         // 如果前一个 VC 来不及传递，这里还得再请求一次
         if skillCategories.isEmpty {
             allSkillCategories(failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
             }, completion: { [weak self] skillCategories in
                 self?.skillCategories = skillCategories
@@ -168,14 +168,14 @@ final class RegisterSelectSkillsViewController: UIViewController {
     }
 
     @IBAction func cancel() {
-        dismiss()
+        doDismiss()
     }
 
     @IBAction func back() {
         currentSkillCategoryButton?.toggleSelectionState()
     }
 
-    func dismiss() {
+    func doDismiss() {
         syncSkillsFromServerAction?()
         presentingViewController?.dismiss(animated: true, completion: nil)
     }
@@ -197,7 +197,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                 header.annotationLabel.text = annotationText
                 
-                let tap = UITapGestureRecognizer(target: self, action: #selector(RegisterSelectSkillsViewController.dismiss))
+                let tap = UITapGestureRecognizer(target: self, action: #selector(RegisterSelectSkillsViewController.doDismiss))
                 header.annotationLabel.isUserInteractionEnabled = true
                 header.annotationLabel.addGestureRecognizer(tap)
                 
@@ -260,7 +260,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
             }
 
             let tintColor = skillCategoryTintColors[(indexPath as NSIndexPath).item % skillCategoryTintColors.count]
-            cell.skillCategoryButton.setBackgroundImage(UIImage.yep_buttonSkillCategory.imageWithGradientTintColor(tintColor).resizableImageWithCapInsets(UIEdgeInsets(top: 30, left: 40, bottom: 30, right: 40)), for: .Normal)
+            cell.skillCategoryButton.setBackgroundImage(UIImage.yep_buttonSkillCategory.imageWithGradientTintColor(tintColor).resizableImage(withCapInsets: UIEdgeInsets(top: 30, left: 40, bottom: 30, right: 40)), for: .normal)
 
             cell.toggleSelectionStateAction = { [weak self, weak cell] inSelectionState in
 
@@ -451,7 +451,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                 let skill = skills[indexPath.item]
 
-                let rect = skill.localName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+                let rect = skill.localName.boundingRect(with: CGSize(width: CGFloat(FLT_MAX), height: SkillSelectionCell.height), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: skillTextAttributes, context: nil)
 
                 return CGSize(width: rect.width + 24, height: SkillSelectionCell.height)
             }
@@ -483,7 +483,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                     let isInSet = selectedSkillsSet.contains(skill)
 
-                    if action(skill: skill, selected: !isInSet) {
+                    if action(skill, !isInSet) {
                         if isInSet {
                             selectedSkillsSet.remove(skill)
                         } else {
