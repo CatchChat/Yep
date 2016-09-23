@@ -49,10 +49,10 @@ final class PickLocationViewController: SegueViewController {
         didSet {
             if let placemark = userLocationPlacemarks.first {
                 if let location = self.location {
-                    if case .Default(let info) = location {
+                    if case .default(let info) = location {
                         var info = info
                         info.name = placemark.yep_autoName
-                        self.location = .Default(info: info)
+                        self.location = .default(info: info)
                     }
                 }
             }
@@ -65,10 +65,10 @@ final class PickLocationViewController: SegueViewController {
         didSet {
             if let placemark = pickedLocationPlacemarks.first {
                 if let location = self.location {
-                    if case .Picked(let info) = location {
+                    if case .picked(let info) = location {
                         var info = info
                         info.name = placemark.yep_autoName
-                        self.location = .Picked(info: info)
+                        self.location = .picked(info: info)
                     }
                 }
             }
@@ -109,7 +109,7 @@ final class PickLocationViewController: SegueViewController {
 
         searchBar.placeholder = NSLocalizedString("Search", comment: "")
 
-        tableView.registerNibOf(PickLocationCell)
+        tableView.registerNibOf(PickLocationCell.self)
         tableView.rowHeight = 50
 
         doneButton.isEnabled = false
@@ -121,7 +121,7 @@ final class PickLocationViewController: SegueViewController {
             let region = MKCoordinateRegionMakeWithDistance(location.coordinate.yep_applyChinaLocationShift, 1000, 1000)
             mapView.setRegion(region, animated: false)
 
-            self.location = .Default(info: PickLocationViewControllerLocation.Info(coordinate: location.coordinate.yep_applyChinaLocationShift, name: nil))
+            self.location = .default(info: PickLocationViewControllerLocation.Info(coordinate: location.coordinate.yep_applyChinaLocationShift, name: nil))
 
             placemarksAroundLocation(location) { [weak self] placemarks in
                 self?.userLocationPlacemarks = placemarks.filter({ $0.name != nil })
@@ -132,7 +132,7 @@ final class PickLocationViewController: SegueViewController {
             })
 
         } else {
-            proposeToAccess(.Location(.WhenInUse), agreed: {
+            proposeToAccess(.location(.whenInUse), agreed: {
 
                 YepLocationService.turnOn()
 
@@ -168,7 +168,7 @@ final class PickLocationViewController: SegueViewController {
 
             let location = (sender as! Box<PickLocationViewControllerLocation>).value
 
-            vc.attachment = .Location(location)
+            vc.attachment = .location(location)
 
             vc.preparedSkill = preparedSkill
 
@@ -203,10 +203,10 @@ final class PickLocationViewController: SegueViewController {
                 if let sendLocationAction = strongSelf.sendLocationAction {
 
                     if let location = strongSelf.location {
-                        sendLocationAction(locationInfo: location.info)
+                        sendLocationAction(location.info)
 
                     } else {
-                        sendLocationAction(locationInfo: PickLocationViewControllerLocation.Info(coordinate: strongSelf.fixedCenterCoordinate, name: nil))
+                        sendLocationAction(PickLocationViewControllerLocation.Info(coordinate: strongSelf.fixedCenterCoordinate, name: nil))
                     }
                 }
             })
@@ -214,12 +214,12 @@ final class PickLocationViewController: SegueViewController {
         case .feed:
 
             if let location = location {
-                performSegueWithIdentifier("showNewFeed", sender: Box(location))
+                performSegue(withIdentifier: "showNewFeed", sender: Box(location))
 
             } else {
-                let _location = PickLocationViewControllerLocation.Default(info: PickLocationViewControllerLocation.Info(coordinate: fixedCenterCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
+                let _location = PickLocationViewControllerLocation.default(info: PickLocationViewControllerLocation.Info(coordinate: fixedCenterCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
 
-                performSegueWithIdentifier("showNewFeed", sender: Box(_location))
+                performSegue(withIdentifier: "showNewFeed", sender: Box(_location))
             }
         }
     }
@@ -233,7 +233,7 @@ final class PickLocationViewController: SegueViewController {
 
             let coordinate = fixedCenterCoordinate
 
-            self.location = .Picked(info: PickLocationViewControllerLocation.Info(coordinate: coordinate, name: nil))
+            self.location = .picked(info: PickLocationViewControllerLocation.Info(coordinate: coordinate, name: nil))
 
             let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
             placemarksAroundLocation(location) { [weak self] placemarks in
@@ -315,8 +315,8 @@ extension PickLocationViewController: MKMapViewDelegate {
             mapView.setCenter(location.coordinate, animated: true)
 
             if let _location = self.location {
-                if case .Default = _location {
-                    self.location = .Default(info: PickLocationViewControllerLocation.Info(coordinate: location.coordinate, name: nil))
+                if case .default = _location {
+                    self.location = .default(info: PickLocationViewControllerLocation.Info(coordinate: location.coordinate, name: nil))
                 }
             }
 
@@ -554,7 +554,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.currentLocation.rawValue:
             if let _location = mapView.userLocation.location {
-                location = .Selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: userLocationPlacemarks.first?.yep_autoName ?? String.trans_titleMyCurrentLocation))
+                location = .selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: userLocationPlacemarks.first?.yep_autoName ?? String.trans_titleMyCurrentLocation))
             }
 
         case Section.userPickedLocation.rawValue:
@@ -565,21 +565,21 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             guard let _location = placemark.location else {
                 break
             }
-            location = .Selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: placemark.name))
+            location = .selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: placemark.name))
 
         case Section.searchedLocation.rawValue:
             let placemark = self.searchedMapItems[(indexPath as NSIndexPath).row].placemark
             guard let _location = placemark.location else {
                 break
             }
-            location = .Selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: placemark.name))
+            location = .selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: placemark.name))
             mapView.setCenter(_location.coordinate, animated: true)
 
         case Section.foursquareVenue.rawValue:
             let foursquareVenue = foursquareVenues[indexPath.row]
             let coordinate = foursquareVenue.coordinate.yep_applyChinaLocationShift
-            location = .Selected(info: PickLocationViewControllerLocation.Info(coordinate: coordinate, name: foursquareVenue.name))
-            mapView.setCenterCoordinate(coordinate, animated: true)
+            location = .selected(info: PickLocationViewControllerLocation.Info(coordinate: coordinate, name: foursquareVenue.name))
+            mapView.setCenter(coordinate, animated: true)
 
         default:
             break
