@@ -16,8 +16,8 @@ final class AddFriendsViewController: SegueViewController {
         didSet {
             addFriendsTableView.rowHeight = 60
 
-            addFriendsTableView.registerNibOf(AddFriendSearchCell)
-            addFriendsTableView.registerNibOf(AddFriendMoreCell)
+            addFriendsTableView.registerNibOf(AddFriendSearchCell.self)
+            addFriendsTableView.registerNibOf(AddFriendMoreCell.self)
         }
     }
 
@@ -159,8 +159,8 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
             case .contacts:
 
                 let propose: Propose = {
-                    proposeToAccess(.Contacts, agreed: { [weak self] in
-                        self?.performSegueWithIdentifier("showFriendsInContacts", sender: nil)
+                    proposeToAccess(.contacts, agreed: { [weak self] in
+                        self?.performSegue(withIdentifier: "showFriendsInContacts", sender: nil)
 
                     }, rejected: { [weak self] in
                         self?.alertCanNotAccessContacts()

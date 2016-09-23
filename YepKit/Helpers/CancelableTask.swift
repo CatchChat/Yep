@@ -10,7 +10,7 @@ import Foundation
 
 public typealias CancelableTask = (_ cancel: Bool) -> Void
 
-public func delay(_ time: TimeInterval, work: @escaping ()->()) -> CancelableTask? {
+@discardableResult public func delay(_ time: TimeInterval, work: @escaping ()->()) -> CancelableTask? {
 
     var finalTask: CancelableTask?
 
