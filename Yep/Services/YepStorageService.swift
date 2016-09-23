@@ -104,53 +104,6 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: D
             failureHandler?(.other(nil), nil)
         }
     })
-    /*
-    Alamofire.upload(
-        .POST,
-        s3UploadParams.url,
-        multipartFormData: { multipartFormData in
-            
-            for parameter in parameters {
-                multipartFormData.appendBodyPart(data: parameter.1.dataUsingEncoding(NSUTF8StringEncoding)!, name: parameter.0)
-            }
-            
-            if let filePath = filePath {
-                multipartFormData.appendBodyPart(fileURL: NSURL(fileURLWithPath: filePath), name: "file", fileName: filename, mimeType: mimeType)
-                
-            } else if let fileData = fileData {
-                multipartFormData.appendBodyPart(data: fileData, name: "file", fileName: filename, mimeType: mimeType)
-            }
-            
-        },
-        encodingCompletion: { encodingResult in
-            switch encodingResult {
-            case .Success(let upload, _, _):
-                
-                upload.response { request, response, data, error in
-                    
-                    if let response = response {
-                        print(response.statusCode)
-                        
-                        if response.statusCode == 204 {
-                            completion()
-                        } else {
-                            failureHandler?(reason: .Other(nil), errorMessage: nil)
-                        }
-
-                    } else {
-                        failureHandler?(reason: .Other(nil), errorMessage: nil)
-                    }
-                    
-                }
-                
-            case .Failure(let encodingError):
-                
-                println("Error \(encodingError)")
-                
-                failureHandler?(reason: .Other(nil), errorMessage: nil)
-            }
-        }
-    )*/
 }
 
 /// Get S3  upload params
