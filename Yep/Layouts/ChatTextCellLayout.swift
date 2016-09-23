@@ -42,7 +42,7 @@ class ChatTextCellLayout {
             }
         }
 
-        let rect = message.textContent.boundingRectWithSize(CGSize(width: textContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+        let rect = message.textContent.boundingRect(with: CGSize(width: textContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
         let width = ceil(rect.width)
 
