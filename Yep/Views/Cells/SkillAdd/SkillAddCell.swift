@@ -11,7 +11,7 @@ import YepKit
 
 final class SkillAddCell: UICollectionViewCell {
 
-    var skillSet: SkillSet = .Master
+    var skillSet: SkillSet = .master
 
     var addSkillsAction: ((SkillSet) -> ())?
 }
