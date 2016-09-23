@@ -22,7 +22,7 @@ final class SearchedUserMessagesViewController: BaseViewController {
             messagesTableView.rowHeight = 70
             messagesTableView.tableFooterView = UIView()
 
-            messagesTableView.registerNibOf(SearchedMessageCell)
+            messagesTableView.registerNibOf(SearchedMessageCell.self)
         }
     }
     
@@ -44,7 +44,7 @@ final class SearchedUserMessagesViewController: BaseViewController {
 
         case "showConversation":
             let vc = segue.destination as! ConversationViewController
-            let info = (sender as! Box<[String: AnyObject]>).value
+            let info = sender as! [String: Any]
             vc.conversation = info["conversation"] as! Conversation
             vc.indexOfSearchedMessage = info["indexOfSearchedMessage"] as? Int
 
@@ -99,16 +99,15 @@ extension SearchedUserMessagesViewController: UITableViewDataSource, UITableView
         }
 
         let conversationMessages = messagesOfConversation(conversation, inRealm: realm)
-        guard let indexOfSearchedMessage = conversationMessages.indexOf(message) else {
+        guard let indexOfSearchedMessage = conversationMessages.index(of: message) else {
             return
         }
 
-        let info: [String: AnyObject] = [
+        let info: [String: Any] = [
             "conversation":conversation,
             "indexOfSearchedMessage": indexOfSearchedMessage,
         ]
-        let sender = Box<[String: AnyObject]>(info)
-        performSegue(withIdentifier: "showConversation", sender: sender)
+        performSegue(withIdentifier: "showConversation", sender: info)
     }
 }
 
