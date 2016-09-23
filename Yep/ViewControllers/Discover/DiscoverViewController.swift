@@ -65,7 +65,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
 
     fileprivate var discoveredUsers = [DiscoveredUser]()
 
-    func discoveredUserAtIndexPath(_ indexPath: NSIndexPath) -> DiscoveredUser {
+    func discoveredUserAtIndexPath(_ indexPath: IndexPath) -> DiscoveredUser {
         return discoveredUsers[indexPath.item]
     }
 

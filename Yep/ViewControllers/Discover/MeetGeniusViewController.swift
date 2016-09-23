@@ -61,7 +61,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
     fileprivate var geniusInterviews: [GeniusInterview] = []
 
-    func geniusInterviewAtIndexPath(_ indexPath: NSIndexPath) -> GeniusInterview {
+    func geniusInterviewAtIndexPath(_ indexPath: IndexPath) -> GeniusInterview {
         return geniusInterviews[indexPath.row]
     }
 

@@ -57,13 +57,13 @@ class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
 
         vc.tapBannerAction = { banner in
             SafeDispatch.async { [weak self] in
-                self?.performSegueWithIdentifier("showGeniusInterviewWithBanner", sender: Box<GeniusInterviewBanner>(banner))
+                self?.performSegue(withIdentifier: "showGeniusInterviewWithBanner", sender: Box<GeniusInterviewBanner>(banner))
             }
         }
 
         vc.showGeniusInterviewAction = { geniusInterview in
             SafeDispatch.async { [weak self] in
-                self?.performSegueWithIdentifier("showGeniusInterview", sender: Box<GeniusInterview>(geniusInterview))
+                self?.performSegue(withIdentifier: "showGeniusInterview", sender: Box<GeniusInterview>(geniusInterview))
             }
         }
 
@@ -76,7 +76,7 @@ class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
 
         vc.showProfileOfDiscoveredUserAction = { discoveredUser in
             SafeDispatch.async { [weak self] in
-                self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+                self?.performSegue(withIdentifier: "showProfile", sender: Box<DiscoveredUser>(discoveredUser))
             }
         }
 
@@ -94,8 +94,8 @@ class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
     fileprivate lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
         item.image = UIImage.yep_iconList
-        item.rx_tap
-            .subscribeNext({ [weak self] in self?.discoverViewController.changeLayoutMode() })
+        item.rx.tap
+            .subscribe(onNext: { [weak self] in self?.discoverViewController.changeLayoutMode() })
             .addDisposableTo(self.disposeBag)
         return item
     }()
@@ -117,8 +117,8 @@ class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
 
     fileprivate lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
-        item.rx_tap
-            .subscribeNext({ [weak self] in self?.discoverViewController.showFilters() })
+        item.rx.tap
+            .subscribe(onNext: { [weak self] in self?.discoverViewController.showFilters() })
             .addDisposableTo(self.disposeBag)
         return item
     }()
@@ -158,9 +158,9 @@ class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
         currentOption = .meetGenius
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
 
-        segmentedControl.rx_value
+        segmentedControl.rx.value
             .map({ Option(rawValue: $0) })
-            .subscribeNext({ [weak self] in self?.currentOption = $0 ?? .meetGenius })
+            .subscribe(onNext: { [weak self] in self?.currentOption = $0 ?? .meetGenius })
             .addDisposableTo(disposeBag)
 
         if let
