@@ -28,8 +28,8 @@ final class RegisterPickAvatarViewController: SegueViewController {
         let button = UIBarButtonItem()
         button.title = String.trans_buttonNextStep
         button.isEnabled = false
-        button.rx_tap
-            .subscribeNext({ [weak self] in self?.uploadAvatarAndGotoPickSkills() })
+        button.rx.tap
+            .subscribe(onNext: { [weak self] in self?.uploadAvatarAndGotoPickSkills() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
@@ -86,8 +86,8 @@ final class RegisterPickAvatarViewController: SegueViewController {
         openCameraButton.setTitle(String.trans_buttonChooseFromLibrary, for: UIControlState())
         openCameraButton.setTitleColor(UIColor.white, for: UIControlState())
         openCameraButton.backgroundColor = UIColor.yepTintColor()
-        openCameraButton.rx_tap
-            .subscribeNext({ [weak self] in self?.openPhotoLibraryPicker() })
+        openCameraButton.rx.tap
+            .subscribe(onNext: { [weak self] in self?.openPhotoLibraryPicker() })
             .addDisposableTo(disposeBag)
     }
 
@@ -110,7 +110,7 @@ final class RegisterPickAvatarViewController: SegueViewController {
             self?.present(imagePicker, animated: true, completion: nil)
         }
         
-        proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
+        proposeToAccess(.photos, agreed: openCameraRoll, rejected: { [weak self] in
             self?.alertCanNotAccessCameraRoll()
         })
     }
@@ -127,7 +127,7 @@ final class RegisterPickAvatarViewController: SegueViewController {
 
             updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
 
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
                 YepHUD.hideActivityIndicator()
 
@@ -138,7 +138,7 @@ final class RegisterPickAvatarViewController: SegueViewController {
 
                     YepUserDefaults.avatarURLString.value = newAvatarURLString
 
-                    self?.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)
+                    self?.performSegue(withIdentifier: "showRegisterPickSkills", sender: nil)
                 }
             })
         }
@@ -153,7 +153,7 @@ extension RegisterPickAvatarViewController: UIImagePickerControllerDelegate, UIN
 
         SafeDispatch.async { [weak self] in
             self?.avatar = image
-            self?.pickAvatarState = .Captured
+            self?.pickAvatarState = .captured
         }
 
         dismiss(animated: true, completion: nil)
