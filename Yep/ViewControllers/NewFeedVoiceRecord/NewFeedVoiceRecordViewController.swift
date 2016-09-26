@@ -253,9 +253,9 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
                     AudioBot.mixWithOthersWhenRecording = true
 
-                    try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
+                    try AudioBot.startRecordAudioToFileURL(nil, forUsage: .normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
 
-                    self?.state = .Recording
+                    self?.state = .recording
 
                 } catch let error {
                     println("record error: \(error)")
