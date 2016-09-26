@@ -83,7 +83,7 @@ final class ServiceTests: XCTestCase {
             if let firstFeed = validFeeds.first {
                 let groupID = firstFeed.groupID
 
-                let recipient = Recipient(type: ConversationType.Group, ID: groupID)
+                let recipient = Recipient(type: .group, ID: groupID)
                 SafeDispatch.async {
                     sendText("How do you do?", toRecipient: recipient, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
 
