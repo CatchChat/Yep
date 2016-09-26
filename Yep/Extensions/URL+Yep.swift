@@ -95,7 +95,9 @@ extension URL {
 
     var yep_validSchemeNetworkURL: URL? {
 
-        if scheme!.isEmpty {
+        let scheme = self.scheme ?? ""
+
+        if scheme.isEmpty {
 
             guard var URLComponents = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
                 return nil
