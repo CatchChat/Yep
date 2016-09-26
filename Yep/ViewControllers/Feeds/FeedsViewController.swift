@@ -286,7 +286,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             cell.configureWithFeeds(feeds)
         }
 
-        if let indexPaths = indexPaths , feeds.count > 1 {
+        if let indexPaths = indexPaths, feeds.count > 1 {
             // insert
             feedsTableView.insertRows(at: indexPaths, with: animation ?? .automatic)
 
@@ -625,7 +625,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
             SafeDispatch.async { [weak self] in
 
-                if case .top = mode , validFeeds.isEmpty {
+                if case .top = mode, validFeeds.isEmpty {
                     self?.feedsTableView.tableFooterView = self?.noFeedsFooterView
                 } else {
                     self?.feedsTableView.tableFooterView = UIView()
@@ -750,7 +750,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
     @IBAction fileprivate func createNewFeed(_ sender: AnyObject) {
 
-        guard let avatarURLString = YepUserDefaults.avatarURLString.value , !avatarURLString.isEmpty else {
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value, !avatarURLString.isEmpty else {
 
             YepAlert.alertSorry(message: NSLocalizedString("You have no avatar! Please set up one first.", comment: ""), inViewController: self)
 
@@ -1449,7 +1449,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     if let strongSelf = self {
 
                         // 如果在播放，就暂停
-                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer , onlineAudioPlayer.yep_playing {
+                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer, onlineAudioPlayer.yep_playing {
 
                             onlineAudioPlayer.pause()
 
@@ -1472,7 +1472,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                                 }
                             }
 
-                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio , playingFeedAudio.feedID == feed.id {
+                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, playingFeedAudio.feedID == feed.id {
                                 YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
 
                             } else {

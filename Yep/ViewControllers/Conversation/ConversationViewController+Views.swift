@@ -578,8 +578,7 @@ extension ConversationViewController {
                         self?.makeFriendRequestView(for: user, in: .consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
 
                     } else if receivedFriendRequestState == .Blocked {
-                        YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)")
-                            , confirmTitle: NSLocalizedString("Unblock", comment: ""), cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: {
+                        YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)"), confirmTitle: NSLocalizedString("Unblock", comment: ""), cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: {
 
                             unblockUserWithUserID(userID, failureHandler: nil, completion: { success in
                                 println("unblockUserWithUserID \(success)")
