@@ -283,19 +283,18 @@ public typealias JSONDictionary = [String: Any]
 
 public func decodeJSON(_ data: Data) -> JSONDictionary? {
 
-    if data.count > 0 {
-        guard let result = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) else {
-            return nil
-        }
-        
-        if let dictionary = result as? JSONDictionary {
-            return dictionary
-        } else if let array = result as? [JSONDictionary] {
-            return ["data": array]
-        } else {
-            return JSONDictionary()
-        }
+    guard data.count > 0 else {
+        return [:] // 允许不返回数据，只有状态码
+    }
 
+    guard let result = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) else {
+        return nil
+    }
+    
+    if let dictionary = result as? JSONDictionary {
+        return dictionary
+    } else if let array = result as? [JSONDictionary] {
+        return ["data": array]
     } else {
         return nil
     }
