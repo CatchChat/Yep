@@ -57,7 +57,15 @@ final class YepDownloader: NSObject {
             let progress = Progress()
             let tempData = NSMutableData()
             let imageSource = CGImageSourceCreateIncremental(nil)
-            let imageTransform: ((UIImage) -> UIImage)?
+
+            typealias ImageTransform = (UIImage) -> UIImage
+            let imageTransform: ImageTransform?
+
+            init(downloadTask: URLSessionDataTask, finishedAction: @escaping FinishedAction, imageTransform: ImageTransform?) {
+                self.downloadTask = downloadTask
+                self.finishedAction = finishedAction
+                self.imageTransform = imageTransform
+            }
         }
         let tasks: [Task]
         var finishedTasksCount = 0
@@ -221,11 +229,13 @@ final class YepDownloader: NSObject {
         }
     }
 
-    class func downloadDataFromURL(_ url: URL, reportProgress: ProgressReporter.ReportProgress?, finishedAction: ProgressReporter.Task.FinishedAction) {
+    class func downloadDataFromURL(_ url: URL, reportProgress: ProgressReporter.ReportProgress?, finishedAction: @escaping ProgressReporter.Task.FinishedAction) {
 
         let downloadTask = sharedDownloader.session.dataTask(with: url)
 
-        let task: ProgressReporter.Task = ProgressReporter.Task(downloadTask: downloadTask, finishedAction: finishedAction, imageTransform: nil)
+        let task = ProgressReporter.Task(downloadTask: downloadTask, finishedAction: { (data) in
+            finishedAction(data)
+        }, imageTransform: nil)
 
         let progressReporter = ProgressReporter(tasks: [task], reportProgress: reportProgress)
         sharedDownloader.progressReporters.append(progressReporter)
