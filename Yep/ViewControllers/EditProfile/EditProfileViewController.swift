@@ -669,7 +669,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                                 usernameCell.infoLabel.text = newUsername
                             }
 
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.NewUsername), object: nil)
+                            NotificationCenter.default.post(name: YepConfig.NotificationName.newUsername, object: nil)
                         }
                     })
                     

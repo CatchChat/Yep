@@ -26,7 +26,7 @@ final class MessageToolbar: UIToolbar {
     var conversation: Conversation? {
         willSet {
             if let _ = newValue {
-                NotificationCenter.default.addObserver(self, selector: #selector(MessageToolbar.updateDraft(_:)), name: NSNotification.Name(rawValue: Notification.updateDraft), object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(MessageToolbar.updateDraft(_:)), name: YepConfig.NotificationName.updateDraftOfConversation, object: nil)
             }
         }
     }

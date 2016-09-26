@@ -26,7 +26,7 @@ public func tryPostNewMessagesReceivedNotificationWithMessageIDs(_ messageIDs: [
             "messageIDs": messageIDs,
             "messageAge": messageAge.rawValue,
         ]
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.newMessages), object: object)
+        NotificationCenter.default.post(name: Config.NotificationName.newMessages, object: object)
     }
 }
 
@@ -411,7 +411,7 @@ public func syncMyConversations(maxMessageID: String? = nil, afterSynced: (() ->
             })
 
             SafeDispatch.async {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
             }
         }
 
@@ -422,7 +422,7 @@ public func syncMyConversations(maxMessageID: String? = nil, afterSynced: (() ->
             })
 
             SafeDispatch.async {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.changedFeedConversation, object: nil)
             }
         }
 
@@ -450,8 +450,8 @@ public func syncMyConversations(maxMessageID: String? = nil, afterSynced: (() ->
         let _ = try? realm.commitWrite()
 
         SafeDispatch.async {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedConversation), object: nil)
-            NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
+            NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
+            NotificationCenter.default.post(name: Config.NotificationName.changedFeedConversation, object: nil)
         }
 
         if let lastMessageID =  lastMessageID {
@@ -953,7 +953,7 @@ public func isServiceMessageAndHandleMessageInfo(_ messageInfo: JSONDictionary, 
             }
 
             _ = delay(1) {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.changedFeedConversation, object: nil)
             }
         }
     }
@@ -1010,7 +1010,7 @@ public func syncGroupWithGroupID(_ groupID: String) {
 
         _ = delay(0.5) {
             SafeDispatch.async {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.changedFeedConversation, object: nil)
             }
         }
     })
@@ -1170,7 +1170,7 @@ public func syncMessageWithMessageInfo(_ messageInfo: JSONDictionary, messageAge
                                             updateUserWithUserID(userID, useUserInfo: userInfo, inRealm: realm)
                                             let _ = try? realm.commitWrite()
 
-                                            NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.updatedUser), object: nil)
+                                            NotificationCenter.default.post(name: Config.NotificationName.updatedUser, object: nil)
                                         }
                                     })
                                 }
@@ -1241,7 +1241,7 @@ public func syncMessageWithMessageInfo(_ messageInfo: JSONDictionary, messageAge
                             if createdNewConversation {
 
                                 SafeDispatch.async {
-                                    NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+                                    NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
                                 }
                             }
 

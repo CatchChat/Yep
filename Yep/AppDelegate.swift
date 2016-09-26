@@ -138,7 +138,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         clearNotifications()
 
-        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: Notification.applicationDidBecomeActive), object: nil)
+        NotificationCenter.default.post(name: YepConfig.NotificationName.applicationDidBecomeActive, object: nil)
         
         isFirstActive = false
     }
@@ -175,7 +175,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         
         println("Enter background")
 
-        NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: MessageToolbar.Notification.updateDraft), object: nil)
+        NotificationCenter.default.post(name: YepConfig.NotificationName.updateDraftOfConversation, object: nil)
 
         #if DEBUG
         //clearUselessRealmObjects() // only for test
@@ -261,7 +261,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             syncUnreadMessages() {
                 SafeDispatch.async {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
+                    NotificationCenter.default.post(name: Config.NotificationName.changedFeedConversation, object: nil)
 
                     configureDynamicShortcuts()
 
@@ -311,7 +311,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             syncUnreadMessagesAndDoFurtherAction({ _ in
                 SafeDispatch.async {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
+                    NotificationCenter.default.post(name: Config.NotificationName.changedFeedConversation, object: nil)
 
                     configureDynamicShortcuts()
 
@@ -347,10 +347,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
 
         if url.absoluteString.contains("/auth/success") {
-            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: YepConfig.Notification.OAuthResult), object: NSNumber(value: 1 as Int32))
+            NotificationCenter.default.post(name: YepConfig.NotificationName.oauthResult, object: NSNumber(value: 1 as Int32))
             
         } else if url.absoluteString.contains("/auth/failure") {
-            NotificationCenter.default.post(name: Foundation.Notification.Name(rawValue: YepConfig.Notification.OAuthResult), object: NSNumber(value: 0 as Int32))
+            NotificationCenter.default.post(name: YepConfig.NotificationName.oauthResult, object: NSNumber(value: 0 as Int32))
         }
         
         if MonkeyKing.handleOpenURL(url) {

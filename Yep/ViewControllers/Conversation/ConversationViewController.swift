@@ -255,18 +255,18 @@ final class ConversationViewController: BaseViewController {
 
         lastTimeMessagesCount = messages.count
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: NSNotification.Name(rawValue: Config.Notification.newMessages), object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: NSNotification.Name(rawValue: Config.Notification.deletedMessages), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: Config.NotificationName.newMessages, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: Config.NotificationName.deletedMessages, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.cleanForLogout(_:)), name: NSNotification.Name(rawValue: EditProfileViewController.Notification.Logout), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.cleanForLogout(_:)), name: YepConfig.NotificationName.logout, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleApplicationDidBecomeActive(_:)), name: NSNotification.Name(rawValue: AppDelegate.Notification.applicationDidBecomeActive), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleApplicationDidBecomeActive(_:)), name: YepConfig.NotificationName.applicationDidBecomeActive, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillShowNotification(_:)), name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillShowNotification(_:)), name: Notification.Name.UIMenuControllerWillShowMenu, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillHideNotification(_:)), name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillHideNotification(_:)), name: Notification.Name.UIMenuControllerWillHideMenu, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: NSNotification.Name(rawValue: Config.Message.Notification.MessageBatchMarkAsRead), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: Config.NotificationName.messageBatchMarkAsRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             SafeDispatch.async {
@@ -446,7 +446,7 @@ final class ConversationViewController: BaseViewController {
 
                 if previousState != currentState {
                     //println("messageToolbar.messageTextView.text 2: \(messageToolbar.messageTextView.text)")
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: MessageToolbar.Notification.updateDraft), object: nil)
+                    NotificationCenter.default.post(name: YepConfig.NotificationName.updateDraftOfConversation, object: nil)
                 }
             }
 
@@ -709,7 +709,7 @@ final class ConversationViewController: BaseViewController {
 
         checkTypingStatusTimer?.invalidate()
 
-        NotificationCenter.default.post(name: Notification.Name(rawValue: MessageToolbar.Notification.updateDraft), object: nil)
+        NotificationCenter.default.post(name: YepConfig.NotificationName.updateDraftOfConversation, object: nil)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -1031,7 +1031,7 @@ final class ConversationViewController: BaseViewController {
                 group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
             }
 
-            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+            NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
 
             strongSelf.moreViewManager.updateForGroupAffair()
 
