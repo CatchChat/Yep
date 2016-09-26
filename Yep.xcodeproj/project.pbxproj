@@ -329,6 +329,15 @@
 		50A6A7BF1D23BEEF00E01190 /* GeniusInterview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50A6A7BE1D23BEEF00E01190 /* GeniusInterview.storyboard */; };
 		50A6A7C21D23C2D300E01190 /* GeniusInterviewActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7C11D23C2D300E01190 /* GeniusInterviewActionView.swift */; };
 		50A820241B969B0F007CD30E /* TimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* TimeZone+Yep.swift */; };
+		50A8CF061D991C5C0005BF8C /* KeypathObserver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF051D991C5C0005BF8C /* KeypathObserver.framework */; };
+		50A8CF081D991C790005BF8C /* AudioBot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF071D991C790005BF8C /* AudioBot.framework */; };
+		50A8CF0A1D991C800005BF8C /* AutoReview.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF091D991C800005BF8C /* AutoReview.framework */; };
+		50A8CF0B1D991C8E0005BF8C /* KeypathObserver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF051D991C5C0005BF8C /* KeypathObserver.framework */; };
+		50A8CF0C1D991C8E0005BF8C /* KeypathObserver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF051D991C5C0005BF8C /* KeypathObserver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		50A8CF0D1D991C960005BF8C /* AudioBot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF071D991C790005BF8C /* AudioBot.framework */; };
+		50A8CF0E1D991C960005BF8C /* AudioBot.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF071D991C790005BF8C /* AudioBot.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		50A8CF0F1D991CA70005BF8C /* AutoReview.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF091D991C800005BF8C /* AutoReview.framework */; };
+		50A8CF101D991CA70005BF8C /* AutoReview.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF091D991C800005BF8C /* AutoReview.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
 		50AACEC81BB54128004DD54B /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AACEC71BB54128004DD54B /* FeedView.swift */; };
@@ -743,15 +752,18 @@
 				5087AFC41D17F4A6005C180D /* Ruler.framework in Embed Frameworks */,
 				6A6F0A6E1D073B7300C247CB /* Kanna.framework in Embed Frameworks */,
 				6A6F0A6A1D073B4900C247CB /* Navi.framework in Embed Frameworks */,
+				50A8CF0E1D991C960005BF8C /* AudioBot.framework in Embed Frameworks */,
 				6A6F0A691D073B3800C247CB /* Alamofire.framework in Embed Frameworks */,
 				6A6F0A661D073B2B00C247CB /* RealmSwift.framework in Embed Frameworks */,
 				6A6F0A671D073B2B00C247CB /* Realm.framework in Embed Frameworks */,
+				50A8CF101D991CA70005BF8C /* AutoReview.framework in Embed Frameworks */,
 				50D84EDE1CF2CB120018D91F /* OpenGraph.framework in Embed Frameworks */,
 				50D3A35A1CEE9A2000E59470 /* FayeClient.framework in Embed Frameworks */,
 				50D3A3301CEDB1C600E59470 /* YepNetworking.framework in Embed Frameworks */,
 				5087AFC21D17F49C005C180D /* Kingfisher.framework in Embed Frameworks */,
 				5087AFC81D17F4B4005C180D /* MonkeyKing.framework in Embed Frameworks */,
 				5056EAA11CF2C55200FDE07E /* YepKit.framework in Embed Frameworks */,
+				50A8CF0C1D991C8E0005BF8C /* KeypathObserver.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1073,6 +1085,9 @@
 		50A6A7BE1D23BEEF00E01190 /* GeniusInterview.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = GeniusInterview.storyboard; path = ViewControllers/GeniusInterview/GeniusInterview.storyboard; sourceTree = "<group>"; };
 		50A6A7C11D23C2D300E01190 /* GeniusInterviewActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeniusInterviewActionView.swift; path = Views/GeniusInterviewAction/GeniusInterviewActionView.swift; sourceTree = "<group>"; };
 		50A820231B969B0F007CD30E /* TimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TimeZone+Yep.swift"; path = "Extensions/TimeZone+Yep.swift"; sourceTree = "<group>"; };
+		50A8CF051D991C5C0005BF8C /* KeypathObserver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KeypathObserver.framework; path = Carthage/Build/iOS/KeypathObserver.framework; sourceTree = "<group>"; };
+		50A8CF071D991C790005BF8C /* AudioBot.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioBot.framework; path = Carthage/Build/iOS/AudioBot.framework; sourceTree = "<group>"; };
+		50A8CF091D991C800005BF8C /* AutoReview.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AutoReview.framework; path = Carthage/Build/iOS/AutoReview.framework; sourceTree = "<group>"; };
 		50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillPickerItemView.swift; path = Views/PickerItems/FeedSkill/FeedSkillPickerItemView.swift; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
 		50AACEC71BB54128004DD54B /* FeedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedView.swift; path = Views/Feed/FeedView.swift; sourceTree = "<group>"; };
@@ -1361,12 +1376,14 @@
 				0AD7EA6C1AC3ED4300617758 /* Security.framework in Frameworks */,
 				0AD7EA6A1AC3ED3D00617758 /* UIKit.framework in Frameworks */,
 				0AD7EA661AC3ED3000617758 /* CoreGraphics.framework in Frameworks */,
+				50A8CF0D1D991C960005BF8C /* AudioBot.framework in Frameworks */,
 				5087AFC11D17F49C005C180D /* Kingfisher.framework in Frameworks */,
 				0AD7EA621AC3ED2100617758 /* CoreTelephony.framework in Frameworks */,
 				50FE6F421D128B4D009BFEC7 /* YepPreview.framework in Frameworks */,
 				0AD7EA601AC3ED1900617758 /* CoreFoundation.framework in Frameworks */,
 				0AD7EA5E1AC3ED1200617758 /* CFNetwork.framework in Frameworks */,
 				F5195E9549502A903492570A /* BuddyBuildSDK.framework in Frameworks */,
+				50A8CF0B1D991C8E0005BF8C /* KeypathObserver.framework in Frameworks */,
 				0348E5E88555C3DC70D70865 /* AssetsLibrary.framework in Frameworks */,
 				27CDF0ACB80E10E6AC5596F6 /* CoreText.framework in Frameworks */,
 				B03D54CAD0F1D56AB9396D11 /* QuartzCore.framework in Frameworks */,
@@ -1379,10 +1396,14 @@
 				50C106901D0669F2002EAB5C /* Alamofire.framework in Frameworks */,
 				507902361D06813300D846F5 /* Kanna.framework in Frameworks */,
 				50C106921D066A1A002EAB5C /* Navi.framework in Frameworks */,
+				50A8CF0F1D991CA70005BF8C /* AutoReview.framework in Frameworks */,
 				50C106941D066A27002EAB5C /* KeyboardMan.framework in Frameworks */,
 				50E2B7D21D3F736E00098362 /* RxSwift.framework in Frameworks */,
 				50E2B7D41D3F737A00098362 /* RxCocoa.framework in Frameworks */,
 				50BF404C1D741AD500DA1857 /* ReSwift.framework in Frameworks */,
+				50A8CF081D991C790005BF8C /* AudioBot.framework in Frameworks */,
+				50A8CF0A1D991C800005BF8C /* AutoReview.framework in Frameworks */,
+				50A8CF061D991C5C0005BF8C /* KeypathObserver.framework in Frameworks */,
 				1E4A387E52032569E06443EB /* Pods_Yep.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3617,6 +3638,9 @@
 		67B708B60AAD1DEA82A6A682 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				50A8CF091D991C800005BF8C /* AutoReview.framework */,
+				50A8CF071D991C790005BF8C /* AudioBot.framework */,
+				50A8CF051D991C5C0005BF8C /* KeypathObserver.framework */,
 				50BF404B1D741AD500DA1857 /* ReSwift.framework */,
 				50E2B7D31D3F737A00098362 /* RxCocoa.framework */,
 				50E2B7D11D3F736E00098362 /* RxSwift.framework */,
@@ -4448,6 +4472,9 @@
 				"$(SRCROOT)/Carthage/Build/iOS/RxSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RxCocoa.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/ReSwift.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AudioBot.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/AutoReview.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KeypathObserver.framework",
 			);
 			outputPaths = (
 			);
