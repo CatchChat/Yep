@@ -331,7 +331,7 @@ final class FeedView: UIView {
         let tapSocialWork = UITapGestureRecognizer(target: self, action: #selector(FeedView.tapSocialWork(_:)))
         socialWorkContainerView.addGestureRecognizer(tapSocialWork)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(FeedView.feedAudioDidFinishPlaying(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedView.feedAudioDidFinishPlaying(_:)), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
     }
 
     func toggleFold(_ sender: UITapGestureRecognizer) {

@@ -391,11 +391,11 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         feedsTableView.separatorColor = UIColor.yepCellSeparatorColor()
         feedsTableView.contentOffset.y = searchBar.frame.height
 
-        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: Notification.Name.UIMenuControllerWillShowMenu, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillHideNotification(_:)), name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillHideNotification(_:)), name: Notification.Name.UIMenuControllerWillHideMenu, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.feedAudioDidFinishPlaying(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.feedAudioDidFinishPlaying(_:)), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: nil)
 
         if skill != nil {
             navigationItem.titleView = skillTitleView
@@ -421,7 +421,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             filterBarItem = UIBarButtonItem(title: "", style: UIBarButtonItemStyle.plain, target: self, action: #selector(FeedsViewController.showFilter(_:)))
             navigationItem.leftBarButtonItem = filterBarItem
 
-            NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.hideFeedsByCrearor(_:)), name: NSNotification.Name(rawValue: YepConfig.Notification.blockedFeedsByCreator), object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.hideFeedsByCrearor(_:)), name: YepConfig.NotificationName.blockedFeedsByCreator, object: nil)
         }
 
         if hideRightBarItem {
@@ -494,7 +494,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
         if blockedFeeds {
             if let userID = profileUser?.userID {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: YepConfig.Notification.blockedFeedsByCreator), object: userID)
+                NotificationCenter.default.post(name: YepConfig.NotificationName.blockedFeedsByCreator, object: userID)
             }
         }
     }
@@ -1768,12 +1768,12 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         let bubbleFrame = cell.convert(cell.messageTextView.frame, to: view)
 
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIMenuControllerWillShowMenu, object: nil)
 
         menu.setTargetRect(bubbleFrame, in: view)
         menu.setMenuVisible(true, animated: true)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedsViewController.didRecieveMenuWillShowNotification(_:)), name: Notification.Name.UIMenuControllerWillShowMenu, object: nil)
 
         feedsTableView.deselectRow(at: selectedIndexPathForMenu, animated: true)
     }

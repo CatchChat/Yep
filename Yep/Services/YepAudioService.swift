@@ -337,7 +337,7 @@ final class YepAudioService: NSObject {
     override init() {
         super.init()
 
-        NotificationCenter.default.addObserver(self, selector: #selector(YepAudioService.proximityStateChanged), name: NSNotification.Name.UIDeviceProximityStateDidChange, object: UIDevice.current)
+        NotificationCenter.default.addObserver(self, selector: #selector(YepAudioService.proximityStateChanged), name: Notification.Name.UIDeviceProximityStateDidChange, object: UIDevice.current)
     }
 
     func proximityStateChanged() {

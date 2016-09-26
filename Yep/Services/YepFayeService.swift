@@ -215,7 +215,7 @@ extension YepFayeService {
                     }
 
                     SafeDispatch.async {
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Message.Notification.MessageBatchMarkAsRead), object: Box<LastRead>(lastRead))
+                        NotificationCenter.default.post(name: Config.NotificationName.messageBatchMarkAsRead, object: Box<LastRead>(lastRead))
                         //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
                     }
 

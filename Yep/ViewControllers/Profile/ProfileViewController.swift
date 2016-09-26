@@ -56,7 +56,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
 
-                NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.createdFeed(_:)), name: Config.NotificationName.createdFeed, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.createdFeed(_:)), name: YepConfig.NotificationName.createdFeed, object: nil)
                 NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.deletedFeed(_:)), name: YepConfig.NotificationName.deletedFeed, object: nil)
             }
         }

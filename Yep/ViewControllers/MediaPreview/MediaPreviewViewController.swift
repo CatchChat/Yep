@@ -601,7 +601,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
                         }
                     })
 
-                    NotificationCenter.default.addObserver(self, selector: #selector(MediaPreviewViewController.playerItemDidReachEnd(_:)), name: NSNotification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem)
+                    NotificationCenter.default.addObserver(self, selector: #selector(MediaPreviewViewController.playerItemDidReachEnd(_:)), name: Notification.Name.AVPlayerItemDidPlayToEndTime, object: player.currentItem)
 
                     mediaControlView.playAction = { mediaControlView in
                         player.play()

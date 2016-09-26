@@ -186,7 +186,7 @@ extension YepTabBarController: UITabBarControllerDelegate {
         }
 
         if tab != .contacts {
-            NotificationCenter.default.post(name: Notification.Name(rawValue: YepConfig.Notification.switchedToOthersFromContactsTab), object: nil)
+            NotificationCenter.default.post(name: YepConfig.NotificationName.switchedToOthersFromContactsTab, object: nil)
         }
 
         // 相等才继续，确保第一次 tap 不做事

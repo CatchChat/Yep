@@ -75,7 +75,7 @@ class BaseVerifyMobileViewController: SegueViewController {
         navigationItem.rightBarButtonItem = nextButton
 
         NotificationCenter.default
-            .rx.notification(Notification.Name(rawValue: AppDelegate.Notification.applicationDidBecomeActive))
+            .rx.notification(YepConfig.NotificationName.applicationDidBecomeActive)
             .subscribe(onNext: { [weak self] _ in self?.verifyCodeTextField.becomeFirstResponder() })
             .addDisposableTo(disposeBag)
 
