@@ -76,7 +76,7 @@ class ChatRightBaseCell: ChatBaseCell {
 
         contentView.addSubview(dotImageView)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ChatRightBaseCell.tryUpdateMessageState), name: NSNotification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatRightBaseCell.tryUpdateMessageState), name: Config.NotificationName.messageStateChanged, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {

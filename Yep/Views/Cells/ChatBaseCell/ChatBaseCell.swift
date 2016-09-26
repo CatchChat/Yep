@@ -49,8 +49,8 @@ class ChatBaseCell: UICollectionViewCell {
 
         contentView.addSubview(avatarImageView)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ChatBaseCell.menuWillShow(_:)), name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(ChatBaseCell.menuWillHide(_:)), name: NSNotification.Name.UIMenuControllerWillHideMenu, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatBaseCell.menuWillShow(_:)), name: Notification.Name.UIMenuControllerWillShowMenu, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ChatBaseCell.menuWillHide(_:)), name: Notification.Name.UIMenuControllerWillHideMenu, object: nil)
     }
 
     required init?(coder aDecoder: NSCoder) {

@@ -74,7 +74,7 @@ final class FeedConversationsViewController: SegueViewController {
 
         _ = try? realm.commitWrite()
 
-        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
+        NotificationCenter.default.post(name: Config.NotificationName.changedFeedConversation, object: nil)
     }
 
     override func viewDidLoad() {
@@ -102,11 +102,11 @@ final class FeedConversationsViewController: SegueViewController {
             }
         }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.newMessages), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.NotificationName.newMessages, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.deletedMessages), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.NotificationName.deletedMessages, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.NotificationName.changedFeedConversation, object: nil)
 
         if traitCollection.forceTouchCapability == .available {
             registerForPreviewing(with: self, sourceView: feedConversationsTableView)
@@ -271,7 +271,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
                 // 延迟一些再发通知，避免影响 tableView 的删除
                 _ = delay(0.5) {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+                    NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
                 }
 
                 deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])

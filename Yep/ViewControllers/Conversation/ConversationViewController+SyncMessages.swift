@@ -128,7 +128,7 @@ extension ConversationViewController {
             }
 
             _ = delay(0.5) {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.messageStateChanged, object: nil)
             }
         }
     }
@@ -199,7 +199,7 @@ extension ConversationViewController {
             if needMarkInServer {
 
                 SafeDispatch.async {
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.markAsReaded), object: nil)
+                    NotificationCenter.default.post(name: Config.NotificationName.markAsReaded, object: nil)
                 }
 
                 if latestMessage.isReal {

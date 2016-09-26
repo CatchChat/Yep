@@ -141,20 +141,20 @@ final class ConversationsViewController: BaseViewController, CanScrollsToTop {
 
         view.backgroundColor = UIColor.white
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.newMessages), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.NotificationName.newMessages, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.deletedMessages), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.NotificationName.deletedMessages, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.NotificationName.changedConversation, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadFeedConversationsDock), name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadFeedConversationsDock), name: Config.NotificationName.changedFeedConversation, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.markAsReaded), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.NotificationName.markAsReaded, object: nil)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Notification.updatedUser), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.NotificationName.updatedUser, object: nil)
         
         // 确保自己发送消息的时候，会话列表也会刷新，避免时间戳不一致
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: NSNotification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationsViewController.reloadConversationsTableView), name: Config.NotificationName.messageStateChanged, object: nil)
 
         YepUserDefaults.nickname.bindListener(Listener.Nickname) { [weak self] _ in
             SafeDispatch.async {
