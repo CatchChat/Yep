@@ -23,10 +23,6 @@ final class MessageToolbar: UIToolbar {
         finishNotifyTypingTimer?.invalidate()
     }
 
-    struct NotificationName {
-        static let updateDraft = Notification.Name(rawValue: "UpdateDraftOfConversation")
-    }
-
     var conversation: Conversation? {
         willSet {
             if let _ = newValue {
