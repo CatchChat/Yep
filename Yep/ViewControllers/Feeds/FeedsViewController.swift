@@ -208,21 +208,25 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
         self.feedsTableView.insertSubview(pullToRefreshView, at: 0)
 
-        pullToRefreshView.translatesAutoresizingMaskIntoConstraints = false
+        pullToRefreshView.frame = CGRect(x: 0, y: -200, width: 375, height: 200)
 
-        let viewsDictionary = [
+        //pullToRefreshView.translatesAutoresizingMaskIntoConstraints = false
+
+        /*
+        let views = [
             "pullToRefreshView": pullToRefreshView,
             "view": self.view,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(-200)-[pullToRefreshView(200)]", options: [], metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(-200)-[pullToRefreshView(200)]", options: [], metrics: nil, views: views)
 
-        // 非常奇怪，若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
-        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[pullToRefreshView(==view)]|", options: [], metrics: nil, views: viewsDictionary)
+        // 若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[pullToRefreshView(==view)]", options: [], metrics: nil, views: views)
 
         NSLayoutConstraint.activate(constraintsV)
         NSLayoutConstraint.activate(constraintsH)
-        
+        */
+
         return pullToRefreshView
     }()
 
