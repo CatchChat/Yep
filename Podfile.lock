@@ -10,7 +10,6 @@ PODS:
     - PINRemoteImage/iOS (>= 3.0.0-beta.3)
   - AudioBot (1.0.0)
   - AutoReview (1.0.0)
-  - Base64 (1.1.2)
   - DeviceUtil (2.0.1)
   - Fabric (1.6.8)
   - FXBlurView (1.6.4)
@@ -30,7 +29,6 @@ DEPENDENCIES:
   - AsyncDisplayKit
   - AudioBot
   - AutoReview
-  - Base64
   - DeviceUtil
   - Fabric
   - FXBlurView
@@ -45,7 +43,6 @@ SPEC CHECKSUMS:
   AsyncDisplayKit: 926ded3ca3fb7026565e0e81f0e132fea4d3a6eb
   AudioBot: 938608091124bad501d2f8a0252bb130b2d705d2
   AutoReview: 6dd11897fe97eda0dca3a6aafc13eeeca453620a
-  Base64: cecfb41a004124895a7bcee567a89bae5a89d49b
   DeviceUtil: ef09c9ae52239a35a24067c459f66c8c3c9478b9
   Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
@@ -57,6 +54,6 @@ SPEC CHECKSUMS:
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
 
-PODFILE CHECKSUM: 4df2d1f4bb857c58e9d28363265fa14620a939cd
+PODFILE CHECKSUM: 48a6082f74a477305a3f4f28d30e464784278aee
 
 COCOAPODS: 1.1.0.rc.2

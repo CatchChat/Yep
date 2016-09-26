@@ -13,7 +13,6 @@ def pods
     pod 'FXBlurView'
     pod 'TPKeyboardAvoiding'
     pod 'pop'
-    pod 'Base64'
     pod 'SocketRocket'
     pod 'JPush'
     pod 'Fabric'
@@ -31,14 +30,13 @@ end
 
 target 'FayeClient' do
     pod 'SocketRocket'
-    pod 'Base64'
 end
 
 post_install do |installer|
     puts 'Allow app extension api only:'
     installer.pods_project.targets.each do |target|
         case target.name
-        when 'Base64', 'SocketRocket'
+        when 'SocketRocket'
             target.build_configurations.each do |config|
                 config.build_settings['APPLICATION_EXTENSION_API_ONLY'] = 'YES'
                 puts 'X...' + target.name
