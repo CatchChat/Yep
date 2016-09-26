@@ -233,9 +233,7 @@ final class YepDownloader: NSObject {
 
         let downloadTask = sharedDownloader.session.dataTask(with: url)
 
-        let task = ProgressReporter.Task(downloadTask: downloadTask, finishedAction: { (data) in
-            finishedAction(data)
-        }, imageTransform: nil)
+        let task = ProgressReporter.Task(downloadTask: downloadTask, finishedAction: finishedAction, imageTransform: nil)
 
         let progressReporter = ProgressReporter(tasks: [task], reportProgress: reportProgress)
         sharedDownloader.progressReporters.append(progressReporter)
