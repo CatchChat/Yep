@@ -8,7 +8,6 @@
 
 import Foundation
 import SocketRocket
-import Base64
 
 public protocol FayeClientDelegate: class {
 
@@ -98,7 +97,7 @@ extension FayeClient {
     func generateUniqueMessageID() -> String {
 
         sentMessageCount += 1
-        return ("\(sentMessageCount)" as NSString).base64()
+        return "\(sentMessageCount)".data(using: .utf8)!.base64EncodedString()
     }
 }
 
