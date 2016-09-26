@@ -208,24 +208,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
         self.feedsTableView.insertSubview(pullToRefreshView, at: 0)
 
-        pullToRefreshView.frame = CGRect(x: 0, y: -200, width: 375, height: 200)
-
-        //pullToRefreshView.translatesAutoresizingMaskIntoConstraints = false
-
-        /*
-        let views = [
-            "pullToRefreshView": pullToRefreshView,
-            "view": self.view,
-        ]
-
-        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(-200)-[pullToRefreshView(200)]", options: [], metrics: nil, views: views)
-
-        // 若直接用 "H:|[pullToRefreshView]|" 得到的实际宽度为 0
-        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[pullToRefreshView(==view)]", options: [], metrics: nil, views: views)
-
-        NSLayoutConstraint.activate(constraintsV)
-        NSLayoutConstraint.activate(constraintsH)
-        */
+        pullToRefreshView.frame = CGRect(x: 0, y: -200, width: self.view.bounds.width, height: 200)
 
         return pullToRefreshView
     }()
@@ -370,6 +353,12 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
         feedsTableView?.delegate = nil
 
         println("deinit Feeds")
+    }
+
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+
+        pullToRefreshView.frame.size.width = view.bounds.width
     }
 
     override func viewDidLoad() {
