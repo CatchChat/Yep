@@ -33,8 +33,8 @@ final class PodsHelpYepViewController: UITableViewController {
             urlString: "https://github.com/nixzhu/AutoReview"
         ),
         Framework(
-            name: "DeviceGuru",
-            urlString: "https://github.com/InderKumarRathore/DeviceGuru"
+            name: "DeviceUtil",
+            urlString: "https://github.com/InderKumarRathore/DeviceUtil"
         ),
         Framework(
             name: "FXBlurView",
