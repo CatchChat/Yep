@@ -41,8 +41,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     var lauchStyle = Listenable<LaunchStyle>(.default) { _ in }
 
-    struct Notification {
-        static let applicationDidBecomeActive = "applicationDidBecomeActive"
+    struct NotificationName {
+        static let applicationDidBecomeActive = Notification.Name(rawValue: "Yep.applicationDidBecomeActive")
     }
 
     enum RemoteNotificationType: String {

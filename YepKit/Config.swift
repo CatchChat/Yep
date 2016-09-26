@@ -31,13 +31,13 @@ final public class Config {
 
     public static var avatarCompressionQuality: CGFloat = 0.7
 
-    public struct Notification {
-        public static let markAsReaded = "YepConfig.Notification.markAsReaded"
-        public static let changedConversation = "YepConfig.Notification.changedConversation"
-        public static let changedFeedConversation = "YepConfig.Notification.changedFeedConversation"
-        public static let newMessages = "YepConfig.Notification.newMessages"
-        public static let deletedMessages = "YepConfig.Notification.deletedMessages"
-        public static let updatedUser = "YepConfig.Notification.updatedUser"
+    public struct NotificationName {
+        public static let markAsReaded = Notification.Name(rawValue: "YepConfig.Notification.markAsReaded"
+        public static let changedConversation = Notification.Name(rawValue: "YepConfig.Notification.changedConversation")
+        public static let changedFeedConversation = Notification.Name(rawValue: "YepConfig.Notification.changedFeedConversation")
+        public static let newMessages = Notification.Name(rawValue: "YepConfig.Notification.newMessages")
+        public static let deletedMessages = Notification.Name(rawValue: "YepConfig.Notification.deletedMessages")
+        public static let updatedUser = Notification.Name(rawValue: "YepConfig.Notification.updatedUser")
     }
     
     public struct Message {
@@ -45,9 +45,9 @@ final public class Config {
         public static let localNewerTimeInterval: TimeInterval = 0.001
         public static let sectionOlderTimeInterval: TimeInterval = 0.0005
 
-        public struct Notification {
-            public static let MessageStateChanged = "MessageStateChangedNotification"
-            public static let MessageBatchMarkAsRead = "MessageBatchMarkAsReadNotification"
+        public struct NotificationName {
+            public static let MessageStateChanged = Notification.Name(rawValue: "MessageStateChangedNotification")
+            public static let MessageBatchMarkAsRead = Notification.Name(rawValue: "MessageBatchMarkAsReadNotification")
         }
     }
 

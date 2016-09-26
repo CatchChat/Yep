@@ -23,8 +23,8 @@ final class MessageToolbar: UIToolbar {
         finishNotifyTypingTimer?.invalidate()
     }
 
-    struct Notification {
-        static let updateDraft = "UpdateDraftOfConversation"
+    struct NotificationName {
+        static let updateDraft = Notification.Name(rawValue: "UpdateDraftOfConversation")
     }
 
     var conversation: Conversation? {

@@ -40,13 +40,13 @@ final class YepConfig {
 
     static let dismissKeyboardDelayTimeInterval : TimeInterval = 0.45
 
-    struct Notification {
-        static let OAuthResult = "YepConfig.Notification.OAuthResult"
-        static let createdFeed = "YepConfig.Notification.createdFeed"
-        static let deletedFeed = "YepConfig.Notification.deletedFeed"
-        static let switchedToOthersFromContactsTab = "YepConfig.Notification.switchedToOthersFromContactsTab"
-        static let blockedFeedsByCreator = "YepConfig.Notification.blockedFeedsByCreator"
-        static let newFriendsInContacts = "YepConfig.Notification.NewFriendsInContacts"
+    struct NotificationName {
+        static let OAuthResult = Notification.Name(rawValue: "YepConfig.Notification.OAuthResult")
+        static let createdFeed = Notification.Name(rawValue: "YepConfig.Notification.createdFeed")
+        static let deletedFeed = Notification.Name(rawValue: "YepConfig.Notification.deletedFeed")
+        static let switchedToOthersFromContactsTab = Notification.Name(rawValue: "YepConfig.Notification.switchedToOthersFromContactsTab")
+        static let blockedFeedsByCreator = Notification.Name(rawValue: "YepConfig.Notification.blockedFeedsByCreator")
+        static let newFriendsInContacts = Notification.Name(rawValue: "YepConfig.Notification.NewFriendsInContacts")
     }
 
     class func getScreenRect() -> CGRect {

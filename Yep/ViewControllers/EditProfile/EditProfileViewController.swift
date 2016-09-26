@@ -17,9 +17,9 @@ import Navi
 
 final class EditProfileViewController: SegueViewController {
 
-    struct Notification {
-        static let Logout = "LogoutNotification"
-        static let NewUsername = "NewUsername"
+    struct NotificationName {
+        static let Logout = Notification.Name(rawValue: "LogoutNotification")
+        static let NewUsername = Notification.Name(rawValue: "NewUsername")
     }
 
     @IBOutlet fileprivate weak var avatarImageView: UIImageView!
