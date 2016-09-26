@@ -10,4 +10,7 @@ github "nixzhu/KeyboardMan"
 github "nixzhu/Ruler"
 github "nixzhu/Proposer"
 github "nixzhu/MonkeyKing"
+github "nixzhu/KeypathObserver"
+github "nixzhu/AutoReview"
+github "nixzhu/AudioBot"
 
