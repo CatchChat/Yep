@@ -148,8 +148,9 @@ public func apiRequest<A>(_ modifyRequest: (URLRequest) -> (), baseURL: URL, res
     func query(_ parameters: JSONDictionary) -> String {
         var components: [(String, String)] = []
         for key in Array(parameters.keys).sorted(by: <) {
-            let value = parameters[key]
-            components += queryComponents(key, value: value)
+            if let value = parameters[key] {
+                components += queryComponents(key, value: value)
+            }
         }
 
         return (components.map{"\($0)=\($1)"} as [String]).joined(separator: "&")
