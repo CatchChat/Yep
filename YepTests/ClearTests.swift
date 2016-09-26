@@ -40,14 +40,14 @@ final class ClearTests: XCTestCase {
         }
 
         do {
-            let path = NSFileManager.yepMessageCachesURL()?.path
-            let noMessageCacheFiles = try! NSFileManager.defaultManager().contentsOfDirectoryAtPath(path!).isEmpty
+            let path = FileManager.yepMessageCachesURL()?.path
+            let noMessageCacheFiles = try! FileManager.default.contentsOfDirectory(atPath: path!).isEmpty
             XCTAssertTrue(noMessageCacheFiles)
         }
 
         do {
-            let path = NSFileManager.yepAvatarCachesURL()?.path
-            let noAvatarCacheFiles = try! NSFileManager.defaultManager().contentsOfDirectoryAtPath(path!).isEmpty
+            let path = FileManager.yepAvatarCachesURL()?.path
+            let noAvatarCacheFiles = try! FileManager.default.contentsOfDirectory(atPath: path!).isEmpty
             XCTAssertTrue(noAvatarCacheFiles)
         }
     }
