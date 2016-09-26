@@ -20,6 +20,8 @@ def pods
 end
 
 target 'Yep' do
+    swift_version = '3.0'
+
     pods
 
     target 'YepTests' do
