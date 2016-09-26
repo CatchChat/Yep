@@ -23,23 +23,23 @@ let profileAvatarAspectRatio: CGFloat = 12.0 / 16.0
 final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
     var oAuthCompleteAction: (() -> Void)?
-    var afterOAuthAction: ((socialAccount: SocialAccount) -> Void)?
+    var afterOAuthAction: ((_ socialAccount: SocialAccount) -> Void)?
 
     var profileUser: ProfileUser?
 
     enum FromType {
-        case None
-        case OneToOneConversation
-        case GroupConversation
+        case none
+        case oneToOneConversation
+        case groupConversation
     }
-    var fromType: FromType = .None
+    var fromType: FromType = .none
 
-    private var profileUserIsMe = true {
+    fileprivate var profileUserIsMe = true {
         didSet {
             if !profileUserIsMe {
 
-                if fromType == .OneToOneConversation {
-                    sayHiView.hidden = true
+                if fromType == .oneToOneConversation {
+                    sayHiView.isHidden = true
 
                 } else {
                     sayHiView.tapAction = { [weak self] in
@@ -50,21 +50,21 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                 }
 
             } else {
-                sayHiView.hidden = true
+                sayHiView.isHidden = true
 
-                let settingsBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconSettings, style: .Plain, target: self, action: #selector(ProfileViewController.showSettings(_:)))
+                let settingsBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconSettings, style: .plain, target: self, action: #selector(ProfileViewController.showSettings(_:)))
 
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
 
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.createdFeed(_:)), name: YepConfig.Notification.createdFeed, object: nil)
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.deletedFeed(_:)), name: YepConfig.Notification.deletedFeed, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.createdFeed(_:)), name: NSNotification.Name(rawValue: YepConfig.Notification.createdFeed), object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.deletedFeed(_:)), name: NSNotification.Name(rawValue: YepConfig.Notification.deletedFeed), object: nil)
             }
         }
     }
 
-    private var socialAccount: SocialAccount?
+    fileprivate var socialAccount: SocialAccount?
 
-    private var numberOfItemsInSectionBlog: Int {
+    fileprivate var numberOfItemsInSectionBlog: Int {
 
         if profileUserIsMe {
             return 1
@@ -77,17 +77,17 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         }
     }
 
-    private var numberOfItemsInSectionSocialAccount: Int {
+    fileprivate var numberOfItemsInSectionSocialAccount: Int {
 
         return (profileUser?.providersCount ?? 0)
     }
 
-    private var needSeparationLine: Bool {
+    fileprivate var needSeparationLine: Bool {
 
         return (numberOfItemsInSectionBlog > 0) || (numberOfItemsInSectionSocialAccount > 0)
     }
 
-    private var insetForSectionBlog: UIEdgeInsets {
+    fileprivate var insetForSectionBlog: UIEdgeInsets {
 
         if numberOfItemsInSectionBlog > 0 {
             if numberOfItemsInSectionSocialAccount > 0 {
@@ -96,28 +96,28 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                 return UIEdgeInsets(top: 30, left: 0, bottom: 40, right: 0)
             }
         } else {
-            return UIEdgeInsetsZero
+            return UIEdgeInsets.zero
         }
     }
 
-    private var insetForSectionSocialAccount: UIEdgeInsets {
+    fileprivate var insetForSectionSocialAccount: UIEdgeInsets {
 
         if numberOfItemsInSectionBlog > 0 {
             if numberOfItemsInSectionSocialAccount > 0 {
                 return UIEdgeInsets(top: 10, left: 0, bottom: 30, right: 0)
             } else {
-                return UIEdgeInsetsZero
+                return UIEdgeInsets.zero
             }
         } else {
             if numberOfItemsInSectionSocialAccount > 0 {
                 return UIEdgeInsets(top: 30, left: 0, bottom: 30, right: 0)
             } else {
-                return UIEdgeInsetsZero
+                return UIEdgeInsets.zero
             }
         }
     }
 
-    private lazy var shareView: ShareProfileView = {
+    fileprivate lazy var shareView: ShareProfileView = {
         let share = ShareProfileView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
         share.alpha = 0
         self.view.addSubview(share)
@@ -131,26 +131,26 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
     }()
     #endif
 
-    private var statusBarShouldLight = false
+    fileprivate var statusBarShouldLight = false
 
-    private var noNeedToChangeStatusBar = false
+    fileprivate var noNeedToChangeStatusBar = false
 
-    @IBOutlet private weak var topShadowImageView: UIImageView!
+    @IBOutlet fileprivate weak var topShadowImageView: UIImageView!
 
-    @IBOutlet private weak var profileCollectionView: UICollectionView! {
+    @IBOutlet fileprivate weak var profileCollectionView: UICollectionView! {
         didSet {
-            profileCollectionView.registerNibOf(SkillCell)
-            profileCollectionView.registerNibOf(ProfileHeaderCell)
-            profileCollectionView.registerNibOf(ProfileFooterCell)
-            profileCollectionView.registerNibOf(ProfileSeparationLineCell)
-            profileCollectionView.registerNibOf(ProfileSocialAccountCell)
-            profileCollectionView.registerNibOf(ProfileSocialAccountBlogCell)
-            profileCollectionView.registerNibOf(ProfileSocialAccountImagesCell)
-            profileCollectionView.registerNibOf(ProfileSocialAccountGithubCell)
-            profileCollectionView.registerNibOf(ProfileFeedsCell)
+            profileCollectionView.registerNibOf(SkillCell.self)
+            profileCollectionView.registerNibOf(ProfileHeaderCell.self)
+            profileCollectionView.registerNibOf(ProfileFooterCell.self)
+            profileCollectionView.registerNibOf(ProfileSeparationLineCell.self)
+            profileCollectionView.registerNibOf(ProfileSocialAccountCell.self)
+            profileCollectionView.registerNibOf(ProfileSocialAccountBlogCell.self)
+            profileCollectionView.registerNibOf(ProfileSocialAccountImagesCell.self)
+            profileCollectionView.registerNibOf(ProfileSocialAccountGithubCell.self)
+            profileCollectionView.registerNibOf(ProfileFeedsCell.self)
 
-            profileCollectionView.registerHeaderNibOf(ProfileSectionHeaderReusableView)
-            profileCollectionView.registerFooterClassOf(UICollectionReusableView)
+            profileCollectionView.registerHeaderNibOf(ProfileSectionHeaderReusableView.self)
+            profileCollectionView.registerFooterClassOf(UICollectionReusableView.self)
 
             profileCollectionView.alwaysBounceVertical = true
         }
@@ -161,26 +161,26 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         return profileCollectionView
     }
 
-    @IBOutlet private weak var sayHiView: BottomButtonView!
+    @IBOutlet fileprivate weak var sayHiView: BottomButtonView!
 
-    private lazy var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
-    private lazy var customNavigationBar: UINavigationBar = {
+    fileprivate lazy var customNavigationItem: UINavigationItem = UINavigationItem(title: "Details")
+    fileprivate lazy var customNavigationBar: UINavigationBar = {
 
-        let bar = UINavigationBar(frame: CGRectMake(0, 0, CGRectGetWidth(self.view.bounds), 64))
+        let bar = UINavigationBar(frame: CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 64))
 
-        bar.tintColor = UIColor.whiteColor()
-        bar.tintAdjustmentMode = .Normal
+        bar.tintColor = UIColor.white
+        bar.tintAdjustmentMode = .normal
         bar.alpha = 0
         bar.setItems([self.customNavigationItem], animated: false)
 
-        bar.backgroundColor = UIColor.clearColor()
-        bar.translucent = true
+        bar.backgroundColor = UIColor.clear
+        bar.isTranslucent = true
         bar.shadowImage = UIImage()
-        bar.barStyle = UIBarStyle.BlackTranslucent
-        bar.setBackgroundImage(UIImage(), forBarMetrics: UIBarMetrics.Default)
+        bar.barStyle = UIBarStyle.blackTranslucent
+        bar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
 
         let textAttributes = [
-            NSForegroundColorAttributeName: UIColor.whiteColor(),
+            NSForegroundColorAttributeName: UIColor.white,
             NSFontAttributeName: UIFont.navigationBarTitleFont()
         ]
 
@@ -189,31 +189,31 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         return bar
     }()
 
-    private lazy var collectionViewWidth: CGFloat = {
-        return CGRectGetWidth(self.profileCollectionView.bounds)
+    fileprivate lazy var collectionViewWidth: CGFloat = {
+        return self.profileCollectionView.bounds.width
     }()
-    private lazy var sectionLeftEdgeInset: CGFloat = {
+    fileprivate lazy var sectionLeftEdgeInset: CGFloat = {
         return YepConfig.Profile.leftEdgeInset
     }()
-    private lazy var sectionRightEdgeInset: CGFloat = {
+    fileprivate lazy var sectionRightEdgeInset: CGFloat = {
         return YepConfig.Profile.rightEdgeInset
     }()
-    private lazy var sectionBottomEdgeInset: CGFloat = {
+    fileprivate lazy var sectionBottomEdgeInset: CGFloat = {
         return 0
     }()
 
-    private lazy var introductionText: String = {
+    fileprivate lazy var introductionText: String = {
 
         let introduction: String? = self.profileUser.flatMap({ profileUser in
 
             switch profileUser {
                 
-            case .DiscoveredUserType(let discoveredUser):
-                if let introduction = discoveredUser.introduction where !introduction.isEmpty {
+            case .discoveredUserType(let discoveredUser):
+                if let introduction = discoveredUser.introduction , !introduction.isEmpty {
                     return introduction
                 }
 
-            case .UserType(let user):
+            case .userType(let user):
                 if user.isMe {
                     YepUserDefaults.introduction.bindListener(self.listener.introduction) { introduction in
                         SafeDispatch.async { [weak self] in
@@ -234,13 +234,13 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         return introduction ?? String.trans_promptNoSelfIntroduction
     }()
 
-    private var masterSkills = [Skill]()
+    fileprivate var masterSkills = [Skill]()
 
-    private var learningSkills = [Skill]()
+    fileprivate var learningSkills = [Skill]()
 
-    private func updateMyMasterSkills() {
+    fileprivate func updateMyMasterSkills() {
 
-        guard let profileUser = profileUser where profileUser.isMe else {
+        guard let profileUser = profileUser , profileUser.isMe else {
             return
         }
 
@@ -252,14 +252,14 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
             realm.beginWrite()
             me.masterSkills.removeAll()
             let userSkills = userSkillsFromSkills(masterSkills, inRealm: realm)
-            me.masterSkills.appendContentsOf(userSkills)
+            me.masterSkills.append(objectsIn: userSkills)
             _ = try? realm.commitWrite()
         }
     }
 
-    private func updateMyLearningSkills() {
+    fileprivate func updateMyLearningSkills() {
 
-        guard let profileUser = profileUser where profileUser.isMe else {
+        guard let profileUser = profileUser , profileUser.isMe else {
             return
         }
 
@@ -271,38 +271,38 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
             realm.beginWrite()
             me.learningSkills.removeAll()
             let userSkills = userSkillsFromSkills(learningSkills, inRealm: realm)
-            me.learningSkills.appendContentsOf(userSkills)
+            me.learningSkills.append(objectsIn: userSkills)
             _ = try? realm.commitWrite()
         }
     }
 
-    private var dribbbleWork: DribbbleWork?
-    private var instagramWork: InstagramWork?
-    private var githubWork: GithubWork?
-    private var feeds: [DiscoveredFeed]?
-    private var feedAttachments: [DiscoveredAttachment?]?
+    fileprivate var dribbbleWork: DribbbleWork?
+    fileprivate var instagramWork: InstagramWork?
+    fileprivate var githubWork: GithubWork?
+    fileprivate var feeds: [DiscoveredFeed]?
+    fileprivate var feedAttachments: [DiscoveredAttachment?]?
 
-    private let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
+    fileprivate let skillTextAttributes = [NSFontAttributeName: UIFont.skillTextFont()]
 
-    private var footerCellHeight: CGFloat {
+    fileprivate var footerCellHeight: CGFloat {
         let attributes = [
             NSFontAttributeName: YepConfig.Profile.introductionFont
         ]
         let labelWidth = self.collectionViewWidth - (YepConfig.Profile.leftEdgeInset + YepConfig.Profile.rightEdgeInset)
-        let rect = self.introductionText.boundingRectWithSize(CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes:attributes, context:nil)
+        let rect = self.introductionText.boundingRect(with: CGSize(width: labelWidth, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes:attributes, context:nil)
         return 10 + 24 + 4 + 18 + 10 + ceil(rect.height) + 6
     }
 
-    private struct Listener {
+    fileprivate struct Listener {
         let nickname: String
         let introduction: String
         let avatar: String
         let blog: String
     }
 
-    private lazy var listener: Listener = {
+    fileprivate lazy var listener: Listener = {
 
-        let suffix = NSUUID().UUIDString
+        let suffix = UUID().uuidString
 
         return Listener(
             nickname: "Profile.Title" + suffix,
@@ -315,7 +315,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
     // MARK: Life cycle
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
 
         YepUserDefaults.nickname.removeListenerWithName(listener.nickname)
         YepUserDefaults.introduction.removeListenerWithName(listener.introduction)
@@ -327,11 +327,11 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         println("deinit Profile")
     }
 
-    override func preferredStatusBarStyle() -> UIStatusBarStyle {
+    override var preferredStatusBarStyle : UIStatusBarStyle {
         if statusBarShouldLight {
-            return UIStatusBarStyle.LightContent
+            return UIStatusBarStyle.lightContent
         } else {
-            return UIStatusBarStyle.Default
+            return UIStatusBarStyle.default
         }
     }
 
@@ -344,19 +344,18 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
         automaticallyAdjustsScrollViewInsets = false
 
-        Kingfisher.ImageCache(name: "default").calculateDiskCacheSizeWithCompletionHandler({ (size) -> () in
+        Kingfisher.ImageCache.default.calculateDiskCacheSize { (size) in
             let cacheSize = Double(size)/1000000
-            
             println(String(format: "Kingfisher.ImageCache cacheSize: %.2f MB", cacheSize))
             
             if cacheSize > 300 {
-                 Kingfisher.ImageCache.defaultCache.clearDiskCache()
+                 Kingfisher.ImageCache.default.cleanExpiredDiskCache()
             }
-        })
+        }
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.cleanForLogout(_:)), name: EditProfileViewController.Notification.Logout, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.cleanForLogout(_:)), name: NSNotification.Name(rawValue: EditProfileViewController.Notification.Logout), object: nil)
         
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.handleOAuthResult(_:)), name: YepConfig.Notification.OAuthResult, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.handleOAuthResult(_:)), name: NSNotification.Name(rawValue: YepConfig.Notification.OAuthResult), object: nil)
 
         if let profileUser = profileUser {
 
@@ -364,7 +363,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
             switch profileUser {
 
-            case .DiscoveredUserType(let discoveredUser):
+            case .discoveredUserType(let discoveredUser):
 
                 guard let realm = try? Realm() else {
                     break
@@ -372,7 +371,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
                 if let user = userWithUserID(discoveredUser.id, inRealm: realm) {
                     
-                    self.profileUser = ProfileUser.UserType(user)
+                    self.profileUser = ProfileUser.userType(user)
 
                     masterSkills = skillsFromUserSkillList(user.masterSkills)
                     learningSkills = skillsFromUserSkillList(user.learningSkills)
@@ -388,7 +387,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                 
                 if let user = userWithUserID(profileUser.userID, inRealm: realm) {
                     
-                    if user.friendState == UserFriendState.Normal.rawValue {
+                    if user.friendState == UserFriendState.normal.rawValue {
                         sayHiView.title = String.trans_titleChat
                     }
                 }
@@ -414,7 +413,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
             }
 
             if let me = me() {
-                profileUser = ProfileUser.UserType(me)
+                profileUser = ProfileUser.userType(me)
 
                 masterSkills = skillsFromUserSkillList(me.masterSkills)
                 learningSkills = skillsFromUserSkillList(me.learningSkills)
@@ -430,9 +429,9 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
             profileLayout.scrollUpAction = { [weak self] progress in
 
                 if let strongSelf = self {
-                    let indexPath = NSIndexPath(forItem: 0, inSection: Section.Header.rawValue)
+                    let indexPath = IndexPath(item: 0, section: Section.header.rawValue)
                     
-                    if let coverCell = strongSelf.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
+                    if let coverCell = strongSelf.profileCollectionView.cellForItem(at: indexPath) as? ProfileHeaderCell {
                         
                         let beginChangePercentage: CGFloat = 1 - 64 / strongSelf.collectionViewWidth * profileAvatarAspectRatio
                         let normalizedProgressForChange: CGFloat = (progress - beginChangePercentage) / (1 - beginChangePercentage)
@@ -456,8 +455,8 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         //Make sure when pan edge screen collectionview not scroll
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
-                    profileCollectionView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                if recognizer.isKind(of: UIScreenEdgePanGestureRecognizer.self) {
+                    profileCollectionView.panGestureRecognizer.require(toFail: recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
                 }
@@ -465,20 +464,20 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         }
 
         if let tabBarController = tabBarController {
-            profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: CGRectGetHeight(tabBarController.tabBar.bounds), right: 0)
+            profileCollectionView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: tabBarController.tabBar.bounds.height, right: 0)
         }
 
         if let profileUser = profileUser {
 
             switch profileUser {
 
-            case .DiscoveredUserType(let discoveredUser):
+            case .discoveredUserType(let discoveredUser):
                 customNavigationItem.title = discoveredUser.nickname
 
-            case .UserType(let user):
+            case .userType(let user):
                 customNavigationItem.title = user.nickname
 
-                if user.friendState == UserFriendState.Me.rawValue {
+                if user.friendState == UserFriendState.me.rawValue {
                     YepUserDefaults.nickname.bindListener(listener.nickname) { [weak self] nickname in
                         SafeDispatch.async {
                             self?.customNavigationItem.title = nickname
@@ -488,8 +487,8 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
                     YepUserDefaults.avatarURLString.bindListener(listener.avatar) { [weak self] avatarURLString in
                         SafeDispatch.async {
-                            let indexPath = NSIndexPath(forItem: 0, inSection: Section.Header.rawValue)
-                            if let cell = self?.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileHeaderCell {
+                            let indexPath = IndexPath(item: 0, section: Section.header.rawValue)
+                            if let cell = self?.profileCollectionView.cellForItem(at: indexPath) as? ProfileHeaderCell {
                                 if let avatarURLString = avatarURLString {
                                     cell.blurredAvatarImage = nil // need reblur
                                     cell.updateAvatarWithAvatarURLString(avatarURLString)
@@ -502,7 +501,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                         self?.updateProfileCollectionView()
                     })
 
-                    NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ProfileViewController.updateUIForUsername(_:)), name: EditProfileViewController.Notification.NewUsername, object: nil)
+                    NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.updateUIForUsername(_:)), name: NSNotification.Name(rawValue: EditProfileViewController.Notification.NewUsername), object: nil)
                 }
             }
 
@@ -525,8 +524,8 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
                         if let discoveredUser = parseDiscoveredUser(userInfo) {
                             switch profileUser {
-                            case .DiscoveredUserType:
-                                self?.profileUser = ProfileUser.DiscoveredUserType(discoveredUser)
+                            case .discoveredUserType:
+                                self?.profileUser = ProfileUser.discoveredUserType(discoveredUser)
                             default:
                                 break
                             }
@@ -542,7 +541,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                 // share my profile button
 
                 if customNavigationItem.leftBarButtonItem == nil {
-                    let shareMyProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(ProfileViewController.tryShareMyProfile(_:)))
+                    let shareMyProfileButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(ProfileViewController.tryShareMyProfile(_:)))
                     customNavigationItem.leftBarButtonItem = shareMyProfileButton
                 }
 
@@ -550,7 +549,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                 // share others' profile button
 
                 if let _ = profileUser.username {
-                    let shareOthersProfileButton = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(ProfileViewController.shareOthersProfile(_:)))
+                    let shareOthersProfileButton = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(ProfileViewController.shareOthersProfile(_:)))
                     customNavigationItem.rightBarButtonItem = shareOthersProfileButton
                 }
             }
@@ -558,13 +557,13 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
         if profileUserIsMe {
 
-            proposeToAccess(.Location(.WhenInUse), agreed: {
+            proposeToAccess(.location(.whenInUse), agreed: {
                 YepLocationService.turnOn()
 
                 YepLocationService.sharedManager.afterUpdatedLocationAction = { [weak self] newLocation in
 
-                    let indexPath = NSIndexPath(forItem: 0, inSection: Section.Footer.rawValue)
-                    if let cell = self?.profileCollectionView.cellForItemAtIndexPath(indexPath) as? ProfileFooterCell {
+                    let indexPath = IndexPath(item: 0, section: Section.footer.rawValue)
+                    if let cell = self?.profileCollectionView.cellForItem(at: indexPath) as? ProfileFooterCell {
                         cell.location = newLocation
                     }
                 }
@@ -586,7 +585,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         #endif
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         self.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -601,7 +600,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         self.setNeedsStatusBarAppearanceUpdate()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         statusBarShouldLight = true
@@ -611,9 +610,9 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
     // MARK: Actions
 
-    private func tryUpdateBlogTitle() {
+    fileprivate func tryUpdateBlogTitle() {
 
-        guard let blogURLString = YepUserDefaults.blogURLString.value where !blogURLString.isEmpty, let blogURL = NSURL(string: blogURLString)?.yep_validSchemeNetworkURL else {
+        guard let blogURLString = YepUserDefaults.blogURLString.value , !blogURLString.isEmpty, let blogURL = URL(string: blogURLString)?.yep_validSchemeNetworkURL else {
             return
         }
 
@@ -642,21 +641,20 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         })
     }
 
-    private func tryShareProfile() {
+    fileprivate func tryShareProfile() {
 
-        guard let username = profileUser?.username, profileURL = NSURL(string: "https://\(yepHost)/\(username)"), nickname = profileUser?.nickname else {
+        guard let username = profileUser?.username, let profileURL = URL(string: "https://\(yepHost)/\(username)"), let nickname = profileUser?.nickname else {
             return
         }
 
         var thumbnail: UIImage?
         if let
             avatarURLString = profileUser?.avatarURLString,
-            realm = try? Realm(),
-            avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
-                if let
-                    avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
-                    avatarFilePath = avatarFileURL.path,
-                    image = UIImage(contentsOfFile: avatarFilePath) {
+            let realm = try? Realm(),
+            let avatar = avatarWithAvatarURLString(avatarURLString, inRealm: realm) {
+                if
+                    let avatarFileURL = FileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                    let image = UIImage(contentsOfFile: avatarFileURL.path) {
                         thumbnail = image.navi_centerCropWithSize(CGSize(width: 100, height: 100))
                 }
         }
@@ -665,13 +663,13 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
             title: nickname,
             description: String.trans_shareFromYepWithSkills,
             thumbnail: thumbnail,
-            media: .URL(profileURL)
+            media: .url(profileURL)
         )
         let description = String.trans_shareUserFromYepWithSkills(nickname)
         self.yep_share(info: info, defaultActivityItem: profileURL, description: description)
     }
 
-    @objc private func tryShareMyProfile(sender: AnyObject?) {
+    @objc fileprivate func tryShareMyProfile(_ sender: AnyObject?) {
 
         if let _ = profileUser?.username {
             tryShareProfile()
@@ -682,7 +680,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                 let newUsername = text
 
                 updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
 
                     let message = errorMessage ?? String.trans_promptCreateUsernameFailed
                     YepAlert.alertSorry(message: message, inViewController: self)
@@ -707,12 +705,12 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         }
     }
 
-    @objc private func shareOthersProfile(sender: AnyObject) {
+    @objc fileprivate func shareOthersProfile(_ sender: AnyObject) {
 
         tryShareProfile()
     }
 
-    private func pickSkills() {
+    fileprivate func pickSkills() {
 
         let vc = UIStoryboard.Scene.registerPickSkills
 
@@ -735,37 +733,37 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         self.navigationController?.pushViewController(vc, animated: true)
     }
 
-    @objc private func showSettings(sender: AnyObject) {
-        self.performSegueWithIdentifier("showSettings", sender: self)
+    @objc fileprivate func showSettings(_ sender: AnyObject) {
+        self.performSegue(withIdentifier: "showSettings", sender: self)
     }
 
     func setBackButtonWithTitle() {
-        let backBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconBack, style: .Plain, target: self, action: #selector(ProfileViewController.back(_:)))
+        let backBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconBack, style: .plain, target: self, action: #selector(ProfileViewController.back(_:)))
 
         customNavigationItem.leftBarButtonItem = backBarButtonItem
     }
 
-    @objc private func back(sender: AnyObject) {
+    @objc fileprivate func back(_ sender: AnyObject) {
         if let presentingViewController = presentingViewController {
-            presentingViewController.dismissViewControllerAnimated(true, completion: nil)
+            presentingViewController.dismiss(animated: true, completion: nil)
         } else {
-            navigationController?.popViewControllerAnimated(true)
+            _ = navigationController?.popViewController(animated: true)
         }
     }
 
-    @objc private func cleanForLogout(sender: NSNotification) {
+    @objc fileprivate func cleanForLogout(_ sender: Notification) {
         profileUser = nil
     }
 
-    @objc private func updateUIForUsername(sender: NSNotification) {
+    @objc fileprivate func updateUIForUsername(_ sender: Notification) {
         updateProfileCollectionView()
     }
 
-    private func updateFeedAttachmentsAfterUpdateFeeds() {
+    fileprivate func updateFeedAttachmentsAfterUpdateFeeds() {
 
         feedAttachments = feeds!.map({ feed -> DiscoveredAttachment? in
             if let attachment = feed.attachment {
-                if case let .Images(attachments) = attachment {
+                if case let .images(attachments) = attachment {
                     return attachments.first
                 }
             }
@@ -775,19 +773,19 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
         updateProfileCollectionView()
     }
-    @objc private func createdFeed(sender: NSNotification) {
+    @objc fileprivate func createdFeed(_ sender: Notification) {
 
         guard feeds != nil else {
             return
         }
 
         let feed = (sender.object as! Box<DiscoveredFeed>).value
-        feeds!.insert(feed, atIndex: 0)
+        feeds!.insert(feed, at: 0)
 
         updateFeedAttachmentsAfterUpdateFeeds()
     }
 
-    @objc private func deletedFeed(sender: NSNotification) {
+    @objc fileprivate func deletedFeed(_ sender: Notification) {
 
         guard feeds != nil else {
             return
@@ -795,7 +793,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
         let feedID = sender.object as! String
         var indexOfDeletedFeed: Int?
-        for (index, feed) in feeds!.enumerate() {
+        for (index, feed) in feeds!.enumerated() {
             if feed.id == feedID {
                 indexOfDeletedFeed = index
                 break
@@ -804,12 +802,12 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         guard let index = indexOfDeletedFeed else {
             return
         }
-        feeds!.removeAtIndex(index)
+        feeds!.remove(at: index)
 
         updateFeedAttachmentsAfterUpdateFeeds()
     }
 
-    private func updateProfileCollectionView() {
+    fileprivate func updateProfileCollectionView() {
         SafeDispatch.async { [weak self] in
             self?.profileCollectionView.collectionViewLayout.invalidateLayout()
             self?.profileCollectionView.reloadData()
@@ -817,7 +815,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         }
     }
 
-    private func sayHi() {
+    fileprivate func sayHi() {
 
         if let profileUser = profileUser {
                     
@@ -827,26 +825,26 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
             switch profileUser {
 
-            case .DiscoveredUserType(let discoveredUser):
+            case .discoveredUserType(let discoveredUser):
 
                 realm.beginWrite()
                 let conversation = conversationWithDiscoveredUser(discoveredUser, inRealm: realm)
                 _ = try? realm.commitWrite()
 
                 if let conversation = conversation {
-                    performSegueWithIdentifier("showConversation", sender: conversation)
+                    performSegue(withIdentifier: "showConversation", sender: conversation)
 
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
                 }
 
-            case .UserType(let user):
+            case .userType(let user):
 
-                if user.friendState != UserFriendState.Me.rawValue {
+                if user.friendState != UserFriendState.me.rawValue {
 
                     if user.conversation == nil {
                         let newConversation = Conversation()
 
-                        newConversation.type = ConversationType.OneToOne.rawValue
+                        newConversation.type = ConversationType.oneToOne.rawValue
                         newConversation.withFriend = user
 
                         let _ = try? realm.write {
@@ -855,9 +853,9 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                     }
 
                     if let conversation = user.conversation {
-                        performSegueWithIdentifier("showConversation", sender: conversation)
+                        performSegue(withIdentifier: "showConversation", sender: conversation)
 
-                        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
                     }
                 }
             }
@@ -866,7 +864,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -876,23 +874,23 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
         case "showProfileWithUsername":
 
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
             let profileUser = (sender as! Box<ProfileUser>).value
             vc.prepare(withProfileUser: profileUser)
 
         case "showConversation":
 
-            let vc = segue.destinationViewController as! ConversationViewController
+            let vc = segue.destination as! ConversationViewController
             vc.conversation = sender as! Conversation
             
         case "showFeedsWithSkill":
 
-            let vc = segue.destinationViewController as! FeedsViewController
+            let vc = segue.destination as! FeedsViewController
 
             if let
                 skillInfo = sender as? [String: AnyObject],
-                skill = skillInfo["skill"] as? SkillCellSkill {
+                let skill = skillInfo["skill"] as? SkillCellSkill {
                     vc.skill = Skill(category: nil, id: skill.ID, name: skill.localName, localName: skill.localName, coverURLString: skill.coverURLString)
             }
 
@@ -900,12 +898,12 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
         case "showFeedsOfProfileUser":
 
-            let vc = segue.destinationViewController as! FeedsViewController
+            let vc = segue.destination as! FeedsViewController
 
             if let
                 info = (sender as? Box<[String: AnyObject]>)?.value,
-                profileUser = (info["profileUser"] as? Box<ProfileUser>)?.value,
-                feeds = (info["feeds"] as? Box<[DiscoveredFeed]>)?.value {
+                let profileUser = (info["profileUser"] as? Box<ProfileUser>)?.value,
+                let feeds = (info["feeds"] as? Box<[DiscoveredFeed]>)?.value {
                     vc.profileUser = profileUser
                     vc.feeds = feeds
                     vc.preparedFeedsCount = feeds.count
@@ -919,7 +917,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
             if let skillInfo = sender as? [String: AnyObject] {
 
-                let vc = segue.destinationViewController as! EditSkillsViewController
+                let vc = segue.destination as! EditSkillsViewController
 
                 if let skillSet = skillInfo["skillSet"] as? Int {
                     vc.skillSet = SkillSet(rawValue: skillSet)
@@ -934,7 +932,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
             if let providerName = sender as? String {
 
-                let vc = segue.destinationViewController as! SocialWorkGithubViewController
+                let vc = segue.destination as! SocialWorkGithubViewController
                 vc.socialAccount = SocialAccount(rawValue: providerName)
                 vc.profileUser = profileUser
                 vc.githubWork = githubWork
@@ -948,7 +946,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
             if let providerName = sender as? String {
 
-                let vc = segue.destinationViewController as! SocialWorkDribbbleViewController
+                let vc = segue.destination as! SocialWorkDribbbleViewController
                 vc.socialAccount = SocialAccount(rawValue: providerName)
                 vc.profileUser = profileUser
                 vc.dribbbleWork = dribbbleWork
@@ -962,7 +960,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
             if let providerName = sender as? String {
 
-                let vc = segue.destinationViewController as! SocialWorkInstagramViewController
+                let vc = segue.destination as! SocialWorkInstagramViewController
                 vc.socialAccount = SocialAccount(rawValue: providerName)
                 vc.profileUser = profileUser
                 vc.instagramWork = instagramWork
@@ -983,22 +981,22 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate {
     
     enum Section: Int {
-        case Header
-        case Footer
-        case Master
-        case Learning
-        case SeparationLine
-        case Blog
-        case SocialAccount
-        case SeparationLine2
-        case Feeds
+        case header
+        case footer
+        case master
+        case learning
+        case separationLine
+        case blog
+        case socialAccount
+        case separationLine2
+        case feeds
     }
     
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 9
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             fatalError()
@@ -1006,51 +1004,51 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         switch section {
 
-        case .Header:
+        case .header:
             return 1
 
-        case .Master:
+        case .master:
             return profileUser?.masterSkillsCount ?? 0
 
-        case .Learning:
+        case .learning:
             return profileUser?.learningSkillsCount ?? 0
 
-        case .Footer:
+        case .footer:
             return 1
 
-        case .SeparationLine:
+        case .separationLine:
             return needSeparationLine ? 1 : 0
 
-        case .Blog:
+        case .blog:
             return numberOfItemsInSectionBlog
 
-        case .SocialAccount:
+        case .socialAccount:
             return numberOfItemsInSectionSocialAccount
 
-        case .SeparationLine2:
+        case .separationLine2:
             return 1
 
-        case .Feeds:
+        case .feeds:
             return 1
         }
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError()
         }
 
         switch section {
 
-        case .Header:
+        case .header:
             let cell: ProfileHeaderCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             if let profileUser = profileUser {
                 switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
+                case .discoveredUserType(let discoveredUser):
                     cell.configureWithDiscoveredUser(discoveredUser)
-                case .UserType(let user):
+                case .userType(let user):
                     cell.configureWithUser(user)
                 }
             }
@@ -1067,10 +1065,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             return cell
 
-        case .Master:
+        case .master:
             let cell: SkillCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
-            cell.skill = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)
+            cell.skill = profileUser?.cellSkillInSkillSet(.master, atIndexPath: indexPath)
 
             if cell.skill == nil {
                 if let profileUser = profileUser {
@@ -1081,15 +1079,15 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             cell.tapAction = { [weak self] skill in
-                self?.performSegueWithIdentifier("showFeedsWithSkill", sender: ["skill": skill, "preferedSkillSet": SkillSet.Master.rawValue])
+                self?.performSegue(withIdentifier: "showFeedsWithSkill", sender: ["skill": skill, "preferedSkillSet": SkillSet.master.rawValue])
             }
 
             return cell
 
-        case .Learning:
+        case .learning:
             let cell: SkillCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
-            cell.skill = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)
+            cell.skill = profileUser?.cellSkillInSkillSet(.learning, atIndexPath: indexPath)
 
             if cell.skill == nil {
                 if let profileUser = profileUser {
@@ -1100,12 +1098,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
             }
 
             cell.tapAction = { [weak self] skill in
-                self?.performSegueWithIdentifier("showFeedsWithSkill", sender: ["skill": skill, "preferedSkillSet": SkillSet.Learning.rawValue])
+                self?.performSegue(withIdentifier: "showFeedsWithSkill", sender: ["skill": skill, "preferedSkillSet": SkillSet.learning.rawValue])
             }
 
             return cell
 
-        case .Footer:
+        case .footer:
             let cell: ProfileFooterCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             if let profileUser = profileUser {
@@ -1118,22 +1116,22 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             return cell
 
-        case .SeparationLine:
+        case .separationLine:
             let cell: ProfileSeparationLineCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
 
-        case .Blog:
+        case .blog:
             let cell: ProfileSocialAccountBlogCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             cell.configureWithProfileUser(profileUser)
 
             return cell
 
-        case .SocialAccount:
+        case .socialAccount:
 
-            let index = indexPath.item
+            let index = (indexPath as NSIndexPath).item
 
-            if let providerName = profileUser?.providerNameWithIndex(index), socialAccount = SocialAccount(rawValue: providerName) {
+            if let providerName = profileUser?.providerNameWithIndex(index), let socialAccount = SocialAccount(rawValue: providerName) {
 
                 if socialAccount == .Github {
                     let cell: ProfileSocialAccountGithubCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
@@ -1155,12 +1153,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                     case .Dribbble:
                         if let dribbbleWork = dribbbleWork {
-                            socialWork = SocialWork.Dribbble(dribbbleWork)
+                            socialWork = SocialWork.dribbble(dribbbleWork)
                         }
 
                     case .Instagram:
                         if let instagramWork = instagramWork {
-                            socialWork = SocialWork.Instagram(instagramWork)
+                            socialWork = SocialWork.instagram(instagramWork)
                         }
 
                     default:
@@ -1170,10 +1168,10 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                     cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, socialWork: socialWork, completion: { socialWork in
                         switch socialWork {
 
-                        case .Dribbble(let dribbbleWork):
+                        case .dribbble(let dribbbleWork):
                             self.dribbbleWork = dribbbleWork
 
-                        case .Instagram(let instagramWork):
+                        case .instagram(let instagramWork):
                             self.instagramWork = instagramWork
                         }
                     })
@@ -1186,11 +1184,11 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             return cell
 
-        case .SeparationLine2:
+        case .separationLine2:
             let cell: ProfileSeparationLineCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
 
-        case .Feeds:
+        case .feeds:
             let cell: ProfileFeedsCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
             cell.configureWithProfileUser(profileUser, feedAttachments: feedAttachments, completion: { [weak self] feeds, feedAttachments in
@@ -1202,23 +1200,23 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         }
     }
 
-    func collectionView(collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> UICollectionReusableView {
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
 
         if kind == UICollectionElementKindSectionHeader {
 
             let header: ProfileSectionHeaderReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, forIndexPath: indexPath)
 
-            guard let section = Section(rawValue: indexPath.section) else {
+            guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
                 fatalError()
             }
 
             switch section {
 
-            case .Master:
-                header.titleLabel.text = SkillSet.Master.name
+            case .master:
+                header.titleLabel.text = SkillSet.master.name
 
-            case .Learning:
-                header.titleLabel.text = SkillSet.Learning.name
+            case .learning:
+                header.titleLabel.text = SkillSet.learning.name
 
             default:
                 header.titleLabel.text = ""
@@ -1232,21 +1230,21 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                     switch section {
 
-                    case .Master:
-                        skillSet = .Master
+                    case .master:
+                        skillSet = .master
 
-                    case .Learning:
-                        skillSet = .Learning
+                    case .learning:
+                        skillSet = .learning
 
                     default:
-                        skillSet = .Master
+                        skillSet = .master
                     }
 
-                    self?.performSegueWithIdentifier("showEditSkills", sender: ["skillSet": skillSet.rawValue])
+                    self?.performSegue(withIdentifier: "showEditSkills", sender: ["skillSet": skillSet.rawValue])
                 }
 
             } else {
-                header.accessoryImageView.hidden = true
+                header.accessoryImageView.isHidden = true
             }
 
             return header
@@ -1257,7 +1255,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
         }
     }
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
 
         guard let section = Section(rawValue: section) else {
             fatalError()
@@ -1265,36 +1263,36 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         switch section {
 
-        case .Header:
+        case .header:
             return UIEdgeInsets(top: 0, left: 0, bottom: sectionBottomEdgeInset, right: 0)
 
-        case .Master:
+        case .master:
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: 15, right: sectionRightEdgeInset)
 
-        case .Learning:
+        case .learning:
             return UIEdgeInsets(top: 0, left: sectionLeftEdgeInset, bottom: sectionBottomEdgeInset, right: sectionRightEdgeInset)
 
-        case .Footer:
+        case .footer:
             return UIEdgeInsets(top: 20, left: 0, bottom: 20, right: 0)
             
-        case .SeparationLine:
+        case .separationLine:
             return UIEdgeInsets(top: 40, left: 0, bottom: 0, right: 0)
 
-        case .Blog:
+        case .blog:
             return insetForSectionBlog
 
-        case .SocialAccount:
+        case .socialAccount:
             return insetForSectionSocialAccount
 
-        case .SeparationLine2:
+        case .separationLine2:
             return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
-        case .Feeds:
+        case .feeds:
             return UIEdgeInsets(top: 30, left: 0, bottom: 30, right: 0)
         }
     }
 
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: IndexPath!) -> CGSize {
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
@@ -1302,50 +1300,50 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         switch section {
 
-        case .Header:
+        case .header:
 
             return CGSize(width: collectionViewWidth, height: collectionViewWidth * profileAvatarAspectRatio)
 
-        case .Master:
+        case .master:
 
-            let skillLocalName = profileUser?.cellSkillInSkillSet(.Master, atIndexPath: indexPath)?.localName ?? ""
+            let skillLocalName = profileUser?.cellSkillInSkillSet(.master, atIndexPath: indexPath)?.localName ?? ""
 
-            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
-
-            return CGSize(width: rect.width + 24, height: SkillCell.height)
-
-        case .Learning:
-
-            let skillLocalName = profileUser?.cellSkillInSkillSet(.Learning, atIndexPath: indexPath)?.localName ?? ""
-
-            let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+            let rect = skillLocalName.boundingRect(with: CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: skillTextAttributes, context: nil)
 
             return CGSize(width: rect.width + 24, height: SkillCell.height)
 
-        case .Footer:
+        case .learning:
+
+            let skillLocalName = profileUser?.cellSkillInSkillSet(.learning, atIndexPath: indexPath)?.localName ?? ""
+
+            let rect = skillLocalName.boundingRect(with: CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: skillTextAttributes, context: nil)
+
+            return CGSize(width: rect.width + 24, height: SkillCell.height)
+
+        case .footer:
             return CGSize(width: collectionViewWidth, height: footerCellHeight)
 
-        case .SeparationLine:
+        case .separationLine:
             return CGSize(width: collectionViewWidth, height: 1)
 
-        case .Blog:
+        case .blog:
             return CGSize(width: collectionViewWidth, height: numberOfItemsInSectionBlog > 0 ? 40 : 0)
 
-        case .SocialAccount:
+        case .socialAccount:
             return CGSize(width: collectionViewWidth, height: numberOfItemsInSectionSocialAccount > 0 ? 40 : 0)
 
-        case .SeparationLine2:
+        case .separationLine2:
             return CGSize(width: collectionViewWidth, height: 1)
 
-        case .Feeds:
+        case .feeds:
             return CGSize(width: collectionViewWidth, height: 40)
         }
     }
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
 
         guard let profileUser = profileUser else {
-            return CGSizeZero
+            return CGSize.zero
         }
 
         guard let section = Section(rawValue: section) else {
@@ -1358,50 +1356,50 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             switch section {
 
-            case .Master:
-                return CGSizeMake(collectionViewWidth, normalHeight)
+            case .master:
+                return CGSize(width: collectionViewWidth, height: normalHeight)
 
-            case .Learning:
-                return CGSizeMake(collectionViewWidth, normalHeight)
+            case .learning:
+                return CGSize(width: collectionViewWidth, height: normalHeight)
 
             default:
-                return CGSizeZero
+                return CGSize.zero
             }
 
         } else {
             switch section {
 
-            case .Master:
+            case .master:
                 let height: CGFloat = (profileUser.masterSkillsCount > 0 && profileUser.userID != YepUserDefaults.userID.value) ? normalHeight : 0
-                return CGSizeMake(collectionViewWidth, height)
+                return CGSize(width: collectionViewWidth, height: height)
 
-            case .Learning:
+            case .learning:
                 let height: CGFloat = (profileUser.learningSkillsCount > 0 && profileUser.userID != YepUserDefaults.userID.value) ? normalHeight : 0
-                return CGSizeMake(collectionViewWidth, height)
+                return CGSize(width: collectionViewWidth, height: height)
                 
             default:
-                return CGSizeZero
+                return CGSize.zero
             }
         }
     }
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        return CGSizeZero
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        return CGSize.zero
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError()
         }
 
         switch section {
 
-        case .Learning, .Master:
+        case .learning, .master:
             // do in SkillCell's tapAction
             break
 
-        case .Blog:
+        case .blog:
 
             guard let profileUser = profileUser else {
                 break
@@ -1409,7 +1407,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if profileUser.isMe {
 
-                if let blogURLString = YepUserDefaults.blogURLString.value where !blogURLString.isEmpty, let blogURL = NSURL(string: blogURLString) {
+                if let blogURLString = YepUserDefaults.blogURLString.value , !blogURLString.isEmpty, let blogURL = URL(string: blogURLString) {
                     yep_openURL(blogURL)
 
                 } else {
@@ -1424,7 +1422,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                             return
                         }
 
-                        guard let blogURL = NSURL(string: blogURLString)?.yep_validSchemeNetworkURL else {
+                        guard let blogURL = URL(string: blogURLString)?.yep_validSchemeNetworkURL else {
                             YepUserDefaults.blogTitle.value = nil
                             YepUserDefaults.blogURLString.value = nil
 
@@ -1439,7 +1437,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                             YepHUD.hideActivityIndicator()
 
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                            defaultFailureHandler(reason, errorMessage)
 
                             YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
                             
@@ -1456,7 +1454,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                                 YepHUD.hideActivityIndicator()
 
-                                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                                defaultFailureHandler(reason, errorMessage)
 
                                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
 
@@ -1481,19 +1479,19 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 }
             }
                 
-        case .SocialAccount:
+        case .socialAccount:
 
-            let index = indexPath.item
+            let index = (indexPath as NSIndexPath).item
 
             guard let
                 profileUser = profileUser,
-                providerName = profileUser.providerNameWithIndex(index),
-                socialAccount = SocialAccount(rawValue: providerName) else {
+                let providerName = profileUser.providerNameWithIndex(index),
+                let socialAccount = SocialAccount(rawValue: providerName) else {
                     break
             }
 
             if profileUser.enabledSocialAccount(socialAccount) {
-                performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
+                performSegue(withIdentifier: "showSocialWork\(socialAccount.segue)", sender: providerName)
 
             } else {
                 guard profileUserIsMe else {
@@ -1540,8 +1538,8 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                         self?.updateProfileCollectionView()
                         
                         // OAuth 成功后，自动跳转去显示对应的 social work
-                        delay(1) {
-                            self?.performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
+                        _ = delay(1) {
+                            self?.performSegue(withIdentifier: "showSocialWork\(socialAccount.segue)", sender: providerName)
                         }
                     }
                 }
@@ -1553,21 +1551,21 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                         return
                     }
 
-                    let safariViewController = SFSafariViewController(URL: NSURL(string: "\(socialAccount.authURL)?_tkn=\(accessToken)")!)
-                    presentViewController(safariViewController, animated: true, completion: nil)
+                    let safariViewController = SFSafariViewController(url: URL(string: "\(socialAccount.authURL)?_tkn=\(accessToken)")!)
+                    present(safariViewController, animated: true, completion: nil)
 
                     oAuthCompleteAction = {
-                        safariViewController.dismissViewControllerAnimated(true, completion: {
+                        safariViewController.dismiss(animated: true, completion: {
                             // OAuth 成功后，自动跳转去显示对应的 social work
-                            delay(1) { [weak self] in
-                                self?.performSegueWithIdentifier("showSocialWork\(socialAccount.segue)", sender: providerName)
+                            _ = delay(1) { [weak self] in
+                                self?.performSegue(withIdentifier: "showSocialWork\(socialAccount.segue)", sender: providerName)
                             }
                         })
                     }
                 }
             }
 
-        case .Feeds:
+        case .feeds:
 
             guard let profileUser = profileUser else {
                 break
@@ -1578,7 +1576,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 "feeds": Box(feeds ?? []),
             ]
 
-            performSegueWithIdentifier("showFeedsOfProfileUser", sender: Box(info))
+            performSegue(withIdentifier: "showFeedsOfProfileUser", sender: Box(info))
 
         default:
             break
@@ -1588,7 +1586,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
 extension ProfileViewController: UIScrollViewDelegate {
     
-    func scrollViewDidEndDragging(scrollView: UIScrollView, willDecelerate decelerate: Bool) {
+    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if shareView.progress >= 1.0 {
             shareView.shareActionAnimationAndDoFurther({
                 SafeDispatch.async { [weak self] in
@@ -1603,22 +1601,22 @@ extension ProfileViewController: UIScrollViewDelegate {
 
 extension ProfileViewController {
     
-    func handleOAuthResult(notification: NSNotification) {
+    func handleOAuthResult(_ notification: Notification) {
         
         oAuthCompleteAction?()
 
-        if let result = notification.object as? NSNumber where result == 1, let socialAccount = self.socialAccount {
+        if let result = notification.object as? NSNumber , result == 1, let socialAccount = self.socialAccount {
 
             socialAccountWithProvider(socialAccount.rawValue, failureHandler: { reason, errorMessage in
 
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
             }, completion: { provider in
 
                 println("provider: \(provider)")
 
                 SafeDispatch.async { [weak self] in
-                    self?.afterOAuthAction?(socialAccount: socialAccount)
+                    self?.afterOAuthAction?(socialAccount)
                 }
             })
             

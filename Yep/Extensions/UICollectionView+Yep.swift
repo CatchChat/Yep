@@ -13,40 +13,40 @@ extension UICollectionView {
 
     enum WayToUpdate {
 
-        case None
-        case ReloadData
-        case Insert([NSIndexPath])
+        case none
+        case reloadData
+        case insert([IndexPath])
 
         var needsLabor: Bool {
 
             switch self {
-            case .None:
+            case .none:
                 return false
-            case .ReloadData:
+            case .reloadData:
                 return true
-            case .Insert:
+            case .insert:
                 return true
             }
         }
 
-        func performWithCollectionView(collectionView: UICollectionView) {
+        func performWithCollectionView(_ collectionView: UICollectionView) {
 
             switch self {
 
-            case .None:
+            case .none:
                 println("collectionView WayToUpdate: None")
                 break
 
-            case .ReloadData:
+            case .reloadData:
                 println("collectionView WayToUpdate: ReloadData")
                 SafeDispatch.async {
                     collectionView.reloadData()
                 }
 
-            case .Insert(let indexPaths):
+            case .insert(let indexPaths):
                 println("collectionView WayToUpdate: Insert")
                 SafeDispatch.async {
-                    collectionView.insertItemsAtIndexPaths(indexPaths)
+                    collectionView.insertItems(at: indexPaths)
                 }
             }
         }
@@ -55,40 +55,40 @@ extension UICollectionView {
 
 extension UICollectionView {
 
-    func registerClassOf<T: UICollectionViewCell where T: Reusable>(_: T.Type) {
+    func registerClassOf<T: UICollectionViewCell>(_: T.Type) where T: Reusable {
 
-        registerClass(T.self, forCellWithReuseIdentifier: T.yep_reuseIdentifier)
+        register(T.self, forCellWithReuseIdentifier: T.yep_reuseIdentifier)
     }
 
-    func registerNibOf<T: UICollectionViewCell where T: Reusable, T: NibLoadable>(_: T.Type) {
+    func registerNibOf<T: UICollectionViewCell>(_: T.Type) where T: Reusable, T: NibLoadable {
 
         let nib = UINib(nibName: T.yep_nibName, bundle: nil)
-        registerNib(nib, forCellWithReuseIdentifier: T.yep_reuseIdentifier)
+        register(nib, forCellWithReuseIdentifier: T.yep_reuseIdentifier)
     }
 
-    func registerHeaderNibOf<T: UICollectionReusableView where T: Reusable, T: NibLoadable>(_: T.Type) {
+    func registerHeaderNibOf<T: UICollectionReusableView>(_: T.Type) where T: Reusable, T: NibLoadable {
 
         let nib = UINib(nibName: T.yep_nibName, bundle: nil)
-        registerNib(nib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: T.yep_reuseIdentifier)
+        register(nib, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: T.yep_reuseIdentifier)
     }
 
-    func registerFooterClassOf<T: UICollectionReusableView where T: Reusable>(_: T.Type) {
+    func registerFooterClassOf<T: UICollectionReusableView>(_: T.Type) where T: Reusable {
 
-        registerClass(T.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: T.yep_reuseIdentifier)
+        register(T.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: T.yep_reuseIdentifier)
     }
 
-    func dequeueReusableCell<T: UICollectionViewCell where T: Reusable>(forIndexPath indexPath: NSIndexPath) -> T {
+    func dequeueReusableCell<T: UICollectionViewCell>(forIndexPath indexPath: IndexPath) -> T where T: Reusable {
         
-        guard let cell = dequeueReusableCellWithReuseIdentifier(T.yep_reuseIdentifier, forIndexPath: indexPath) as? T else {
+        guard let cell = self.dequeueReusableCell(withReuseIdentifier: T.yep_reuseIdentifier, for: indexPath) as? T else {
             fatalError("Could not dequeue cell with identifier: \(T.yep_reuseIdentifier)")
         }
 
         return cell
     }
 
-    func dequeueReusableSupplementaryView<T: UICollectionReusableView where T: Reusable>(ofKind kind: String, forIndexPath indexPath: NSIndexPath) -> T {
+    func dequeueReusableSupplementaryView<T: UICollectionReusableView>(ofKind kind: String, forIndexPath indexPath: IndexPath) -> T where T: Reusable {
 
-        guard let view = dequeueReusableSupplementaryViewOfKind(kind, withReuseIdentifier: T.yep_reuseIdentifier, forIndexPath: indexPath) as? T else {
+        guard let view = self.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: T.yep_reuseIdentifier, for: indexPath) as? T else {
             fatalError("Could not dequeue supplementary view with identifier: \(T.yep_reuseIdentifier), kind: \(kind)")
         }
 

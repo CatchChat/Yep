@@ -19,9 +19,9 @@ class PhotoViewController: UIViewController {
         return view
     }()
 
-    private lazy var loadingView: UIActivityIndicatorView = {
+    fileprivate lazy var loadingView: UIActivityIndicatorView = {
 
-        let view = UIActivityIndicatorView(activityIndicatorStyle: .White)
+        let view = UIActivityIndicatorView(activityIndicatorStyle: .white)
         view.hidesWhenStopped = true
         return view
     }()
@@ -34,7 +34,7 @@ class PhotoViewController: UIViewController {
         return tap
     }()
 
-    private lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
+    fileprivate lazy var longPressGestureRecognizer: UILongPressGestureRecognizer = {
 
         let longPress = UILongPressGestureRecognizer()
         longPress.addTarget(self, action: #selector(PhotoViewController.didLongPress(_:)))
@@ -44,7 +44,7 @@ class PhotoViewController: UIViewController {
     deinit {
         scalingImageView.delegate = nil
 
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     // MARK: Init
@@ -95,15 +95,15 @@ class PhotoViewController: UIViewController {
 
     // MARK: Selectors
 
-    @objc private func didDoubleTap(sender: UITapGestureRecognizer) {
+    @objc fileprivate func didDoubleTap(_ sender: UITapGestureRecognizer) {
 
         let scrollViewSize = scalingImageView.bounds.size
 
-        var pointInView = sender.locationInView(scalingImageView.imageView)
+        var pointInView = sender.location(in: scalingImageView.imageView)
 
         var newZoomScale = min(scalingImageView.maximumZoomScale, scalingImageView.minimumZoomScale * 2)
 
-        if let imageSize = scalingImageView.imageView.image?.size where (imageSize.height / imageSize.width) > (scrollViewSize.height / scrollViewSize.width) {
+        if let imageSize = scalingImageView.imageView.image?.size , (imageSize.height / imageSize.width) > (scrollViewSize.height / scrollViewSize.width) {
 
             pointInView.x = scalingImageView.imageView.bounds.width / 2
 
@@ -117,7 +117,7 @@ class PhotoViewController: UIViewController {
             newZoomScale = scalingImageView.minimumZoomScale
         }
 
-        scalingImageView.directionalLockEnabled = !isZoomIn
+        scalingImageView.isDirectionalLockEnabled = !isZoomIn
 
         let width = scrollViewSize.width / newZoomScale
         let height = scrollViewSize.height / newZoomScale
@@ -126,10 +126,10 @@ class PhotoViewController: UIViewController {
 
         let rectToZoomTo = CGRect(x: originX, y: originY, width: width, height: height)
 
-        scalingImageView.zoomToRect(rectToZoomTo, animated: true)
+        scalingImageView.zoom(to: rectToZoomTo, animated: true)
     }
 
-    @objc private func didLongPress(sender: UILongPressGestureRecognizer) {
+    @objc fileprivate func didLongPress(_ sender: UILongPressGestureRecognizer) {
 
         // TODO: didLongPress
     }
@@ -139,20 +139,20 @@ class PhotoViewController: UIViewController {
 
 extension PhotoViewController: UIScrollViewDelegate {
 
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
 
         return scalingImageView.imageView
     }
 
-    func scrollViewWillBeginZooming(scrollView: UIScrollView, withView view: UIView?) {
+    func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
 
-        scrollView.panGestureRecognizer.enabled = true
+        scrollView.panGestureRecognizer.isEnabled = true
     }
 
-    func scrollViewDidEndZooming(scrollView: UIScrollView, withView view: UIView?) {
+    func scrollViewDidEndZooming(_ scrollView: UIScrollView, withView view: UIView?) {
 
         if scrollView.zoomScale == scrollView.minimumZoomScale {
-            scrollView.panGestureRecognizer.enabled = false
+            scrollView.panGestureRecognizer.isEnabled = false
         }
     }
 }

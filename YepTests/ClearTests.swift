@@ -20,34 +20,34 @@ final class ClearTests: XCTestCase {
         let realm = try! Realm()
 
         do {
-            let noMessages = realm.objects(Message).isEmpty
+            let noMessages = realm.objects(Message.self).isEmpty
             XCTAssertTrue(noMessages)
         }
 
         do {
-            let noUsers = realm.objects(User).isEmpty
+            let noUsers = realm.objects(User.self).isEmpty
             XCTAssertTrue(noUsers)
         }
 
         do {
-            let noGroups = realm.objects(Group).isEmpty
+            let noGroups = realm.objects(Group.self).isEmpty
             XCTAssertTrue(noGroups)
         }
 
         do {
-            let noFeeds = realm.objects(Feed).isEmpty
+            let noFeeds = realm.objects(Feed.self).isEmpty
             XCTAssertTrue(noFeeds)
         }
 
         do {
-            let path = NSFileManager.yepMessageCachesURL()?.path
-            let noMessageCacheFiles = try! NSFileManager.defaultManager().contentsOfDirectoryAtPath(path!).isEmpty
+            let path = FileManager.yepMessageCachesURL()?.path
+            let noMessageCacheFiles = try! FileManager.default.contentsOfDirectory(atPath: path!).isEmpty
             XCTAssertTrue(noMessageCacheFiles)
         }
 
         do {
-            let path = NSFileManager.yepAvatarCachesURL()?.path
-            let noAvatarCacheFiles = try! NSFileManager.defaultManager().contentsOfDirectoryAtPath(path!).isEmpty
+            let path = FileManager.yepAvatarCachesURL()?.path
+            let noAvatarCacheFiles = try! FileManager.default.contentsOfDirectory(atPath: path!).isEmpty
             XCTAssertTrue(noAvatarCacheFiles)
         }
     }

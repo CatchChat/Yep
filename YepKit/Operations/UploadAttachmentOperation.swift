@@ -11,16 +11,16 @@ import YepNetworking
 
 final public class UploadAttachmentOperation: ConcurrentOperation {
 
-    private let uploadAttachment: UploadAttachment
+    fileprivate let uploadAttachment: UploadAttachment
 
     public enum Result {
-        case Failed(errorMessage: String?)
-        case Success(uploadedAttachment: UploadedAttachment)
+        case failed(errorMessage: String?)
+        case success(uploadedAttachment: UploadedAttachment)
     }
-    public typealias Completion = (result: Result) -> Void
-    private let completion: Completion
+    public typealias Completion = (_ result: Result) -> Void
+    fileprivate let completion: Completion
 
-    public init(uploadAttachment: UploadAttachment, completion: Completion) {
+    public init(uploadAttachment: UploadAttachment, completion: @escaping Completion) {
 
         self.uploadAttachment = uploadAttachment
         self.completion = completion
@@ -32,14 +32,14 @@ final public class UploadAttachmentOperation: ConcurrentOperation {
 
         tryUploadAttachment(uploadAttachment, failureHandler: { [weak self] (reason, errorMessage) in
 
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
-            self?.completion(result: .Failed(errorMessage: errorMessage))
+            self?.completion(.failed(errorMessage: errorMessage))
 
             self?.state = .Finished
 
         }, completion: { [weak self] uploadedAttachment in
-            self?.completion(result: .Success(uploadedAttachment: uploadedAttachment))
+            self?.completion(.success(uploadedAttachment: uploadedAttachment))
 
             self?.state = .Finished
         })

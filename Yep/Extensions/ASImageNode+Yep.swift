@@ -14,26 +14,26 @@ private var avatarKeyAssociatedObject: Void?
 
 extension ASImageNode {
 
-    private var navi_avatarKey: String? {
+    fileprivate var navi_avatarKey: String? {
         return objc_getAssociatedObject(self, &avatarKeyAssociatedObject) as? String
     }
 
-    private func navi_setAvatarKey(avatarKey: String) {
+    fileprivate func navi_setAvatarKey(_ avatarKey: String) {
         objc_setAssociatedObject(self, &avatarKeyAssociatedObject, avatarKey, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
-    func navi_setAvatar(avatar: Navi.Avatar, withFadeTransitionDuration fadeTransitionDuration: NSTimeInterval = 0) {
+    func navi_setAvatar(_ avatar: Navi.Avatar, withFadeTransitionDuration fadeTransitionDuration: TimeInterval = 0) {
 
         navi_setAvatarKey(avatar.key)
 
         AvatarPod.wakeAvatar(avatar) { [weak self] finished, image, cacheType in
 
-            guard let strongSelf = self, avatarKey = strongSelf.navi_avatarKey where avatarKey == avatar.key else {
+            guard let strongSelf = self, let avatarKey = strongSelf.navi_avatarKey , avatarKey == avatar.key else {
                 return
             }
 
-            if finished && cacheType != .Memory {
-                UIView.transitionWithView(strongSelf.view, duration: fadeTransitionDuration, options: .TransitionCrossDissolve, animations: {
+            if finished && cacheType != .memory {
+                UIView.transition(with: strongSelf.view, duration: fadeTransitionDuration, options: .transitionCrossDissolve, animations: {
                     self?.image = image
                 }, completion: nil)
 
@@ -48,15 +48,15 @@ private var messageKey: Void?
 
 extension ASImageNode {
 
-    private var yep_messageImageKey: String? {
+    fileprivate var yep_messageImageKey: String? {
         return objc_getAssociatedObject(self, &messageKey) as? String
     }
 
-    private func yep_setMessageImageKey(messageImageKey: String) {
+    fileprivate func yep_setMessageImageKey(_ messageImageKey: String) {
         objc_setAssociatedObject(self, &messageKey, messageImageKey, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
-    func yep_setImageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {
+    func yep_setImageOfMessage(_ message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: @escaping (_ loadingProgress: Double, _ image: UIImage?) -> Void) {
 
         let imageKey = message.imageKey
 
@@ -64,11 +64,11 @@ extension ASImageNode {
 
         ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: tailDirection, completion: { [weak self] progress, image in
 
-            guard let strongSelf = self, _imageKey = strongSelf.yep_messageImageKey where _imageKey == imageKey else {
+            guard let strongSelf = self, let _imageKey = strongSelf.yep_messageImageKey , _imageKey == imageKey else {
                 return
             }
 
-            completion(loadingProgress: progress, image: image)
+            completion(progress, image)
         })
     }
 }
@@ -80,11 +80,11 @@ private var showActivityIndicatorWhenLoadingAssociatedKey: Void?
 
 extension ASImageNode {
 
-    private var yep_activityIndicator: UIActivityIndicatorView? {
+    fileprivate var yep_activityIndicator: UIActivityIndicatorView? {
         return objc_getAssociatedObject(self, &activityIndicatorAssociatedKey) as? UIActivityIndicatorView
     }
 
-    private func yep_setActivityIndicator(activityIndicator: UIActivityIndicatorView?) {
+    fileprivate func yep_setActivityIndicator(_ activityIndicator: UIActivityIndicatorView?) {
         objc_setAssociatedObject(self, &activityIndicatorAssociatedKey, activityIndicator, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
@@ -103,12 +103,12 @@ extension ASImageNode {
 
             } else {
                 if newValue {
-                    let indicatorStyle = UIActivityIndicatorViewStyle.Gray
+                    let indicatorStyle = UIActivityIndicatorViewStyle.gray
                     let indicator = UIActivityIndicatorView(activityIndicatorStyle: indicatorStyle)
-                    indicator.center = CGPointMake(CGRectGetMidX(bounds), CGRectGetMidY(bounds))
+                    indicator.center = CGPoint(x: bounds.midX, y: bounds.midY)
 
-                    indicator.autoresizingMask = [.FlexibleLeftMargin, .FlexibleRightMargin, .FlexibleBottomMargin, .FlexibleTopMargin]
-                    indicator.hidden = true
+                    indicator.autoresizingMask = [.flexibleLeftMargin, .flexibleRightMargin, .flexibleBottomMargin, .flexibleTopMargin]
+                    indicator.isHidden = true
                     indicator.hidesWhenStopped = true
 
                     self.view.addSubview(indicator)
@@ -120,7 +120,7 @@ extension ASImageNode {
                     yep_setActivityIndicator(nil)
                 }
 
-                objc_setAssociatedObject(self, &showActivityIndicatorWhenLoadingAssociatedKey, NSNumber(bool: newValue), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+                objc_setAssociatedObject(self, &showActivityIndicatorWhenLoadingAssociatedKey, NSNumber(value: newValue as Bool), .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
             }
         }
     }
@@ -132,17 +132,17 @@ private var attachmentURLAssociatedKey: Void?
 
 extension ASImageNode {
 
-    private var yep_attachmentURL: NSURL? {
-        return objc_getAssociatedObject(self, &attachmentURLAssociatedKey) as? NSURL
+    fileprivate var yep_attachmentURL: URL? {
+        return objc_getAssociatedObject(self, &attachmentURLAssociatedKey) as? URL
     }
 
-    private func yep_setAttachmentURL(URL: NSURL) {
+    fileprivate func yep_setAttachmentURL(_ URL: Foundation.URL) {
         objc_setAssociatedObject(self, &attachmentURLAssociatedKey, URL, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
-    func yep_setImageOfAttachment(attachment: DiscoveredAttachment, withSize size: CGSize) {
+    func yep_setImageOfAttachment(_ attachment: DiscoveredAttachment, withSize size: CGSize) {
 
-        guard let attachmentURL = NSURL(string: attachment.URLString) else {
+        guard let attachmentURL = URL(string: attachment.URLString) else {
             return
         }
 
@@ -151,7 +151,7 @@ extension ASImageNode {
 
         if showActivityIndicatorWhenLoading {
             activityIndicator = yep_activityIndicator
-            activityIndicator?.hidden = false
+            activityIndicator?.isHidden = false
             activityIndicator?.startAnimating()
         }
 
@@ -159,12 +159,12 @@ extension ASImageNode {
 
         ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: size.width, completion: { [weak self] (url, image, cacheType) in
 
-            guard let strongSelf = self, yep_attachmentURL = strongSelf.yep_attachmentURL where yep_attachmentURL == url else {
+            guard let strongSelf = self, let yep_attachmentURL = strongSelf.yep_attachmentURL , yep_attachmentURL == url else {
                 return
             }
 
-            if cacheType != .Memory {
-                UIView.transitionWithView(strongSelf.view, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
+            if cacheType != .memory {
+                UIView.transition(with: strongSelf.view, duration: imageFadeTransitionDuration, options: .transitionCrossDissolve, animations: { [weak self] in
                     self?.image = image
                 }, completion: nil)
 

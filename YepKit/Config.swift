@@ -11,11 +11,11 @@ import Foundation
 final public class Config {
 
     public static var updatedAccessTokenAction: (() -> Void)?
-    public static var updatedPusherIDAction: ((pusherID: String) -> Void)?
+    public static var updatedPusherIDAction: ((_ pusherID: String) -> Void)?
 
     public static var sentMessageSoundEffectAction: (() -> Void)?
 
-    public static var timeAgoAction: ((date: NSDate) -> String)?
+    public static var timeAgoAction: ((_ date: Date) -> String)?
 
     public static var isAppActive: (() -> Bool)?
 
@@ -42,8 +42,8 @@ final public class Config {
     
     public struct Message {
         // 注意：确保 localNewerTimeInterval > sectionOlderTimeInterval
-        public static let localNewerTimeInterval: NSTimeInterval = 0.001
-        public static let sectionOlderTimeInterval: NSTimeInterval = 0.0005
+        public static let localNewerTimeInterval: TimeInterval = 0.001
+        public static let sectionOlderTimeInterval: TimeInterval = 0.0005
 
         public struct Notification {
             public static let MessageStateChanged = "MessageStateChangedNotification"

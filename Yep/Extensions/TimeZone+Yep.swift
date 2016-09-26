@@ -1,5 +1,5 @@
 //
-//  NSTimeZone+Yep.swift
+//  TimeZone+Yep.swift
 //  Yep
 //
 //  Created by nixzhu on 15/9/2.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension NSTimeZone {
+extension TimeZone {
 
     static var areaCode: String {
 
@@ -256,11 +256,11 @@ extension NSTimeZone {
 
         NSTimeZone.resetSystemTimeZone()
 
-        let timeZone = NSTimeZone.systemTimeZone()
+        let timeZone = TimeZone.current
 
-        if let
-            shortAreaName = timeZone.localizedName(.ShortGeneric, locale: NSLocale.systemLocale()),
-            areaCode = areaCodeInfo[shortAreaName] {
+        if
+            let shortAreaName = timeZone.localizedName(for: .shortGeneric, locale: nil),
+            let areaCode = areaCodeInfo[shortAreaName] {
                 return areaCode
         }
 

@@ -8,48 +8,45 @@
 
 import Foundation
 
-public class ConcurrentOperation: NSOperation {
+open class ConcurrentOperation: Operation {
 
     enum State: String {
         case Ready, Executing, Finished
 
-        private var keyPath: String {
+        fileprivate var keyPath: String {
             return "is" + rawValue
         }
     }
 
     var state = State.Ready {
         willSet {
-            willChangeValueForKey(newValue.keyPath)
-            willChangeValueForKey(state.keyPath)
+            willChangeValue(forKey: newValue.keyPath)
+            willChangeValue(forKey: state.keyPath)
         }
         didSet {
-            didChangeValueForKey(oldValue.keyPath)
-            didChangeValueForKey(state.keyPath)
+            didChangeValue(forKey: oldValue.keyPath)
+            didChangeValue(forKey: state.keyPath)
         }
     }
-}
 
-public extension ConcurrentOperation {
-
-    override public var ready: Bool {
-        return super.ready && state == .Ready
+    override open var isReady: Bool {
+        return super.isReady && state == .Ready
     }
 
-    override public var executing: Bool {
+    override open var isExecuting: Bool {
         return state == .Executing
     }
 
-    override public var finished: Bool {
+    override open var isFinished: Bool {
         return state == .Finished
     }
 
-    override public var asynchronous: Bool {
+    override open var isAsynchronous: Bool {
         return true
     }
 
-    override public func start() {
-        if cancelled {
+    override open func start() {
+        if isCancelled {
             state = .Finished
             return
         }
@@ -57,8 +54,8 @@ public extension ConcurrentOperation {
         main()
         state = .Executing
     }
-    
-    override public func cancel() {
+
+    override open func cancel() {
         state = .Finished
     }
 }

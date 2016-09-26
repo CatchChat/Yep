@@ -10,8 +10,8 @@ import Foundation
 
 public extension Double {
 
-    public func yep_format(f: String) -> String {
-        return NSString(format: "%\(f)f", self) as String
+    public func yep_format(_ f: String) -> String {
+        return NSString(format: "%\(f)f" as NSString, self) as String
     }
 }
 

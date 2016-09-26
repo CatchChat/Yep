@@ -11,41 +11,41 @@ import CoreLocation
 
 public enum MessageToolbarState: Int, CustomStringConvertible {
 
-    case Default
-    case BeginTextInput
-    case TextInputing
-    case VoiceRecord
+    case `default`
+    case beginTextInput
+    case textInputing
+    case voiceRecord
 
     public var description: String {
         switch self {
-        case .Default:
+        case .default:
             return "Default"
-        case .BeginTextInput:
+        case .beginTextInput:
             return "BeginTextInput"
-        case .TextInputing:
+        case .textInputing:
             return "TextInputing"
-        case .VoiceRecord:
+        case .voiceRecord:
             return "VoiceRecord"
         }
     }
 
     public var isAtBottom: Bool {
         switch self {
-        case .Default:
+        case .default:
             return true
-        case .BeginTextInput, .TextInputing:
+        case .beginTextInput, .textInputing:
             return false
-        case .VoiceRecord:
+        case .voiceRecord:
             return true
         }
     }
 }
 
-public class SkillCellSkill: NSObject {
+open class SkillCellSkill: NSObject {
 
-    public let ID: String
-    public let localName: String
-    public let coverURLString: String?
+    open let ID: String
+    open let localName: String
+    open let coverURLString: String?
 
     public enum Category: String {
         case Art = "Art"
@@ -66,7 +66,7 @@ public class SkillCellSkill: NSObject {
             }
         }
     }
-    public let category: Category
+    open let category: Category
 
     public init(ID: String, localName: String, coverURLString: String?, category: Category?) {
         self.ID = ID
@@ -117,7 +117,7 @@ public enum SocialAccount: String {
         case .Dribbble:
             return UIColor(red:0.91, green:0.28, blue:0.5, alpha:1)
         case .Github:
-            return UIColor.blackColor()
+            return UIColor.black
         case .Behance:
             return UIColor(red:0, green:0.46, blue:1, alpha:1)
         case .Instagram:
@@ -125,7 +125,7 @@ public enum SocialAccount: String {
         }
     }
 
-    public static let disabledColor: UIColor = UIColor.lightGrayColor()
+    public static let disabledColor: UIColor = UIColor.lightGray
     
     public var iconName: String {
         
@@ -141,32 +141,32 @@ public enum SocialAccount: String {
         }
     }
     
-    public var authURL: NSURL {
+    public var authURL: URL {
         
         switch self {
         case .Dribbble:
-            return NSURL(string: "\(yepBaseURL.absoluteString)/auth/dribbble")!
+            return URL(string: "\(yepBaseURL.absoluteString)/auth/dribbble")!
         case .Github:
-            return NSURL(string: "\(yepBaseURL.absoluteString)/auth/github")!
+            return URL(string: "\(yepBaseURL.absoluteString)/auth/github")!
         case .Behance:
-            return NSURL(string: "\(yepBaseURL.absoluteString)/auth/behance")!
+            return URL(string: "\(yepBaseURL.absoluteString)/auth/behance")!
         case .Instagram:
-            return NSURL(string: "\(yepBaseURL.absoluteString)/auth/instagram")!
+            return URL(string: "\(yepBaseURL.absoluteString)/auth/instagram")!
         }
     }
 }
 
 public enum ProfileUser {
 
-    case DiscoveredUserType(DiscoveredUser)
-    case UserType(User)
+    case discoveredUserType(DiscoveredUser)
+    case userType(User)
 
     public var userID: String {
 
         switch self {
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             return discoveredUser.id
-        case .UserType(let user):
+        case .userType(let user):
             return user.userID
         }
     }
@@ -175,9 +175,9 @@ public enum ProfileUser {
 
         var username: String? = nil
         switch self {
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             username = discoveredUser.username
-        case .UserType(let user):
+        case .userType(let user):
             if !user.username.isEmpty {
                 username = user.username
             }
@@ -189,9 +189,9 @@ public enum ProfileUser {
     public var nickname: String {
 
         switch self {
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             return discoveredUser.nickname
-        case .UserType(let user):
+        case .userType(let user):
             return user.nickname
         }
     }
@@ -200,9 +200,9 @@ public enum ProfileUser {
 
         var avatarURLString: String? = nil
         switch self {
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             avatarURLString = discoveredUser.avatarURLString
-        case .UserType(let user):
+        case .userType(let user):
             if !user.avatarURLString.isEmpty {
                 avatarURLString = user.avatarURLString
             }
@@ -211,27 +211,27 @@ public enum ProfileUser {
         return avatarURLString
     }
 
-    public var blogURL: NSURL? {
+    public var blogURL: URL? {
 
         var blogURLString: String? = nil
         switch self {
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             blogURLString = discoveredUser.blogURLString
-        case .UserType(let user):
+        case .userType(let user):
             if !user.blogURLString.isEmpty {
                 blogURLString = user.blogURLString
             }
         }
 
-        return blogURLString.flatMap({ NSURL(string: $0) })
+        return blogURLString.flatMap({ URL(string: $0) })
     }
 
     public var blogTitle: String? {
 
         switch self {
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             return discoveredUser.blogTitle
-        case .UserType(let user):
+        case .userType(let user):
             if !user.blogTitle.isEmpty {
                 return user.blogTitle
             }
@@ -243,21 +243,21 @@ public enum ProfileUser {
     public var isMe: Bool {
 
         switch self {
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             return discoveredUser.isMe
-        case .UserType(let user):
+        case .userType(let user):
             return user.isMe
         }
     }
 
-    public func enabledSocialAccount(socialAccount: SocialAccount) -> Bool {
+    public func enabledSocialAccount(_ socialAccount: SocialAccount) -> Bool {
         var accountEnabled = false
 
         let providerName = socialAccount.rawValue
 
         switch self {
 
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             for provider in discoveredUser.socialAccountProviders {
                 if (provider.name == providerName) && provider.enabled {
 
@@ -267,7 +267,7 @@ public enum ProfileUser {
                 }
             }
 
-        case .UserType(let user):
+        case .userType(let user):
             for provider in user.socialAccountProviders {
                 if (provider.name == providerName) && provider.enabled {
 
@@ -284,9 +284,9 @@ public enum ProfileUser {
     public var masterSkillsCount: Int {
 
         switch self {
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             return discoveredUser.masterSkills.count
-        case .UserType(let user):
+        case .userType(let user):
             return Int(user.masterSkills.count)
         }
     }
@@ -294,9 +294,9 @@ public enum ProfileUser {
     public var learningSkillsCount: Int {
 
         switch self {
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             return discoveredUser.learningSkills.count
-        case .UserType(let user):
+        case .userType(let user):
             return Int(user.learningSkills.count)
         }
     }
@@ -305,12 +305,12 @@ public enum ProfileUser {
 
         switch self {
 
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             return discoveredUser.socialAccountProviders.filter({ $0.enabled }).count
 
-        case .UserType(let user):
+        case .userType(let user):
 
-            if user.friendState == UserFriendState.Me.rawValue {
+            if user.friendState == UserFriendState.me.rawValue {
                 return user.socialAccountProviders.count
 
             } else {
@@ -319,31 +319,31 @@ public enum ProfileUser {
         }
     }
 
-    public func cellSkillInSkillSet(skillSet: SkillSet, atIndexPath indexPath: NSIndexPath)  -> SkillCellSkill? {
+    public func cellSkillInSkillSet(_ skillSet: SkillSet, atIndexPath indexPath: IndexPath)  -> SkillCellSkill? {
 
         switch self {
 
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
 
             let skill: Skill?
             switch skillSet {
-            case .Master:
-                skill = discoveredUser.masterSkills[safe: indexPath.item]
-            case .Learning:
-                skill = discoveredUser.learningSkills[safe: indexPath.item]
+            case .master:
+                skill = discoveredUser.masterSkills[safe: (indexPath as NSIndexPath).item]
+            case .learning:
+                skill = discoveredUser.learningSkills[safe: (indexPath as NSIndexPath).item]
             }
 
             if let skill = skill {
                 return SkillCellSkill(ID: skill.id, localName: skill.localName, coverURLString: skill.coverURLString, category: skill.skillCategory)
             }
 
-        case .UserType(let user):
+        case .userType(let user):
 
             let userSkill: UserSkill?
             switch skillSet {
-            case .Master:
+            case .master:
                 userSkill = user.masterSkills[safe: indexPath.item]
-            case .Learning:
+            case .learning:
                 userSkill = user.learningSkills[safe: indexPath.item]
             }
 
@@ -355,20 +355,20 @@ public enum ProfileUser {
         return nil
     }
 
-    public func providerNameWithIndex(index: Int) -> String? {
+    public func providerNameWithIndex(_ index: Int) -> String? {
 
         var providerName: String?
 
         switch self {
 
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             if let provider = discoveredUser.socialAccountProviders.filter({ $0.enabled })[safe: index] {
                 providerName = provider.name
             }
 
-        case .UserType(let user):
+        case .userType(let user):
 
-            if user.friendState == UserFriendState.Me.rawValue {
+            if user.friendState == UserFriendState.me.rawValue {
                 if let provider = user.socialAccountProviders[safe: index] {
                     providerName = provider.name
                 }
@@ -396,24 +396,24 @@ public enum PickLocationViewControllerLocation {
         }
     }
 
-    case Default(info: Info)
-    case Picked(info: Info)
-    case Selected(info: Info)
+    case `default`(info: Info)
+    case picked(info: Info)
+    case selected(info: Info)
 
     public var info: Info {
         switch self {
-        case .Default(let locationInfo):
+        case .default(let locationInfo):
             return locationInfo
-        case .Picked(let locationInfo):
+        case .picked(let locationInfo):
             return locationInfo
-        case .Selected(let locationInfo):
+        case .selected(let locationInfo):
             return locationInfo
         }
     }
 
     public var isPicked: Bool {
         switch self {
-        case .Picked:
+        case .picked:
             return true
         default:
             return false

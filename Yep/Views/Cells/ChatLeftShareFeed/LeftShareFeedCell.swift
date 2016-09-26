@@ -47,14 +47,14 @@ final class LeftShareFeedCell: ChatBaseCell {
     
     let cellBackgroundImageView: UIImageView = {
        let imageView = UIImageView(image: UIImage.yep_shareFeedBubbleLeft)
-        imageView.userInteractionEnabled = true
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
     
     lazy var loadingProgressView: MessageLoadingProgressView = {
         let view = MessageLoadingProgressView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        view.hidden = true
-        view.backgroundColor = UIColor.clearColor()
+        view.isHidden = true
+        view.backgroundColor = UIColor.clear
         return view
     }()
     
@@ -75,7 +75,7 @@ final class LeftShareFeedCell: ChatBaseCell {
         avatarImageView.center = CGPoint(x: YepConfig.chatCellGapBetweenWallAndAvatar() + avatarRadius, y: avatarRadius + topOffset)
     }
     
-    private func makeFeedKindImage() -> UIImage? {
+    fileprivate func makeFeedKindImage() -> UIImage? {
         if let feed = conversation.withGroup?.withFeed, let feedKind = FeedKind(rawValue:feed.kind) {
             switch  feedKind {
             case .DribbbleShot:
@@ -93,7 +93,7 @@ final class LeftShareFeedCell: ChatBaseCell {
 
                 if let mediaView = self.mediaView {
                     mediaView.subviews.forEach { (view) in
-                        view.userInteractionEnabled = true
+                        view.isUserInteractionEnabled = true
                     }
                     mediaView.frame = CGRect(x: 10, y: 10, width: 42, height: 42)
                     contentView.addSubview(mediaView)
@@ -123,7 +123,7 @@ final class LeftShareFeedCell: ChatBaseCell {
         }
         
         prepareForMenuAction = { otherGesturesEnabled in
-            tap.enabled = otherGesturesEnabled
+            tap.isEnabled = otherGesturesEnabled
         }
     }
     
@@ -138,20 +138,20 @@ final class LeftShareFeedCell: ChatBaseCell {
     var loadingProgress: Double = 0 {
         willSet {
             if newValue == 1.0 {
-                loadingProgressView.hidden = true
+                loadingProgressView.isHidden = true
                 
             } else {
                 loadingProgressView.progress = newValue
-                loadingProgressView.hidden = false
+                loadingProgressView.isHidden = false
             }
         }
     }
     
-    func loadingWithProgress(progress: Double, mediaView: FeedMediaView?) {
+    func loadingWithProgress(_ progress: Double, mediaView: FeedMediaView?) {
         
     }
     
-    func configureWithMessage(message: Message, collectionView: UICollectionView, indexPath: NSIndexPath, mediaTapAction: MediaTapAction?) {
+    func configureWithMessage(_ message: Message, collectionView: UICollectionView, indexPath: IndexPath, mediaTapAction: MediaTapAction?) {
         
         self.user = message.fromFriend
         

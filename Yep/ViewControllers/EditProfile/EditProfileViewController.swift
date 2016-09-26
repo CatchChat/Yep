@@ -22,73 +22,73 @@ final class EditProfileViewController: SegueViewController {
         static let NewUsername = "NewUsername"
     }
 
-    @IBOutlet private weak var avatarImageView: UIImageView!
-    @IBOutlet private weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var avatarImageView: UIImageView!
+    @IBOutlet fileprivate weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
 
-    @IBOutlet private weak var mobileContainerView: UIStackView! {
+    @IBOutlet fileprivate weak var mobileContainerView: UIStackView! {
         didSet {
             let tap = UITapGestureRecognizer(target: self, action: #selector(EditProfileViewController.tapMobileContainer(_:)))
             mobileContainerView.addGestureRecognizer(tap)
         }
     }
-    @IBOutlet private weak var mobileLabel: UILabel! {
+    @IBOutlet fileprivate weak var mobileLabel: UILabel! {
         didSet {
             mobileLabel.textColor = UIColor.yepTintColor()
         }
     }
 
-    @IBOutlet private weak var editProfileTableView: TPKeyboardAvoidingTableView! {
+    @IBOutlet fileprivate weak var editProfileTableView: TPKeyboardAvoidingTableView! {
         didSet {
-            editProfileTableView.registerNibOf(EditProfileLessInfoCell)
-            editProfileTableView.registerNibOf(EditProfileMoreInfoCell)
-            editProfileTableView.registerNibOf(EditProfileColoredTitleCell)
+            editProfileTableView.registerNibOf(EditProfileLessInfoCell.self)
+            editProfileTableView.registerNibOf(EditProfileMoreInfoCell.self)
+            editProfileTableView.registerNibOf(EditProfileColoredTitleCell.self)
         }
     }
 
-    private lazy var imagePicker: UIImagePickerController = {
+    fileprivate lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
         return imagePicker
     }()
 
-    private lazy var doneButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Done, target: self, action: #selector(EditProfileViewController.save(_:)))
+    fileprivate lazy var doneButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(EditProfileViewController.save(_:)))
         return button
     }()
-    private var giveUpEditing: Bool = false
-    private var isDirty: Bool = false {
+    fileprivate var giveUpEditing: Bool = false
+    fileprivate var isDirty: Bool = false {
         didSet {
             navigationItem.rightBarButtonItem = doneButton
-            doneButton.enabled = isDirty
+            doneButton.isEnabled = isDirty
         }
     }
 
-    private var introduction: String {
+    fileprivate var introduction: String {
         return YepUserDefaults.introduction.value ?? String.trans_promptNoSelfIntroduction
     }
 
-    private var blogURLString: String {
+    fileprivate var blogURLString: String {
         return YepUserDefaults.blogURLString.value ?? NSLocalizedString("Set blog URL here.", comment: "")
     }
 
-    private let infoAttributes = [NSFontAttributeName: YepConfig.EditProfile.infoFont]
+    fileprivate let infoAttributes = [NSFontAttributeName: YepConfig.EditProfile.infoFont]
 
-    private func heightOfCellForMoreInfo(info: String) -> CGFloat {
+    fileprivate func heightOfCellForMoreInfo(_ info: String) -> CGFloat {
 
-        let tableViewWidth: CGFloat = CGRectGetWidth(editProfileTableView.bounds)
+        let tableViewWidth: CGFloat = editProfileTableView.bounds.width
         let introLabelMaxWidth: CGFloat = tableViewWidth - YepConfig.EditProfile.infoInset
 
-        let rect: CGRect = info.boundingRectWithSize(CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: infoAttributes, context: nil)
+        let rect: CGRect = info.boundingRect(with: CGSize(width: introLabelMaxWidth, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: infoAttributes, context: nil)
 
         let height: CGFloat = 20 + 22 + 10 + ceil(rect.height) + 20
 
         return max(height, 120)
     }
 
-    private struct Listener {
+    fileprivate struct Listener {
         static let Nickname = "EditProfileLessInfoCell.Nickname"
         static let Introduction = "EditProfileLessInfoCell.Introduction"
         static let Badge = "EditProfileLessInfoCell.Badge"
@@ -122,13 +122,13 @@ final class EditProfileViewController: SegueViewController {
         }
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         giveUpEditing = false
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         giveUpEditing = true
@@ -138,12 +138,12 @@ final class EditProfileViewController: SegueViewController {
 
     // MARK: Unwind
 
-    @IBAction func unwindToEditProfile(segue: UIStoryboardSegue) {
+    @IBAction func unwindToEditProfile(_ segue: UIStoryboardSegue) {
     }
 
     // MARK: Actions
 
-    private func uploadContacts() {
+    fileprivate func uploadContacts() {
 
         let uploadContacts = UploadContactsMaker.make()
 
@@ -154,7 +154,7 @@ final class EditProfileViewController: SegueViewController {
         friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
             YepHUD.hideActivityIndicator()
 
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
         }, completion: { [weak self] discoveredUsers in
             YepHUD.hideActivityIndicator()
@@ -164,13 +164,13 @@ final class EditProfileViewController: SegueViewController {
         })
     }
 
-    private func updateAvatar(completion:() -> Void) {
+    fileprivate func updateAvatar(_ completion:() -> Void) {
         if let avatarURLString = YepUserDefaults.avatarURLString.value {
 
             println("avatarURLString: \(avatarURLString)")
 
             let avatarSize = YepConfig.editProfileAvatarSize()
-            let avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
+            let avatarStyle: AvatarStyle = .roundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
             let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
             avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
             
@@ -178,72 +178,72 @@ final class EditProfileViewController: SegueViewController {
         }
     }
 
-    @IBAction private func changeAvatar(sender: UITapGestureRecognizer) {
+    @IBAction fileprivate func changeAvatar(_ sender: UITapGestureRecognizer) {
 
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        let choosePhotoAction: UIAlertAction = UIAlertAction(title: String.trans_titleChoosePhoto, style: .Default) { _ in
+        let choosePhotoAction: UIAlertAction = UIAlertAction(title: String.trans_titleChoosePhoto, style: .default) { _ in
 
             let openCameraRoll: ProposerAction = { [weak self] in
 
-                guard UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) else {
+                guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
                     self?.alertCanNotAccessCameraRoll()
                     return
                 }
 
                 if let strongSelf = self {
-                    strongSelf.imagePicker.sourceType = .PhotoLibrary
-                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                    strongSelf.imagePicker.sourceType = .photoLibrary
+                    strongSelf.present(strongSelf.imagePicker, animated: true, completion: nil)
                 }
             }
 
-            proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
+            proposeToAccess(.photos, agreed: openCameraRoll, rejected: { [weak self] in
                 self?.alertCanNotAccessCameraRoll()
             })
         }
         alertController.addAction(choosePhotoAction)
 
-        let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .Default) { _ in
+        let takePhotoAction: UIAlertAction = UIAlertAction(title: NSLocalizedString("Take Photo", comment: ""), style: .default) { _ in
 
             let openCamera: ProposerAction = { [weak self] in
 
-                guard UIImagePickerController.isSourceTypeAvailable(.Camera) else {
+                guard UIImagePickerController.isSourceTypeAvailable(.camera) else {
                     self?.alertCanNotOpenCamera()
                     return
                 }
 
                 if let strongSelf = self {
-                    strongSelf.imagePicker.sourceType = .Camera
-                    strongSelf.presentViewController(strongSelf.imagePicker, animated: true, completion: nil)
+                    strongSelf.imagePicker.sourceType = .camera
+                    strongSelf.present(strongSelf.imagePicker, animated: true, completion: nil)
                 }
             }
 
-            proposeToAccess(.Camera, agreed: openCamera, rejected: { [weak self] in
+            proposeToAccess(.camera, agreed: openCamera, rejected: { [weak self] in
                 self?.alertCanNotOpenCamera()
             })
         }
         alertController.addAction(takePhotoAction)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { [weak self] _ in
-            self?.dismissViewControllerAnimated(true, completion: nil)
+        let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .cancel) { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(cancelAction)
 
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
 
         // touch to create (if need) for faster appear
-        delay(0.2) { [weak self] in
+        _ = delay(0.2) { [weak self] in
             self?.imagePicker.hidesBarsOnTap = false
         }
     }
 
-    @objc private func tapMobileContainer(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tapMobileContainer(_ sender: UITapGestureRecognizer) {
 
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .ActionSheet)
+        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        let changeMobileAction: UIAlertAction = UIAlertAction(title: String.trans_titleChangeMobile, style: .Default) { [weak self] action in
+        let changeMobileAction: UIAlertAction = UIAlertAction(title: String.trans_titleChangeMobile, style: .default) { [weak self] action in
 
-            self?.performSegueWithIdentifier("showChangeMobile", sender: nil)
+            self?.performSegue(withIdentifier: "showChangeMobile", sender: nil)
         }
         alertController.addAction(changeMobileAction)
 
@@ -262,15 +262,15 @@ final class EditProfileViewController: SegueViewController {
 //        }
 //        alertController.addAction(uploadContactsAction)
 
-        let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .Cancel) { [weak self] _ in
-            self?.dismissViewControllerAnimated(true, completion: nil)
+        let cancelAction: UIAlertAction = UIAlertAction(title: String.trans_cancel, style: .cancel) { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
         }
         alertController.addAction(cancelAction)
 
-        self.presentViewController(alertController, animated: true, completion: nil)
+        self.present(alertController, animated: true, completion: nil)
     }
 
-    @objc private func save(sender: UIBarButtonItem) {
+    @objc fileprivate func save(_ sender: UIBarButtonItem) {
 
         view.endEditing(true)
 
@@ -282,23 +282,23 @@ final class EditProfileViewController: SegueViewController {
 
 extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
-    private enum Section: Int {
-        case Info
-        case LogOut
+    fileprivate enum Section: Int {
+        case info
+        case logOut
     }
 
-    private enum InfoRow: Int {
-        case Username
-        case Nickname
-        case Intro
-        case Blog
+    fileprivate enum InfoRow: Int {
+        case username
+        case nickname
+        case intro
+        case blog
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             fatalError()
@@ -306,31 +306,31 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
         switch section {
 
-        case .Info:
+        case .info:
             return 4
 
-        case .LogOut:
+        case .logOut:
             return 1
         }
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError()
         }
 
         switch section {
 
-        case .Info:
+        case .info:
 
-            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
+            guard let infoRow = InfoRow(rawValue: (indexPath as NSIndexPath).row) else {
                 fatalError()
             }
 
             switch infoRow {
 
-            case .Username:
+            case .username:
 
                 let cell: EditProfileLessInfoCell = tableView.dequeueReusableCell()
 
@@ -340,12 +340,12 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 if username.isEmpty {
                     cell.infoLabel.text = String.trans_promptNone
-                    cell.accessoryImageView.hidden = false
-                    cell.selectionStyle = .Default
+                    cell.accessoryImageView.isHidden = false
+                    cell.selectionStyle = .default
                 } else {
                     cell.infoLabel.text = username
-                    cell.accessoryImageView.hidden = true
-                    cell.selectionStyle = .None
+                    cell.accessoryImageView.isHidden = true
+                    cell.selectionStyle = .none
                 }
 
                 cell.badgeImageView.image = nil
@@ -353,13 +353,13 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 return cell
 
-            case .Nickname:
+            case .nickname:
 
                 let cell: EditProfileLessInfoCell = tableView.dequeueReusableCell()
 
                 cell.annotationLabel.text = String.trans_titleNickname
-                cell.accessoryImageView.hidden = false
-                cell.selectionStyle = .Default
+                cell.accessoryImageView.isHidden = false
+                cell.selectionStyle = .default
 
                 YepUserDefaults.nickname.bindAndFireListener(Listener.Nickname) { [weak cell] nickname in
                     SafeDispatch.async {
@@ -369,7 +369,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 YepUserDefaults.badge.bindAndFireListener(Listener.Badge) { [weak cell] badgeName in
                     SafeDispatch.async {
-                        if let badgeName = badgeName, badge = BadgeView.Badge(rawValue: badgeName) {
+                        if let badgeName = badgeName, let badge = BadgeView.Badge(rawValue: badgeName) {
                             cell?.badgeImageView.image = badge.image
                             cell?.badgeImageView.tintColor = badge.color
                             cell?.infoLabelTrailingConstraint.constant = EditProfileLessInfoCell.ConstraintConstant.normalInfoLabelTrailing
@@ -383,7 +383,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 return cell
 
-            case .Intro:
+            case .intro:
                 let cell: EditProfileMoreInfoCell = tableView.dequeueReusableCell()
 
                 cell.annotationLabel.text = String.trans_titleSelfIntroduction
@@ -411,7 +411,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         return
                     }
 
-                    self?.doneButton.enabled = false
+                    self?.doneButton.isEnabled = false
 
                     if let oldIntroduction = YepUserDefaults.introduction.value {
                         if oldIntroduction == newIntroduction {
@@ -430,7 +430,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         updateMyselfWithInfo(["introduction": ""], failureHandler: { (reason, errorMessage) in
                             YepHUD.hideActivityIndicator()
 
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                            defaultFailureHandler(reason, errorMessage)
 
                         }, completion: { success in
                             YepHUD.hideActivityIndicator()
@@ -446,7 +446,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     YepHUD.showActivityIndicator()
 
                     updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason, errorMessage)
 
                         YepHUD.hideActivityIndicator()
 
@@ -461,7 +461,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                 return cell
 
-            case .Blog:
+            case .blog:
                 let cell: EditProfileMoreInfoCell = tableView.dequeueReusableCell()
 
                 cell.annotationLabel.text = "Blog"
@@ -489,7 +489,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         return
                     }
 
-                    self?.doneButton.enabled = false
+                    self?.doneButton.isEnabled = false
 
                     if let oldBlogURLString = YepUserDefaults.blogURLString.value {
                         if oldBlogURLString == newBlogURLString {
@@ -513,7 +513,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
                             YepHUD.hideActivityIndicator()
 
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                            defaultFailureHandler(reason, errorMessage)
 
                         }, completion: { success in
                             YepHUD.hideActivityIndicator()
@@ -527,7 +527,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         return
                     }
 
-                    guard let blogURL = NSURL(string: newBlogURLString)?.yep_validSchemeNetworkURL else {
+                    guard let blogURL = URL(string: newBlogURLString)?.yep_validSchemeNetworkURL else {
                         YepUserDefaults.blogTitle.value = nil
                         YepUserDefaults.blogURLString.value = nil
 
@@ -542,7 +542,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                         YepHUD.hideActivityIndicator()
 
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason, errorMessage)
 
                         YepAlert.alert(title: NSLocalizedString("Ooops!", comment: ""), message: NSLocalizedString("You have entered an invalid URL!", comment: ""), dismissTitle: String.trans_titleModify, inViewController: self, withDismissAction: { [weak cell] in
 
@@ -559,7 +559,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         ]
 
                         updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                            defaultFailureHandler(reason, errorMessage)
 
                             YepHUD.hideActivityIndicator()
 
@@ -577,69 +577,69 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                 return cell
             }
 
-        case .LogOut:
+        case .logOut:
             let cell: EditProfileColoredTitleCell = tableView.dequeueReusableCell()
             cell.coloredTitleLabel.text = String.trans_titleLogOut
-            cell.coloredTitleColor = UIColor.redColor()
+            cell.coloredTitleColor = UIColor.red
             return cell
         }
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError()
         }
 
         switch section {
 
-        case .Info:
+        case .info:
 
-            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
+            guard let infoRow = InfoRow(rawValue: (indexPath as NSIndexPath).row) else {
                 fatalError()
             }
 
             switch infoRow {
 
-            case .Username:
+            case .username:
                 return 60
 
-            case .Nickname:
+            case .nickname:
                 return 60
 
-            case .Intro:
+            case .intro:
                 return heightOfCellForMoreInfo(introduction)
 
-            case .Blog:
+            case .blog:
                 return heightOfCellForMoreInfo(blogURLString)
             }
 
-        case .LogOut:
+        case .logOut:
             return 60
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError()
         }
 
         switch section {
 
-        case .Info:
+        case .info:
 
-            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
+            guard let infoRow = InfoRow(rawValue: (indexPath as NSIndexPath).row) else {
                 fatalError()
             }
 
             switch infoRow {
 
-            case .Username:
+            case .username:
 
                 let username = me()?.username ?? ""
 
@@ -652,7 +652,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     let newUsername = text
 
                     updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason, errorMessage)
 
                         YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
 
@@ -670,36 +670,36 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                             // update UI
 
-                            if let usernameCell = tableView?.cellForRowAtIndexPath(indexPath) as? EditProfileLessInfoCell {
+                            if let usernameCell = tableView?.cellForRow(at: indexPath) as? EditProfileLessInfoCell {
                                 usernameCell.infoLabel.text = newUsername
                             }
 
-                            NSNotificationCenter.defaultCenter().postNotificationName(Notification.NewUsername, object: nil)
+                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.NewUsername), object: nil)
                         }
                     })
                     
                 }, cancelAction: {
                 })
 
-            case .Nickname:
-                performSegueWithIdentifier("showEditNicknameAndBadge", sender: nil)
+            case .nickname:
+                performSegue(withIdentifier: "showEditNicknameAndBadge", sender: nil)
 
             default:
                 break
             }
 
-        case .LogOut:
+        case .logOut:
 
             YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String.trans_promptTryLogout, confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { () -> Void in
 
                 logout(failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
                     YepAlert.alertSorry(message: "Logout failed!", inViewController: self)
 
                 }, completion: {
                     SafeDispatch.async {
 
-                        guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate else {
+                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate else {
                             return
                         }
 
@@ -723,10 +723,10 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
 extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [AnyHashable: Any]!) {
 
         defer {
-            dismissViewControllerAnimated(true, completion: nil)
+            dismiss(animated: true, completion: nil)
         }
 
         activityIndicator.startAnimating()
@@ -738,7 +738,7 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
 
             updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
 
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                defaultFailureHandler(reason, errorMessage)
 
                 SafeDispatch.async { [weak self] in
                     self?.activityIndicator.stopAnimating()

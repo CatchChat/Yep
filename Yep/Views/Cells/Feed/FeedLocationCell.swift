@@ -12,14 +12,14 @@ import YepKit
 
 final class FeedLocationCell: FeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + (110 + 15)
 
         return ceil(height)
     }
 
-    var tapLocationAction: ((locationName: String, locationCoordinate: CLLocationCoordinate2D) -> Void)?
+    var tapLocationAction: ((_ locationName: String, _ locationCoordinate: CLLocationCoordinate2D) -> Void)?
     
     lazy var locationContainerView: FeedLocationContainerView = {
         let view = FeedLocationContainerView()
@@ -55,15 +55,15 @@ final class FeedLocationCell: FeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
-            if case let .Location(locationInfo) = attachment {
+            if case let .location(locationInfo) = attachment {
 
                 let location = CLLocation(latitude: locationInfo.latitude, longitude: locationInfo.longitude)
-                let size = CGSize(width: UIScreen.mainScreen().bounds.width - 65 - 60, height: 110 - locationContainerView.nameLabel.bounds.height)
+                let size = CGSize(width: UIScreen.main.bounds.width - 65 - 60, height: 110 - locationContainerView.nameLabel.bounds.height)
                 locationContainerView.mapImageView.yep_showActivityIndicatorWhenLoading = true
                 locationContainerView.mapImageView.yep_setImageOfLocation(location, withSize: size)
 
@@ -76,7 +76,7 @@ final class FeedLocationCell: FeedBasicCell {
             }
         }
 
-        locationContainerView.mapImageView.maskView = halfMaskImageView
+        locationContainerView.mapImageView.mask = halfMaskImageView
 
         locationContainerView.tapAction = { [weak self] in
             guard let attachment = feed.attachment else {
@@ -84,8 +84,8 @@ final class FeedLocationCell: FeedBasicCell {
             }
 
             if case .Location = feed.kind {
-                if case let .Location(locationInfo) = attachment {
-                    self?.tapLocationAction?(locationName: locationInfo.name, locationCoordinate: locationInfo.coordinate)
+                if case let .location(locationInfo) = attachment {
+                    self?.tapLocationAction?(locationInfo.name, locationInfo.coordinate)
                 }
             }
         }
@@ -97,7 +97,7 @@ final class FeedLocationCell: FeedBasicCell {
         locationContainerView.layoutIfNeeded()
 
         halfMaskImageView.frame = locationContainerView.mapImageView.bounds
-        locationContainerView.mapImageView.maskView = halfMaskImageView
+        locationContainerView.mapImageView.mask = halfMaskImageView
     }
 }
 

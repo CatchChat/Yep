@@ -12,21 +12,21 @@ import UIKit
 final class BottomButtonView: UIView {
 
     @IBInspectable var topLineColor: UIColor = UIColor.yepBorderColor()
-    @IBInspectable var topLineWidth: CGFloat = 1 / UIScreen.mainScreen().scale
+    @IBInspectable var topLineWidth: CGFloat = 1 / UIScreen.main.scale
     @IBInspectable var title: String = NSLocalizedString("Say Hi", comment: "") {
         didSet {
-            actionButton.setTitle(title, forState: .Normal)
+            actionButton.setTitle(title, for: UIControlState())
         }
     }
 
     lazy var actionButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont.systemFontOfSize(14)
-        button.setTitle(self.title, forState: .Normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.setTitle(self.title, for: UIControlState())
         button.backgroundColor = UIColor.yepTintColor()
-        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        button.setTitleColor(UIColor.white, for: UIControlState())
         button.layer.cornerRadius = 5
-        button.addTarget(self, action: #selector(BottomButtonView.tryTap), forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: #selector(BottomButtonView.tryTap), for: UIControlEvents.touchUpInside)
         return button
     }()
 
@@ -35,20 +35,20 @@ final class BottomButtonView: UIView {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.white
 
         // Add actionButton
 
         self.addSubview(actionButton)
         actionButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let actionButtonCenterXConstraint = NSLayoutConstraint(item: actionButton, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1.0, constant: 0)
+        let actionButtonCenterXConstraint = NSLayoutConstraint(item: actionButton, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1.0, constant: 0)
 
-        let actionButtonCenterYConstraint = NSLayoutConstraint(item: actionButton, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0)
+        let actionButtonCenterYConstraint = NSLayoutConstraint(item: actionButton, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0)
 
-        let actionButtonWidthConstraint = NSLayoutConstraint(item: actionButton, attribute: .Width, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 185)
+        let actionButtonWidthConstraint = NSLayoutConstraint(item: actionButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 185)
 
-        let actionButtonHeightConstraint = NSLayoutConstraint(item: actionButton, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 30)
+        let actionButtonHeightConstraint = NSLayoutConstraint(item: actionButton, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 30)
 
         let constraints: [NSLayoutConstraint] = [
             actionButtonCenterXConstraint,
@@ -57,7 +57,7 @@ final class BottomButtonView: UIView {
             actionButtonHeightConstraint,
         ]
 
-        NSLayoutConstraint.activateConstraints(constraints)
+        NSLayoutConstraint.activate(constraints)
     }
 
     // MARK: Actions
@@ -68,17 +68,17 @@ final class BottomButtonView: UIView {
 
     // MARK: Draw
 
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
 
         topLineColor.setStroke()
 
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextSetLineWidth(context!, topLineWidth)
-        CGContextMoveToPoint(context!, 0, 0)
-        CGContextAddLineToPoint(context!, CGRectGetWidth(rect), 0)
-        CGContextStrokePath(context!)
+        context!.setLineWidth(topLineWidth)
+        context!.move(to: CGPoint(x: 0, y: 0))
+        context!.addLine(to: CGPoint(x: rect.width, y: 0))
+        context!.strokePath()
     }
 }
 

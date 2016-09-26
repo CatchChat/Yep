@@ -10,12 +10,12 @@ import UIKit
 
 extension ConversationViewController: YepFayeServiceDelegate {
 
-    func fayeRecievedInstantStateType(instantStateType: YepFayeService.InstantStateType, userID: String) {
+    func fayeRecievedInstantStateType(_ instantStateType: YepFayeService.InstantStateType, userID: String) {
 
-        guard !conversation.invalidated else {
+        guard !conversation.isInvalidated else {
             return
         }
-        guard let user = conversation.withFriend where user.userID == userID else {
+        guard let user = conversation.withFriend , user.userID == userID else {
             return
         }
 
@@ -26,10 +26,10 @@ extension ConversationViewController: YepFayeServiceDelegate {
 
         switch instantStateType {
 
-        case .Text:
+        case .text:
             self.typingResetDelay = 2
 
-        case .Audio:
+        case .audio:
             self.typingResetDelay = 2.5
         }
     }

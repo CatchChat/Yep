@@ -27,15 +27,15 @@ final class FeedGithubRepoContainerView: UIView {
 
     lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.blackColor()
-        label.font = UIFont.systemFontOfSize(16)
+        label.textColor = UIColor.black
+        label.font = UIFont.systemFont(ofSize: 16)
         return label
     }()
 
     lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.lightGrayColor()
-        label.font = UIFont.systemFontOfSize(12)
+        label.textColor = UIColor.lightGray
+        label.font = UIFont.systemFont(ofSize: 12)
         label.numberOfLines = 2
         return label
     }()
@@ -57,10 +57,10 @@ final class FeedGithubRepoContainerView: UIView {
         addGestureRecognizer(tap)
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
-        backgroundColor = UIColor.whiteColor()
-        tintAdjustmentMode = .Normal
+        backgroundColor = UIColor.white
+        tintAdjustmentMode = .normal
 
         addSubview(backgroundImageView)
         addSubview(iconImageView)
@@ -82,45 +82,45 @@ final class FeedGithubRepoContainerView: UIView {
             "accessoryImageView": accessoryImageView,
         ]
 
-        let backgroundH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
-        let backgroundV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
-        NSLayoutConstraint.activateConstraints(backgroundH)
-        NSLayoutConstraint.activateConstraints(backgroundV)
+        let backgroundH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        let backgroundV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        NSLayoutConstraint.activate(backgroundH)
+        NSLayoutConstraint.activate(backgroundV)
 
         let constraintsH: [NSLayoutConstraint]
         if needShowAccessoryImageView {
-            constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[iconImageView(16)]-10-[nameLabel]-5-[accessoryImageView(8)]-10-|", options: [], metrics: nil, views: views)
+            constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[iconImageView(16)]-10-[nameLabel]-5-[accessoryImageView(8)]-10-|", options: [], metrics: nil, views: views)
         } else {
-            accessoryImageView.hidden = true
-            constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[iconImageView(16)]-10-[nameLabel]-10-|", options: [], metrics: nil, views: views)
+            accessoryImageView.isHidden = true
+            constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[iconImageView(16)]-10-[nameLabel]-10-|", options: [], metrics: nil, views: views)
         }
 
-        iconImageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
-        accessoryImageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+        iconImageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        accessoryImageView.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
 
-        iconImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
-        accessoryImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+        iconImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        accessoryImageView.setContentCompressionResistancePriority(UILayoutPriorityDefaultHigh, for: .horizontal)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:[nameLabel]-3-[descriptionLabel]", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:[nameLabel]-3-[descriptionLabel]", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
 
-        let iconImageViewCenterY = NSLayoutConstraint(item: iconImageView, attribute: .CenterY, relatedBy: .Equal, toItem: nameLabel, attribute: .CenterY, multiplier: 1.0, constant: 0)
-        let accessoryImageViewCenterY = NSLayoutConstraint(item: accessoryImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0)
+        let iconImageViewCenterY = NSLayoutConstraint(item: iconImageView, attribute: .centerY, relatedBy: .equal, toItem: nameLabel, attribute: .centerY, multiplier: 1.0, constant: 0)
+        let accessoryImageViewCenterY = NSLayoutConstraint(item: accessoryImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0)
 
         let helperView = UIView()
         addSubview(helperView)
         helperView.translatesAutoresizingMaskIntoConstraints = false
 
-        let helperViewCenterY = NSLayoutConstraint(item: helperView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0)
-        let helperViewTop = NSLayoutConstraint(item: helperView, attribute: .Top, relatedBy: .Equal, toItem: nameLabel, attribute: .Top, multiplier: 1.0, constant: 0)
-        let helperViewBottom = NSLayoutConstraint(item: helperView, attribute: .Bottom, relatedBy: .Equal, toItem: descriptionLabel, attribute: .Bottom, multiplier: 1.0, constant: 0)
+        let helperViewCenterY = NSLayoutConstraint(item: helperView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0)
+        let helperViewTop = NSLayoutConstraint(item: helperView, attribute: .top, relatedBy: .equal, toItem: nameLabel, attribute: .top, multiplier: 1.0, constant: 0)
+        let helperViewBottom = NSLayoutConstraint(item: helperView, attribute: .bottom, relatedBy: .equal, toItem: descriptionLabel, attribute: .bottom, multiplier: 1.0, constant: 0)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(constraintsV)
-        NSLayoutConstraint.activateConstraints([iconImageViewCenterY, accessoryImageViewCenterY])
-        NSLayoutConstraint.activateConstraints([helperViewCenterY, helperViewTop, helperViewBottom])
+        NSLayoutConstraint.activate(constraintsH)
+        NSLayoutConstraint.activate(constraintsV)
+        NSLayoutConstraint.activate([iconImageViewCenterY, accessoryImageViewCenterY])
+        NSLayoutConstraint.activate([helperViewCenterY, helperViewTop, helperViewBottom])
     }
 
-    @objc private func tap(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tap(_ sender: UITapGestureRecognizer) {
         tapAction?()
     }
 }

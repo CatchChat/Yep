@@ -27,9 +27,9 @@ final class FeedSkillUsersCell: UITableViewCell {
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
     }
 
-    func configureWithFeeds(feeds: [DiscoveredFeed]) {
+    func configureWithFeeds(_ feeds: [DiscoveredFeed]) {
 
-        let feedCreators = Array(Set(feeds.map({ $0.creator }))).sort { $0.lastSignInUnixTime > $1.lastSignInUnixTime }
+        let feedCreators = Array(Set(feeds.map({ $0.creator }))).sorted { $0.lastSignInUnixTime > $1.lastSignInUnixTime }
 
         if let creator = feedCreators[safe: 0] {
             let plainAvatar = PlainAvatar(avatarURLString: creator.avatarURLString, avatarStyle: nanoAvatarStyle)

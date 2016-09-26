@@ -12,13 +12,13 @@ import YepKit
 class SearchedFeedBasicCell: UITableViewCell {
 
     static let messageTextViewMaxWidth: CGFloat = {
-        let maxWidth = UIScreen.mainScreen().bounds.width - (10 + 30 + 10 + 10)
+        let maxWidth = UIScreen.main.bounds.width - (10 + 30 + 10 + 10)
         return maxWidth
     }()
 
-    class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
-        let rect = feed.body.boundingRectWithSize(CGSize(width: SearchedFeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
+        let rect = feed.body.boundingRect(with: CGSize(width: SearchedFeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
         let height: CGFloat = 15 + 30 + 4 + ceil(rect.height) + 15
 
@@ -30,10 +30,10 @@ class SearchedFeedBasicCell: UITableViewCell {
 
         imageView.frame = CGRect(x: 10, y: 15, width: 30, height: 30)
 
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
 
         let tapAvatar = UITapGestureRecognizer(target: self, action: #selector(SearchedFeedBasicCell.tapAvatar(_:)))
-        imageView.userInteractionEnabled = true
+        imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(tapAvatar)
 
         return imageView
@@ -42,11 +42,11 @@ class SearchedFeedBasicCell: UITableViewCell {
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.yep_mangmorGrayColor()
-        label.font = UIFont.systemFontOfSize(15)
+        label.font = UIFont.systemFont(ofSize: 15)
 
         label.frame = CGRect(x: 65, y: 21, width: 100, height: 18)
-        label.opaque = true
-        label.backgroundColor = UIColor.whiteColor()
+        label.isOpaque = true
+        label.backgroundColor = UIColor.white
         label.clipsToBounds = true
 
         return label
@@ -55,15 +55,15 @@ class SearchedFeedBasicCell: UITableViewCell {
     lazy var skillButton: UIButton = {
         let button = UIButton()
         let tintColor = UIColor.yep_mangmorGrayColor()
-        button.setBackgroundImage(UIImage.yep_skillBubbleEmptyGray, forState: .Normal)
-        button.setTitleColor(tintColor, forState: .Normal)
+        button.setBackgroundImage(UIImage.yep_skillBubbleEmptyGray, for: UIControlState())
+        button.setTitleColor(tintColor, for: UIControlState())
         button.titleLabel?.font = UIFont.feedSkillFont()
 
         let cellWidth = self.bounds.width
         let width: CGFloat = 60
         button.frame = CGRect(x: cellWidth - width - 15, y: 19, width: width, height: 22)
 
-        button.userInteractionEnabled = false
+        button.isUserInteractionEnabled = false
 
         return button
     }()
@@ -74,14 +74,14 @@ class SearchedFeedBasicCell: UITableViewCell {
         textView.font = UIFont.feedMessageFont()
         textView.textContainer.lineFragmentPadding = 0
         textView.textContainerInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        textView.editable = false
-        textView.scrollEnabled = false
+        textView.isEditable = false
+        textView.isScrollEnabled = false
         textView.showsHorizontalScrollIndicator = false
         textView.showsVerticalScrollIndicator = false
-        textView.dataDetectorTypes = [.Link]
+        textView.dataDetectorTypes = [.link]
 
-        textView.opaque = true
-        textView.backgroundColor = UIColor.whiteColor()
+        textView.isOpaque = true
+        textView.backgroundColor = UIColor.white
 
         textView.touchesBeganAction = { [weak self] in
             if let strongSelf = self {
@@ -90,7 +90,7 @@ class SearchedFeedBasicCell: UITableViewCell {
         }
         textView.touchesEndedAction = { [weak self] in
             if let strongSelf = self {
-                if strongSelf.editing {
+                if strongSelf.isEditing {
                     return
                 }
                 strongSelf.touchesEndedAction?(strongSelf)
@@ -107,11 +107,11 @@ class SearchedFeedBasicCell: UITableViewCell {
 
     var feed: DiscoveredFeed?
     
-    var tapAvatarAction: (UITableViewCell -> Void)?
+    var tapAvatarAction: ((UITableViewCell) -> Void)?
 
-    var touchesBeganAction: (UITableViewCell -> Void)?
-    var touchesEndedAction: (UITableViewCell -> Void)?
-    var touchesCancelledAction: (UITableViewCell -> Void)?
+    var touchesBeganAction: ((UITableViewCell) -> Void)?
+    var touchesEndedAction: ((UITableViewCell) -> Void)?
+    var touchesCancelledAction: ((UITableViewCell) -> Void)?
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -136,7 +136,7 @@ class SearchedFeedBasicCell: UITableViewCell {
         messageTextView.attributedText = nil
     }
 
-    func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
+    func configureWithFeed(_ feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
         self.feed = feed
 
@@ -169,20 +169,20 @@ class SearchedFeedBasicCell: UITableViewCell {
         messageTextView.frame = basicLayout.messageTextViewFrame
 
         if let skill = feed.skill {
-            skillButton.setTitle(skill.localName, forState: .Normal)
-            skillButton.hidden = false
+            skillButton.setTitle(skill.localName, for: .normal)
+            skillButton.isHidden = false
             skillButton.frame = basicLayout.skillButtonFrame
             nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: true)
 
         } else {
-            skillButton.hidden = true
+            skillButton.isHidden = true
             nicknameLabel.frame = basicLayout.nicknameLabelFrameWhen(hasLogo: false, hasSkill: false)
         }
     }
 
     // MARK: Actions
 
-    func tapAvatar(sender: UITapGestureRecognizer) {
+    func tapAvatar(_ sender: UITapGestureRecognizer) {
 
         tapAvatarAction?(self)
     }

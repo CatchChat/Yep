@@ -11,15 +11,15 @@ import YepKit
 
 final class ChatSectionDateCell: UICollectionViewCell {
 
-    static let sectionDateFormatter: NSDateFormatter =  {
-        let dateFormatter = NSDateFormatter()
-        dateFormatter.dateStyle = .ShortStyle
-        dateFormatter.timeStyle = .ShortStyle
+    static let sectionDateFormatter: DateFormatter =  {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        dateFormatter.timeStyle = .short
         return dateFormatter
     }()
 
-    static let sectionDateInCurrentWeekFormatter: NSDateFormatter =  {
-        let dateFormatter = NSDateFormatter()
+    static let sectionDateInCurrentWeekFormatter: DateFormatter =  {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE HH:mm"
         return dateFormatter
     }()
@@ -31,13 +31,13 @@ final class ChatSectionDateCell: UICollectionViewCell {
         // Initialization code
     }
 
-    func configureWithMessage(message: Message) {
+    func configureWithMessage(_ message: Message) {
 
-        let createdAt = NSDate(timeIntervalSince1970: message.createdUnixTime)
-        if createdAt.isInCurrentWeek() {
-            sectionDateLabel.text = ChatSectionDateCell.sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
+        let createdAt = Date(timeIntervalSince1970: message.createdUnixTime)
+        if createdAt.yep_isInWeekend {
+            sectionDateLabel.text = ChatSectionDateCell.sectionDateInCurrentWeekFormatter.string(from: createdAt)
         } else {
-            sectionDateLabel.text = ChatSectionDateCell.sectionDateFormatter.stringFromDate(createdAt)
+            sectionDateLabel.text = ChatSectionDateCell.sectionDateFormatter.string(from: createdAt)
         }
     }
 }

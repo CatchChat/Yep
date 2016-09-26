@@ -13,7 +13,7 @@ import RealmSwift
 
 final class ProfileFooterCell: UICollectionViewCell {
 
-    var tapUsernameAction: ((username: String) -> Void)?
+    var tapUsernameAction: ((_ username: String) -> Void)?
 
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var usernameLabel: UILabel!
@@ -25,13 +25,13 @@ final class ProfileFooterCell: UICollectionViewCell {
     @IBOutlet weak var introductionTextViewLeftConstraint: NSLayoutConstraint!
     @IBOutlet weak var introductionTextViewRightConstraint: NSLayoutConstraint!
 
-    private struct Listener {
+    fileprivate struct Listener {
         let userLocationName: String
     }
 
-    private lazy var listener: Listener = {
+    fileprivate lazy var listener: Listener = {
 
-        let suffix = NSUUID().UUIDString
+        let suffix = UUID().uuidString
 
         return Listener(userLocationName: "ProfileFooterCell.userLocationName" + suffix)
     }()
@@ -40,20 +40,20 @@ final class ProfileFooterCell: UICollectionViewCell {
         YepUserDefaults.userLocationName.removeListenerWithName(listener.userLocationName)
     }
 
-    private func updateUIWithLocationName(userLocationName: String?) {
+    fileprivate func updateUIWithLocationName(_ userLocationName: String?) {
 
         if let userLocationName = userLocationName {
-            locationContainerView.hidden = false
+            locationContainerView.isHidden = false
             locationLabel.text = userLocationName
 
         } else {
-            locationContainerView.hidden = true
+            locationContainerView.isHidden = true
         }
     }
 
     var userID: String? {
         didSet {
-            if let userID = userID, realm = try? Realm(), userLocationName = UserLocationName.withUserID(userID, inRealm: realm) {
+            if let userID = userID, let realm = try? Realm(), let userLocationName = UserLocationName.withUserID(userID, inRealm: realm) {
                 newLocationName = userLocationName.locationName
             }
         }
@@ -79,7 +79,7 @@ final class ProfileFooterCell: UICollectionViewCell {
             }
 
             // save it
-            if let realm = try? Realm(), userID = userID, locationName = newLocationName {
+            if let realm = try? Realm(), let userID = userID, let locationName = newLocationName {
                 let userLocationName = UserLocationName(userID: userID, locationName: locationName)
 
                 let _ = try? realm.write {
@@ -95,41 +95,41 @@ final class ProfileFooterCell: UICollectionViewCell {
         introductionTextViewLeftConstraint.constant = YepConfig.Profile.leftEdgeInset
         introductionTextViewRightConstraint.constant = YepConfig.Profile.rightEdgeInset
 
-        introductionTextView.scrollEnabled = false
+        introductionTextView.isScrollEnabled = false
         introductionTextView.showsVerticalScrollIndicator = false
         introductionTextView.showsHorizontalScrollIndicator = false
 
         introductionTextView.textContainer.lineFragmentPadding = 0
         introductionTextView.font = YepConfig.Profile.introductionFont
         introductionTextView.textColor = UIColor.yepGrayColor()
-        introductionTextView.backgroundColor = UIColor.clearColor()
-        introductionTextView.tintColor = UIColor.blackColor()
+        introductionTextView.backgroundColor = UIColor.clear
+        introductionTextView.tintColor = UIColor.black
         introductionTextView.linkTextAttributes = [
             NSForegroundColorAttributeName: UIColor.yepTintColor(),
         ]
         introductionTextView.tapMentionAction = { [weak self] username in
-            self?.tapUsernameAction?(username: username)
+            self?.tapUsernameAction?(username)
         }
 
         newLocationName = nil
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser, introduction: String) {
+    func configureWithProfileUser(_ profileUser: ProfileUser, introduction: String) {
 
         userID = profileUser.userID
         profileUserIsMe = profileUser.isMe
 
-        configureWithNickname(profileUser.nickname ?? "", username: profileUser.username, introduction: introduction)
+        configureWithNickname(profileUser.nickname, username: profileUser.username, introduction: introduction)
 
         switch profileUser {
-        case .DiscoveredUserType(let discoveredUser):
+        case .discoveredUserType(let discoveredUser):
             location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
-        case .UserType(let user):
+        case .userType(let user):
             location = CLLocation(latitude: user.latitude, longitude: user.longitude)
         }
     }
 
-    private func configureWithNickname(nickname: String, username: String?, introduction: String) {
+    fileprivate func configureWithNickname(_ nickname: String, username: String?, introduction: String) {
 
         nicknameLabel.text = nickname
 
@@ -151,7 +151,7 @@ final class ProfileFooterCell: UICollectionViewCell {
 
             // 优化，减少反向查询
             if let oldLocation = oldValue {
-                let distance = location.distanceFromLocation(oldLocation)
+                let distance = location.distance(from: oldLocation)
                 if distance < YepConfig.Location.distanceThreshold {
                     return
                 }

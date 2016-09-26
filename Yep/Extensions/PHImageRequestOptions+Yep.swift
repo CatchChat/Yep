@@ -13,11 +13,11 @@ extension PHImageRequestOptions {
     static var yep_sharedOptions: PHImageRequestOptions {
 
         let options = PHImageRequestOptions()
-        options.synchronous = true
-        options.version = .Current
-        options.deliveryMode = .HighQualityFormat
-        options.resizeMode = .Exact
-        options.networkAccessAllowed = true
+        options.isSynchronous = true
+        options.version = .current
+        options.deliveryMode = .highQualityFormat
+        options.resizeMode = .exact
+        options.isNetworkAccessAllowed = true
 
         return options
     }

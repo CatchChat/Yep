@@ -20,8 +20,8 @@ final class NewFeedPreviewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        image.contentMode = .ScaleAspectFit
-        image.userInteractionEnabled = true
+        image.contentMode = .scaleAspectFit
+        image.isUserInteractionEnabled = true
         scrollView.contentSize = image.bounds.size
         scrollView.minimumZoomScale = 1.0
         scrollView.maximumZoomScale = 3.0
@@ -31,12 +31,12 @@ final class NewFeedPreviewCell: UICollectionViewCell {
         image.addGestureRecognizer(doubleClickGesture)
     }
     
-    @objc func doubleClick(sender: UITapGestureRecognizer) {
+    @objc func doubleClick(_ sender: UITapGestureRecognizer) {
         if scrollView.zoomScale != scrollView.maximumZoomScale {
-            scrollView.yep_zoomToPoint(sender.locationInView(self.contentView), withScale: scrollView.maximumZoomScale, animated: true)
+            scrollView.yep_zoomToPoint(sender.location(in: self.contentView), withScale: scrollView.maximumZoomScale, animated: true)
             
         } else {
-            scrollView.yep_zoomToPoint(sender.locationInView(self.contentView), withScale: scrollView.minimumZoomScale, animated: true)
+            scrollView.yep_zoomToPoint(sender.location(in: self.contentView), withScale: scrollView.minimumZoomScale, animated: true)
         }
         layoutIfNeeded()
     }
@@ -49,14 +49,14 @@ final class NewFeedPreviewCell: UICollectionViewCell {
 
 extension NewFeedPreviewCell: UIScrollViewDelegate {
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return image
     }
 }
 
 extension NewFeedPreviewCell: UIGestureRecognizerDelegate {
     
-    func gestureRecognizer(gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWithGestureRecognizer otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
 }

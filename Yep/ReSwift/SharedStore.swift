@@ -19,7 +19,7 @@ final private class SharedStore {
         )
     }()
 
-    private init() {}
+    fileprivate init() {}
 }
 
 func sharedStore() -> Store<AppState> {

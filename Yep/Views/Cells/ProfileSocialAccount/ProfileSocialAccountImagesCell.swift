@@ -19,11 +19,11 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
         didSet {
             if let work = socialWork {
 
-                accessoryImageView.hidden = false
+                accessoryImageView.isHidden = false
 
                 switch work {
 
-                case .Dribbble(let dribbbleWork):
+                case .dribbble(let dribbbleWork):
                     
                     if socialAccount != SocialAccount(rawValue: "dribbble") {
                         return
@@ -46,19 +46,19 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
                             return nil
                         })
 
-                        shots.insertContentsOf(empty, at: 0)
+                        shots.insert(contentsOf: empty, at: 0)
                     }
 
                     for i in 0..<imageViews.count {
 
                         if let shot = shots[i] {
-                            imageViews[i].kf_setImageWithURL(NSURL(string: shot.images.teaser)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+                            imageViews[i]?.kf_setImage(with: URL(string: shot.images.teaser)!, placeholder: nil, options: MediaOptionsInfos)
                         } else {
-                            imageViews[i].image = nil
+                            imageViews[i]?.image = nil
                         }
                     }
 
-                case .Instagram(let instagramWork):
+                case .instagram(let instagramWork):
                     
                     if socialAccount != SocialAccount(rawValue: "instagram") {
                         return
@@ -81,15 +81,15 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
                             return nil
                         })
 
-                        medias.insertContentsOf(empty, at: 0)
+                        medias.insert(contentsOf: empty, at: 0)
                     }
 
                     for i in 0..<imageViews.count {
 
                         if let media = medias[i] {
-                            imageViews[i].kf_setImageWithURL(NSURL(string: media.images.thumbnail)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+                            imageViews[i]?.kf_setImage(with: URL(string: media.images.thumbnail)!, placeholder: nil, options: MediaOptionsInfos)
                         } else {
-                            imageViews[i].image = nil
+                            imageViews[i]?.image = nil
                         }
                     }
                 }
@@ -116,9 +116,9 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
         iconImageViewLeadingConstraint.constant = YepConfig.Profile.leftEdgeInset
         accessoryImageViewTrailingConstraint.constant = YepConfig.Profile.rightEdgeInset
 
-        imageView1.contentMode = .ScaleAspectFill
-        imageView2.contentMode = .ScaleAspectFill
-        imageView3.contentMode = .ScaleAspectFill
+        imageView1.contentMode = .scaleAspectFill
+        imageView2.contentMode = .scaleAspectFill
+        imageView3.contentMode = .scaleAspectFill
 
         let cornerRadius: CGFloat = 2
         imageView1.layer.cornerRadius = cornerRadius
@@ -128,12 +128,14 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
         imageView1.clipsToBounds = true
         imageView2.clipsToBounds = true
         imageView3.clipsToBounds = true
-        
+
+        /*
         imageView1.kf_showIndicatorWhenLoading = true
         imageView2.kf_showIndicatorWhenLoading = true
         imageView3.kf_showIndicatorWhenLoading = true
+         */
         
-        accessoryImageView.hidden = true
+        accessoryImageView.isHidden = true
     }
 
     override func prepareForReuse() {
@@ -144,7 +146,7 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
         imageView3.image = nil
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, socialWork: SocialWork?, completion: ((SocialWork) -> Void)?) {
+    func configureWithProfileUser(_ profileUser: ProfileUser?, socialAccount: SocialAccount, socialWork: SocialWork?, completion: ((SocialWork) -> Void)?) {
 
         iconImageView.image = UIImage(named: socialAccount.iconName)
         nameLabel.text = socialAccount.name
@@ -164,7 +166,7 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
         }
 
         if !accountEnabled {
-            accessoryImageView.hidden = true
+            accessoryImageView.isHidden = true
 
         } else {
             if let socialWork = socialWork {
@@ -177,13 +179,13 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
 
                     case .Dribbble:
                         dribbbleWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                            defaultFailureHandler(reason, errorMessage)
 
                         }, completion: { dribbbleWork in
                             //println("dribbbleWork: \(dribbbleWork.shots.count)")
 
                             SafeDispatch.async { [weak self] in
-                                let socialWork = SocialWork.Dribbble(dribbbleWork)
+                                let socialWork = SocialWork.dribbble(dribbbleWork)
                                 self?.socialWork = socialWork
 
                                 completion?(socialWork)
@@ -192,13 +194,13 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
 
                     case .Instagram:
                         instagramWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                            defaultFailureHandler(reason, errorMessage)
 
                         }, completion: { instagramWork in
                             //println("instagramWork: \(instagramWork.medias.count)")
 
                             SafeDispatch.async { [weak self] in
-                                let socialWork = SocialWork.Instagram(instagramWork)
+                                let socialWork = SocialWork.instagram(instagramWork)
                                 self?.socialWork = socialWork
 
                                 completion?(socialWork)

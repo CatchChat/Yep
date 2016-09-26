@@ -10,32 +10,32 @@ import Foundation
 
 extension String {
 
-    static func trans_promptSuccessfullyAddedSkill(skill: String, to set: String) -> String {
+    static func trans_promptSuccessfullyAddedSkill(_ skill: String, to set: String) -> String {
         return String(format: NSLocalizedString("prompt.added_skill%@_to_set%@_successfully", comment: ""), skill, set)
     }
 
-    static func trans_promptTryUnfriendWith(name: String) -> String {
+    static func trans_promptTryUnfriendWith(_ name: String) -> String {
         return String(format: NSLocalizedString("prompt.try_unfriend_with_%@", comment: ""), name)
     }
 
-    static func trans_promptFeedInfoTooLong(count: Int) -> String {
+    static func trans_promptFeedInfoTooLong(_ count: Int) -> String {
         return String(format: NSLocalizedString("prompt.feed_info_too_long_%d", comment: ""), count)
     }
 
-    static func trans_shareFeedWithDescription(description: String) -> String {
+    static func trans_shareFeedWithDescription(_ description: String) -> String {
         return String(format: NSLocalizedString("title.share_feed_with_description_%@", comment: ""), description)
     }
 
-    static func trans_shareUserFromYepWithSkills(name: String) -> String {
+    static func trans_shareUserFromYepWithSkills(_ name: String) -> String {
         return String(format: NSLocalizedString("share.user_%@_from_yep_with_skills", comment: ""), name)
     }
 
-    static func trans_promptLastSeenAt(timeString: String) -> String {
+    static func trans_promptLastSeenAt(_ timeString: String) -> String {
         return String(format: NSLocalizedString("prompt.last_seen_at_%@", comment: ""), timeString)
     }
 
-    static func trans_promptLastSeenAt(unixTime: NSTimeInterval) -> String {
-        let timeString = NSDate(timeIntervalSince1970: unixTime).timeAgo.lowercaseString
+    static func trans_promptLastSeenAt(_ unixTime: TimeInterval) -> String {
+        let timeString = Date(timeIntervalSince1970: unixTime).timeAgo.lowercased()
         return trans_promptLastSeenAt(timeString)
     }
 }

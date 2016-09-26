@@ -24,11 +24,11 @@ extension PhoneNumberRepresentation where Self: UIViewController {
 
         guard let text = areaCodeTextField.text else { return }
 
-        let size = text.sizeWithAttributes(areaCodeTextField.editing ? areaCodeTextField.typingAttributes : areaCodeTextField.defaultTextAttributes)
+        let size = text.size(attributes: areaCodeTextField.isEditing ? areaCodeTextField.typingAttributes : areaCodeTextField.defaultTextAttributes)
 
         let width = 32 + (size.width + 22) + 20
 
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
             self?.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
             self?.view.layoutIfNeeded()
         }, completion: nil)
@@ -37,7 +37,7 @@ extension PhoneNumberRepresentation where Self: UIViewController {
 
 extension PhoneNumberRepresentation where Self: UIViewController {
 
-    func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
 
         if textField == areaCodeTextField {
             adjustAreaCodeTextFieldWidth()
@@ -46,20 +46,20 @@ extension PhoneNumberRepresentation where Self: UIViewController {
         return true
     }
 
-    func textFieldDidEndEditing(textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
 
         if textField == areaCodeTextField {
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
                 self?.areaCodeTextFieldWidthConstraint.constant = 60
                 self?.view.layoutIfNeeded()
             }, completion: nil)
         }
     }
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
-        guard let areaCode = areaCodeTextField.text where !areaCode.isEmpty else { return true }
-        guard let number = mobileNumberTextField.text where !number.isEmpty else { return true }
+        guard let areaCode = areaCodeTextField.text , !areaCode.isEmpty else { return true }
+        guard let number = mobileNumberTextField.text , !number.isEmpty else { return true }
 
         tappedKeyboardReturn()
 

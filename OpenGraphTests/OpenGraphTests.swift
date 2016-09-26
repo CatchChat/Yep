@@ -13,9 +13,9 @@ final class OpenGraphTests: XCTestCase {
 
     func testBaiduOpenGraph() {
 
-        let baiduURL = NSURL(string: "http://www.baidu.com")!
+        let baiduURL = URL(string: "http://www.baidu.com")!
 
-        let expectation = expectationWithDescription("baidu open graph")
+        let expectation = self.expectation(description: "baidu open graph")
 
         openGraphWithURL(baiduURL, failureHandler: nil) { openGraph in
 
@@ -23,17 +23,17 @@ final class OpenGraphTests: XCTestCase {
             expectation.fulfill()
         }
 
-        waitForExpectationsWithTimeout(5, handler: nil)
+        waitForExpectations(timeout: 5, handler: nil)
     }
 
     func testItunesOpenGraph() {
 
         // 单曲
-        let iTunesURL = NSURL(string: "https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en")!
+        let iTunesURL = URL(string: "https://itunes.apple.com/cn/album/hello-single/id1051365605?i=1051366040&l=en")!
 
-        let queryItem = NSURLQueryItem(name: "at", value: "1010l9k7")
+        let queryItem = URLQueryItem(name: "at", value: "1010l9k7")
 
-        let expectation = expectationWithDescription("iTunes open graph")
+        let expectation = self.expectation(description: "iTunes open graph")
 
         openGraphWithURL(iTunesURL, failureHandler: nil) { openGraph in
 
@@ -44,14 +44,14 @@ final class OpenGraphTests: XCTestCase {
             }
         }
 
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
 
     func testGetTitleOfURL() {
 
-        let URL = NSURL(string: "https://www.apple.com")!
+        let URL = Foundation.URL(string: "https://www.apple.com")!
 
-        let expectation = expectationWithDescription("get title of URL: \(URL)")
+        let expectation = self.expectation(description: "get title of URL: \(URL)")
 
         titleOfURL(URL, failureHandler: nil, completion: { title in
 
@@ -62,7 +62,7 @@ final class OpenGraphTests: XCTestCase {
             }
         })
         
-        waitForExpectationsWithTimeout(10, handler: nil)
+        waitForExpectations(timeout: 10, handler: nil)
     }
 }
 

@@ -21,9 +21,9 @@ final class ChatRightAudioCell: ChatRightBaseCell {
         willSet {
             if newValue != playing {
                 if newValue {
-                    playButton.setImage(UIImage.yep_iconPause, forState: .Normal)
+                    playButton.setImage(UIImage.yep_iconPause, for: UIControlState())
                 } else {
-                    playButton.setImage(UIImage.yep_iconPlay, forState: .Normal)
+                    playButton.setImage(UIImage.yep_iconPlay, for: UIControlState())
                 }
             }
         }
@@ -43,24 +43,24 @@ final class ChatRightAudioCell: ChatRightBaseCell {
     lazy var sampleView: SampleView = {
         let view = SampleView()
         view.sampleColor = UIColor.rightWaveColor()
-        view.userInteractionEnabled = false
+        view.isUserInteractionEnabled = false
         return view
     }()
 
     lazy var audioDurationLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .Center
-        label.textColor = UIColor.whiteColor()
+        label.textAlignment = .center
+        label.textColor = UIColor.white
         return label
     }()
 
     lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage.yep_iconPlay, forState: .Normal)
+        button.setImage(UIImage.yep_iconPlay, for: UIControlState())
 
-        button.userInteractionEnabled = false
-        button.tintColor = UIColor.whiteColor()
-        button.tintAdjustmentMode = .Normal
+        button.isUserInteractionEnabled = false
+        button.tintColor = UIColor.white
+        button.tintAdjustmentMode = .normal
 
         return button
     }()
@@ -70,7 +70,7 @@ final class ChatRightAudioCell: ChatRightBaseCell {
 
     func makeUI() {
 
-        let fullWidth = UIScreen.mainScreen().bounds.width
+        let fullWidth = UIScreen.main.bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
 
@@ -91,12 +91,12 @@ final class ChatRightAudioCell: ChatRightBaseCell {
         }
         UIView.setAnimationsEnabled(true)
 
-        bubbleImageView.userInteractionEnabled = true
+        bubbleImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatRightAudioCell.tapMediaView))
         bubbleImageView.addGestureRecognizer(tap)
 
         prepareForMenuAction = { otherGesturesEnabled in
-            tap.enabled = otherGesturesEnabled
+            tap.isEnabled = otherGesturesEnabled
         }
     }
 
@@ -108,7 +108,7 @@ final class ChatRightAudioCell: ChatRightBaseCell {
         audioBubbleTapAction?()
     }
 
-    func configureWithMessage(message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?) {
+    func configureWithMessage(_ message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?) {
 
         self.message = message
         self.user = message.fromFriend
@@ -150,8 +150,8 @@ final class ChatRightAudioCell: ChatRightBaseCell {
                 var simpleViewWidth = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
                 simpleViewWidth = max(YepConfig.minMessageSampleViewWidth, simpleViewWidth)
                 let width = 60 + simpleViewWidth
-                audioContainerView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
-                dotImageView.center = CGPoint(x: CGRectGetMinX(audioContainerView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(audioContainerView.frame))
+                audioContainerView.frame = CGRect(x: (avatarImageView.frame).minX - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
+                dotImageView.center = CGPoint(x: audioContainerView.frame.minX - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: audioContainerView.frame.midY)
 
                 sampleView.samples = audioSamples
 
@@ -163,8 +163,8 @@ final class ChatRightAudioCell: ChatRightBaseCell {
                 sampleView.progress = 0
 
                 let width = 60 + 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
-                audioContainerView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
-                dotImageView.center = CGPoint(x: CGRectGetMinX(audioContainerView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(audioContainerView.frame))
+                audioContainerView.frame = CGRect(x: avatarImageView.frame.minX - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
+                dotImageView.center = CGPoint(x: audioContainerView.frame.minX - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: audioContainerView.frame.midY)
 
                 println(dotImageView.frame)
 
@@ -177,7 +177,7 @@ final class ChatRightAudioCell: ChatRightBaseCell {
             audioDurationLabel.frame = sampleView.frame
 
             if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-                if audioPlayer.playing {
+                if audioPlayer.isPlaying {
                     if let playingMessage = YepAudioService.sharedManager.playingMessage {
                         if message.messageID == playingMessage.messageID {
                             playing = true
@@ -189,7 +189,7 @@ final class ChatRightAudioCell: ChatRightBaseCell {
             }
 
             if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-                if audioPlayer.playing {
+                if audioPlayer.isPlaying {
                     if let playingMessage = YepAudioService.sharedManager.playingMessage {
                         if message.messageID == playingMessage.messageID {
                             playing = true

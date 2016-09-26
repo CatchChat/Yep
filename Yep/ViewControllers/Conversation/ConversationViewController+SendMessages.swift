@@ -15,13 +15,15 @@ import YepNetworking
 
 extension ConversationViewController {
 
-    func sendText(text: String) {
+    func sendText(_ text: String) {
 
         guard !text.isEmpty else {
             return
         }
 
-        let recipient = self.recipient
+        guard let recipient = self.recipient else {
+            return
+        }
 
         println("try sendText to recipient: \(recipient)")
 
@@ -30,16 +32,16 @@ extension ConversationViewController {
             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
-            case .OneToOne:
+            case .oneToOne:
                 self?.promptSendMessageFailed(
                     reason: reason,
                     errorMessage: errorMessage,
                     reserveErrorMessage: String.trans_promptSendTextFailed
                 )
-            case .Group:
+            case .group:
                 YepAlert.alertSorry(message: String.trans_promptSendTextFailed, inViewController: self)
             }
 
@@ -47,9 +49,9 @@ extension ConversationViewController {
             println("sendText: \(success)")
 
             switch recipient.type {
-            case .OneToOne:
+            case .oneToOne:
                 self?.showFriendRequestViewIfNeed()
-            case .Group:
+            case .group:
                 self?.updateGroupToIncludeMe()
             }
         })
@@ -64,10 +66,11 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-    func sendAudio(at fileURL: NSURL, with compressedDecibelSamples: [Float]) {
+    func sendAudio(at fileURL: URL, with compressedDecibelSamples: [Float]) {
 
-        let recipient = self.recipient
-
+        guard let recipient = self.recipient else {
+            return
+        }
         println("try sendAudioWithURL to recipient: \(recipient)")
 
         // Prepare meta data
@@ -82,34 +85,34 @@ extension ConversationViewController {
             audioSamples[i] = sample
         }
 
-        let audioAsset = AVURLAsset(URL: fileURL, options: nil)
+        let audioAsset = AVURLAsset(url: fileURL, options: nil)
         let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
 
         println("audioSamples: \(audioSamples)")
 
-        let audioMetaDataInfo = [
+        let audioMetaDataInfo: [String: Any] = [
             Config.MetaData.audioDuration: audioDuration,
             Config.MetaData.audioSamples: audioSamples,
         ]
 
-        if let audioMetaData = try? NSJSONSerialization.dataWithJSONObject(audioMetaDataInfo, options: []) {
-            let audioMetaDataString = NSString(data: audioMetaData, encoding: NSUTF8StringEncoding) as? String
+        if let audioMetaData = try? JSONSerialization.data(withJSONObject: audioMetaDataInfo, options: []) {
+            let audioMetaDataString = String(data: audioMetaData, encoding: .utf8)
             metaData = audioMetaDataString
         }
 
         // Do send
 
-        sendAudioInFilePath(fileURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
+        sendAudioInFilePath(fileURL.path, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            let audioFileName = NSUUID().UUIDString
-            if let audioURL = NSFileManager.yepMessageAudioURLWithName(audioFileName) {
+            let audioFileName = NSUUID().uuidString
+            if let audioURL = FileManager.yepMessageAudioURLWithName(audioFileName) {
                 do {
-                    try NSFileManager.defaultManager().copyItemAtURL(fileURL, toURL: audioURL)
+                    try FileManager.default.copyItem(at: fileURL, to: audioURL)
 
                     if let realm = message.realm {
                         let _ = try? realm.write {
                             message.localAttachmentName = audioFileName
-                            message.mediaType = MessageMediaType.Audio.rawValue
+                            message.mediaType = MessageMediaType.audio.rawValue
                             if let metaDataString = metaData {
                                 message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                             }
@@ -124,16 +127,16 @@ extension ConversationViewController {
             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
-            case .OneToOne:
+            case .oneToOne:
                 self?.promptSendMessageFailed(
                     reason: reason,
                     errorMessage: errorMessage,
                     reserveErrorMessage: String.trans_promptSendAudioFailed
                 )
-            case .Group:
+            case .group:
                 YepAlert.alertSorry(message: String.trans_promptSendAudioFailed, inViewController: self)
             }
 
@@ -141,9 +144,9 @@ extension ConversationViewController {
             println("sendAudio: \(success)")
 
             switch recipient.type {
-            case .OneToOne:
+            case .oneToOne:
                 self?.showFriendRequestViewIfNeed()
-            case .Group:
+            case .group:
                 self?.updateGroupToIncludeMe()
             }
         })
@@ -154,9 +157,11 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-    func sendImage(image: UIImage) {
+    func sendImage(_ image: UIImage) {
 
-        let recipient = self.recipient
+        guard let recipient = self.recipient else {
+            return
+        }
 
         println("try sendImage to recipient: \(recipient)")
 
@@ -170,13 +175,13 @@ extension ConversationViewController {
 
         sendImageInFilePath(nil, orFileData: imageData, metaData: metaDataString, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            let messageImageName = NSUUID().UUIDString
+            let messageImageName = NSUUID().uuidString
 
-            if let _ = NSFileManager.saveMessageImageData(imageData, withName: messageImageName) {
+            if let _ = FileManager.saveMessageImageData(imageData, withName: messageImageName) {
                 if let realm = message.realm {
                     let _ = try? realm.write {
                         message.localAttachmentName = messageImageName
-                        message.mediaType = MessageMediaType.Image.rawValue
+                        message.mediaType = MessageMediaType.image.rawValue
                         if let metaDataString = metaDataString {
                             message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                         }
@@ -190,16 +195,16 @@ extension ConversationViewController {
             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
-            case .OneToOne:
+            case .oneToOne:
                 self?.promptSendMessageFailed(
                     reason: reason,
                     errorMessage: errorMessage,
                     reserveErrorMessage: String.trans_promptSendImageFailed
                 )
-            case .Group:
+            case .group:
                 YepAlert.alertSorry(message: String.trans_promptSendImageFailed, inViewController: self)
             }
 
@@ -207,9 +212,9 @@ extension ConversationViewController {
             println("sendImage: \(success)")
 
             switch recipient.type {
-            case .OneToOne:
+            case .oneToOne:
                 self?.showFriendRequestViewIfNeed()
-            case .Group:
+            case .group:
                 self?.updateGroupToIncludeMe()
             }
         })
@@ -220,17 +225,18 @@ extension ConversationViewController {
 
 extension ConversationViewController {
 
-    func sendVideo(at videoURL: NSURL) {
+    func sendVideo(at videoURL: URL) {
 
-        let recipient = self.recipient
-
+        guard let recipient = self.recipient else {
+            return
+        }
         println("try sendVideoWithVideoURL to recipient: \(recipient)")
 
         // Prepare meta data
 
         var metaData: String? = nil
 
-        var thumbnailData: NSData?
+        var thumbnailData: Data?
 
         if let image = thumbnailImageOfVideoInVideoURL(videoURL) {
 
@@ -248,18 +254,18 @@ extension ConversationViewController {
                 thumbnailWidth = imageWidth * (thumbnailHeight / imageHeight)
             }
 
-            let videoMetaDataInfo: [String: AnyObject]
+            let videoMetaDataInfo: [String: Any]
 
             let thumbnailSize = CGSize(width: thumbnailWidth, height: thumbnailHeight)
 
-            if let thumbnail = image.resizeToSize(thumbnailSize, withInterpolationQuality: CGInterpolationQuality.Low) {
-                let blurredThumbnail = thumbnail.blurredImageWithRadius(5, iterations: 7, tintColor: UIColor.clearColor())
+            if let thumbnail = image.resizeToSize(thumbnailSize, withInterpolationQuality: .low),
+                let blurredThumbnail = thumbnail.blurredImage(withRadius: 5, iterations: 7, tintColor: UIColor.clear) {
 
                 let data = UIImageJPEGRepresentation(blurredThumbnail, 0.7)!
 
-                let string = data.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
+                let string = data.base64EncodedString(options: [])
 
-                println("video blurredThumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
+                println("video blurredThumbnail string length: \(string.lengthOfBytes(using: .utf8))\n")
 
                 videoMetaDataInfo = [
                     Config.MetaData.videoWidth: imageWidth,
@@ -274,8 +280,8 @@ extension ConversationViewController {
                 ]
             }
 
-            if let videoMetaData = try? NSJSONSerialization.dataWithJSONObject(videoMetaDataInfo, options: []) {
-                let videoMetaDataString = NSString(data: videoMetaData, encoding: NSUTF8StringEncoding) as? String
+            if let videoMetaData = try? JSONSerialization.data(withJSONObject: videoMetaDataInfo, options: []) {
+                let videoMetaDataString = NSString(data: videoMetaData, encoding: String.Encoding.utf8.rawValue) as? String
                 metaData = videoMetaDataString
             }
 
@@ -284,18 +290,18 @@ extension ConversationViewController {
 
         let afterCreatedMessageAction = { [weak self] (message: Message) in
 
-            guard let videoData = NSData(contentsOfURL: videoURL) else {
+            guard let videoData = try? Data(contentsOf: videoURL) else {
                 return
             }
 
-            let messageVideoName = NSUUID().UUIDString
+            let messageVideoName = NSUUID().uuidString
 
-            if let _ = NSFileManager.saveMessageVideoData(videoData, withName: messageVideoName) {
+            if let _ = FileManager.saveMessageVideoData(videoData, withName: messageVideoName) {
                 if let realm = message.realm {
                     let _ = try? realm.write {
 
                         if let thumbnailData = thumbnailData {
-                            if let _ = NSFileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
+                            if let _ = FileManager.saveMessageImageData(thumbnailData, withName: messageVideoName) {
                                 message.localThumbnailName = messageVideoName
 
                             } else {
@@ -305,7 +311,7 @@ extension ConversationViewController {
 
                         message.localAttachmentName = messageVideoName
 
-                        message.mediaType = MessageMediaType.Video.rawValue
+                        message.mediaType = MessageMediaType.video.rawValue
                         if let metaDataString = metaData {
                             message.mediaMetaData = mediaMetaDataFromString(metaDataString, inRealm: realm)
                         }
@@ -319,17 +325,17 @@ extension ConversationViewController {
             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
         }
 
-        sendVideoInFilePath(videoURL.path!, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+        sendVideoInFilePath(videoURL.path, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
+            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
-            case .OneToOne:
+            case .oneToOne:
                 self?.promptSendMessageFailed(
                     reason: reason,
                     errorMessage: errorMessage,
                     reserveErrorMessage: String.trans_promptSendVideoFailed
                 )
-            case .Group:
+            case .group:
                 YepAlert.alertSorry(message: String.trans_promptSendVideoFailed, inViewController: self)
             }
 
@@ -337,9 +343,9 @@ extension ConversationViewController {
             println("sendVideo: \(success)")
 
             switch recipient.type {
-            case .OneToOne:
+            case .oneToOne:
                 self?.showFriendRequestViewIfNeed()
-            case .Group:
+            case .group:
                 self?.updateGroupToIncludeMe()
             }
         })
@@ -352,7 +358,9 @@ extension ConversationViewController {
 
     func sendLocation(with locationInfo: PickLocationViewControllerLocation.Info) {
 
-        let recipient = self.recipient
+        guard let recipient = self.recipient else {
+            return
+        }
 
         println("try sendLocationInfo to recipient: \(recipient)")
 
@@ -361,16 +369,16 @@ extension ConversationViewController {
             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
-            case .OneToOne:
+            case .oneToOne:
                 self?.promptSendMessageFailed(
                     reason: reason,
                     errorMessage: errorMessage,
                     reserveErrorMessage: String.trans_promptSendLocationFailed
                 )
-            case .Group:
+            case .group:
                 YepAlert.alertSorry(message: String.trans_promptSendLocationFailed, inViewController: self)
             }
 
@@ -378,9 +386,9 @@ extension ConversationViewController {
             println("sendLocation: \(success)")
 
             switch recipient.type {
-            case .OneToOne:
+            case .oneToOne:
                 self?.showFriendRequestViewIfNeed()
-            case .Group:
+            case .group:
                 self?.updateGroupToIncludeMe()
             }
         })

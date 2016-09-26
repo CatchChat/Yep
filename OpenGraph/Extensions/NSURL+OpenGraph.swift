@@ -8,37 +8,37 @@
 
 import Foundation
 
-extension NSURL {
+extension URL {
 
-    private var opengraph_allQueryItems: [NSURLQueryItem] {
+    fileprivate var opengraph_allQueryItems: [URLQueryItem] {
 
-        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false), queryItems = components.queryItems {
+        if let components = URLComponents(url: self, resolvingAgainstBaseURL: false), let queryItems = components.queryItems {
             return queryItems
         }
 
         return []
     }
 
-    private func opengraph_queryItemForKey(key: String) -> NSURLQueryItem? {
+    fileprivate func opengraph_queryItemForKey(_ key: String) -> URLQueryItem? {
 
         let predicate = NSPredicate(format: "name=%@", key)
-        return (opengraph_allQueryItems as NSArray).filteredArrayUsingPredicate(predicate).first as? NSURLQueryItem
+        return (opengraph_allQueryItems as NSArray).filtered(using: predicate).first as? URLQueryItem
     }
 }
 
-extension NSURL {
+extension URL {
 
-    var opengraph_appleAllianceURL: NSURL {
+    var opengraph_appleAllianceURL: URL {
 
         guard self.opengraph_isAppleiTunesURL else {
             return self
         }
 
-        guard let URLComponents = NSURLComponents(URL: self, resolvingAgainstBaseURL: false) else {
+        guard var URLComponents = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
             return self
         }
 
-        let queryItem = NSURLQueryItem(name: "at", value: "1010l9k7")
+        let queryItem = URLQueryItem(name: "at", value: "1010l9k7")
 
         if URLComponents.queryItems == nil {
             URLComponents.queryItems = [queryItem]
@@ -46,7 +46,7 @@ extension NSURL {
             URLComponents.queryItems?.append(queryItem)
         }
 
-        guard let resultURL = URLComponents.URL else {
+        guard let resultURL = URLComponents.url else {
             return self
         }
 
@@ -59,12 +59,9 @@ extension NSURL {
             return artworkID
 
         } else {
-            if let artworkID = lastPathComponent?.stringByReplacingOccurrencesOfString("id", withString: "") {
-                return artworkID
-            }
+            let artworkID = lastPathComponent.replacingOccurrences(of: "id", with: "")
+            return artworkID
         }
-
-        return nil
     }
     
     enum AppleOnlineStoreHost: String {
@@ -75,7 +72,7 @@ extension NSURL {
 
     var opengraph_isAppleiTunesURL: Bool {
 
-        guard let host = host, _ = AppleOnlineStoreHost(rawValue: host) else {
+        guard let host = host, let _ = AppleOnlineStoreHost(rawValue: host) else {
             return false
         }
 

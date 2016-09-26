@@ -10,15 +10,15 @@ import UIKit
 
 final class ProfileLayout: UICollectionViewFlowLayout {
 
-    var scrollUpAction: ((progress: CGFloat) -> Void)?
+    var scrollUpAction: ((_ progress: CGFloat) -> Void)?
 
-    private let topBarsHeight: CGFloat = 64
+    fileprivate let topBarsHeight: CGFloat = 64
 
-    private let leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
+    fileprivate let leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
 
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
 
-        let layoutAttributes = super.layoutAttributesForElementsInRect(rect)
+        let layoutAttributes = super.layoutAttributesForElements(in: rect)
         let contentInset = collectionView!.contentInset
         let contentOffset = collectionView!.contentOffset
 
@@ -29,10 +29,10 @@ final class ProfileLayout: UICollectionViewFlowLayout {
 
             if let layoutAttributes = layoutAttributes {
                 for attributes in layoutAttributes {
-                    if attributes.indexPath.section == ProfileViewController.Section.Header.rawValue {
+                    if (attributes.indexPath as NSIndexPath).section == ProfileViewController.Section.header.rawValue {
                         var frame = attributes.frame
-                        frame.size.height = max(minY, CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio + deltaY)
-                        frame.origin.y = CGRectGetMinY(frame) - deltaY
+                        frame.size.height = max(minY, collectionView!.bounds.width * profileAvatarAspectRatio + deltaY)
+                        frame.origin.y = frame.minY - deltaY
                         attributes.frame = frame
 
                         break
@@ -41,7 +41,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
             }
 
         } else {
-            let coverHeight = CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio
+            let coverHeight = collectionView!.bounds.width * profileAvatarAspectRatio
             let coverHideHeight = coverHeight - topBarsHeight
 
             if contentOffset.y > coverHideHeight {
@@ -50,7 +50,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
 
                 if let layoutAttributes = layoutAttributes {
                     for attributes in layoutAttributes {
-                        if attributes.indexPath.section == ProfileViewController.Section.Header.rawValue {
+                        if (attributes.indexPath as NSIndexPath).section == ProfileViewController.Section.header.rawValue {
                             var frame = attributes.frame
                             frame.origin.y = deltaY - coverHideHeight
                             attributes.frame = frame
@@ -68,7 +68,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
             } else {
                 progress = 1.0
             }
-            scrollUpAction?(progress: progress)
+            scrollUpAction?(progress)
         }
 
         // 先按照每个 item 的 centerY 分组
@@ -76,7 +76,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
 
         if let layoutAttributes = layoutAttributes {
             for attributes in layoutAttributes {
-                let centerY = CGRectGetMidY(attributes.frame)
+                let centerY = attributes.frame.midY
 
                 if let rowCollection = rowCollections[centerY] {
                     var rowCollection = rowCollection
@@ -99,7 +99,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
             // 每一行所有 items 的宽度
             var aggregateItemsWidth: CGFloat = 0
             for attributes in rowCollection {
-                aggregateItemsWidth += CGRectGetWidth(attributes.frame)
+                aggregateItemsWidth += attributes.frame.width
             }
 
             // 计算出有效的 width 和需要偏移的 offset
@@ -107,15 +107,15 @@ final class ProfileLayout: UICollectionViewFlowLayout {
             //let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
 
             // 调整每个 item 的 origin.x 即可
-            var previousFrame = CGRectZero
+            var previousFrame = CGRect.zero
             for attributes in rowCollection {
                 var itemFrame = attributes.frame
 
-                if attributes.representedElementCategory == .Cell && (attributes.indexPath.section == ProfileViewController.Section.Master.rawValue || attributes.indexPath.section == ProfileViewController.Section.Learning.rawValue) {
-                    if CGRectEqualToRect(previousFrame, CGRectZero) {
+                if attributes.representedElementCategory == .cell && ((attributes.indexPath as NSIndexPath).section == ProfileViewController.Section.master.rawValue || (attributes.indexPath as NSIndexPath).section == ProfileViewController.Section.learning.rawValue) {
+                    if previousFrame.equalTo(CGRect.zero) {
                         itemFrame.origin.x = leftEdgeInset
                     } else {
-                        itemFrame.origin.x = CGRectGetMaxX(previousFrame) + minimumInteritemSpacing
+                        itemFrame.origin.x = previousFrame.maxX + minimumInteritemSpacing
                     }
 
                     attributes.frame = itemFrame
@@ -128,7 +128,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
         return layoutAttributes
     }
 
-    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }
 }

@@ -14,15 +14,15 @@ final class TouchClosuresView: UIView {
     var touchesEndedAction: (() -> Void)?
     var touchesCancelledAction: (() -> Void)?
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchesBeganAction?()
     }
 
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchesEndedAction?()
     }
 
-    override func touchesCancelled(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
         touchesCancelledAction?()
     }
 }

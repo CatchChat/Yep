@@ -22,7 +22,7 @@ final class SearchedUserMessagesViewController: BaseViewController {
             messagesTableView.rowHeight = 70
             messagesTableView.tableFooterView = UIView()
 
-            messagesTableView.registerNibOf(SearchedMessageCell)
+            messagesTableView.registerNibOf(SearchedMessageCell.self)
         }
     }
     
@@ -34,7 +34,7 @@ final class SearchedUserMessagesViewController: BaseViewController {
 
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -43,8 +43,8 @@ final class SearchedUserMessagesViewController: BaseViewController {
         switch identifier {
 
         case "showConversation":
-            let vc = segue.destinationViewController as! ConversationViewController
-            let info = (sender as! Box<[String: AnyObject]>).value
+            let vc = segue.destination as! ConversationViewController
+            let info = sender as! [String: Any]
             vc.conversation = info["conversation"] as! Conversation
             vc.indexOfSearchedMessage = info["indexOfSearchedMessage"] as? Int
 
@@ -58,57 +58,56 @@ final class SearchedUserMessagesViewController: BaseViewController {
 
 extension SearchedUserMessagesViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return messages.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: SearchedMessageCell = tableView.dequeueReusableCell()
         return cell
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        let itemIndex = indexPath.row
+        let itemIndex = (indexPath as NSIndexPath).row
 
         guard let
             message = messages[safe: itemIndex],
-            cell = cell as? SearchedMessageCell else {
+            let cell = cell as? SearchedMessageCell else {
                 return
         }
 
         cell.configureWithMessage(message, keyword: keyword)
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        let itemIndex = indexPath.row
+        let itemIndex = (indexPath as NSIndexPath).row
 
         guard let message = messages[safe: itemIndex],
-            conversation = message.conversation,
-            realm = conversation.realm else {
+            let conversation = message.conversation,
+            let realm = conversation.realm else {
                 return
         }
 
         let conversationMessages = messagesOfConversation(conversation, inRealm: realm)
-        guard let indexOfSearchedMessage = conversationMessages.indexOf(message) else {
+        guard let indexOfSearchedMessage = conversationMessages.index(of: message) else {
             return
         }
 
-        let info: [String: AnyObject] = [
+        let info: [String: Any] = [
             "conversation":conversation,
             "indexOfSearchedMessage": indexOfSearchedMessage,
         ]
-        let sender = Box<[String: AnyObject]>(info)
-        performSegueWithIdentifier("showConversation", sender: sender)
+        performSegue(withIdentifier: "showConversation", sender: info)
     }
 }
 

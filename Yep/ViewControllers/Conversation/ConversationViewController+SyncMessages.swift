@@ -15,39 +15,39 @@ extension ConversationViewController {
 
     func trySyncMessages() {
 
-        guard !conversation.invalidated else {
+        guard !conversation.isInvalidated else {
             return
         }
         guard let recipient = self.recipient else {
             return
         }
 
-        let syncMessages: (failedAction: (() -> Void)?, successAction: (() -> Void)?) -> Void = { failedAction, successAction in
+        let syncMessages: (_ failedAction: (() -> Void)?, _ successAction: (() -> Void)?) -> Void = { failedAction, successAction in
 
             SafeDispatch.async { [weak self] in
 
                 let timeDirection: TimeDirection
                 if let minMessageID = self?.messages.last?.messageID {
-                    timeDirection = .Future(minMessageID: minMessageID)
+                    timeDirection = .future(minMessageID: minMessageID)
                 } else {
-                    timeDirection = .None
+                    timeDirection = .none
                 }
 
-                if case .None = timeDirection {
+                if case .none = timeDirection {
                     self?.activityIndicator.startAnimating()
                 }
 
-                dispatch_async(realmQueue) { [weak self] in
+                realmQueue.async { [weak self] in
 
                     messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                        defaultFailureHandler(reason, errorMessage)
 
                         failedAction?()
 
                     }, completion: { [weak self] messageIDs, noMore in
                         println("messagesFromRecipient: \(messageIDs.count)")
 
-                        if case .None = timeDirection {
+                        if case .none = timeDirection {
                             self?.noMorePreviousMessages = noMore
                         }
 
@@ -66,17 +66,17 @@ extension ConversationViewController {
 
         switch recipient.type {
 
-        case .OneToOne:
+        case .oneToOne:
 
-            syncMessages(failedAction: nil, successAction: { [weak self] in
+            syncMessages(nil, { [weak self] in
                 self?.syncMessagesReadStatus()
             })
             
-        case .Group:
+        case .group:
             
             if let _ = conversation.withGroup {
                 // 直接同步消息
-                syncMessages(failedAction: nil, successAction: nil)
+                syncMessages(nil, nil)
             }
         }
     }
@@ -91,19 +91,21 @@ extension ConversationViewController {
         })
     }
 
-    func markAsReadAllSentMesagesBeforeUnixTime(unixTime: NSTimeInterval, lastReadMessageID: String? = nil) {
+    func markAsReadAllSentMesagesBeforeUnixTime(_ unixTime: TimeInterval, lastReadMessageID: String? = nil) {
 
-        let recipient = self.recipient
+        guard let recipient = self.recipient else {
+            return
+        }
 
-        dispatch_async(realmQueue) {
+        realmQueue.async {
 
-            guard let realm = try? Realm(), conversation = recipient.conversationInRealm(realm) else {
+            guard let realm = try? Realm(), let conversation = recipient.conversationInRealm(realm) else {
                 return
             }
 
             var lastMessageCreatedUnixTime = unixTime
             //println("markAsReadAllSentMesagesBeforeUnixTime: \(unixTime), \(lastReadMessageID)")
-            if let lastReadMessageID = lastReadMessageID, message = messageWithMessageID(lastReadMessageID, inRealm: realm) {
+            if let lastReadMessageID = lastReadMessageID, let message = messageWithMessageID(lastReadMessageID, inRealm: realm) {
                 let createdUnixTime = message.createdUnixTime
                 //println("lastMessageCreatedUnixTime: \(createdUnixTime)")
                 if createdUnixTime > lastMessageCreatedUnixTime {
@@ -112,7 +114,7 @@ extension ConversationViewController {
                 }
             }
 
-            let predicate = NSPredicate(format: "sendState = %d AND fromFriend != nil AND fromFriend.friendState = %d AND createdUnixTime <= %lf", MessageSendState.Successed.rawValue, UserFriendState.Me.rawValue, lastMessageCreatedUnixTime)
+            let predicate = NSPredicate(format: "sendState = %d AND fromFriend != nil AND fromFriend.friendState = %d AND createdUnixTime <= %lf", MessageSendState.successed.rawValue, UserFriendState.me.rawValue, lastMessageCreatedUnixTime)
 
             let sendSuccessedMessages = messagesOfConversation(conversation, inRealm: realm).filter(predicate)
 
@@ -121,19 +123,21 @@ extension ConversationViewController {
             let _ = try? realm.write {
                 sendSuccessedMessages.forEach {
                     $0.readed = true
-                    $0.sendState = MessageSendState.Read.rawValue
+                    $0.sendState = MessageSendState.read.rawValue
                 }
             }
 
-            delay(0.5) {
-                NSNotificationCenter.defaultCenter().postNotificationName(Config.Message.Notification.MessageStateChanged, object: nil)
+            _ = delay(0.5) {
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
             }
         }
     }
 
-    func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded updateOlderMessagesIfNeeded: Bool = true) {
+    func batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded: Bool = true) {
 
-        let recipient = self.recipient
+        guard let recipient = self.recipient else {
+            return
+        }
 
         SafeDispatch.async { [weak self] in
 
@@ -150,8 +154,8 @@ extension ConversationViewController {
 
                 var predicate = NSPredicate(format: "readed = false")
 
-                if case .OneToOne = recipient.type {
-                    predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.Me.rawValue)
+                if case .oneToOne = recipient.type {
+                    predicate = NSPredicate(format: "readed = false AND fromFriend != nil AND fromFriend.friendState != %d", UserFriendState.me.rawValue)
                 }
 
                 let filteredMessages = strongSelf.messages.filter(predicate)
@@ -178,8 +182,8 @@ extension ConversationViewController {
             }
 
             // 群组里没有我，不需要标记
-            if recipient.type == .Group {
-                if let group = strongSelf.conversation.withGroup where !group.includeMe {
+            if recipient.type == .group {
+                if let group = strongSelf.conversation.withGroup , !group.includeMe {
 
                     // 此情况强制所有消息“已读”
                     let _ = try? strongSelf.realm.write {
@@ -195,7 +199,7 @@ extension ConversationViewController {
             if needMarkInServer {
 
                 SafeDispatch.async {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.markAsReaded, object: nil)
+                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.markAsReaded), object: nil)
                 }
 
                 if latestMessage.isReal {

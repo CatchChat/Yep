@@ -18,7 +18,7 @@ final class FeedConversationDockCell: UITableViewCell {
 
     var haveGroupUnreadMessages = false {
         willSet {
-            redDotImageView.hidden = !newValue
+            redDotImageView.isHidden = !newValue
         }
     }
 

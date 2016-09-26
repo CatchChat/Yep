@@ -79,6 +79,8 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Meet with nearby geniuses</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Send or save photos</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>

@@ -18,7 +18,7 @@ extension NSParagraphStyle {
         style.lineSpacing = 0
         style.paragraphSpacing = 0
         style.paragraphSpacingBefore = 0
-        style.lineBreakMode = .ByWordWrapping
+        style.lineBreakMode = .byWordWrapping
 
         return style
     }

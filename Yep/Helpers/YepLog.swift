@@ -8,7 +8,7 @@
 
 import Foundation
 
-func println(@autoclosure item: () -> Any) {
+func println(_ item: @autoclosure () -> Any) {
     #if DEBUG
         Swift.print(item())
     #endif

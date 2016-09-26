@@ -18,12 +18,12 @@ class PhotoTransitionAnimator: NSObject {
 
     var isDismissing: Bool = false
 
-    var animationDurationWithZooming: NSTimeInterval = 0.4
-    var animationDurationWithoutZooming: NSTimeInterval = 0.3
+    var animationDurationWithZooming: TimeInterval = 0.4
+    var animationDurationWithoutZooming: TimeInterval = 0.3
 
-    var animationDurationFadeRatio: NSTimeInterval = 4.0 / 9.0
-    var animationDurationEndingViewFadeInRatio: NSTimeInterval = 0.1
-    var animationDurationStartingViewFadeOutRatio: NSTimeInterval = 0.05
+    var animationDurationFadeRatio: TimeInterval = 4.0 / 9.0
+    var animationDurationEndingViewFadeInRatio: TimeInterval = 0.1
+    var animationDurationStartingViewFadeOutRatio: TimeInterval = 0.05
 
     var zoomingAnimationSpringDamping: CGFloat = 0.9
 
@@ -31,7 +31,7 @@ class PhotoTransitionAnimator: NSObject {
         return (startingReference != nil) && (endingReference != nil)
     }
 
-    private class func newViewFromView(view: UIView) -> UIView {
+    fileprivate class func newViewFromView(_ view: UIView) -> UIView {
 
         let newView: UIView
 
@@ -53,18 +53,18 @@ class PhotoTransitionAnimator: NSObject {
             newView.transform = view.transform
 
         } else {
-            newView = view.snapshotViewAfterScreenUpdates(true)!
+            newView = view.snapshotView(afterScreenUpdates: true)!
         }
 
         return newView
     }
 
-    class func newAnimationViewFromView(view: UIView) -> UIView {
+    class func newAnimationViewFromView(_ view: UIView) -> UIView {
 
         return newViewFromView(view)
     }
 
-    class func centerPointForView(view: UIView, translatedToContainerView containerView: UIView) -> CGPoint {
+    class func centerPointForView(_ view: UIView, translatedToContainerView containerView: UIView) -> CGPoint {
 
         guard let superview = view.superview else {
             fatalError("No superview")
@@ -79,13 +79,13 @@ class PhotoTransitionAnimator: NSObject {
             }
         }
 
-        return superview.convertPoint(centerPoint, toView: containerView)
+        return superview.convert(centerPoint, to: containerView)
     }
 }
 
 extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
 
         if shouldPerformZoomingAnimation {
             return animationDurationWithZooming
@@ -94,7 +94,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         }
     }
 
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
 
         setupTransitionContainerHierarchyWithTransitionContext(transitionContext)
 
@@ -105,32 +105,32 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         }
     }
 
-    private func setupTransitionContainerHierarchyWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
+    fileprivate func setupTransitionContainerHierarchyWithTransitionContext(_ transitionContext: UIViewControllerContextTransitioning) {
 
-        if let toView = transitionContext.viewForKey(UITransitionContextToViewKey) {
+        if let toView = transitionContext.view(forKey: UITransitionContextViewKey.to) {
 
-            let toViewController = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)!
+            let toViewController = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)!
 
-            toView.frame = transitionContext.finalFrameForViewController(toViewController)
+            toView.frame = transitionContext.finalFrame(for: toViewController)
 
-            let containerView = transitionContext.containerView()
+            let containerView = transitionContext.containerView
 
-            if !toView.isDescendantOfView(containerView) {
+            if !toView.isDescendant(of: containerView) {
                 containerView.addSubview(toView)
             }
         }
 
         if isDismissing {
-            let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)!
-            let containerView = transitionContext.containerView()
-            containerView.bringSubviewToFront(fromView)
+            let fromView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
+            let containerView = transitionContext.containerView
+            containerView.bringSubview(toFront: fromView)
         }
     }
 
-    private func performFadeAnimationWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
+    fileprivate func performFadeAnimationWithTransitionContext(_ transitionContext: UIViewControllerContextTransitioning) {
 
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
-        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)
+        let fromView = transitionContext.view(forKey: UITransitionContextViewKey.from)
+        let toView = transitionContext.view(forKey: UITransitionContextViewKey.to)
 
         let viewToFade: UIView?
         let beginningAlpha: CGFloat
@@ -149,7 +149,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
 
         let duration = fadeDurationForTransitionContext(transitionContext)
 
-        UIView.animateWithDuration(duration, animations: {
+        UIView.animate(withDuration: duration, animations: {
             viewToFade?.alpha = endingAlpha
 
         }, completion: { [unowned self] finished in
@@ -159,9 +159,9 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         })
     }
 
-    private func performZoomingAnimationWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
+    fileprivate func performZoomingAnimationWithTransitionContext(_ transitionContext: UIViewControllerContextTransitioning) {
 
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView
 
         var _startingViewForAnimation: UIView? = self.startingViewForAnimation
         var _endingViewForAnimation: UIView? = self.startingViewForAnimation
@@ -202,17 +202,17 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         endingViewForAnimation.frame = originalStartingViewForAnimation.frame
 
         var startingMaskView: UIView?
-        if let _startingMaskView = startingReference?.view.maskView {
+        if let _startingMaskView = startingReference?.view.mask {
             startingMaskView = PhotoTransitionAnimator.newViewFromView(_startingMaskView)
             startingMaskView?.frame = startingViewForAnimation.bounds
         }
         var endingMaskView: UIView?
-        if let _endingMaskView = endingReference?.view.maskView {
+        if let _endingMaskView = endingReference?.view.mask {
             endingMaskView = PhotoTransitionAnimator.newViewFromView(_endingMaskView)
             endingMaskView?.frame = endingViewForAnimation.bounds
         }
-        startingViewForAnimation.maskView = startingMaskView
-        endingViewForAnimation.maskView = endingMaskView
+        startingViewForAnimation.mask = startingMaskView
+        endingViewForAnimation.mask = endingMaskView
 
         if let startingView = startingReference?.view {
             let translatedStartingViewCenter = PhotoTransitionAnimator.centerPointForView(startingView, translatedToContainerView: containerView)
@@ -239,7 +239,7 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
             translatedEndingViewFinalCenter = PhotoTransitionAnimator.centerPointForView(endingView, translatedToContainerView: containerView)
         }
 
-        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.AllowAnimatedContent, .BeginFromCurrentState], animations: { [unowned self] in
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, usingSpringWithDamping: zoomingAnimationSpringDamping, initialSpringVelocity: 0, options: [.allowAnimatedContent, .beginFromCurrentState], animations: { [unowned self] in
 
             endingViewForAnimation.frame = endingViewForAnimationFinalFrame
             endingMaskView?.frame = endingViewForAnimation.bounds
@@ -273,26 +273,26 @@ extension PhotoTransitionAnimator: UIViewControllerAnimatedTransitioning {
         })
     }
 
-    private func fadeDurationForTransitionContext(transitionContext: UIViewControllerContextTransitioning) -> NSTimeInterval {
+    fileprivate func fadeDurationForTransitionContext(_ transitionContext: UIViewControllerContextTransitioning) -> TimeInterval {
 
         if shouldPerformZoomingAnimation {
-            return transitionDuration(transitionContext) * animationDurationFadeRatio
+            return transitionDuration(using: transitionContext) * animationDurationFadeRatio
         } else {
-            return transitionDuration(transitionContext)
+            return transitionDuration(using: transitionContext)
         }
     }
 
-    private func completeTransitionWithTransitionContext(transitionContext: UIViewControllerContextTransitioning) {
+    fileprivate func completeTransitionWithTransitionContext(_ transitionContext: UIViewControllerContextTransitioning) {
 
-        if transitionContext.isInteractive() {
-            if transitionContext.transitionWasCancelled() {
+        if transitionContext.isInteractive {
+            if transitionContext.transitionWasCancelled {
                 transitionContext.cancelInteractiveTransition()
             } else {
                 transitionContext.finishInteractiveTransition()
             }
         }
 
-        transitionContext.completeTransition(!transitionContext.transitionWasCancelled())
+        transitionContext.completeTransition(!transitionContext.transitionWasCancelled)
     }
 }
 

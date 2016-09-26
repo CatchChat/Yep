@@ -20,10 +20,10 @@ final class RankView: UIView {
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
     }
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
         let barWidth = (rect.width - gap * (CGFloat(barNumber) - 1)) / CGFloat(barNumber)
         let barStepHeight = rect.height / CGFloat(barNumber)
 
@@ -31,8 +31,8 @@ final class RankView: UIView {
             let bar = UIBezierPath()
             let barIndex = CGFloat(i)
             let x = barWidth * 0.5 + barWidth * barIndex + gap * barIndex
-            bar.moveToPoint(CGPoint(x: x, y: rect.height))
-            bar.addLineToPoint(CGPoint(x: x, y: barStepHeight * (CGFloat(barNumber) - (barIndex + 1))))
+            bar.move(to: CGPoint(x: x, y: rect.height))
+            bar.addLine(to: CGPoint(x: x, y: barStepHeight * (CGFloat(barNumber) - (barIndex + 1))))
             bar.lineWidth = barWidth
             if i < rank {
                 barColor.setStroke()

@@ -8,9 +8,9 @@
 
 public protocol PhotosViewControllerDelegate: class {
 
-    func photosViewController(vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference?
-    func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int)
-    func photosViewControllerWillDismiss(vc: PhotosViewController)
-    func photosViewControllerDidDismiss(vc: PhotosViewController)
+    func photosViewController(_ vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference?
+    func photosViewController(_ vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int)
+    func photosViewControllerWillDismiss(_ vc: PhotosViewController)
+    func photosViewControllerDidDismiss(_ vc: PhotosViewController)
 }
 

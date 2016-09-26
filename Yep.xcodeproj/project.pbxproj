@@ -67,7 +67,7 @@
 		500D35E11C3A5134006D17E3 /* PHImageRequestOptions+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500D35E01C3A5134006D17E3 /* PHImageRequestOptions+Yep.swift */; };
 		500E49D11D6EE4ED00A8CE7D /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500E49D01D6EE4ED00A8CE7D /* Config.swift */; };
 		500E49D31D6EEE6F00A8CE7D /* Shareable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500E49D21D6EEE6F00A8CE7D /* Shareable.swift */; };
-		500EED961BF06AC900C6BABC /* NSURL+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500EED951BF06AC900C6BABC /* NSURL+Yep.swift */; };
+		500EED961BF06AC900C6BABC /* URL+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500EED951BF06AC900C6BABC /* URL+Yep.swift */; };
 		500EED981BF07A3000C6BABC /* ConversationViewController+Feed.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */; };
 		500EED9A1BF1B81000C6BABC /* MediaPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 500EED991BF1B81000C6BABC /* MediaPreviewViewController.swift */; };
 		500EED9D1BF1B84A00C6BABC /* MediaPreview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 500EED9C1BF1B84A00C6BABC /* MediaPreview.storyboard */; };
@@ -196,7 +196,7 @@
 		505509871D0679D400F08992 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068B1D0669C8002EAB5C /* RealmSwift.framework */; };
 		50553F8F1ADB8BA200F80B59 /* ChatSectionDateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */; };
 		50553F901ADB8BA200F80B59 /* ChatSectionDateCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */; };
-		50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F921ADBA50600F80B59 /* NSDate+Yep.swift */; };
+		50553F931ADBA50600F80B59 /* Date+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50553F921ADBA50600F80B59 /* Date+Yep.swift */; };
 		5056AD6E1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5056AD6C1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift */; };
 		5056AD6F1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5056AD6D1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib */; };
 		5056EA8E1CF2C55200FDE07E /* YepKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 5056EA8D1CF2C55200FDE07E /* YepKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -247,6 +247,7 @@
 		507682F01C9FE8F7006A973E /* SearchContactsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */; };
 		507682F31C9FE921006A973E /* SearchContacts.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507682F21C9FE921006A973E /* SearchContacts.storyboard */; };
 		5076F3C71D796E71000F79F1 /* BaseSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5076F3C61D796E71000F79F1 /* BaseSearchViewController.swift */; };
+		5077607D1D9125A300896C04 /* DeviceUtil+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5077607C1D9125A300896C04 /* DeviceUtil+Yep.swift */; };
 		507813191CD1B01A00F193AB /* ShortcutItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813181CD1B01A00F193AB /* ShortcutItems.swift */; };
 		5078131B1CD1B04400F193AB /* ShortcutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131A1CD1B04400F193AB /* ShortcutType.swift */; };
 		507813221CD2F9C100F193AB /* DeviceGuru+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */; };
@@ -327,7 +328,7 @@
 		50A6A7BD1D23BED600E01190 /* GeniusInterviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7BC1D23BED600E01190 /* GeniusInterviewViewController.swift */; };
 		50A6A7BF1D23BEEF00E01190 /* GeniusInterview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50A6A7BE1D23BEEF00E01190 /* GeniusInterview.storyboard */; };
 		50A6A7C21D23C2D300E01190 /* GeniusInterviewActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7C11D23C2D300E01190 /* GeniusInterviewActionView.swift */; };
-		50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */; };
+		50A820241B969B0F007CD30E /* TimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* TimeZone+Yep.swift */; };
 		50A93A9D1BD8C515007005DB /* FeedSkillPickerItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */; };
 		50A9D4571ACD393A000B2599 /* YepWaverView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A9D4541ACD393A000B2599 /* YepWaverView.swift */; };
 		50AACEC81BB54128004DD54B /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50AACEC71BB54128004DD54B /* FeedView.swift */; };
@@ -822,7 +823,7 @@
 		500D35E01C3A5134006D17E3 /* PHImageRequestOptions+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "PHImageRequestOptions+Yep.swift"; path = "Extensions/PHImageRequestOptions+Yep.swift"; sourceTree = "<group>"; };
 		500E49D01D6EE4ED00A8CE7D /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		500E49D21D6EEE6F00A8CE7D /* Shareable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Shareable.swift; path = Protocols/Shareable.swift; sourceTree = "<group>"; };
-		500EED951BF06AC900C6BABC /* NSURL+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSURL+Yep.swift"; path = "Extensions/NSURL+Yep.swift"; sourceTree = "<group>"; };
+		500EED951BF06AC900C6BABC /* URL+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "URL+Yep.swift"; path = "Extensions/URL+Yep.swift"; sourceTree = "<group>"; };
 		500EED971BF07A3000C6BABC /* ConversationViewController+Feed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ConversationViewController+Feed.swift"; path = "ViewControllers/Conversation/ConversationViewController+Feed.swift"; sourceTree = "<group>"; };
 		500EED991BF1B81000C6BABC /* MediaPreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MediaPreviewViewController.swift; path = ViewControllers/MediaPreview/MediaPreviewViewController.swift; sourceTree = "<group>"; };
 		500EED9C1BF1B84A00C6BABC /* MediaPreview.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = MediaPreview.storyboard; path = ViewControllers/MediaPreview/MediaPreview.storyboard; sourceTree = "<group>"; };
@@ -951,7 +952,7 @@
 		5054CCB01D3F0D15000CFA92 /* NextRunloopJob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = NextRunloopJob.swift; path = RunLoop/NextRunloopJob.swift; sourceTree = "<group>"; };
 		50553F8D1ADB8BA200F80B59 /* ChatSectionDateCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatSectionDateCell.swift; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.swift; sourceTree = "<group>"; };
 		50553F8E1ADB8BA200F80B59 /* ChatSectionDateCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ChatSectionDateCell.xib; path = Views/Cells/ChatSectionDate/ChatSectionDateCell.xib; sourceTree = "<group>"; };
-		50553F921ADBA50600F80B59 /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
+		50553F921ADBA50600F80B59 /* Date+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Date+Yep.swift"; path = "Extensions/Date+Yep.swift"; sourceTree = "<group>"; };
 		5056AD6C1B05CB92003F9359 /* ProfileSocialAccountImagesCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ProfileSocialAccountImagesCell.swift; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountImagesCell.swift; sourceTree = "<group>"; };
 		5056AD6D1B05CB92003F9359 /* ProfileSocialAccountImagesCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ProfileSocialAccountImagesCell.xib; path = Views/Cells/ProfileSocialAccount/ProfileSocialAccountImagesCell.xib; sourceTree = "<group>"; };
 		5056EA8B1CF2C55100FDE07E /* YepKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YepKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -998,6 +999,7 @@
 		507682EF1C9FE8F7006A973E /* SearchContactsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SearchContactsViewController.swift; path = ViewControllers/SearchContacts/SearchContactsViewController.swift; sourceTree = "<group>"; };
 		507682F21C9FE921006A973E /* SearchContacts.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SearchContacts.storyboard; path = ViewControllers/SearchContacts/SearchContacts.storyboard; sourceTree = "<group>"; };
 		5076F3C61D796E71000F79F1 /* BaseSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseSearchViewController.swift; path = Base/ViewControllers/BaseSearchViewController.swift; sourceTree = "<group>"; };
+		5077607C1D9125A300896C04 /* DeviceUtil+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DeviceUtil+Yep.swift"; path = "Extensions/DeviceUtil+Yep.swift"; sourceTree = "<group>"; };
 		507813181CD1B01A00F193AB /* ShortcutItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutItems.swift; path = Shortcuts/ShortcutItems.swift; sourceTree = "<group>"; };
 		5078131A1CD1B04400F193AB /* ShortcutType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutType.swift; path = Shortcuts/ShortcutType.swift; sourceTree = "<group>"; };
 		507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DeviceGuru+Yep.swift"; path = "Extensions/DeviceGuru+Yep.swift"; sourceTree = "<group>"; };
@@ -1070,7 +1072,7 @@
 		50A6A7BC1D23BED600E01190 /* GeniusInterviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeniusInterviewViewController.swift; path = ViewControllers/GeniusInterview/GeniusInterviewViewController.swift; sourceTree = "<group>"; };
 		50A6A7BE1D23BEEF00E01190 /* GeniusInterview.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = GeniusInterview.storyboard; path = ViewControllers/GeniusInterview/GeniusInterview.storyboard; sourceTree = "<group>"; };
 		50A6A7C11D23C2D300E01190 /* GeniusInterviewActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GeniusInterviewActionView.swift; path = Views/GeniusInterviewAction/GeniusInterviewActionView.swift; sourceTree = "<group>"; };
-		50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSTimeZone+Yep.swift"; path = "Extensions/NSTimeZone+Yep.swift"; sourceTree = "<group>"; };
+		50A820231B969B0F007CD30E /* TimeZone+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "TimeZone+Yep.swift"; path = "Extensions/TimeZone+Yep.swift"; sourceTree = "<group>"; };
 		50A93A9C1BD8C515007005DB /* FeedSkillPickerItemView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedSkillPickerItemView.swift; path = Views/PickerItems/FeedSkill/FeedSkillPickerItemView.swift; sourceTree = "<group>"; };
 		50A9D4541ACD393A000B2599 /* YepWaverView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepWaverView.swift; path = Views/AudioWaves/YepWaverView.swift; sourceTree = "<group>"; };
 		50AACEC71BB54128004DD54B /* FeedView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedView.swift; path = Views/Feed/FeedView.swift; sourceTree = "<group>"; };
@@ -1937,15 +1939,15 @@
 				506EC2091AC95BFC00CE42B3 /* UIFont+Yep.swift */,
 				0A3E605F1ACCA9C0003DC853 /* String+Yep.swift */,
 				5010BD231D5D734200111342 /* String+Trans.swift */,
-				50553F921ADBA50600F80B59 /* NSDate+Yep.swift */,
+				50553F921ADBA50600F80B59 /* Date+Yep.swift */,
 				0AEB1CC51B0E742400178C9C /* Double+Yep.swift */,
 				504F8C031D49E8810046F6AA /* UIApplication+Yep.swift */,
 				50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */,
 				50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */,
 				5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */,
-				50A820231B969B0F007CD30E /* NSTimeZone+Yep.swift */,
+				50A820231B969B0F007CD30E /* TimeZone+Yep.swift */,
 				50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */,
-				500EED951BF06AC900C6BABC /* NSURL+Yep.swift */,
+				500EED951BF06AC900C6BABC /* URL+Yep.swift */,
 				5052D9321D5AC21D00D72EBD /* UIImage+Yep.swift */,
 				502C24821C1034000074A1BA /* UIImageView+Yep.swift */,
 				50BAED821D2B8E2C0046B4AB /* ASImageNode+Yep.swift */,
@@ -1957,6 +1959,7 @@
 				50A0E3001C3E18A10025BEFC /* CLLocationCoordinate2D+Yep.swift */,
 				50E34C1A1CB60475007CAE80 /* UISearchBar+Yep.swift */,
 				507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */,
+				5077607C1D9125A300896C04 /* DeviceUtil+Yep.swift */,
 				50B801511D51DB2600F42938 /* UISegmentedControl+Yep.swift */,
 				504FDFC51D5965BC00E1FE86 /* UIStoryboard+Yep.swift */,
 				50CDAC251D61A4710039333B /* UIMotionEffect+Yep.swift */,
@@ -4562,7 +4565,7 @@
 				50B9C5DB1D22661600BCB8BD /* ConversationViewController+LoadPreviousMessages.swift in Sources */,
 				5024BF4A1D0D38CE00358156 /* YepConfig.swift in Sources */,
 				508F8FDB1B0479E700461B0B /* SocialWorkInstagramViewController.swift in Sources */,
-				500EED961BF06AC900C6BABC /* NSURL+Yep.swift in Sources */,
+				500EED961BF06AC900C6BABC /* URL+Yep.swift in Sources */,
 				50E34C2F1CBE2A33007CAE80 /* CreatorsOfBlockedFeedsViewController.swift in Sources */,
 				5099B9C91AB9A7CB002F940B /* CameraPreviewView.swift in Sources */,
 				502AE5581AB932D5005BD199 /* ProfileSectionHeaderReusableView.swift in Sources */,
@@ -4582,7 +4585,7 @@
 				503CAB431AC00CB100DFE830 /* ConversationViewController.swift in Sources */,
 				506D01F91CE029B100B3867D /* UploadContactsMaker.swift in Sources */,
 				50CB05881CC60F400024BE06 /* SearchedFeedCellLayout.swift in Sources */,
-				50553F931ADBA50600F80B59 /* NSDate+Yep.swift in Sources */,
+				50553F931ADBA50600F80B59 /* Date+Yep.swift in Sources */,
 				50535D1D1BCE42BE002FE1A4 /* PickPhotosViewController.swift in Sources */,
 				50AFBF461BB25F40007D19DA /* ActivityIndicatorTitleView.swift in Sources */,
 				500D35E11C3A5134006D17E3 /* PHImageRequestOptions+Yep.swift in Sources */,
@@ -4756,6 +4759,7 @@
 				502C22351D62ACE000724368 /* BaseVerifyMobileViewController.swift in Sources */,
 				505EC8131ADE607D001D27E0 /* SkillCategoryButton.swift in Sources */,
 				5064F6591B0B14420089FAD4 /* AddFriendMoreCell.swift in Sources */,
+				5077607D1D9125A300896C04 /* DeviceUtil+Yep.swift in Sources */,
 				50117AAC1D4F479C0042B65C /* ShowProfileWithUsername.swift in Sources */,
 				848806B61B7B4F53000C5424 /* ShowViewController.swift in Sources */,
 				5099B9C71AB99F7B002F940B /* RegisterPickAvatarViewController.swift in Sources */,
@@ -4857,7 +4861,7 @@
 				508F8FD01B01D04400461B0B /* GithubRepoCell.swift in Sources */,
 				50F2B97B1B2EEAF800F840CC /* NavigationTitleLabel.swift in Sources */,
 				502C22391D62C07F00724368 /* SegueViewController.swift in Sources */,
-				50A820241B969B0F007CD30E /* NSTimeZone+Yep.swift in Sources */,
+				50A820241B969B0F007CD30E /* TimeZone+Yep.swift in Sources */,
 				50FD753D1C1FB4AC0050A382 /* FPSLabel.swift in Sources */,
 				50E392C21C22B9E400C0CECB /* FeedDribbbleShotCell.swift in Sources */,
 				504F415A1AD5028200FBB19A /* SkillCell.swift in Sources */,
@@ -5324,8 +5328,6 @@
 					"-framework",
 					"\"Alamofire\"",
 					"-framework",
-					"\"Base64\"",
-					"-framework",
 					"\"CFNetwork\"",
 					"-framework",
 					"\"CoreFoundation\"",
@@ -5333,8 +5335,6 @@
 					"\"CoreGraphics\"",
 					"-framework",
 					"\"CoreTelephony\"",
-					"-framework",
-					"\"DeviceGuru\"",
 					"-framework",
 					"\"FXBlurView\"",
 					"-framework",
@@ -5376,7 +5376,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Yep/Yep-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -5423,8 +5423,6 @@
 					"-framework",
 					"\"Alamofire\"",
 					"-framework",
-					"\"Base64\"",
-					"-framework",
 					"\"CFNetwork\"",
 					"-framework",
 					"\"CoreFoundation\"",
@@ -5432,8 +5430,6 @@
 					"\"CoreGraphics\"",
 					"-framework",
 					"\"CoreTelephony\"",
-					"-framework",
-					"\"DeviceGuru\"",
 					"-framework",
 					"\"FXBlurView\"",
 					"-framework",
@@ -5475,7 +5471,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Yep/Yep-Bridging-Header.h";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -5504,7 +5500,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.YepTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Debug;
@@ -5532,7 +5528,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.YepTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Release;
@@ -5563,7 +5559,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -5594,7 +5590,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -5616,7 +5612,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Debug;
@@ -5635,7 +5631,7 @@
 				ONLY_ACTIVE_ARCH = NO;
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepKitTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Release;
@@ -5660,7 +5656,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepShare";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -5683,7 +5679,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepShare";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -5709,7 +5705,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -5736,7 +5732,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepNetworking";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -5753,7 +5749,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepNetworkingTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Debug;
@@ -5767,7 +5763,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepNetworkingTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Release;
@@ -5795,7 +5791,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -5823,7 +5819,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.FayeClient";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -5840,7 +5836,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.FayeClientTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Debug;
@@ -5854,7 +5850,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.FayeClientTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Release;
@@ -5886,7 +5882,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -5918,7 +5914,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraph";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -5940,7 +5936,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraphTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Debug;
@@ -5959,7 +5955,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.OpenGraphTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Release;
@@ -5985,7 +5981,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -6011,7 +6007,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepPreview";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -6028,7 +6024,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepPreviewTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Debug;
@@ -6042,7 +6038,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "Catch-Inc.Yep.YepPreviewTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 2.3;
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Yep.app/Yep";
 			};
 			name = Release;

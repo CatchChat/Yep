@@ -15,10 +15,10 @@ class BaseViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
     }
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
         guard let navigationController = navigationController else {
@@ -26,10 +26,10 @@ class BaseViewController: SegueViewController {
         }
 
         navigationController.navigationBar.backgroundColor = nil
-        navigationController.navigationBar.translucent = true
+        navigationController.navigationBar.isTranslucent = true
         navigationController.navigationBar.shadowImage = nil
-        navigationController.navigationBar.barStyle = UIBarStyle.Default
-        navigationController.navigationBar.setBackgroundImage(nil, forBarMetrics: UIBarMetrics.Default)
+        navigationController.navigationBar.barStyle = UIBarStyle.default
+        navigationController.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
 
         let textAttributes: [String: AnyObject] = [
             NSForegroundColorAttributeName: UIColor.yepNavgationBarTitleColor(),
@@ -39,7 +39,7 @@ class BaseViewController: SegueViewController {
         navigationController.navigationBar.titleTextAttributes = textAttributes
         navigationController.navigationBar.tintColor = nil
 
-        if navigationController.navigationBarHidden {
+        if navigationController.isNavigationBarHidden {
             navigationController.setNavigationBarHidden(false, animated: animatedOnNavigationBar)
         }
     }

@@ -13,10 +13,10 @@ import YepKit
 // @note use this model to store the album's 'result, 'count, 'name, 'startDate to avoid request and reserve too much times
 
 final class Album: NSObject {
-    var results: PHFetchResult?
+    var results: PHFetchResult<PHAsset>?
     var count = 0
     var name: String?
-    var startDate: NSDate?
+    var startDate: Date?
     var identifier: String?
 }
 
@@ -26,7 +26,7 @@ final class AlbumListController: UITableViewController {
 
     var pickedImageSet = Set<PHAsset>()
     var pickedImages = [PHAsset]()
-    var completion: ((images: [UIImage], imageAssets: [PHAsset]) -> Void)?
+    var completion: ((_ images: [UIImage], _ imageAssets: [PHAsset]) -> Void)?
 
     var imageLimit = 0
     
@@ -39,45 +39,45 @@ final class AlbumListController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let cancelButton = UIBarButtonItem(title: String.trans_cancel, style: .Plain, target: self, action: #selector(AlbumListController.cancel(_:)))
+        let cancelButton = UIBarButtonItem(title: String.trans_cancel, style: .plain, target: self, action: #selector(AlbumListController.cancel(_:)))
         navigationItem.rightBarButtonItem = cancelButton
         navigationItem.hidesBackButton = true
         
-        tableView.registerNibOf(AlbumListCell)
+        tableView.registerNibOf(AlbumListCell.self)
 
         tableView.tableFooterView = UIView()
         
         assetsCollection = fetchAlbumList()
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        navigationController?.interactivePopGestureRecognizer?.enabled = true
+        navigationController?.interactivePopGestureRecognizer?.isEnabled = true
     }
 
-    @objc private func cancel(sender: UIBarButtonItem) {
+    @objc fileprivate func cancel(_ sender: UIBarButtonItem) {
         
         if let vcStack = navigationController?.viewControllers {
             var destVC: UIViewController?
             for vc in vcStack {
-                if vc.isKindOfClass(NewFeedViewController) {
+                if vc.isKind(of: NewFeedViewController.self) {
                     destVC = vc
                     break
                 }
             }
             if let destVC = destVC {
-                navigationController?.popToViewController(destVC, animated: true)
+                _ = navigationController?.popToViewController(destVC, animated: true)
             }
         }
     }
     
-    private func fetchAlbumIdentifier() -> String? {
-        let string = NSUserDefaults.standardUserDefaults().objectForKey(defaultAlbumIdentifier) as? String
+    fileprivate func fetchAlbumIdentifier() -> String? {
+        let string = UserDefaults.standard.object(forKey: defaultAlbumIdentifier) as? String
         return string
     }
     
-    private func fetchAlbum() -> Album {
+    fileprivate func fetchAlbum() -> Album {
         let album = Album()
         let identifier = fetchAlbumIdentifier()
         guard identifier != nil else {
@@ -85,119 +85,121 @@ final class AlbumListController: UITableViewController {
         }
 
         let options = PHFetchOptions()
-        options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.Image.rawValue)
+        options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         
-        let result = PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: nil)
+        let result = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: nil)
         if result.count <= 0 {
             return album
         }
         
-        let collection = result.firstObject as? PHAssetCollection
-        let requestResult = PHAsset.fetchAssetsInAssetCollection(collection!, options: options)
+        guard let collection = result.firstObject else {
+            return album
+        }
+
+        let requestResult = PHAsset.fetchAssets(in: collection, options: options)
         album.count = requestResult.count
-        album.name = collection?.localizedTitle
+        album.name = collection.localizedTitle
         album.results = requestResult
-        album.startDate = collection?.startDate
-        album.identifier = collection?.localIdentifier
+        album.startDate = collection.startDate
+        album.identifier = collection.localIdentifier
+
         return album
     }
     
-    private func fetchAlbumList() -> [Album]? {
+    fileprivate func fetchAlbumList() -> [Album]? {
         let userAlbumsOptions = PHFetchOptions()
         userAlbumsOptions.predicate = NSPredicate(format: "estimatedAssetCount > 0")
         userAlbumsOptions.sortDescriptors = [NSSortDescriptor(key: "startDate", ascending: true)]
-        var results: [PHFetchResult] = []
-        results.append(PHAssetCollection.fetchAssetCollectionsWithType(.SmartAlbum, subtype: .AlbumRegular, options: nil))
-        results.append(PHAssetCollection.fetchAssetCollectionsWithType(.Album, subtype: .Any, options: userAlbumsOptions))
+        var results: [PHFetchResult<PHAssetCollection>] = []
+        results.append(PHAssetCollection.fetchAssetCollections(with: .smartAlbum, subtype: .albumRegular, options: nil))
+        results.append(PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: userAlbumsOptions))
         var list: [Album] = []
         guard !results.isEmpty else {
             return nil
         }
 
         let options = PHFetchOptions()
-        options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.Image.rawValue)
+        options.predicate = NSPredicate(format: "mediaType = %d", PHAssetMediaType.image.rawValue)
         options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: true)]
         
-        for (_, result) in results.enumerate() {
-            result.enumerateObjectsUsingBlock {  (collection, idx, stop) in
-                if let album = collection as? PHAssetCollection{
-                    guard  album.localizedTitle !=  NSLocalizedString("Recently Deleted", comment: "") else { return }
-                    
-                    let assetResults = PHAsset.fetchAssetsInAssetCollection(album, options: options)
-                   
-                    var count = 0
-                    switch album.assetCollectionType {
-                    case .Album:
-                        count = assetResults.count
-                    case .SmartAlbum:
-                        count = assetResults.count
-                    case .Moment:
-                        count = 0
-                    }
-                    if count > 0 {
-                        autoreleasepool {
-                            let ab = Album()
-                            ab.count = count
-                            ab.results = assetResults
-                            ab.name = album.localizedTitle
-                            ab.startDate = album.startDate
-                            ab.identifier = album.localIdentifier
-                            list.append(ab)
-                        }
-                    }
+        for (_, result) in results.enumerated() {
+
+            result.enumerateObjects({ (collection: PHAssetCollection, idx: Int, stop: UnsafeMutablePointer<ObjCBool>) -> Void in
+                let album = collection
+                guard  album.localizedTitle !=  NSLocalizedString("Recently Deleted", comment: "") else {
+                    return
                 }
                 
-            }
+                let assetResults = PHAsset.fetchAssets(in: album, options: options)
+               
+                let count: Int
+                switch album.assetCollectionType {
+                case .album:
+                    count = assetResults.count
+                case .smartAlbum:
+                    count = assetResults.count
+                case .moment:
+                    count = 0
+                }
 
+                if count > 0 {
+                    autoreleasepool {
+                        let ab = Album()
+                        ab.count = count
+                        ab.results = assetResults
+                        ab.name = album.localizedTitle
+                        ab.startDate = album.startDate
+                        ab.identifier = album.localIdentifier
+                        list.append(ab)
+                    }
+                }
+            })
         }
 
         return list
     }
 
-    private func fetchImageWithAsset(asset: PHAsset?, targetSize: CGSize, imageResultHandler: (image: UIImage?)->Void) -> PHImageRequestID? {
+    fileprivate func fetchImageWithAsset(_ asset: PHAsset?, targetSize: CGSize, imageResultHandler: @escaping (_ image: UIImage?)->Void) -> PHImageRequestID? {
         guard let asset = asset else {
             return nil
         }
         
         let options = PHImageRequestOptions()
-        options.resizeMode = .Exact
+        options.resizeMode = .exact
         
-        let scale = UIScreen.mainScreen().scale
+        let scale = UIScreen.main.scale
         
-        let size = CGSizeMake(targetSize.width * scale, targetSize.height * scale);
+        let size = CGSize(width: targetSize.width * scale, height: targetSize.height * scale);
         
-        return PHCachingImageManager.defaultManager().requestImageForAsset(asset,targetSize: size, contentMode: .AspectFill, options: options) { (result, info) in
-            imageResultHandler(image: result)
+        return PHCachingImageManager.default().requestImage(for: asset,targetSize: size, contentMode: .aspectFill, options: options) { (result, info) in
+            imageResultHandler(result)
         }
-    }
-    
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
     
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
+    override func numberOfSections(in tableView: UITableView) -> Int {
+
         return 1
     }
     
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return assetsCollection == nil ? 0 : assetsCollection!.count
     }
     
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+
         let cell: AlbumListCell = tableView.dequeueReusableCell()
-        if let album = assetsCollection?[indexPath.row] {
+
+        if let album = assetsCollection?[(indexPath as NSIndexPath).row] {
             cell.countLabel.text = "(\(album.count))"
             cell.titleLabel.text = album.name
 
-            SafeDispatch.async(onQueue: dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) { [weak self] in
+            SafeDispatch.async(onQueue: DispatchQueue.global(qos: .default)) { [weak self] in
 
-                self?.fetchImageWithAsset(album.results?.lastObject as? PHAsset, targetSize: CGSizeMake(60, 60), imageResultHandler: { (image) in
+                _ = self?.fetchImageWithAsset(album.results?.lastObject, targetSize: CGSize(width: 60, height: 60), imageResultHandler: { (image) in
 
                     SafeDispatch.async {
                         cell.posterImageView.image = image
@@ -209,12 +211,18 @@ final class AlbumListController: UITableViewController {
         return cell
     }
     
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+
         return 60
     }
     
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        guard let album = assetsCollection?[indexPath.row] else { return }
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        defer {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+
+        guard let album = assetsCollection?[(indexPath as NSIndexPath).row] else { return }
 
         pickPhotosVC.imagesDidFetch = true
         pickPhotosVC.pickedImages = pickedImages
@@ -223,13 +231,14 @@ final class AlbumListController: UITableViewController {
         pickPhotosVC.images = album.results
         completion = pickPhotosVC.completion
         pickPhotosVC.delegate = self
+
         navigationController?.pushViewController(pickPhotosVC, animated: true)
     }
 }
 
 extension AlbumListController: ReturnPickedPhotosDelegate {
 
-    func returnSelectedImages(images: [UIImage], imageAssets: [PHAsset]) {
-        pickedImages.appendContentsOf(imageAssets)
+    func returnSelectedImages(_ images: [UIImage], imageAssets: [PHAsset]) {
+        pickedImages.append(contentsOf: imageAssets)
     }
 }

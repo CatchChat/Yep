@@ -11,41 +11,41 @@ import Foundation
 extension String {
 
     enum TrimmingType {
-        case Whitespace
-        case WhitespaceAndNewline
+        case whitespace
+        case whitespaceAndNewline
     }
 
-    func opengraph_trimming(trimmingType: TrimmingType) -> String {
+    func opengraph_trimming(_ trimmingType: TrimmingType) -> String {
         switch trimmingType {
-        case .Whitespace:
-            return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        case .WhitespaceAndNewline:
-            return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        case .whitespace:
+            return trimmingCharacters(in: CharacterSet.whitespaces)
+        case .whitespaceAndNewline:
+            return trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
     }
 
     var opengraph_removeAllWhitespaces: String {
-        return self.stringByReplacingOccurrencesOfString(" ", withString: "").stringByReplacingOccurrencesOfString(" ", withString: "")
+        return self.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: " ", with: "")
     }
 
     var opengraph_removeAllNewLines: String {
-        return self.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet()).joinWithSeparator("")
+        return self.components(separatedBy: CharacterSet.newlines).joined(separator: "")
     }
 }
 
 extension String {
 
-    var opengraph_embeddedURLs: [NSURL] {
+    var opengraph_embeddedURLs: [URL] {
 
-        guard let detector = try? NSDataDetector(types: NSTextCheckingType.Link.rawValue) else {
+        guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue) else {
             return []
         }
 
-        var URLs = [NSURL]()
+        var URLs = [URL]()
 
-        detector.enumerateMatchesInString(self, options: [], range: NSMakeRange(0, (self as NSString).length)) { result, flags, stop in
+        detector.enumerateMatches(in: self, options: [], range: NSMakeRange(0, (self as NSString).length)) { result, flags, stop in
 
-            if let URL = result?.URL {
+            if let URL = result?.url {
                 URLs.append(URL)
             }
         }
@@ -53,11 +53,11 @@ extension String {
         return URLs
     }
 
-    var opengraph_firstImageURL: NSURL? {
+    var opengraph_firstImageURL: URL? {
 
-        let URLs = opengraph_embeddedURLs
+        let urls = opengraph_embeddedURLs
 
-        guard !URLs.isEmpty else {
+        guard !urls.isEmpty else {
             return nil
         }
 
@@ -67,11 +67,10 @@ extension String {
             "jpeg",
         ]
 
-        for URL in URLs {
-            if let pathExtension = URL.pathExtension?.lowercaseString {
-                if imageExtentions.contains(pathExtension) {
-                    return URL
-                }
+        for url in urls {
+            let pathExtension = url.pathExtension.lowercased()
+            if imageExtentions.contains(pathExtension) {
+                return url
             }
         }
         

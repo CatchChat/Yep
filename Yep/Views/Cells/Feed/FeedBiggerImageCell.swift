@@ -13,7 +13,7 @@ import AsyncDisplayKit
 
 class FeedBiggerImageCell: FeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + YepConfig.FeedBiggerImageCell.imageSize.height + 15
         return ceil(height)
@@ -21,23 +21,23 @@ class FeedBiggerImageCell: FeedBasicCell {
 
     var tapImagesAction: FeedTapImagesAction?
 
-    private func createImageNode() -> ASImageNode {
+    fileprivate func createImageNode() -> ASImageNode {
 
         let node = ASImageNode()
-        node.frame = CGRect(origin: CGPointZero, size: YepConfig.FeedBiggerImageCell.imageSize)
-        node.contentMode = .ScaleAspectFill
+        node.frame = CGRect(origin: CGPoint.zero, size: YepConfig.FeedBiggerImageCell.imageSize)
+        node.contentMode = .scaleAspectFill
         node.backgroundColor = YepConfig.FeedMedia.backgroundColor
         node.borderWidth = 1
-        node.borderColor = UIColor.yepBorderColor().CGColor
+        node.borderColor = UIColor.yepBorderColor().cgColor
 
-        node.userInteractionEnabled = true
+        node.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(FeedBiggerImageCell.tap(_:)))
         node.view.addGestureRecognizer(tap)
 
         return node
     }
 
-    private lazy var imageNode: ASImageNode = {
+    fileprivate lazy var imageNode: ASImageNode = {
         return self.createImageNode()
     }()
 
@@ -57,7 +57,7 @@ class FeedBiggerImageCell: FeedBasicCell {
         imageNode.image = nil
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
@@ -76,14 +76,14 @@ class FeedBiggerImageCell: FeedBasicCell {
         imageNode.frame = biggerImageLayout.biggerImageViewFrame
     }
 
-    @objc private func tap(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tap(_ sender: UITapGestureRecognizer) {
 
-        guard let firstAttachment = feed?.imageAttachments?.first where !firstAttachment.isTemporary else {
+        guard let firstAttachment = feed?.imageAttachments?.first , !firstAttachment.isTemporary else {
             return
         }
 
         if let attachments = feed?.imageAttachments {
-            tapImagesAction?(transitionReferences: [transitionReference], attachments: attachments, image: imageNode.image, index: 0)
+            tapImagesAction?([transitionReference], attachments, imageNode.image, 0)
         }
     }
 }

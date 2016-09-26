@@ -11,11 +11,11 @@ import RealmSwift
 
 extension String {
     
-    func toDate() -> NSDate? {
-        let dateFormatter = NSDateFormatter()
+    func toDate() -> Date? {
+        let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss'Z'"
         
-        if let date = dateFormatter.dateFromString(self) {
+        if let date = dateFormatter.date(from: self) {
             return date
         } else {
             return nil
@@ -26,30 +26,30 @@ extension String {
 extension String {
 
     enum TrimmingType {
-        case Whitespace
-        case WhitespaceAndNewline
+        case whitespace
+        case whitespaceAndNewline
     }
 
-    func trimming(trimmingType: TrimmingType) -> String {
+    func trimming(_ trimmingType: TrimmingType) -> String {
         switch trimmingType {
-        case .Whitespace:
-            return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceCharacterSet())
-        case .WhitespaceAndNewline:
-            return stringByTrimmingCharactersInSet(NSCharacterSet.whitespaceAndNewlineCharacterSet())
+        case .whitespace:
+            return trimmingCharacters(in: CharacterSet.whitespaces)
+        case .whitespaceAndNewline:
+            return trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         }
     }
 
     var yep_removeAllWhitespaces: String {
-        return self.stringByReplacingOccurrencesOfString(" ", withString: "").stringByReplacingOccurrencesOfString(" ", withString: "")
+        return self.replacingOccurrences(of: " ", with: "").replacingOccurrences(of: " ", with: "")
     }
 
     var yep_removeAllNewLines: String {
-        return self.componentsSeparatedByCharactersInSet(NSCharacterSet.newlineCharacterSet()).joinWithSeparator("")
+        return self.components(separatedBy: CharacterSet.newlines).joined(separator: "")
     }
 
-    func yep_truncate(length: Int, trailing: String? = nil) -> String {
+    func yep_truncate(_ length: Int, trailing: String? = nil) -> String {
         if self.characters.count > length {
-            return self.substringToIndex(self.startIndex.advancedBy(length)) + (trailing ?? "")
+            return self.substring(to: self.characters.index(self.startIndex, offsetBy: length)) + (trailing ?? "")
         } else {
             return self
         }
@@ -62,10 +62,11 @@ extension String {
 
 extension String {
 
-    func yep_rangeFromNSRange(nsRange: NSRange) -> Range<Index>? {
+    func yep_rangeFromNSRange(_ nsRange: NSRange) -> Range<Index>? {
 
-        let from16 = utf16.startIndex.advancedBy(nsRange.location, limit: utf16.endIndex)
-        let to16 = from16.advancedBy(nsRange.length, limit: utf16.endIndex)
+
+        let from16 = utf16.startIndex.advanced(by: nsRange.location)
+        let to16 = from16.advanced(by: nsRange.length)
 
         guard let from = String.Index(from16, within: self),
             let to = String.Index(to16, within: self) else {
@@ -75,19 +76,19 @@ extension String {
         return from ..< to
     }
 
-    func yep_NSRangeFromRange(range: Range<Index>) -> NSRange {
+    func yep_NSRangeFromRange(_ range: Range<Index>) -> NSRange {
 
         let utf16view = self.utf16
-        let from = String.UTF16View.Index(range.startIndex, within: utf16view)
-        let to = String.UTF16View.Index(range.endIndex, within: utf16view)
+        let from = String.UTF16View.Index(range.lowerBound, within: utf16view)
+        let to = String.UTF16View.Index(range.upperBound, within: utf16view)
 
-        return NSMakeRange(utf16view.startIndex.distanceTo(from), from.distanceTo(to))
+        return NSMakeRange(utf16view.startIndex.distance(to: from), from.distance(to: to))
     }
 }
 
 extension String {
 
-    func yep_mentionWordInIndex(index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
+    func yep_mentionWordInIndex(_ index: Int) -> (wordString: String, mentionWordRange: Range<Index>)? {
 
         //println("startIndex: \(startIndex), endIndex: \(endIndex), index: \(index), length: \((self as NSString).length), count: \(self.characters.count)")
 
@@ -99,12 +100,12 @@ extension String {
         guard let range = self.yep_rangeFromNSRange(nsRange) else {
             return nil
         }
-        let index = range.startIndex
+        let index = range.lowerBound
 
         var wordString: String?
         var wordRange: Range<Index>?
 
-        self.enumerateSubstringsInRange(startIndex..<endIndex, options: [.ByWords, .Reverse]) { (substring, substringRange, enclosingRange, stop) -> () in
+        self.enumerateSubstrings(in: startIndex..<endIndex, options: [.byWords, .reverse]) { (substring, substringRange, enclosingRange, stop) -> () in
 
             //println("substring: \(substring)")
             //println("substringRange: \(substringRange)")
@@ -117,17 +118,17 @@ extension String {
             }
         }
 
-        guard let _wordString = wordString, _wordRange = wordRange else {
+        guard let _wordString = wordString, let _wordRange = wordRange else {
             return nil
         }
 
-        guard _wordRange.startIndex != startIndex else {
+        guard _wordRange.lowerBound != startIndex else {
             return nil
         }
 
-        let mentionWordRange = _wordRange.startIndex.advancedBy(-1)..<_wordRange.endIndex
+        let mentionWordRange = self.index(_wordRange.lowerBound, offsetBy: -1)..<_wordRange.upperBound
 
-        let mentionWord = substringWithRange(mentionWordRange)
+        let mentionWord = substring(with: mentionWordRange)
 
         guard mentionWord.hasPrefix("@") else {
             return nil
@@ -139,17 +140,17 @@ extension String {
 
 extension String {
 
-    var yep_embeddedURLs: [NSURL] {
+    var yep_embeddedURLs: [URL] {
 
-        guard let detector = try? NSDataDetector(types: NSTextCheckingType.Link.rawValue) else {
+        guard let detector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue) else {
             return []
         }
 
-        var URLs = [NSURL]()
+        var URLs = [URL]()
 
-        detector.enumerateMatchesInString(self, options: [], range: NSMakeRange(0, (self as NSString).length)) { result, flags, stop in
+        detector.enumerateMatches(in: self, options: [], range: NSMakeRange(0, (self as NSString).length)) { result, flags, stop in
 
-            if let URL = result?.URL {
+            if let URL = result?.url {
                 URLs.append(URL)
             }
         }
@@ -160,12 +161,12 @@ extension String {
 
 extension String {
 
-    func yep_hightlightSearchKeyword(keyword: String, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
+    func yep_hightlightSearchKeyword(_ keyword: String, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
 
         return yep_highlightKeyword(keyword, withColor: UIColor.yepTintColor(), baseFont: baseFont, baseColor: baseColor)
     }
 
-    func yep_highlightKeyword(keyword: String, withColor color: UIColor, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
+    func yep_highlightKeyword(_ keyword: String, withColor color: UIColor, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
 
         guard !keyword.isEmpty else {
             return nil
@@ -184,9 +185,9 @@ extension String {
             NSForegroundColorAttributeName: color,
         ]
 
-        let highlightExpression = try! NSRegularExpression(pattern: keyword, options: [.CaseInsensitive])
+        let highlightExpression = try! NSRegularExpression(pattern: keyword, options: [.caseInsensitive])
 
-        highlightExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
+        highlightExpression.enumerateMatches(in: text, options: NSRegularExpression.MatchingOptions(), range: textRange, using: { result, flags, stop in
 
             if let result = result {
                 attributedString.addAttributes(highlightTextAttributes, range: result.range )
@@ -201,20 +202,20 @@ extension String {
         let text = self
         let textRange = NSMakeRange(0, (text as NSString).length)
 
-        let keywordExpression = try! NSRegularExpression(pattern: "<em>(.+?)</em>", options: [.CaseInsensitive])
+        let keywordExpression = try! NSRegularExpression(pattern: "<em>(.+?)</em>", options: [.caseInsensitive])
 
-        let matches = keywordExpression.matchesInString(self, options: [], range: textRange)
+        let matches = keywordExpression.matches(in: self, options: [], range: textRange)
         let keywords: [String] = matches.map({
-            let matchRange = $0.rangeAtIndex(1)
-            let keyword = (text as NSString).substringWithRange(matchRange)
-            return keyword.lowercaseString
+            let matchRange = $0.rangeAt(1)
+            let keyword = (text as NSString).substring(with: matchRange)
+            return keyword.lowercased()
         })
 
         let keywordSet = Set(keywords)
         return keywordSet
     }
 
-    func yep_highlightWithKeywordSet(keywordSet: Set<String>, color: UIColor, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
+    func yep_highlightWithKeywordSet(_ keywordSet: Set<String>, color: UIColor, baseFont: UIFont, baseColor: UIColor) -> NSAttributedString? {
 
         let text = self
         let textRange = NSMakeRange(0, (self as NSString).length)
@@ -229,9 +230,9 @@ extension String {
         ]
 
         keywordSet.forEach({
-            if let highlightExpression = try? NSRegularExpression(pattern: $0, options: [.CaseInsensitive]) {
+            if let highlightExpression = try? NSRegularExpression(pattern: $0, options: [.caseInsensitive]) {
 
-                highlightExpression.enumerateMatchesInString(text, options: NSMatchingOptions(), range: textRange, usingBlock: { result, flags, stop in
+                highlightExpression.enumerateMatches(in: text, options: NSRegularExpression.MatchingOptions(), range: textRange, using: { result, flags, stop in
 
                     if let result = result {
                         attributedString.addAttributes(highlightTextAttributes, range: result.range )

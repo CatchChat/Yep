@@ -14,28 +14,28 @@ import RxCocoa
 
 final class RegisterPickNameViewController: BaseViewController {
 
-    private lazy var disposeBag = DisposeBag()
+    fileprivate lazy var disposeBag = DisposeBag()
 
-    @IBOutlet private weak var pickNamePromptLabel: UILabel!
-    @IBOutlet private weak var pickNamePromptLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var pickNamePromptLabel: UILabel!
+    @IBOutlet fileprivate weak var pickNamePromptLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var promptTermsLabel: UILabel!
+    @IBOutlet fileprivate weak var promptTermsLabel: UILabel!
 
-    @IBOutlet private weak var nameTextField: BorderTextField!
-    @IBOutlet private weak var nameTextFieldTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var nameTextField: BorderTextField!
+    @IBOutlet fileprivate weak var nameTextFieldTopConstraint: NSLayoutConstraint!
     
-    private lazy var nextButton: UIBarButtonItem = {
+    fileprivate lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
         button.title = String.trans_buttonNextStep
-        button.rx_tap
-            .subscribeNext({ [weak self] in self?.showRegisterPickMobile() })
+        button.rx.tap
+            .subscribe(onNext: { [weak self] in self?.showRegisterPickMobile() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
 
-    private var isDirty = false {
+    fileprivate var isDirty = false {
         willSet {
-            nextButton.enabled = newValue
+            nextButton.isEnabled = newValue
             promptTermsLabel.alpha = newValue ? 1.0 : 0.5
         }
     }
@@ -57,41 +57,41 @@ final class RegisterPickNameViewController: BaseViewController {
 
         let text = String.trans_promptTapNextAgreeTerms
         let textAttributes: [String: AnyObject] = [
-            NSFontAttributeName: UIFont.systemFontOfSize(14),
-            NSForegroundColorAttributeName: UIColor.grayColor(),
+            NSFontAttributeName: UIFont.systemFont(ofSize: 14),
+            NSForegroundColorAttributeName: UIColor.gray,
         ]
         let attributedText = NSMutableAttributedString(string: text, attributes: textAttributes)
         let termsAttributes: [String: AnyObject] = [
             NSForegroundColorAttributeName: UIColor.yepTintColor(),
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.StyleSingle.rawValue,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
         ]
-        let tapRange = (text as NSString).rangeOfString(NSLocalizedString("terms", comment: ""))
+        let tapRange = (text as NSString).range(of: NSLocalizedString("terms", comment: ""))
         attributedText.addAttributes(termsAttributes, range: tapRange)
 
         promptTermsLabel.attributedText = attributedText
-        promptTermsLabel.textAlignment = .Center
+        promptTermsLabel.textAlignment = .center
         promptTermsLabel.alpha = 0.5
 
-        promptTermsLabel.userInteractionEnabled = true
+        promptTermsLabel.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(RegisterPickNameViewController.tapTerms(_:)))
         promptTermsLabel.addGestureRecognizer(tap)
 
-        nameTextField.backgroundColor = UIColor.whiteColor()
+        nameTextField.backgroundColor = UIColor.white
         nameTextField.textColor = UIColor.yepInputTextColor()
         nameTextField.placeholder = " "
         nameTextField.delegate = self
-        nameTextField.rx_text
+        nameTextField.rx.textInput.text
             .map({ !$0.isEmpty })
-            .subscribeNext({ [weak self] in self?.isDirty = $0 })
+            .subscribe(onNext: { [weak self] in self?.isDirty = $0 })
             .addDisposableTo(disposeBag)
 
         pickNamePromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         nameTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
 
-        nextButton.enabled = false
+        nextButton.isEnabled = false
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         nameTextField.becomeFirstResponder()
@@ -99,28 +99,28 @@ final class RegisterPickNameViewController: BaseViewController {
 
     // MARK: Actions
 
-    @objc private func tapTerms(sender: UITapGestureRecognizer) {
-        if let URL = NSURL(string: YepConfig.termsURLString) {
+    @objc fileprivate func tapTerms(_ sender: UITapGestureRecognizer) {
+        if let URL = URL(string: YepConfig.termsURLString) {
             yep_openURL(URL)
         }
     }
 
-    private func showRegisterPickMobile() {
+    fileprivate func showRegisterPickMobile() {
 
         guard let text = nameTextField.text else {
             return
         }
 
-        let nickname = text.trimming(.WhitespaceAndNewline)
+        let nickname = text.trimming(.whitespaceAndNewline)
         YepUserDefaults.nickname.value = nickname
 
-        performSegueWithIdentifier("showRegisterPickMobile", sender: nil)
+        performSegue(withIdentifier: "showRegisterPickMobile", sender: nil)
     }
 }
 
 extension RegisterPickNameViewController: UITextFieldDelegate {
     
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
         guard let text = textField.text else {
             return true

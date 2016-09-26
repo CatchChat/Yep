@@ -18,13 +18,13 @@ final class SearchConversationsViewController: BaseSearchViewController {
             //resultsTableView.separatorColor = YepConfig.SearchTableView.separatorColor // not work here
             resultsTableView.backgroundColor = YepConfig.SearchTableView.backgroundColor
 
-            resultsTableView.registerHeaderFooterClassOf(TableSectionTitleView)
+            resultsTableView.registerHeaderFooterClassOf(TableSectionTitleView.self)
 
-            resultsTableView.registerNibOf(SearchSectionTitleCell)
-            resultsTableView.registerNibOf(SearchedUserCell)
-            resultsTableView.registerNibOf(SearchedMessageCell)
-            resultsTableView.registerNibOf(SearchedFeedCell)
-            resultsTableView.registerNibOf(SearchMoreResultsCell)
+            resultsTableView.registerNibOf(SearchSectionTitleCell.self)
+            resultsTableView.registerNibOf(SearchedUserCell.self)
+            resultsTableView.registerNibOf(SearchedMessageCell.self)
+            resultsTableView.registerNibOf(SearchedFeedCell.self)
+            resultsTableView.registerNibOf(SearchMoreResultsCell.self)
 
             resultsTableView.sectionHeaderHeight = 0
             resultsTableView.sectionFooterHeight = 0
@@ -32,89 +32,89 @@ final class SearchConversationsViewController: BaseSearchViewController {
 
             resultsTableView.tableFooterView = UIView()
 
-            resultsTableView.keyboardDismissMode = .OnDrag
+            resultsTableView.keyboardDismissMode = .onDrag
         }
     }
 
-    private var searchTask: CancelableTask?
+    fileprivate var searchTask: CancelableTask?
 
-    private lazy var friends = normalFriends()
-    private var filteredFriends: Results<User>?
+    fileprivate lazy var friends = normalFriends()
+    fileprivate var filteredFriends: Results<User>?
 
-    private var realm: Realm!
+    fileprivate var realm: Realm!
 
-    private lazy var users: Results<User> = {
-        return self.realm.objects(User)
+    fileprivate lazy var users: Results<User> = {
+        return self.realm.objects(User.self)
     }()
 
     struct UserMessages {
         let user: User
         let messages: [Message]
     }
-    private var filteredUserMessages: [UserMessages]?
+    fileprivate var filteredUserMessages: [UserMessages]?
 
-    private lazy var feeds: Results<Feed> = {
-        return self.realm.objects(Feed)
+    fileprivate lazy var feeds: Results<Feed> = {
+        return self.realm.objects(Feed.self)
     }()
-    private var filteredFeeds: [Feed]?
+    fileprivate var filteredFeeds: [Feed]?
 
-    private var countOfFilteredFriends: Int {
+    fileprivate var countOfFilteredFriends: Int {
         return filteredFriends?.count ?? 0
     }
-    private var countOfFilteredUserMessages: Int {
+    fileprivate var countOfFilteredUserMessages: Int {
         return filteredUserMessages?.count ?? 0
     }
-    private var countOfFilteredFeeds: Int {
+    fileprivate var countOfFilteredFeeds: Int {
         return filteredFeeds?.count ?? 0
     }
 
-    private var keyword: String? {
+    fileprivate var keyword: String? {
         didSet {
             if keyword == nil {
                 clearSearchResults()
             }
-            if let keyword = keyword where keyword.isEmpty {
+            if let keyword = keyword , keyword.isEmpty {
                 clearSearchResults()
             }
         }
     }
 
-    private func updateForFold(fold: Bool, withCountOfItems countOfItems: Int, inSection section: Section) {
+    fileprivate func updateForFold(_ fold: Bool, withCountOfItems countOfItems: Int, inSection section: Section) {
 
         let indexPaths = ((1 + Section.maxNumberOfItems)...countOfItems).map({
-            NSIndexPath(forRow: $0, inSection: section.rawValue)
+            IndexPath(row: $0, section: section.rawValue)
         })
 
         if fold == false {
-            resultsTableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+            resultsTableView.insertRows(at: indexPaths, with: .automatic)
         } else {
-            resultsTableView.deleteRowsAtIndexPaths(indexPaths, withRowAnimation: .Automatic)
+            resultsTableView.deleteRows(at: indexPaths, with: .automatic)
         }
     }
 
-    private var isMoreFriendsFold: Bool = true {
+    fileprivate var isMoreFriendsFold: Bool = true {
         didSet {
             if isMoreFriendsFold != oldValue {
 
-                updateForFold(isMoreFriendsFold, withCountOfItems: countOfFilteredFriends, inSection: .Friend)
+                updateForFold(isMoreFriendsFold, withCountOfItems: countOfFilteredFriends, inSection: .friend)
             }
         }
     }
 
-    private var isMoreUserMessagesFold: Bool = true {
+    fileprivate var isMoreUserMessagesFold: Bool = true {
         didSet {
             if isMoreUserMessagesFold != oldValue {
 
-                updateForFold(isMoreUserMessagesFold, withCountOfItems: countOfFilteredUserMessages, inSection: .MessageRecord)
+                updateForFold(isMoreUserMessagesFold, withCountOfItems: countOfFilteredUserMessages, inSection: .messageRecord)
             }
         }
     }
 
-    private var isMoreFeedsFold: Bool = true {
+    fileprivate var isMoreFeedsFold: Bool = true {
         didSet {
             if isMoreFeedsFold != oldValue {
 
-                updateForFold(isMoreFeedsFold, withCountOfItems: countOfFilteredFeeds, inSection: .Feed)
+                updateForFold(isMoreFeedsFold, withCountOfItems: countOfFilteredFeeds, inSection: .feed)
             }
         }
     }
@@ -139,7 +139,7 @@ final class SearchConversationsViewController: BaseSearchViewController {
 
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -148,7 +148,7 @@ final class SearchConversationsViewController: BaseSearchViewController {
         switch identifier {
 
         case "showProfile":
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
             let user = sender as! User
             vc.prepare(withUser: user)
@@ -156,15 +156,15 @@ final class SearchConversationsViewController: BaseSearchViewController {
             prepareOriginalNavigationControllerDelegate()
 
         case "showConversation":
-            let vc = segue.destinationViewController as! ConversationViewController
-            let info = (sender as! Box<[String: AnyObject]>).value
+            let vc = segue.destination as! ConversationViewController
+            let info = sender as! [String: Any]
             vc.conversation = info["conversation"] as! Conversation
             vc.indexOfSearchedMessage = info["indexOfSearchedMessage"] as? Int
 
             prepareOriginalNavigationControllerDelegate()
 
         case "showSearchedUserMessages":
-            let vc = segue.destinationViewController as! SearchedUserMessagesViewController
+            let vc = segue.destination as! SearchedUserMessagesViewController
             let userMessages = (sender as! Box<UserMessages>).value
 
             vc.messages = userMessages.messages
@@ -179,12 +179,12 @@ final class SearchConversationsViewController: BaseSearchViewController {
 
     // MARK: - Private
 
-    private func hideKeyboard() {
+    fileprivate func hideKeyboard() {
 
         searchBar.resignFirstResponder()
     }
 
-    private func updateResultsTableView(scrollsToTop scrollsToTop: Bool = false) {
+    fileprivate func updateResultsTableView(scrollsToTop: Bool = false) {
         SafeDispatch.async { [weak self] in
             self?.resultsTableView.reloadData()
 
@@ -199,28 +199,28 @@ final class SearchConversationsViewController: BaseSearchViewController {
 
 extension SearchConversationsViewController: UISearchBarDelegate {
 
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
 
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
             self?.searchBarBottomLineView.alpha = 1
         }, completion: nil)
 
         return true
     }
 
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
 
         searchBar.text = nil
         searchBar.resignFirstResponder()
 
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
             self?.searchBarBottomLineView.alpha = 0
         }, completion: nil)
 
-        navigationController?.popViewControllerAnimated(true)
+        _ = navigationController?.popViewController(animated: true)
     }
 
-    func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 
         cancel(searchTask)
 
@@ -233,7 +233,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         return true
     }
 
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
         cancel(searchTask)
 
@@ -247,12 +247,12 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         }
     }
 
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
         hideKeyboard()
     }
 
-    private func clearSearchResults() {
+    fileprivate func clearSearchResults() {
 
         filteredFriends = nil
         filteredUserMessages = nil
@@ -261,12 +261,12 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         updateResultsTableView(scrollsToTop: true)
     }
 
-    private func updateSearchResultsWithText(searchText: String) {
+    fileprivate func updateSearchResultsWithText(_ searchText: String) {
 
-        let searchText = searchText.trimming(.Whitespace)
+        let searchText = searchText.trimming(.whitespace)
 
         // 不要重复搜索一样的内容
-        if let keyword = self.keyword where keyword == searchText {
+        if let keyword = self.keyword , keyword == searchText {
             return
         }
 
@@ -294,11 +294,11 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         // messages
         do {
             let filteredUserMessages: [UserMessages] = users.map({
-                let messages = $0.messages.map({ $0 })
+                let messages: [Message] = $0.messages.map({ $0 })
                 let filteredMessages = filterValidMessages(messages)
                 let searchedMessages = filteredMessages
-                    .filter({ $0.textContent.localizedStandardContainsString(searchText) })
-                let sortedMessages = searchedMessages.sort({ $0.createdUnixTime > $1.createdUnixTime })
+                    .filter({ $0.textContent.localizedStandardContains(searchText) })
+                let sortedMessages = searchedMessages.sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
 
                 guard !sortedMessages.isEmpty else {
                     return nil
@@ -315,7 +315,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         do {
             let predicate = NSPredicate(format: "body CONTAINS[c] %@", searchText)
             let filteredFeeds = filterValidFeeds(feeds.filter(predicate))
-            let sortedFilteredFeeds = filteredFeeds.sort({ $0.createdUnixTime > $1.createdUnixTime })
+            let sortedFilteredFeeds = filteredFeeds.sorted(by: { $0.createdUnixTime > $1.createdUnixTime })
             self.filteredFeeds = sortedFilteredFeeds
 
             scrollsToTop = !sortedFilteredFeeds.isEmpty
@@ -330,25 +330,25 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 extension SearchConversationsViewController: UITableViewDataSource, UITableViewDelegate {
 
     enum Section: Int {
-        case Friend
-        case MessageRecord
-        case Feed
+        case friend
+        case messageRecord
+        case feed
 
         static let maxNumberOfItems: Int = 3
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
 
         return 3
     }
 
-    private func numberOfRowsInSection(section: Int) -> Int {
+    fileprivate func numberOfRowsInSection(_ section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             return 0
         }
 
-        func numberOfRowsWithCountOfItems(countOfItems: Int, fold: Bool) -> Int {
+        func numberOfRowsWithCountOfItems(_ countOfItems: Int, fold: Bool) -> Int {
             let count = countOfItems
             if count > 0 {
                 if !fold {
@@ -366,23 +366,23 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         switch section {
 
-        case .Friend:
+        case .friend:
             return numberOfRowsWithCountOfItems(countOfFilteredFriends, fold: isMoreFriendsFold)
 
-        case .MessageRecord:
+        case .messageRecord:
             return numberOfRowsWithCountOfItems(countOfFilteredUserMessages, fold: isMoreUserMessagesFold)
 
-        case .Feed:
+        case .feed:
             return numberOfRowsWithCountOfItems(countOfFilteredFeeds, fold: isMoreFeedsFold)
         }
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         return numberOfRowsInSection(section)
     }
 
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         guard numberOfRowsInSection(section) > 0 else {
             return nil
@@ -394,7 +394,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         return header
     }
 
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 
         guard numberOfRowsInSection(section) > 0 else {
             return 0
@@ -403,30 +403,30 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         return 15
     }
 
-    private func haveMoreItemsInSection(section: Section) -> Bool {
+    fileprivate func haveMoreItemsInSection(_ section: Section) -> Bool {
 
         switch section {
-        case .Friend:
+        case .friend:
             return countOfFilteredFriends > Section.maxNumberOfItems
-        case .MessageRecord:
+        case .messageRecord:
             return countOfFilteredUserMessages > Section.maxNumberOfItems
-        case .Feed:
+        case .feed:
             return countOfFilteredFeeds > Section.maxNumberOfItems
         }
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard indexPath.row > 0 else {
+        guard (indexPath as NSIndexPath).row > 0 else {
             return 40
         }
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalid section!")
         }
 
         if haveMoreItemsInSection(section) {
-            if indexPath.row < numberOfRowsInSection(indexPath.section) - 1 {
+            if (indexPath as NSIndexPath).row < numberOfRowsInSection((indexPath as NSIndexPath).section) - 1 {
                 return 70
             } else {
                 return 30
@@ -436,33 +436,33 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         }
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalid section!")
         }
 
-        if indexPath.row == 0 {
+        if (indexPath as NSIndexPath).row == 0 {
 
             let cell: SearchSectionTitleCell = tableView.dequeueReusableCell()
 
             switch section {
-            case .Friend:
+            case .friend:
                 cell.sectionTitleLabel.text = String.trans_titleFriends
-            case .MessageRecord:
+            case .messageRecord:
                 cell.sectionTitleLabel.text = String.trans_titleChatRecords
-            case .Feed:
+            case .feed:
                 cell.sectionTitleLabel.text = String.trans_titleJoinedFeeds
             }
 
             return cell
         }
 
-        let itemIndex = indexPath.row - 1
+        let itemIndex = (indexPath as NSIndexPath).row - 1
 
         switch section {
 
-        case .Friend:
+        case .friend:
             if itemIndex < (isMoreFriendsFold ? Section.maxNumberOfItems : countOfFilteredFriends) {
                 let cell: SearchedUserCell = tableView.dequeueReusableCell()
                 return cell
@@ -471,7 +471,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 return cell
             }
 
-        case .MessageRecord:
+        case .messageRecord:
             if itemIndex < (isMoreUserMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
                 let cell: SearchedMessageCell = tableView.dequeueReusableCell()
                 return cell
@@ -480,7 +480,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 return cell
             }
 
-        case .Feed:
+        case .feed:
             if itemIndex < (isMoreFeedsFold ? Section.maxNumberOfItems : countOfFilteredFeeds) {
                 let cell: SearchedFeedCell = tableView.dequeueReusableCell()
                 return cell
@@ -491,25 +491,25 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         }
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        guard indexPath.row > 0 else {
+        guard (indexPath as NSIndexPath).row > 0 else {
             return
         }
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalid section!")
         }
 
-        let itemIndex = indexPath.row - 1
+        let itemIndex = (indexPath as NSIndexPath).row - 1
 
         switch section {
 
-        case .Friend:
+        case .friend:
             if itemIndex < (isMoreFriendsFold ? Section.maxNumberOfItems : countOfFilteredFriends) {
                 guard let
                     friend = filteredFriends?[safe: itemIndex],
-                    cell = cell as? SearchedUserCell else {
+                    let cell = cell as? SearchedUserCell else {
                         return
                 }
 
@@ -522,12 +522,12 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 cell.fold = isMoreFriendsFold
             }
 
-        case .MessageRecord:
+        case .messageRecord:
 
             if itemIndex < (isMoreUserMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
                 guard let
                     userMessages = filteredUserMessages?[itemIndex],
-                    cell = cell as? SearchedMessageCell else {
+                    let cell = cell as? SearchedMessageCell else {
                         return
                 }
                 cell.configureWithUserMessages(userMessages, keyword: keyword)
@@ -539,11 +539,11 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                 cell.fold = isMoreUserMessagesFold
             }
 
-        case .Feed:
+        case .feed:
             if itemIndex < (isMoreFeedsFold ? Section.maxNumberOfItems : countOfFilteredFeeds) {
                 guard let
                     feed = filteredFeeds?[safe: itemIndex],
-                    cell = cell as? SearchedFeedCell else {
+                    let cell = cell as? SearchedFeedCell else {
                         return
                 }
 
@@ -558,40 +558,40 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+        tableView.deselectRow(at: indexPath, animated: true)
 
-        guard indexPath.row > 0 else {
+        guard (indexPath as NSIndexPath).row > 0 else {
             return
         }
 
         hideKeyboard()
 
-        guard let section = Section(rawValue: indexPath.section) else {
+        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             fatalError("Invalid section!")
         }
 
-        let itemIndex = indexPath.row - 1
+        let itemIndex = (indexPath as NSIndexPath).row - 1
 
         switch section {
 
-        case .Friend:
+        case .friend:
             if itemIndex < (isMoreFriendsFold ? Section.maxNumberOfItems : countOfFilteredFriends) {
                 guard let friend = filteredFriends?[safe: itemIndex] else {
                     return
                 }
 
-                performSegueWithIdentifier("showProfile", sender: friend)
+                performSegue(withIdentifier: "showProfile", sender: friend)
 
             } else {
-                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? SearchMoreResultsCell {
+                if let cell = tableView.cellForRow(at: indexPath) as? SearchMoreResultsCell {
                     cell.fold = !isMoreFriendsFold
                 }
                 isMoreFriendsFold = !isMoreFriendsFold
             }
 
-        case .MessageRecord:
+        case .messageRecord:
 
             if itemIndex < (isMoreUserMessagesFold ? Section.maxNumberOfItems : countOfFilteredUserMessages) {
                 guard let userMessages = filteredUserMessages?[itemIndex] else {
@@ -606,44 +606,42 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
                     let messages = messagesOfConversation(conversation, inRealm: realm)
 
-                    guard let indexOfSearchedMessage = messages.indexOf(message) else {
+                    guard let indexOfSearchedMessage = messages.index(of: message) else {
                         return
                     }
 
-                    let info: [String: AnyObject] = [
+                    let info: [String: Any] = [
                         "conversation":conversation,
                         "indexOfSearchedMessage": indexOfSearchedMessage,
                     ]
-                    let sender = Box<[String: AnyObject]>(info)
-                    performSegueWithIdentifier("showConversation", sender: sender)
+                    performSegue(withIdentifier: "showConversation", sender: info)
 
                 } else {
-                    performSegueWithIdentifier("showSearchedUserMessages", sender: Box<UserMessages>(userMessages))
+                    performSegue(withIdentifier: "showSearchedUserMessages", sender: Box<UserMessages>(userMessages))
                 }
 
             } else {
-                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? SearchMoreResultsCell {
+                if let cell = tableView.cellForRow(at: indexPath) as? SearchMoreResultsCell {
                     cell.fold = !isMoreUserMessagesFold
                 }
                 isMoreUserMessagesFold = !isMoreUserMessagesFold
             }
 
-        case .Feed:
+        case .feed:
             if itemIndex < (isMoreFeedsFold ? Section.maxNumberOfItems : countOfFilteredFeeds) {
                 guard let
                     feed = filteredFeeds?[safe: itemIndex],
-                    conversation = feed.group?.conversation else {
+                    let conversation = feed.group?.conversation else {
                         return
                 }
 
-                let info: [String: AnyObject] = [
-                    "conversation":conversation,
+                let info: [String: Any] = [
+                    "conversation": conversation,
                 ]
-                let sender = Box<[String: AnyObject]>(info)
-                performSegueWithIdentifier("showConversation", sender: sender)
+                performSegue(withIdentifier: "showConversation", sender: info)
 
             } else {
-                if let cell = tableView.cellForRowAtIndexPath(indexPath) as? SearchMoreResultsCell {
+                if let cell = tableView.cellForRow(at: indexPath) as? SearchMoreResultsCell {
                     cell.fold = !isMoreFeedsFold
                 }
                 isMoreFeedsFold = !isMoreFeedsFold

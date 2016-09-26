@@ -18,7 +18,7 @@ final class HorizontalLineView: UIView {
         }
     }
     @IBInspectable
-    var lineWidth: CGFloat = 1.0 / UIScreen.mainScreen().scale {
+    var lineWidth: CGFloat = 1.0 / UIScreen.main.scale {
         didSet {
             setNeedsDisplay()
         }
@@ -47,17 +47,17 @@ final class HorizontalLineView: UIView {
 
     // MARK: Draw
 
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
 
         lineColor.setStroke()
 
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextSetLineWidth(context!, lineWidth)
+        context!.setLineWidth(lineWidth)
 
         let y: CGFloat
-        let fullHeight = CGRectGetHeight(rect)
+        let fullHeight = rect.height
 
         if atBottom {
             y = fullHeight - lineWidth * 0.5
@@ -65,10 +65,10 @@ final class HorizontalLineView: UIView {
             y = lineWidth * 0.5
         }
 
-        CGContextMoveToPoint(context!, leftMargin, y)
-        CGContextAddLineToPoint(context!, CGRectGetWidth(rect) - rightMargin, y)
+        context!.move(to: CGPoint(x: leftMargin, y: y))
+        context!.addLine(to: CGPoint(x: rect.width - rightMargin, y: y))
         
-        CGContextStrokePath(context!)
+        context!.strokePath()
     }
 }
 

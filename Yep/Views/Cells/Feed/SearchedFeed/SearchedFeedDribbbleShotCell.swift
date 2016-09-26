@@ -11,21 +11,21 @@ import YepKit
 import YepPreview
 import Ruler
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+private let screenWidth: CGFloat = UIScreen.main.bounds.width
 
 final class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
 
     static let dribbbleShotHeight: CGFloat = Ruler.iPhoneHorizontal(160, 200, 220).value
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + (10 + dribbbleShotHeight)
 
         return ceil(height)
     }
 
-    var tapDribbbleShotLinkAction: (NSURL -> Void)?
-    var tapDribbbleShotMediaAction: ((transitionReference: Reference, image: UIImage?, imageURL: NSURL, linkURL: NSURL) -> Void)?
+    var tapDribbbleShotLinkAction: ((URL) -> Void)?
+    var tapDribbbleShotMediaAction: ((_ transitionReference: Reference, _ image: UIImage?, _ imageURL: URL, _ linkURL: URL) -> Void)?
 
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -64,15 +64,15 @@ final class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
         if let attachment = feed.attachment {
-            if case let .Dribbble(dribbbleShot) = attachment {
-                if let URL = NSURL(string: dribbbleShot.imageURLString) {
-                    mediaContainerView.mediaImageView.kf_showIndicatorWhenLoading = true
-                    mediaContainerView.mediaImageView.kf_setImageWithURL(URL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+            if case let .dribbble(dribbbleShot) = attachment {
+                if let url = URL(string: dribbbleShot.imageURLString) {
+                    //mediaContainerView.mediaImageView.kf_showIndicatorWhenLoading = true
+                    mediaContainerView.mediaImageView.kf_setImage(with: url, placeholder: nil, options: MediaOptionsInfos)
                 }
 
                 mediaContainerView.linkContainerView.textLabel.text = dribbbleShot.title
@@ -86,8 +86,8 @@ final class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
             }
 
             if case .DribbbleShot = feed.kind {
-                if case let .Dribbble(shot) = attachment, let imageURL = NSURL(string: shot.imageURLString), let linkURL = NSURL(string: shot.htmlURLString) {
-                    self?.tapDribbbleShotMediaAction?(transitionReference: transitionReference, image: transitionReference.image, imageURL: imageURL, linkURL: linkURL)
+                if case let .dribbble(shot) = attachment, let imageURL = URL(string: shot.imageURLString), let linkURL = URL(string: shot.htmlURLString) {
+                    self?.tapDribbbleShotMediaAction?(transitionReference, transitionReference.image, imageURL, linkURL)
                 }
             }
         }
@@ -99,8 +99,8 @@ final class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
             }
 
             if case .DribbbleShot = feed.kind {
-                if case let .Dribbble(shot) = attachment, let URL = NSURL(string: shot.htmlURLString) {
-                    self?.tapDribbbleShotLinkAction?(URL)
+                if case let .dribbble(shot) = attachment, let url = URL(string: shot.htmlURLString) {
+                    self?.tapDribbbleShotLinkAction?(url)
                 }
             }
         }
@@ -121,7 +121,7 @@ final class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
         mediaContainerView.layoutIfNeeded()
 
         halfMaskImageView.frame = mediaContainerView.mediaImageView.bounds
-        mediaContainerView.mediaImageView.maskView = halfMaskImageView
+        mediaContainerView.mediaImageView.mask = halfMaskImageView
     }
 }
 

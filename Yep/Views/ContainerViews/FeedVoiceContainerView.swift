@@ -10,8 +10,8 @@ import UIKit
 
 final class FeedVoiceContainerView: UIView {
 
-    class func fullWidthWithSampleValuesCount(count: Int, timeLengthString: String) -> CGFloat {
-        let rect = timeLengthString.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
+    class func fullWidthWithSampleValuesCount(_ count: Int, timeLengthString: String) -> CGFloat {
+        let rect = timeLengthString.boundingRect(with: CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: YepConfig.FeedBasicCell.voiceTimeLengthTextAttributes, context: nil)
         return 10 + 30 + 5 + CGFloat(count) * 3 + 5 + rect.width + 10
     }
 
@@ -21,9 +21,9 @@ final class FeedVoiceContainerView: UIView {
         willSet {
             if newValue != audioPlaying {
                 if newValue {
-                    playButton.setImage(UIImage.yep_iconPause, forState: .Normal)
+                    playButton.setImage(UIImage.yep_iconPause, for: UIControlState())
                 } else {
-                    playButton.setImage(UIImage.yep_iconPlayvideo, forState: .Normal)
+                    playButton.setImage(UIImage.yep_iconPlayvideo, for: UIControlState())
                 }
             }
         }
@@ -38,11 +38,11 @@ final class FeedVoiceContainerView: UIView {
 
     lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage.yep_iconPlayvideo, forState: .Normal)
-        button.tintColor = UIColor.lightGrayColor()
-        button.tintAdjustmentMode = .Normal
+        button.setImage(UIImage.yep_iconPlayvideo, for: UIControlState())
+        button.tintColor = UIColor.lightGray
+        button.tintAdjustmentMode = .normal
 
-        button.addTarget(self, action: #selector(FeedVoiceContainerView.playOrPauseAudio(_:)), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(FeedVoiceContainerView.playOrPauseAudio(_:)), for: .touchUpInside)
         return button
     }()
 
@@ -54,7 +54,7 @@ final class FeedVoiceContainerView: UIView {
 
     lazy var timeLengthLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.lightGrayColor()
+        label.textColor = UIColor.lightGray
         label.font = UIFont.feedVoiceTimeLengthFont()
         return label
     }()
@@ -68,7 +68,7 @@ final class FeedVoiceContainerView: UIView {
         self.addGestureRecognizer(tap)
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         addSubview(bubbleImageView)
         addSubview(playButton)
@@ -87,29 +87,29 @@ final class FeedVoiceContainerView: UIView {
             "timeLengthLabel": timeLengthLabel,
         ]
 
-        let bubbleImageViewH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[bubbleImageView]|", options: [], metrics: nil, views: views)
-        let bubbleImageViewV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[bubbleImageView]|", options: [], metrics: nil, views: views)
+        let bubbleImageViewH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[bubbleImageView]|", options: [], metrics: nil, views: views)
+        let bubbleImageViewV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[bubbleImageView]|", options: [], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(bubbleImageViewH)
-        NSLayoutConstraint.activateConstraints(bubbleImageViewV)
+        NSLayoutConstraint.activate(bubbleImageViewH)
+        NSLayoutConstraint.activate(bubbleImageViewV)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[playButton]-5-[voiceSampleView]-5-[timeLengthLabel]-10-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[playButton]-5-[voiceSampleView]-5-[timeLengthLabel]-10-|", options: [.alignAllCenterY], metrics: nil, views: views)
 
-        playButton.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
-        timeLengthLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, forAxis: .Horizontal)
+        playButton.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
+        timeLengthLabel.setContentHuggingPriority(UILayoutPriorityDefaultHigh, for: .horizontal)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activate(constraintsH)
 
-        let voiceSampleViewHeight = NSLayoutConstraint(item: voiceSampleView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 50)
+        let voiceSampleViewHeight = NSLayoutConstraint(item: voiceSampleView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 50)
 
-        NSLayoutConstraint.activateConstraints([voiceSampleViewHeight])
+        NSLayoutConstraint.activate([voiceSampleViewHeight])
 
-        let playButtonCenterY = NSLayoutConstraint(item: playButton, attribute: .CenterY, relatedBy: .Equal, toItem: bubbleImageView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+        let playButtonCenterY = NSLayoutConstraint(item: playButton, attribute: .centerY, relatedBy: .equal, toItem: bubbleImageView, attribute: .centerY, multiplier: 1.0, constant: 0)
 
-        NSLayoutConstraint.activateConstraints([playButtonCenterY])
+        NSLayoutConstraint.activate([playButtonCenterY])
     }
 
-    @objc private func playOrPauseAudio(sender: AnyObject) {
+    @objc fileprivate func playOrPauseAudio(_ sender: AnyObject) {
         playOrPauseAudioAction?()
     }
 }

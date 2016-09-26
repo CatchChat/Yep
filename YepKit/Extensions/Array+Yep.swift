@@ -14,8 +14,8 @@ public extension Array {
 
     func head(to index: Int) -> Array {
         guard !isEmpty else { return [] }
-        let index = min(index, count - 1)
-        return Array(self[0..<index])
+        let validIndex = Swift.min(index, (count - 1))
+        return Array(self[0..<validIndex])
     }
 }
 

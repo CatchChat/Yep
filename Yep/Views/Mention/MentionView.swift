@@ -14,25 +14,25 @@ private class MentionUserCell: UITableViewCell {
 
     lazy var avatarImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFit
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
     lazy var nicknameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.blackColor()
-        label.font = UIFont.systemFontOfSize(14)
+        label.textColor = UIColor.black
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
 
     lazy var mentionUsernameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor.yepTintColor()
-        label.font = UIFont.systemFontOfSize(14)
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
 
-    private override func prepareForReuse() {
+    fileprivate override func prepareForReuse() {
         super.prepareForReuse()
 
         avatarImageView.image = nil
@@ -46,7 +46,7 @@ private class MentionUserCell: UITableViewCell {
 
     func makeUI() {
 
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
 
         contentView.addSubview(avatarImageView)
         contentView.addSubview(nicknameLabel)
@@ -62,18 +62,18 @@ private class MentionUserCell: UITableViewCell {
             "mentionUsernameLabel": mentionUsernameLabel,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-15-[avatarImageView(30)]-15-[nicknameLabel]-[mentionUsernameLabel]-15-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-15-[avatarImageView(30)]-15-[nicknameLabel]-[mentionUsernameLabel]-15-|", options: [.alignAllCenterY], metrics: nil, views: views)
 
-        mentionUsernameLabel.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+        mentionUsernameLabel.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
 
-        let avatarImageViewCenterY = NSLayoutConstraint(item: avatarImageView, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
-        let avatarImageViewHeight = NSLayoutConstraint(item: avatarImageView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 30)
+        let avatarImageViewCenterY = NSLayoutConstraint(item: avatarImageView, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0)
+        let avatarImageViewHeight = NSLayoutConstraint(item: avatarImageView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 30)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints([avatarImageViewCenterY, avatarImageViewHeight])
+        NSLayoutConstraint.activate(constraintsH)
+        NSLayoutConstraint.activate([avatarImageViewCenterY, avatarImageViewHeight])
     }
 
-    func configureWithUsernamePrefixMatchedUser(user: UsernamePrefixMatchedUser) {
+    func configureWithUsernamePrefixMatchedUser(_ user: UsernamePrefixMatchedUser) {
 
         if let avatarURLString = user.avatarURLString {
         let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: picoAvatarStyle)
@@ -97,12 +97,12 @@ final class MentionView: UIView {
         }
     }
 
-    var pickUserAction: ((username: String) -> Void)?
+    var pickUserAction: ((_ username: String) -> Void)?
 
     lazy var horizontalLineView: HorizontalLineView = {
         let view = HorizontalLineView()
-        view.backgroundColor = UIColor.clearColor()
-        view.lineColor = UIColor.lightGrayColor()
+        view.backgroundColor = UIColor.clear
+        view.lineColor = UIColor.lightGray
         return view
     }()
 
@@ -111,17 +111,17 @@ final class MentionView: UIView {
     lazy var tableView: UITableView = {
         let tableView = UITableView()
 
-        tableView.backgroundColor = UIColor.clearColor()
+        tableView.backgroundColor = UIColor.clear
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 60, bottom: 0, right: 0)
 
-        let effect = UIBlurEffect(style: .ExtraLight)
+        let effect = UIBlurEffect(style: .extraLight)
 
         let blurView = UIVisualEffectView(effect: effect)
         tableView.backgroundView = blurView
 
-        tableView.separatorEffect = UIVibrancyEffect(forBlurEffect: effect)
+        tableView.separatorEffect = UIVibrancyEffect(blurEffect: effect)
 
-        tableView.registerClassOf(MentionUserCell)
+        tableView.registerClassOf(MentionUserCell.self)
 
         tableView.rowHeight = MentionView.tableViewRowHeight
 
@@ -150,11 +150,11 @@ final class MentionView: UIView {
             "tableView": tableView,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[tableView]|", options: [], metrics: nil, views: views)
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[horizontalLineView(1)][tableView]|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[tableView]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[horizontalLineView(1)][tableView]|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activate(constraintsH)
+        NSLayoutConstraint.activate(constraintsV)
     }
 
     weak var heightConstraint: NSLayoutConstraint?
@@ -165,20 +165,20 @@ final class MentionView: UIView {
         let usersCount = users.count
         let height = usersCount >= 3 ? MentionView.height : CGFloat(usersCount) * MentionView.tableViewRowHeight
 
-        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
             self?.bottomConstraint?.constant = 0
             self?.heightConstraint?.constant = height
             self?.superview?.layoutIfNeeded()
         }, completion: { _ in })
 
         if !users.isEmpty {
-            tableView.scrollToRowAtIndexPath(NSIndexPath(forRow: 0, inSection: 0), atScrollPosition: .Top, animated: false)
+            tableView.scrollToRow(at: IndexPath(row: 0, section: 0), at: .top, animated: false)
         }
     }
 
     func hide() {
 
-        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
             self?.bottomConstraint?.constant = MentionView.height
             self?.superview?.layoutIfNeeded()
         }, completion: { _ in })
@@ -187,28 +187,28 @@ final class MentionView: UIView {
 
 extension MentionView: UITableViewDataSource, UITableViewDelegate {
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return users.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell: MentionUserCell = tableView.dequeueReusableCell()
         let user = users[indexPath.row]
         cell.configureWithUsernamePrefixMatchedUser(user)
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         let username = users[indexPath.row].username
-        pickUserAction?(username: username)
+        pickUserAction?(username)
     }
 }
 

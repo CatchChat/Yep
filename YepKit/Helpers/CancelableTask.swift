@@ -8,9 +8,9 @@
 
 import Foundation
 
-public typealias CancelableTask = (cancel: Bool) -> Void
+public typealias CancelableTask = (_ cancel: Bool) -> Void
 
-public func delay(time: NSTimeInterval, work: dispatch_block_t) -> CancelableTask? {
+@discardableResult public func delay(_ time: TimeInterval, work: @escaping ()->()) -> CancelableTask? {
 
     var finalTask: CancelableTask?
 
@@ -19,22 +19,22 @@ public func delay(time: NSTimeInterval, work: dispatch_block_t) -> CancelableTas
             finalTask = nil // key
 
         } else {
-            dispatch_async(dispatch_get_main_queue(), work)
+            DispatchQueue.main.async(execute: work)
         }
     }
 
     finalTask = cancelableTask
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(time * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) {
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(time * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) {
         if let task = finalTask {
-            task(cancel: false)
+            task(false)
         }
     }
 
     return finalTask
 }
 
-public func cancel(cancelableTask: CancelableTask?) {
-    cancelableTask?(cancel: true)
+public func cancel(_ cancelableTask: CancelableTask?) {
+    cancelableTask?(true)
 }
 

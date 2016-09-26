@@ -29,15 +29,15 @@ final class MessageTypeButton: TouchZoomButton {
 
     lazy var typeImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .Center
+        imageView.contentMode = .center
         return imageView
     }()
 
     lazy var typeTitleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.darkGrayColor()
-        label.font = UIFont.systemFontOfSize(12, weight: UIFontWeightLight)
-        label.textAlignment = .Center
+        label.textColor = UIColor.darkGray
+        label.font = UIFont.systemFont(ofSize: 12, weight: UIFontWeightLight)
+        label.textAlignment = .center
         return label
     }()
 
@@ -46,7 +46,7 @@ final class MessageTypeButton: TouchZoomButton {
 
         makeUI()
 
-        self.addTarget(self, action: #selector(MessageTypeButton.tryTapAction), forControlEvents: .TouchUpInside)
+        self.addTarget(self, action: #selector(MessageTypeButton.tryTapAction), for: .touchUpInside)
     }
 
     func makeUI() {
@@ -62,12 +62,12 @@ final class MessageTypeButton: TouchZoomButton {
             "typeTitleLabel": typeTitleLabel,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[typeImageView]-(>=0)-[typeTitleLabel(20)]|", options: [.AlignAllCenterX, .AlignAllLeading, .AlignAllTrailing] , metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[typeImageView]-(>=0)-[typeTitleLabel(20)]|", options: [.alignAllCenterX, .alignAllLeading, .alignAllTrailing] , metrics: nil, views: viewsDictionary)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[typeImageView]|", options: [], metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[typeImageView]|", options: [], metrics: nil, views: viewsDictionary)
 
-        NSLayoutConstraint.activateConstraints(constraintsV)
-        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activate(constraintsV)
+        NSLayoutConstraint.activate(constraintsH)
     }
 
     func tryTapAction() {

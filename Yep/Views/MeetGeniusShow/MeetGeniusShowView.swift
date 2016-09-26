@@ -12,12 +12,12 @@ import Kingfisher
 
 class MeetGeniusShowView: UIView {
 
-    var tapAction: ((banner: GeniusInterviewBanner) -> Void)?
+    var tapAction: ((_ banner: GeniusInterviewBanner) -> Void)?
 
     lazy var backgroundImageView: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .ScaleAspectFill
-        view.userInteractionEnabled = true
+        view.contentMode = .scaleAspectFill
+        view.isUserInteractionEnabled = true
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(MeetGeniusShowView.didTap(_:)))
         view.addGestureRecognizer(tap)
@@ -27,8 +27,8 @@ class MeetGeniusShowView: UIView {
 
     lazy var showButton: UIButton = {
         let button = UIButton()
-        button.setTitle("SHOW", forState: .Normal)
-        button.backgroundColor = UIColor.blueColor()
+        button.setTitle("SHOW", for: UIControlState())
+        button.backgroundColor = UIColor.blue
         return button
     }()
 
@@ -38,7 +38,7 @@ class MeetGeniusShowView: UIView {
         return label
     }()
 
-    private var geniusInterviewBanner: GeniusInterviewBanner?
+    fileprivate var geniusInterviewBanner: GeniusInterviewBanner?
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,7 +52,7 @@ class MeetGeniusShowView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         do {
             backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -62,10 +62,10 @@ class MeetGeniusShowView: UIView {
                 "backgroundImageView": backgroundImageView,
             ]
 
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
-            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
-            NSLayoutConstraint.activateConstraints(constraintsH)
-            NSLayoutConstraint.activateConstraints(constraintsV)
+            let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+            let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+            NSLayoutConstraint.activate(constraintsH)
+            NSLayoutConstraint.activate(constraintsV)
         }
     }
 
@@ -77,15 +77,15 @@ class MeetGeniusShowView: UIView {
 
             SafeDispatch.async { [weak self] in
                 let imageURL = geniusInterviewBanner.imageURL
-                self?.backgroundImageView.kf_setImageWithURL(imageURL, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+                self?.backgroundImageView.kf_setImage(with: imageURL, placeholder: nil, options: MediaOptionsInfos)
             }
         })
     }
 
-    @objc private func didTap(sender: UITapGestureRecognizer) {
+    @objc fileprivate func didTap(_ sender: UITapGestureRecognizer) {
 
         if let banner = geniusInterviewBanner {
-            tapAction?(banner: banner)
+            tapAction?(banner)
         }
     }
 }

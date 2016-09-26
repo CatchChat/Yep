@@ -38,28 +38,28 @@ final class SkillCategoryButton: UIButton {
         }
     }
 
-    var toggleSelectionStateAction: ((inSelectionState: Bool) -> Void)?
+    var toggleSelectionStateAction: ((_ inSelectionState: Bool) -> Void)?
 
     lazy var categoryImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .Center
-        imageView.tintColor = UIColor.whiteColor()
+        imageView.contentMode = .center
+        imageView.tintColor = UIColor.white
         return imageView
     }()
 
     lazy var categoryTitleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.whiteColor()
-        label.font = UIFont.systemFontOfSize(24, weight: UIFontWeightThin)
+        label.textColor = UIColor.white
+        label.font = UIFont.systemFont(ofSize: 24, weight: UIFontWeightThin)
         return label
     }()
 
     lazy var arrowImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .Center
+        imageView.contentMode = .center
         imageView.image = UIImage.yep_iconSkillCategoryArrow
-        imageView.tintColor = UIColor.whiteColor()
-        imageView.tintAdjustmentMode = .Normal
+        imageView.tintColor = UIColor.white
+        imageView.tintAdjustmentMode = .normal
         return imageView
         }()
 
@@ -69,7 +69,7 @@ final class SkillCategoryButton: UIButton {
 
         makeUI()
 
-        self.addTarget(self, action: #selector(SkillCategoryButton.toggleSelectionState), forControlEvents: .TouchUpInside)
+        self.addTarget(self, action: #selector(SkillCategoryButton.toggleSelectionState), for: .touchUpInside)
     }
 
     func makeUI() {
@@ -88,23 +88,23 @@ final class SkillCategoryButton: UIButton {
             "arrowImageView": arrowImageView,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[categoryImageView]|", options: [], metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[categoryImageView]|", options: [], metrics: nil, views: viewsDictionary)
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[categoryImageView(40)]-20-[categoryTitleLabel][arrowImageView(20)]-20-|", options: [.AlignAllCenterY, .AlignAllTop, .AlignAllBottom], metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[categoryImageView(40)]-20-[categoryTitleLabel][arrowImageView(20)]-20-|", options: [.alignAllCenterY, .alignAllTop, .alignAllBottom], metrics: nil, views: viewsDictionary)
 
-        NSLayoutConstraint.activateConstraints(constraintsV)
-        NSLayoutConstraint.activateConstraints(constraintsH)
+        NSLayoutConstraint.activate(constraintsV)
+        NSLayoutConstraint.activate(constraintsH)
     }
 
     func toggleSelectionState() {
         inSelectionState = !inSelectionState
 
         if let action = toggleSelectionStateAction {
-            action(inSelectionState: inSelectionState)
+            action(inSelectionState)
         }
     }
 
-    func rotateArrowFromAngle(fromAngle: CGFloat, toAngle: CGFloat) {
+    func rotateArrowFromAngle(_ fromAngle: CGFloat, toAngle: CGFloat) {
 
         let rotationAnimation = CABasicAnimation(keyPath: "transform.rotation.z")
         rotationAnimation.repeatCount = 0
@@ -112,10 +112,10 @@ final class SkillCategoryButton: UIButton {
         rotationAnimation.toValue = toAngle
         rotationAnimation.duration = 0.25
         rotationAnimation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-        rotationAnimation.removedOnCompletion = false
+        rotationAnimation.isRemovedOnCompletion = false
         rotationAnimation.fillMode = kCAFillModeBoth
 
-        arrowImageView.layer.addAnimation(rotationAnimation, forKey: "rotationAnimation")
+        arrowImageView.layer.add(rotationAnimation, forKey: "rotationAnimation")
     }
 }
 

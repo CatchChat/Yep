@@ -12,31 +12,31 @@ class OverlayActionView: UIView {
 
     var shareAction: (() -> Void)?
 
-    private lazy var shareButton: UIButton = {
+    fileprivate lazy var shareButton: UIButton = {
         let button = UIButton()
         let image = UIImage(named: "icon_more_image")
-        button.setImage(image, forState: .Normal)
-        button.addTarget(self, action: #selector(OverlayActionView.share(_:)), forControlEvents: .TouchUpInside)
+        button.setImage(image, for: UIControlState())
+        button.addTarget(self, action: #selector(OverlayActionView.share(_:)), for: .touchUpInside)
         return button
     }()
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
 
-        let startColor: UIColor = UIColor.clearColor()
-        let endColor: UIColor = UIColor.blackColor().colorWithAlphaComponent(0.2)
+        let startColor: UIColor = UIColor.clear
+        let endColor: UIColor = UIColor.black.withAlphaComponent(0.2)
 
         let context = UIGraphicsGetCurrentContext()
 
-        let colors = [startColor.CGColor, endColor.CGColor]
+        let colors = [startColor.cgColor, endColor.cgColor]
         let colorSpace = CGColorSpaceCreateDeviceRGB()
         let colorLocations: [CGFloat] = [0.0, 1.0]
 
-        let gradient = CGGradientCreateWithColors(colorSpace, colors, colorLocations)
+        let gradient = CGGradient(colorsSpace: colorSpace, colors: colors as CFArray, locations: colorLocations)
 
-        let startPoint = CGPointZero
+        let startPoint = CGPoint.zero
         let endPoint = CGPoint(x: 0, y: rect.height)
 
-        CGContextDrawLinearGradient(context!, gradient!, startPoint, endPoint, CGGradientDrawingOptions(rawValue: 0))
+        context!.drawLinearGradient(gradient!, start: startPoint, end: endPoint, options: CGGradientDrawingOptions(rawValue: 0))
     }
 
     override func didMoveToSuperview() {
@@ -45,20 +45,20 @@ class OverlayActionView: UIView {
         makeUI()
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         addSubview(shareButton)
         shareButton.translatesAutoresizingMaskIntoConstraints = false
 
         do {
-            let trailing = shareButton.trailingAnchor.constraintEqualToAnchor(self.trailingAnchor, constant: -30)
-            let bottom = shareButton.bottomAnchor.constraintEqualToAnchor(self.bottomAnchor, constant: -30)
+            let trailing = shareButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -30)
+            let bottom = shareButton.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -30)
 
-            NSLayoutConstraint.activateConstraints([trailing, bottom])
+            NSLayoutConstraint.activate([trailing, bottom])
         }
     }
 
-    @objc private func share(sender: UIButton) {
+    @objc fileprivate func share(_ sender: UIButton) {
         shareAction?()
     }
 }

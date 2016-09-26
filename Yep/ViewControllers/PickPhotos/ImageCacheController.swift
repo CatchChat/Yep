@@ -11,20 +11,20 @@ import Photos
 
 final class ImageCacheController {
 
-    private var cachedIndices = NSIndexSet()
-    private let cachePreheatSize: Int
-    private let imageCache: PHCachingImageManager
-    private let images: PHFetchResult
-    private let targetSize = CGSize(width: 80, height: 80)
-    private let contentMode = PHImageContentMode.AspectFill
+    fileprivate var cachedIndices = NSIndexSet()
+    fileprivate let cachePreheatSize: Int
+    fileprivate let imageCache: PHCachingImageManager
+    fileprivate let images: PHFetchResult<PHAsset>
+    fileprivate let targetSize = CGSize(width: 80, height: 80)
+    fileprivate let contentMode = PHImageContentMode.aspectFill
 
-    init(imageManager: PHCachingImageManager, images: PHFetchResult, preheatSize: Int = 1) {
+    init(imageManager: PHCachingImageManager, images: PHFetchResult<PHAsset>, preheatSize: Int = 1) {
         self.cachePreheatSize = preheatSize
         self.imageCache = imageManager
         self.images = images
     }
 
-    func updateVisibleCells(visibleCells: [NSIndexPath]) {
+    func updateVisibleCells(_ visibleCells: [IndexPath]) {
 
         guard !visibleCells.isEmpty else {
             return
@@ -32,32 +32,32 @@ final class ImageCacheController {
 
         let updatedCache = NSMutableIndexSet()
         for path in visibleCells {
-            updatedCache.addIndex(path.item)
+            updatedCache.add((path as NSIndexPath).item)
         }
 
         let minCache = max(0, updatedCache.firstIndex - cachePreheatSize)
         let maxCache = min(images.count - 1, updatedCache.lastIndex + cachePreheatSize)
 
-        updatedCache.addIndexesInRange(NSMakeRange(minCache, maxCache - minCache + 1))
+        updatedCache.add(in: NSMakeRange(minCache, maxCache - minCache + 1))
 
         // Which indices can be chucked?
-        self.cachedIndices.enumerateIndexesUsingBlock { index, _ in
-            if !updatedCache.containsIndex(index) {
-                let asset: PHAsset! = self.images[index] as! PHAsset
-                self.imageCache.stopCachingImagesForAssets([asset], targetSize: self.targetSize, contentMode: self.contentMode, options: nil)
+        cachedIndices.enumerated().forEach { (index, _) in
+            if !updatedCache.contains(index) {
+                let asset: PHAsset! = self.images[index]
+                self.imageCache.stopCachingImages(for: [asset], targetSize: self.targetSize, contentMode: self.contentMode, options: nil)
                 //println("Stopping caching image \(index)")
             }
         }
         // And which are new?
-        updatedCache.enumerateIndexesUsingBlock { index, _ in
-            if !self.cachedIndices.containsIndex(index) {
-                let asset: PHAsset! = self.images[index] as! PHAsset
-                self.imageCache.startCachingImagesForAssets([asset], targetSize: self.targetSize, contentMode: self.contentMode, options: nil)
+        updatedCache.enumerated().forEach { (index, _) in
+            if !self.cachedIndices.contains(index) {
+                let asset: PHAsset = self.images[index]
+                self.imageCache.startCachingImages(for: [asset], targetSize: self.targetSize, contentMode: self.contentMode, options: nil)
                 //println("Starting caching image \(index)")
             }
         }
 
-        cachedIndices = NSIndexSet(indexSet: updatedCache)
+        cachedIndices = updatedCache
     }
 }
 

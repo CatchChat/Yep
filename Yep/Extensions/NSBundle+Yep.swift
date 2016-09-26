@@ -8,13 +8,13 @@
 
 import Foundation
 
-extension NSBundle {
+extension Bundle {
 
     static var releaseVersionNumber: String? {
-        return NSBundle.mainBundle().infoDictionary?["CFBundleShortVersionString"] as? String
+        return Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String
     }
 
     static var buildVersionNumber: String? {
-        return NSBundle.mainBundle().infoDictionary?["CFBundleVersion"] as? String
+        return Bundle.main.infoDictionary?["CFBundleVersion"] as? String
     }
 }

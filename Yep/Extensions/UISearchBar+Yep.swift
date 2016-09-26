@@ -28,7 +28,7 @@ extension UISearchBar {
 
     func yep_enableCancelButton() {
 
-        yep_cancelButton?.enabled = true
+        yep_cancelButton?.isEnabled = true
     }
 
     func yep_makeSureCancelButtonAlwaysEnabled() -> KeypathObserver<UIButton, Bool>? {
@@ -46,7 +46,7 @@ extension UISearchBar {
                 guard let cancelButton = self?.yep_cancelButton else { return }
                 guard let enabled = enabled else { return }
                 if !enabled {
-                    cancelButton.enabled = true
+                    cancelButton.isEnabled = true
                 }
             }
         )
@@ -71,20 +71,20 @@ extension UISearchBar {
 
         if let
             textField = self.yep_textField,
-            markedTextRange = textField.markedTextRange,
-            markedText = textField.textInRange(markedTextRange) {
+            let markedTextRange = textField.markedTextRange,
+            let markedText = textField.text(in: markedTextRange) {
 
-            if let text = self.text where !text.isEmpty {
+            if let text = self.text , !text.isEmpty {
                 let beginning = textField.beginningOfDocument
                 let start = markedTextRange.start
                 let end = markedTextRange.end
-                let location = textField.offsetFromPosition(beginning, toPosition: start)
-                let length = textField.offsetFromPosition(start, toPosition: end)
+                let location = textField.offset(from: beginning, to: start)
+                let length = textField.offset(from: start, to: end)
                 let nsRange = NSMakeRange(location, length)
 
                 if let range = text.yep_rangeFromNSRange(nsRange) {
                     var text = text
-                    text.removeRange(range)
+                    text.removeSubrange(range)
                     searchText = text + markedText.yep_removeAllWhitespaces
                 }
             }

@@ -15,22 +15,22 @@ public enum MessageAge: String {
     case New
 }
 
-public func tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs: [String], messageAge: MessageAge) {
+public func tryPostNewMessagesReceivedNotificationWithMessageIDs(_ messageIDs: [String], messageAge: MessageAge) {
 
     guard !messageIDs.isEmpty else {
         return
     }
 
     SafeDispatch.async {
-        let object = [
+        let object: JSONDictionary = [
             "messageIDs": messageIDs,
             "messageAge": messageAge.rawValue,
         ]
-        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.newMessages, object: object)
+        NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.newMessages), object: object)
     }
 }
 
-public func getOrCreateUserWithDiscoverUser(discoveredUser: DiscoveredUser, inRealm realm: Realm) -> User? {
+public func getOrCreateUserWithDiscoverUser(_ discoveredUser: DiscoveredUser, inRealm realm: Realm) -> User? {
     
     var user = userWithUserID(discoveredUser.id, inRealm: realm)
 
@@ -39,7 +39,7 @@ public func getOrCreateUserWithDiscoverUser(discoveredUser: DiscoveredUser, inRe
         
         newUser.userID = discoveredUser.id
         
-        newUser.friendState = UserFriendState.Stranger.rawValue
+        newUser.friendState = UserFriendState.stranger.rawValue
 
         realm.add(newUser)
 
@@ -78,7 +78,7 @@ public func getOrCreateUserWithDiscoverUser(discoveredUser: DiscoveredUser, inRe
     return user
 }
 
-public func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
+public func skillsFromUserSkillList(_ userSkillList: List<UserSkill>) -> [Skill] {
 
     var userSkills = [UserSkill]()
 
@@ -100,7 +100,7 @@ public func skillsFromUserSkillList(userSkillList: List<UserSkill>) -> [Skill] {
     })
 }
 
-public func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredAttachment]) -> [Attachment]{
+public func attachmentFromDiscoveredAttachment(_ discoverAttachments: [DiscoveredAttachment]) -> [Attachment]{
 
     return discoverAttachments.map({ discoverAttachment -> Attachment? in
         
@@ -114,7 +114,7 @@ public func attachmentFromDiscoveredAttachment(discoverAttachments: [DiscoveredA
     }).filter({ $0 != nil }).map({ discoverAttachment in discoverAttachment! })
 }
 
-public func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [UserSkill] {
+public func userSkillsFromSkills(_ skills: [Skill], inRealm realm: Realm) -> [UserSkill] {
 
     return skills.map({ skill -> UserSkill? in
 
@@ -141,7 +141,7 @@ public func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [User
                 userSkill.coverURLString = coverURLString
             }
 
-            if let skillCategory = skill.category, skillCategoryID = skill.category?.id {
+            if let skillCategory = skill.category, let skillCategoryID = skill.category?.id {
                 var userSkillCategory = userSkillCategoryWithSkillCategoryID(skillCategoryID, inRealm: realm)
 
                 if userSkillCategory == nil {
@@ -166,7 +166,7 @@ public func userSkillsFromSkills(skills: [Skill], inRealm realm: Realm) -> [User
     }).filter({ $0 != nil }).map({ skill in skill! })
 }
 
-public func userSocialAccountProvidersFromSocialAccountProviders(socialAccountProviders: [DiscoveredUser.SocialAccountProvider]) -> [UserSocialAccountProvider] {
+public func userSocialAccountProvidersFromSocialAccountProviders(_ socialAccountProviders: [DiscoveredUser.SocialAccountProvider]) -> [UserSocialAccountProvider] {
     return socialAccountProviders.map({ _provider -> UserSocialAccountProvider in
         let provider = UserSocialAccountProvider()
         provider.name = _provider.name
@@ -176,14 +176,14 @@ public func userSocialAccountProvidersFromSocialAccountProviders(socialAccountPr
     })
 }
 
-public func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm: Realm) -> [UserSkill] {
+public func userSkillsFromSkillsData(_ skillsData: [JSONDictionary], inRealm realm: Realm) -> [UserSkill] {
     var userSkills = [UserSkill]()
 
     for skillInfo in skillsData {
         if let
             skillID = skillInfo["id"] as? String,
-            skillName = skillInfo["name"] as? String,
-            skillLocalName = skillInfo["name_string"] as? String {
+            let skillName = skillInfo["name"] as? String,
+            let skillLocalName = skillInfo["name_string"] as? String {
 
                 var userSkill = userSkillWithSkillID(skillID, inRealm: realm)
 
@@ -209,9 +209,9 @@ public func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm
 
                     if let
                         categoryData = skillInfo["category"] as? JSONDictionary,
-                        skillCategoryID = categoryData["id"] as? String,
-                        skillCategoryName = categoryData["name"] as? String,
-                        skillCategoryLocalName = categoryData["name_string"] as? String {
+                        let skillCategoryID = categoryData["id"] as? String,
+                        let skillCategoryName = categoryData["name"] as? String,
+                        let skillCategoryLocalName = categoryData["name_string"] as? String {
 
                             var userSkillCategory = userSkillCategoryWithSkillCategoryID(skillCategoryID, inRealm: realm)
 
@@ -239,10 +239,10 @@ public func userSkillsFromSkillsData(skillsData: [JSONDictionary], inRealm realm
     return userSkills
 }
 
-public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
+public func syncMyInfoAndDoFurtherAction(_ furtherAction: @escaping () -> Void) {
 
     userInfo(failureHandler: { (reason, errorMessage) in
-        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+        defaultFailureHandler(reason, errorMessage)
 
         furtherAction()
 
@@ -250,7 +250,7 @@ public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
         //println("my userInfo: \(friendInfo)")
 
-        dispatch_async(realmQueue) {
+        realmQueue.async {
 
             if let myUserID = YepUserDefaults.userID.value {
 
@@ -264,9 +264,9 @@ public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
                     let newUser = User()
                     newUser.userID = myUserID
 
-                    newUser.friendState = UserFriendState.Me.rawValue
+                    newUser.friendState = UserFriendState.me.rawValue
 
-                    if let createdUnixTime = friendInfo["created_at"] as? NSTimeInterval {
+                    if let createdUnixTime = friendInfo["created_at"] as? TimeInterval {
                         newUser.createdUnixTime = createdUnixTime
                     }
 
@@ -289,7 +289,7 @@ public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                     if let
                         fromString = friendInfo["mute_started_at_string"] as? String,
-                        toString = friendInfo["mute_ended_at_string"] as? String {
+                        let toString = friendInfo["mute_ended_at_string"] as? String {
 
                             if !fromString.isEmpty && !toString.isEmpty {
 
@@ -327,20 +327,20 @@ public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
 
                                     let _ = try? realm.write {
 
-                                        let fromParts = fromString.componentsSeparatedByString(":")
+                                        let fromParts = fromString.components(separatedBy: ":")
 
                                         if let
-                                            fromHourString = fromParts[safe: 0], fromHour = Int(fromHourString),
-                                            fromMinuteString = fromParts[safe: 1], fromMinute = Int(fromMinuteString) {
+                                            fromHourString = fromParts[safe: 0], let fromHour = Int(fromHourString),
+                                            let fromMinuteString = fromParts[safe: 1], let fromMinute = Int(fromMinuteString) {
 
                                                 (userDoNotDisturb.fromHour, userDoNotDisturb.fromMinute) = convert(fromHour, fromMinute)
                                         }
 
-                                        let toParts = toString.componentsSeparatedByString(":")
+                                        let toParts = toString.components(separatedBy: ":")
 
                                         if let
-                                            toHourString = toParts[safe: 0], toHour = Int(toHourString),
-                                            toMinuteString = toParts[safe: 1], toMinute = Int(toMinuteString) {
+                                            toHourString = toParts[safe: 0], let toHour = Int(toHourString),
+                                            let toMinuteString = toParts[safe: 1], let toMinute = Int(toMinuteString) {
 
                                                 (userDoNotDisturb.toHour, userDoNotDisturb.toMinute) = convert(toHour, toMinute)
                                         }
@@ -392,7 +392,7 @@ public func syncMyInfoAndDoFurtherAction(furtherAction: () -> Void) {
     })
 }
 
-public func syncMyConversations(maxMessageID maxMessageID: String? = nil, afterSynced: (() -> Void)? = nil) {
+public func syncMyConversations(maxMessageID: String? = nil, afterSynced: (() -> Void)? = nil) {
 
     myConversations(maxMessageID: maxMessageID, failureHandler: nil) { result in
 
@@ -411,7 +411,7 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil, afterS
             })
 
             SafeDispatch.async {
-                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedConversation), object: nil)
             }
         }
 
@@ -422,7 +422,7 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil, afterS
             })
 
             SafeDispatch.async {
-                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
             }
         }
 
@@ -450,12 +450,12 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil, afterS
         let _ = try? realm.commitWrite()
 
         SafeDispatch.async {
-            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
-            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+            NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
         }
 
         if let lastMessageID =  lastMessageID {
-            if let count = result["count"] as? Int, perPage = result["per_page"] as? Int {
+            if let count = result["count"] as? Int, let perPage = result["per_page"] as? Int {
                 if count > perPage {
                     syncMyConversations(maxMessageID: lastMessageID)
                 }
@@ -468,12 +468,12 @@ public func syncMyConversations(maxMessageID maxMessageID: String? = nil, afterS
     }
 }
 
-public func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
+public func syncFriendshipsAndDoFurtherAction(_ furtherAction: @escaping () -> Void) {
 
     friendships(failureHandler: nil) { allFriendships in
         //println("\n allFriendships: \(allFriendships)")
 
-        dispatch_async(realmQueue) {
+        realmQueue.async {
 
             // 先整理出所有的 friend 的 userID
             var remoteUerIDSet = Set<String>()
@@ -489,11 +489,11 @@ public func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                 return
             }
 
-            let localUsers = realm.objects(User)
+            let localUsers = realm.objects(User.self)
 
             do {
                 let localUserIDSet = Set<String>(localUsers.map({ $0.userID }))
-                let userIDs = Array(localUserIDSet.subtract(remoteUerIDSet))
+                let userIDs = Array(localUserIDSet.subtracting(remoteUerIDSet))
                 deleteSearchableItems(searchableItemType: .User, itemIDs: userIDs)
             }
 
@@ -514,10 +514,10 @@ public func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
 
                     if let myUserID = YepUserDefaults.userID.value {
                         if myUserID == localUserID {
-                            localUser.friendState = UserFriendState.Me.rawValue
+                            localUser.friendState = UserFriendState.me.rawValue
 
-                        } else if localUser.friendState == UserFriendState.Normal.rawValue {
-                            localUser.friendState = UserFriendState.Stranger.rawValue
+                        } else if localUser.friendState == UserFriendState.normal.rawValue {
+                            localUser.friendState = UserFriendState.stranger.rawValue
                         }
                     }
                     
@@ -536,7 +536,7 @@ public func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                             let newUser = User()
                             newUser.userID = userID
 
-                            if let createdUnixTime = friendInfo["created_at"] as? NSTimeInterval {
+                            if let createdUnixTime = friendInfo["created_at"] as? TimeInterval {
                                 newUser.createdUnixTime = createdUnixTime
                             }
 
@@ -554,7 +554,7 @@ public func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
                                 user.friendshipID = friendshipID
                             }
 
-                            user.friendState = UserFriendState.Normal.rawValue
+                            user.friendState = UserFriendState.normal.rawValue
 
                             if let isBestfriend = friendInfo["favored"] as? Bool {
                                 user.isBestfriend = isBestfriend
@@ -577,7 +577,7 @@ public func syncFriendshipsAndDoFurtherAction(furtherAction: () -> Void) {
     }
 }
 
-public func syncFeedGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) {
+public func syncFeedGroupWithGroupInfo(_ groupInfo: JSONDictionary, inRealm realm: Realm) {
 
     let group = syncGroupWithGroupInfo(groupInfo, inRealm: realm)
 
@@ -587,8 +587,8 @@ public func syncFeedGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm:
 
     if let
         feedInfo = groupInfo["topic"] as? JSONDictionary,
-        feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo),
-        group = group {
+        let feed = DiscoveredFeed.fromFeedInfo(feedInfo, groupInfo: groupInfo),
+        let group = group {
         saveFeedWithDiscoveredFeed(feed, group: group, inRealm: realm)
 
     } else {
@@ -596,7 +596,7 @@ public func syncFeedGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm:
     }
 }
 
-public func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Realm) -> Group? {
+public func syncGroupWithGroupInfo(_ groupInfo: JSONDictionary, inRealm realm: Realm) -> Group? {
 
     if let groupID = groupInfo["id"] as? String {
         
@@ -618,18 +618,18 @@ public func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Rea
 
             // 有 topic 标记 groupType 为 Public，否则 Private
             if let _ = groupInfo["topic"] {
-                group.groupType = GroupType.Public.rawValue
+                group.groupType = GroupType.public.rawValue
             } else {
-                group.groupType = GroupType.Private.rawValue
+                group.groupType = GroupType.private.rawValue
             }
             println("group.groupType: \(group.groupType)")
 
             if group.conversation == nil {
                 let conversation = Conversation()
-                conversation.type = ConversationType.Group.rawValue
+                conversation.type = ConversationType.group.rawValue
                 conversation.withGroup = group
 
-                if let updatedUnixTime = groupInfo["updated_at"] as? NSTimeInterval {
+                if let updatedUnixTime = groupInfo["updated_at"] as? TimeInterval {
                     conversation.updatedUnixTime = max(updatedUnixTime, conversation.updatedUnixTime)
                 }
 
@@ -647,18 +647,18 @@ public func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Rea
 
                         newUser.userID = ownerID
 
-                        if let createdUnixTime = ownerInfo["created_at"] as? NSTimeInterval {
+                        if let createdUnixTime = ownerInfo["created_at"] as? TimeInterval {
                             newUser.createdUnixTime = createdUnixTime
                         }
 
                         if let myUserID = YepUserDefaults.userID.value {
                             if myUserID == ownerID {
-                                newUser.friendState = UserFriendState.Me.rawValue
+                                newUser.friendState = UserFriendState.me.rawValue
                             } else {
-                                newUser.friendState = UserFriendState.Stranger.rawValue
+                                newUser.friendState = UserFriendState.stranger.rawValue
                             }
                         } else {
-                            newUser.friendState = UserFriendState.Stranger.rawValue
+                            newUser.friendState = UserFriendState.stranger.rawValue
                         }
 
                         realm.add(newUser)
@@ -686,14 +686,14 @@ public func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Rea
                     }
                 }
 
-                let localMembers = group.members
+                var localMembers = group.members
 
                 // 去除远端没有的 member
 
-                for (index, member) in localMembers.enumerate() {
+                for (index, member) in localMembers.enumerated() {
                     let user = member
                     if !memberIDSet.contains(user.userID) {
-                        localMembers.removeAtIndex(index)
+                        localMembers.remove(at: index)
                     }
                 }
 
@@ -710,18 +710,18 @@ public func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Rea
 
                             newMember.userID = memberID
 
-                            if let createdUnixTime = memberInfo["created_at"] as? NSTimeInterval {
+                            if let createdUnixTime = memberInfo["created_at"] as? TimeInterval {
                                 newMember.createdUnixTime = createdUnixTime
                             }
 
                             if let myUserID = YepUserDefaults.userID.value {
                                 if myUserID == memberID {
-                                    newMember.friendState = UserFriendState.Me.rawValue
+                                    newMember.friendState = UserFriendState.me.rawValue
                                 } else {
-                                    newMember.friendState = UserFriendState.Stranger.rawValue
+                                    newMember.friendState = UserFriendState.stranger.rawValue
                                 }
                             } else {
-                                newMember.friendState = UserFriendState.Stranger.rawValue
+                                newMember.friendState = UserFriendState.stranger.rawValue
                             }
 
                             realm.add(newMember)
@@ -740,7 +740,7 @@ public func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Rea
                 }
 
                 group.members.removeAll()
-                group.members.appendContentsOf(localMembers)
+                group.members.append(objectsIn: localMembers)
             }
         }
 
@@ -752,7 +752,7 @@ public func syncGroupWithGroupInfo(groupInfo: JSONDictionary, inRealm realm: Rea
 
 public var isFetchingUnreadMessages = Listenable<Bool>(false) { _ in }
 
-public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [String]) -> Void) {
+public func syncUnreadMessagesAndDoFurtherAction(_ furtherAction: @escaping (_ messageIDs: [String]) -> Void) {
 
     isFetchingUnreadMessages.value = true
 
@@ -762,12 +762,12 @@ public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [St
         
         unreadMessages(failureHandler: { (reason, errorMessage) in
 
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async {
                 isFetchingUnreadMessages.value = false
 
-                furtherAction(messageIDs: [])
+                furtherAction([])
             }
 
         }, completion: { allUnreadMessages in
@@ -781,7 +781,7 @@ public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [St
             }
             */
             
-            dispatch_async(realmQueue) {
+            realmQueue.async {
                 
                 guard let realm = try? Realm() else {
                     return
@@ -802,14 +802,14 @@ public func syncUnreadMessagesAndDoFurtherAction(furtherAction: (messageIDs: [St
                 SafeDispatch.async {
                     isFetchingUnreadMessages.value = false
 
-                    furtherAction(messageIDs: messageIDs)
+                    furtherAction(messageIDs)
                 }
             }
         })
     }
 }
 
-public func recordMessageWithMessageID(messageID: String, detailInfo messageInfo: JSONDictionary, inRealm realm: Realm) {
+public func recordMessageWithMessageID(_ messageID: String, detailInfo messageInfo: JSONDictionary, inRealm realm: Realm) {
 
     //println("messageInfo: \(messageInfo)")
 
@@ -822,18 +822,18 @@ public func recordMessageWithMessageID(messageID: String, detailInfo messageInfo
             return
         }
 
-        if let user = message.fromFriend where user.isMe {
-            message.sendState = MessageSendState.Read.rawValue
+        if let user = message.fromFriend , user.isMe {
+            message.sendState = MessageSendState.read.rawValue
         }
 
         if let textContent = messageInfo["text_content"] as? String {
             message.textContent = textContent
 
-            if let conversation = message.conversation where !conversation.mentionedMe {
+            if let conversation = message.conversation , !conversation.mentionedMe {
                 if textContent.yep_mentionedMeInRealm(realm) {
                     if message.createdUnixTime > conversation.lastMentionedMeUnixTime {
                         conversation.mentionedMe = true
-                        conversation.lastMentionedMeUnixTime = NSDate().timeIntervalSince1970
+                        conversation.lastMentionedMeUnixTime = Date().timeIntervalSince1970
                         println("new mentionedMe")
                     } else {
                         println("old mentionedMe: \(message.createdUnixTime), \(conversation.lastMentionedMeUnixTime)")
@@ -846,7 +846,7 @@ public func recordMessageWithMessageID(messageID: String, detailInfo messageInfo
 
         if let
             longitude = messageInfo["longitude"] as? Double,
-            latitude = messageInfo["latitude"] as? Double {
+            let latitude = messageInfo["latitude"] as? Double {
 
                 let coordinate = Coordinate()
                 coordinate.safeConfigureWithLatitude(latitude, longitude: longitude)
@@ -864,7 +864,7 @@ public func recordMessageWithMessageID(messageID: String, detailInfo messageInfo
 
                 if let fileInfo = attachmentInfo["file"] as? JSONDictionary {
 
-                    if let attachmentExpiresUnixTime = fileInfo["expires_at"] as? NSTimeInterval {
+                    if let attachmentExpiresUnixTime = fileInfo["expires_at"] as? TimeInterval {
                         message.attachmentExpiresUnixTime = attachmentExpiresUnixTime
                     }
 
@@ -885,18 +885,18 @@ public func recordMessageWithMessageID(messageID: String, detailInfo messageInfo
             if let mediaType = messageInfo["media_type"] as? String {
 
                 switch mediaType {
-                case MessageMediaType.Text.description:
-                    message.mediaType = MessageMediaType.Text.rawValue
-                case MessageMediaType.Image.description:
-                    message.mediaType = MessageMediaType.Image.rawValue
-                case MessageMediaType.Video.description:
-                    message.mediaType = MessageMediaType.Video.rawValue
-                case MessageMediaType.Audio.description:
-                    message.mediaType = MessageMediaType.Audio.rawValue
-                case MessageMediaType.Sticker.description:
-                    message.mediaType = MessageMediaType.Sticker.rawValue
-                case MessageMediaType.Location.description:
-                    message.mediaType = MessageMediaType.Location.rawValue
+                case MessageMediaType.text.description:
+                    message.mediaType = MessageMediaType.text.rawValue
+                case MessageMediaType.image.description:
+                    message.mediaType = MessageMediaType.image.rawValue
+                case MessageMediaType.video.description:
+                    message.mediaType = MessageMediaType.video.rawValue
+                case MessageMediaType.audio.description:
+                    message.mediaType = MessageMediaType.audio.rawValue
+                case MessageMediaType.sticker.description:
+                    message.mediaType = MessageMediaType.sticker.rawValue
+                case MessageMediaType.location.description:
+                    message.mediaType = MessageMediaType.location.rawValue
                 default:
                     break
                 }
@@ -914,7 +914,7 @@ enum ServiceMessageActionType: String {
     case groupDeleteUser = "CircleDeleteUser"
 }
 
-public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, inRealm realm: Realm) -> Bool {
+public func isServiceMessageAndHandleMessageInfo(_ messageInfo: JSONDictionary, inRealm realm: Realm) -> Bool {
 
     guard let actionInfo = messageInfo["action"] as? JSONDictionary else {
         return false
@@ -922,13 +922,13 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
 
     //println("actionInfo: \(actionInfo)")
 
-    guard let typeRawValue = actionInfo["type"] as? String, type = ServiceMessageActionType(rawValue: typeRawValue) else {
+    guard let typeRawValue = actionInfo["type"] as? String, let type = ServiceMessageActionType(rawValue: typeRawValue) else {
         return false
     }
 
-    func tryDeleteGroup(totally totally: Bool = false) {
+    func tryDeleteGroup(totally: Bool = false) {
 
-        if let groupID = messageInfo["recipient_id"] as? String, group = groupWithGroupID(groupID, inRealm: realm) {
+        if let groupID = messageInfo["recipient_id"] as? String, let group = groupWithGroupID(groupID, inRealm: realm) {
 
             if let feedID = group.withFeed?.feedID {
                 deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
@@ -952,8 +952,8 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
                 group.cascadeDeleteInRealm(realm)
             }
 
-            delay(1) {
-                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+            _ = delay(1) {
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
             }
         }
     }
@@ -996,7 +996,7 @@ public func isServiceMessageAndHandleMessageInfo(messageInfo: JSONDictionary, in
     return true
 }
 
-public func syncGroupWithGroupID(groupID: String) {
+public func syncGroupWithGroupID(_ groupID: String) {
 
     groupWithGroupID(groupID: groupID, failureHandler: nil, completion: { groupInfo in
 
@@ -1008,15 +1008,15 @@ public func syncGroupWithGroupID(groupID: String) {
         syncFeedGroupWithGroupInfo(groupInfo, inRealm: realm)
         _ = try? realm.commitWrite()
 
-        delay(0.5) {
+        _ = delay(0.5) {
             SafeDispatch.async {
-                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+                NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
             }
         }
     })
 }
 
-public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((messageIDs: [String]) -> Void)?) {
+public func syncMessageWithMessageInfo(_ messageInfo: JSONDictionary, messageAge: MessageAge, inRealm realm: Realm, andDoFurtherAction furtherAction: ((_ messageIDs: [String]) -> Void)?) {
 
     if let messageID = messageInfo["id"] as? String {
 
@@ -1025,7 +1025,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
         // 如果消息被删除，且的发送者是自己，不同步且删除本地已有的
         let deleted = (messageInfo["deleted"] as? Bool) ?? false
         if deleted {
-            if let senderInfo = messageInfo["sender"] as? JSONDictionary, senderID = senderInfo["id"] as? String {
+            if let senderInfo = messageInfo["sender"] as? JSONDictionary, let senderID = senderInfo["id"] as? String {
                 if senderID == YepUserDefaults.userID.value {
                     if let message = message {
                         message.deleteAttachmentInRealm(realm)
@@ -1046,13 +1046,13 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
             let newMessage = Message()
             newMessage.messageID = messageID
 
-            if let createdUnixTime = messageInfo["created_at"] as? NSTimeInterval {
+            if let createdUnixTime = messageInfo["created_at"] as? TimeInterval {
                 newMessage.createdUnixTime = createdUnixTime
             }
 
             if case .New = messageAge {
                 // 确保网络来的新消息比任何已有的消息都要新，防止服务器消息延后发来导致插入到当前消息上面
-                if let latestMessage = realm.objects(Message).sorted("createdUnixTime", ascending: true).last {
+                if let latestMessage = realm.objects(Message.self).sorted(byProperty: "createdUnixTime", ascending: true).last {
                     if newMessage.createdUnixTime < latestMessage.createdUnixTime {
                         // 只考虑最近的消息，过了可能混乱的时机就不再考虑
                         if abs(newMessage.createdUnixTime - latestMessage.createdUnixTime) < 60 {
@@ -1086,7 +1086,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                         
                         //TODO 服务器个消息的 Sender 加入一个用户状态，避免暴力标记为 Stranger
 
-                        newUser.friendState = UserFriendState.Stranger.rawValue
+                        newUser.friendState = UserFriendState.stranger.rawValue
 
                         realm.add(newUser)
 
@@ -1121,7 +1121,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                         sendFromGroup = newGroup
                                         
                                         // 若提及我，才同步group进而得到feed
-                                        if let textContent = messageInfo["text_content"] as? String where textContent.yep_mentionedMeInRealm(realm) {
+                                        if let textContent = messageInfo["text_content"] as? String , textContent.yep_mentionedMeInRealm(realm) {
                                             syncGroupWithGroupID(groupID)
                                         }
                                     }
@@ -1170,7 +1170,7 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                                             updateUserWithUserID(userID, useUserInfo: userInfo, inRealm: realm)
                                             let _ = try? realm.commitWrite()
 
-                                            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.updatedUser, object: nil)
+                                            NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.updatedUser), object: nil)
                                         }
                                     })
                                 }
@@ -1187,10 +1187,10 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                             let newConversation = Conversation()
 
                             if let sendFromGroup = sendFromGroup {
-                                newConversation.type = ConversationType.Group.rawValue
+                                newConversation.type = ConversationType.group.rawValue
                                 newConversation.withGroup = sendFromGroup
                             } else {
-                                newConversation.type = ConversationType.OneToOne.rawValue
+                                newConversation.type = ConversationType.oneToOne.rawValue
                                 newConversation.withFriend = conversationWithUser
                             }
 
@@ -1206,10 +1206,10 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                         if let conversation = conversation {
 
                             // 先同步 read 状态
-                            if let sender = message.fromFriend where sender.isMe {
+                            if let sender = message.fromFriend , sender.isMe {
                                 message.readed = true
 
-                            } else if let state = messageInfo["state"] as? String where state == "read" {
+                            } else if let state = messageInfo["state"] as? String , state == "read" {
                                 message.readed = true
                             }
 
@@ -1217,12 +1217,12 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                             if !conversation.hasUnreadMessages {
                                 if message.conversation == nil && message.readed == false && message.createdUnixTime > conversation.olderUpdatedUnixTime {
 
-                                    println("ThreeUnixTime: \nc:\(message.createdUnixTime)\nu:\(conversation.updatedUnixTime)\nn:\(NSDate().timeIntervalSince1970)")
+                                    println("ThreeUnixTime: \nc:\(message.createdUnixTime)\nu:\(conversation.updatedUnixTime)\nn:\(Date().timeIntervalSince1970)")
 
                                     // 不考虑特别旧的消息
-                                    if message.createdUnixTime > (NSDate().timeIntervalSince1970 - 60*60*12) {
+                                    if message.createdUnixTime > (Date().timeIntervalSince1970 - 60*60*12) {
                                         conversation.hasUnreadMessages = true
-                                        conversation.updatedUnixTime = NSDate().timeIntervalSince1970
+                                        conversation.updatedUnixTime = Date().timeIntervalSince1970
                                     }
                                 }
                             }
@@ -1241,16 +1241,16 @@ public func syncMessageWithMessageInfo(messageInfo: JSONDictionary, messageAge: 
                             if createdNewConversation {
 
                                 SafeDispatch.async {
-                                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                                    NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedConversation), object: nil)
                                 }
                             }
 
                             // Do furtherAction after sync
 
                             if let sectionDateMessageID = sectionDateMessageID {
-                                furtherAction?(messageIDs: [sectionDateMessageID, messageID])
+                                furtherAction?([sectionDateMessageID, messageID])
                             } else {
-                                furtherAction?(messageIDs: [messageID])
+                                furtherAction?([messageID])
                             }
 
                         } else {

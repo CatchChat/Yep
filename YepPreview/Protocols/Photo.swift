@@ -12,6 +12,6 @@ public protocol Photo: class {
 
     var image: UIImage? { get }
 
-    var updatedImage: ((image: UIImage?) -> Void)? { get set }
+    var updatedImage: ((_ image: UIImage?) -> Void)? { get set }
 }
 

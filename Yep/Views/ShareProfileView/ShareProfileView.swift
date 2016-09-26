@@ -18,7 +18,7 @@ final class ShareProfileView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = UIColor.whiteColor()
+        backgroundColor = UIColor.white
         
         layer.cornerRadius = frame.height / 2.0
         
@@ -28,13 +28,13 @@ final class ShareProfileView: UIView {
         
         imageView.image = UIImage.yep_iconShare
         
-        imageView.transform = CGAffineTransformScale(CGAffineTransformIdentity, 0.4, 0.4)
+        imageView.transform = CGAffineTransform.identity.scaledBy(x: 0.4, y: 0.4)
         
         imageView.tintColor = UIColor.yepTintColor()
         
         imageView.center = CGPoint(x: bounds.width/2.0, y: bounds.height/2.0)
         
-        imageView.contentMode = UIViewContentMode.ScaleAspectFit
+        imageView.contentMode = UIViewContentMode.scaleAspectFit
         
         addSubview(imageView)
     }
@@ -43,7 +43,7 @@ final class ShareProfileView: UIView {
         super.init(coder: aDecoder)
     }
     
-    func updateWithProgress(progressNew: CGFloat) {
+    func updateWithProgress(_ progressNew: CGFloat) {
         
         if animating {
             return
@@ -55,21 +55,21 @@ final class ShareProfileView: UIView {
         if alpha > 1 {
             return
         }
-        transform = CGAffineTransformScale(CGAffineTransformIdentity, alpha, alpha)
+        transform = CGAffineTransform.identity.scaledBy(x: alpha, y: alpha)
     }
     
-    func shareActionAnimationAndDoFurther(further: () -> Void) {
+    func shareActionAnimationAndDoFurther(_ further: @escaping () -> Void) {
         
         animating = true
         
-        UIView.animateKeyframesWithDuration(0.3, delay: 0, options: UIViewKeyframeAnimationOptions.AllowUserInteraction, animations: { [weak self] in
-            
-            self?.transform = CGAffineTransformScale(CGAffineTransformIdentity, 3.0, 3.0)
+        UIView.animateKeyframes(withDuration: 0.3, delay: 0, options: .allowUserInteraction, animations: { [weak self] in
+
+            self?.transform = CGAffineTransform.identity.scaledBy(x: 3.0, y: 3.0)
             self?.alpha = 0
             
         }, completion: { [weak self] _ in
             
-            delay(0.5, work: { 
+            _ = delay(0.5, work: {
                 further()
                 self?.animating = false
             })

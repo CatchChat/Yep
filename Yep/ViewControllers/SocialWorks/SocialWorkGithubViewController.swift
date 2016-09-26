@@ -18,31 +18,31 @@ final class SocialWorkGithubViewController: BaseViewController {
     var profileUser: ProfileUser?
     var githubWork: GithubWork?
 
-    var afterGetGithubWork: (GithubWork -> Void)?
+    var afterGetGithubWork: ((GithubWork) -> Void)?
 
-    private lazy var shareButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(SocialWorkGithubViewController.share(_:)))
+    fileprivate lazy var shareButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(SocialWorkGithubViewController.share(_:)))
         return button
     }()
 
-    @IBOutlet private weak var infoView: UIView!
+    @IBOutlet fileprivate weak var infoView: UIView!
 
-    @IBOutlet private weak var avatarImageView: UIImageView!
-    @IBOutlet private weak var followersCountLabel: UILabel!
-    @IBOutlet private weak var starsCountLabel: UILabel!
-    @IBOutlet private weak var followingCountLabel: UILabel!
+    @IBOutlet fileprivate weak var avatarImageView: UIImageView!
+    @IBOutlet fileprivate weak var followersCountLabel: UILabel!
+    @IBOutlet fileprivate weak var starsCountLabel: UILabel!
+    @IBOutlet fileprivate weak var followingCountLabel: UILabel!
 
-    @IBOutlet private weak var githubTableView: UITableView!
+    @IBOutlet fileprivate weak var githubTableView: UITableView!
 
-    private var githubUser: GithubWork.User? {
+    fileprivate var githubUser: GithubWork.User? {
         didSet {
             if let user = githubUser {
-                shareButton.enabled = true
+                shareButton.isEnabled = true
 
-                infoView.hidden = false
+                infoView.isHidden = false
 
                 let avatarSize = avatarImageView.bounds.width
-                let avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
+                let avatarStyle: AvatarStyle = .roundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
                 let plainAvatar = PlainAvatar(avatarURLString: user.avatarURLString, avatarStyle: avatarStyle)
                 avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
@@ -52,10 +52,10 @@ final class SocialWorkGithubViewController: BaseViewController {
         }
     }
 
-    private var githubRepos = Array<GithubWork.Repo>() {
+    fileprivate var githubRepos = Array<GithubWork.Repo>() {
         didSet {
             let repos = githubRepos
-            let starsCount = repos.reduce(0, combine: { (result, repo) -> Int in
+            let starsCount = repos.reduce(0, { (result, repo) -> Int in
                 result + repo.stargazersCount
             })
 
@@ -77,18 +77,18 @@ final class SocialWorkGithubViewController: BaseViewController {
             title = "GitHub"
         }
 
-        shareButton.enabled = false
+        shareButton.isEnabled = false
         navigationItem.rightBarButtonItem = shareButton
 
-        githubTableView.registerNibOf(GithubRepoCell)
+        githubTableView.registerNibOf(GithubRepoCell.self)
 
         githubTableView.rowHeight = 100
         githubTableView.contentInset.bottom = YepConfig.SocialWorkGithub.Repo.rightEdgeInset - 10
         
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
-                    githubTableView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                if recognizer.isKind(of: UIScreenEdgePanGestureRecognizer.self) {
+                    githubTableView.panGestureRecognizer.require(toFail: recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
                 }
@@ -105,7 +105,7 @@ final class SocialWorkGithubViewController: BaseViewController {
             if let userID = profileUser?.userID {
 
                 githubWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+                    defaultFailureHandler(reason, errorMessage)
 
                     YepAlert.alertSorry(message: NSLocalizedString("Yep can't reach GitHub.\nWe blame GFW!", comment: ""), inViewController: self)
 
@@ -125,17 +125,17 @@ final class SocialWorkGithubViewController: BaseViewController {
 
     // MARK: Actions
 
-    private func updateGithubTableView() {
+    fileprivate func updateGithubTableView() {
 
         SafeDispatch.async { [weak self] in
             self?.githubTableView.reloadData()
         }
     }
 
-    @objc private func share(sender: AnyObject) {
+    @objc fileprivate func share(_ sender: AnyObject) {
 
         guard let githubUser = githubUser else { return }
-        guard let githubURL = NSURL(string: githubUser.htmlURLString) else { return }
+        guard let githubURL = URL(string: githubUser.htmlURLString) else { return }
 
         let title = String(format: NSLocalizedString("whosGitHub%@", comment: ""), githubUser.loginName)
 
@@ -153,7 +153,7 @@ final class SocialWorkGithubViewController: BaseViewController {
             title: title,
             description: nil,
             thumbnail: thumbnail,
-            media: .URL(githubURL)
+            media: .url(githubURL)
         )
         self.yep_share(info: info, defaultActivityItem: githubURL)
     }
@@ -161,15 +161,15 @@ final class SocialWorkGithubViewController: BaseViewController {
 
 extension SocialWorkGithubViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return githubRepos.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell: GithubRepoCell = tableView.dequeueReusableCell()
 
@@ -182,15 +182,15 @@ extension SocialWorkGithubViewController: UITableViewDataSource, UITableViewDele
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         let repo = githubRepos[indexPath.row]
 
-        if let URL = NSURL(string: repo.htmlURLString) {
+        if let URL = URL(string: repo.htmlURLString) {
             yep_openURL(URL)
         }
     }

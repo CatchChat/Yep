@@ -1,5 +1,5 @@
 //
-//  NSURL+Yep.swift
+//  URL+Yep.swift
 //  Yep
 //
 //  Created by nixzhu on 15/11/9.
@@ -9,48 +9,44 @@
 import Foundation
 import YepKit
 
-extension NSURL {
+extension URL {
 
-    private var allQueryItems: [NSURLQueryItem] {
+    fileprivate var allQueryItems: [URLQueryItem] {
 
-        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false), let queryItems = components.queryItems {
+        if let components = URLComponents(url: self, resolvingAgainstBaseURL: false), let queryItems = components.queryItems {
             return queryItems
         }
 
         return []
     }
 
-    private func queryItemForKey(key: String) -> NSURLQueryItem? {
+    fileprivate func queryItemForKey(_ key: String) -> URLQueryItem? {
 
         let predicate = NSPredicate(format: "name=%@", key)
-        return (allQueryItems as NSArray).filteredArrayUsingPredicate(predicate).first as? NSURLQueryItem
+        return (allQueryItems as NSArray).filtered(using: predicate).first as? URLQueryItem
     }
     
-    func yep_matchSharedFeed(completion: (feed: DiscoveredFeed?) -> Void) -> Bool {
+    func yep_matchSharedFeed(_ completion: @escaping (_ feed: DiscoveredFeed?) -> Void) -> Bool {
 
-        guard let host = host where host == yepHost else {
-            return false
-        }
-
-        guard let pathComponents = pathComponents else {
+        guard let host = host , host == yepHost else {
             return false
         }
 
         guard
-            let first = pathComponents[1] where first == "groups",
-            let second = pathComponents[2] where second == "share",
+            let first = pathComponents[safe: 1], first == "groups",
+            let second = pathComponents[safe: 2], second == "share",
             let sharedToken = queryItemForKey("token")?.value else {
                 return false
         }
 
         feedWithSharedToken(sharedToken, failureHandler: { reason, errorMessage in
             SafeDispatch.async {
-                completion(feed: nil)
+                completion(nil)
             }
 
         }, completion: { feed in
             SafeDispatch.async {
-                completion(feed: feed)
+                completion(feed)
             }
         })
 
@@ -59,17 +55,13 @@ extension NSURL {
 
     // make sure put it in last
 
-    func yep_matchProfile(completion: DiscoveredUser -> Void) -> Bool {
+    func yep_matchProfile(_ completion: @escaping (DiscoveredUser) -> Void) -> Bool {
 
-        guard let host = host where host == yepHost else {
+        guard let host = host , host == yepHost else {
             return false
         }
 
-        guard let pathComponents = pathComponents else {
-            return false
-        }
-
-        if let username = pathComponents[1] {
+        if let username = pathComponents[safe: 1] {
 
             discoverUserByUsername(username, failureHandler: nil, completion: { discoveredUser in
 
@@ -85,9 +77,13 @@ extension NSURL {
     }
 }
 
-extension NSURL {
+extension URL {
 
     var yep_isNetworkURL: Bool {
+
+        guard let scheme = scheme else {
+            return false
+        }
 
         switch scheme {
         case "http", "https":
@@ -97,17 +93,19 @@ extension NSURL {
         }
     }
 
-    var yep_validSchemeNetworkURL: NSURL? {
+    var yep_validSchemeNetworkURL: URL? {
 
-        if scheme!.isEmpty {
+        let scheme = self.scheme ?? ""
 
-            guard let URLComponents = NSURLComponents(URL: self, resolvingAgainstBaseURL: false) else {
+        if scheme.isEmpty {
+
+            guard var URLComponents = URLComponents(url: self, resolvingAgainstBaseURL: false) else {
                 return nil
             }
 
             URLComponents.scheme = "http"
 
-            return URLComponents.URL
+            return URLComponents.url
 
         } else {
             if yep_isNetworkURL {

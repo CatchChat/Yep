@@ -9,15 +9,15 @@
 import Foundation
 import YepKit
 
-private let sectionDateFormatter: NSDateFormatter = {
-    let dateFormatter = NSDateFormatter()
-    dateFormatter.dateStyle = .ShortStyle
-    dateFormatter.timeStyle = .ShortStyle
+private let sectionDateFormatter: DateFormatter = {
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateStyle = .short
+    dateFormatter.timeStyle = .short
     return dateFormatter
 }()
 
-private let sectionDateInCurrentWeekFormatter: NSDateFormatter =  {
-    let dateFormatter = NSDateFormatter()
+private let sectionDateInCurrentWeekFormatter: DateFormatter =  {
+    let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "EEEE HH:mm"
     return dateFormatter
 }()
@@ -25,11 +25,11 @@ private let sectionDateInCurrentWeekFormatter: NSDateFormatter =  {
 extension Message {
 
     var sectionDateString: String {
-        let createdAt = NSDate(timeIntervalSince1970: createdUnixTime)
-        if createdAt.isInCurrentWeek() {
-            return sectionDateInCurrentWeekFormatter.stringFromDate(createdAt)
+        let createdAt = Date(timeIntervalSince1970: createdUnixTime)
+        if createdAt.yep_isInWeekend {
+            return sectionDateInCurrentWeekFormatter.string(from: createdAt)
         } else {
-            return sectionDateFormatter.stringFromDate(createdAt)
+            return sectionDateFormatter.string(from: createdAt)
         }
     }
 }

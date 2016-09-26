@@ -14,13 +14,13 @@ final class ChatTextIndicatorCell: UICollectionViewCell {
     lazy var bubbleImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage.yep_skillBubble)
         imageView.tintColor = UIColor(white: 0.95, alpha: 1.0)
-        imageView.tintAdjustmentMode = .Normal
+        imageView.tintAdjustmentMode = .normal
         return imageView
     }()
 
     lazy var recallLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(12)
+        label.font = UIFont.systemFont(ofSize: 12)
         label.textColor  = UIColor(white: 0.75, alpha: 1.0)
         return label
     }()
@@ -38,25 +38,25 @@ final class ChatTextIndicatorCell: UICollectionViewCell {
                 "recallLabel": recallLabel,
             ]
 
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-(>=20)-[recallLabel]-(>=20)-|", options: [], metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-(>=20)-[recallLabel]-(>=20)-|", options: [], metrics: nil, views: views)
 
-            let centerX = NSLayoutConstraint(item: recallLabel, attribute: .CenterX, relatedBy: .Equal, toItem: contentView, attribute: .CenterX, multiplier: 1.0, constant: 0)
-            let centerY = NSLayoutConstraint(item: recallLabel, attribute: .CenterY, relatedBy: .Equal, toItem: contentView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+            let centerX = NSLayoutConstraint(item: recallLabel, attribute: .centerX, relatedBy: .equal, toItem: contentView, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let centerY = NSLayoutConstraint(item: recallLabel, attribute: .centerY, relatedBy: .equal, toItem: contentView, attribute: .centerY, multiplier: 1.0, constant: 0)
 
-            NSLayoutConstraint.activateConstraints(constraintsH)
-            NSLayoutConstraint.activateConstraints([centerX, centerY])
+            NSLayoutConstraint.activate(constraintsH)
+            NSLayoutConstraint.activate([centerX, centerY])
         }
 
         do {
-            let leading = NSLayoutConstraint(item: bubbleImageView, attribute: .Leading, relatedBy: .Equal, toItem: recallLabel, attribute: .Leading, multiplier: 1.0, constant: -10)
-            let trailing = NSLayoutConstraint(item: bubbleImageView, attribute: .Trailing, relatedBy: .Equal, toItem: recallLabel, attribute: .Trailing, multiplier: 1.0, constant: 10)
+            let leading = NSLayoutConstraint(item: bubbleImageView, attribute: .leading, relatedBy: .equal, toItem: recallLabel, attribute: .leading, multiplier: 1.0, constant: -10)
+            let trailing = NSLayoutConstraint(item: bubbleImageView, attribute: .trailing, relatedBy: .equal, toItem: recallLabel, attribute: .trailing, multiplier: 1.0, constant: 10)
 
-            let centerX = NSLayoutConstraint(item: bubbleImageView, attribute: .CenterX, relatedBy: .Equal, toItem: recallLabel, attribute: .CenterX, multiplier: 1.0, constant: 0)
-            let centerY = NSLayoutConstraint(item: bubbleImageView, attribute: .CenterY, relatedBy: .Equal, toItem: recallLabel, attribute: .CenterY, multiplier: 1.0, constant: 0)
+            let centerX = NSLayoutConstraint(item: bubbleImageView, attribute: .centerX, relatedBy: .equal, toItem: recallLabel, attribute: .centerX, multiplier: 1.0, constant: 0)
+            let centerY = NSLayoutConstraint(item: bubbleImageView, attribute: .centerY, relatedBy: .equal, toItem: recallLabel, attribute: .centerY, multiplier: 1.0, constant: 0)
 
-            let height = NSLayoutConstraint(item: bubbleImageView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1.0, constant: 24)
+            let height = NSLayoutConstraint(item: bubbleImageView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1.0, constant: 24)
 
-            NSLayoutConstraint.activateConstraints([leading, trailing, centerX, centerY, height])
+            NSLayoutConstraint.activate([leading, trailing, centerX, centerY, height])
         }
     }
 
@@ -65,15 +65,15 @@ final class ChatTextIndicatorCell: UICollectionViewCell {
     }
 
     enum IndicateType {
-        case RecalledMessage
-        case BlockedByRecipient
+        case recalledMessage
+        case blockedByRecipient
     }
 
-    func configureWithMessage(message: Message, indicateType: IndicateType) {
+    func configureWithMessage(_ message: Message, indicateType: IndicateType) {
         switch indicateType {
-        case .RecalledMessage:
+        case .recalledMessage:
             recallLabel.text = message.recalledTextContent
-        case .BlockedByRecipient:
+        case .blockedByRecipient:
             recallLabel.text = message.blockedTextContent
         }
     }

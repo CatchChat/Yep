@@ -31,7 +31,7 @@ final class SearchedMessageCell: UITableViewCell {
         messageLabel.text = nil
     }
 
-    func configureWithMessage(message: Message, keyword: String?) {
+    func configureWithMessage(_ message: Message, keyword: String?) {
 
         guard let user = message.fromFriend else {
             return
@@ -49,10 +49,10 @@ final class SearchedMessageCell: UITableViewCell {
             messageLabel.text = message.textContent
         }
 
-        timeLabel.text = NSDate(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercaseString
+        timeLabel.text = Date(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercased()
     }
 
-    func configureWithUserMessages(userMessages: SearchConversationsViewController.UserMessages, keyword: String?) {
+    func configureWithUserMessages(_ userMessages: SearchConversationsViewController.UserMessages, keyword: String?) {
 
         let user = userMessages.user
 
@@ -69,11 +69,11 @@ final class SearchedMessageCell: UITableViewCell {
                 messageLabel.textColor = UIColor.yepTintColor()
                 messageLabel.text = String(format: NSLocalizedString("countMessages%d", comment: ""), count)
 
-                timeLabel.hidden = true
+                timeLabel.isHidden = true
                 timeLabel.text = nil
 
             } else {
-                messageLabel.textColor = UIColor.blackColor()
+                messageLabel.textColor = UIColor.black
 
                 if let keyword = keyword {
                     messageLabel.attributedText = message.textContent.yep_hightlightSearchKeyword(keyword, baseFont: YepConfig.SearchedItemCell.messageFont, baseColor: YepConfig.SearchedItemCell.messageColor)
@@ -82,8 +82,8 @@ final class SearchedMessageCell: UITableViewCell {
                     messageLabel.text = message.textContent
                 }
 
-                timeLabel.hidden = false
-                timeLabel.text = NSDate(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercaseString
+                timeLabel.isHidden = false
+                timeLabel.text = Date(timeIntervalSince1970: message.createdUnixTime).timeAgo.lowercased()
             }
         }
     }

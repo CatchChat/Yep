@@ -14,7 +14,7 @@ final class FunctionTests: XCTestCase {
     func testValidSchemeNetworkURL() {
 
         do {
-            let url = NSURL(string: "twitter.com/nixzhu")!
+            let url = URL(string: "twitter.com/nixzhu")!
             let validSchemeURL = url.yep_validSchemeNetworkURL
             XCTAssertNotNil(validSchemeURL)
 
@@ -22,13 +22,13 @@ final class FunctionTests: XCTestCase {
         }
 
         do {
-            let url = NSURL(string: "http://blog.zhowkev.in")!
+            let url = URL(string: "http://blog.zhowkev.in")!
             let validSchemeURL = url.yep_validSchemeNetworkURL
             XCTAssertNotNil(validSchemeURL)
         }
 
         do {
-            let url = NSURL(string: "ftp://test.com")!
+            let url = URL(string: "ftp://test.com")!
             let validSchemeURL = url.yep_validSchemeNetworkURL
             XCTAssertEqual(validSchemeURL, nil)
         }

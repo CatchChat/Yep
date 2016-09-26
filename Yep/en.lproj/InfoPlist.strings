@@ -7,3 +7,4 @@
 */
 
 "NSLocationWhenInUseUsageDescription" = "Meet with nearby geniuses";
+"NSPhotoLibraryUsageDescription" = "Send or save photos";

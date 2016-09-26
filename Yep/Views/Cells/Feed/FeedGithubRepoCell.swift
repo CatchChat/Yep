@@ -9,18 +9,18 @@
 import UIKit
 import YepKit
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+private let screenWidth: CGFloat = UIScreen.main.bounds.width
 
 final class FeedGithubRepoCell: FeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + (80 + 15)
 
         return ceil(height)
     }
 
-    var tapGithubRepoLinkAction: (NSURL -> Void)?
+    var tapGithubRepoLinkAction: ((URL) -> Void)?
 
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
@@ -54,12 +54,12 @@ final class FeedGithubRepoCell: FeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
-            if case let .Github(githubRepo) = attachment {
+            if case let .github(githubRepo) = attachment {
                 githubRepoContainerView.nameLabel.text = githubRepo.name
                 githubRepoContainerView.descriptionLabel.text = githubRepo.description
             }
@@ -71,8 +71,8 @@ final class FeedGithubRepoCell: FeedBasicCell {
             }
 
             if case .GithubRepo = feed.kind {
-                if case let .Github(repo) = attachment, let URL = NSURL(string: repo.URLString) {
-                    self?.tapGithubRepoLinkAction?(URL)
+                if case let .github(repo) = attachment, let url = URL(string: repo.URLString) {
+                    self?.tapGithubRepoLinkAction?(url)
                 }
             }
         }

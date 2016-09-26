@@ -17,9 +17,9 @@ final class QuickPickPhotosCell: UITableViewCell {
 
     var alertCanNotAccessCameraRollAction: (() -> Void)?
     var takePhotoAction: (() -> Void)?
-    var pickedPhotosAction: (Set<PHAsset> -> Void)?
+    var pickedPhotosAction: ((Set<PHAsset>) -> Void)?
 
-    var images: PHFetchResult?
+    var images: PHFetchResult<PHAsset>?
     lazy var imageManager = PHCachingImageManager()
     var imageCacheController: ImageCacheController!
 
@@ -28,17 +28,17 @@ final class QuickPickPhotosCell: UITableViewCell {
             pickedPhotosAction?(pickedImageSet)
         }
     }
-    var completion: ((images: [UIImage], imageAssetSet: Set<PHAsset>) -> Void)?
+    var completion: ((_ images: [UIImage], _ imageAssetSet: Set<PHAsset>) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        selectionStyle = .None
+        selectionStyle = .none
 
-        photosCollectionView.backgroundColor = UIColor.clearColor()
+        photosCollectionView.backgroundColor = UIColor.clear
 
-        photosCollectionView.registerNibOf(CameraCell)
-        photosCollectionView.registerNibOf(PhotoCell)
+        photosCollectionView.registerNibOf(CameraCell.self)
+        photosCollectionView.registerNibOf(PhotoCell.self)
 
         photosCollectionView.showsHorizontalScrollIndicator = false
 
@@ -50,14 +50,14 @@ final class QuickPickPhotosCell: UITableViewCell {
             photosCollectionView.contentInset = UIEdgeInsets(top: 0, left: 5, bottom: 0, right: 0)
         }
 
-        proposeToAccess(.Photos, agreed: {
+        proposeToAccess(.photos, agreed: {
             SafeDispatch.async { [weak self] in
                 if let strongSelf = self {
                     let options = PHFetchOptions()
                     options.sortDescriptors = [
                         NSSortDescriptor(key: "creationDate", ascending: false)
                     ]
-                    let images = PHAsset.fetchAssetsWithMediaType(.Image, options: options)
+                    let images = PHAsset.fetchAssets(with: .image, options: options)
                     strongSelf.images = images
                     strongSelf.imageCacheController = ImageCacheController(imageManager: strongSelf.imageManager, images: images, preheatSize: 1)
 
@@ -66,7 +66,7 @@ final class QuickPickPhotosCell: UITableViewCell {
 
                     strongSelf.photosCollectionView.reloadData()
 
-                    PHPhotoLibrary.sharedPhotoLibrary().registerChangeObserver(strongSelf)
+                    PHPhotoLibrary.shared().register(strongSelf)
                 }
             }
 
@@ -80,11 +80,11 @@ final class QuickPickPhotosCell: UITableViewCell {
 
 extension QuickPickPhotosCell: PHPhotoLibraryChangeObserver {
 
-    func photoLibraryDidChange(changeInstance: PHChange) {
+    func photoLibraryDidChange(_ changeInstance: PHChange) {
 
-        if let
-            _images = images,
-            changeDetails = changeInstance.changeDetailsForFetchResult(_images) {
+        if
+            let _images = images,
+            let changeDetails = changeInstance.changeDetails(for: _images) {
 
                 SafeDispatch.async { [weak self] in
                     self?.images = changeDetails.fetchResultAfterChanges
@@ -98,11 +98,11 @@ extension QuickPickPhotosCell: PHPhotoLibraryChangeObserver {
 
 extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDelegate {
 
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch section {
         case 0:
             return 1
@@ -113,9 +113,9 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
         }
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
 
         case 0:
             let cell: CameraCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
@@ -130,27 +130,27 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
         }
     }
 
-    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 
         if let cell = cell as? PhotoCell {
             cell.imageManager = imageManager
 
-            if let imageAsset = images?[indexPath.item] as? PHAsset {
+            if let imageAsset = images?[(indexPath as NSIndexPath).item] {
                 cell.imageAsset = imageAsset
-                cell.photoPickedImageView.hidden = !pickedImageSet.contains(imageAsset)
+                cell.photoPickedImageView.isHidden = !pickedImageSet.contains(imageAsset)
             }
         }
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        switch indexPath.section {
+        switch (indexPath as NSIndexPath).section {
 
         case 0:
             takePhotoAction?()
 
         case 1:
-            if let imageAsset = images?[indexPath.item] as? PHAsset {
+            if let imageAsset = images?[(indexPath as NSIndexPath).item] {
 
                 if pickedImageSet.contains(imageAsset) {
                     pickedImageSet.remove(imageAsset)
@@ -159,8 +159,8 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
                     pickedImageSet.insert(imageAsset)
                 }
 
-                let cell = collectionView.cellForItemAtIndexPath(indexPath) as! PhotoCell
-                cell.photoPickedImageView.hidden = !pickedImageSet.contains(imageAsset)
+                let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
+                cell.photoPickedImageView.isHidden = !pickedImageSet.contains(imageAsset)
             }
 
         default:

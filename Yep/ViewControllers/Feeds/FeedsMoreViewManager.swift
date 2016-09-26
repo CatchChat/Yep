@@ -21,9 +21,9 @@ final class FeedsMoreViewManager {
         }
     }
 
-    private func makeBlockFeedsItem(blockedFeeds blockedFeeds: Bool) -> ActionSheetView.Item {
+    fileprivate func makeBlockFeedsItem(blockedFeeds: Bool) -> ActionSheetView.Item {
 
-        return .SubtitleSwitch(
+        return .subtitleSwitch(
             title: String.trans_titleHideFeedsFromThisUser,
             titleColor: UIColor(red: 63/255.0, green: 63/255.0, blue: 63/255.0, alpha: 1),
             subtitle: String.trans_promptFeedsByThisCreatorWillNotAppear,
@@ -35,11 +35,11 @@ final class FeedsMoreViewManager {
         )
     }
 
-    private var moreViewCreated: Bool = false
+    fileprivate var moreViewCreated: Bool = false
 
     lazy var moreView: ActionSheetView = {
 
-        let cancelItem = ActionSheetView.Item.Cancel
+        let cancelItem = ActionSheetView.Item.cancel
 
         let view = ActionSheetView(items: [
                 self.makeBlockFeedsItem(blockedFeeds: self.blockedFeeds),

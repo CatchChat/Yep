@@ -11,15 +11,7 @@ import RealmSwift
 
 public extension String {
 
-    public func contains(find: String) -> Bool{
-        return self.rangeOfString(find) != nil
-    }
-}
-
-
-public extension String {
-
-    public func yep_mentionedMeInRealm(realm: Realm) -> Bool {
+    public func yep_mentionedMeInRealm(_ realm: Realm) -> Bool {
 
         guard let me = meInRealm(realm) else {
             return false
@@ -28,7 +20,7 @@ public extension String {
         let username = me.username
 
         if !username.isEmpty {
-            if self.containsString("@\(username)") {
+            if self.contains("@\(username)") {
                 return true
             }
         }

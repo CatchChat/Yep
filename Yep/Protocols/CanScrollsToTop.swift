@@ -12,12 +12,12 @@ protocol CanScrollsToTop: class {
 
     var scrollView: UIScrollView? { get }
 
-    func scrollsToTopIfNeed(otherwise otherwise: (() -> Void)?)
+    func scrollsToTopIfNeed(otherwise: (() -> Void)?)
 }
 
 extension CanScrollsToTop {
 
-    func scrollsToTopIfNeed(otherwise otherwise: (() -> Void)? = nil) {
+    func scrollsToTopIfNeed(otherwise: (() -> Void)? = nil) {
 
         guard let scrollView = scrollView else { return }
 

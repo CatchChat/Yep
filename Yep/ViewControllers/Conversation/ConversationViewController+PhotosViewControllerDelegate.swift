@@ -11,17 +11,17 @@ import YepPreview
 
 extension ConversationViewController: PhotosViewControllerDelegate {
 
-    func photosViewController(vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference? {
+    func photosViewController(_ vc: PhotosViewController, referenceForPhoto photo: Photo) -> Reference? {
 
         println("photosViewController:referenceViewForPhoto:\(photo)")
 
         if let previewAttachmentPhoto = photo as? PreviewAttachmentPhoto {
-            if let index = previewAttachmentPhotos.indexOf(previewAttachmentPhoto) {
+            if let index = previewAttachmentPhotos.index(of: previewAttachmentPhoto) {
                 return previewReferences?[index]
             }
 
         } else if let previewMessagePhoto = photo as? PreviewMessagePhoto {
-            if let index = previewMessagePhotos.indexOf(previewMessagePhoto) {
+            if let index = previewMessagePhotos.index(of: previewMessagePhoto) {
                 return previewReferences?[index]
             }
         }
@@ -29,17 +29,17 @@ extension ConversationViewController: PhotosViewControllerDelegate {
         return nil
     }
 
-    func photosViewController(vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
+    func photosViewController(_ vc: PhotosViewController, didNavigateToPhoto photo: Photo, atIndex index: Int) {
 
         println("photosViewController:didNavigateToPhoto:\(photo):atIndex:\(index)")
     }
 
-    func photosViewControllerWillDismiss(vc: PhotosViewController) {
+    func photosViewControllerWillDismiss(_ vc: PhotosViewController) {
 
         println("photosViewControllerWillDismiss")
     }
 
-    func photosViewControllerDidDismiss(vc: PhotosViewController) {
+    func photosViewControllerDidDismiss(_ vc: PhotosViewController) {
 
         println("photosViewControllerDidDismiss")
 

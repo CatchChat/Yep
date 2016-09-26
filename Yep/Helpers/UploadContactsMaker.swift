@@ -12,29 +12,29 @@ import YepKit
 
 class UploadContactsMaker {
 
-    private class func contacts() -> [CNContact] {
+    fileprivate class func contacts() -> [CNContact] {
 
         let contactStore = CNContactStore()
 
-        guard let containers = try? contactStore.containersMatchingPredicate(nil) else {
+        guard let containers = try? contactStore.containers(matching: nil) else {
             println("Error fetching containers")
             return []
         }
 
         let keysToFetch = [
-            CNContactFormatter.descriptorForRequiredKeysForStyle(.FullName),
+            CNContactFormatter.descriptorForRequiredKeys(for: .fullName),
             CNContactPhoneNumbersKey,
-        ]
+        ] as [Any]
 
         var results: [CNContact] = []
 
         containers.forEach({
 
-            let fetchPredicate = CNContact.predicateForContactsInContainerWithIdentifier($0.identifier)
+            let fetchPredicate = CNContact.predicateForContactsInContainer(withIdentifier: $0.identifier)
 
             do {
-                let containerResults = try contactStore.unifiedContactsMatchingPredicate(fetchPredicate, keysToFetch: keysToFetch)
-                results.appendContentsOf(containerResults)
+                let containerResults = try contactStore.unifiedContacts(matching: fetchPredicate, keysToFetch: keysToFetch as! [CNKeyDescriptor])
+                results.append(contentsOf: containerResults)
 
             } catch {
                 println("Error fetching results for container")
@@ -50,13 +50,13 @@ class UploadContactsMaker {
 
         for contact in contacts() {
 
-            guard let compositeName = CNContactFormatter.stringFromContact(contact, style: .FullName) else {
+            guard let compositeName = CNContactFormatter.string(from: contact, style: .fullName) else {
                 continue
             }
 
             let phoneNumbers = contact.phoneNumbers
             for phoneNumber in phoneNumbers {
-                let number = (phoneNumber.value as! CNPhoneNumber).stringValue
+                let number = (phoneNumber.value ).stringValue
                 let uploadContact: UploadContact = [
                     "name": compositeName,
                     "number": number

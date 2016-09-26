@@ -21,7 +21,7 @@ class GeniusInterviewActionView: UIView {
 
         let view = UIImageView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
 
-        view.userInteractionEnabled = true
+        view.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(GeniusInterviewActionView.tapAvatar(_:)))
         view.addGestureRecognizer(tap)
 
@@ -32,13 +32,13 @@ class GeniusInterviewActionView: UIView {
 
         let width: CGFloat = Ruler.iPhoneHorizontal(150, 185, 185).value
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: 30))
-        button.titleLabel?.font = UIFont.systemFontOfSize(14)
-        button.setTitle(NSLocalizedString("Say Hi", comment: ""), forState: .Normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.setTitle(NSLocalizedString("Say Hi", comment: ""), for: UIControlState())
         button.backgroundColor = UIColor.yepTintColor()
-        button.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        button.setTitleColor(UIColor.white, for: UIControlState())
         button.layer.cornerRadius = 5
 
-        button.addTarget(self, action: #selector(GeniusInterviewActionView.sayHi(_:)), forControlEvents: UIControlEvents.TouchUpInside)
+        button.addTarget(self, action: #selector(GeniusInterviewActionView.sayHi(_:)), for: UIControlEvents.touchUpInside)
 
         return button
     }()
@@ -49,45 +49,45 @@ class GeniusInterviewActionView: UIView {
         makeUI()
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         do {
             toolbar.translatesAutoresizingMaskIntoConstraints = false
             addSubview(toolbar)
 
-            let leading = toolbar.leadingAnchor.constraintEqualToAnchor(leadingAnchor)
-            let trailing = toolbar.trailingAnchor.constraintEqualToAnchor(trailingAnchor)
-            let top = toolbar.topAnchor.constraintEqualToAnchor(topAnchor)
-            let bottom = toolbar.bottomAnchor.constraintEqualToAnchor(bottomAnchor)
-            NSLayoutConstraint.activateConstraints([leading, trailing, top, bottom])
+            let leading = toolbar.leadingAnchor.constraint(equalTo: leadingAnchor)
+            let trailing = toolbar.trailingAnchor.constraint(equalTo: trailingAnchor)
+            let top = toolbar.topAnchor.constraint(equalTo: topAnchor)
+            let bottom = toolbar.bottomAnchor.constraint(equalTo: bottomAnchor)
+            NSLayoutConstraint.activate([leading, trailing, top, bottom])
         }
 
         do {
             let avatarItem = UIBarButtonItem(customView: avatarImageView)
 
-            let gap1Item = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+            let gap1Item = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
             let sayHiItem = UIBarButtonItem(customView: sayHiButton)
 
-            let gap2Item = UIBarButtonItem(barButtonSystemItem: .FlexibleSpace, target: nil, action: nil)
+            let gap2Item = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
 
-            let shareItem = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(GeniusInterviewActionView.share(_:)))
+            let shareItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(GeniusInterviewActionView.share(_:)))
 
             toolbar.setItems([avatarItem, gap1Item, sayHiItem, gap2Item, shareItem], animated: false)
         }
     }
 
-    @objc private func tapAvatar(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tapAvatar(_ sender: UITapGestureRecognizer) {
 
         tapAvatarAction?()
     }
 
-    @objc private func sayHi(sender: UIButton) {
+    @objc fileprivate func sayHi(_ sender: UIButton) {
 
         sayHiAction?()
     }
 
-    @objc private func share(sender: UIBarButtonItem) {
+    @objc fileprivate func share(_ sender: UIBarButtonItem) {
 
         shareAction?()
     }

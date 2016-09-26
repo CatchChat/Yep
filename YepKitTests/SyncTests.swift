@@ -17,13 +17,13 @@ final class SyncTests: XCTestCase {
             return
         }
 
-        let expectation = expectationWithDescription("sync friendships")
+        let expectation = self.expectation(description: "sync friendships")
 
         syncFriendshipsAndDoFurtherAction {
             expectation.fulfill()
         }
 
-        waitForExpectationsWithTimeout(20, handler: nil)
+        waitForExpectations(timeout: 20, handler: nil)
     }
 
     func testSyncUnreadMessages() {
@@ -32,13 +32,13 @@ final class SyncTests: XCTestCase {
             return
         }
 
-        let expectation = expectationWithDescription("sync unread messages")
+        let expectation = self.expectation(description: "sync unread messages")
 
         syncUnreadMessagesAndDoFurtherAction { _ in
             expectation.fulfill()
         }
 
-        waitForExpectationsWithTimeout(20, handler: nil)
+        waitForExpectations(timeout: 20, handler: nil)
     }
 }
 

@@ -15,33 +15,33 @@ final class DoNotDisturbPeriodViewController: UIViewController {
 
     var doNotDisturbPeriod = DoNotDisturbPeriod()
 
-    var dirtyAction: (DoNotDisturbPeriod -> Void)?
+    var dirtyAction: ((DoNotDisturbPeriod) -> Void)?
 
-    @IBOutlet private weak var fromButton: UIButton!
-    @IBOutlet private weak var toButton: UIButton!
-    @IBOutlet private weak var pickerView: UIPickerView!
+    @IBOutlet fileprivate weak var fromButton: UIButton!
+    @IBOutlet fileprivate weak var toButton: UIButton!
+    @IBOutlet fileprivate weak var pickerView: UIPickerView!
 
-    private enum ActiveTime {
-        case From
-        case To
+    fileprivate enum ActiveTime {
+        case from
+        case to
     }
 
-    private let max = Int(INT16_MAX)
+    fileprivate let max = Int(INT16_MAX)
 
-    private var activeTime: ActiveTime = .From {
+    fileprivate var activeTime: ActiveTime = .from {
         willSet {
             switch newValue {
 
-            case .From:
-                fromButton.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
-                toButton.backgroundColor = UIColor.whiteColor()
+            case .from:
+                fromButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
+                toButton.backgroundColor = UIColor.white
 
                 pickerView.selectRow(max / (2 * 24) * 24 + doNotDisturbPeriod.fromHour, inComponent: 0, animated: true)
                 pickerView.selectRow(max / (2 * 60) * 60 + doNotDisturbPeriod.fromMinute, inComponent: 1, animated: true)
 
-            case .To:
-                fromButton.backgroundColor = UIColor.whiteColor()
-                toButton.backgroundColor = UIColor.lightGrayColor().colorWithAlphaComponent(0.5)
+            case .to:
+                fromButton.backgroundColor = UIColor.white
+                toButton.backgroundColor = UIColor.lightGray.withAlphaComponent(0.5)
 
                 pickerView.selectRow(max / (2 * 24) * 24 + doNotDisturbPeriod.toHour, inComponent: 0, animated: true)
                 pickerView.selectRow(max / (2 * 60) * 60 + doNotDisturbPeriod.toMinute, inComponent: 1, animated: true)
@@ -49,7 +49,7 @@ final class DoNotDisturbPeriodViewController: UIViewController {
         }
     }
 
-    private var isDirty = false {
+    fileprivate var isDirty = false {
         didSet {
             updateDoNotDisturb(success: { [weak self] in
                 if let strongSelf = self {
@@ -64,7 +64,7 @@ final class DoNotDisturbPeriodViewController: UIViewController {
 
         title = String.trans_titleMute
 
-        activeTime = .From
+        activeTime = .from
 
         updateFromButton()
         updateToButton()
@@ -72,7 +72,7 @@ final class DoNotDisturbPeriodViewController: UIViewController {
 
     // MARK: - Actions
 
-    private func updateDoNotDisturb(success success: () -> Void) {
+    fileprivate func updateDoNotDisturb(success: @escaping () -> Void) {
 
         let info: JSONDictionary = [
             "mute_started_at_string": doNotDisturbPeriod.serverFromString,
@@ -80,7 +80,7 @@ final class DoNotDisturbPeriodViewController: UIViewController {
         ]
 
         updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+            defaultFailureHandler(reason, errorMessage)
 
             YepAlert.alertSorry(message: NSLocalizedString("Set Do Not Disturb Failed!", comment: ""), inViewController: self)
 
@@ -125,20 +125,20 @@ final class DoNotDisturbPeriodViewController: UIViewController {
         })
     }
 
-    private func updateFromButton() {
-        fromButton.setTitle(String.trans_timeFrom + " " + doNotDisturbPeriod.localFromString, forState: .Normal)
+    fileprivate func updateFromButton() {
+        fromButton.setTitle(String.trans_timeFrom + " " + doNotDisturbPeriod.localFromString, for: UIControlState())
     }
 
-    private func updateToButton() {
-        toButton.setTitle(NSLocalizedString("To", comment: "") + " " + doNotDisturbPeriod.localToString, forState: .Normal)
+    fileprivate func updateToButton() {
+        toButton.setTitle(NSLocalizedString("To", comment: "") + " " + doNotDisturbPeriod.localToString, for: UIControlState())
     }
 
-    @IBAction private func activeFrom() {
-        activeTime = .From
+    @IBAction fileprivate func activeFrom() {
+        activeTime = .from
     }
 
-    @IBAction private func activeTo() {
-        activeTime = .To
+    @IBAction fileprivate func activeTo() {
+        activeTime = .to
     }
 }
 
@@ -146,19 +146,19 @@ final class DoNotDisturbPeriodViewController: UIViewController {
 
 extension DoNotDisturbPeriodViewController: UIPickerViewDataSource, UIPickerViewDelegate {
 
-    func numberOfComponentsInPickerView(pickerView: UIPickerView) -> Int {
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
         return 2
     }
 
-    func pickerView(pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
         return max
     }
 
-    func pickerView(pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
+    func pickerView(_ pickerView: UIPickerView, widthForComponent component: Int) -> CGFloat {
         return 60
     }
 
-    func pickerView(pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
 
         if component == 0 {
             return String(format: "%02d", row % 24)
@@ -170,11 +170,11 @@ extension DoNotDisturbPeriodViewController: UIPickerViewDataSource, UIPickerView
         return ""
     }
 
-    func pickerView(pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
 
         switch activeTime {
 
-        case .From:
+        case .from:
 
             if component == 0 {
                 doNotDisturbPeriod.fromHour = row % 24
@@ -184,7 +184,7 @@ extension DoNotDisturbPeriodViewController: UIPickerViewDataSource, UIPickerView
 
             updateFromButton()
 
-        case .To:
+        case .to:
             if component == 0 {
                 doNotDisturbPeriod.toHour = row % 24
             } else if component == 1 {

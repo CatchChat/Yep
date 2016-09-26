@@ -8,12 +8,12 @@
 
 final public class SendingMessagesPool {
 
-    private static var sharedPool = SendingMessagesPool()
+    fileprivate static var sharedPool = SendingMessagesPool()
 
-    private init() {
+    fileprivate init() {
     }
 
-    private var messageIDSet = Set<String>()
+    fileprivate var messageIDSet = Set<String>()
 
     public class func containsMessage(with messsageID: String) -> Bool {
 

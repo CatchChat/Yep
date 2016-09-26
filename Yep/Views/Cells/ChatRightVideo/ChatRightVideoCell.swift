@@ -13,7 +13,7 @@ final class ChatRightVideoCell: ChatRightBaseCell {
 
     lazy var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         imageView.tintColor = UIColor.rightBubbleTintColor()
         return imageView
     }()
@@ -33,7 +33,7 @@ final class ChatRightVideoCell: ChatRightBaseCell {
 
     func makeUI() {
 
-        let fullWidth = UIScreen.mainScreen().bounds.width
+        let fullWidth = UIScreen.main.bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
 
@@ -52,12 +52,12 @@ final class ChatRightVideoCell: ChatRightBaseCell {
         }
         UIView.setAnimationsEnabled(true)
 
-        thumbnailImageView.userInteractionEnabled = true
+        thumbnailImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatRightVideoCell.tapMediaView))
         thumbnailImageView.addGestureRecognizer(tap)
 
         prepareForMenuAction = { otherGesturesEnabled in
-            tap.enabled = otherGesturesEnabled
+            tap.isEnabled = otherGesturesEnabled
         }
     }
 
@@ -71,7 +71,7 @@ final class ChatRightVideoCell: ChatRightBaseCell {
 
     var loadingProgress: Double = 0
 
-    func loadingWithProgress(progress: Double, image: UIImage?) {
+    func loadingWithProgress(_ progress: Double, image: UIImage?) {
 
         if progress >= loadingProgress {
 
@@ -83,14 +83,14 @@ final class ChatRightVideoCell: ChatRightBaseCell {
 
                 self.thumbnailImageView.image = image
 
-                UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                UIView.animate(withDuration: YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
                     self?.thumbnailImageView.alpha = 1.0
                 }, completion: nil)
             }
         }
     }
     
-    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?) {
+    func configureWithMessage(_ message: Message, mediaTapAction: MediaTapAction?) {
 
         self.message = message
         self.user = message.fromFriend
@@ -113,7 +113,7 @@ final class ChatRightVideoCell: ChatRightBaseCell {
 
         let videoSize = message.fixedVideoSize
 
-        thumbnailImageView.yep_setImageOfMessage(message, withSize: videoSize, tailDirection: .Right, completion: { loadingProgress, image in
+        thumbnailImageView.yep_setImageOfMessage(message, withSize: videoSize, tailDirection: .right, completion: { loadingProgress, image in
             SafeDispatch.async { [weak self] in
                 self?.loadingWithProgress(loadingProgress, image: image)
             }
@@ -121,9 +121,9 @@ final class ChatRightVideoCell: ChatRightBaseCell {
 
         UIView.setAnimationsEnabled(false); do {
             let width = videoSize.width
-            thumbnailImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
-            playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) - YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(thumbnailImageView.frame))
-            dotImageView.center = CGPoint(x: CGRectGetMinX(thumbnailImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(thumbnailImageView.frame))
+            thumbnailImageView.frame = CGRect(x: (avatarImageView.frame).minX - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
+            playImageView.center = CGPoint(x: thumbnailImageView.frame.midX - YepConfig.ChatCell.playImageViewXOffset, y: thumbnailImageView.frame.midY)
+            dotImageView.center = CGPoint(x: thumbnailImageView.frame.minX - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: thumbnailImageView.frame.midY)
 
             borderImageView.frame = thumbnailImageView.frame
         }

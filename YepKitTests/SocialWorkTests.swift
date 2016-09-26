@@ -17,7 +17,7 @@ final class SocialWorkTests: XCTestCase {
             return
         }
 
-        let expectation = expectationWithDescription("get github social works")
+        let expectation = self.expectation(description: "get github social works")
 
         tokensOfSocialAccounts(failureHandler: nil, completion: { tokensOfSocialAccounts in
 
@@ -34,7 +34,7 @@ final class SocialWorkTests: XCTestCase {
             }
         })
 
-        waitForExpectationsWithTimeout(30, handler: nil)
+        waitForExpectations(timeout: 30, handler: nil)
     }
 
     func testGetDribbbleSocialWorks() {
@@ -43,7 +43,7 @@ final class SocialWorkTests: XCTestCase {
             return
         }
 
-        let expectation = expectationWithDescription("get dribbble social works")
+        let expectation = self.expectation(description: "get dribbble social works")
 
         tokensOfSocialAccounts(failureHandler: nil, completion: { tokensOfSocialAccounts in
 
@@ -60,7 +60,7 @@ final class SocialWorkTests: XCTestCase {
             }
         })
 
-        waitForExpectationsWithTimeout(30, handler: nil)
+        waitForExpectations(timeout: 30, handler: nil)
     }
 }
 

@@ -8,40 +8,40 @@
 
 import UIKit
 
-public class PhotosViewController: UIViewController {
+open class PhotosViewController: UIViewController {
 
-    private weak var delegate: PhotosViewControllerDelegate?
+    fileprivate weak var delegate: PhotosViewControllerDelegate?
 
-    private let dataSource: PhotosViewControllerDataSource
+    fileprivate let dataSource: PhotosViewControllerDataSource
 
-    private lazy var transitionController = PhotoTransitonController()
+    fileprivate lazy var transitionController = PhotoTransitonController()
 
-    private var overlayActionViewWasHiddenBeforeTransition = false
-    private lazy var overlayActionView: OverlayActionView = {
+    fileprivate var overlayActionViewWasHiddenBeforeTransition = false
+    fileprivate lazy var overlayActionView: OverlayActionView = {
 
         let view = OverlayActionView()
-        view.backgroundColor = UIColor.clearColor()
+        view.backgroundColor = UIColor.clear
 
         view.shareAction = { [weak self] in
             guard let strongSelf = self else { return }
             guard let image = strongSelf.currentlyDisplayedPhoto?.image else { return }
-            Config.shareImageAction?(image: image, fromViewController: strongSelf)
+            Config.shareImageAction?(image, strongSelf)
         }
 
         return view
     }()
 
-    private lazy var pageViewController: UIPageViewController = {
+    fileprivate lazy var pageViewController: UIPageViewController = {
 
         let vc = UIPageViewController(
-            transitionStyle: .Scroll,
-            navigationOrientation: .Horizontal,
+            transitionStyle: .scroll,
+            navigationOrientation: .horizontal,
             options: [UIPageViewControllerOptionInterPageSpacingKey: 30])
 
         vc.dataSource = self
         vc.delegate = self
 
-        vc.view.backgroundColor = UIColor.clearColor()
+        vc.view.backgroundColor = UIColor.clear
 
         vc.view.addGestureRecognizer(self.panGestureRecognizer)
         vc.view.addGestureRecognizer(self.singleTapGestureRecognizer)
@@ -49,15 +49,15 @@ public class PhotosViewController: UIViewController {
         return vc
     }()
 
-    private var currentPhotoViewController: PhotoViewController? {
+    fileprivate var currentPhotoViewController: PhotoViewController? {
 
         return pageViewController.viewControllers?.first as? PhotoViewController
     }
-    private var currentlyDisplayedPhoto: Photo? {
+    fileprivate var currentlyDisplayedPhoto: Photo? {
 
         return currentPhotoViewController?.photo
     }
-    private var referenceForCurrentPhoto: Reference? {
+    fileprivate var referenceForCurrentPhoto: Reference? {
 
         guard let photo = currentlyDisplayedPhoto else {
             return nil
@@ -66,21 +66,21 @@ public class PhotosViewController: UIViewController {
         return delegate?.photosViewController(self, referenceForPhoto: photo)
     }
 
-    private lazy var panGestureRecognizer: UIPanGestureRecognizer = {
+    fileprivate lazy var panGestureRecognizer: UIPanGestureRecognizer = {
 
         let pan = UIPanGestureRecognizer()
         pan.addTarget(self, action: #selector(PhotosViewController.didPan(_:)))
         return pan
     }()
 
-    private lazy var singleTapGestureRecognizer: UITapGestureRecognizer = {
+    fileprivate lazy var singleTapGestureRecognizer: UITapGestureRecognizer = {
 
         let tap = UITapGestureRecognizer()
         tap.addTarget(self, action: #selector(PhotosViewController.didSingleTap(_:)))
         return tap
     }()
 
-    private var boundsCenterPoint: CGPoint {
+    fileprivate var boundsCenterPoint: CGPoint {
 
         return CGPoint(x: view.bounds.midX, y: view.bounds.midY)
     }
@@ -100,7 +100,7 @@ public class PhotosViewController: UIViewController {
 
         super.init(nibName: nil, bundle: nil)
 
-        self.modalPresentationStyle = .Custom
+        self.modalPresentationStyle = .custom
         self.transitioningDelegate = transitionController
         self.modalPresentationCapturesStatusBarAppearance = true
 
@@ -120,66 +120,66 @@ public class PhotosViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setOverlayActionViewHidden(hidden: Bool, animated: Bool) {
+    fileprivate func setOverlayActionViewHidden(_ hidden: Bool, animated: Bool) {
 
-        guard overlayActionView.hidden != hidden else {
+        guard overlayActionView.isHidden != hidden else {
             return
         }
 
         if animated {
-            overlayActionView.hidden = false
+            overlayActionView.isHidden = false
             overlayActionView.alpha = hidden ? 1 : 0
 
-            UIView.animateWithDuration(0.25, delay: 0, options: [.CurveEaseIn, .CurveEaseOut, .AllowAnimatedContent, .AllowUserInteraction], animations: { [weak self] in
+            UIView.animate(withDuration: 0.25, delay: 0, options: [.curveEaseIn, .curveEaseOut, .allowAnimatedContent, .allowUserInteraction], animations: { [weak self] in
                 self?.overlayActionView.alpha = hidden ? 0 : 1
 
             }, completion: { [weak self] finished in
-                self?.overlayActionView.hidden = hidden
+                self?.overlayActionView.isHidden = hidden
             })
 
         } else {
-            overlayActionView.hidden = hidden
+            overlayActionView.isHidden = hidden
         }
     }
 
-    private func newPhotoViewControllerForPhoto(photo: Photo) -> PhotoViewController {
+    fileprivate func newPhotoViewControllerForPhoto(_ photo: Photo) -> PhotoViewController {
 
         let photoViewController = PhotoViewController(photo: photo)
 
-        singleTapGestureRecognizer.requireGestureRecognizerToFail(photoViewController.doubleTapGestureRecognizer)
+        singleTapGestureRecognizer.require(toFail: photoViewController.doubleTapGestureRecognizer)
 
         return photoViewController
     }
 
-    private func setCurrentlyDisplayedViewController(vc: PhotoViewController, animated: Bool) {
+    fileprivate func setCurrentlyDisplayedViewController(_ vc: PhotoViewController, animated: Bool) {
 
-        pageViewController.setViewControllers([vc], direction: .Forward, animated: animated, completion: nil)
+        pageViewController.setViewControllers([vc], direction: .forward, animated: animated, completion: nil)
     }
 
     // MARK: Life Circle
 
-    override public func viewDidLoad() {
+    override open func viewDidLoad() {
         super.viewDidLoad()
 
-        view.tintColor = UIColor.whiteColor()
-        view.backgroundColor = UIColor.blackColor()
+        view.tintColor = UIColor.white
+        view.backgroundColor = UIColor.black
 
         do {
             addChildViewController(pageViewController)
             view.addSubview(pageViewController.view)
-            pageViewController.didMoveToParentViewController(self)
+            pageViewController.didMove(toParentViewController: self)
         }
 
         do {
             view.addSubview(overlayActionView)
             overlayActionView.translatesAutoresizingMaskIntoConstraints = false
 
-            let leading = overlayActionView.leadingAnchor.constraintEqualToAnchor(view.leadingAnchor, constant: 0)
-            let trailing = overlayActionView.trailingAnchor.constraintEqualToAnchor(view.trailingAnchor, constant: 0)
-            let bottom = overlayActionView.bottomAnchor.constraintEqualToAnchor(view.bottomAnchor, constant: 0)
-            let height = overlayActionView.heightAnchor.constraintEqualToConstant(80)
+            let leading = overlayActionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 0)
+            let trailing = overlayActionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: 0)
+            let bottom = overlayActionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0)
+            let height = overlayActionView.heightAnchor.constraint(equalToConstant: 80)
 
-            NSLayoutConstraint.activateConstraints([leading, trailing, bottom, height])
+            NSLayoutConstraint.activate([leading, trailing, bottom, height])
 
             setOverlayActionViewHidden(true, animated: false)
         }
@@ -197,15 +197,15 @@ public class PhotosViewController: UIViewController {
         }
     }
 
-    public override func viewWillAppear(animated: Bool) {
+    open override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, Int64(0.15 * Double(NSEC_PER_SEC))), dispatch_get_main_queue()) { [weak self] in
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(Int64(0.15 * Double(NSEC_PER_SEC))) / Double(NSEC_PER_SEC)) { [weak self] in
             self?.statusBarHidden = true
         }
     }
 
-    public override func viewDidAppear(animated: Bool) {
+    open override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if !overlayActionViewWasHiddenBeforeTransition {
@@ -213,7 +213,7 @@ public class PhotosViewController: UIViewController {
         }
     }
 
-    public override func viewWillDisappear(animated: Bool) {
+    open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         statusBarHidden = false
@@ -227,21 +227,21 @@ public class PhotosViewController: UIViewController {
         }
     }
 
-    public override func prefersStatusBarHidden() -> Bool {
+    open override var prefersStatusBarHidden : Bool {
         return statusBarHidden
     }
 
-    public override func preferredStatusBarUpdateAnimation() -> UIStatusBarAnimation {
-        return .Fade
+    open override var preferredStatusBarUpdateAnimation : UIStatusBarAnimation {
+        return .fade
     }
 
     // MARK: Selectors
 
-    @objc private func didPan(sender: UIPanGestureRecognizer) {
+    @objc fileprivate func didPan(_ sender: UIPanGestureRecognizer) {
 
         switch sender.state {
 
-        case .Began:
+        case .began:
             transitionController.forcesNonInteractiveDismissal = false
             dismissViewControllerAnimated(true, userInitiated: true, completion: nil)
 
@@ -251,7 +251,7 @@ public class PhotosViewController: UIViewController {
         }
     }
 
-    @objc private func didSingleTap(sender: UITapGestureRecognizer) {
+    @objc fileprivate func didSingleTap(_ sender: UITapGestureRecognizer) {
 
         //setOverlayActionViewHidden(!overlayActionView.hidden, animated: true)
         dismissViewControllerAnimated(true, userInitiated: true, completion: nil)
@@ -259,10 +259,10 @@ public class PhotosViewController: UIViewController {
 
     // MARK: Dismissal
 
-    private func dismissViewControllerAnimated(animated: Bool, userInitiated: Bool, completion: (() -> Void)? = nil) {
+    fileprivate func dismissViewControllerAnimated(_ animated: Bool, userInitiated: Bool, completion: (() -> Void)? = nil) {
 
         if presentedViewController != nil {
-            dismissViewControllerAnimated(animated, completion: completion)
+            dismiss(animated: animated, completion: completion)
             return
         }
 
@@ -273,13 +273,13 @@ public class PhotosViewController: UIViewController {
         transitionController.setStartingReference(startingReference)
         transitionController.setEndingReference(referenceForCurrentPhoto)
 
-        let overlayActionViewWasHidden = overlayActionView.hidden
+        let overlayActionViewWasHidden = overlayActionView.isHidden
         self.overlayActionViewWasHiddenBeforeTransition = overlayActionViewWasHidden
         setOverlayActionViewHidden(true, animated: animated)
 
         delegate?.photosViewControllerWillDismiss(self)
 
-        dismissViewControllerAnimated(animated) { [weak self] in
+        dismiss(animated: animated) { [weak self] in
 
             let isStillOnscreen = (self?.view.window != nil)
 
@@ -300,7 +300,7 @@ public class PhotosViewController: UIViewController {
 
 extension PhotosViewController: UIPageViewControllerDataSource {
 
-    public func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
 
         guard let viewController = viewController as? PhotoViewController else {
             return nil
@@ -315,7 +315,7 @@ extension PhotosViewController: UIPageViewControllerDataSource {
         return newPhotoViewControllerForPhoto(previousPhoto)
     }
 
-    public func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    public func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
 
         guard let viewController = viewController as? PhotoViewController else {
             return nil
@@ -333,7 +333,7 @@ extension PhotosViewController: UIPageViewControllerDataSource {
 
 extension PhotosViewController: UIPageViewControllerDelegate {
 
-    public func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    public func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
 
         guard completed else {
             return

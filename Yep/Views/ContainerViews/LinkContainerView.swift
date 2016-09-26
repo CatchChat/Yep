@@ -21,8 +21,8 @@ final class LinkContainerView: UIView {
 
     lazy var textLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.darkGrayColor()
-        label.font = UIFont.systemFontOfSize(12)
+        label.textColor = UIColor.darkGray
+        label.font = UIFont.systemFont(ofSize: 12)
         return label
     }()
 
@@ -42,7 +42,7 @@ final class LinkContainerView: UIView {
         addGestureRecognizer(tap)
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         addSubview(iconImageView)
         addSubview(textLabel)
@@ -58,15 +58,15 @@ final class LinkContainerView: UIView {
             "accessoryImageView": accessoryImageView,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[iconImageView(20)]-10-[textLabel]-5-[accessoryImageView(8)]-10-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[iconImageView(20)]-10-[textLabel]-5-[accessoryImageView(8)]-10-|", options: [.alignAllCenterY], metrics: nil, views: views)
 
-        let iconImageViewCenterY = NSLayoutConstraint(item: iconImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1.0, constant: 0)
+        let iconImageViewCenterY = NSLayoutConstraint(item: iconImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1.0, constant: 0)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints([iconImageViewCenterY])
+        NSLayoutConstraint.activate(constraintsH)
+        NSLayoutConstraint.activate([iconImageViewCenterY])
     }
 
-    @objc private func tap(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tap(_ sender: UITapGestureRecognizer) {
         tapAction?()
     }
 }
