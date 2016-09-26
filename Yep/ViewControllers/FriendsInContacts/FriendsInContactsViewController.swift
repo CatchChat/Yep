@@ -30,7 +30,7 @@ final class FriendsInContactsViewController: BaseViewController {
             if discoveredUsers.count > 0 {
                 updateFriendsTableView()
 
-                NotificationCenter.default.post(name: Notification.Name(rawValue: YepConfig.Notification.newFriendsInContacts), object: nil)
+                NotificationCenter.default.post(name: YepConfig.NotificationName.newFriendsInContacts, object: nil)
 
             } else {
                 friendsTableView.tableFooterView = InfoView(String.trans_promptNoNewFriends)

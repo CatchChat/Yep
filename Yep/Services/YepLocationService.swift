@@ -80,8 +80,6 @@ final class YepLocationService: NSObject, CLLocationManagerDelegate {
                         if let firstPlacemark = placemarks.first {
 
                             self?.address = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
-
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "YepLocationUpdated"), object: nil)
                         }
                     }
                 }

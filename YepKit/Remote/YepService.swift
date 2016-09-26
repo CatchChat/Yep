@@ -2195,7 +2195,7 @@ public func createAndSendMessageWithMediaType(_ mediaType: MessageMediaType, inF
             conversation.updatedUnixTime = NSDate().timeIntervalSince1970
 
             SafeDispatch.async {
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedFeedConversation), object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.changedFeedConversation, object: nil)
             }
         }
     }
@@ -2246,7 +2246,7 @@ public func createAndSendMessageWithMediaType(_ mediaType: MessageMediaType, inF
                 message.sendState = MessageSendState.failed.rawValue
             }
 
-            NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
+            NotificationCenter.default.post(name: Config.NotificationName.messageStateChanged, object: nil)
         }
 
     }, completion: completion)
@@ -2290,7 +2290,7 @@ public func sendMessage(_ message: Message, inFilePath filePath: String?, orFile
 
                 completion(true)
 
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.messageStateChanged, object: nil)
             }
         })
 
@@ -2321,7 +2321,7 @@ public func sendMessage(_ message: Message, inFilePath filePath: String?, orFile
 
                         completion(true)
 
-                        NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
+                        NotificationCenter.default.post(name: Config.NotificationName.messageStateChanged, object: nil)
                     }
                 })
             }
@@ -2355,7 +2355,7 @@ public func resendMessage(_ message: Message, failureHandler: FailureHandler?, c
             message.sendState = MessageSendState.notSend.rawValue
         }
 
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
+        NotificationCenter.default.post(name: Config.NotificationName.messageStateChanged, object: nil)
     }
 
     // also, if resend failed, we need set MessageSendState
@@ -2372,7 +2372,7 @@ public func resendMessage(_ message: Message, failureHandler: FailureHandler?, c
                 message.sendState = MessageSendState.failed.rawValue
             }
 
-            NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Message.Notification.MessageStateChanged), object: nil)
+            NotificationCenter.default.post(name: Config.NotificationName.messageStateChanged, object: nil)
         }
     }
 

@@ -116,12 +116,12 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
             return
         }
 
-        NotificationCenter.default.removeObserver(self, name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
+        NotificationCenter.default.removeObserver(self, name: Notification.Name.UIMenuControllerWillShowMenu, object: nil)
 
         menu.setTargetRect(bubbleFrame, in: view)
         menu.setMenuVisible(true, animated: true)
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillShowNotification(_:)), name: NSNotification.Name.UIMenuControllerWillShowMenu, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillShowNotification(_:)), name: Notification.Name.UIMenuControllerWillShowMenu, object: nil)
     }
 
     func collectionView(_ collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath) -> Bool {

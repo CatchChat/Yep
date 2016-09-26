@@ -262,7 +262,7 @@ open class Group: Object {
             realm.delete(conversation)
 
             SafeDispatch.async {
-                NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
             }
         }
 
@@ -1731,7 +1731,7 @@ public func handleMessageDeletedFromServer(messageID: String) {
     let messageIDs: [String] = [message.messageID]
 
     SafeDispatch.async {
-        NotificationCenter.default.post(name: Notification.Name(rawValue: Config.Notification.deletedMessages), object: ["messageIDs": messageIDs])
+        NotificationCenter.default.post(name: Config.NotificationName.deletedMessages, object: ["messageIDs": messageIDs])
     }
 }
 

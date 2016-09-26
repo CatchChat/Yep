@@ -95,7 +95,7 @@ final class GeniusInterviewViewController: BaseViewController {
                 if let conversation = conversation {
                     self?.performSegue(withIdentifier: "showConversation", sender: conversation)
 
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+                    NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
                 }
             }
         }

@@ -23,14 +23,10 @@ final class MessageToolbar: UIToolbar {
         finishNotifyTypingTimer?.invalidate()
     }
 
-    struct Notification {
-        static let updateDraft = "UpdateDraftOfConversation"
-    }
-
     var conversation: Conversation? {
         willSet {
             if let _ = newValue {
-                NotificationCenter.default.addObserver(self, selector: #selector(MessageToolbar.updateDraft(_:)), name: NSNotification.Name(rawValue: Notification.updateDraft), object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(MessageToolbar.updateDraft(_:)), name: YepConfig.NotificationName.updateDraftOfConversation, object: nil)
             }
         }
     }

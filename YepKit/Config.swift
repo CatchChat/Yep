@@ -31,24 +31,22 @@ final public class Config {
 
     public static var avatarCompressionQuality: CGFloat = 0.7
 
-    public struct Notification {
-        public static let markAsReaded = "YepConfig.Notification.markAsReaded"
-        public static let changedConversation = "YepConfig.Notification.changedConversation"
-        public static let changedFeedConversation = "YepConfig.Notification.changedFeedConversation"
-        public static let newMessages = "YepConfig.Notification.newMessages"
-        public static let deletedMessages = "YepConfig.Notification.deletedMessages"
-        public static let updatedUser = "YepConfig.Notification.updatedUser"
+    public struct NotificationName {
+        public static let markAsReaded = Notification.Name(rawValue: "YepConfig.Notification.markAsReaded")
+        public static let changedConversation = Notification.Name(rawValue: "YepConfig.Notification.changedConversation")
+        public static let changedFeedConversation = Notification.Name(rawValue: "YepConfig.Notification.changedFeedConversation")
+        public static let newMessages = Notification.Name(rawValue: "YepConfig.Notification.newMessages")
+        public static let deletedMessages = Notification.Name(rawValue: "YepConfig.Notification.deletedMessages")
+        public static let updatedUser = Notification.Name(rawValue: "YepConfig.Notification.updatedUser")
+
+        public static let messageStateChanged = Notification.Name(rawValue: "YepConfig.Notification.messageStateChangedNotification")
+        public static let messageBatchMarkAsRead = Notification.Name(rawValue: "YepConfig.Notification.messageBatchMarkAsReadNotification")
     }
     
     public struct Message {
         // 注意：确保 localNewerTimeInterval > sectionOlderTimeInterval
         public static let localNewerTimeInterval: TimeInterval = 0.001
         public static let sectionOlderTimeInterval: TimeInterval = 0.0005
-
-        public struct Notification {
-            public static let MessageStateChanged = "MessageStateChangedNotification"
-            public static let MessageBatchMarkAsRead = "MessageBatchMarkAsReadNotification"
-        }
     }
 
     public struct MetaData {

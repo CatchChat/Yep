@@ -220,7 +220,7 @@ extension ConversationViewController {
 
                 realm.refresh()
 
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
 
                 deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
             }
@@ -241,7 +241,7 @@ extension ConversationViewController {
 
                     SafeDispatch.async { [weak self] in
 
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: YepConfig.Notification.deletedFeed), object: feedID)
+                        NotificationCenter.default.post(name: YepConfig.NotificationName.deletedFeed, object: feedID)
 
                         _ = self?.navigationController?.popViewController(animated: true)
                     }

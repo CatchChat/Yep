@@ -100,7 +100,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
         navigationItem.title = String.trans_titleContacts
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: NSNotification.Name(rawValue: YepConfig.Notification.newFriendsInContacts), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: YepConfig.NotificationName.newFriendsInContacts, object: nil)
 
         friendsNotificationToken = friends.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
 
@@ -215,7 +215,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
                 vc.conversation = user.conversation
 
-                NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
             }
 
             recoverOriginalNavigationDelegate()

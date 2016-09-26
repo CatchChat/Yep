@@ -56,8 +56,8 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
                 customNavigationItem.rightBarButtonItem = settingsBarButtonItem
 
-                NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.createdFeed(_:)), name: NSNotification.Name(rawValue: YepConfig.Notification.createdFeed), object: nil)
-                NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.deletedFeed(_:)), name: NSNotification.Name(rawValue: YepConfig.Notification.deletedFeed), object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.createdFeed(_:)), name: YepConfig.NotificationName.createdFeed, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.deletedFeed(_:)), name: YepConfig.NotificationName.deletedFeed, object: nil)
             }
         }
     }
@@ -353,9 +353,9 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
             }
         }
 
-        NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.cleanForLogout(_:)), name: NSNotification.Name(rawValue: EditProfileViewController.Notification.Logout), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.cleanForLogout(_:)), name: YepConfig.NotificationName.logout, object: nil)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.handleOAuthResult(_:)), name: NSNotification.Name(rawValue: YepConfig.Notification.OAuthResult), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.handleOAuthResult(_:)), name: YepConfig.NotificationName.oauthResult, object: nil)
 
         if let profileUser = profileUser {
 
@@ -501,7 +501,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                         self?.updateProfileCollectionView()
                     })
 
-                    NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.updateUIForUsername(_:)), name: NSNotification.Name(rawValue: EditProfileViewController.Notification.NewUsername), object: nil)
+                    NotificationCenter.default.addObserver(self, selector: #selector(ProfileViewController.updateUIForUsername(_:)), name: YepConfig.NotificationName.newUsername, object: nil)
                 }
             }
 
@@ -834,7 +834,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                 if let conversation = conversation {
                     performSegue(withIdentifier: "showConversation", sender: conversation)
 
-                    NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+                    NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
                 }
 
             case .userType(let user):
@@ -855,7 +855,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                     if let conversation = user.conversation {
                         performSegue(withIdentifier: "showConversation", sender: conversation)
 
-                        NotificationCenter.default.post(name: NSNotification.Name(rawValue: Config.Notification.changedConversation), object: nil)
+                        NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
                     }
                 }
             }

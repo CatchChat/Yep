@@ -17,11 +17,6 @@ import Navi
 
 final class EditProfileViewController: SegueViewController {
 
-    struct Notification {
-        static let Logout = "LogoutNotification"
-        static let NewUsername = "NewUsername"
-    }
-
     @IBOutlet fileprivate weak var avatarImageView: UIImageView!
     @IBOutlet fileprivate weak var avatarImageViewWidthConstraint: NSLayoutConstraint!
 
@@ -674,7 +669,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                                 usernameCell.infoLabel.text = newUsername
                             }
 
-                            NotificationCenter.default.post(name: NSNotification.Name(rawValue: Notification.NewUsername), object: nil)
+                            NotificationCenter.default.post(name: YepConfig.NotificationName.newUsername, object: nil)
                         }
                     })
                     
