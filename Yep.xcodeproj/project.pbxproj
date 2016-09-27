@@ -101,7 +101,7 @@
 		5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE361AB6979600B3EE96 /* ConversationCell.xib */; };
 		5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */; };
 		5024BF4A1D0D38CE00358156 /* YepConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5024BF491D0D38CE00358156 /* YepConfig.swift */; };
-		5024BF4C1D0D3DC400358156 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5024BF4B1D0D3DC400358156 /* NSFileManager+Yep.swift */; };
+		5024BF4C1D0D3DC400358156 /* FileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5024BF4B1D0D3DC400358156 /* FileManager+Yep.swift */; };
 		502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502554801CEEFD150003E1B5 /* String+YepShare.swift */; };
 		502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5171AB70D72005BD199 /* Intro.storyboard */; };
 		502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */; };
@@ -456,7 +456,7 @@
 		50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF91CF2D5B50018D91F /* String+Yep.swift */; };
 		50D84EFD1CF2D66C0018D91F /* YepUIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */; };
 		50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EFF1CF2D82F0018D91F /* OpenGraphInfoType.swift */; };
-		50D84F021CF2D8DA0018D91F /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */; };
+		50D84F021CF2D8DA0018D91F /* Date+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F011CF2D8DA0018D91F /* Date+Yep.swift */; };
 		50D84F081CF2D9FB0018D91F /* FeedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F051CF2D9FB0018D91F /* FeedSearch.swift */; };
 		50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */; };
 		50D84F0A1CF2D9FB0018D91F /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F071CF2D9FB0018D91F /* UserSearch.swift */; };
@@ -870,7 +870,7 @@
 		5023DE361AB6979600B3EE96 /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConversationCell.xib; path = Views/Cells/Conversation/ConversationCell.xib; sourceTree = "<group>"; };
 		5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGRect+Yep.swift"; path = "Extensions/CGRect+Yep.swift"; sourceTree = "<group>"; };
 		5024BF491D0D38CE00358156 /* YepConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepConfig.swift; path = Helpers/YepConfig.swift; sourceTree = "<group>"; };
-		5024BF4B1D0D3DC400358156 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
+		5024BF4B1D0D3DC400358156 /* FileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FileManager+Yep.swift"; path = "Extensions/FileManager+Yep.swift"; sourceTree = "<group>"; };
 		5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = YepShare.entitlements; sourceTree = "<group>"; };
 		502554801CEEFD150003E1B5 /* String+YepShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+YepShare.swift"; path = "Extensions/String+YepShare.swift"; sourceTree = "<group>"; };
 		502AE5181AB70D72005BD199 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
@@ -1203,7 +1203,7 @@
 		50D84EF91CF2D5B50018D91F /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
 		50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUIModels.swift; path = UI/YepUIModels.swift; sourceTree = "<group>"; };
 		50D84EFF1CF2D82F0018D91F /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
-		50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
+		50D84F011CF2D8DA0018D91F /* Date+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Date+Yep.swift"; path = "Extensions/Date+Yep.swift"; sourceTree = "<group>"; };
 		50D84F051CF2D9FB0018D91F /* FeedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSearch.swift; sourceTree = "<group>"; };
 		50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchableItemType.swift; sourceTree = "<group>"; };
 		50D84F071CF2D9FB0018D91F /* UserSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearch.swift; sourceTree = "<group>"; };
@@ -3269,9 +3269,9 @@
 				50D84EF91CF2D5B50018D91F /* String+Yep.swift */,
 				5034A8F11D7821180094F42B /* String+Trans.swift */,
 				50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */,
-				50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */,
+				50D84F011CF2D8DA0018D91F /* Date+Yep.swift */,
 				50CE7BDC1CF457D600488E5B /* UIImage+Yep.swift */,
-				5024BF4B1D0D3DC400358156 /* NSFileManager+Yep.swift */,
+				5024BF4B1D0D3DC400358156 /* FileManager+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -4935,7 +4935,7 @@
 				50CE7BD91CF44EAF00488E5B /* UploadAttachmentOperation.swift in Sources */,
 				50CE7BD81CF44EAF00488E5B /* ConcurrentOperation.swift in Sources */,
 				50D84F101CF2DEB90018D91F /* SendingMessagesPool.swift in Sources */,
-				5024BF4C1D0D3DC400358156 /* NSFileManager+Yep.swift in Sources */,
+				5024BF4C1D0D3DC400358156 /* FileManager+Yep.swift in Sources */,
 				50CE7BDD1CF457D600488E5B /* UIImage+Yep.swift in Sources */,
 				50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */,
 				50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */,
@@ -4943,7 +4943,7 @@
 				50D84F081CF2D9FB0018D91F /* FeedSearch.swift in Sources */,
 				50CE7BCF1CF3F25200488E5B /* Config.swift in Sources */,
 				5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */,
-				50D84F021CF2D8DA0018D91F /* NSDate+Yep.swift in Sources */,
+				50D84F021CF2D8DA0018D91F /* Date+Yep.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

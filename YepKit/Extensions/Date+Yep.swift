@@ -1,5 +1,5 @@
 //
-//  NSDate+Yep.swift
+//  Date+Yep.swift
 //  Yep
 //
 //  Created by NIX on 16/5/23.
