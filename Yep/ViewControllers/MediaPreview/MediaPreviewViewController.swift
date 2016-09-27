@@ -451,7 +451,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
 
             let imageView = UIImageView()
 
-            imageView.kf_setImage(with: imageURL, placeholder: nil, options: nil) { (image, error, cacheType, imageURL) in
+            imageView.kf.setImage(with: imageURL, placeholder: nil, options: nil) { (image, error, cacheType, imageURL) in
 
                 SafeDispatch.async {
                     cell.mediaView.image = image

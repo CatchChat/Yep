@@ -404,7 +404,7 @@ final class NewFeedViewController: SegueViewController {
         }
         
         if let url = socialWorkImageURL {
-            socialWorkImageView.kf_setImage(with: url, placeholder: nil)
+            socialWorkImageView.kf.setImage(with: url, placeholder: nil)
         }
     }
     

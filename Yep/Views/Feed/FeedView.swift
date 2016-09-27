@@ -555,7 +555,7 @@ final class FeedView: UIView {
         }
         
         if let url = socialWorkImageURL {
-            socialWorkImageView.kf_setImage(with: url, placeholder: nil)
+            socialWorkImageView.kf.setImage(with: url, placeholder: nil)
         }
     }
 
