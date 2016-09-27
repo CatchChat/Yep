@@ -81,6 +81,10 @@
 	<string>Meet with nearby geniuses</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Send or save photos</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Take photos to send</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Send voice messages</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
