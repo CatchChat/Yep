@@ -35,6 +35,9 @@ enum ConversationFeed {
             return discoveredFeed.body
 
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return ""
+            }
             return feed.body
         }
     }
@@ -52,6 +55,9 @@ enum ConversationFeed {
             return user
 
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             return feed.creator
         }
     }
@@ -62,6 +68,9 @@ enum ConversationFeed {
             return discoveredFeed.distance
 
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             return feed.distance
         }
     }
@@ -72,6 +81,9 @@ enum ConversationFeed {
         case .discoveredFeedType(let discoveredFeed):
             return discoveredFeed.kind
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             return FeedKind(rawValue: feed.kind)
         }
     }
@@ -82,6 +94,9 @@ enum ConversationFeed {
         case .discoveredFeedType(let discoveredFeed):
             return discoveredFeed.hasSocialImage
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return false
+            }
             if let _ = feed.socialWork?.dribbbleShot?.imageURLString {
                 return true
             }
@@ -123,6 +138,9 @@ enum ConversationFeed {
                 }
             }
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             return feed.socialWork?.githubRepo?.name
         }
 
@@ -139,6 +157,9 @@ enum ConversationFeed {
                 }
             }
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             return feed.socialWork?.githubRepo?.repoDescription
         }
 
@@ -155,6 +176,9 @@ enum ConversationFeed {
                 }
             }
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let URLString = feed.socialWork?.githubRepo?.URLString {
                 return URL(string: URLString)
             }
@@ -173,6 +197,9 @@ enum ConversationFeed {
                 }
             }
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let imageURLString = feed.socialWork?.dribbbleShot?.imageURLString {
                 return URL(string: imageURLString)
             }
@@ -191,6 +218,9 @@ enum ConversationFeed {
                 }
             }
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let htmlURLString = feed.socialWork?.dribbbleShot?.htmlURLString {
                 return URL(string: htmlURLString)
             }
@@ -209,6 +239,9 @@ enum ConversationFeed {
                 }
             }
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let audioMetaInfo = feed.audio?.audioMetaInfo {
                 return audioMetaInfo
             }
@@ -227,6 +260,9 @@ enum ConversationFeed {
                 }
             }
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let location = feed.location {
                 return location.name
             }
@@ -245,6 +281,9 @@ enum ConversationFeed {
                 }
             }
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let location = feed.location {
                 return location.coordinate?.locationCoordinate
             }
@@ -263,6 +302,9 @@ enum ConversationFeed {
                 }
             }
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let openGraphInfo = feed.openGraphInfo {
                 return openGraphInfo
             }
@@ -284,6 +326,9 @@ enum ConversationFeed {
             return []
 
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return []
+            }
             return Array(feed.attachments)
         }
     }
@@ -293,6 +338,9 @@ enum ConversationFeed {
         case .discoveredFeedType(let discoveredFeed):
             return discoveredFeed.createdUnixTime
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return Date().timeIntervalSince1970
+            }
             return feed.createdUnixTime
         }
     }
@@ -302,6 +350,9 @@ enum ConversationFeed {
         case .discoveredFeedType(let discoveredFeed):
             return discoveredFeed.timeString
         case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return ""
+            }
             let date = Date(timeIntervalSince1970: feed.createdUnixTime)
             let timeString = Config.timeAgoAction?(date) ?? ""
             return timeString
