@@ -328,9 +328,6 @@
 		50A6A7BF1D23BEEF00E01190 /* GeniusInterview.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50A6A7BE1D23BEEF00E01190 /* GeniusInterview.storyboard */; };
 		50A6A7C21D23C2D300E01190 /* GeniusInterviewActionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A6A7C11D23C2D300E01190 /* GeniusInterviewActionView.swift */; };
 		50A820241B969B0F007CD30E /* TimeZone+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50A820231B969B0F007CD30E /* TimeZone+Yep.swift */; };
-		50A8CF061D991C5C0005BF8C /* KeypathObserver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF051D991C5C0005BF8C /* KeypathObserver.framework */; };
-		50A8CF081D991C790005BF8C /* AudioBot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF071D991C790005BF8C /* AudioBot.framework */; };
-		50A8CF0A1D991C800005BF8C /* AutoReview.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF091D991C800005BF8C /* AutoReview.framework */; };
 		50A8CF0B1D991C8E0005BF8C /* KeypathObserver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF051D991C5C0005BF8C /* KeypathObserver.framework */; };
 		50A8CF0C1D991C8E0005BF8C /* KeypathObserver.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF051D991C5C0005BF8C /* KeypathObserver.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		50A8CF0D1D991C960005BF8C /* AudioBot.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50A8CF071D991C790005BF8C /* AudioBot.framework */; };
@@ -1399,9 +1396,6 @@
 				50E2B7D21D3F736E00098362 /* RxSwift.framework in Frameworks */,
 				50E2B7D41D3F737A00098362 /* RxCocoa.framework in Frameworks */,
 				50BF404C1D741AD500DA1857 /* ReSwift.framework in Frameworks */,
-				50A8CF081D991C790005BF8C /* AudioBot.framework in Frameworks */,
-				50A8CF0A1D991C800005BF8C /* AutoReview.framework in Frameworks */,
-				50A8CF061D991C5C0005BF8C /* KeypathObserver.framework in Frameworks */,
 				1E4A387E52032569E06443EB /* Pods_Yep.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
