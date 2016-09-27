@@ -1,5 +1,5 @@
 //
-//  NSBundle+Yep.swift
+//  Bundle+Yep.swift
 //  Yep
 //
 //  Created by nixzhu on 15/8/31.
