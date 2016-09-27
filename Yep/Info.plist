@@ -40,7 +40,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>525</string>
+	<string>528</string>
 	<key>Fabric</key>
 	<dict>
 		<key>APIKey</key>
@@ -77,14 +77,14 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Meet with nearby geniuses</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Send or save photos, set avatar</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Take photos to send or set avatar</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Meet with nearby geniuses</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Send voice messages</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Send or save photos, set avatar</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
