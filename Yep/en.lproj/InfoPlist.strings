@@ -7,4 +7,6 @@
 */
 
 "NSLocationWhenInUseUsageDescription" = "Meet with nearby geniuses";
-"NSPhotoLibraryUsageDescription" = "Send or save photos";
+"NSPhotoLibraryUsageDescription" = "Send or save photos, set avatar";
+"NSCameraUsageDescription" = "Take photos to send or set avatar";
+"NSMicrophoneUsageDescription" = "Send voice messages";

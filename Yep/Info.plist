@@ -80,7 +80,11 @@
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Meet with nearby geniuses</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Send or save photos</string>
+	<string>Send or save photos, set avatar</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Take photos to send or set avatar</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Send voice messages</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>fetch</string>
