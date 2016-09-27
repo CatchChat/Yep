@@ -539,7 +539,7 @@ final class FeedView: UIView {
 
                 let size = CGSize(width: UIScreen.main.bounds.width - 65 - 60, height: 80 - locationContainerView.nameLabel.bounds.height)
 
-                ImageCache.sharedInstance.mapImageOfLocationCoordinate(locationCoordinate, withSize: size, completion: { [weak self] image in
+                YepImageCache.sharedInstance.mapImageOfLocationCoordinate(locationCoordinate, withSize: size, completion: { [weak self] image in
                     self?.locationContainerView.mapImageView.image = image
                 })
             }
@@ -555,7 +555,7 @@ final class FeedView: UIView {
         }
         
         if let url = socialWorkImageURL {
-            socialWorkImageView.kf_setImage(with: url, placeholder: nil)
+            socialWorkImageView.kf.setImage(with: url, placeholder: nil)
         }
     }
 

@@ -77,7 +77,7 @@ class MeetGeniusShowView: UIView {
 
             SafeDispatch.async { [weak self] in
                 let imageURL = geniusInterviewBanner.imageURL
-                self?.backgroundImageView.kf_setImage(with: imageURL, placeholder: nil, options: MediaOptionsInfos)
+                self?.backgroundImageView.kf.setImage(with: imageURL, placeholder: nil, options: MediaOptionsInfos)
             }
         })
     }

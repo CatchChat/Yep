@@ -52,7 +52,7 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     for i in 0..<imageViews.count {
 
                         if let shot = shots[i] {
-                            imageViews[i]?.kf_setImage(with: URL(string: shot.images.teaser)!, placeholder: nil, options: MediaOptionsInfos)
+                            imageViews[i]?.kf.setImage(with: URL(string: shot.images.teaser)!, placeholder: nil, options: MediaOptionsInfos)
                         } else {
                             imageViews[i]?.image = nil
                         }
@@ -87,7 +87,7 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
                     for i in 0..<imageViews.count {
 
                         if let media = medias[i] {
-                            imageViews[i]?.kf_setImage(with: URL(string: media.images.thumbnail)!, placeholder: nil, options: MediaOptionsInfos)
+                            imageViews[i]?.kf.setImage(with: URL(string: media.images.thumbnail)!, placeholder: nil, options: MediaOptionsInfos)
                         } else {
                             imageViews[i]?.image = nil
                         }

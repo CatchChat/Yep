@@ -404,7 +404,7 @@ final class NewFeedViewController: SegueViewController {
         }
         
         if let url = socialWorkImageURL {
-            socialWorkImageView.kf_setImage(with: url, placeholder: nil)
+            socialWorkImageView.kf.setImage(with: url, placeholder: nil)
         }
     }
     
@@ -806,16 +806,16 @@ final class NewFeedViewController: SegueViewController {
                             } else {
                                sideLength = YepConfig.FeedNormalImagesCell.imageSize.width
                             }
-                            let scaledKey = ImageCache.attachmentSideLengthKeyWithURLString(URLString, sideLength: sideLength)
+                            let scaledKey = YepImageCache.attachmentSideLengthKeyWithURLString(URLString, sideLength: sideLength)
                             let scaledImage = image.scaleToMinSideLength(sideLength)
                             let scaledData = UIImageJPEGRepresentation(image, 1.0)
-                            Kingfisher.ImageCache.default.store(scaledImage, original: scaledData, forKey: scaledKey, toDisk: true, completionHandler: nil)
+                            ImageCache.default.store(scaledImage, original: scaledData, forKey: scaledKey, toDisk: true, completionHandler: nil)
                         }
 
                         do {
-                            let originalKey = ImageCache.attachmentOriginKeyWithURLString(URLString)
+                            let originalKey = YepImageCache.attachmentOriginKeyWithURLString(URLString)
                             let originalData = UIImageJPEGRepresentation(image, 1.0)
-                            Kingfisher.ImageCache.default.store(image, original: originalData, forKey: originalKey, toDisk: true, completionHandler: nil)
+                            ImageCache.default.store(image, original: originalData, forKey: originalKey, toDisk: true, completionHandler: nil)
                         }
                     }
                 }

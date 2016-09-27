@@ -154,7 +154,7 @@ final class FeedURLContainerView: UIView {
         descriptionLabel.text = openGraphInfo.infoDescription
 
         if let url = URL(string: openGraphInfo.thumbnailImageURLString) {
-            thumbnailImageView.kf_setImage(with: url, placeholder: nil)
+            thumbnailImageView.kf.setImage(with: url, placeholder: nil)
         } else {
             thumbnailImageView.image = nil
             thumbnailImageView.backgroundColor = UIColor.lightGray

@@ -72,7 +72,7 @@ final class SearchedFeedDribbbleShotCell: SearchedFeedBasicCell {
             if case let .dribbble(dribbbleShot) = attachment {
                 if let url = URL(string: dribbbleShot.imageURLString) {
                     //mediaContainerView.mediaImageView.kf_showIndicatorWhenLoading = true
-                    mediaContainerView.mediaImageView.kf_setImage(with: url, placeholder: nil, options: MediaOptionsInfos)
+                    mediaContainerView.mediaImageView.kf.setImage(with: url, placeholder: nil, options: MediaOptionsInfos)
                 }
 
                 mediaContainerView.linkContainerView.textLabel.text = dribbbleShot.title

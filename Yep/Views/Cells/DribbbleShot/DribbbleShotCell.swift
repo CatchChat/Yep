@@ -34,7 +34,7 @@ final class DribbbleShotCell: UICollectionViewCell {
 //        if let hidpi = shot.images.hidpi where shot.images.normal.contains("gif") {
 //            imageView.kf_setImageWithURL(NSURL(string: hidpi)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
 //        } else {
-        imageView.kf_setImage(with: URL(string: shot.images.normal)!, placeholder: nil, options: MediaOptionsInfos)
+        imageView.kf.setImage(with: URL(string: shot.images.normal)!, placeholder: nil, options: MediaOptionsInfos)
 //        }
         
     }

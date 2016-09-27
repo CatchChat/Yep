@@ -344,12 +344,12 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
         automaticallyAdjustsScrollViewInsets = false
 
-        Kingfisher.ImageCache.default.calculateDiskCacheSize { (size) in
+        ImageCache.default.calculateDiskCacheSize { (size) in
             let cacheSize = Double(size)/1000000
             println(String(format: "Kingfisher.ImageCache cacheSize: %.2f MB", cacheSize))
             
             if cacheSize > 300 {
-                 Kingfisher.ImageCache.default.cleanExpiredDiskCache()
+                 ImageCache.default.cleanExpiredDiskCache()
             }
         }
 

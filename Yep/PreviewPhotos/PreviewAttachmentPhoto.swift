@@ -23,7 +23,7 @@ class PreviewAttachmentPhoto: NSObject, Photo {
     init(attachment: DiscoveredAttachment) {
         super.init()
 
-        ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { [weak self] (url, image, cacheType) in
+        YepImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: nil) { [weak self] (url, image, cacheType) in
             if let image = image {
                 self?.image = image
             }

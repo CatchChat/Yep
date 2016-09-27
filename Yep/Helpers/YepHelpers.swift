@@ -39,7 +39,7 @@ func cleanRealmAndCaches() {
     
     AvatarPod.clear()
 
-    ImageCache.sharedInstance.cache.removeAllObjects()
+    YepImageCache.sharedInstance.cache.removeAllObjects()
 
     println("cleaned caches!")
 

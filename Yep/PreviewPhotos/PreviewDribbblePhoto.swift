@@ -31,7 +31,7 @@ class PreviewDribbblePhoto: NSObject, Photo {
             .backgroundDecode,
         ]
 
-        imageView.kf_setImage(with: imageURL, options: optionsInfos) { (image, error, cacheType, imageURL) in
+        imageView.kf.setImage(with: imageURL, options: optionsInfos) { (image, error, cacheType, imageURL) in
 
             SafeDispatch.async { [weak self] in
                 if let image = image {
