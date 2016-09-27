@@ -7,6 +7,6 @@
 */
 
 "NSLocationWhenInUseUsageDescription" = "与附近的天才相遇";
-"NSPhotoLibraryUsageDescription" = "发送或保存照片";
-"NSCameraUsageDescription" = "拍照以发送照片消息";
+"NSPhotoLibraryUsageDescription" = "发送或保存图片";
+"NSCameraUsageDescription" = "拍照以发送图片消息";
 "NSMicrophoneUsageDescription" = "录音以发送语音消息";
