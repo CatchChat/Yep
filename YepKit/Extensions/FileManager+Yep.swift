@@ -1,5 +1,5 @@
 //
-//  NSFileManager+Yep.swift
+//  FileManager+Yep.swift
 //  Yep
 //
 //  Created by NIX on 15/3/31.

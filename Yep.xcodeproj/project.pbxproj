@@ -101,7 +101,7 @@
 		5023DE381AB6979600B3EE96 /* ConversationCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5023DE361AB6979600B3EE96 /* ConversationCell.xib */; };
 		5023DE521AB6C51300B3EE96 /* CGRect+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */; };
 		5024BF4A1D0D38CE00358156 /* YepConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5024BF491D0D38CE00358156 /* YepConfig.swift */; };
-		5024BF4C1D0D3DC400358156 /* NSFileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5024BF4B1D0D3DC400358156 /* NSFileManager+Yep.swift */; };
+		5024BF4C1D0D3DC400358156 /* FileManager+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5024BF4B1D0D3DC400358156 /* FileManager+Yep.swift */; };
 		502554811CEEFD150003E1B5 /* String+YepShare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502554801CEEFD150003E1B5 /* String+YepShare.swift */; };
 		502AE5191AB70D72005BD199 /* Intro.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 502AE5171AB70D72005BD199 /* Intro.storyboard */; };
 		502AE51E1AB712D2005BD199 /* RegisterPickNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 502AE51D1AB712D2005BD199 /* RegisterPickNameViewController.swift */; };
@@ -250,13 +250,12 @@
 		5077607D1D9125A300896C04 /* DeviceUtil+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5077607C1D9125A300896C04 /* DeviceUtil+Yep.swift */; };
 		507813191CD1B01A00F193AB /* ShortcutItems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813181CD1B01A00F193AB /* ShortcutItems.swift */; };
 		5078131B1CD1B04400F193AB /* ShortcutType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5078131A1CD1B04400F193AB /* ShortcutType.swift */; };
-		507813221CD2F9C100F193AB /* DeviceGuru+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */; };
 		507902361D06813300D846F5 /* Kanna.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C106861D06693A002EAB5C /* Kanna.framework */; };
 		507DCEAC1CEEE2DC006D43F7 /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */; };
 		507DCEAF1CEEE2DC006D43F7 /* MainInterface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 507DCEAD1CEEE2DC006D43F7 /* MainInterface.storyboard */; };
 		507DCEB31CEEE2DC006D43F7 /* YepShare.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 507DCEA91CEEE2DC006D43F7 /* YepShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		5080EB1C1B93F43A006F3C2D /* PodsHelpYepViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */; };
-		5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */; };
+		5080EB1F1B93F932006F3C2D /* Bundle+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5080EB1E1B93F932006F3C2D /* Bundle+Yep.swift */; };
 		50858EBB1C22487900EDE492 /* FeedBasicCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBA1C22487900EDE492 /* FeedBasicCell.swift */; };
 		50858EBF1C224DA900EDE492 /* FeedBiggerImageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */; };
 		5087AFC11D17F49C005C180D /* Kingfisher.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 50C1068D1D0669E0002EAB5C /* Kingfisher.framework */; };
@@ -457,7 +456,7 @@
 		50D84EFA1CF2D5B60018D91F /* String+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EF91CF2D5B50018D91F /* String+Yep.swift */; };
 		50D84EFD1CF2D66C0018D91F /* YepUIModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */; };
 		50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84EFF1CF2D82F0018D91F /* OpenGraphInfoType.swift */; };
-		50D84F021CF2D8DA0018D91F /* NSDate+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */; };
+		50D84F021CF2D8DA0018D91F /* Date+Yep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F011CF2D8DA0018D91F /* Date+Yep.swift */; };
 		50D84F081CF2D9FB0018D91F /* FeedSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F051CF2D9FB0018D91F /* FeedSearch.swift */; };
 		50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */; };
 		50D84F0A1CF2D9FB0018D91F /* UserSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D84F071CF2D9FB0018D91F /* UserSearch.swift */; };
@@ -871,7 +870,7 @@
 		5023DE361AB6979600B3EE96 /* ConversationCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ConversationCell.xib; path = Views/Cells/Conversation/ConversationCell.xib; sourceTree = "<group>"; };
 		5023DE511AB6C51300B3EE96 /* CGRect+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "CGRect+Yep.swift"; path = "Extensions/CGRect+Yep.swift"; sourceTree = "<group>"; };
 		5024BF491D0D38CE00358156 /* YepConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepConfig.swift; path = Helpers/YepConfig.swift; sourceTree = "<group>"; };
-		5024BF4B1D0D3DC400358156 /* NSFileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSFileManager+Yep.swift"; path = "Extensions/NSFileManager+Yep.swift"; sourceTree = "<group>"; };
+		5024BF4B1D0D3DC400358156 /* FileManager+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "FileManager+Yep.swift"; path = "Extensions/FileManager+Yep.swift"; sourceTree = "<group>"; };
 		5025547E1CEEF9BC0003E1B5 /* YepShare.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = YepShare.entitlements; sourceTree = "<group>"; };
 		502554801CEEFD150003E1B5 /* String+YepShare.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+YepShare.swift"; path = "Extensions/String+YepShare.swift"; sourceTree = "<group>"; };
 		502AE5181AB70D72005BD199 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Intro.storyboard; sourceTree = "<group>"; };
@@ -1014,13 +1013,12 @@
 		5077607C1D9125A300896C04 /* DeviceUtil+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DeviceUtil+Yep.swift"; path = "Extensions/DeviceUtil+Yep.swift"; sourceTree = "<group>"; };
 		507813181CD1B01A00F193AB /* ShortcutItems.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutItems.swift; path = Shortcuts/ShortcutItems.swift; sourceTree = "<group>"; };
 		5078131A1CD1B04400F193AB /* ShortcutType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShortcutType.swift; path = Shortcuts/ShortcutType.swift; sourceTree = "<group>"; };
-		507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "DeviceGuru+Yep.swift"; path = "Extensions/DeviceGuru+Yep.swift"; sourceTree = "<group>"; };
 		507DCEA91CEEE2DC006D43F7 /* YepShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = YepShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		507DCEAB1CEEE2DC006D43F7 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
 		507DCEAE1CEEE2DC006D43F7 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/MainInterface.storyboard; sourceTree = "<group>"; };
 		507DCEB01CEEE2DC006D43F7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		5080EB1B1B93F43A006F3C2D /* PodsHelpYepViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PodsHelpYepViewController.swift; path = ViewControllers/PodsHelpYep/PodsHelpYepViewController.swift; sourceTree = "<group>"; };
-		5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSBundle+Yep.swift"; path = "Extensions/NSBundle+Yep.swift"; sourceTree = "<group>"; };
+		5080EB1E1B93F932006F3C2D /* Bundle+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Bundle+Yep.swift"; path = "Extensions/Bundle+Yep.swift"; sourceTree = "<group>"; };
 		50858EBA1C22487900EDE492 /* FeedBasicCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBasicCell.swift; path = Views/Cells/Feed/FeedBasicCell.swift; sourceTree = "<group>"; };
 		50858EBE1C224DA900EDE492 /* FeedBiggerImageCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FeedBiggerImageCell.swift; path = Views/Cells/Feed/FeedBiggerImageCell.swift; sourceTree = "<group>"; };
 		5087AFC91D1934FF005C180D /* OverlayActionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OverlayActionView.swift; sourceTree = "<group>"; };
@@ -1205,7 +1203,7 @@
 		50D84EF91CF2D5B50018D91F /* String+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "String+Yep.swift"; path = "Extensions/String+Yep.swift"; sourceTree = "<group>"; };
 		50D84EFC1CF2D66B0018D91F /* YepUIModels.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YepUIModels.swift; path = UI/YepUIModels.swift; sourceTree = "<group>"; };
 		50D84EFF1CF2D82F0018D91F /* OpenGraphInfoType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OpenGraphInfoType.swift; path = Protocols/OpenGraphInfoType.swift; sourceTree = "<group>"; };
-		50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "NSDate+Yep.swift"; path = "Extensions/NSDate+Yep.swift"; sourceTree = "<group>"; };
+		50D84F011CF2D8DA0018D91F /* Date+Yep.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "Date+Yep.swift"; path = "Extensions/Date+Yep.swift"; sourceTree = "<group>"; };
 		50D84F051CF2D9FB0018D91F /* FeedSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeedSearch.swift; sourceTree = "<group>"; };
 		50D84F061CF2D9FB0018D91F /* SearchableItemType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchableItemType.swift; sourceTree = "<group>"; };
 		50D84F071CF2D9FB0018D91F /* UserSearch.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserSearch.swift; sourceTree = "<group>"; };
@@ -1965,7 +1963,7 @@
 				504F8C031D49E8810046F6AA /* UIApplication+Yep.swift */,
 				50FA9A431B661698009BF2A0 /* UIViewController+Yep.swift */,
 				50E1D7281B870D7500D90A82 /* NSParagraphStyle+Yep.swift */,
-				5080EB1E1B93F932006F3C2D /* NSBundle+Yep.swift */,
+				5080EB1E1B93F932006F3C2D /* Bundle+Yep.swift */,
 				50A820231B969B0F007CD30E /* TimeZone+Yep.swift */,
 				50DEE03C1BE70E1500015741 /* UIScrollView+Yep.swift */,
 				500EED951BF06AC900C6BABC /* URL+Yep.swift */,
@@ -1979,7 +1977,6 @@
 				500D35E01C3A5134006D17E3 /* PHImageRequestOptions+Yep.swift */,
 				50A0E3001C3E18A10025BEFC /* CLLocationCoordinate2D+Yep.swift */,
 				50E34C1A1CB60475007CAE80 /* UISearchBar+Yep.swift */,
-				507813211CD2F9C100F193AB /* DeviceGuru+Yep.swift */,
 				5077607C1D9125A300896C04 /* DeviceUtil+Yep.swift */,
 				50B801511D51DB2600F42938 /* UISegmentedControl+Yep.swift */,
 				504FDFC51D5965BC00E1FE86 /* UIStoryboard+Yep.swift */,
@@ -3272,9 +3269,9 @@
 				50D84EF91CF2D5B50018D91F /* String+Yep.swift */,
 				5034A8F11D7821180094F42B /* String+Trans.swift */,
 				50D84EF71CF2D4BC0018D91F /* Realm+Yep.swift */,
-				50D84F011CF2D8DA0018D91F /* NSDate+Yep.swift */,
+				50D84F011CF2D8DA0018D91F /* Date+Yep.swift */,
 				50CE7BDC1CF457D600488E5B /* UIImage+Yep.swift */,
-				5024BF4B1D0D3DC400358156 /* NSFileManager+Yep.swift */,
+				5024BF4B1D0D3DC400358156 /* FileManager+Yep.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -4584,7 +4581,6 @@
 				5099B9C41AB9510D002F940B /* RankView.swift in Sources */,
 				507682F01C9FE8F7006A973E /* SearchContactsViewController.swift in Sources */,
 				502AE5311AB85067005BD199 /* RegisterPickMobileViewController.swift in Sources */,
-				507813221CD2F9C100F193AB /* DeviceGuru+Yep.swift in Sources */,
 				50B22E461C588B6200219625 /* CGImage+Yep.swift in Sources */,
 				50535D1A1BCD19AE002FE1A4 /* TouchClosuresView.swift in Sources */,
 				506E241E1AE6391A00A33C1A /* TouchZoomButton.swift in Sources */,
@@ -4741,7 +4737,7 @@
 				502AE53A1AB871C1005BD199 /* YepAlert.swift in Sources */,
 				5039594E1B05E6E000797A3E /* ProfileSocialAccountGithubCell.swift in Sources */,
 				50901DFD1D29FA160085BB7D /* ProfileViewController+Prepare.swift in Sources */,
-				5080EB1F1B93F932006F3C2D /* NSBundle+Yep.swift in Sources */,
+				5080EB1F1B93F932006F3C2D /* Bundle+Yep.swift in Sources */,
 				5053AD4D1AF79EEA00B3CBFA /* LocationPin.swift in Sources */,
 				503FBA8E1D7D457A00EE33F8 /* SwipeUpPromptView.swift in Sources */,
 				5052D9331D5AC21D00D72EBD /* UIImage+Yep.swift in Sources */,
@@ -4939,7 +4935,7 @@
 				50CE7BD91CF44EAF00488E5B /* UploadAttachmentOperation.swift in Sources */,
 				50CE7BD81CF44EAF00488E5B /* ConcurrentOperation.swift in Sources */,
 				50D84F101CF2DEB90018D91F /* SendingMessagesPool.swift in Sources */,
-				5024BF4C1D0D3DC400358156 /* NSFileManager+Yep.swift in Sources */,
+				5024BF4C1D0D3DC400358156 /* FileManager+Yep.swift in Sources */,
 				50CE7BDD1CF457D600488E5B /* UIImage+Yep.swift in Sources */,
 				50D84F001CF2D82F0018D91F /* OpenGraphInfoType.swift in Sources */,
 				50D84F091CF2D9FB0018D91F /* SearchableItemType.swift in Sources */,
@@ -4947,7 +4943,7 @@
 				50D84F081CF2D9FB0018D91F /* FeedSearch.swift in Sources */,
 				50CE7BCF1CF3F25200488E5B /* Config.swift in Sources */,
 				5056EAB81CF2C6BF00FDE07E /* YepUserDefaults.swift in Sources */,
-				50D84F021CF2D8DA0018D91F /* NSDate+Yep.swift in Sources */,
+				50D84F021CF2D8DA0018D91F /* Date+Yep.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
