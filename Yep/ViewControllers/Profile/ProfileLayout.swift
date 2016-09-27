@@ -18,9 +18,13 @@ final class ProfileLayout: UICollectionViewFlowLayout {
 
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
 
-        guard let layoutAttributes = super.layoutAttributesForElements(in: rect) else {
+        guard let _layoutAttributes = super.layoutAttributesForElements(in: rect) else {
             return nil
         }
+
+        let layoutAttributes = _layoutAttributes.map({
+            $0.copy() as! UICollectionViewLayoutAttributes
+        })
 
         let contentInset = collectionView!.contentInset
         let contentOffset = collectionView!.contentOffset
