@@ -63,14 +63,10 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-
-        nextButton.isEnabled = false
-    }
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        nextButton.isEnabled = false
 
         mobileNumberTextField.becomeFirstResponder()
     }
