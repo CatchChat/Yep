@@ -83,7 +83,7 @@ extension UIImageView {
 
         yep_setMessageImageKey(imageKey)
 
-        ImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: tailDirection, completion: { [weak self] progress, image in
+        YepImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: tailDirection, completion: { [weak self] progress, image in
 
             guard let strongSelf = self, let _imageKey = strongSelf.yep_messageImageKey , _imageKey == imageKey else {
                 return
@@ -115,7 +115,7 @@ extension UIImageView {
         yep_setMessageMapImageKey(imageKey)
 
         let locationName = message.textContent
-        ImageCache.sharedInstance.mapImageOfMessage(message, withSize: size, tailDirection: tailDirection, bottomShadowEnabled: !locationName.isEmpty) { [weak self] mapImage in
+        YepImageCache.sharedInstance.mapImageOfMessage(message, withSize: size, tailDirection: tailDirection, bottomShadowEnabled: !locationName.isEmpty) { [weak self] mapImage in
 
             guard let strongSelf = self, let _imageKey = strongSelf.yep_messageMapImageKey , _imageKey == imageKey else {
                 return
@@ -159,7 +159,7 @@ extension UIImageView {
 
         yep_setAttachmentURL(attachmentURL)
 
-        ImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: size.width, completion: { [weak self] (url, image, cacheType) in
+        YepImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: size.width, completion: { [weak self] (url, image, cacheType) in
 
             guard let strongSelf = self, let yep_attachmentURL = strongSelf.yep_attachmentURL , yep_attachmentURL == url else {
                 return
@@ -206,7 +206,7 @@ extension UIImageView {
 
         yep_setLocation(location)
 
-        ImageCache.sharedInstance.mapImageOfLocationCoordinate(location.coordinate, withSize: size, completion: { [weak self] image in
+        YepImageCache.sharedInstance.mapImageOfLocationCoordinate(location.coordinate, withSize: size, completion: { [weak self] image in
 
             guard let strongSelf = self, let _location = strongSelf.yep_location , _location == location else {
                 return

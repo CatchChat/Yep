@@ -37,7 +37,7 @@ class PreviewMessagePhoto: NSObject, Photo {
 
             } else {
                 if let url = URL(string: attachmentURLString) {
-                    ImageCache.sharedInstance.imageOfURL(url, withMinSideLength: nil, completion: { [weak self] (url, image, cacheType) in
+                    YepImageCache.sharedInstance.imageOfURL(url, withMinSideLength: nil, completion: { [weak self] (url, image, cacheType) in
                         if let image = image {
                             self?.image = image
                         }

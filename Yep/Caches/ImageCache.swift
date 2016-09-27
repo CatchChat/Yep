@@ -13,9 +13,9 @@ import YepNetworking
 import MapKit
 import Kingfisher
 
-final class ImageCache {
+final class YepImageCache {
 
-    static let sharedInstance = ImageCache()
+    static let sharedInstance = YepImageCache()
 
     let cache = NSCache<NSString, UIImage>()
     let cacheQueue = DispatchQueue(label: "ImageCacheQueue", attributes: [])
@@ -37,9 +37,9 @@ final class ImageCache {
             sideLength = withMinSideLength
         }
 
-        let attachmentOriginKey = ImageCache.attachmentOriginKeyWithURLString(url.absoluteString)
+        let attachmentOriginKey = YepImageCache.attachmentOriginKeyWithURLString(url.absoluteString)
 
-        let attachmentSideLengthKey = ImageCache.attachmentSideLengthKeyWithURLString(url.absoluteString, sideLength: sideLength)
+        let attachmentSideLengthKey = YepImageCache.attachmentSideLengthKeyWithURLString(url.absoluteString, sideLength: sideLength)
 
         //println("attachmentSideLengthKey: \(attachmentSideLengthKey)")
 
@@ -50,7 +50,7 @@ final class ImageCache {
 
         //查找当前 Size 的 Cache
 
-        Kingfisher.ImageCache.default.retrieveImage(forKey: attachmentSideLengthKey, options: options) { (image, type) -> () in
+        ImageCache.default.retrieveImage(forKey: attachmentSideLengthKey, options: options) { (image, type) -> () in
 
             if let image = image?.decodedImage() {
                 SafeDispatch.async {
@@ -61,7 +61,7 @@ final class ImageCache {
 
                 //查找原图
 
-                Kingfisher.ImageCache.default.retrieveImage(forKey: attachmentOriginKey, options: options) { (image, type) -> () in
+                ImageCache.default.retrieveImage(forKey: attachmentOriginKey, options: options) { (image, type) -> () in
 
                     if let image = image {
 
@@ -73,7 +73,7 @@ final class ImageCache {
 
                             let originalData = UIImageJPEGRepresentation(finalImage, 1.0)
                             //let originalData = UIImagePNGRepresentation(finalImage)
-                            Kingfisher.ImageCache.default.store(finalImage, original: originalData, forKey: attachmentSideLengthKey, toDisk: true, completionHandler: { () -> () in
+                            ImageCache.default.store(finalImage, original: originalData, forKey: attachmentSideLengthKey, toDisk: true, completionHandler: { () -> () in
                             })
                         }
 
@@ -91,7 +91,7 @@ final class ImageCache {
 
                             if let image = image {
 
-                                Kingfisher.ImageCache.default.store(image, original: originalData, forKey: attachmentOriginKey, toDisk: true, completionHandler: nil)
+                                ImageCache.default.store(image, original: originalData, forKey: attachmentOriginKey, toDisk: true, completionHandler: nil)
 
                                 var storeImage = image
 
@@ -99,7 +99,7 @@ final class ImageCache {
                                     storeImage = storeImage.scaleToMinSideLength(sideLength)
                                 }
 
-                                Kingfisher.ImageCache.default.store(storeImage,  original: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSideLengthKey, toDisk: true, completionHandler: nil)
+                                ImageCache.default.store(storeImage,  original: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSideLengthKey, toDisk: true, completionHandler: nil)
 
                                 let finalImage = storeImage.decodedImage()
 
