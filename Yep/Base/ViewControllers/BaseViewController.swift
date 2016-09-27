@@ -10,7 +10,7 @@ import UIKit
 
 class BaseViewController: SegueViewController {
     
-    var animatedOnNavigationBar = true
+    var animatedOnNavigationBar = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,10 +28,10 @@ class BaseViewController: SegueViewController {
         navigationController.navigationBar.backgroundColor = nil
         navigationController.navigationBar.isTranslucent = true
         navigationController.navigationBar.shadowImage = nil
-        navigationController.navigationBar.barStyle = UIBarStyle.default
-        navigationController.navigationBar.setBackgroundImage(nil, for: UIBarMetrics.default)
+        navigationController.navigationBar.barStyle = .default
+        navigationController.navigationBar.setBackgroundImage(nil, for: .default)
 
-        let textAttributes: [String: AnyObject] = [
+        let textAttributes: [String: Any] = [
             NSForegroundColorAttributeName: UIColor.yepNavgationBarTitleColor(),
             NSFontAttributeName: UIFont.navigationBarTitleFont()
         ]
