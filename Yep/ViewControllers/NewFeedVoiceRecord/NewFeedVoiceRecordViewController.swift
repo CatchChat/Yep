@@ -215,7 +215,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         AudioBot.stopPlay()
 
         if let feedVoice = feedVoice {
-            performSegue(withIdentifier: "showNewFeed", sender: Box(feedVoice))
+            performSegue(withIdentifier: "showNewFeed", sender: feedVoice)
         }
     }
 
@@ -322,18 +322,17 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
         case "showNewFeed":
 
-            if let feedVoice = (sender as? Box<FeedVoice>)?.value {
+            let vc = segue.destination as! NewFeedViewController
 
-                let vc = segue.destination as! NewFeedViewController
+            let feedVoice = sender as! FeedVoice
+            vc.attachment = .voice(feedVoice)
 
-                vc.attachment = .voice(feedVoice)
+            vc.preparedSkill = preparedSkill
 
-                vc.preparedSkill = preparedSkill
+            vc.beforeUploadingFeedAction = beforeUploadingFeedAction
+            vc.afterCreatedFeedAction = afterCreatedFeedAction
+            vc.getFeedsViewController = getFeedsViewController
 
-                vc.beforeUploadingFeedAction = beforeUploadingFeedAction
-                vc.afterCreatedFeedAction = afterCreatedFeedAction
-                vc.getFeedsViewController = getFeedsViewController
-            }
 
         default:
             break
