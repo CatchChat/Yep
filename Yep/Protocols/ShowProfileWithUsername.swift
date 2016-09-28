@@ -23,7 +23,7 @@ extension ShowProfileWithUsername where Self: UIViewController {
             return
         }
 
-        performSegue(withIdentifier: "showProfileWithUsername", sender: Box<ProfileUser>(profileUser))
+        performSegue(withIdentifier: "showProfileWithUsername", sender: profileUser)
     }
 
     func tryShowProfileWithUsername(_ username: String) {

@@ -805,7 +805,7 @@ final class ConversationViewController: BaseViewController {
 
             let vc = segue.destination as! ProfileViewController
 
-            let profileUser = (sender as! Box<ProfileUser>).value
+            let profileUser = sender as! ProfileUser
             vc.prepare(withProfileUser: profileUser)
 
             vc.fromType = .groupConversation
