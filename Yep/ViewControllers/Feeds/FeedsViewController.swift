@@ -1219,22 +1219,66 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         case .skillUsers:
 
             let cell: FeedSkillUsersCell = tableView.dequeueReusableCell()
+
+            cell.configureWithFeeds(feeds)
+
             return cell
 
         case .filter:
 
             let cell: FeedFilterCell = tableView.dequeueReusableCell()
+
+            cell.currentOption = filterOption
+
+            cell.chooseOptionAction = { [weak self] option in
+                self?.feeds = []
+                self?.feedsTableView.reloadData()
+
+                self?.filterOption = option
+            }
+
             return cell
 
         case .uploadingFeed:
 
             let feed = uploadingFeeds[indexPath.row]
-            return cellForFeed(feed)
+            let cell = cellForFeed(feed)
+
+            configure(cell, with: feed, in: tableView)
+
+            if let cell = cell as? FeedBasicCell {
+
+                cell.retryUploadingFeedAction = { [weak self] cell in
+
+                    self?.newFeedViewController?.post(again: true)
+
+                    if let indexPath = self?.feedsTableView.indexPath(for: cell) {
+                        self?.uploadingFeeds[indexPath.row].uploadingErrorMessage = nil
+                        cell.hasUploadingErrorMessage = false
+                    }
+                }
+
+                cell.deleteUploadingFeedAction = { [weak self] cell in
+
+                    if let indexPath = self?.feedsTableView.indexPath(for: cell) {
+                        self?.uploadingFeeds.remove(at: indexPath.row)
+                        self?.feedsTableView.deleteRows(at: [indexPath], with: .automatic)
+
+                        self?.newFeedViewController = nil
+                    }
+                }
+            }
+
+            return cell
 
         case .feed:
 
             let feed = feeds[indexPath.row]
-            return cellForFeed(feed)
+            let cell = cellForFeed(feed)
+
+            configure(cell, with: feed, in: tableView)
+
+            return cell
 
         case .loadMore:
 
@@ -1243,7 +1287,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    private func configure(feedCell cell: UITableViewCell, with feed: DiscoveredFeed, in tableView: UITableView) {
+    private func configure(_ cell: UITableViewCell, with feed: DiscoveredFeed, in tableView: UITableView) {
 
         guard let cell = cell as? FeedBasicCell else {
             return
@@ -1494,71 +1538,14 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             break
         }
     }
+
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return
         }
 
-
-
         switch section {
-
-        case .skillUsers:
-
-            guard let cell = cell as? FeedSkillUsersCell else {
-                break
-            }
-
-            cell.configureWithFeeds(feeds)
-
-        case .filter:
-
-            guard let cell = cell as? FeedFilterCell else {
-                break
-            }
-
-            cell.currentOption = filterOption
-
-            cell.chooseOptionAction = { [weak self] option in
-                self?.feeds = []
-                self?.feedsTableView.reloadData()
-
-                self?.filterOption = option
-            }
-
-        case .uploadingFeed:
-
-            let feed = uploadingFeeds[indexPath.row]
-            configureFeedCell(cell, withFeed: feed)
-
-            if let cell = cell as? FeedBasicCell {
-
-                cell.retryUploadingFeedAction = { [weak self] cell in
-
-                    self?.newFeedViewController?.post(again: true)
-
-                    if let indexPath = self?.feedsTableView.indexPath(for: cell) {
-                        self?.uploadingFeeds[indexPath.row].uploadingErrorMessage = nil
-                        cell.hasUploadingErrorMessage = false
-                    }
-                }
-
-                cell.deleteUploadingFeedAction = { [weak self] cell in
-
-                    if let indexPath = self?.feedsTableView.indexPath(for: cell) {
-                        self?.uploadingFeeds.remove(at: indexPath.row)
-                        self?.feedsTableView.deleteRows(at: [indexPath], with: .automatic)
-
-                        self?.newFeedViewController = nil
-                    }
-                }
-            }
-
-        case .feed:
-
-            let feed = feeds[indexPath.row]
-            configureFeedCell(cell, withFeed: feed)
 
         case .loadMore:
 
@@ -1582,6 +1569,9 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     cell?.isLoading = false
                 }
             })
+
+        default:
+            break
         }
     }
 
