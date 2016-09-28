@@ -119,7 +119,7 @@ final class ServiceTests: XCTestCase {
 
         updateAvatarWithImageData(imageData, failureHandler: nil, completion: { newAvatarURLString in
             userInfo(failureHandler: nil) { myUserInfo in
-                if let avatarInfo = myUserInfo["avatar"] as? [String: AnyObject], let avatarURLString = avatarInfo["url"] as? String {
+                if let avatarInfo = myUserInfo["avatar"] as? [String: Any], let avatarURLString = avatarInfo["url"] as? String {
                     if newAvatarURLString == avatarURLString {
                         expectation.fulfill()
                     }
@@ -177,9 +177,9 @@ final class ServiceTests: XCTestCase {
         myConversations(maxMessageID: nil, failureHandler: nil) { result in
 
             if
-                let userInfos = result["users"] as? [[String: AnyObject]] , !userInfos.isEmpty,
-                let groupInfos = result["circles"] as? [[String: AnyObject]] , !groupInfos.isEmpty,
-                let messageInfos = result["messages"] as? [[String: AnyObject]] , !messageInfos.isEmpty {
+                let userInfos = result["users"] as? [[String: Any]] , !userInfos.isEmpty,
+                let groupInfos = result["circles"] as? [[String: Any]] , !groupInfos.isEmpty,
+                let messageInfos = result["messages"] as? [[String: Any]] , !messageInfos.isEmpty {
                 expectation.fulfill()
             }
         }
