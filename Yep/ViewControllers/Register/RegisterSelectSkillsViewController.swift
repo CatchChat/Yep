@@ -306,7 +306,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     strongSelf.currentSkillCategoryButtonTopConstraint = topConstraint
                     strongSelf.currentSkillCategoryButtonTopConstraintOriginalConstant = strongSelf.currentSkillCategoryButtonTopConstraint.constant
 
-                    UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                    UIView.animate(withDuration: 0.5, delay: 0.0, options: [], animations: { [weak self] in
 
                         topConstraint.constant = 60
 
@@ -314,8 +314,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                         collectionView.alpha = 0
 
-                    }, completion: { _ in
-                    })
+                    }, completion: nil)
                     
                     let layout = strongSelf.skillsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
                     let originLineSpacing = layout.minimumLineSpacing
@@ -342,7 +341,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                     layout.pop_add(anim, forKey: "AnimateLine")
                     
 
-                    UIView.animate(withDuration: 0.5, delay: 0.2, options: UIViewAnimationOptions(), animations: { [weak self] in
+                    UIView.animate(withDuration: 0.5, delay: 0.2, options: [], animations: { [weak self] in
 
                         self?.skillsCollectionViewBottomConstrain.constant = 0
                         self?.view.layoutIfNeeded()
@@ -352,20 +351,18 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                         self?.cancelButton.alpha = 0
                         self?.backButton.alpha = 1
 
-                    }, completion: { _ in
-                    })
+                    }, completion: nil)
 
                 } else {
                     if let button = strongSelf.currentSkillCategoryButton {
 
-                        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                        UIView.animate(withDuration: 0.3, delay: 0.0, options: [], animations: { [weak self] in
 
                             self?.skillsCollectionView.alpha = 0
                             
-                        }, completion: { _ in
-                        })
+                        }, completion: nil)
 
-                        UIView.animate(withDuration: 0.5, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                        UIView.animate(withDuration: 0.5, delay: 0.0, options: [], animations: { [weak self] in
 
                             guard let strongSelf = self else {
                                 return
