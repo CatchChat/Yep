@@ -1237,7 +1237,7 @@ final class ConversationViewController: BaseViewController {
 
     @objc fileprivate func messagesMarkAsReadByRecipient(_ notification: Notification) {
 
-        guard let lastRead = (notification.object as? Box<LastRead>)?.value else {
+        guard let lastRead = notification.object as? LastRead else {
             println("Error: messagesMarkAsReadByRecipient: \(notification.object)")
             return
         }
