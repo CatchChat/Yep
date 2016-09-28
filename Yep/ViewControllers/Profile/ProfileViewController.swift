@@ -904,7 +904,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
             if
                 let info = sender as? [String: Any],
                 let profileUser = info["profileUser"] as? ProfileUser,
-                let feeds = info["feeds"] as? DiscoveredFeed {
+                let feeds = info["feeds"] as? [DiscoveredFeed] {
                     vc.profileUser = profileUser
                     vc.feeds = feeds
                     vc.preparedFeedsCount = feeds.count

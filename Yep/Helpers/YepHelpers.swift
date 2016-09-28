@@ -11,14 +11,6 @@ import YepKit
 import RealmSwift
 import Navi
 
-final class Box<T> {
-    let value: T
-
-    init(_ value: T) {
-        self.value = value
-    }
-}
-
 func cleanRealmAndCaches() {
 
     // clean Realm
