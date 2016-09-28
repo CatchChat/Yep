@@ -1243,263 +1243,264 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
+    private func configure(feedCell cell: UITableViewCell, with feed: DiscoveredFeed, in tableView: UITableView) {
+
+        guard let cell = cell as? FeedBasicCell else {
+            return
+        }
+
+        cell.needShowDistance = needShowDistance
+
+        cell.tapAvatarAction = { [weak self] cell in
+            if let indexPath = tableView.indexPath(for: cell) { // 不直接捕捉 indexPath
+                println("tapAvatarAction indexPath: \((indexPath as NSIndexPath).section), \((indexPath as NSIndexPath).row)")
+                self?.performSegue(withIdentifier: "showProfile", sender: indexPath)
+            }
+        }
+
+        cell.tapSkillAction = { [weak self] cell in
+            if let indexPath = tableView.indexPath(for: cell) { // 不直接捕捉 indexPath
+                self?.performSegue(withIdentifier: "showFeedsWithSkill", sender: indexPath)
+            }
+        }
+
+        // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
+        // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
+        cell.touchesBeganAction = { [weak self] cell in
+            guard let indexPath = tableView.indexPath(for: cell) else {
+                return
+            }
+            _ = self?.tableView(tableView, willSelectRowAt: indexPath)
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        }
+        cell.touchesEndedAction = { [weak self] cell in
+            guard let indexPath = tableView.indexPath(for: cell) else {
+                return
+            }
+            _ = delay(0.03) { [weak self] in
+                self?.tableView(tableView, didSelectRowAt: indexPath)
+            }
+        }
+        cell.touchesCancelledAction = { cell in
+            guard let indexPath = tableView.indexPath(for: cell) else {
+                return
+            }
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+
+        let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
+
+        switch feed.kind {
+
+        case .Text:
+
+            cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
+
+        case .URL:
+
+            guard let cell = cell as? FeedURLCell else {
+                break
+            }
+
+            cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
+
+            cell.tapURLInfoAction = { [weak self] URL in
+                println("tapURLInfoAction URL: \(URL)")
+                self?.yep_openURL(URL)
+            }
+
+        case .Image:
+
+            let tapImagesAction: FeedTapImagesAction = { [weak self] transitionViews, attachments, image, index in
+
+                self?.previewReferences = transitionViews
+
+                let previewAttachmentPhotos = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
+                previewAttachmentPhotos[index].image = image
+
+                self?.previewAttachmentPhotos = previewAttachmentPhotos
+
+                let photos: [Photo] = previewAttachmentPhotos.map({ $0 })
+                let initialPhoto = photos[index]
+
+                let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+                self?.present(photosViewController, animated: true, completion: nil)
+            }
+
+            if feed.imageAttachmentsCount == 1 {
+                guard let cell = cell as? FeedBiggerImageCell else {
+                    break
+                }
+
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
+
+                cell.tapImagesAction = tapImagesAction
+
+            } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
+
+                guard let cell = cell as? FeedNormalImagesCell else {
+                    break
+                }
+
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
+
+                cell.tapImagesAction = tapImagesAction
+
+            } else {
+                guard let cell = cell as? FeedAnyImagesCell else {
+                    break
+                }
+
+                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
+
+                cell.tapImagesAction = tapImagesAction
+            }
+
+        case .GithubRepo:
+
+            guard let cell = cell as? FeedGithubRepoCell else {
+                break
+            }
+
+            cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
+
+            cell.tapGithubRepoLinkAction = { [weak self] URL in
+                self?.yep_openURL(URL)
+            }
+
+        case .DribbbleShot:
+
+            guard let cell = cell as? FeedDribbbleShotCell else {
+                break
+            }
+
+            cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
+
+            cell.tapDribbbleShotLinkAction = { [weak self] URL in
+                self?.yep_openURL(URL)
+            }
+
+            cell.tapDribbbleShotMediaAction = { [weak self] transitionReference, image, imageURL, linkURL in
+
+                guard image != nil else {
+                    return
+                }
+
+                self?.previewReferences = [transitionReference].map({ Optional($0) })
+
+                let previewDribbblePhoto = PreviewDribbblePhoto(imageURL: imageURL)
+                previewDribbblePhoto.image = image
+
+                let previewDribbblePhotos = [previewDribbblePhoto]
+                self?.previewDribbblePhotos = previewDribbblePhotos
+
+                let photos: [Photo] = previewDribbblePhotos.map({ $0 })
+                let initialPhoto = photos[0]
+
+                let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
+                self?.present(photosViewController, animated: true, completion: nil)
+            }
+
+        case .Audio:
+
+            guard let cell = cell as? FeedVoiceCell else {
+                break
+            }
+
+            cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
+
+            cell.playOrPauseAudioAction = { [weak self] cell in
+
+                guard let realm = try? Realm(), let feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
+                    return
+                }
+
+                let play: () -> Void = { [weak self] in
+
+                    if let strongSelf = self {
+
+                        let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
+                        YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
+                            println("playOnlineAudioWithFeedAudio success!")
+
+                            strongSelf.feedAudioPlaybackTimer?.invalidate()
+
+                            let playbackTimer = Timer.scheduledTimer(timeInterval: 0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
+                            YepAudioService.sharedManager.playbackTimer = playbackTimer
+
+                            cell.audioPlaying = true
+                        })
+                    }
+                }
+
+                if let strongSelf = self {
+
+                    // 如果在播放，就暂停
+                    if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer, onlineAudioPlayer.yep_playing {
+
+                        onlineAudioPlayer.pause()
+
+                        if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
+                            playbackTimer.invalidate()
+                        }
+
+                        let feedID = playingFeedAudio.feedID
+                        for index in 0..<strongSelf.feeds.count {
+                            let feed = strongSelf.feeds[index]
+                            if feed.id == feedID {
+
+                                let indexPath = IndexPath(row: index, section: Section.feed.rawValue)
+
+                                if let cell = strongSelf.feedsTableView.cellForRow(at: indexPath) as? FeedVoiceCell {
+                                    cell.audioPlaying = false
+                                }
+
+                                break
+                            }
+                        }
+
+                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, playingFeedAudio.feedID == feed.id {
+                            YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
+
+                        } else {
+                            // 暂停的是别人，咱开始播放
+                            play()
+                        }
+                        
+                    } else {
+                        // 直接播放
+                        play()
+                    }
+                }
+            }
+
+        case .Location:
+
+            guard let cell = cell as? FeedLocationCell else {
+                break
+            }
+
+            cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
+
+            cell.tapLocationAction = { locationName, locationCoordinate in
+
+                let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
+                mapItem.name = locationName
+
+                mapItem.openInMaps(launchOptions: nil)
+            }
+
+        default:
+            break
+        }
+    }
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
             return
         }
 
-        func configureFeedCell(_ cell: UITableViewCell, withFeed feed: DiscoveredFeed) {
 
-            guard let cell = cell as? FeedBasicCell else {
-                return
-            }
-
-            cell.needShowDistance = needShowDistance
-
-            cell.tapAvatarAction = { [weak self] cell in
-                if let indexPath = tableView.indexPath(for: cell) { // 不直接捕捉 indexPath
-                    println("tapAvatarAction indexPath: \((indexPath as NSIndexPath).section), \((indexPath as NSIndexPath).row)")
-                    self?.performSegue(withIdentifier: "showProfile", sender: indexPath)
-                }
-            }
-
-            cell.tapSkillAction = { [weak self] cell in
-                if let indexPath = tableView.indexPath(for: cell) { // 不直接捕捉 indexPath
-                    self?.performSegue(withIdentifier: "showFeedsWithSkill", sender: indexPath)
-                }
-            }
-
-            // simulate select effects when tap on messageTextView or cell.mediaCollectionView's space part
-            // 不能直接捕捉 indexPath，不然新插入后，之前捕捉的 indexPath 不能代表 cell 的新位置，模拟点击会错位到其它 cell
-            cell.touchesBeganAction = { [weak self] cell in
-                guard let indexPath = tableView.indexPath(for: cell) else {
-                    return
-                }
-                _ = self?.tableView(tableView, willSelectRowAt: indexPath)
-                tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-            }
-            cell.touchesEndedAction = { [weak self] cell in
-                guard let indexPath = tableView.indexPath(for: cell) else {
-                    return
-                }
-                _ = delay(0.03) { [weak self] in
-                    self?.tableView(tableView, didSelectRowAt: indexPath)
-                }
-            }
-            cell.touchesCancelledAction = { cell in
-                guard let indexPath = tableView.indexPath(for: cell) else {
-                    return
-                }
-                tableView.deselectRow(at: indexPath, animated: true)
-            }
-
-            let layout = FeedsViewController.layoutPool.feedCellLayoutOfFeed(feed)
-
-            switch feed.kind {
-
-            case .Text:
-
-                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
-
-            case .URL:
-
-                guard let cell = cell as? FeedURLCell else {
-                    break
-                }
-
-                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
-
-                cell.tapURLInfoAction = { [weak self] URL in
-                    println("tapURLInfoAction URL: \(URL)")
-                    self?.yep_openURL(URL)
-                }
-
-            case .Image:
-
-                let tapImagesAction: FeedTapImagesAction = { [weak self] transitionViews, attachments, image, index in
-
-                    self?.previewReferences = transitionViews
-
-                    let previewAttachmentPhotos = attachments.map({ PreviewAttachmentPhoto(attachment: $0) })
-                    previewAttachmentPhotos[index].image = image
-
-                    self?.previewAttachmentPhotos = previewAttachmentPhotos
-
-                    let photos: [Photo] = previewAttachmentPhotos.map({ $0 })
-                    let initialPhoto = photos[index]
-
-                    let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
-                    self?.present(photosViewController, animated: true, completion: nil)
-                }
-
-                if feed.imageAttachmentsCount == 1 {
-                    guard let cell = cell as? FeedBiggerImageCell else {
-                        break
-                    }
-
-                    cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
-
-                    cell.tapImagesAction = tapImagesAction
-
-                } else if feed.imageAttachmentsCount <= FeedsViewController.feedNormalImagesCountThreshold {
-
-                    guard let cell = cell as? FeedNormalImagesCell else {
-                        break
-                    }
-
-                    cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
-
-                    cell.tapImagesAction = tapImagesAction
-
-                } else {
-                    guard let cell = cell as? FeedAnyImagesCell else {
-                        break
-                    }
-
-                    cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
-
-                    cell.tapImagesAction = tapImagesAction
-                }
-
-            case .GithubRepo:
-
-                guard let cell = cell as? FeedGithubRepoCell else {
-                    break
-                }
-
-                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
-
-                cell.tapGithubRepoLinkAction = { [weak self] URL in
-                    self?.yep_openURL(URL)
-                }
-
-            case .DribbbleShot:
-
-                guard let cell = cell as? FeedDribbbleShotCell else {
-                    break
-                }
-
-                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
-
-                cell.tapDribbbleShotLinkAction = { [weak self] URL in
-                    self?.yep_openURL(URL)
-                }
-
-                cell.tapDribbbleShotMediaAction = { [weak self] transitionReference, image, imageURL, linkURL in
-
-                    guard image != nil else {
-                        return
-                    }
-
-                    self?.previewReferences = [transitionReference].map({ Optional($0) })
-
-                    let previewDribbblePhoto = PreviewDribbblePhoto(imageURL: imageURL)
-                    previewDribbblePhoto.image = image
-
-                    let previewDribbblePhotos = [previewDribbblePhoto]
-                    self?.previewDribbblePhotos = previewDribbblePhotos
-
-                    let photos: [Photo] = previewDribbblePhotos.map({ $0 })
-                    let initialPhoto = photos[0]
-
-                    let photosViewController = PhotosViewController(photos: photos, initialPhoto: initialPhoto, delegate: self)
-                    self?.present(photosViewController, animated: true, completion: nil)
-                }
-
-            case .Audio:
-
-                guard let cell = cell as? FeedVoiceCell else {
-                    break
-                }
-
-                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
-
-                cell.playOrPauseAudioAction = { [weak self] cell in
-
-                    guard let realm = try? Realm(), let feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
-                        return
-                    }
-
-                    let play: () -> Void = { [weak self] in
-
-                        if let strongSelf = self {
-
-                            let audioPlayedDuration = strongSelf.audioPlayedDurationOfFeedAudio(feedAudio)
-                            YepAudioService.sharedManager.playOnlineAudioWithFeedAudio(feedAudio, beginFromTime: audioPlayedDuration, delegate: strongSelf, success: {
-                                println("playOnlineAudioWithFeedAudio success!")
-
-                                strongSelf.feedAudioPlaybackTimer?.invalidate()
-
-                                let playbackTimer = Timer.scheduledTimer(timeInterval: 0.02, target: strongSelf, selector: #selector(FeedsViewController.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
-                                YepAudioService.sharedManager.playbackTimer = playbackTimer
-
-                                cell.audioPlaying = true
-                            })
-                        }
-                    }
-
-                    if let strongSelf = self {
-
-                        // 如果在播放，就暂停
-                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer, onlineAudioPlayer.yep_playing {
-
-                            onlineAudioPlayer.pause()
-
-                            if let playbackTimer = YepAudioService.sharedManager.playbackTimer {
-                                playbackTimer.invalidate()
-                            }
-
-                            let feedID = playingFeedAudio.feedID
-                            for index in 0..<strongSelf.feeds.count {
-                                let feed = strongSelf.feeds[index]
-                                if feed.id == feedID {
-
-                                    let indexPath = IndexPath(row: index, section: Section.feed.rawValue)
-
-                                    if let cell = strongSelf.feedsTableView.cellForRow(at: indexPath) as? FeedVoiceCell {
-                                        cell.audioPlaying = false
-                                    }
-
-                                    break
-                                }
-                            }
-
-                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, playingFeedAudio.feedID == feed.id {
-                                YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
-
-                            } else {
-                                // 暂停的是别人，咱开始播放
-                                play()
-                            }
-                            
-                        } else {
-                            // 直接播放
-                            play()
-                        }
-                    }
-                }
-
-            case .Location:
-
-                guard let cell = cell as? FeedLocationCell else {
-                    break
-                }
-
-                cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
-
-                cell.tapLocationAction = { locationName, locationCoordinate in
-
-                    let mapItem = MKMapItem(placemark: MKPlacemark(coordinate: locationCoordinate, addressDictionary: nil))
-                    mapItem.name = locationName
-
-                    mapItem.openInMaps(launchOptions: nil)
-                }
-
-            default:
-                break
-            }
-        }
 
         switch section {
 
