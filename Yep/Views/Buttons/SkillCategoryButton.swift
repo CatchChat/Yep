@@ -82,15 +82,15 @@ final class SkillCategoryButton: UIButton {
         categoryTitleLabel.translatesAutoresizingMaskIntoConstraints = false
         arrowImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary: [String: AnyObject] = [
+        let views: [String: Any] = [
             "categoryImageView": categoryImageView,
             "categoryTitleLabel": categoryTitleLabel,
             "arrowImageView": arrowImageView,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[categoryImageView]|", options: [], metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[categoryImageView]|", options: [], metrics: nil, views: views)
 
-        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[categoryImageView(40)]-20-[categoryTitleLabel][arrowImageView(20)]-20-|", options: [.alignAllCenterY, .alignAllTop, .alignAllBottom], metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[categoryImageView(40)]-20-[categoryTitleLabel][arrowImageView(20)]-20-|", options: [.alignAllCenterY, .alignAllTop, .alignAllBottom], metrics: nil, views: views)
 
         NSLayoutConstraint.activate(constraintsV)
         NSLayoutConstraint.activate(constraintsH)

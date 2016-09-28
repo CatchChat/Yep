@@ -61,7 +61,7 @@ final class FeedMediaContainerView: UIView {
         horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
         linkContainerView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "backgroundImageView": backgroundImageView,
             "mediaImageView": mediaImageView,
             "horizontalLineView": horizontalLineView,

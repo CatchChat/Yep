@@ -94,7 +94,7 @@ final class FeedURLContainerView: UIView {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         thumbnailImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "backgroundImageView": backgroundImageView,
             "siteNameLabel": siteNameLabel,
             "titleLabel": titleLabel,

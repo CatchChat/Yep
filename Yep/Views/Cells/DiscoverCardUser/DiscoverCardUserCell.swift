@@ -141,12 +141,18 @@ final class DiscoverCardUserCell: UICollectionViewCell {
             let textStyle = NSParagraphStyle.default.mutableCopy() as! NSMutableParagraphStyle
             textStyle.alignment = .center
             
-            let textFontAttributes: [String: AnyObject] = {
+            let textFontAttributes: [String: Any] = {
+                let foregroundColor: UIColor
                 if index == 4 && skills.count != 5 {
-                    return  [NSFontAttributeName: UIFont.systemFont(ofSize: 12), NSForegroundColorAttributeName: UIColor.yepTintColor(), NSParagraphStyleAttributeName: textStyle]
+                    foregroundColor = UIColor.yepTintColor()
                 } else {
-                    return [NSFontAttributeName: UIFont.systemFont(ofSize: 12), NSForegroundColorAttributeName: UIColor.white, NSParagraphStyleAttributeName: textStyle]
+                    foregroundColor = UIColor.white
                 }
+                return [
+                    NSFontAttributeName: UIFont.systemFont(ofSize: 12),
+                    NSParagraphStyleAttributeName: textStyle,
+                    NSForegroundColorAttributeName: foregroundColor,
+                ]
             }()
             
             let textTextWidth: CGFloat = textTextContent.boundingRect(with: CGSize(width: CGFloat.infinity, height: 12), options: .usesLineFragmentOrigin, attributes: textFontAttributes, context: nil).size.width

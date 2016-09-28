@@ -102,15 +102,15 @@ final class MediaControlView: UIView {
         playButton.translatesAutoresizingMaskIntoConstraints = false
         shareButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary: [String: AnyObject] = [
+        let views: [String: Any] = [
             "timeLable": timeLabel,
             "playButton": playButton,
             "shareButton": shareButton,
         ]
 
-        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[timeLable]|", options: [], metrics: nil, views: viewsDictionary)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[timeLable]|", options: [], metrics: nil, views: views)
 
-        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-30-[timeLable]-(>=0)-[playButton]-(>=0)-[shareButton]|", options: [.alignAllCenterY, .alignAllTop, .alignAllBottom], metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-30-[timeLable]-(>=0)-[playButton]-(>=0)-[shareButton]|", options: [.alignAllCenterY, .alignAllTop, .alignAllBottom], metrics: nil, views: views)
 
         NSLayoutConstraint.activate(constraintsV)
         NSLayoutConstraint.activate(constraintsH)

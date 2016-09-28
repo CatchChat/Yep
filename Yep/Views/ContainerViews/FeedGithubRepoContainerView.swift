@@ -74,7 +74,7 @@ final class FeedGithubRepoContainerView: UIView {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "backgroundImageView": backgroundImageView,
             "iconImageView": iconImageView,
             "nameLabel": nameLabel,

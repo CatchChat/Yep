@@ -55,9 +55,9 @@ final class ChatTextView: UITextView {
 
             let textValue = (plainText as NSString).substring(with: range)
 
-            let textAttributes: [String: AnyObject] = [
-                NSLinkAttributeName: textValue as AnyObject,
-                ChatTextView.detectionTypeName: DetectionType.Mention.rawValue as AnyObject,
+            let textAttributes: [String: Any] = [
+                NSLinkAttributeName: textValue,
+                ChatTextView.detectionTypeName: DetectionType.Mention.rawValue,
             ]
 
             attributedString.addAttributes(textAttributes, range: range)

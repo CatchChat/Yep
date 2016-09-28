@@ -47,7 +47,7 @@ public struct LoginUser: CustomStringConvertible {
 
         guard let accessToken = data["access_token"] as? String else { return nil }
 
-        guard let user = data["user"] as? [String: AnyObject] else { return nil }
+        guard let user = data["user"] as? JSONDictionary else { return nil }
         guard let userID = user["id"] as? String else { return nil }
         guard let nickname = user["nickname"] as? String else { return nil }
         guard let pusherID = user["pusher_id"] as? String else { return nil }

@@ -193,7 +193,7 @@ class SearchFeedsFooterView: UIView {
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         keywordsTableView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "promptLabel": promptLabel,
             "keywordsTableView": keywordsTableView,
         ]

@@ -196,12 +196,12 @@ class ShareViewController: SLComposeServiceViewController {
             do {
                 let reader = try! AVAssetReader(asset: audioAsset)
                 let track = audioAsset.tracks.first!
-                let outputSettings: [String: AnyObject] = [
-                    AVFormatIDKey: Int(kAudioFormatLinearPCM) as AnyObject,
-                    AVLinearPCMBitDepthKey: 16 as AnyObject,
-                    AVLinearPCMIsBigEndianKey: false as AnyObject,
-                    AVLinearPCMIsFloatKey: false as AnyObject,
-                    AVLinearPCMIsNonInterleaved: false as AnyObject,
+                let outputSettings: [String: Any] = [
+                    AVFormatIDKey: Int(kAudioFormatLinearPCM),
+                    AVLinearPCMBitDepthKey: 16,
+                    AVLinearPCMIsBigEndianKey: false,
+                    AVLinearPCMIsFloatKey: false,
+                    AVLinearPCMIsNonInterleaved: false,
                 ]
                 let output = AVAssetReaderTrackOutput(track: track, outputSettings: outputSettings)
                 reader.add(output)

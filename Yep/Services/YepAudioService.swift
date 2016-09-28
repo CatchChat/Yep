@@ -56,12 +56,12 @@ final class YepAudioService: NSObject {
 
         audioFileURL = fileURL
 
-        let settings: [String: AnyObject] = [
-            AVFormatIDKey: Int(kAudioFormatMPEG4AAC) as AnyObject,
-            AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue as AnyObject,
-            AVEncoderBitRateKey : 64000 as AnyObject,
-            AVNumberOfChannelsKey: 2 as AnyObject,
-            AVSampleRateKey : 44100.0 as AnyObject
+        let settings: [String: Any] = [
+            AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+            AVEncoderAudioQualityKey : AVAudioQuality.max.rawValue,
+            AVEncoderBitRateKey : 64000,
+            AVNumberOfChannelsKey: 2,
+            AVSampleRateKey : 44100.0,
         ]
         
         do {

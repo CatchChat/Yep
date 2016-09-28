@@ -192,23 +192,23 @@ final class FriendRequestView: UIView {
         stateLabel.translatesAutoresizingMaskIntoConstraints = false
         containerView.addSubview(stateLabel)
 
-        let viewsDictionary: [String: AnyObject] = [
+        let views: [String: Any] = [
             "visualEffectView": visualEffectView,
             "containerView": containerView,
         ]
 
         // visualEffectView
 
-        let visualEffectViewConstraintH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[visualEffectView]|", options: [], metrics: nil, views: viewsDictionary)
-        let visualEffectViewConstraintV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[visualEffectView]|", options: [], metrics: nil, views: viewsDictionary)
+        let visualEffectViewConstraintH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[visualEffectView]|", options: [], metrics: nil, views: views)
+        let visualEffectViewConstraintV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[visualEffectView]|", options: [], metrics: nil, views: views)
 
         NSLayoutConstraint.activate(visualEffectViewConstraintH)
         NSLayoutConstraint.activate(visualEffectViewConstraintV)
 
         // containerView
 
-        let containerViewConstraintH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[containerView]|", options: [], metrics: nil, views: viewsDictionary)
-        let containerViewConstraintV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[containerView]|", options: [], metrics: nil, views: viewsDictionary)
+        let containerViewConstraintH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[containerView]|", options: [], metrics: nil, views: views)
+        let containerViewConstraintV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[containerView]|", options: [], metrics: nil, views: views)
 
         NSLayoutConstraint.activate(containerViewConstraintH)
         NSLayoutConstraint.activate(containerViewConstraintV)

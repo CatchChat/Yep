@@ -93,7 +93,7 @@ extension ConversationViewController {
 
         view.addSubview(feedView)
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "feedView": feedView
         ]
 

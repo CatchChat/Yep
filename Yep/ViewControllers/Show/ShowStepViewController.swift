@@ -77,10 +77,10 @@ class ShowStepViewController: UIViewController {
 
         repeatAnimate(view, alongWithPath: path, duration: duration, autoreverses: true)
 
-        repeatRotate(view, fromValue: -0.1 as AnyObject, toValue: 0.1 as AnyObject, duration: duration)
+        repeatRotate(view, fromValue: -0.1, toValue: 0.1, duration: duration)
     }
 
-    fileprivate func repeatRotate(_ view: UIView, fromValue: AnyObject, toValue: AnyObject, duration: CFTimeInterval) {
+    fileprivate func repeatRotate(_ view: UIView, fromValue: Any, toValue: Any, duration: CFTimeInterval) {
 
         let rotate = CABasicAnimation(keyPath: "transform.rotation.z")
 

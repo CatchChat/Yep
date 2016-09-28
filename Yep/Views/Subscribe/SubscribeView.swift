@@ -80,7 +80,7 @@ final class SubscribeView: UIView {
             horizontalLineView.backgroundColor = UIColor.clear
             horizontalLineView.atBottom = false
 
-            let views: [String: AnyObject] = [
+            let views: [String: Any] = [
                 "horizontalLineView": horizontalLineView,
             ]
 
@@ -103,7 +103,7 @@ final class SubscribeView: UIView {
             subscribeButton.translatesAutoresizingMaskIntoConstraints = false
             dismissButton.translatesAutoresizingMaskIntoConstraints = false
 
-            let views: [String: AnyObject] = [
+            let views: [String: Any] = [
                 "iconImageView": iconImageView,
                 "promptLabel": promptLabel,
                 "subscribeButton": subscribeButton,

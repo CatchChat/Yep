@@ -1297,8 +1297,8 @@ final class ConversationViewController: BaseViewController {
 
     @objc fileprivate func handleReceivedNewMessagesNotification(_ notification: Notification) {
 
-        guard let
-            messagesInfo = notification.object as? [String: AnyObject],
+        guard
+            let messagesInfo = notification.object as? [String: Any],
             let messageIDs = messagesInfo["messageIDs"] as? [String],
             let messageAgeRawValue = messagesInfo["messageAge"] as? String,
             let messageAge = MessageAge(rawValue: messageAgeRawValue) else {
@@ -1356,7 +1356,7 @@ final class ConversationViewController: BaseViewController {
             reloadConversationCollectionView()
         }
 
-        guard let info = notification.object as? [String: AnyObject], let messageIDs = info["messageIDs"] as? [String] else {
+        guard let info = notification.object as? [String: Any], let messageIDs = info["messageIDs"] as? [String] else {
             return
         }
 
