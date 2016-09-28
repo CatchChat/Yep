@@ -56,14 +56,14 @@ final class RegisterPickNameViewController: BaseViewController {
         pickNamePromptLabel.text = NSLocalizedString("What's your name?", comment: "")
 
         let text = String.trans_promptTapNextAgreeTerms
-        let textAttributes: [String: AnyObject] = [
+        let textAttributes: [String: Any] = [
             NSFontAttributeName: UIFont.systemFont(ofSize: 14),
             NSForegroundColorAttributeName: UIColor.gray,
         ]
         let attributedText = NSMutableAttributedString(string: text, attributes: textAttributes)
-        let termsAttributes: [String: AnyObject] = [
+        let termsAttributes: [String: Any] = [
             NSForegroundColorAttributeName: UIColor.yepTintColor(),
-            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue as AnyObject,
+            NSUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue,
         ]
         let tapRange = (text as NSString).range(of: NSLocalizedString("terms", comment: ""))
         attributedText.addAttributes(termsAttributes, range: tapRange)

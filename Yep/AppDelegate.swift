@@ -875,8 +875,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             shadow.shadowOffset = CGSize(width: 0, height: 0)
             return shadow
         }()
-
-        let textAttributes: [String: AnyObject] = [
+        let textAttributes: [String: Any] = [
             NSForegroundColorAttributeName: UIColor.yepNavgationBarTitleColor(),
             NSShadowAttributeName: shadow,
             NSFontAttributeName: UIFont.navigationBarTitleFont()
@@ -884,27 +883,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         UINavigationBar.appearance().titleTextAttributes = textAttributes
         UINavigationBar.appearance().barTintColor = UIColor.white
 
-        /*
-        let barButtonTextAttributes: [String: AnyObject] = [
-            NSForegroundColorAttributeName: UIColor.yepTintColor(),
-            NSFontAttributeName: UIFont.barButtonFont()
-        ]
-        UIBarButtonItem.appearance().setTitleTextAttributes(barButtonTextAttributes, forState: UIControlState.Normal)
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named:"white"), forBarMetrics: .Default)
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().translucent = false
-         */
-
         // TabBar
 
         UITabBar.appearance().tintColor = UIColor.yepTintColor()
         UITabBar.appearance().barTintColor = UIColor.white
-
-        /*
-        UITabBar.appearance().backgroundImage = UIImage(named:"white")
-        UITabBar.appearance().shadowImage = UIImage()
-        UITabBar.appearance().translucent = false
-         */
     }
 }
 
