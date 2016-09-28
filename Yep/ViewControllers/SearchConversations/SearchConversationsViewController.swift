@@ -165,8 +165,7 @@ final class SearchConversationsViewController: BaseSearchViewController {
 
         case "showSearchedUserMessages":
             let vc = segue.destination as! SearchedUserMessagesViewController
-            let userMessages = (sender as! Box<UserMessages>).value
-
+            let userMessages = sender as! UserMessages
             vc.messages = userMessages.messages
             vc.keyword = keyword
 
@@ -617,7 +616,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
                     performSegue(withIdentifier: "showConversation", sender: info)
 
                 } else {
-                    performSegue(withIdentifier: "showSearchedUserMessages", sender: Box<UserMessages>(userMessages))
+                    performSegue(withIdentifier: "showSearchedUserMessages", sender: userMessages)
                 }
 
             } else {
