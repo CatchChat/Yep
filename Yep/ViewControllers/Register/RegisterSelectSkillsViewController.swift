@@ -287,13 +287,13 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                     button?.translatesAutoresizingMaskIntoConstraints = false
 
-                    let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
+                    let widthConstraint = NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
 
-                    let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonHeight)
+                    let heightConstraint = NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonHeight)
 
-                    let topConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.top, relatedBy: NSLayoutRelation.equal, toItem: strongSelf.view, attribute: NSLayoutAttribute.top, multiplier: 1, constant: frame.origin.y)
+                    let topConstraint = NSLayoutConstraint(item: button, attribute: .top, relatedBy: .equal, toItem: strongSelf.view, attribute: .top, multiplier: 1, constant: frame.origin.y)
 
-                    let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: strongSelf.view, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+                    let centerXConstraint = NSLayoutConstraint(item: button, attribute: .centerX, relatedBy: .equal, toItem: strongSelf.view, attribute: .centerX, multiplier: 1, constant: 0)
 
                     NSLayoutConstraint.activate([widthConstraint, heightConstraint, topConstraint, centerXConstraint])
 
@@ -387,13 +387,13 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
 
                             button.translatesAutoresizingMaskIntoConstraints = false
 
-                            let widthConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.width, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
+                            let widthConstraint = NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
 
-                            let heightConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: NSLayoutAttribute.notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonHeight)
+                            let heightConstraint = NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonHeight)
 
-                            let centerXConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.centerX, relatedBy: NSLayoutRelation.equal, toItem: cell.contentView, attribute: NSLayoutAttribute.centerX, multiplier: 1, constant: 0)
+                            let centerXConstraint = NSLayoutConstraint(item: button, attribute: .centerX, relatedBy: .equal, toItem: cell.contentView, attribute: .centerX, multiplier: 1, constant: 0)
 
-                            let centerYConstraint = NSLayoutConstraint(item: button, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: cell.contentView, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
+                            let centerYConstraint = NSLayoutConstraint(item: button, attribute: .centerY, relatedBy: .equal, toItem: cell.contentView, attribute: .centerY, multiplier: 1, constant: 0)
 
                             NSLayoutConstraint.activate([widthConstraint, heightConstraint, centerXConstraint, centerYConstraint])
                         })

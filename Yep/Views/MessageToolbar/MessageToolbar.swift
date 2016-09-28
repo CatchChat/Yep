@@ -260,9 +260,9 @@ final class MessageToolbar: UIToolbar {
         NSLayoutConstraint.activate(messageTextViewConstraintsV)
         NSLayoutConstraint.activate([messageTextViewHeightConstraint])
 
-        let sendButtonConstraintCenterY = NSLayoutConstraint(item: sendButton, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: micButton, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
+        let sendButtonConstraintCenterY = NSLayoutConstraint(item: sendButton, attribute: .centerY, relatedBy: .equal, toItem: micButton, attribute: .centerY, multiplier: 1, constant: 0)
 
-        let sendButtonConstraintHeight = NSLayoutConstraint(item: sendButton, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: micButton, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0)
+        let sendButtonConstraintHeight = NSLayoutConstraint(item: sendButton, attribute: .height, relatedBy: .equal, toItem: micButton, attribute: .height, multiplier: 1, constant: 0)
 
         let sendButtonConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:[messageTextView][sendButton(==moreButton)]|", options: [], metrics: nil, views: views)
 

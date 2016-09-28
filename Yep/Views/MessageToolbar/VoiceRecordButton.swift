@@ -132,7 +132,7 @@ final class VoiceRecordButton: UIView {
             "rightVoiceImageView": rightVoiceImageView,
         ]
 
-        let leftVoiceImageViewConstraintCenterY = NSLayoutConstraint(item: leftVoiceImageView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
+        let leftVoiceImageViewConstraintCenterY = NSLayoutConstraint(item: leftVoiceImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0)
 
         let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[leftVoiceImageView(20)][titleLabel][rightVoiceImageView(==leftVoiceImageView)]-10-|", options: NSLayoutFormatOptions.alignAllCenterY, metrics: nil, views: views)
 
