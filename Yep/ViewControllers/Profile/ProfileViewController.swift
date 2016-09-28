@@ -889,8 +889,8 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
             let vc = segue.destination as! FeedsViewController
 
-            if let
-                skillInfo = sender as? [String: AnyObject],
+            if
+                let skillInfo = sender as? [String: Any],
                 let skill = skillInfo["skill"] as? SkillCellSkill {
                     vc.skill = Skill(category: nil, id: skill.ID, name: skill.localName, localName: skill.localName, coverURLString: skill.coverURLString)
             }
@@ -916,7 +916,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
         case "showEditSkills":
 
-            if let skillInfo = sender as? [String: AnyObject] {
+            if let skillInfo = sender as? [String: Any] {
 
                 let vc = segue.destination as! EditSkillsViewController
 
