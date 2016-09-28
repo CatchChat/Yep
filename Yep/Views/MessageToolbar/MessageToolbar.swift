@@ -232,7 +232,7 @@ final class MessageToolbar: UIToolbar {
         self.addSubview(sendButton)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary: [String: AnyObject] = [
+        let views: [String: Any] = [
             "moreButton": moreButton,
             "messageTextView": messageTextView,
             "micButton": micButton,
@@ -241,17 +241,17 @@ final class MessageToolbar: UIToolbar {
         ]
 
         let buttonBottom: CGFloat = 8
-        let constraintsV1 = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=0)-[micButton]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: viewsDictionary)
-        let constraintsV2 = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=0)-[moreButton(==micButton)]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: viewsDictionary)
-        let constraintsV3 = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=0)-[sendButton(==micButton)]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: viewsDictionary)
+        let constraintsV1 = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=0)-[micButton]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: views)
+        let constraintsV2 = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=0)-[moreButton(==micButton)]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: views)
+        let constraintsV3 = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=0)-[sendButton(==micButton)]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: views)
 
-        let messageTextViewConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-7-[messageTextView]-8-|", options: [], metrics: nil, views: viewsDictionary)
+        let messageTextViewConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-7-[messageTextView]-8-|", options: [], metrics: nil, views: views)
 
         println("messageTextViewMinHeight: \(messageTextViewMinHeight)")
         messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: messageTextViewMinHeight)
         messageTextViewHeightConstraint.priority = UILayoutPriorityDefaultHigh
 
-        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[micButton(48)][messageTextView][moreButton(==micButton)]|", options: [], metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[micButton(48)][messageTextView][moreButton(==micButton)]|", options: [], metrics: nil, views: views)
 
         NSLayoutConstraint.activate(constraintsV1)
         NSLayoutConstraint.activate(constraintsV2)
@@ -264,16 +264,16 @@ final class MessageToolbar: UIToolbar {
 
         let sendButtonConstraintHeight = NSLayoutConstraint(item: sendButton, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: micButton, attribute: NSLayoutAttribute.height, multiplier: 1, constant: 0)
 
-        let sendButtonConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:[messageTextView][sendButton(==moreButton)]|", options: [], metrics: nil, views: viewsDictionary)
+        let sendButtonConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:[messageTextView][sendButton(==moreButton)]|", options: [], metrics: nil, views: views)
 
         NSLayoutConstraint.activate([sendButtonConstraintCenterY])
         NSLayoutConstraint.activate([sendButtonConstraintHeight])
         NSLayoutConstraint.activate(sendButtonConstraintsH)
 
         // void record button
-        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-7-[voiceRecordButton]-8-|", options: [], metrics: nil, views: viewsDictionary)
+        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-7-[voiceRecordButton]-8-|", options: [], metrics: nil, views: views)
 
-        let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[micButton][voiceRecordButton][moreButton]|", options: [], metrics: nil, views: viewsDictionary)
+        let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[micButton][voiceRecordButton][moreButton]|", options: [], metrics: nil, views: views)
 
         let voiceRecordButtonHeightConstraint = NSLayoutConstraint(item: voiceRecordButton, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: messageTextViewMinHeight)
         voiceRecordButtonHeightConstraint.priority = UILayoutPriorityDefaultHigh

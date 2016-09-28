@@ -62,12 +62,12 @@ final class ActivityIndicatorTitleView: UIView {
 
             self.singleTitleLabel = label
 
-            let viewsDictionary: [String: AnyObject] = [
+            let views: [String: Any] = [
                 "label": label,
             ]
 
-            let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[label]|", options: NSLayoutFormatOptions.alignAllCenterY, metrics: nil, views: viewsDictionary)
-            let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[label]|", options: NSLayoutFormatOptions.alignAllCenterY, metrics: nil, views: viewsDictionary)
+            let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[label]|", options: NSLayoutFormatOptions.alignAllCenterY, metrics: nil, views: views)
+            let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[label]|", options: NSLayoutFormatOptions.alignAllCenterY, metrics: nil, views: views)
 
             NSLayoutConstraint.activate(constraintsH)
             NSLayoutConstraint.activate(constraintsV)
@@ -104,7 +104,7 @@ final class ActivityIndicatorTitleView: UIView {
 
             NSLayoutConstraint.activate([helperViewCenterX, helperViewCenterY])
 
-            let viewsDictionary: [String: AnyObject] = [
+            let viewsDictionary: [String: Any] = [
                 "activityIndicator": activityIndicator,
                 "label": label,
             ]

@@ -65,7 +65,7 @@ final class FeedUploadingErrorContainerView: UIView {
             leftContainerView.translatesAutoresizingMaskIntoConstraints = false
             deleteButton.translatesAutoresizingMaskIntoConstraints = false
 
-            let views: [String: AnyObject] = [
+            let views: [String: Any] = [
                 "leftContainerView": leftContainerView,
                 "deleteButton": deleteButton,
             ]
@@ -86,7 +86,7 @@ final class FeedUploadingErrorContainerView: UIView {
             errorMessageLabel.translatesAutoresizingMaskIntoConstraints = false
             retryButton.translatesAutoresizingMaskIntoConstraints = false
 
-            let views: [String: AnyObject] = [
+            let views: [String: Any] = [
                 "iconImageView": iconImageView,
                 "errorMessageLabel": errorMessageLabel,
                 "retryButton": retryButton,

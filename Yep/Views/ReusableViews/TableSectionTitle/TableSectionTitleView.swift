@@ -23,7 +23,7 @@ final class TableSectionTitleView: UITableViewHeaderFooterView {
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "titleLabel": titleLabel,
         ]
 

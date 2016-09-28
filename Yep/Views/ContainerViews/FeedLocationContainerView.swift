@@ -68,7 +68,7 @@ final class FeedLocationContainerView: UIView {
         horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "backgroundImageView": backgroundImageView,
             "mapImageView": mapImageView,
             "horizontalLineView": horizontalLineView,

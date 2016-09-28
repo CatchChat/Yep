@@ -52,7 +52,7 @@ final class LinkContainerView: UIView {
         textLabel.translatesAutoresizingMaskIntoConstraints = false
         accessoryImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "iconImageView": iconImageView,
             "textLabel": textLabel,
             "accessoryImageView": accessoryImageView,

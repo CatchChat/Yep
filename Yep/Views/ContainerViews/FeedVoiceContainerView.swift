@@ -80,7 +80,7 @@ final class FeedVoiceContainerView: UIView {
         voiceSampleView.translatesAutoresizingMaskIntoConstraints = false
         timeLengthLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "bubbleImageView": bubbleImageView,
             "playButton": playButton,
             "voiceSampleView": voiceSampleView,

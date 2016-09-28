@@ -126,7 +126,7 @@ final class VoiceRecordButton: UIView {
         self.addSubview(rightVoiceImageView)
         rightVoiceImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary: [String: AnyObject] = [
+        let views: [String: Any] = [
             "leftVoiceImageView": leftVoiceImageView,
             "titleLabel": titleLabel,
             "rightVoiceImageView": rightVoiceImageView,
@@ -134,7 +134,7 @@ final class VoiceRecordButton: UIView {
 
         let leftVoiceImageViewConstraintCenterY = NSLayoutConstraint(item: leftVoiceImageView, attribute: NSLayoutAttribute.centerY, relatedBy: NSLayoutRelation.equal, toItem: self, attribute: NSLayoutAttribute.centerY, multiplier: 1, constant: 0)
 
-        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[leftVoiceImageView(20)][titleLabel][rightVoiceImageView(==leftVoiceImageView)]-10-|", options: NSLayoutFormatOptions.alignAllCenterY, metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[leftVoiceImageView(20)][titleLabel][rightVoiceImageView(==leftVoiceImageView)]-10-|", options: NSLayoutFormatOptions.alignAllCenterY, metrics: nil, views: views)
 
         NSLayoutConstraint.activate([leftVoiceImageViewConstraintCenterY])
         NSLayoutConstraint.activate(constraintsH)
