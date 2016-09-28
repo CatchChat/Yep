@@ -35,6 +35,10 @@ extension ConversationViewController {
         conversationCollectionView.alwaysBounceVertical = true
         conversationCollectionView.bounces = true
 
+        if #available(iOS 10.0, *) {
+            conversationCollectionView.prefetchDataSource = self
+        }
+
         conversationCollectionView.registerNibOf(LoadMoreCollectionViewCell.self)
         conversationCollectionView.registerNibOf(ChatSectionDateCell.self)
 
@@ -54,6 +58,37 @@ extension ConversationViewController {
         conversationCollectionView.registerClassOf(ChatRightAudioCell.self)
         conversationCollectionView.registerClassOf(ChatRightVideoCell.self)
         conversationCollectionView.registerClassOf(ChatRightLocationCell.self)
+    }
+}
+
+extension ConversationViewController: UICollectionViewDataSourcePrefetching {
+
+    func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
+
+        indexPaths.forEach({
+            guard let message = messages[safe: (displayedMessagesRange.location + $0.item)] else {
+                return
+            }
+
+            switch message.mediaType {
+
+            case MessageMediaType.image.rawValue:
+
+                let imageSize = message.fixedImageSize
+
+                let tailDirection: MessageImageTailDirection
+                if message.fromFriend?.isMe ?? false {
+                    tailDirection = .right
+                } else {
+                    tailDirection = .left
+                }
+
+                YepImageCache.sharedInstance.imageOfMessage(message, withSize: imageSize, tailDirection: tailDirection, completion: { _, _ in })
+
+            default:
+                break
+            }
+        })
     }
 }
 
