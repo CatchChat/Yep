@@ -850,7 +850,7 @@ final class ConversationViewController: BaseViewController {
                 return
             }
 
-            let feed = (sender as! Box<DiscoveredFeed>).value
+            let feed = sender as! DiscoveredFeed
 
             realm.beginWrite()
             let feedConversation = vc.prepareConversation(for: feed, in: realm)
