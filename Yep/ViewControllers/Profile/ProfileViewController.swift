@@ -773,13 +773,14 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
         updateProfileCollectionView()
     }
+
     @objc fileprivate func createdFeed(_ sender: Notification) {
 
         guard feeds != nil else {
             return
         }
 
-        let feed = (sender.object as! Box<DiscoveredFeed>).value
+        let feed = sender.object as! DiscoveredFeed
         feeds!.insert(feed, at: 0)
 
         updateFeedAttachmentsAfterUpdateFeeds()
@@ -876,7 +877,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
             let vc = segue.destination as! ProfileViewController
 
-            let profileUser = (sender as! Box<ProfileUser>).value
+            let profileUser = sender as! ProfileUser
             vc.prepare(withProfileUser: profileUser)
 
         case "showConversation":
@@ -900,10 +901,10 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
             let vc = segue.destination as! FeedsViewController
 
-            if let
-                info = (sender as? Box<[String: AnyObject]>)?.value,
-                let profileUser = (info["profileUser"] as? Box<ProfileUser>)?.value,
-                let feeds = (info["feeds"] as? Box<[DiscoveredFeed]>)?.value {
+            if
+                let info = sender as? [String: Any],
+                let profileUser = info["profileUser"] as? ProfileUser,
+                let feeds = info["feeds"] as? [DiscoveredFeed] {
                     vc.profileUser = profileUser
                     vc.feeds = feeds
                     vc.preparedFeedsCount = feeds.count
@@ -1571,12 +1572,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 break
             }
 
-            let info: [String: AnyObject] = [
-                "profileUser": Box(profileUser),
-                "feeds": Box(feeds ?? []),
+            let info: [String: Any] = [
+                "profileUser": profileUser,
+                "feeds": feeds ?? [],
             ]
 
-            performSegue(withIdentifier: "showFeedsOfProfileUser", sender: Box(info))
+            performSegue(withIdentifier: "showFeedsOfProfileUser", sender: info)
 
         default:
             break

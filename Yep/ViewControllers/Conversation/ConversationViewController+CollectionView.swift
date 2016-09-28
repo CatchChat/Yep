@@ -19,7 +19,7 @@ extension ConversationViewController {
     fileprivate func tryShowConversation(for feed: DiscoveredFeed?) {
 
         if let feed = feed {
-            performSegue(withIdentifier: "showConversationWithFeed", sender: Box<DiscoveredFeed>(feed))
+            performSegue(withIdentifier: "showConversationWithFeed", sender: feed)
 
         } else {
             YepAlert.alertSorry(message: String.trans_promptFeedNotFound, inViewController: self)

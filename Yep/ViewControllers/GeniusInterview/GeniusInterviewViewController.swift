@@ -73,7 +73,7 @@ final class GeniusInterviewViewController: BaseViewController {
             }
 
             SafeDispatch.async { [weak self] in
-                self?.performSegue(withIdentifier: "showProfile", sender: Box<DiscoveredUser>(user))
+                self?.performSegue(withIdentifier: "showProfile", sender: user)
             }
         }
 
@@ -180,8 +180,7 @@ final class GeniusInterviewViewController: BaseViewController {
         case "showProfile":
 
             let vc = segue.destination as! ProfileViewController
-
-            let discoveredUser = (sender as! Box<DiscoveredUser>).value
+            let discoveredUser = sender as! DiscoveredUser
             vc.prepare(with: discoveredUser)
 
         case "showConversation":

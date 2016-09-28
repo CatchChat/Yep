@@ -224,12 +224,8 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
             let vc = segue.destination as! ProfileViewController
 
-            if let user = sender as? User {
-               vc.prepare(withUser: user)
-                
-            } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                vc.prepare(with: discoveredUser)
-            }
+            let user = sender as! User
+            vc.prepare(withUser: user)
 
             recoverOriginalNavigationDelegate()
             

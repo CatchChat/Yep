@@ -71,7 +71,7 @@ final class BlackListViewController: BaseViewController {
         case "showProfile":
             let vc = segue.destination as! ProfileViewController
 
-            let discoveredUser = (sender as! Box<DiscoveredUser>).value
+            let discoveredUser = sender as! DiscoveredUser
             vc.prepare(with: discoveredUser)
 
         default:
@@ -108,7 +108,7 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
         }
 
         let discoveredUser = blockedUsers[indexPath.row]
-        performSegue(withIdentifier: "showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+        performSegue(withIdentifier: "showProfile", sender: discoveredUser)
     }
 
     // Edit (for Unblock)

@@ -57,13 +57,13 @@ class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
 
         vc.tapBannerAction = { banner in
             SafeDispatch.async { [weak self] in
-                self?.performSegue(withIdentifier: "showGeniusInterviewWithBanner", sender: Box<GeniusInterviewBanner>(banner))
+                self?.performSegue(withIdentifier: "showGeniusInterviewWithBanner", sender: banner)
             }
         }
 
         vc.showGeniusInterviewAction = { geniusInterview in
             SafeDispatch.async { [weak self] in
-                self?.performSegue(withIdentifier: "showGeniusInterview", sender: Box<GeniusInterview>(geniusInterview))
+                self?.performSegue(withIdentifier: "showGeniusInterview", sender: geniusInterview)
             }
         }
 
@@ -76,7 +76,7 @@ class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
 
         vc.showProfileOfDiscoveredUserAction = { discoveredUser in
             SafeDispatch.async { [weak self] in
-                self?.performSegue(withIdentifier: "showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+                self?.performSegue(withIdentifier: "showProfile", sender: discoveredUser)
             }
         }
 
@@ -194,21 +194,19 @@ class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
         case "showProfile":
 
             let vc = segue.destination as! ProfileViewController
-            let discoveredUser = (sender as! Box<DiscoveredUser>).value
+            let discoveredUser = sender as! DiscoveredUser
             vc.prepare(with: discoveredUser)
 
         case "showGeniusInterview":
 
             let vc = segue.destination as! GeniusInterviewViewController
-
-            let geniusInterview = (sender as! Box<GeniusInterview>).value
+            let geniusInterview = sender as! GeniusInterview
             vc.interview = geniusInterview
 
         case "showGeniusInterviewWithBanner":
 
             let vc = segue.destination as! GeniusInterviewViewController
-
-            let banner = (sender as! Box<GeniusInterviewBanner>).value
+            let banner = sender as! GeniusInterviewBanner
             vc.interview = banner
 
         default:

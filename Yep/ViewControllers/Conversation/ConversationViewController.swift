@@ -805,7 +805,7 @@ final class ConversationViewController: BaseViewController {
 
             let vc = segue.destination as! ProfileViewController
 
-            let profileUser = (sender as! Box<ProfileUser>).value
+            let profileUser = sender as! ProfileUser
             vc.prepare(withProfileUser: profileUser)
 
             vc.fromType = .groupConversation
@@ -850,7 +850,7 @@ final class ConversationViewController: BaseViewController {
                 return
             }
 
-            let feed = (sender as! Box<DiscoveredFeed>).value
+            let feed = sender as! DiscoveredFeed
 
             realm.beginWrite()
             let feedConversation = vc.prepareConversation(for: feed, in: realm)
@@ -1237,7 +1237,7 @@ final class ConversationViewController: BaseViewController {
 
     @objc fileprivate func messagesMarkAsReadByRecipient(_ notification: Notification) {
 
-        guard let lastRead = (notification.object as? Box<LastRead>)?.value else {
+        guard let lastRead = notification.object as? LastRead else {
             println("Error: messagesMarkAsReadByRecipient: \(notification.object)")
             return
         }

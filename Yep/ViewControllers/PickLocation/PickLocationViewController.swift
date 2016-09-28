@@ -166,8 +166,7 @@ final class PickLocationViewController: SegueViewController {
 
             let vc = segue.destination as! NewFeedViewController
 
-            let location = (sender as! Box<PickLocationViewControllerLocation>).value
-
+            let location = sender as! PickLocationViewControllerLocation
             vc.attachment = .location(location)
 
             vc.preparedSkill = preparedSkill
@@ -213,14 +212,14 @@ final class PickLocationViewController: SegueViewController {
 
         case .feed:
 
-            if let location = location {
-                performSegue(withIdentifier: "showNewFeed", sender: Box(location))
+            let location = self.location ?? PickLocationViewControllerLocation.default(
+                info: PickLocationViewControllerLocation.Info(
+                    coordinate: fixedCenterCoordinate,
+                    name: userLocationPlacemarks.first?.yep_autoName
+                )
+            )
 
-            } else {
-                let _location = PickLocationViewControllerLocation.default(info: PickLocationViewControllerLocation.Info(coordinate: fixedCenterCoordinate, name: userLocationPlacemarks.first?.yep_autoName))
-
-                performSegue(withIdentifier: "showNewFeed", sender: Box(_location))
-            }
+            performSegue(withIdentifier: "showNewFeed", sender: location)
         }
     }
 

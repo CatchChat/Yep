@@ -107,7 +107,7 @@ final class SearchContactsViewController: BaseSearchViewController {
             if let user = sender as? User {
                 vc.prepare(withUser: user)
 
-            } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
+            } else if let discoveredUser = sender as? DiscoveredUser {
                 vc.prepare(with: discoveredUser)
             }
 
@@ -410,7 +410,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         case .online:
 
             let discoveredUser = searchedUsers[itemIndex]
-            performSegue(withIdentifier: "showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+            performSegue(withIdentifier: "showProfile", sender: discoveredUser)
         }
     }
 }
