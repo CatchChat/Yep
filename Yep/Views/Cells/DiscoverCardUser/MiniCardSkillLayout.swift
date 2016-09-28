@@ -20,25 +20,30 @@ final class MiniCardSkillLayout: UICollectionViewFlowLayout {
 
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
         
-        let layoutAttributes = super.layoutAttributesForElements(in: rect)
+        guard let _layoutAttributes = super.layoutAttributesForElements(in: rect) else {
+            return nil
+        }
+
+        let layoutAttributes = _layoutAttributes.map({
+            $0.copy() as! UICollectionViewLayoutAttributes
+        })
+
         // 先按照每个 item 的 centerY 分组
         var rowCollections = [CGFloat: [UICollectionViewLayoutAttributes]]()
         
-        if let layoutAttributes = layoutAttributes {
-            for attributes in layoutAttributes {
-                let centerY = attributes.frame.midY
+        for attributes in layoutAttributes {
+            let centerY = attributes.frame.midY
+            
+            if let rowCollection = rowCollections[centerY] {
+                var rowCollection = rowCollection
+                rowCollection.append(attributes)
+                rowCollections[centerY] = rowCollection
                 
-                if let rowCollection = rowCollections[centerY] {
-                    var rowCollection = rowCollection
-                    rowCollection.append(attributes)
-                    rowCollections[centerY] = rowCollection
-                    
-                } else {
-                    rowCollections[centerY] = [attributes]
-                }
+            } else {
+                rowCollections[centerY] = [attributes]
             }
         }
-        
+
         // 再调整每一行的 item 的 frame
         for (_, rowCollection) in rowCollections {
             //let rowItemsCount = rowCollection.count
@@ -81,6 +86,5 @@ final class MiniCardSkillLayout: UICollectionViewFlowLayout {
     override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }
-
-
 }
+

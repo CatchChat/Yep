@@ -276,16 +276,19 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                         self?.skillsCollectionView.reloadData()
                     }
 
-                    let button = cell.skillCategoryButton
+                    guard let button = cell.skillCategoryButton else {
+                        return
+                    }
+
                     strongSelf.currentSkillCategoryButton = button
 
-                    let frame = cell.convert((button?.frame)!, to: strongSelf.view)
+                    let frame = cell.convert(button.frame, to: strongSelf.view)
 
-                    button?.removeFromSuperview()
+                    button.removeFromSuperview()
 
-                    strongSelf.view.addSubview(button!)
+                    strongSelf.view.addSubview(button)
 
-                    button?.translatesAutoresizingMaskIntoConstraints = false
+                    button.translatesAutoresizingMaskIntoConstraints = false
 
                     let widthConstraint = NSLayoutConstraint(item: button, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: SkillCategoryCell.skillCategoryButtonWidth)
 

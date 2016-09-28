@@ -15,23 +15,28 @@ let registerPickSkillsLayoutRightEdgeInset: CGFloat = registerPickSkillsLayoutLe
 final class RegisterPickSkillsLayout: UICollectionViewFlowLayout {
 
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-        let layoutAttributes = super.layoutAttributesForElements(in: rect)
+
+        guard let _layoutAttributes = super.layoutAttributesForElements(in: rect) else {
+            return nil
+        }
+
+        let layoutAttributes = _layoutAttributes.map({
+            $0.copy() as! UICollectionViewLayoutAttributes
+        })
 
         // 先按照每个 item 的 centerY 分组
-
         var rowCollections = [CGFloat: [UICollectionViewLayoutAttributes]]()
-        if let layoutAttributes = layoutAttributes {
-            for (_, attributes) in layoutAttributes.enumerated() {
-                let centerY = attributes.frame.midY
 
-                if let rowCollection = rowCollections[centerY] {
-                    var rowCollection = rowCollection
-                    rowCollection.append(attributes)
-                    rowCollections[centerY] = rowCollection
+        for (_, attributes) in layoutAttributes.enumerated() {
+            let centerY = attributes.frame.midY
 
-                } else {
-                    rowCollections[centerY] = [attributes]
-                }
+            if let rowCollection = rowCollections[centerY] {
+                var rowCollection = rowCollection
+                rowCollection.append(attributes)
+                rowCollections[centerY] = rowCollection
+
+            } else {
+                rowCollections[centerY] = [attributes]
             }
         }
 

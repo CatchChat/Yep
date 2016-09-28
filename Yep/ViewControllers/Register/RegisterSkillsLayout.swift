@@ -7,26 +7,6 @@
 //
 
 import UIKit
-fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l < r
-  case (nil, _?):
-    return true
-  default:
-    return false
-  }
-}
-
-fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
-  switch (lhs, rhs) {
-  case let (l?, r?):
-    return l > r
-  default:
-    return rhs < lhs
-  }
-}
-
 
 final class RegisterSkillsLayout: UICollectionViewFlowLayout {
     
@@ -38,9 +18,9 @@ final class RegisterSkillsLayout: UICollectionViewFlowLayout {
     var lastScrollDelta: CGFloat!
     var lastTouchLocation: CGPoint!
     
-    let kScrollPaddingRect:CGFloat = 100.0
-    let kScrollRefreshThreshold:Float = 50.0
-    let kScrollResistanceCoefficient:CGFloat = 1 / 600.0
+    let kScrollPaddingRect: CGFloat = 100.0
+    let kScrollRefreshThreshold: CGFloat = 50.0
+    let kScrollResistanceCoefficient: CGFloat = 1 / 600.0
 
     override init() {
         super.init()
@@ -58,12 +38,14 @@ final class RegisterSkillsLayout: UICollectionViewFlowLayout {
     
     override func prepare() {
         super.prepare()
+
         let contentOffset = self.collectionView!.contentOffset
         
         // only refresh the set of UIAttachmentBehaviours if we've moved more than the scroll threshold since last load
-        if (fabsf(Float(contentOffset.y) - Float(lastContentOffset.y)) < Float(kScrollRefreshThreshold)) && visibleIndexPaths.count > 0{
+        if (abs(contentOffset.y - lastContentOffset.y) < kScrollRefreshThreshold) && visibleIndexPaths.count > 0 {
             return
         }
+
         lastContentOffset = contentOffset
         
         let padding = kScrollPaddingRect
