@@ -65,25 +65,30 @@ extension ConversationViewController: UICollectionViewDataSourcePrefetching {
 
     func collectionView(_ collectionView: UICollectionView, prefetchItemsAt indexPaths: [IndexPath]) {
 
-        for indexPath in indexPaths {
-
-            if let message = messages[safe: (displayedMessagesRange.location + indexPath.item)] {
-
-                if message.mediaType == MessageMediaType.image.rawValue {
-
-                    let imageSize = message.fixedImageSize
-
-                    let tailDirection: MessageImageTailDirection
-                    if message.fromFriend?.isMe ?? false {
-                        tailDirection = .right
-                    } else {
-                        tailDirection = .left
-                    }
-                    
-                    YepImageCache.sharedInstance.imageOfMessage(message, withSize: imageSize, tailDirection: tailDirection, completion: { _, _ in })
-                }
+        indexPaths.forEach({
+            guard let message = messages[safe: (displayedMessagesRange.location + $0.item)] else {
+                return
             }
-        }
+
+            switch message.mediaType {
+
+            case MessageMediaType.image.rawValue:
+
+                let imageSize = message.fixedImageSize
+
+                let tailDirection: MessageImageTailDirection
+                if message.fromFriend?.isMe ?? false {
+                    tailDirection = .right
+                } else {
+                    tailDirection = .left
+                }
+
+                YepImageCache.sharedInstance.imageOfMessage(message, withSize: imageSize, tailDirection: tailDirection, completion: { _, _ in })
+
+            default:
+                break
+            }
+        })
     }
 }
 
