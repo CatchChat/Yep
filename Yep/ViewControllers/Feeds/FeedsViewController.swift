@@ -1163,7 +1163,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
-            return UITableViewCell()
+            fatalError("Invalide section!")
         }
 
         func cellForFeed(_ feed: DiscoveredFeed) -> UITableViewCell {
@@ -1244,7 +1244,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             let feed = uploadingFeeds[indexPath.row]
             let cell = cellForFeed(feed)
 
-            configure(cell, with: feed, in: tableView)
+            configureFeedCell(cell, with: feed, in: tableView)
 
             if let cell = cell as? FeedBasicCell {
 
@@ -1276,7 +1276,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
             let feed = feeds[indexPath.row]
             let cell = cellForFeed(feed)
 
-            configure(cell, with: feed, in: tableView)
+            configureFeedCell(cell, with: feed, in: tableView)
 
             return cell
 
@@ -1287,7 +1287,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    private func configure(_ cell: UITableViewCell, with feed: DiscoveredFeed, in tableView: UITableView) {
+    private func configureFeedCell(_ cell: UITableViewCell, with feed: DiscoveredFeed, in tableView: UITableView) {
 
         guard let cell = cell as? FeedBasicCell else {
             return
