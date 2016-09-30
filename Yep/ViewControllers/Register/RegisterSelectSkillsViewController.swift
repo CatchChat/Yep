@@ -44,14 +44,14 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
     @IBOutlet weak var cancelButton: UIButton! {
         didSet {
-            cancelButton.setTitle(String.trans_titleDone, for: UIControlState())
+            cancelButton.setTitle(String.trans_titleDone, for: .normal)
             cancelButton.alpha = 1
         }
     }
 
     @IBOutlet weak var backButton: UIButton! {
         didSet {
-            backButton.setTitle(String.trans_buttonBack, for: UIControlState())
+            backButton.setTitle(String.trans_buttonBack, for: .normal)
             backButton.alpha = 0
         }
     }

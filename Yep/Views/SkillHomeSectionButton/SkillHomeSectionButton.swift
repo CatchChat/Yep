@@ -64,8 +64,8 @@ func createSkillHomeButtonWithText(_ text: String, width: CGFloat, height: CGFlo
     let button = SkillHomeSectionButton()
     
     button.frame = CGRect(x: 0, y: 0, width: width, height: height)
-    button.setTitle(text, for: UIControlState())
-    button.setTitleColor(UIColor.black, for: UIControlState())
+    button.setTitle(text, for: .normal)
+    button.setTitleColor(UIColor.black, for: .normal)
     button.backgroundColor = UIColor.white
     button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     button.titleLabel?.font = UIFont.skillHomeButtonFont()

@@ -64,11 +64,11 @@ final class ShowViewController: UIViewController {
         pageControl.pageIndicatorTintColor = UIColor.yepBorderColor()
         pageControl.currentPageIndicatorTintColor = UIColor.yepTintColor()
 
-        registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), for: UIControlState())
-        loginButton.setTitle(String.trans_titleLogin, for: UIControlState())
+        registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), for: .normal)
+        loginButton.setTitle(String.trans_titleLogin, for: .normal)
 
         registerButton.backgroundColor = UIColor.yepTintColor()
-        loginButton.setTitleColor(UIColor.yepInputTextColor(), for: UIControlState())
+        loginButton.setTitleColor(UIColor.yepInputTextColor(), for: .normal)
 
         let views: [String: Any] = [
             "view": view,

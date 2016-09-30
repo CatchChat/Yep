@@ -15,16 +15,16 @@ final class BottomButtonView: UIView {
     @IBInspectable var topLineWidth: CGFloat = 1 / UIScreen.main.scale
     @IBInspectable var title: String = NSLocalizedString("Say Hi", comment: "") {
         didSet {
-            actionButton.setTitle(title, for: UIControlState())
+            actionButton.setTitle(title, for: .normal)
         }
     }
 
     lazy var actionButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.setTitle(self.title, for: UIControlState())
+        button.setTitle(self.title, for: .normal)
         button.backgroundColor = UIColor.yepTintColor()
-        button.setTitleColor(UIColor.white, for: UIControlState())
+        button.setTitleColor(UIColor.white, for: .normal)
         button.layer.cornerRadius = 5
         button.addTarget(self, action: #selector(BottomButtonView.tryTap), for: UIControlEvents.touchUpInside)
         return button

@@ -37,7 +37,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .minimal
         searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
-        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, for: UIControlState())
+        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, for: .normal)
         searchBar.delegate = self
         return searchBar
     }()

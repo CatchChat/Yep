@@ -34,16 +34,16 @@ final class FeedUploadingErrorContainerView: UIView {
 
     lazy var retryButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Retry", comment: ""), for: UIControlState())
-        button.setTitleColor(UIColor.yepTintColor(), for: UIControlState())
+        button.setTitle(NSLocalizedString("Retry", comment: ""), for: .normal)
+        button.setTitleColor(UIColor.yepTintColor(), for: .normal)
         button.addTarget(self, action: #selector(FeedUploadingErrorContainerView.retryUploadingFeed(_:)), for: .touchUpInside)
         return button
     }()
 
     lazy var deleteButton: UIButton = {
         let button = UIButton()
-        button.setTitle(String.trans_titleDelete, for: UIControlState())
-        button.setTitleColor(UIColor.red, for: UIControlState())
+        button.setTitle(String.trans_titleDelete, for: .normal)
+        button.setTitleColor(UIColor.red, for: .normal)
         button.addTarget(self, action: #selector(FeedUploadingErrorContainerView.deleteUploadingFeed(_:)), for: .touchUpInside)
         return button
     }()

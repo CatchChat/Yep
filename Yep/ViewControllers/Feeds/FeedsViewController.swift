@@ -59,7 +59,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
     fileprivate lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
         searchBar.searchBarStyle = .minimal
-        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, for: UIControlState())
+        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, for: .normal)
         searchBar.delegate = self
         return searchBar
     }()

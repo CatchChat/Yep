@@ -28,7 +28,7 @@ final class MediaControlView: UIView {
             case .image:
                 timeLabel.isHidden = true
                 playButton.isHidden = true
-                shareButton.setImage(UIImage.yep_iconMoreImage, for: UIControlState())
+                shareButton.setImage(UIImage.yep_iconMoreImage, for: .normal)
 
             case .video:
                 timeLabel.isHidden = false
@@ -46,9 +46,9 @@ final class MediaControlView: UIView {
         didSet {
             switch playState {
             case .playing:
-                playButton.setImage(UIImage.yep_iconPause, for: UIControlState())
+                playButton.setImage(UIImage.yep_iconPause, for: .normal)
             case .pause:
-                playButton.setImage(UIImage.yep_iconPlay, for: UIControlState())
+                playButton.setImage(UIImage.yep_iconPlay, for: .normal)
             }
         }
     }
@@ -69,7 +69,7 @@ final class MediaControlView: UIView {
 
     lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage.yep_iconPlay, for: UIControlState())
+        button.setImage(UIImage.yep_iconPlay, for: .normal)
         button.tintColor = UIColor.white
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         button.addTarget(self, action: #selector(MediaControlView.playOrPause), for: UIControlEvents.touchUpInside)
@@ -78,7 +78,7 @@ final class MediaControlView: UIView {
 
     lazy var shareButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage.yep_iconMore, for: UIControlState())
+        button.setImage(UIImage.yep_iconMore, for: .normal)
         button.tintColor = UIColor.white
         button.contentEdgeInsets = UIEdgeInsets(top: 0, left: 30, bottom: 0, right: 30)
         button.addTarget(self, action: #selector(MediaControlView.share), for: UIControlEvents.touchUpInside)

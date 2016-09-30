@@ -864,7 +864,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // NavigationBar Item Style
 
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor()], for: UIControlState())
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor()], for: .normal)
         UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor().withAlphaComponent(0.3)], for: .disabled)
 
         // NavigationBar Title Style

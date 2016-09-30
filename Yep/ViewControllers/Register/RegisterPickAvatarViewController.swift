@@ -83,8 +83,8 @@ final class RegisterPickAvatarViewController: SegueViewController {
 
         pickAvatarState = .default
 
-        openCameraButton.setTitle(String.trans_buttonChooseFromLibrary, for: UIControlState())
-        openCameraButton.setTitleColor(UIColor.white, for: UIControlState())
+        openCameraButton.setTitle(String.trans_buttonChooseFromLibrary, for: .normal)
+        openCameraButton.setTitleColor(UIColor.white, for: .normal)
         openCameraButton.backgroundColor = UIColor.yepTintColor()
         openCameraButton.rx.tap
             .subscribe(onNext: { [weak self] in self?.openPhotoLibraryPicker() })

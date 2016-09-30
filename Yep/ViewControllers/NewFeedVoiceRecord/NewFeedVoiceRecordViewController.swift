@@ -130,9 +130,9 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         willSet {
             if newValue != audioPlaying {
                 if newValue {
-                    playButton.setImage(UIImage.yep_buttonVoicePause, for: UIControlState())
+                    playButton.setImage(UIImage.yep_buttonVoicePause, for: .normal)
                 } else {
-                    playButton.setImage(UIImage.yep_buttonVoicePlay, for: UIControlState())
+                    playButton.setImage(UIImage.yep_buttonVoicePlay, for: .normal)
                 }
             }
         }

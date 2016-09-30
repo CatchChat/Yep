@@ -25,19 +25,6 @@ class MeetGeniusShowView: UIView {
         return view
     }()
 
-    lazy var showButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("SHOW", for: UIControlState())
-        button.backgroundColor = UIColor.blue
-        return button
-    }()
-
-    lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Hello World!"
-        return label
-    }()
-
     fileprivate var geniusInterviewBanner: GeniusInterviewBanner?
 
     override init(frame: CGRect) {
