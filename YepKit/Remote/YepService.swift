@@ -459,11 +459,11 @@ public func updateAvatarWithImageData(_ imageData: Data, failureHandler: Failure
 
         case .failure(let encodingError):
 
-            if let failureHandler = failureHandler {
-                failureHandler(.other(nil), "\(encodingError)")
-            } else {
-                defaultFailureHandler(.other(nil), "\(encodingError)")
+            let failureHandler: FailureHandler = { (reason, errorMessage) in
+                defaultFailureHandler(reason, errorMessage)
+                failureHandler?(reason, errorMessage)
             }
+            failureHandler(.other(nil), "\(encodingError)")
         }
     })
 }
@@ -613,7 +613,7 @@ private func headBlockedUsers(failureHandler: FailureHandler?, completion: @esca
 
     let resource = authJsonResource(path: "/v1/blocked_users", method: .GET, requestParameters: requestParameters, parse: parse)
 
-    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
+    apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 private func moreBlockedUsers(inPage page: Int, withPerPage perPage: Int, failureHandler: FailureHandler?, completion: @escaping (JSONDictionary) -> Void) {
@@ -825,9 +825,9 @@ public typealias UploadContact = [String: String]
 
 public func friendsInContacts(_ contacts: [UploadContact], failureHandler: FailureHandler?, completion: @escaping ([DiscoveredUser]) -> Void) {
 
-    if let
-        contactsData = try? JSONSerialization.data(withJSONObject: contacts, options: .prettyPrinted),
-        let contactsString = NSString(data: contactsData, encoding: String.Encoding.utf8.rawValue) {
+    if
+        let contactsData = try? JSONSerialization.data(withJSONObject: contacts, options: .prettyPrinted),
+        let contactsString = String(data: contactsData, encoding: .utf8) {
 
             let requestParameters: JSONDictionary = [
                 "contacts": contactsString
@@ -853,11 +853,7 @@ public func friendsInContacts(_ contacts: [UploadContact], failureHandler: Failu
 
             let resource = authJsonResource(path: "/v1/contacts/upload", method: .POST, requestParameters: requestParameters, parse: parse)
             
-            if let failureHandler = failureHandler {
-                apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-            } else {
-                apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-            }
+            apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 
     } else {
         completion([])
@@ -1999,11 +1995,7 @@ public func createMessageWithMessageInfo(_ messageInfo: JSONDictionary, failureH
 
         let resource = authJsonResource(path: "/v1/\(recipientType)/\(recipientID)/messages", method: .POST, requestParameters: messageInfo, parse: parse)
 
-        if let failureHandler = failureHandler {
-            apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
-        } else {
-            apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-        }
+        apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
     }
 
     apiCreateMessageWithMessageInfo(messageInfo, failureHandler: failureHandler, completion: completion)
@@ -3651,11 +3643,7 @@ public func foursquareVenuesNearby(coordinate: CLLocationCoordinate2D, failureHa
 
     let foursquareBaseURL = URL(string: "https://api.foursquare.com")!
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: foursquareBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: foursquareBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: foursquareBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: Mention
