@@ -9,17 +9,17 @@
 import UIKit
 
 public enum FileExtension: String {
-    case JPEG = "jpg"
-    case MP4 = "mp4"
-    case M4A = "m4a"
+    case jpeg = "jpg"
+    case mp4 = "mp4"
+    case m4a = "m4a"
 
     public var mimeType: String {
         switch self {
-        case .JPEG:
+        case .jpeg:
             return "image/jpeg"
-        case .MP4:
+        case .mp4:
             return "video/mp4"
-        case .M4A:
+        case .m4a:
             return "audio/m4a"
         }
     }
@@ -52,7 +52,7 @@ public extension FileManager {
     public class func yepAvatarURLWithName(_ name: String) -> URL? {
 
         if let avatarCachesURL = yepAvatarCachesURL() {
-            return avatarCachesURL.appendingPathComponent("\(name).\(FileExtension.JPEG.rawValue)")
+            return avatarCachesURL.appendingPathComponent("\(name).\(FileExtension.jpeg.rawValue)")
         }
 
         return nil
@@ -103,7 +103,7 @@ public extension FileManager {
     public class func yepMessageImageURLWithName(_ name: String) -> URL? {
 
         if let messageCachesURL = yepMessageCachesURL() {
-            return messageCachesURL.appendingPathComponent("\(name).\(FileExtension.JPEG.rawValue)")
+            return messageCachesURL.appendingPathComponent("\(name).\(FileExtension.jpeg.rawValue)")
         }
 
         return nil
@@ -140,7 +140,7 @@ public extension FileManager {
     public class func yepMessageAudioURLWithName(_ name: String) -> URL? {
 
         if let messageCachesURL = yepMessageCachesURL() {
-            return messageCachesURL.appendingPathComponent("\(name).\(FileExtension.M4A.rawValue)")
+            return messageCachesURL.appendingPathComponent("\(name).\(FileExtension.m4a.rawValue)")
         }
 
         return nil
@@ -177,7 +177,7 @@ public extension FileManager {
     public class func yepMessageVideoURLWithName(_ name: String) -> URL? {
 
         if let messageCachesURL = yepMessageCachesURL() {
-            return messageCachesURL.appendingPathComponent("\(name).\(FileExtension.MP4.rawValue)")
+            return messageCachesURL.appendingPathComponent("\(name).\(FileExtension.mp4.rawValue)")
         }
 
         return nil

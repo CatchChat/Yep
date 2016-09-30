@@ -337,11 +337,11 @@ public enum MessageMediaType: Int, CustomStringConvertible {
     public var fileExtension: FileExtension? {
         switch self {
         case .image:
-            return .JPEG
+            return .jpeg
         case .video:
-            return .MP4
+            return .mp4
         case .audio:
-            return .M4A
+            return .m4a
         default:
             return nil // TODO: more
         }

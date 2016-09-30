@@ -111,7 +111,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         let shareType: ShareType
         let body = contentText ?? ""
-        if let fileURL = fileURLs.first, fileURL.pathExtension == FileExtension.M4A.rawValue {
+        if let fileURL = fileURLs.first, fileURL.pathExtension == FileExtension.m4a.rawValue {
             shareType = .audio(body: body, fileURL: fileURL)
         } else if let URL = webURLs.first {
             shareType = .url(body: body, URL: URL)
@@ -181,7 +181,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         case .audio(_, let fileURL):
 
-            let tempPath = NSTemporaryDirectory().appending("\(UUID().uuidString).\(FileExtension.M4A.rawValue)")
+            let tempPath = NSTemporaryDirectory().appending("\(UUID().uuidString).\(FileExtension.m4a.rawValue)")
             let tempURL = URL(fileURLWithPath: tempPath)
             try! FileManager.default.copyItem(at: fileURL, to: tempURL)
 
@@ -276,7 +276,7 @@ class ShareViewController: SLComposeServiceViewController {
 
             let source: UploadAttachment.Source = .filePath(fileURL.path)
 
-            let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .M4A, metaDataString: metaDataString)
+            let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .m4a, metaDataString: metaDataString)
 
             tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
                 SafeDispatch.async {
@@ -363,7 +363,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                     let source: UploadAttachment.Source = .data(imageData)
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
-                    let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .JPEG, metaDataString: metaDataString)
+                    let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .jpeg, metaDataString: metaDataString)
 
                     let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment) { result in
                         switch result {
