@@ -492,7 +492,7 @@ public func syncFriendshipsAndDoFurtherAction(_ furtherAction: @escaping () -> V
             do {
                 let localUserIDSet = Set<String>(localUsers.map({ $0.userID }))
                 let userIDs = Array(localUserIDSet.subtracting(remoteUerIDSet))
-                deleteSearchableItems(searchableItemType: .User, itemIDs: userIDs)
+                deleteSearchableItems(searchableItemType: .user, itemIDs: userIDs)
             }
 
             // 一个大的写入，减少 realm 发通知
@@ -926,7 +926,7 @@ public func isServiceMessageAndHandleMessageInfo(_ messageInfo: JSONDictionary, 
         if let groupID = messageInfo["recipient_id"] as? String, let group = groupWithGroupID(groupID, inRealm: realm) {
 
             if let feedID = group.withFeed?.feedID {
-                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
+                deleteSearchableItems(searchableItemType: .feed, itemIDs: [feedID])
             }
 
             // 有关联的 Feed 时就标记，不然删除
