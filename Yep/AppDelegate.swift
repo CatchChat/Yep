@@ -430,7 +430,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             let _ = try? realm.commitWrite()
 
             // 如果已经显示了就不用push
-            if let topVC = nvc.topViewController as? ConversationViewController, let oldFakeID = topVC.conversation?.fakeID, let newFakeID = feedConversation?.fakeID , newFakeID == oldFakeID {
+            if let topVC = nvc.topViewController as? ConversationViewController, let oldFakeID = topVC.conversation?.fakeID, let newFakeID = feedConversation?.fakeID, newFakeID == oldFakeID {
                 return
             }
 
@@ -448,7 +448,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             //println("matchProfile: \(discoveredUser)")
 
             // 如果已经显示了就不用push
-            if let topVC = nvc.topViewController as? ProfileViewController, let userID = topVC.profileUser?.userID , userID == discoveredUser.id {
+            if let topVC = nvc.topViewController as? ProfileViewController, let userID = topVC.profileUser?.userID, userID == discoveredUser.id {
                 return
             }
 
@@ -472,7 +472,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // 如果已经显示了就不用push
-        if let topVC = nvc.topViewController as? ProfileViewController, let _userID = topVC.profileUser?.userID , _userID == userID {
+        if let topVC = nvc.topViewController as? ProfileViewController, let _userID = topVC.profileUser?.userID, _userID == userID {
             return true
 
         } else {
@@ -499,7 +499,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // 如果已经显示了就不用push
-        if let topVC = nvc.topViewController as? ConversationViewController, let feed = topVC.conversation?.withGroup?.withFeed , feed.feedID == feedID {
+        if let topVC = nvc.topViewController as? ConversationViewController, let feed = topVC.conversation?.withGroup?.withFeed, feed.feedID == feedID {
             return true
 
         } else {
@@ -696,7 +696,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             case 401:
                 SafeDispatch.async {
                     YepUserDefaults.maybeUserNeedRelogin(prerequisites: {
-                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate , appDelegate.inMainStory else {
+                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, appDelegate.inMainStory else {
                             return false
                         }
                         return true
@@ -847,7 +847,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             conversations.forEach { conversation in
                 if let latestMessage = conversation.messages.last, let user = latestMessage.fromFriend {
                     let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
-                    AvatarPod.wakeAvatar(userAvatar, completion: { _ , _, _ in })
+                    AvatarPod.wakeAvatar(userAvatar, completion: { _, _, _ in })
                 }
             }
         }

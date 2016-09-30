@@ -822,14 +822,14 @@ public func recordMessageWithMessageID(_ messageID: String, detailInfo messageIn
             return
         }
 
-        if let user = message.fromFriend , user.isMe {
+        if let user = message.fromFriend, user.isMe {
             message.sendState = MessageSendState.read.rawValue
         }
 
         if let textContent = messageInfo["text_content"] as? String {
             message.textContent = textContent
 
-            if let conversation = message.conversation , !conversation.mentionedMe {
+            if let conversation = message.conversation, !conversation.mentionedMe {
                 if textContent.yep_mentionedMeInRealm(realm) {
                     if message.createdUnixTime > conversation.lastMentionedMeUnixTime {
                         conversation.mentionedMe = true
@@ -1121,7 +1121,7 @@ public func syncMessageWithMessageInfo(_ messageInfo: JSONDictionary, messageAge
                                         sendFromGroup = newGroup
                                         
                                         // 若提及我，才同步group进而得到feed
-                                        if let textContent = messageInfo["text_content"] as? String , textContent.yep_mentionedMeInRealm(realm) {
+                                        if let textContent = messageInfo["text_content"] as? String, textContent.yep_mentionedMeInRealm(realm) {
                                             syncGroupWithGroupID(groupID)
                                         }
                                     }
@@ -1206,10 +1206,10 @@ public func syncMessageWithMessageInfo(_ messageInfo: JSONDictionary, messageAge
                         if let conversation = conversation {
 
                             // 先同步 read 状态
-                            if let sender = message.fromFriend , sender.isMe {
+                            if let sender = message.fromFriend, sender.isMe {
                                 message.readed = true
 
-                            } else if let state = messageInfo["state"] as? String , state == "read" {
+                            } else if let state = messageInfo["state"] as? String, state == "read" {
                                 message.readed = true
                             }
 

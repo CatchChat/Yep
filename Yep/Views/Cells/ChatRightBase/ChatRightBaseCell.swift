@@ -36,7 +36,7 @@ class ChatRightBaseCell: ChatBaseCell {
                 dotImageView.isHidden = false
                 
                 delay(0.1) { [weak self] in
-                    if let messageSendState = self?.messageSendState , messageSendState == .notSend {
+                    if let messageSendState = self?.messageSendState, messageSendState == .notSend {
                         self?.showSendingAnimation()
                     }
                 }

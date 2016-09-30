@@ -102,7 +102,7 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func didSelectPost() {
 
-        guard let avatarURLString = YepUserDefaults.avatarURLString.value , !avatarURLString.isEmpty else {
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value, !avatarURLString.isEmpty else {
 
             extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
 
@@ -111,7 +111,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         let shareType: ShareType
         let body = contentText ?? ""
-        if let fileURL = fileURLs.first , fileURL.pathExtension == FileExtension.M4A.rawValue {
+        if let fileURL = fileURLs.first, fileURL.pathExtension == FileExtension.M4A.rawValue {
             shareType = .audio(body: body, fileURL: fileURL)
         } else if let URL = webURLs.first {
             shareType = .url(body: body, URL: URL)
@@ -442,7 +442,7 @@ extension ShareViewController {
 
                     attachment.loadItem(forTypeIdentifier: URLTypeIdentifier, options: nil) { secureCoding, error in
 
-                        if let url = secureCoding as? URL , !url.isFileURL {
+                        if let url = secureCoding as? URL, !url.isFileURL {
                             webURLs.append(url)
                         }
 

@@ -48,7 +48,7 @@ public func titleOfURL(_ url: URL, failureHandler: FailureHandler?, completion: 
 
         guard
             let doc = Kanna.HTML(html: newHTMLString, encoding: .utf8),
-            let title = doc.head?.css("title").first(where: { _ in true })?.text , !title.isEmpty else {
+            let title = doc.head?.css("title").first(where: { _ in true })?.text, !title.isEmpty else {
 
                 let errorMessage = String.trans_promptNoTitleForURL
                 if let failureHandler = failureHandler {
@@ -288,7 +288,7 @@ private func iTunesLookupWithID(_ lookupID: String, inCountry country: iTunesCou
 
         guard
             let info = response.result.value as? JSONDictionary,
-            let resultCount = info["resultCount"] as? Int , resultCount > 0,
+            let resultCount = info["resultCount"] as? Int, resultCount > 0,
             let result = (info["results"] as? [JSONDictionary])?.first
         else {
             completion(nil)

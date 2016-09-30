@@ -142,7 +142,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
             SafeDispatch.async { [weak self] in
 
-                if case .top = mode , geniusInterviews.isEmpty {
+                if case .top = mode, geniusInterviews.isEmpty {
                     self?.tableView.tableFooterView = self?.noGeniusInterviewsFooterView
                 } else {
                     self?.tableView.tableFooterView = UIView()

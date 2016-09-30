@@ -160,7 +160,7 @@ extension SocialWorkInstagramViewController: UICollectionViewDataSource, UIColle
 
         let application = UIApplication.shared
 
-        if let instagramMediaURL = URL(string: "instagram://media?id=\(media.ID)") , application.canOpenURL(instagramMediaURL) {
+        if let instagramMediaURL = URL(string: "instagram://media?id=\(media.ID)"), application.canOpenURL(instagramMediaURL) {
             application.openURL(instagramMediaURL)
 
         } else {

@@ -23,7 +23,7 @@ extension URLRequest {
 
         var components = ["\ncurl -i"]
 
-        if let HTTPMethod = httpMethod , HTTPMethod != "GET" {
+        if let HTTPMethod = httpMethod, HTTPMethod != "GET" {
             components.append("-X \(HTTPMethod)")
         }
 
@@ -64,7 +64,7 @@ extension URLRequest {
             if session.configuration.httpShouldSetCookies {
                 if let
                     cookieStorage = session.configuration.httpCookieStorage,
-                    let cookies = cookieStorage.cookies(for: URL) , !cookies.isEmpty {
+                    let cookies = cookieStorage.cookies(for: URL), !cookies.isEmpty {
                         let string = cookies.reduce("") { $0 + "\($1.name)=\($1.value);" }
                         components.append("-b \"\(string.substring(to: string.characters.index(before: string.endIndex)))\"")
                 }

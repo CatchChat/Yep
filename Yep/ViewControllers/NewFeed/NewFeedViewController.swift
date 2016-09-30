@@ -588,7 +588,7 @@ final class NewFeedViewController: SegueViewController {
 
     @objc fileprivate func tryPost(_ sender: UIBarButtonItem) {
 
-        guard let avatarURLString = YepUserDefaults.avatarURLString.value , !avatarURLString.isEmpty else {
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value, !avatarURLString.isEmpty else {
 
             YepAlert.alertSorry(message: NSLocalizedString("You have no avatar! Please set up one first.", comment: ""), inViewController: self, withDismissAction: { [weak self] in
                 self?.dismiss(animated: true, completion: nil)
@@ -613,7 +613,7 @@ final class NewFeedViewController: SegueViewController {
         if !again {
             uploadState = .uploading
 
-            if let feed = tryMakeUploadingFeed() , feed.kind.needBackgroundUpload {
+            if let feed = tryMakeUploadingFeed(), feed.kind.needBackgroundUpload {
                 beforeUploadingFeedAction?(feed, self)
 
                 YepHUD.hideActivityIndicator()
@@ -632,7 +632,7 @@ final class NewFeedViewController: SegueViewController {
 
             let doCreateFeed: () -> Void = { [weak self] in
 
-                if let openGraph = openGraph , openGraph.isValid {
+                if let openGraph = openGraph, openGraph.isValid {
 
                     kind = .URL
 

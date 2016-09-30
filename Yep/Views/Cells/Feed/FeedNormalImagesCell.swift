@@ -119,7 +119,7 @@ final class FeedNormalImagesCell: FeedBasicCell {
             return
         }
 
-        guard let firstAttachment = attachments.first , !firstAttachment.isTemporary else {
+        guard let firstAttachment = attachments.first, !firstAttachment.isTemporary else {
             return
         }
 

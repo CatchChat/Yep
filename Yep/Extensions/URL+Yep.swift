@@ -28,7 +28,7 @@ extension URL {
     
     func yep_matchSharedFeed(_ completion: @escaping (_ feed: DiscoveredFeed?) -> Void) -> Bool {
 
-        guard let host = host , host == yepHost else {
+        guard let host = host, host == yepHost else {
             return false
         }
 
@@ -57,7 +57,7 @@ extension URL {
 
     func yep_matchProfile(_ completion: @escaping (DiscoveredUser) -> Void) -> Bool {
 
-        guard let host = host , host == yepHost else {
+        guard let host = host, host == yepHost else {
             return false
         }
 

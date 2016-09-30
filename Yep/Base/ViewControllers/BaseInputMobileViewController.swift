@@ -48,8 +48,8 @@ class BaseInputMobileViewController: BaseViewController, PhoneNumberRepresentati
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
-        guard let areaCode = areaCodeTextField.text , !areaCode.isEmpty else { return true }
-        guard let number = mobileNumberTextField.text , !number.isEmpty else { return true }
+        guard let areaCode = areaCodeTextField.text, !areaCode.isEmpty else { return true }
+        guard let number = mobileNumberTextField.text, !number.isEmpty else { return true }
         
         tappedKeyboardReturn()
         

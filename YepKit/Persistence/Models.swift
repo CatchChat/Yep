@@ -455,7 +455,7 @@ open class SocialWorkDribbbleShot: Object {
         self.title = dribbbleShot.title
         self.htmlURLString = dribbbleShot.htmlURLString
         
-        if let hidpi = dribbbleShot.images.hidpi , dribbbleShot.images.normal.contains("gif") {
+        if let hidpi = dribbbleShot.images.hidpi, dribbbleShot.images.normal.contains("gif") {
             self.imageURLString = hidpi
         } else {
             self.imageURLString = dribbbleShot.images.normal
@@ -644,7 +644,7 @@ open class Message: Object {
         // 除非没有谁指向 openGraphInfo，不然不能删除它
         if let openGraphInfo = openGraphInfo {
             if openGraphInfo.feeds.isEmpty {
-                if openGraphInfo.messages.count == 1, let first = openGraphInfo.messages.first , first == self {
+                if openGraphInfo.messages.count == 1, let first = openGraphInfo.messages.first, first == self {
                     realm.delete(openGraphInfo)
                 }
             }
@@ -1049,7 +1049,7 @@ open class Feed: Object {
         // 除非没有谁指向 openGraphInfo，不然不能删除它
         if let openGraphInfo = openGraphInfo {
             if openGraphInfo.messages.isEmpty {
-                if openGraphInfo.feeds.count == 1, let first = openGraphInfo.messages.first , first == self {
+                if openGraphInfo.feeds.count == 1, let first = openGraphInfo.messages.first, first == self {
                     realm.delete(openGraphInfo)
                 }
             }
@@ -2013,7 +2013,7 @@ public func deleteConversation(_ conversation: Conversation, inRealm realm: Real
 
     let recipient = conversation.recipient
 
-    if let recipient = recipient , recipient.type == .oneToOne {
+    if let recipient = recipient, recipient.type == .oneToOne {
         deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
             println("deleteConversationWithRecipient \(recipient)")
         })
@@ -2040,7 +2040,7 @@ public func deleteConversation(_ conversation: Conversation, inRealm realm: Real
         } else {
             println("deleteConversation, not need leave group: \(groupID)")
 
-            if let recipient = recipient , recipient.type == .group {
+            if let recipient = recipient, recipient.type == .group {
                 deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
                     println("deleteConversationWithRecipient \(recipient)")
                 })

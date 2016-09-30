@@ -130,7 +130,7 @@ extension FeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        guard let firstAttachment = attachments.first , !firstAttachment.isTemporary else {
+        guard let firstAttachment = attachments.first, !firstAttachment.isTemporary else {
             return
         }
 

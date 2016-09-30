@@ -68,7 +68,7 @@ final class FeedVoiceCell: FeedBasicCell {
             voiceContainerView.voiceSampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
         }
 
-        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio , playingFeedAudio.feedID == feedAudio.feedID, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer , onlineAudioPlayer.yep_playing {
+        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, playingFeedAudio.feedID == feedAudio.feedID, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer, onlineAudioPlayer.yep_playing {
             audioPlaying = true
         } else {
             audioPlaying = false

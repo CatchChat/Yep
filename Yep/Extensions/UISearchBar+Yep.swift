@@ -74,7 +74,7 @@ extension UISearchBar {
             let markedTextRange = textField.markedTextRange,
             let markedText = textField.text(in: markedTextRange) {
 
-            if let text = self.text , !text.isEmpty {
+            if let text = self.text, !text.isEmpty {
                 let beginning = textField.beginningOfDocument
                 let start = markedTextRange.start
                 let end = markedTextRange.end

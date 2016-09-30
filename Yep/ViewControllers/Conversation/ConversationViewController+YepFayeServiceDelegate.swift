@@ -15,7 +15,7 @@ extension ConversationViewController: YepFayeServiceDelegate {
         guard !conversation.isInvalidated else {
             return
         }
-        guard let user = conversation.withFriend , user.userID == userID else {
+        guard let user = conversation.withFriend, user.userID == userID else {
             return
         }
 

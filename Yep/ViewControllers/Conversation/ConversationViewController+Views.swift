@@ -262,7 +262,7 @@ extension ConversationViewController {
 
     func tryShowSubscribeView() {
 
-        guard let group = conversation.withGroup , !group.includeMe else {
+        guard let group = conversation.withGroup, !group.includeMe else {
             return
         }
 
@@ -370,7 +370,7 @@ extension ConversationViewController {
 
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 150, height: 44)))
 
-        if let name = nameOfConversation(conversation) , name != "" {
+        if let name = nameOfConversation(conversation), name != "" {
             titleView.nameLabel.text = name
         } else {
             titleView.nameLabel.text = String.trans_titleFeedDiscussion

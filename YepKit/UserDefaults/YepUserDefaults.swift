@@ -135,7 +135,7 @@ final public class YepUserDefaults {
                 return nil
             }
 
-            if let blogTitle = YepUserDefaults.blogTitle.value , !blogTitle.isEmpty {
+            if let blogTitle = YepUserDefaults.blogTitle.value, !blogTitle.isEmpty {
                 return blogTitle
 
             } else {

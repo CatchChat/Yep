@@ -405,7 +405,7 @@ final class ConversationViewController: BaseViewController {
                 if let window = self?.view.window {
                     self?.moreMessageTypesView.showInView(window)
 
-                    if let state = self?.messageToolbar.state , !state.isAtBottom {
+                    if let state = self?.messageToolbar.state, !state.isAtBottom {
                         self?.messageToolbar.state = .default
                     }
 
@@ -724,7 +724,7 @@ final class ConversationViewController: BaseViewController {
         // stop audio playing if need
 
         if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-            if audioPlayer.isPlaying, let delegate = audioPlayer.delegate as? ConversationViewController , delegate == self {
+            if audioPlayer.isPlaying, let delegate = audioPlayer.delegate as? ConversationViewController, delegate == self {
                 audioPlayer.stop()
 
                 UIDevice.current.isProximityMonitoringEnabled = false
@@ -764,7 +764,7 @@ final class ConversationViewController: BaseViewController {
 
     override var previewActionItems : [UIPreviewActionItem] {
 
-        guard let group = conversation.withGroup , !group.includeMe else {
+        guard let group = conversation.withGroup, !group.includeMe else {
             return []
         }
 

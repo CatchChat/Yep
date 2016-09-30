@@ -105,7 +105,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
             if keyword == nil {
                 clearSearchResults()
             }
-            if let keyword = keyword , keyword.isEmpty {
+            if let keyword = keyword, keyword.isEmpty {
                 clearSearchResults()
             }
         }
@@ -584,7 +584,7 @@ extension SearchFeedsViewController: UISearchBarDelegate {
         let searchText = searchText.trimming(.whitespace)
 
         // 不要重复搜索一样的内容
-        if let keyword = self.keyword , keyword == searchText {
+        if let keyword = self.keyword, keyword == searchText {
             return
         }
 
@@ -873,7 +873,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     if let strongSelf = self {
 
                         // 如果在播放，就暂停
-                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer , onlineAudioPlayer.yep_playing {
+                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer, onlineAudioPlayer.yep_playing {
 
                             onlineAudioPlayer.pause()
 
@@ -896,7 +896,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                                 }
                             }
 
-                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio , playingFeedAudio.feedID == feed.id {
+                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, playingFeedAudio.feedID == feed.id {
                                 YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
 
                             } else {

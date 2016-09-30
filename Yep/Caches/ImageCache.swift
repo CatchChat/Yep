@@ -87,7 +87,7 @@ final class YepImageCache {
 
                         ImageDownloader.default.downloadImage(with: url, options: options, progressBlock: { receivedSize, totalSize  in
 
-                        }, completionHandler: { image, error , imageURL, originalData in
+                        }, completionHandler: { image, error, imageURL, originalData in
 
                             if let image = image {
 

@@ -202,7 +202,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
             switch profileUser {
                 
             case .discoveredUserType(let discoveredUser):
-                if let introduction = discoveredUser.introduction , !introduction.isEmpty {
+                if let introduction = discoveredUser.introduction, !introduction.isEmpty {
                     return introduction
                 }
 
@@ -233,7 +233,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
     fileprivate func updateMyMasterSkills() {
 
-        guard let profileUser = profileUser , profileUser.isMe else {
+        guard let profileUser = profileUser, profileUser.isMe else {
             return
         }
 
@@ -252,7 +252,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
     fileprivate func updateMyLearningSkills() {
 
-        guard let profileUser = profileUser , profileUser.isMe else {
+        guard let profileUser = profileUser, profileUser.isMe else {
             return
         }
 
@@ -605,7 +605,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
     fileprivate func tryUpdateBlogTitle() {
 
-        guard let blogURLString = YepUserDefaults.blogURLString.value , !blogURLString.isEmpty, let blogURL = URL(string: blogURLString)?.yep_validSchemeNetworkURL else {
+        guard let blogURLString = YepUserDefaults.blogURLString.value, !blogURLString.isEmpty, let blogURL = URL(string: blogURLString)?.yep_validSchemeNetworkURL else {
             return
         }
 
@@ -1401,7 +1401,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if profileUser.isMe {
 
-                if let blogURLString = YepUserDefaults.blogURLString.value , !blogURLString.isEmpty, let blogURL = URL(string: blogURLString) {
+                if let blogURLString = YepUserDefaults.blogURLString.value, !blogURLString.isEmpty, let blogURL = URL(string: blogURLString) {
                     yep_openURL(blogURL)
 
                 } else {
@@ -1586,7 +1586,7 @@ extension ProfileViewController {
         
         oAuthCompleteAction?()
 
-        if let result = notification.object as? NSNumber , result == 1, let socialAccount = self.socialAccount {
+        if let result = notification.object as? NSNumber, result == 1, let socialAccount = self.socialAccount {
 
             socialAccountWithProvider(socialAccount.rawValue, failureHandler: { reason, errorMessage in
 

@@ -34,9 +34,9 @@ public struct OpenGraph {
     public var isValid: Bool {
 
         guard
-            let siteName = siteName , !siteName.isEmpty,
-            let title = title , !title.isEmpty,
-            let description = description , !description.isEmpty,
+            let siteName = siteName, !siteName.isEmpty,
+            let title = title, !title.isEmpty,
+            let description = description, !description.isEmpty,
             let _ = previewImageURLString
         else {
             return false
@@ -130,7 +130,7 @@ public struct OpenGraph {
                 }
 
                 if openGraph.title == nil {
-                    if let title = doc.head?.css("title").first(where: { _ in true })?.text , !title.isEmpty {
+                    if let title = doc.head?.css("title").first(where: { _ in true })?.text, !title.isEmpty {
                         openGraph.title = title
                     }
                 }
@@ -139,7 +139,7 @@ public struct OpenGraph {
                     for meta in metaSet {
                         if let name = meta["name"]?.lowercased() {
                             if name == "description" {
-                                if let description = meta["content"] , !description.isEmpty {
+                                if let description = meta["content"], !description.isEmpty {
                                     openGraph.description = description
                                     break
                                 }

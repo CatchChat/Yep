@@ -518,8 +518,8 @@ final class FeedView: UIView {
                 voiceContainerViewWidthConstraint?.constant = width
             }
 
-            if let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer , onlineAudioPlayer.yep_playing {
-                if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID , feedID == feed.feedID {
+            if let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer, onlineAudioPlayer.yep_playing {
+                if let feedID = YepAudioService.sharedManager.playingFeedAudio?.feedID, feedID == feed.feedID {
                     audioPlaying = true
 
                     audioPlaybackTimer = Timer.scheduledTimer(timeInterval: 0.02, target: self, selector: #selector(FeedView.updateOnlineAudioPlaybackProgress(_:)), userInfo: nil, repeats: true)
@@ -640,7 +640,7 @@ final class FeedView: UIView {
         }
 
         // 如果在播放，就暂停
-        if let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer , onlineAudioPlayer.yep_playing {
+        if let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer, onlineAudioPlayer.yep_playing {
 
             onlineAudioPlayer.pause()
 
@@ -650,7 +650,7 @@ final class FeedView: UIView {
 
             audioPlaying = false
 
-            if let feedID = feed?.feedID, let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio , playingFeedAudio.feedID == feedID {
+            if let feedID = feed?.feedID, let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, playingFeedAudio.feedID == feedID {
                 YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
 
             } else {

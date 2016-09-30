@@ -28,7 +28,7 @@ extension ASImageNode {
 
         AvatarPod.wakeAvatar(avatar) { [weak self] finished, image, cacheType in
 
-            guard let strongSelf = self, let avatarKey = strongSelf.navi_avatarKey , avatarKey == avatar.key else {
+            guard let strongSelf = self, let avatarKey = strongSelf.navi_avatarKey, avatarKey == avatar.key else {
                 return
             }
 
@@ -64,7 +64,7 @@ extension ASImageNode {
 
         YepImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: tailDirection, completion: { [weak self] progress, image in
 
-            guard let strongSelf = self, let _imageKey = strongSelf.yep_messageImageKey , _imageKey == imageKey else {
+            guard let strongSelf = self, let _imageKey = strongSelf.yep_messageImageKey, _imageKey == imageKey else {
                 return
             }
 
@@ -159,7 +159,7 @@ extension ASImageNode {
 
         YepImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: size.width, completion: { [weak self] (url, image, cacheType) in
 
-            guard let strongSelf = self, let yep_attachmentURL = strongSelf.yep_attachmentURL , yep_attachmentURL == url else {
+            guard let strongSelf = self, let yep_attachmentURL = strongSelf.yep_attachmentURL, yep_attachmentURL == url else {
                 return
             }
 

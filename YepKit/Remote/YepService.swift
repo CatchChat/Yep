@@ -1194,7 +1194,7 @@ public struct DiscoveredUser: Hashable {
     }
 
     public var mentionedUsername: String? {
-        if let username = username , !username.isEmpty {
+        if let username = username, !username.isEmpty {
             return "@\(username)"
         } else {
             return nil
@@ -1721,10 +1721,10 @@ public func officialMessages(completion: @escaping (Int) -> Void) {
                             let _ = try? realm.write {
 
                                 // 先同步 read 状态
-                                if let sender = message.fromFriend , sender.isMe {
+                                if let sender = message.fromFriend, sender.isMe {
                                     message.readed = true
 
-                                } else if let state = messageInfo["state"] as? String , state == "read" {
+                                } else if let state = messageInfo["state"] as? String, state == "read" {
                                     message.readed = true
                                 }
 
