@@ -42,11 +42,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     var lauchStyle = Listenable<LaunchStyle>(.default) { _ in }
 
     enum RemoteNotificationType: String {
-        case Message = "message"
-        case OfficialMessage = "official_message"
-        case FriendRequest = "friend_request"
-        case MessageDeleted = "message_deleted"
-        case Mentioned = "mentioned"
+        case message = "message"
+        case officialMessage = "official_message"
+        case friendRequest = "friend_request"
+        case messageDeleted = "message_deleted"
+        case mentioned = "mentioned"
     }
 
     fileprivate var remoteNotificationType: RemoteNotificationType? {
@@ -54,7 +54,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             if let type = newValue {
                 switch type {
 
-                case .Message, .OfficialMessage:
+                case .message, .officialMessage:
                     lauchStyle.value = .message
 
                 default:
@@ -257,7 +257,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         switch remoteNotificationType {
 
-        case .Message:
+        case .message:
 
             syncUnreadMessages() {
                 SafeDispatch.async {
@@ -269,14 +269,14 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
 
-        case .OfficialMessage:
+        case .officialMessage:
 
             officialMessages { messagesCount in
                 completionHandler(.newData)
                 println("new officialMessages count: \(messagesCount)")
             }
 
-        case .FriendRequest:
+        case .friendRequest:
 
             if let subType = userInfo["subtype"] as? String {
                 if subType == "accepted" {
@@ -290,16 +290,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 completionHandler(.noData)
             }
 
-        case .MessageDeleted:
+        case .messageDeleted:
 
             defer {
                 completionHandler(UIBackgroundFetchResult.noData)
             }
 
-            guard let
-                messageInfo = userInfo["message"] as? JSONDictionary,
-                let messageID = messageInfo["id"] as? String
-                else {
+            guard
+                let messageInfo = userInfo["message"] as? JSONDictionary,
+                let messageID = messageInfo["id"] as? String else {
                     break
             }
 
@@ -307,7 +306,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             configureDynamicShortcuts()
 
-        case .Mentioned:
+        case .mentioned:
 
             syncUnreadMessagesAndDoFurtherAction({ _ in
                 SafeDispatch.async {
