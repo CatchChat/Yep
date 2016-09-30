@@ -260,8 +260,8 @@ private func getUTF8HTMLStringFromHTMLString(_ HTMLString: String, withData data
 }
 
 private enum iTunesCountry: String {
-    case China = "cn"
-    case USA = "us"
+    case china = "cn"
+    case usa = "us"
 }
 
 private func iTunesLookupWithID(_ lookupID: String, inCountry country: iTunesCountry, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping (JSONDictionary?) -> Void) {
@@ -287,12 +287,12 @@ private func iTunesLookupWithID(_ lookupID: String, inCountry country: iTunesCou
 
 private func iTunesLookupWithID(_ lookupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping (JSONDictionary) -> Void) {
 
-    iTunesLookupWithID(lookupID, inCountry: .China, failureHandler: failureHandler, completion: { result in
+    iTunesLookupWithID(lookupID, inCountry: .china, failureHandler: failureHandler, completion: { result in
         if let result = result {
             completion(result)
 
         } else {
-            iTunesLookupWithID(lookupID, inCountry: .USA, failureHandler: failureHandler, completion: { result in
+            iTunesLookupWithID(lookupID, inCountry: .usa, failureHandler: failureHandler, completion: { result in
                 if let result = result {
                     completion(result)
 
