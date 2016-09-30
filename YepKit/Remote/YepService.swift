@@ -964,12 +964,13 @@ public func reportMessageWithMessageID(_ messageID: String, forReason reason: Re
 // MARK: - Friend Requests
 
 public struct FriendRequest {
+
     public enum State: String {
-        case None       = "none"
-        case Pending    = "pending"
-        case Accepted   = "accepted"
-        case Rejected   = "rejected"
-        case Blocked    = "blocked"
+        case none       = "none"
+        case pending    = "pending"
+        case accepted   = "accepted"
+        case rejected   = "rejected"
+        case blocked    = "blocked"
     }
 }
 
@@ -1003,9 +1004,9 @@ public func stateOfFriendRequestWithUser(_ user: User, failureHandler: FailureHa
         println("stateOfFriendRequestWithUser: \(data)")
 
         var isFriend = false
-        var receivedFriendRequestState = FriendRequest.State.None
+        var receivedFriendRequestState = FriendRequest.State.none
         var receivedFriendRequestID = ""
-        var sentFriendRequestState = FriendRequest.State.None
+        var sentFriendRequestState = FriendRequest.State.none
 
         if let friend = data["friend"] as? Bool {
             isFriend = friend
@@ -1024,7 +1025,7 @@ public func stateOfFriendRequestWithUser(_ user: User, failureHandler: FailureHa
 
         if let blocked = data["current_user_blocked_by_specified_user"] as? Bool {
             if blocked {
-                receivedFriendRequestState = .Blocked
+                receivedFriendRequestState = .blocked
             }
         }
 
@@ -1038,7 +1039,7 @@ public func stateOfFriendRequestWithUser(_ user: User, failureHandler: FailureHa
 
         if let blocked = data["current_user_blocked_by_specified_user"] as? Bool {
             if blocked {
-                sentFriendRequestState = .Blocked
+                sentFriendRequestState = .blocked
             }
         }
 
@@ -1061,7 +1062,7 @@ public func acceptFriendRequestWithID(_ friendRequestID: String, failureHandler:
 
         if let state = data["state"] as? String {
             if let state = FriendRequest.State(rawValue: state) {
-                if state == .Accepted {
+                if state == .accepted {
                     return true
                 }
             }
@@ -1086,7 +1087,7 @@ public func rejectFriendRequestWithID(_ friendRequestID: String, failureHandler:
 
         if let state = data["state"] as? String {
             if let state = FriendRequest.State(rawValue: state) {
-                if state == .Rejected {
+                if state == .rejected {
                     return true
                 }
             }
