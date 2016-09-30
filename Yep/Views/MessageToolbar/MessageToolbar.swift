@@ -300,7 +300,7 @@ final class MessageToolbar: UIToolbar {
         voiceRecordButton.layer.cornerRadius = newCornerRadius
         messageTextView.layer.cornerRadius = newCornerRadius
 
-        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             if let strongSelf = self {
                 strongSelf.messageTextViewHeightConstraint.constant = strongSelf.messageTextViewMinHeight
                 strongSelf.layoutIfNeeded()
@@ -337,7 +337,7 @@ final class MessageToolbar: UIToolbar {
 
         if newHeight != messageTextViewHeightConstraint.constant {
 
-            UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                 self?.messageTextViewHeightConstraint.constant = limitedNewHeight
                 self?.layoutIfNeeded()
 

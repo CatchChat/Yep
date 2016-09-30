@@ -57,7 +57,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
                 voiceIndicatorImageView.alpha = 0
 
-                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                     self?.voiceRecordButton.alpha = 1
                     self?.voiceRecordButton.appearance = .default
 
@@ -74,7 +74,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
                 voiceIndicatorImageView.alpha = 0
 
-                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                     self?.voiceRecordButton.alpha = 1
                     self?.voiceRecordButton.appearance = .recording
 
@@ -88,7 +88,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
 
                 voiceIndicatorImageView.alpha = 0
 
-                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                     self?.voiceRecordButton.alpha = 0
                     self?.playButton.alpha = 1
                     self?.resetButton.alpha = 1
@@ -101,11 +101,11 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     voiceRecordSampleView.sampleCollectionView.scrollToItem(at: firstIndexPath, at: .left, animated: true)
                 }
 
-                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                     self?.voiceIndicatorImageView.alpha = 1
 
                 }, completion: { _ in
-                    UIView.animate(withDuration: 0.75, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                    UIView.animate(withDuration: 0.75, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                         self?.voiceIndicatorImageViewCenterXConstraint.constant = -fullWidth * 0.5 + 2
                         self?.view.layoutIfNeeded()
                     }, completion: { _ in })

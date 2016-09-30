@@ -454,7 +454,7 @@ final class NewFeedViewController: SegueViewController {
             preparedSkill = nil // 再 show 就不需要 selectRow 了
         }
         
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             
             self?.channelView.backgroundColor = UIColor.clear
             self?.channelViewTopLineView.alpha = 0
@@ -480,7 +480,7 @@ final class NewFeedViewController: SegueViewController {
             pickedSkill = nil
         }
         
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             
             self?.channelView.backgroundColor = UIColor.white
             self?.channelViewTopLineView.alpha = 1

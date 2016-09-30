@@ -39,7 +39,7 @@ class BaseInputMobileViewController: BaseViewController, PhoneNumberRepresentati
     func textFieldDidEndEditing(_ textField: UITextField) {
 
         if textField == areaCodeTextField {
-            UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] _ in
                 self?.areaCodeTextFieldWidthConstraint.constant = 60
                 self?.view.layoutIfNeeded()
             }, completion: nil)

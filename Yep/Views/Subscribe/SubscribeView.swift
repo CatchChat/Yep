@@ -123,7 +123,7 @@ final class SubscribeView: UIView {
 
     func show() {
 
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             self?.bottomConstraint?.constant = 0
             self?.showWithChangeAction?()
             self?.superview?.layoutIfNeeded()
@@ -132,7 +132,7 @@ final class SubscribeView: UIView {
 
     func hide() {
 
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             self?.bottomConstraint?.constant = SubscribeView.height
             self?.hideWithChangeAction?()
             self?.superview?.layoutIfNeeded()

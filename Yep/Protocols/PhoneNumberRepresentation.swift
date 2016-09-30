@@ -28,7 +28,7 @@ extension PhoneNumberRepresentation where Self: UIViewController {
 
         let width = 32 + (size.width + 22) + 20
 
-        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] _ in
             self?.areaCodeTextFieldWidthConstraint.constant = max(width, 100)
             self?.view.layoutIfNeeded()
         }, completion: nil)

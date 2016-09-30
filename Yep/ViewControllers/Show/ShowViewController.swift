@@ -45,7 +45,7 @@ final class ShowViewController: UIViewController {
         super.viewDidAppear(animated)
 
         if isFirstAppear {
-            UIView.animate(withDuration: 1, delay: 0.5, options: UIViewAnimationOptions(), animations: { [weak self] in
+            UIView.animate(withDuration: 1, delay: 0.5, options: .curveEaseInOut, animations: { [weak self] in
                 self?.scrollView.alpha = 1
                 self?.pageControl.alpha = 1
                 self?.registerButton.alpha = 1

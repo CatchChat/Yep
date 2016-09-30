@@ -125,7 +125,7 @@ extension SearchContactsViewController: UISearchBarDelegate {
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
 
-        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] _ in
             self?.searchBarBottomLineView.alpha = 1
         }, completion: nil)
 
@@ -137,7 +137,7 @@ extension SearchContactsViewController: UISearchBarDelegate {
         searchBar.text = nil
         searchBar.resignFirstResponder()
 
-        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] _ in
             self?.searchBarBottomLineView.alpha = 0
         }, completion: nil)
 

@@ -364,7 +364,7 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         navigationController?.setNavigationBarHidden(true, animated: true)
 
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             guard let strongSelf = self else { return }
 
             strongSelf.searchBarTopToSuperBottomConstraint.constant = strongSelf.view.bounds.height - 20
@@ -386,7 +386,7 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         navigationController?.setNavigationBarHidden(false, animated: true)
 
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             self?.searchBarTopToSuperBottomConstraint.constant = 250
             self?.view.layoutIfNeeded()
 

@@ -83,7 +83,7 @@ final class ChatRightVideoCell: ChatRightBaseCell {
 
                 self.thumbnailImageView.image = image
 
-                UIView.animate(withDuration: YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                UIView.animate(withDuration: YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                     self?.thumbnailImageView.alpha = 1.0
                 }, completion: nil)
             }

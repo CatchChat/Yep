@@ -165,7 +165,7 @@ final class MentionView: UIView {
         let usersCount = users.count
         let height = usersCount >= 3 ? MentionView.height : CGFloat(usersCount) * MentionView.tableViewRowHeight
 
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             self?.bottomConstraint?.constant = 0
             self?.heightConstraint?.constant = height
             self?.superview?.layoutIfNeeded()
@@ -178,7 +178,7 @@ final class MentionView: UIView {
 
     func hide() {
 
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             self?.bottomConstraint?.constant = MentionView.height
             self?.superview?.layoutIfNeeded()
         }, completion: { _ in })
