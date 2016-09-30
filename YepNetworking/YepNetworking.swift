@@ -9,15 +9,12 @@
 import Foundation
 
 public enum Method: String, CustomStringConvertible {
-    case OPTIONS = "OPTIONS"
-    case GET = "GET"
-    case HEAD = "HEAD"
-    case POST = "POST"
-    case PUT = "PUT"
-    case PATCH = "PATCH"
-    case DELETE = "DELETE"
-    case TRACE = "TRACE"
-    case CONNECT = "CONNECT"
+    case get = "GET"
+    case head = "HEAD"
+    case post = "POST"
+    case put = "PUT"
+    case patch = "PATCH"
+    case delete = "DELETE"
 
     public var description: String {
         return self.rawValue
@@ -143,7 +140,7 @@ public func apiRequest<A>(_ modifyRequest: (URLRequest) -> (), baseURL: URL, res
 
     func needEncodesParametersForMethod(_ method: Method) -> Bool {
         switch method {
-        case .GET, .HEAD, .DELETE:
+        case .get, .head, .delete:
             return true
         default:
             return false

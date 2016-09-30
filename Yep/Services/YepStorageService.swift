@@ -160,7 +160,7 @@ private func s3UploadParams(_ url: String, withFileExtension fileExtension: File
         return nil
     }
     
-    let resource = authJsonResource(path: url, method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = authJsonResource(path: url, method: .get, requestParameters: requestParameters, parse: parse)
     
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }

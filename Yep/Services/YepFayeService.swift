@@ -247,7 +247,7 @@ extension YepFayeService {
 
             let data: JSONDictionary = [
                 "api_version": "v1",
-                "message_type": MessageType.Instant.rawValue,
+                "message_type": MessageType.instant.rawValue,
                 "message": message
             ]
 

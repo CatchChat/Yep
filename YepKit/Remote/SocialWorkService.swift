@@ -161,7 +161,7 @@ public func githubReposWithToken(_ token: String, failureHandler: FailureHandler
         return repos
     }
 
-    let resource = githubResource(token: token, path: "/user/repos", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = githubResource(token: token, path: "/user/repos", method: .get, requestParameters: requestParameters, parse: parse)
 
     apiRequest({_ in}, baseURL: githubBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
@@ -238,7 +238,7 @@ public func dribbbleShotsWithToken(_ token: String, failureHandler: FailureHandl
         return shots
     }
 
-    let resource = dribbbleResource(token: token, path: "/v1/user/shots", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = dribbbleResource(token: token, path: "/v1/user/shots", method: .get, requestParameters: requestParameters, parse: parse)
 
     apiRequest({_ in}, baseURL: dribbbleBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
@@ -320,7 +320,7 @@ public func instagramMediasWithToken(_ token: String, failureHandler: FailureHan
         return medias
     }
 
-    let resource = instagramResource(token: token, path: "/v1/users/self/feed", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = instagramResource(token: token, path: "/v1/users/self/feed", method: .get, requestParameters: requestParameters, parse: parse)
 
     apiRequest({_ in}, baseURL: instagramBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
