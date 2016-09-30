@@ -41,7 +41,7 @@ extension ConversationViewController {
                 realm.add(message)
             }
 
-            updateConversationCollectionViewWithMessageIDs([messageID], messageAge: .New, scrollToBottom: true)
+            updateConversationCollectionViewWithMessageIDs([messageID], messageAge: .new, scrollToBottom: true)
         }
 
         SafeDispatch.async { [weak self] in

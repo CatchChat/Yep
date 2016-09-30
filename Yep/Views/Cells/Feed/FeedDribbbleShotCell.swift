@@ -90,7 +90,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
                 return
             }
 
-            if case .DribbbleShot = feed.kind {
+            if case .dribbbleShot = feed.kind {
                 if case let .dribbble(shot) = attachment, let imageURL = URL(string: shot.imageURLString), let linkURL = URL(string: shot.htmlURLString) {
                     self?.tapDribbbleShotMediaAction?(transitionReference, transitionReference.image, imageURL, linkURL)
                 }
@@ -103,7 +103,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
                 return
             }
 
-            if case .DribbbleShot = feed.kind {
+            if case .dribbbleShot = feed.kind {
                 if case let .dribbble(shot) = attachment, let url = URL(string: shot.htmlURLString) {
                     self?.tapDribbbleShotLinkAction?(url)
                 }

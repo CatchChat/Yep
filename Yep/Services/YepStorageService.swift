@@ -29,9 +29,9 @@ struct S3UploadParams {
 
     enum Kind: String {
 
-        case Message = "message"
-        case Avatar = "avatar"
-        case Feed = "topic"
+        case message = "message"
+        case avatar = "avatar"
+        case feed = "topic"
     }
 }
 

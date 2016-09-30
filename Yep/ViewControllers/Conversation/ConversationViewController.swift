@@ -1381,7 +1381,7 @@ final class ConversationViewController: BaseViewController {
     fileprivate func tryInsertInActiveNewMessages() {
 
         if inactiveNewMessageIDSet.count > 0 {
-            updateConversationCollectionViewWithMessageIDs(Array(inactiveNewMessageIDSet), messageAge: .New, scrollToBottom: false)
+            updateConversationCollectionViewWithMessageIDs(Array(inactiveNewMessageIDSet), messageAge: .new, scrollToBottom: false)
 
             inactiveNewMessageIDSet = []
 
@@ -1409,7 +1409,7 @@ final class ConversationViewController: BaseViewController {
             success?(finished)
         }
 
-        if messageAge == .New {
+        if messageAge == .new {
             conversationIsDirty = true
         }
 
@@ -1487,7 +1487,7 @@ final class ConversationViewController: BaseViewController {
 
                 switch messageAge {
 
-                case .New:
+                case .new:
 
                     conversationCollectionView.performBatchUpdates({ [weak self] in
                         guard let strongSelf = self else {
@@ -1510,7 +1510,7 @@ final class ConversationViewController: BaseViewController {
 
                     }, completion: nil)
 
-                case .Old:
+                case .old:
                     // 用 CATransaction 保证 CollectionView 在插入后不闪动
                     CATransaction.begin()
                     CATransaction.setDisableActions(true)

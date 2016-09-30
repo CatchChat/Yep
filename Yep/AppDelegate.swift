@@ -815,7 +815,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
-            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
 
             /*
             // Use Delegate instead of Notification

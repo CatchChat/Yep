@@ -486,7 +486,7 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                             let fileExtension: FileExtension = .jpeg
 
-                            s3UploadFileOfKind(.Avatar, withFileExtension: fileExtension, inFilePath: nil, orFileData: data, mimeType: fileExtension.mimeType, failureHandler: { [weak self] reason, errorMessage in
+                            s3UploadFileOfKind(.avatar, withFileExtension: fileExtension, inFilePath: nil, orFileData: data, mimeType: fileExtension.mimeType, failureHandler: { [weak self] reason, errorMessage in
 
                                 YepHUD.hideActivityIndicator()
 

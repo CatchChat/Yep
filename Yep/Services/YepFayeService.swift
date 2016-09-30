@@ -335,14 +335,14 @@ extension YepFayeService {
 
             var messageIDs: [String] = []
 
-            syncMessageWithMessageInfo(messageInfo, messageAge: .New, inRealm: realm) { _messageIDs in
+            syncMessageWithMessageInfo(messageInfo, messageAge: .new, inRealm: realm) { _messageIDs in
 
                 messageIDs = _messageIDs
             }
 
             let _ = try? realm.commitWrite()
 
-            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
             /*
             self?.delegate?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: MessageAge.New.rawValue)
             // Notification 可能导致 Crash，Conversation 有可能在有些时候没有释放监听，但是现在还没找到没释放的原因

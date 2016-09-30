@@ -28,7 +28,7 @@ extension ConversationViewController {
 
         YepKit.sendText(text, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .new, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
 
@@ -122,7 +122,7 @@ extension ConversationViewController {
                 }
             }
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .new, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
 
@@ -189,7 +189,7 @@ extension ConversationViewController {
                 self?.alertSaveFileFailed()
             }
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .new, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
 
@@ -318,7 +318,7 @@ extension ConversationViewController {
                 self?.alertSaveFileFailed()
             }
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .new, scrollToBottom: true)
         }
 
         sendVideoInFilePath(videoURL.path, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
@@ -361,7 +361,7 @@ extension ConversationViewController {
 
         sendLocationWithLocationInfo(locationInfo, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .new, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
 

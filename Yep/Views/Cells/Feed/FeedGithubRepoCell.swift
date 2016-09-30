@@ -70,7 +70,7 @@ final class FeedGithubRepoCell: FeedBasicCell {
                 return
             }
 
-            if case .GithubRepo = feed.kind {
+            if case .githubRepo = feed.kind {
                 if case let .github(repo) = attachment, let url = URL(string: repo.URLString) {
                     self?.tapGithubRepoLinkAction?(url)
                 }
