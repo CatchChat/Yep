@@ -1313,7 +1313,7 @@ public func discoverUsers(masterSkillIDs: [String], learningSkillIDs: [String], 
             if let realm = try? Realm() {
                 if let offlineData = try? JSONSerialization.data(withJSONObject: data, options: []) {
 
-                    let offlineJSON = OfflineJSON(name: OfflineJSONName.DiscoveredUsers.rawValue, data: offlineData)
+                    let offlineJSON = OfflineJSON(name: OfflineJSONName.discoveredUsers.rawValue, data: offlineData)
 
                     let _ = try? realm.write {
                         realm.add(offlineJSON, update: true)
@@ -2947,7 +2947,7 @@ public func discoverFeedsWithSortStyle(_ sortStyle: FeedSortStyle, skill: Skill?
             if let realm = try? Realm() {
                 if let offlineData = try? JSONSerialization.data(withJSONObject: data, options: []) {
 
-                    let offlineJSON = OfflineJSON(name: OfflineJSONName.Feeds.rawValue, data: offlineData)
+                    let offlineJSON = OfflineJSON(name: OfflineJSONName.feeds.rawValue, data: offlineData)
 
                     let _ = try? realm.write {
                         realm.add(offlineJSON, update: true)
@@ -3759,7 +3759,7 @@ public func geniusInterviewsWithCount(_ count: Int, afterNumber number: Int?, fa
             if let realm = try? Realm() {
                 if let offlineData = try? JSONSerialization.data(withJSONObject: data, options: []) {
 
-                    let offlineJSON = OfflineJSON(name: OfflineJSONName.GeniusInterviews.rawValue, data: offlineData)
+                    let offlineJSON = OfflineJSON(name: OfflineJSONName.geniusInterviews.rawValue, data: offlineData)
 
                     let _ = try? realm.write {
                         realm.add(offlineJSON, update: true)
