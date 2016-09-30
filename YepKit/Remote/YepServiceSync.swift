@@ -11,8 +11,8 @@ import YepNetworking
 import RealmSwift
 
 public enum MessageAge: String {
-    case Old
-    case New
+    case old
+    case new
 }
 
 public func tryPostNewMessagesReceivedNotificationWithMessageIDs(_ messageIDs: [String], messageAge: MessageAge) {
@@ -429,7 +429,7 @@ public func syncMyConversations(maxMessageID: String? = nil, afterSynced: (() ->
         if let messageInfos = result["messages"] as? [JSONDictionary] {
 
             messageInfos.forEach({
-                syncMessageWithMessageInfo($0, messageAge: .Old, inRealm: realm) { _ in
+                syncMessageWithMessageInfo($0, messageAge: .old, inRealm: realm) { _ in
                 }
             })
 
@@ -787,7 +787,7 @@ public func syncUnreadMessagesAndDoFurtherAction(_ furtherAction: @escaping (_ m
                 realm.beginWrite()
                 
                 for messageInfo in allUnreadMessages {
-                    syncMessageWithMessageInfo(messageInfo, messageAge: .Old, inRealm: realm) { _messageIDs in
+                    syncMessageWithMessageInfo(messageInfo, messageAge: .old, inRealm: realm) { _messageIDs in
                         messageIDs += _messageIDs
                     }
                 }
@@ -1045,7 +1045,7 @@ public func syncMessageWithMessageInfo(_ messageInfo: JSONDictionary, messageAge
                 newMessage.createdUnixTime = createdUnixTime
             }
 
-            if case .New = messageAge {
+            if case .new = messageAge {
                 // 确保网络来的新消息比任何已有的消息都要新，防止服务器消息延后发来导致插入到当前消息上面
                 if let latestMessage = realm.objects(Message.self).sorted(byProperty: "createdUnixTime", ascending: true).last {
                     if newMessage.createdUnixTime < latestMessage.createdUnixTime {

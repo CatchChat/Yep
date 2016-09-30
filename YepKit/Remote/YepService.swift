@@ -1918,9 +1918,9 @@ public enum TimeDirection {
     public var messageAge: MessageAge {
         switch self {
         case .past:
-            return .Old
+            return .old
         default:
-            return .New
+            return .new
         }
     }
 }

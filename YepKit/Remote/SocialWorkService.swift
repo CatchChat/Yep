@@ -509,7 +509,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                                         let _ = try? realm.commitWrite()
 
                                         // 通知更新 UI
-                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                                     }
                                 })
                             }
@@ -518,7 +518,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         let _ = try? realm.commitWrite()
 
                         // 通知更新 UI
-                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                     }
                 })
             }
@@ -563,7 +563,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                                         let _ = try? realm.commitWrite()
 
                                         // 通知更新 UI
-                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                                     }
                                 })
                             }
@@ -572,7 +572,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         let _ = try? realm.commitWrite()
 
                         // 通知更新 UI
-                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                     }
                })
             }

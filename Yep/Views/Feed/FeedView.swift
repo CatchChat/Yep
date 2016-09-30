@@ -567,13 +567,13 @@ final class FeedView: UIView {
 
         switch kind {
 
-        case .GithubRepo:
+        case .githubRepo:
 
             if let URL = feed?.githubRepoURL {
                 tapGithubRepoAction?(URL as URL)
             }
 
-        case .DribbbleShot:
+        case .dribbbleShot:
 
             if let URL = feed?.dribbbleShotURL {
                 tapDribbbleShotAction?(URL as URL)
