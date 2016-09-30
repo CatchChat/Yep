@@ -90,7 +90,6 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
         YepHUD.showActivityIndicator()
         
         requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .sms, failureHandler: { reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 

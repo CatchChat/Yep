@@ -64,8 +64,6 @@ final class FriendsInContactsViewController: BaseViewController {
         }
 
         friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
-
             SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
             }

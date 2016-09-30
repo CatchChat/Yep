@@ -329,8 +329,6 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
                 finish?()
             }
-
-            defaultFailureHandler(reason, errorMessage)
         }
 
         let perPage: Int = 30

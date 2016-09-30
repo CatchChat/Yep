@@ -104,9 +104,7 @@ final class SocialWorkGithubViewController: BaseViewController {
         } else {
             if let userID = profileUser?.userID {
 
-                githubWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
-                    defaultFailureHandler(reason, errorMessage)
-
+                githubWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) in
                     YepAlert.alertSorry(message: NSLocalizedString("Yep can't reach GitHub.\nWe blame GFW!", comment: ""), inViewController: self)
 
                 }, completion: { githubWork in

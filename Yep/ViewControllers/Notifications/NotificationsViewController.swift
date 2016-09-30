@@ -147,7 +147,6 @@ final class NotificationsViewController: SegueViewController {
         ]
 
         updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
 
             YepAlert.alertSorry(message: String.trans_promptEnableDoNotDisturbFailed, inViewController: self)
 
@@ -184,7 +183,6 @@ final class NotificationsViewController: SegueViewController {
             ]
 
             updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
 
                 YepAlert.alertSorry(message: String.trans_promptDisableDoNotDisturbFailed, inViewController: self)
 

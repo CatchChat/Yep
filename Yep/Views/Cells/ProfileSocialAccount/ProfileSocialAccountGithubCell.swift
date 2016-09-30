@@ -107,10 +107,7 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
             } else {
                 if let userID = profileUser?.userID {
 
-                    githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                        defaultFailureHandler(reason, errorMessage)
-
-                    }, completion: { githubWork in
+                    githubWorkOfUserWithUserID(userID, failureHandler: nil, completion: { githubWork in
                         //println("githubWork: \(githubWork)")
 
                         SafeDispatch.async { [weak self] in

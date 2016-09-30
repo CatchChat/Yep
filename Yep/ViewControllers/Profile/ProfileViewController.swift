@@ -673,7 +673,6 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                 let newUsername = text
 
                 updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
 
                     let message = errorMessage ?? String.trans_promptCreateUsernameFailed
                     YepAlert.alertSorry(message: message, inViewController: self)
@@ -1431,8 +1430,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                             YepHUD.hideActivityIndicator()
 
-                            defaultFailureHandler(reason, errorMessage)
-
                             YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
                             
                         }, completion: { blogTitle in
@@ -1447,8 +1444,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                             updateMyselfWithInfo(info, failureHandler: { [weak self] reason, errorMessage in
 
                                 YepHUD.hideActivityIndicator()
-
-                                defaultFailureHandler(reason, errorMessage)
 
                                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
 
@@ -1588,11 +1583,7 @@ extension ProfileViewController {
 
         if let result = notification.object as? NSNumber, result == 1, let socialAccount = self.socialAccount {
 
-            socialAccountWithProvider(socialAccount.rawValue, failureHandler: { reason, errorMessage in
-
-                defaultFailureHandler(reason, errorMessage)
-
-            }, completion: { provider in
+            socialAccountWithProvider(socialAccount.rawValue, failureHandler: nil, completion: { provider in
 
                 println("provider: \(provider)")
 

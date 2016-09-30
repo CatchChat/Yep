@@ -30,7 +30,6 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
     override func requestCallMe() {
 
         requestSendVerifyCodeOfNewMobilePhone(mobilePhone, useMethod: .call, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             self?.requestCallMeFailed(errorMessage)
 
@@ -55,7 +54,6 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
         YepHUD.showActivityIndicator()
 
         confirmNewMobilePhone(mobilePhone, withVerifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 

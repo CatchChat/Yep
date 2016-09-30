@@ -102,7 +102,6 @@ final class RegisterPickSkillsViewController: BaseViewController {
             addSkillsGroup.enter()
 
             addSkill(skill, toSkillSet: .master, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
 
                 saveSkillsErrorMessage = errorMessage
 
@@ -117,7 +116,6 @@ final class RegisterPickSkillsViewController: BaseViewController {
             addSkillsGroup.enter()
 
             addSkill(skill, toSkillSet: .learning, failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
 
                 saveSkillsErrorMessage = errorMessage
 

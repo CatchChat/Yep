@@ -75,9 +75,7 @@ final class SocialWorkInstagramViewController: BaseViewController {
         } else {
             if let userID = profileUser?.userID {
 
-                instagramWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
-                    defaultFailureHandler(reason, errorMessage)
-
+                instagramWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) in
                     let message = errorMessage ?? String.trans_promptNetworkConnectionIsNotGood
                     YepAlert.alertSorry(message: message, inViewController: self)
 

@@ -40,7 +40,6 @@ extension ConversationViewController {
                 realmQueue.async { [weak self] in
 
                     messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
 
                         failedAction?()
 

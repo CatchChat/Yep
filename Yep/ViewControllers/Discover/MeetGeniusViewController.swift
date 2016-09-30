@@ -133,8 +133,6 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
                 finish?()
             }
-
-            defaultFailureHandler(reason, errorMessage)
         }
 
         let count: Int = Ruler.universalHorizontal(10, 12, 15, 20, 25).value

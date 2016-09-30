@@ -648,7 +648,6 @@ final class NewFeedViewController: SegueViewController {
                 }
 
                 createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
 
                     SafeDispatch.async { [weak self] in
                         let message = errorMessage ?? String.trans_promptCreateFeedFailed
@@ -694,7 +693,6 @@ final class NewFeedViewController: SegueViewController {
             parseOpenGraphGroup.enter()
 
             openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
 
                 SafeDispatch.async {
                     parseOpenGraphGroup.leave()
@@ -908,9 +906,6 @@ final class NewFeedViewController: SegueViewController {
             let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .M4A, metaDataString: metaDataString)
 
             tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
-
-                defaultFailureHandler(reason, errorMessage)
-
                 SafeDispatch.async {
                     uploadErrorMessage = errorMessage
                     uploadVoiceGroup.leave()

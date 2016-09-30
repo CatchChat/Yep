@@ -32,8 +32,6 @@ final public class UploadAttachmentOperation: ConcurrentOperation {
 
         tryUploadAttachment(uploadAttachment, failureHandler: { [weak self] (reason, errorMessage) in
 
-            defaultFailureHandler(reason, errorMessage)
-
             self?.completion(.failed(errorMessage: errorMessage))
 
             self?.state = .Finished

@@ -508,10 +508,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             
             let doAddSkillToSkillSet: (SkillSet) -> Void = { skillSet in
                 
-                addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
-                    
-                }, completion: { [weak self] _ in
+                addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: nil, completion: { [weak self] _ in
 
                     let message = String.trans_promptSuccessfullyAddedSkill(skillLocalName, to: skillSet.name)
                     YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: message, dismissTitle: String.trans_titleOK, inViewController: self, withDismissAction: nil)
@@ -604,8 +601,6 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
                 finish?()
             }
-
-            defaultFailureHandler(reason, errorMessage)
         }
 
         let perPage = 20

@@ -30,7 +30,6 @@ final class LoginVerifyMobileViewController: BaseVerifyMobileViewController {
     override func requestCallMe() {
 
         requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .call, failureHandler: { [weak self ]reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             self?.requestCallMeFailed(errorMessage)
 
@@ -55,7 +54,6 @@ final class LoginVerifyMobileViewController: BaseVerifyMobileViewController {
         YepHUD.showActivityIndicator()
 
         loginByMobilePhone(mobilePhone, withVerifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 

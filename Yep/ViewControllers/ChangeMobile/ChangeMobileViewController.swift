@@ -102,8 +102,7 @@ final class ChangeMobileViewController: BaseInputMobileViewController {
 
         YepHUD.showActivityIndicator()
 
-        requestSendVerifyCodeOfNewMobilePhone(mobilePhone, useMethod: .sms, failureHandler: { reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
+        requestSendVerifyCodeOfNewMobilePhone(mobilePhone, useMethod: .sms, failureHandler: { (reason, errorMessage) in
 
             YepHUD.hideActivityIndicator()
 

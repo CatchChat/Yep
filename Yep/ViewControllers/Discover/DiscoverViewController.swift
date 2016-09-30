@@ -223,7 +223,6 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
         }
 
         discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, inPage: currentPageIndex, withPerPage: 21, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()

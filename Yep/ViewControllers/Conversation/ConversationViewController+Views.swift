@@ -557,10 +557,7 @@ extension ConversationViewController {
             let userID = user.userID
             let userNickname = user.nickname
 
-            stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
-
-            }, completion: { isFriend, receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState in
+            stateOfFriendRequestWithUser(user, failureHandler: nil, completion: { isFriend, receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState in
 
                 println("isFriend: \(isFriend)")
                 println("receivedFriendRequestState: \(receivedFriendRequestState.rawValue)")

@@ -79,7 +79,7 @@ public enum Reason: CustomStringConvertible {
 
 public typealias FailureHandler = (_ reason: Reason, _ errorMessage: String?) -> Void
 
-public let defaultFailureHandler: FailureHandler = { reason, errorMessage in
+public let defaultFailureHandler: FailureHandler = { (reason, errorMessage) in
     print("\n***************************** YepNetworking Failure *****************************")
     print("Reason: \(reason)")
     if let errorMessage = errorMessage {

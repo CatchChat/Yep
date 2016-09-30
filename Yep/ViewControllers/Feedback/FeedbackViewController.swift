@@ -106,8 +106,6 @@ final class FeedbackViewController: UIViewController {
         let feedback = Feedback(content: feedbackTextView.text, deviceInfo: deviceInfo)
 
         sendFeedback(feedback, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
-
             let message = errorMessage ?? "Faild to send feedback!"
             YepAlert.alertSorry(message: message, inViewController: self)
 

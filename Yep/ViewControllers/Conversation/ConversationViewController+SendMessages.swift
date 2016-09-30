@@ -32,7 +32,6 @@ extension ConversationViewController {
             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
             case .oneToOne:
@@ -127,7 +126,6 @@ extension ConversationViewController {
             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
             case .oneToOne:
@@ -195,7 +193,6 @@ extension ConversationViewController {
             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
             case .oneToOne:
@@ -326,7 +323,6 @@ extension ConversationViewController {
         }
 
         sendVideoInFilePath(videoURL.path, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
             case .oneToOne:
@@ -369,7 +365,6 @@ extension ConversationViewController {
             self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
             case .oneToOne:

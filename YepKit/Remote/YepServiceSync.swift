@@ -242,8 +242,6 @@ public func userSkillsFromSkillsData(_ skillsData: [JSONDictionary], inRealm rea
 public func syncMyInfoAndDoFurtherAction(_ furtherAction: @escaping () -> Void) {
 
     userInfo(failureHandler: { (reason, errorMessage) in
-        defaultFailureHandler(reason, errorMessage)
-
         furtherAction()
 
     }, completion: { friendInfo in
@@ -761,9 +759,6 @@ public func syncUnreadMessagesAndDoFurtherAction(_ furtherAction: @escaping (_ m
         println("Begin fetching")
         
         unreadMessages(failureHandler: { (reason, errorMessage) in
-
-            defaultFailureHandler(reason, errorMessage)
-
             SafeDispatch.async {
                 isFetchingUnreadMessages.value = false
 

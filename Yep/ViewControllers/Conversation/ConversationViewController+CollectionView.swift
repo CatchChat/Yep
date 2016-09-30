@@ -735,7 +735,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend image?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                 resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                    defaultFailureHandler(reason, errorMessage)
 
                                     self?.promptSendMessageFailed(
                                         reason: reason,
@@ -779,7 +778,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend audio?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                 resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                    defaultFailureHandler(reason, errorMessage)
 
                                     self?.promptSendMessageFailed(
                                         reason: reason,
@@ -814,7 +812,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend video?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                 resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                    defaultFailureHandler(reason, errorMessage)
 
                                     self?.promptSendMessageFailed(
                                         reason: reason,
@@ -855,7 +852,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                             YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend location?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                                 resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                    defaultFailureHandler(reason, errorMessage)
 
                                     self?.promptSendMessageFailed(
                                         reason: reason,
@@ -897,7 +893,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                         YepAlert.confirmOrCancel(title: NSLocalizedString("title.action", comment: ""), message: NSLocalizedString("Resend text?", comment: ""), confirmTitle: NSLocalizedString("Resend", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                             resendMessage(message, failureHandler: { [weak self] reason, errorMessage in
-                                defaultFailureHandler(reason, errorMessage)
 
                                 self?.promptSendMessageFailed(
                                     reason: reason,
@@ -1571,7 +1566,6 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
         let oldMessagesUpdatedVersion = self.messagesUpdatedVersion
 
         openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async {
                 markMessageOpenGraphDetected()

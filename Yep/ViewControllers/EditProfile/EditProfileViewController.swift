@@ -149,8 +149,6 @@ final class EditProfileViewController: SegueViewController {
         friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
             YepHUD.hideActivityIndicator()
 
-            defaultFailureHandler(reason, errorMessage)
-
         }, completion: { [weak self] discoveredUsers in
             YepHUD.hideActivityIndicator()
             println("friendsInContacts discoveredUsers.count: \(discoveredUsers.count)")
@@ -425,8 +423,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         updateMyselfWithInfo(["introduction": ""], failureHandler: { (reason, errorMessage) in
                             YepHUD.hideActivityIndicator()
 
-                            defaultFailureHandler(reason, errorMessage)
-
                         }, completion: { success in
                             YepHUD.hideActivityIndicator()
 
@@ -441,8 +437,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     YepHUD.showActivityIndicator()
 
                     updateMyselfWithInfo(["introduction": newIntroduction], failureHandler: { (reason, errorMessage) in
-                        defaultFailureHandler(reason, errorMessage)
-
                         YepHUD.hideActivityIndicator()
 
                     }, completion: { success in
@@ -508,8 +502,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
                             YepHUD.hideActivityIndicator()
 
-                            defaultFailureHandler(reason, errorMessage)
-
                         }, completion: { success in
                             YepHUD.hideActivityIndicator()
 
@@ -537,8 +529,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
                         YepHUD.hideActivityIndicator()
 
-                        defaultFailureHandler(reason, errorMessage)
-
                         YepAlert.alert(title: NSLocalizedString("Ooops!", comment: ""), message: NSLocalizedString("You have entered an invalid URL!", comment: ""), dismissTitle: String.trans_titleModify, inViewController: self, withDismissAction: { [weak cell] in
 
                             cell?.infoTextView.becomeFirstResponder()
@@ -554,8 +544,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                         ]
 
                         updateMyselfWithInfo(info, failureHandler: { (reason, errorMessage) in
-                            defaultFailureHandler(reason, errorMessage)
-
                             YepHUD.hideActivityIndicator()
 
                         }, completion: { success in
@@ -647,7 +635,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
                     let newUsername = text
 
                     updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
 
                         YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set username failed!", comment: ""), inViewController: self)
 
@@ -688,7 +675,6 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String.trans_promptTryLogout, confirmTitle: NSLocalizedString("Yes", comment: ""), cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: { () -> Void in
 
                 logout(failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
                     YepAlert.alertSorry(message: "Logout failed!", inViewController: self)
 
                 }, completion: {
@@ -732,8 +718,6 @@ extension EditProfileViewController: UIImagePickerControllerDelegate, UINavigati
         if let imageData = imageData {
 
             updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
-
-                defaultFailureHandler(reason, errorMessage)
 
                 SafeDispatch.async { [weak self] in
                     self?.activityIndicator.stopAnimating()

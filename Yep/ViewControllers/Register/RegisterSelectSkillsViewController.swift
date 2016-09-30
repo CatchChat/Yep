@@ -138,10 +138,7 @@ final class RegisterSelectSkillsViewController: UIViewController {
 
         // 如果前一个 VC 来不及传递，这里还得再请求一次
         if skillCategories.isEmpty {
-            allSkillCategories(failureHandler: { (reason, errorMessage) in
-                defaultFailureHandler(reason, errorMessage)
-
-            }, completion: { [weak self] skillCategories in
+            allSkillCategories(failureHandler: nil, completion: { [weak self] skillCategories in
                 self?.skillCategories = skillCategories
 
                 SafeDispatch.async { [weak self] in

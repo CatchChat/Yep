@@ -160,8 +160,6 @@ class ShareViewController: SLComposeServiceViewController {
             let coordinate = YepUserDefaults.userCoordinate
 
             createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
-
                 SafeDispatch.async {
                     completion(false)
                 }
@@ -281,9 +279,6 @@ class ShareViewController: SLComposeServiceViewController {
             let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .M4A, metaDataString: metaDataString)
 
             tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
-
-                defaultFailureHandler(reason, errorMessage)
-
                 SafeDispatch.async {
                     uploadVoiceGroup.leave()
                 }
@@ -315,8 +310,6 @@ class ShareViewController: SLComposeServiceViewController {
             parseOpenGraphGroup.enter()
 
             openGraphWithURL(URL, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
-
                 SafeDispatch.async {
                     parseOpenGraphGroup.leave()
                 }
