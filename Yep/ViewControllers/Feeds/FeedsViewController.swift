@@ -113,9 +113,9 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
     fileprivate var filterBarItem: UIBarButtonItem?
     
     fileprivate lazy var filterStyles: [FeedSortStyle] = [
-        .Distance,
-        .Time,
-        .Match,
+        .distance,
+        .time,
+        .match,
     ]
 
     fileprivate func filterItemWithSortStyle(_ sortStyle: FeedSortStyle, currentSortStyle: FeedSortStyle) -> ActionSheetView.Item {
@@ -324,9 +324,9 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
     fileprivate static var layoutPool = LayoutPool()
 
     fileprivate var needShowDistance: Bool = false
-    fileprivate var feedSortStyle: FeedSortStyle = .Match {
+    fileprivate var feedSortStyle: FeedSortStyle = .match {
         didSet {
-            needShowDistance = (feedSortStyle == .Distance)
+            needShowDistance = (feedSortStyle == .distance)
 
             feeds = []
             feedsTableView.reloadData()
@@ -449,7 +449,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
                     feedSortStyle = _feedSortStyle
                     
             } else {
-                feedSortStyle = .Match
+                feedSortStyle = .match
             }
 
             if skill == nil {
@@ -719,7 +719,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             var feedSortStyle = self.feedSortStyle
 
             if skill != nil {
-                feedSortStyle = .Time
+                feedSortStyle = .time
             }
 
             let maxFeedID: String?

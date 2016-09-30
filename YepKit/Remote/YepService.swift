@@ -2462,20 +2462,20 @@ public func refreshAttachmentWithID(_ attachmentID: String, failureHandler: Fail
 
 public enum FeedSortStyle: String {
 
-    case Distance = "distance"
-    case Time = "time"
-    case Match = "default"
-    case Recommended = "recommended"
+    case distance = "distance"
+    case time = "time"
+    case match = "default"
+    case recommended = "recommended"
     
     public var name: String {
         switch self {
-        case .Distance:
+        case .distance:
             return String.trans_titleNearby
-        case .Time:
+        case .time:
             return NSLocalizedString("Time", comment: "")
-        case .Match:
+        case .match:
             return String.trans_titleMatch
-        case .Recommended:
+        case .recommended:
             return NSLocalizedString("Recommended", comment: "")
         }
     }
@@ -2486,13 +2486,13 @@ public enum FeedSortStyle: String {
 
     public var needPageFeedID: Bool {
         switch self {
-        case .Distance:
+        case .distance:
             return true
-        case .Time:
+        case .time:
             return true
-        case .Match:
+        case .match:
             return false
-        case .Recommended:
+        case .recommended:
             return true
         }
     }
