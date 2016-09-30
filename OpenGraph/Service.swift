@@ -17,26 +17,20 @@ public func titleOfURL(_ url: URL, failureHandler: FailureHandler?, completion: 
 
         let error = response.result.error
 
+        let failureHandler: FailureHandler = { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
+            failureHandler?(reason, errorMessage)
+        }
+
         guard error == nil else {
-
             let errorMessage = String.trans_errorGetTitleOfURLFailed
-
-            if let failureHandler = failureHandler {
-                failureHandler(.other(error), errorMessage)
-            } else {
-                defaultFailureHandler(.other(error), errorMessage)
-            }
+            failureHandler(.other(error), errorMessage)
 
             return
         }
 
         guard let HTMLString = response.result.value, let data = response.data else {
-
-            if let failureHandler = failureHandler {
-                failureHandler(.couldNotParseJSON, "No HTMLString or data!")
-            } else {
-                defaultFailureHandler(.couldNotParseJSON, "No HTMLString or data!")
-            }
+            failureHandler(.couldNotParseJSON, "No HTMLString or data!")
 
             return
         }
@@ -51,11 +45,7 @@ public func titleOfURL(_ url: URL, failureHandler: FailureHandler?, completion: 
             let title = doc.head?.css("title").first(where: { _ in true })?.text, !title.isEmpty else {
 
                 let errorMessage = String.trans_promptNoTitleForURL
-                if let failureHandler = failureHandler {
-                    failureHandler(.couldNotParseJSON, errorMessage)
-                } else {
-                    defaultFailureHandler(.couldNotParseJSON, errorMessage)
-                }
+                failureHandler(.couldNotParseJSON, errorMessage)
 
                 return
         }
@@ -70,13 +60,13 @@ public func openGraphWithURL(_ url: URL, failureHandler: FailureHandler?, comple
 
         let error = response.result.error
 
-        guard error == nil else {
+        let failureHandler: FailureHandler = { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
+            failureHandler?(reason, errorMessage)
+        }
 
-            if let failureHandler = failureHandler {
-                failureHandler(.other(error), nil)
-            } else {
-                defaultFailureHandler(.other(error), nil)
-            }
+        guard error == nil else {
+            failureHandler(.other(error), nil)
 
             return
         }
@@ -208,11 +198,7 @@ public func openGraphWithURL(_ url: URL, failureHandler: FailureHandler?, comple
             }
         }
 
-        if let failureHandler = failureHandler {
-            failureHandler(.couldNotParseJSON, nil)
-        } else {
-            defaultFailureHandler(.couldNotParseJSON, nil)
-        }
+        failureHandler(.couldNotParseJSON, nil)
     })
 }
 
