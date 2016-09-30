@@ -205,16 +205,16 @@ public func openGraphWithURL(_ url: URL, failureHandler: FailureHandler?, comple
 // ref http://a4esl.org/c/charset.html
 private enum WeirdCharset: String {
     // China
-    case GB2312 = "GB2312"
-    case GBK = "GBK"
-    case GB18030 = "GB18030"
+    case gb2312 = "GB2312"
+    case gbk = "GBK"
+    case gb18030 = "GB18030"
 
     // Taiwan, HongKong ...
-    case BIG5 = "BIG5"
-    case BIG5HKSCS = "BIG5-HKSCS"
+    case big5 = "BIG5"
+    case big5hkscs = "BIG5-HKSCS"
 
     // Korean
-    case EUCKR = "EUC-KR"
+    case euckr = "EUC-KR"
 }
 
 private func getUTF8HTMLStringFromHTMLString(_ HTMLString: String, withData data: Data) -> String {
@@ -239,15 +239,15 @@ private func getUTF8HTMLStringFromHTMLString(_ HTMLString: String, withData data
 
     switch weirdCharset {
 
-    case .GB2312, .GBK, .GB18030:
+    case .gb2312, .gbk, .gb18030:
         let china = CFStringEncodings.GB_18030_2000
         encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue)))
 
-    case .BIG5, .BIG5HKSCS:
+    case .big5, .big5hkscs:
         let taiwan = CFStringEncodings.big5_HKSCS_1999
         encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(taiwan.rawValue)))
 
-    case .EUCKR:
+    case .euckr:
         let korean = CFStringEncodings.EUC_KR
         encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(korean.rawValue)))
     }

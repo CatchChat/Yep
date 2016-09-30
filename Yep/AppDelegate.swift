@@ -388,10 +388,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             switch itemType {
 
-            case .User:
+            case .user:
                 return handleUserSearchActivity(userID: itemID)
 
-            case .Feed:
+            case .feed:
                 return handleFeedSearchActivity(feedID: itemID)
             }
 
@@ -761,7 +761,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let searchableItems: [CSSearchableItem] = users.map({
             CSSearchableItem(
-                uniqueIdentifier: searchableItemID(searchableItemType: .User, itemID: $0.userID),
+                uniqueIdentifier: searchableItemID(searchableItemType: .user, itemID: $0.userID),
                 domainIdentifier: YepConfig.Domain.user,
                 attributeSet: $0.attributeSet
             )
@@ -789,7 +789,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let searchableItems = feeds.map({
             CSSearchableItem(
-                uniqueIdentifier: searchableItemID(searchableItemType: .Feed, itemID: $0.feedID),
+                uniqueIdentifier: searchableItemID(searchableItemType: .feed, itemID: $0.feedID),
                 domainIdentifier: YepConfig.Domain.feed,
                 attributeSet: $0.attributeSet
             )

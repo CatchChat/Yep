@@ -274,7 +274,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                     NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
                 }
 
-                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
+                deleteSearchableItems(searchableItemType: .feed, itemIDs: [feedID])
             }
 
             // 若是创建者，再询问是否删除 Feed

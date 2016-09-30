@@ -136,7 +136,7 @@ extension ConversationViewController {
 
                     self.updateBlocked(true, forUserWithUserID: userID)
 
-                    deleteSearchableItems(searchableItemType: .User, itemIDs: [userID])
+                    deleteSearchableItems(searchableItemType: .user, itemIDs: [userID])
                 })
             }
         }
@@ -222,7 +222,7 @@ extension ConversationViewController {
 
                 NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
 
-                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
+                deleteSearchableItems(searchableItemType: .feed, itemIDs: [feedID])
             }
         }
 
