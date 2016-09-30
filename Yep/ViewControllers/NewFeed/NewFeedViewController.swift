@@ -1085,8 +1085,8 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(_ collectionView: UICollectionView, moveItemAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
 
-        let sourceIndex = (sourceIndexPath as NSIndexPath).item
-        let destinationIndex = (destinationIndexPath as NSIndexPath).item
+        let sourceIndex = sourceIndexPath.item
+        let destinationIndex = destinationIndexPath.item
 
         guard sourceIndex != destinationIndex else {
             return
