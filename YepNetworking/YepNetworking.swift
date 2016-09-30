@@ -125,8 +125,13 @@ private let yepSuccessStatusCodeRange: CountableRange<Int> = 200..<300
 
 public func apiRequest<A>(_ modifyRequest: (URLRequest) -> (), baseURL: URL, resource: Resource<A>?, failure: FailureHandler?, completion: @escaping (A) -> Void) {
 
+    let failure: FailureHandler = { (reason, errorMessage) in
+        defaultFailureHandler(reason, errorMessage)
+        failure?(reason, errorMessage)
+    }
+
     guard let resource = resource else {
-        failure?(.other(nil), "No resource")
+        failure(.other(nil), "No resource")
         return
     }
 
@@ -187,15 +192,7 @@ public func apiRequest<A>(_ modifyRequest: (URLRequest) -> (), baseURL: URL, res
     print(request.cURLCommandLineWithSession(session))
     #endif
 
-    let _failure: FailureHandler
-
-    if let failure = failure {
-        _failure = failure
-    } else {
-        _failure = defaultFailureHandler
-    }
-
-    let task = session.dataTask(with: request, completionHandler: { (data, response, error) -> Void in
+    let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
 
         if let httpResponse = response as? HTTPURLResponse {
 
@@ -209,21 +206,20 @@ public func apiRequest<A>(_ modifyRequest: (URLRequest) -> (), baseURL: URL, res
                     } else {
                         let dataString = String(data: responseData, encoding: .utf8)
                         print(dataString)
-                        
-                        _failure(.couldNotParseJSON, errorMessageInData(data))
+                        failure(.couldNotParseJSON, errorMessageInData(data))
                         print("\(resource)\n")
                         print(request.cURLCommandLine)
                     }
 
                 } else {
-                    _failure(.noData, errorMessageInData(data))
+                    failure(.noData, errorMessageInData(data))
                     print("\(resource)\n")
                     print(request.cURLCommandLine)
                 }
 
             } else {
                 let errorCode = errorCodeInData(data)
-                _failure(.noSuccessStatusCode(statusCode: httpResponse.statusCode, errorCode: errorCode), errorMessageInData(data))
+                failure(.noSuccessStatusCode(statusCode: httpResponse.statusCode, errorCode: errorCode), errorMessageInData(data))
                 print("\(resource)\n")
                 print(request.cURLCommandLine)
 
@@ -236,7 +232,7 @@ public func apiRequest<A>(_ modifyRequest: (URLRequest) -> (), baseURL: URL, res
             }
 
         } else {
-            _failure(.other(error), errorMessageInData(data))
+            failure(.other(error), errorMessageInData(data))
             print("\(resource)")
             print(request.cURLCommandLine)
         }
