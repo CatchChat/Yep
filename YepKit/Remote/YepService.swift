@@ -1500,8 +1500,8 @@ public func meIsMemberOfGroup(groupID: String, failureHandler: FailureHandler?, 
 public struct UploadAttachment {
 
     public enum `Type`: String {
-        case Message = "Message"
-        case Feed = "Topic"
+        case message = "Message"
+        case feed = "Topic"
     }
     public let type: Type
 
@@ -2297,7 +2297,7 @@ public func sendMessage(_ message: Message, inFilePath filePath: String?, orFile
             source = .data(fileData)
         }
 
-        let uploadAttachment = UploadAttachment(type: .Message, source: source, fileExtension: mediaType.fileExtension!, metaDataString: metaData)
+        let uploadAttachment = UploadAttachment(type: .message, source: source, fileExtension: mediaType.fileExtension!, metaDataString: metaData)
 
         tryUploadAttachment(uploadAttachment, failureHandler: failureHandler, completion: { uploadedAttachment in
 

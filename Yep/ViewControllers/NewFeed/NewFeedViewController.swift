@@ -734,7 +734,7 @@ final class NewFeedViewController: SegueViewController {
 
                     let source: UploadAttachment.Source = .data(imageData)
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
-                    let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .jpeg, metaDataString: metaDataString)
+                    let uploadAttachment = UploadAttachment(type: .feed, source: source, fileExtension: .jpeg, metaDataString: metaDataString)
 
                     let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment) { result in
                         switch result {
@@ -903,7 +903,7 @@ final class NewFeedViewController: SegueViewController {
 
             let source: UploadAttachment.Source = .filePath(feedVoice.fileURL.path)
 
-            let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .m4a, metaDataString: metaDataString)
+            let uploadAttachment = UploadAttachment(type: .feed, source: source, fileExtension: .m4a, metaDataString: metaDataString)
 
             tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
                 SafeDispatch.async {
