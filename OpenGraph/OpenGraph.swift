@@ -98,7 +98,7 @@ public struct OpenGraph {
 
     static func fromHTMLString(_ HTMLString: String, forURL URL: Foundation.URL) -> OpenGraph? {
 
-        if let doc = Kanna.HTML(html: HTMLString, encoding: String.Encoding.utf8) {
+        if let doc = Kanna.HTML(html: HTMLString, encoding: .utf8) {
 
             var openGraph = OpenGraph(URL: URL)
 

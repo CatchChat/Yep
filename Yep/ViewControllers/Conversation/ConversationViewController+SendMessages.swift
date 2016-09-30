@@ -277,7 +277,7 @@ extension ConversationViewController {
             }
 
             if let videoMetaData = try? JSONSerialization.data(withJSONObject: videoMetaDataInfo, options: []) {
-                let videoMetaDataString = NSString(data: videoMetaData, encoding: String.Encoding.utf8.rawValue) as? String
+                let videoMetaDataString = String(data: videoMetaData, encoding: .utf8)
                 metaData = videoMetaDataString
             }
 

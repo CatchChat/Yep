@@ -97,7 +97,7 @@ extension URLRequest {
             }
         }
 
-        if let HTTPBody = httpBody, let HTTPBodyString = NSString(data: HTTPBody, encoding: String.Encoding.utf8.rawValue) {
+        if let HTTPBody = httpBody, let HTTPBodyString = String(data: HTTPBody, encoding: .utf8) {
             let escapedString = HTTPBodyString.replacingOccurrences(of: "\"", with: "\\\"")
             components.append("-d \"\(escapedString)\"")
         }

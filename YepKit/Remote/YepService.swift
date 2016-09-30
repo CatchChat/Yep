@@ -2521,7 +2521,7 @@ public struct DiscoveredAttachment {
             return nil
         }
 
-        if let data = metadata.data(using: String.Encoding.utf8, allowLossyConversion: false) {
+        if let data = metadata.data(using: .utf8, allowLossyConversion: false) {
             if let metaDataInfo = decodeJSON(data) {
                 if let thumbnailString = metaDataInfo[Config.MetaData.thumbnailString] as? String {
                     let imageData = Data(base64Encoded: thumbnailString, options: NSData.Base64DecodingOptions(rawValue: 0))

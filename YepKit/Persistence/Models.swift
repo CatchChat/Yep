@@ -395,7 +395,7 @@ open class MediaMetaData: Object {
     open dynamic var data: Data = Data()
 
     open var string: String? {
-        return NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
+        return String(data: data, encoding: .utf8) 
     }
 }
 
@@ -1666,7 +1666,7 @@ public func tryGetOrCreateMeInRealm(_ realm: Realm) -> User? {
 
 public func mediaMetaDataFromString(_ metaDataString: String, inRealm realm: Realm) -> MediaMetaData? {
 
-    if let data = metaDataString.data(using: String.Encoding.utf8, allowLossyConversion: false) {
+    if let data = metaDataString.data(using: .utf8, allowLossyConversion: false) {
         let mediaMetaData = MediaMetaData()
         mediaMetaData.data = data
 
