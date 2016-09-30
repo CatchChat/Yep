@@ -9,7 +9,6 @@
 import UIKit
 import RealmSwift
 import YepKit
-import YepNetworking
 
 var skillSizeCache = [String: CGRect]()
 

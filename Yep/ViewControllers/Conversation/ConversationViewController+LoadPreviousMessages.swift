@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 
 extension ConversationViewController {
 

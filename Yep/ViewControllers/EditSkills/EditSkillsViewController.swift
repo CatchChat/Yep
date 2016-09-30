@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepNetworking
 import Ruler
 import RealmSwift
 import YepKit

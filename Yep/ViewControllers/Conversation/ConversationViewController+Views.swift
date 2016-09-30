@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 import YepKit
-import YepNetworking
 import YepPreview
 import RealmSwift
 import Proposer

@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 import KeyboardMan
 import DeviceUtil
 

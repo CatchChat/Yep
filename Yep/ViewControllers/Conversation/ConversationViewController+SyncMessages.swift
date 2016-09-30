@@ -8,7 +8,6 @@
 
 import Foundation
 import YepKit
-import YepNetworking
 import RealmSwift
 
 extension ConversationViewController {

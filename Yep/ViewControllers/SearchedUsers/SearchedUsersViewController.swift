@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepNetworking
 import YepKit
 
 final class SearchedUsersViewController: BaseViewController {

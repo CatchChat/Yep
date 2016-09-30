@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 import Ruler
 
 final class EditNicknameAndBadgeViewController: UITableViewController {

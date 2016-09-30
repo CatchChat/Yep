@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 import YepKit
-import YepNetworking
 import Proposer
 import Navi
 import RxSwift

@@ -9,7 +9,6 @@
 import UIKit
 import SafariServices
 import YepKit
-import YepNetworking
 import AutoReview
 import MonkeyKing
 
