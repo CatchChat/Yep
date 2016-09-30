@@ -25,7 +25,7 @@ final class ServiceTests: XCTestCase {
             }
         })
 
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 15, handler: nil)
     }
 
     func testGetFeedsWithKeyword() {
@@ -42,7 +42,7 @@ final class ServiceTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 15, handler: nil)
     }
 
     func testJoinAndLeaveGroup() {
@@ -126,9 +126,8 @@ final class ServiceTests: XCTestCase {
                 }
             }
         })
-        //expectation.fulfill() // tmp workaround
 
-        waitForExpectations(timeout: 30, handler: nil)
+        waitForExpectations(timeout: 50, handler: nil)
     }
 
     func testGetCreatorsOfBlockedFeeds() {
@@ -144,7 +143,7 @@ final class ServiceTests: XCTestCase {
             expectation.fulfill()
         })
 
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 15, handler: nil)
     }
 
     func testGetUsersMatchWithUsernamePrefix() {
@@ -163,7 +162,7 @@ final class ServiceTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: 5, handler: nil)
+        waitForExpectations(timeout: 15, handler: nil)
     }
 
     func testGetMyConversations() {
@@ -184,7 +183,7 @@ final class ServiceTests: XCTestCase {
             }
         }
 
-        waitForExpectations(timeout: 10, handler: nil)
+        waitForExpectations(timeout: 20, handler: nil)
     }
 }
 
