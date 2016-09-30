@@ -117,13 +117,6 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         }
     }
 
-    fileprivate lazy var shareView: ShareProfileView = {
-        let share = ShareProfileView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
-        share.alpha = 0
-        self.view.addSubview(share)
-        return share
-    }()
-
     #if DEBUG
     private lazy var profileFPSLabel: FPSLabel = {
         let label = FPSLabel()
@@ -1581,19 +1574,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         default:
             break
-        }
-    }
-}
-
-extension ProfileViewController: UIScrollViewDelegate {
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if shareView.progress >= 1.0 {
-            shareView.shareActionAnimationAndDoFurther({
-                SafeDispatch.async { [weak self] in
-                    self?.tryShareMyProfile(nil)
-                }
-            })
         }
     }
 }

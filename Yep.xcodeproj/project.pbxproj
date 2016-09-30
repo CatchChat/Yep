@@ -585,7 +585,6 @@
 		6A8215091BCBE8F10011F36C /* DiscoverSkillCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6A8215071BCBE8F10011F36C /* DiscoverSkillCell.xib */; };
 		6A8DA7F51D07072000A3CEE4 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8DA7F41D07072000A3CEE4 /* libxml2.tbd */; };
 		6A8DA7F61D07072700A3CEE4 /* libxml2.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6A8DA7F41D07072000A3CEE4 /* libxml2.tbd */; };
-		6AB0DF5A1BE169000052BED1 /* ShareProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AB0DF591BE169000052BED1 /* ShareProfileView.swift */; };
 		6AC40E311C47A8EE0024FC63 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC40E301C47A8EE0024FC63 /* CoreData.framework */; };
 		6AC40E351C47A9060024FC63 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AC40E341C47A9060024FC63 /* libsqlite3.tbd */; };
 		8409137D1B7DB173001C89D6 /* FriendRequestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8409137C1B7DB173001C89D6 /* FriendRequestView.swift */; };
@@ -1327,7 +1326,6 @@
 		6A8215061BCBE8F10011F36C /* DiscoverSkillCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DiscoverSkillCell.swift; path = Views/Cells/DiscoverSkill/DiscoverSkillCell.swift; sourceTree = "<group>"; };
 		6A8215071BCBE8F10011F36C /* DiscoverSkillCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DiscoverSkillCell.xib; path = Views/Cells/DiscoverSkill/DiscoverSkillCell.xib; sourceTree = "<group>"; };
 		6A8DA7F41D07072000A3CEE4 /* libxml2.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libxml2.tbd; path = usr/lib/libxml2.tbd; sourceTree = SDKROOT; };
-		6AB0DF591BE169000052BED1 /* ShareProfileView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ShareProfileView.swift; path = Views/ShareProfileView/ShareProfileView.swift; sourceTree = "<group>"; };
 		6AC40E301C47A8EE0024FC63 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		6AC40E321C47A8FE0024FC63 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		6AC40E341C47A9060024FC63 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
@@ -2016,7 +2014,6 @@
 				50F5AF891BBBB2B30033C9BC /* HorizontalLine */,
 				50535D1B1BCD19B4002FE1A4 /* TouchClosures */,
 				50A93A9E1BD8C51D007005DB /* PickerItems */,
-				6AB0DF5B1BE169030052BED1 /* ShareProfileView */,
 				509B12101C436E830000BE71 /* Mention */,
 			);
 			name = Views;
@@ -3697,14 +3694,6 @@
 			name = DiscoverSkill;
 			sourceTree = "<group>";
 		};
-		6AB0DF5B1BE169030052BED1 /* ShareProfileView */ = {
-			isa = PBXGroup;
-			children = (
-				6AB0DF591BE169000052BED1 /* ShareProfileView.swift */,
-			);
-			name = ShareProfileView;
-			sourceTree = "<group>";
-		};
 		79F9F18EC1A8370AEDFC5DB4 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -4817,7 +4806,6 @@
 				502B60641BD1208E00D9C17E /* CameraCell.swift in Sources */,
 				50066AFC1D0FB3D800EF1E0D /* NibLoadable.swift in Sources */,
 				505082371C21377E00643CEB /* FeedVoiceContainerView.swift in Sources */,
-				6AB0DF5A1BE169000052BED1 /* ShareProfileView.swift in Sources */,
 				50B6A03B1CA27A6000C460E3 /* TableSectionTitleView.swift in Sources */,
 				502AE5351AB8649F005BD199 /* LoginByMobileViewController.swift in Sources */,
 				506BB7F91AE5069500C1A2A0 /* RegisterPickSkillsSelectSkillsTransitionManager.swift in Sources */,
