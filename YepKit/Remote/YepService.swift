@@ -1136,17 +1136,17 @@ private func moreFriendships(inPage page: Int, withPerPage perPage: Int, failure
 }
 
 public enum DiscoveredUserSortStyle: String {
-    case Distance = "distance"
-    case LastSignIn = "last_sign_in_at"
-    case Default = "default"
+    case distance   = "distance"
+    case lastSignIn = "last_sign_in_at"
+    case `default`  = "default"
 
     public var name: String {
         switch self {
-        case .Distance:
+        case .distance:
             return String.trans_titleNearby
-        case .LastSignIn:
+        case .lastSignIn:
             return NSLocalizedString("Time", comment: "")
-        case .Default:
+        case .default:
             return String.trans_titleMatch
         }
     }

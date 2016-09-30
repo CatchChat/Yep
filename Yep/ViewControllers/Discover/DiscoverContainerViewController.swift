@@ -123,7 +123,7 @@ class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
         return item
     }()
 
-    fileprivate var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
+    fileprivate var discoveredUserSortStyle: DiscoveredUserSortStyle = .default {
         willSet {
             SafeDispatch.async {
                 UIView.performWithoutAnimation { [weak self] in
@@ -170,7 +170,7 @@ class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
             discoveredUserSortStyle = _discoveredUserSortStyle
 
         } else {
-            discoveredUserSortStyle = .Default
+            discoveredUserSortStyle = .default
         }
 
         self.dataSource = self

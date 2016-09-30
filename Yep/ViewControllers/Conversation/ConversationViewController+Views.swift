@@ -570,10 +570,10 @@ extension ConversationViewController {
 
                 SafeDispatch.async { [weak self] in
 
-                    if receivedFriendRequestState == .Pending {
+                    if receivedFriendRequestState == .pending {
                         self?.makeFriendRequestView(for: user, in: .consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
 
-                    } else if receivedFriendRequestState == .Blocked {
+                    } else if receivedFriendRequestState == .blocked {
                         YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)"), confirmTitle: NSLocalizedString("Unblock", comment: ""), cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: {
 
                             unblockUserWithUserID(userID, failureHandler: nil, completion: { success in
@@ -586,15 +586,15 @@ extension ConversationViewController {
                         })
 
                     } else {
-                        if sentFriendRequestState == .None {
-                            if receivedFriendRequestState != .Rejected && receivedFriendRequestState != .Blocked {
+                        if sentFriendRequestState == .none {
+                            if receivedFriendRequestState != .rejected && receivedFriendRequestState != .blocked {
                                 self?.makeFriendRequestView(for: user, in: .add(prompt: NSLocalizedString("is not your friend.", comment: "")))
                             }
 
-                        } else if sentFriendRequestState == .Rejected {
+                        } else if sentFriendRequestState == .rejected {
                             self?.makeFriendRequestView(for: user, in: .add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
 
-                        } else if sentFriendRequestState == .Blocked {
+                        } else if sentFriendRequestState == .blocked {
                             YepAlert.alertSorry(message: String(format: NSLocalizedString("You have been blocked by %@!", comment: ""), "\(userNickname)"), inViewController: self)
                         }
                     }

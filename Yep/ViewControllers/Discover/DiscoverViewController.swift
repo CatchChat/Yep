@@ -46,7 +46,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
     
     fileprivate let refreshControl = UIRefreshControl()
 
-    fileprivate var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
+    fileprivate var discoveredUserSortStyle: DiscoveredUserSortStyle = .default {
         didSet {
             didChangeSortStyleAction?(discoveredUserSortStyle)
 
@@ -69,9 +69,9 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
     }
 
     fileprivate lazy var filterStyles: [DiscoveredUserSortStyle] = [
-        .Distance,
-        .LastSignIn,
-        .Default,
+        .distance,
+        .lastSignIn,
+        .default,
     ]
 
     fileprivate func filterItemWithSortStyle(_ sortStyle: DiscoveredUserSortStyle, currentSortStyle: DiscoveredUserSortStyle) -> ActionSheetView.Item {
@@ -133,7 +133,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
                 discoveredUserSortStyle = _discoveredUserSortStyle
 
         } else {
-            discoveredUserSortStyle = .Default
+            discoveredUserSortStyle = .default
         }
 
         discoveredUsersCollectionView.backgroundColor = UIColor.clear
