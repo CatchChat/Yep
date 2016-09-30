@@ -109,13 +109,13 @@ struct SearchedFeedCellLayout {
 
         switch feed.kind {
 
-        case .Text:
+        case .text:
             height = SearchedFeedBasicCell.heightOfFeed(feed)
 
-        case .URL:
+        case .url:
             height = SearchedFeedURLCell.heightOfFeed(feed)
 
-        case .Image:
+        case .image:
             if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
                 height = SearchedFeedNormalImagesCell.heightOfFeed(feed)
 
@@ -123,16 +123,16 @@ struct SearchedFeedCellLayout {
                 height = SearchedFeedAnyImagesCell.heightOfFeed(feed)
             }
 
-        case .GithubRepo:
+        case .githubRepo:
             height = SearchedFeedGithubRepoCell.heightOfFeed(feed)
 
-        case .DribbbleShot:
+        case .dribbbleShot:
             height = SearchedFeedDribbbleShotCell.heightOfFeed(feed)
 
-        case .Audio:
+        case .audio:
             height = SearchedFeedVoiceCell.heightOfFeed(feed)
 
-        case .Location:
+        case .location:
             height = SearchedFeedLocationCell.heightOfFeed(feed)
 
         default:
@@ -181,10 +181,10 @@ struct SearchedFeedCellLayout {
 
         switch feed.kind {
 
-        case .Text:
+        case .text:
             break
 
-        case .URL:
+        case .url:
 
             let height: CGFloat = 20
             let URLContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
@@ -193,7 +193,7 @@ struct SearchedFeedCellLayout {
 
             self._URLLayout = _URLLayout
 
-        case .Image:
+        case .image:
 
             if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
                 let x1 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 0
@@ -221,7 +221,7 @@ struct SearchedFeedCellLayout {
                 self.anyImagesLayout = anyImagesLayout
             }
 
-        case .GithubRepo:
+        case .githubRepo:
 
             let height: CGFloat = 80
             let githubRepoContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
@@ -230,7 +230,7 @@ struct SearchedFeedCellLayout {
 
             self.githubRepoLayout = githubRepoLayout
 
-        case .DribbbleShot:
+        case .dribbbleShot:
 
             let height: CGFloat = SearchedFeedDribbbleShotCell.dribbbleShotHeight
             let dribbbleShotContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
@@ -239,7 +239,7 @@ struct SearchedFeedCellLayout {
 
             self.dribbbleShotLayout = dribbbleShotLayout
 
-        case .Audio:
+        case .audio:
 
             if let attachment = feed.attachment {
                 if case let .audio(audioInfo) = attachment {
@@ -254,7 +254,7 @@ struct SearchedFeedCellLayout {
                 }
             }
             
-        case .Location:
+        case .location:
             
             let height: CGFloat = 20
             let locationContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)

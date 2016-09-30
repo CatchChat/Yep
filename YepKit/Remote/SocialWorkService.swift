@@ -111,7 +111,7 @@ public struct GithubRepo {
 
 // ref https://developer.github.com/v3/
 
-public func githubReposWithToken(_ token: String, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping ([GithubRepo]) -> Void) {
+public func githubReposWithToken(_ token: String, failureHandler: FailureHandler?, completion: @escaping ([GithubRepo]) -> Void) {
 
     let requestParameters: JSONDictionary = [
         "type": "owner",
@@ -161,13 +161,9 @@ public func githubReposWithToken(_ token: String, failureHandler: ((Reason, Stri
         return repos
     }
 
-    let resource = githubResource(token: token, path: "/user/repos", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = githubResource(token: token, path: "/user/repos", method: .get, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: githubBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: githubBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: githubBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: Dribbble Shot
@@ -193,7 +189,7 @@ public struct DribbbleShot {
 
 // ref http://developer.dribbble.com/v1/
 
-public func dribbbleShotsWithToken(_ token: String, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping ([DribbbleShot]) -> Void) {
+public func dribbbleShotsWithToken(_ token: String, failureHandler: FailureHandler?, completion: @escaping ([DribbbleShot]) -> Void) {
 
     let requestParameters = [
         "timeframe": "month",
@@ -242,13 +238,9 @@ public func dribbbleShotsWithToken(_ token: String, failureHandler: ((Reason, St
         return shots
     }
 
-    let resource = dribbbleResource(token: token, path: "/v1/user/shots", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = dribbbleResource(token: token, path: "/v1/user/shots", method: .get, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: dribbbleBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: dribbbleBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: dribbbleBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: Instagram Media
@@ -274,7 +266,7 @@ public struct InstagramMedia {
 
 // ref https://instagram.com/developer/endpoints/users/
 
-public func instagramMediasWithToken(_ token: String, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping ([InstagramMedia]) -> Void) {
+public func instagramMediasWithToken(_ token: String, failureHandler: FailureHandler?, completion: @escaping ([InstagramMedia]) -> Void) {
 
     let requestParameters = [
         "access_token": token,
@@ -328,13 +320,9 @@ public func instagramMediasWithToken(_ token: String, failureHandler: ((Reason, 
         return medias
     }
 
-    let resource = instagramResource(token: token, path: "/v1/users/self/feed", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = instagramResource(token: token, path: "/v1/users/self/feed", method: .get, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: instagramBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: instagramBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: instagramBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: Sync
@@ -521,7 +509,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                                         let _ = try? realm.commitWrite()
 
                                         // 通知更新 UI
-                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                                     }
                                 })
                             }
@@ -530,7 +518,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         let _ = try? realm.commitWrite()
 
                         // 通知更新 UI
-                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                     }
                 })
             }
@@ -575,7 +563,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                                         let _ = try? realm.commitWrite()
 
                                         // 通知更新 UI
-                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                                     }
                                 })
                             }
@@ -584,7 +572,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         let _ = try? realm.commitWrite()
 
                         // 通知更新 UI
-                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                     }
                })
             }

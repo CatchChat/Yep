@@ -9,7 +9,6 @@
 import UIKit
 import RealmSwift
 import YepKit
-import YepNetworking
 
 var skillSizeCache = [String: CGRect]()
 
@@ -47,7 +46,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
     
     fileprivate let refreshControl = UIRefreshControl()
 
-    fileprivate var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
+    fileprivate var discoveredUserSortStyle: DiscoveredUserSortStyle = .default {
         didSet {
             didChangeSortStyleAction?(discoveredUserSortStyle)
 
@@ -70,9 +69,9 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
     }
 
     fileprivate lazy var filterStyles: [DiscoveredUserSortStyle] = [
-        .Distance,
-        .LastSignIn,
-        .Default,
+        .distance,
+        .lastSignIn,
+        .default,
     ]
 
     fileprivate func filterItemWithSortStyle(_ sortStyle: DiscoveredUserSortStyle, currentSortStyle: DiscoveredUserSortStyle) -> ActionSheetView.Item {
@@ -134,7 +133,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
                 discoveredUserSortStyle = _discoveredUserSortStyle
 
         } else {
-            discoveredUserSortStyle = .Default
+            discoveredUserSortStyle = .default
         }
 
         discoveredUsersCollectionView.backgroundColor = UIColor.clear
@@ -148,7 +147,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
 
         layoutMode = .card
 
-        if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.DiscoveredUsers, inRealm: realm) {
+        if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.discoveredUsers, inRealm: realm) {
             if let JSON = offlineJSON.JSON, let discoveredUsers = parseDiscoveredUsers(JSON) {
                 self.discoveredUsers = discoveredUsers
                 activityIndicator.stopAnimating()
@@ -223,7 +222,6 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
         }
 
         discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, inPage: currentPageIndex, withPerPage: 21, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()

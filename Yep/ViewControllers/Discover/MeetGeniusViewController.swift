@@ -76,7 +76,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
         super.viewDidLoad()
 
         do {
-            if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.GeniusInterviews, inRealm: realm) {
+            if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.geniusInterviews, inRealm: realm) {
                 if let data = offlineJSON.JSON {
                     if let geniusInterviewsData = data["genius_interviews"] as? [JSONDictionary] {
                         let geniusInterviews: [GeniusInterview] = geniusInterviewsData.map({ GeniusInterview($0) }).flatMap({ $0 })
@@ -133,8 +133,6 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
                 finish?()
             }
-
-            defaultFailureHandler(reason, errorMessage)
         }
 
         let count: Int = Ruler.universalHorizontal(10, 12, 15, 20, 25).value
@@ -142,7 +140,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
             SafeDispatch.async { [weak self] in
 
-                if case .top = mode , geniusInterviews.isEmpty {
+                if case .top = mode, geniusInterviews.isEmpty {
                     self?.tableView.tableFooterView = self?.noGeniusInterviewsFooterView
                 } else {
                     self?.tableView.tableFooterView = UIView()

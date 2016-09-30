@@ -9,7 +9,6 @@
 import UIKit
 import SafariServices
 import YepKit
-import YepNetworking
 import AutoReview
 import MonkeyKing
 
@@ -77,8 +76,6 @@ extension UIViewController {
 
             case .user(let profileUser):
                 reportProfileUser(profileUser, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
-
                     if let errorMessage = errorMessage {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
                     }
@@ -88,8 +85,6 @@ extension UIViewController {
 
             case .feed(let feedID):
                 reportFeedWithFeedID(feedID, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
-
                     if let errorMessage = errorMessage {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
                     }
@@ -99,8 +94,6 @@ extension UIViewController {
 
             case .message(let messageID):
                 reportMessageWithMessageID(messageID, forReason: reason, failureHandler: { [weak self] (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
-
                     if let errorMessage = errorMessage {
                         YepAlert.alertSorry(message: errorMessage, inViewController: self)
                     }

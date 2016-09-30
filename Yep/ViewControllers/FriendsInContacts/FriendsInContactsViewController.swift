@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 
 final class FriendsInContactsViewController: BaseViewController {
 
@@ -64,8 +63,6 @@ final class FriendsInContactsViewController: BaseViewController {
         }
 
         friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
-
             SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
             }

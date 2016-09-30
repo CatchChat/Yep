@@ -9,7 +9,6 @@
 import UIKit
 import MobileCoreServices.UTType
 import YepKit
-import YepNetworking
 
 extension ConversationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 

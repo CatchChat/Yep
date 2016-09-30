@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 import MonkeyKing
 
 final class SocialWorkInstagramViewController: BaseViewController {
@@ -75,9 +74,7 @@ final class SocialWorkInstagramViewController: BaseViewController {
         } else {
             if let userID = profileUser?.userID {
 
-                instagramWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
-                    defaultFailureHandler(reason, errorMessage)
-
+                instagramWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) in
                     let message = errorMessage ?? String.trans_promptNetworkConnectionIsNotGood
                     YepAlert.alertSorry(message: message, inViewController: self)
 
@@ -160,7 +157,7 @@ extension SocialWorkInstagramViewController: UICollectionViewDataSource, UIColle
 
         let application = UIApplication.shared
 
-        if let instagramMediaURL = URL(string: "instagram://media?id=\(media.ID)") , application.canOpenURL(instagramMediaURL) {
+        if let instagramMediaURL = URL(string: "instagram://media?id=\(media.ID)"), application.canOpenURL(instagramMediaURL) {
             application.openURL(instagramMediaURL)
 
         } else {

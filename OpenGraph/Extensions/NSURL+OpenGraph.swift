@@ -67,7 +67,7 @@ extension URL {
     enum AppleOnlineStoreHost: String {
         case iTunesLong = "itunes.apple.com"
         case iTunesShort = "itun.es"
-        case AppStoreShort = "appsto.re"
+        case appStoreShort = "appsto.re"
     }
 
     var opengraph_isAppleiTunesURL: Bool {

@@ -11,14 +11,14 @@ import Foundation
 open class ConcurrentOperation: Operation {
 
     enum State: String {
-        case Ready, Executing, Finished
+        case ready, executing, finished
 
         fileprivate var keyPath: String {
-            return "is" + rawValue
+            return "is" + rawValue.capitalized
         }
     }
 
-    var state = State.Ready {
+    var state: State = .ready {
         willSet {
             willChangeValue(forKey: newValue.keyPath)
             willChangeValue(forKey: state.keyPath)
@@ -30,15 +30,15 @@ open class ConcurrentOperation: Operation {
     }
 
     override open var isReady: Bool {
-        return super.isReady && state == .Ready
+        return super.isReady && state == .ready
     }
 
     override open var isExecuting: Bool {
-        return state == .Executing
+        return state == .executing
     }
 
     override open var isFinished: Bool {
-        return state == .Finished
+        return state == .finished
     }
 
     override open var isAsynchronous: Bool {
@@ -47,16 +47,16 @@ open class ConcurrentOperation: Operation {
 
     override open func start() {
         if isCancelled {
-            state = .Finished
+            state = .finished
             return
         }
 
         main()
-        state = .Executing
+        state = .executing
     }
 
     override open func cancel() {
-        state = .Finished
+        state = .finished
     }
 }
 

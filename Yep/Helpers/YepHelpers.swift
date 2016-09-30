@@ -112,7 +112,7 @@ extension UINavigationBar {
     }
     
     fileprivate func hairlineImageViewInNavigationBar(_ view: UIView) -> UIImageView? {
-        if let view = view as? UIImageView , view.bounds.height <= 1.0 {
+        if let view = view as? UIImageView, view.bounds.height <= 1.0 {
             return view
         }
 

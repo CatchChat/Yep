@@ -529,7 +529,7 @@ final class NewFeedViewController: SegueViewController {
 
         let creator = DiscoveredUser.fromUser(me)
 
-        var kind: FeedKind = .Text
+        var kind: FeedKind = .text
 
         let createdUnixTime = Date().timeIntervalSince1970
         let updatedUnixTime = createdUnixTime
@@ -543,7 +543,7 @@ final class NewFeedViewController: SegueViewController {
         case .default:
 
             if !mediaImages.isEmpty {
-                kind = .Image
+                kind = .image
 
                 let imageAttachments: [DiscoveredAttachment] = mediaImages.map({ image in
 
@@ -563,7 +563,7 @@ final class NewFeedViewController: SegueViewController {
 
         case .voice(let feedVoice):
 
-            kind = .Audio
+            kind = .audio
 
             let audioAsset = AVURLAsset(url: feedVoice.fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
@@ -588,7 +588,7 @@ final class NewFeedViewController: SegueViewController {
 
     @objc fileprivate func tryPost(_ sender: UIBarButtonItem) {
 
-        guard let avatarURLString = YepUserDefaults.avatarURLString.value , !avatarURLString.isEmpty else {
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value, !avatarURLString.isEmpty else {
 
             YepAlert.alertSorry(message: NSLocalizedString("You have no avatar! Please set up one first.", comment: ""), inViewController: self, withDismissAction: { [weak self] in
                 self?.dismiss(animated: true, completion: nil)
@@ -613,7 +613,7 @@ final class NewFeedViewController: SegueViewController {
         if !again {
             uploadState = .uploading
 
-            if let feed = tryMakeUploadingFeed() , feed.kind.needBackgroundUpload {
+            if let feed = tryMakeUploadingFeed(), feed.kind.needBackgroundUpload {
                 beforeUploadingFeedAction?(feed, self)
 
                 YepHUD.hideActivityIndicator()
@@ -623,7 +623,7 @@ final class NewFeedViewController: SegueViewController {
 
         let message = messageTextView.text.trimming(.whitespaceAndNewline)
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
-        var kind: FeedKind = .Text
+        var kind: FeedKind = .text
         var attachments: [JSONDictionary]?
 
         let tryCreateFeed: () -> Void = { [weak self] in
@@ -632,9 +632,9 @@ final class NewFeedViewController: SegueViewController {
 
             let doCreateFeed: () -> Void = { [weak self] in
 
-                if let openGraph = openGraph , openGraph.isValid {
+                if let openGraph = openGraph, openGraph.isValid {
 
-                    kind = .URL
+                    kind = .url
 
                     let URLInfo = [
                         "url": openGraph.URL.absoluteString,
@@ -648,7 +648,6 @@ final class NewFeedViewController: SegueViewController {
                 }
 
                 createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.pickedSkill, allowComment: true, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
 
                     SafeDispatch.async { [weak self] in
                         let message = errorMessage ?? String.trans_promptCreateFeedFailed
@@ -694,7 +693,6 @@ final class NewFeedViewController: SegueViewController {
             parseOpenGraphGroup.enter()
 
             openGraphWithURL(fisrtURL, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
 
                 SafeDispatch.async {
                     parseOpenGraphGroup.leave()
@@ -736,7 +734,7 @@ final class NewFeedViewController: SegueViewController {
 
                     let source: UploadAttachment.Source = .data(imageData)
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
-                    let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .JPEG, metaDataString: metaDataString)
+                    let uploadAttachment = UploadAttachment(type: .feed, source: source, fileExtension: .jpeg, metaDataString: metaDataString)
 
                     let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment) { result in
                         switch result {
@@ -783,7 +781,7 @@ final class NewFeedViewController: SegueViewController {
 
                     attachments = imageInfos
                     
-                    kind = .Image
+                    kind = .image
                 }
                 
                 tryCreateFeed()
@@ -853,7 +851,7 @@ final class NewFeedViewController: SegueViewController {
 
                 attachments = [repoInfo]
 
-                kind = .GithubRepo
+                kind = .githubRepo
 
             case .dribbbleShot:
 
@@ -872,7 +870,7 @@ final class NewFeedViewController: SegueViewController {
 
                 attachments = [shotInfo]
 
-                kind = .DribbbleShot
+                kind = .dribbbleShot
 
             default:
                 break
@@ -905,12 +903,9 @@ final class NewFeedViewController: SegueViewController {
 
             let source: UploadAttachment.Source = .filePath(feedVoice.fileURL.path)
 
-            let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .M4A, metaDataString: metaDataString)
+            let uploadAttachment = UploadAttachment(type: .feed, source: source, fileExtension: .m4a, metaDataString: metaDataString)
 
             tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
-
-                defaultFailureHandler(reason, errorMessage)
-
                 SafeDispatch.async {
                     uploadErrorMessage = errorMessage
                     uploadVoiceGroup.leave()
@@ -938,7 +933,7 @@ final class NewFeedViewController: SegueViewController {
                     return
                 }
 
-                kind = .Audio
+                kind = .audio
 
                 tryCreateFeed()
 
@@ -955,7 +950,7 @@ final class NewFeedViewController: SegueViewController {
 
             attachments = [locationInfo]
 
-            kind = .Location
+            kind = .location
 
             tryCreateFeed()
         }

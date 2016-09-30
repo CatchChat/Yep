@@ -102,7 +102,7 @@ class ShareViewController: SLComposeServiceViewController {
 
     override func didSelectPost() {
 
-        guard let avatarURLString = YepUserDefaults.avatarURLString.value , !avatarURLString.isEmpty else {
+        guard let avatarURLString = YepUserDefaults.avatarURLString.value, !avatarURLString.isEmpty else {
 
             extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
 
@@ -111,7 +111,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         let shareType: ShareType
         let body = contentText ?? ""
-        if let fileURL = fileURLs.first , fileURL.pathExtension == FileExtension.M4A.rawValue {
+        if let fileURL = fileURLs.first, fileURL.pathExtension == FileExtension.m4a.rawValue {
             shareType = .audio(body: body, fileURL: fileURL)
         } else if let URL = webURLs.first {
             shareType = .url(body: body, URL: URL)
@@ -152,7 +152,7 @@ class ShareViewController: SLComposeServiceViewController {
     fileprivate func postFeed(_ shareType: ShareType, completion: @escaping (_ finish: Bool) -> Void) {
 
         var message = shareType.body
-        var kind: FeedKind = .Text
+        var kind: FeedKind = .text
         var attachments: [JSONDictionary]?
 
         let doCreateFeed: () -> Void = { [weak self] in
@@ -160,8 +160,6 @@ class ShareViewController: SLComposeServiceViewController {
             let coordinate = YepUserDefaults.userCoordinate
 
             createFeedWithKind(kind, message: message, attachments: attachments, coordinate: coordinate, skill: self?.skill, allowComment: true, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
-
                 SafeDispatch.async {
                     completion(false)
                 }
@@ -183,7 +181,7 @@ class ShareViewController: SLComposeServiceViewController {
 
         case .audio(_, let fileURL):
 
-            let tempPath = NSTemporaryDirectory().appending("\(UUID().uuidString).\(FileExtension.M4A.rawValue)")
+            let tempPath = NSTemporaryDirectory().appending("\(UUID().uuidString).\(FileExtension.m4a.rawValue)")
             let tempURL = URL(fileURLWithPath: tempPath)
             try! FileManager.default.copyItem(at: fileURL, to: tempURL)
 
@@ -278,12 +276,9 @@ class ShareViewController: SLComposeServiceViewController {
 
             let source: UploadAttachment.Source = .filePath(fileURL.path)
 
-            let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .M4A, metaDataString: metaDataString)
+            let uploadAttachment = UploadAttachment(type: .feed, source: source, fileExtension: .m4a, metaDataString: metaDataString)
 
             tryUploadAttachment(uploadAttachment, failureHandler: { (reason, errorMessage) in
-
-                defaultFailureHandler(reason, errorMessage)
-
                 SafeDispatch.async {
                     uploadVoiceGroup.leave()
                 }
@@ -303,7 +298,7 @@ class ShareViewController: SLComposeServiceViewController {
 
             uploadVoiceGroup.notify(queue: DispatchQueue.main) {
 
-                kind = .Audio
+                kind = .audio
                 
                 doCreateFeed()
             }
@@ -315,15 +310,13 @@ class ShareViewController: SLComposeServiceViewController {
             parseOpenGraphGroup.enter()
 
             openGraphWithURL(URL, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
-
                 SafeDispatch.async {
                     parseOpenGraphGroup.leave()
                 }
 
             }, completion: { openGraph in
 
-                kind = .URL
+                kind = .url
 
                 let URLInfo = [
                     "url": openGraph.URL.absoluteString,
@@ -370,7 +363,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                     let source: UploadAttachment.Source = .data(imageData)
                     let metaDataString = metaDataStringOfImage(image, needBlurThumbnail: false)
-                    let uploadAttachment = UploadAttachment(type: .Feed, source: source, fileExtension: .JPEG, metaDataString: metaDataString)
+                    let uploadAttachment = UploadAttachment(type: .feed, source: source, fileExtension: .jpeg, metaDataString: metaDataString)
 
                     let operation = UploadAttachmentOperation(uploadAttachment: uploadAttachment) { result in
                         switch result {
@@ -404,7 +397,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                     attachments = imageInfos
 
-                    kind = .Image
+                    kind = .image
                 }
 
                 doCreateFeed()
@@ -442,7 +435,7 @@ extension ShareViewController {
 
                     attachment.loadItem(forTypeIdentifier: URLTypeIdentifier, options: nil) { secureCoding, error in
 
-                        if let url = secureCoding as? URL , !url.isFileURL {
+                        if let url = secureCoding as? URL, !url.isFileURL {
                             webURLs.append(url)
                         }
 

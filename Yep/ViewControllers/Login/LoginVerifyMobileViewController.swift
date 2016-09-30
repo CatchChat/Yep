@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepNetworking
 import YepKit
 import Ruler
 import RxSwift
@@ -29,8 +28,7 @@ final class LoginVerifyMobileViewController: BaseVerifyMobileViewController {
 
     override func requestCallMe() {
 
-        requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .Call, failureHandler: { [weak self ]reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
+        requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .call, failureHandler: { [weak self ]reason, errorMessage in
 
             self?.requestCallMeFailed(errorMessage)
 
@@ -55,7 +53,6 @@ final class LoginVerifyMobileViewController: BaseVerifyMobileViewController {
         YepHUD.showActivityIndicator()
 
         loginByMobilePhone(mobilePhone, withVerifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 

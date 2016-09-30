@@ -113,9 +113,9 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
     fileprivate var filterBarItem: UIBarButtonItem?
     
     fileprivate lazy var filterStyles: [FeedSortStyle] = [
-        .Distance,
-        .Time,
-        .Match,
+        .distance,
+        .time,
+        .match,
     ]
 
     fileprivate func filterItemWithSortStyle(_ sortStyle: FeedSortStyle, currentSortStyle: FeedSortStyle) -> ActionSheetView.Item {
@@ -324,9 +324,9 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
     fileprivate static var layoutPool = LayoutPool()
 
     fileprivate var needShowDistance: Bool = false
-    fileprivate var feedSortStyle: FeedSortStyle = .Match {
+    fileprivate var feedSortStyle: FeedSortStyle = .match {
         didSet {
-            needShowDistance = (feedSortStyle == .Distance)
+            needShowDistance = (feedSortStyle == .distance)
 
             feeds = []
             feedsTableView.reloadData()
@@ -449,11 +449,11 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
                     feedSortStyle = _feedSortStyle
                     
             } else {
-                feedSortStyle = .Match
+                feedSortStyle = .match
             }
 
             if skill == nil {
-                if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
+                if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.feeds, inRealm: realm) {
                     if let JSON = offlineJSON.JSON, let feeds = parseFeeds(JSON) {
                         self.feeds = feeds.flatMap({ $0 })
                         activityIndicator.stopAnimating()
@@ -508,10 +508,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             
             let doAddSkillToSkillSet: (SkillSet) -> Void = { skillSet in
                 
-                addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
-                    
-                }, completion: { [weak self] _ in
+                addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: nil, completion: { [weak self] _ in
 
                     let message = String.trans_promptSuccessfullyAddedSkill(skillLocalName, to: skillSet.name)
                     YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: message, dismissTitle: String.trans_titleOK, inViewController: self, withDismissAction: nil)
@@ -604,8 +601,6 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
 
                 finish?()
             }
-
-            defaultFailureHandler(reason, errorMessage)
         }
 
         let perPage = 20
@@ -724,7 +719,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             var feedSortStyle = self.feedSortStyle
 
             if skill != nil {
-                feedSortStyle = .Time
+                feedSortStyle = .time
             }
 
             let maxFeedID: String?
@@ -1170,15 +1165,15 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
             switch feed.kind {
 
-            case .Text:
+            case .text:
                 let cell: FeedBasicCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .URL:
+            case .url:
                 let cell: FeedURLCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .Image:
+            case .image:
                 if feed.imageAttachmentsCount == 1 {
                     let cell: FeedBiggerImageCell = tableView.dequeueReusableCell()
                     return cell
@@ -1192,19 +1187,19 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                     return cell
                 }
 
-            case .GithubRepo:
+            case .githubRepo:
                 let cell: FeedGithubRepoCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .DribbbleShot:
+            case .dribbbleShot:
                 let cell: FeedDribbbleShotCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .Audio:
+            case .audio:
                 let cell: FeedVoiceCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .Location:
+            case .location:
                 let cell: FeedLocationCell = tableView.dequeueReusableCell()
                 return cell
 
@@ -1336,11 +1331,11 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch feed.kind {
 
-        case .Text:
+        case .text:
 
             cell.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
-        case .URL:
+        case .url:
 
             guard let cell = cell as? FeedURLCell else {
                 break
@@ -1353,7 +1348,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 self?.yep_openURL(URL)
             }
 
-        case .Image:
+        case .image:
 
             let tapImagesAction: FeedTapImagesAction = { [weak self] transitionViews, attachments, image, index in
 
@@ -1400,7 +1395,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 cell.tapImagesAction = tapImagesAction
             }
 
-        case .GithubRepo:
+        case .githubRepo:
 
             guard let cell = cell as? FeedGithubRepoCell else {
                 break
@@ -1412,7 +1407,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 self?.yep_openURL(URL)
             }
 
-        case .DribbbleShot:
+        case .dribbbleShot:
 
             guard let cell = cell as? FeedDribbbleShotCell else {
                 break
@@ -1445,7 +1440,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 self?.present(photosViewController, animated: true, completion: nil)
             }
 
-        case .Audio:
+        case .audio:
 
             guard let cell = cell as? FeedVoiceCell else {
                 break
@@ -1518,7 +1513,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
             }
 
-        case .Location:
+        case .location:
 
             guard let cell = cell as? FeedLocationCell else {
                 break

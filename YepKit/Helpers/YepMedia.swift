@@ -76,7 +76,7 @@ public func metaDataStringOfImage(_ image: UIImage, needBlurThumbnail: Bool) -> 
 
     var metaDataString: String? = nil
     if let metaData = try? JSONSerialization.data(withJSONObject: metaDataInfo, options: []) {
-        metaDataString = NSString(data: metaData, encoding: String.Encoding.utf8.rawValue) as? String
+        metaDataString = String(data: metaData, encoding: .utf8) 
     }
 
     return metaDataString

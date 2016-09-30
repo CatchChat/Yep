@@ -105,7 +105,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
             if keyword == nil {
                 clearSearchResults()
             }
-            if let keyword = keyword , keyword.isEmpty {
+            if let keyword = keyword, keyword.isEmpty {
                 clearSearchResults()
             }
         }
@@ -329,8 +329,6 @@ final class SearchFeedsViewController: BaseSearchViewController {
 
                 finish?()
             }
-
-            defaultFailureHandler(reason, errorMessage)
         }
 
         let perPage: Int = 30
@@ -584,7 +582,7 @@ extension SearchFeedsViewController: UISearchBarDelegate {
         let searchText = searchText.trimming(.whitespace)
 
         // 不要重复搜索一样的内容
-        if let keyword = self.keyword , keyword == searchText {
+        if let keyword = self.keyword, keyword == searchText {
             return
         }
 
@@ -636,15 +634,15 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             switch feed.kind {
 
-            case .Text:
+            case .text:
                 let cell: SearchedFeedBasicCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .URL:
+            case .url:
                 let cell: SearchedFeedURLCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .Image:
+            case .image:
                 if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
                     let cell: SearchedFeedNormalImagesCell = tableView.dequeueReusableCell()
                     return cell
@@ -654,19 +652,19 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     return cell
                 }
 
-            case .GithubRepo:
+            case .githubRepo:
                 let cell: SearchedFeedGithubRepoCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .DribbbleShot:
+            case .dribbbleShot:
                 let cell: SearchedFeedDribbbleShotCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .Audio:
+            case .audio:
                 let cell: SearchedFeedVoiceCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .Location:
+            case .location:
                 let cell: SearchedFeedLocationCell = tableView.dequeueReusableCell()
                 return cell
 
@@ -738,11 +736,11 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             switch feed.kind {
 
-            case .Text:
+            case .text:
 
                 cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
-            case .URL:
+            case .url:
 
                 guard let cell = cell as? SearchedFeedURLCell else {
                     break
@@ -755,7 +753,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     self?.yep_openURL(URL)
                 }
 
-            case .Image:
+            case .image:
 
                 let tapImagesAction: FeedTapImagesAction = { [weak self] transitionReferences, attachments, image, index in
 
@@ -793,7 +791,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     cell.tapImagesAction = tapImagesAction
                 }
 
-            case .GithubRepo:
+            case .githubRepo:
 
                 guard let cell = cell as? SearchedFeedGithubRepoCell else {
                     break
@@ -805,7 +803,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     self?.yep_openURL(URL)
                 }
 
-            case .DribbbleShot:
+            case .dribbbleShot:
 
                 guard let cell = cell as? SearchedFeedDribbbleShotCell else {
                     break
@@ -838,7 +836,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     self?.present(photosViewController, animated: true, completion: nil)
                 }
 
-            case .Audio:
+            case .audio:
 
                 guard let cell = cell as? SearchedFeedVoiceCell else {
                     break
@@ -873,7 +871,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     if let strongSelf = self {
 
                         // 如果在播放，就暂停
-                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer , onlineAudioPlayer.yep_playing {
+                        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer, onlineAudioPlayer.yep_playing {
 
                             onlineAudioPlayer.pause()
 
@@ -896,7 +894,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                                 }
                             }
 
-                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio , playingFeedAudio.feedID == feed.id {
+                            if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, playingFeedAudio.feedID == feed.id {
                                 YepAudioService.sharedManager.tryNotifyOthersOnDeactivation()
 
                             } else {
@@ -911,7 +909,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     }
                 }
 
-            case .Location:
+            case .location:
 
                 guard let cell = cell as? SearchedFeedLocationCell else {
                     break

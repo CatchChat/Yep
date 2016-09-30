@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 import YepKit
-import YepNetworking
 import Proposer
 import Navi
 import RxSwift
@@ -126,8 +125,6 @@ final class RegisterPickAvatarViewController: SegueViewController {
         if let imageData = imageData {
 
             updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
-
-                defaultFailureHandler(reason, errorMessage)
 
                 YepHUD.hideActivityIndicator()
 

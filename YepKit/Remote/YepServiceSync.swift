@@ -11,8 +11,8 @@ import YepNetworking
 import RealmSwift
 
 public enum MessageAge: String {
-    case Old
-    case New
+    case old
+    case new
 }
 
 public func tryPostNewMessagesReceivedNotificationWithMessageIDs(_ messageIDs: [String], messageAge: MessageAge) {
@@ -242,8 +242,6 @@ public func userSkillsFromSkillsData(_ skillsData: [JSONDictionary], inRealm rea
 public func syncMyInfoAndDoFurtherAction(_ furtherAction: @escaping () -> Void) {
 
     userInfo(failureHandler: { (reason, errorMessage) in
-        defaultFailureHandler(reason, errorMessage)
-
         furtherAction()
 
     }, completion: { friendInfo in
@@ -431,7 +429,7 @@ public func syncMyConversations(maxMessageID: String? = nil, afterSynced: (() ->
         if let messageInfos = result["messages"] as? [JSONDictionary] {
 
             messageInfos.forEach({
-                syncMessageWithMessageInfo($0, messageAge: .Old, inRealm: realm) { _ in
+                syncMessageWithMessageInfo($0, messageAge: .old, inRealm: realm) { _ in
                 }
             })
 
@@ -494,7 +492,7 @@ public func syncFriendshipsAndDoFurtherAction(_ furtherAction: @escaping () -> V
             do {
                 let localUserIDSet = Set<String>(localUsers.map({ $0.userID }))
                 let userIDs = Array(localUserIDSet.subtracting(remoteUerIDSet))
-                deleteSearchableItems(searchableItemType: .User, itemIDs: userIDs)
+                deleteSearchableItems(searchableItemType: .user, itemIDs: userIDs)
             }
 
             // 一个大的写入，减少 realm 发通知
@@ -761,9 +759,6 @@ public func syncUnreadMessagesAndDoFurtherAction(_ furtherAction: @escaping (_ m
         println("Begin fetching")
         
         unreadMessages(failureHandler: { (reason, errorMessage) in
-
-            defaultFailureHandler(reason, errorMessage)
-
             SafeDispatch.async {
                 isFetchingUnreadMessages.value = false
 
@@ -792,7 +787,7 @@ public func syncUnreadMessagesAndDoFurtherAction(_ furtherAction: @escaping (_ m
                 realm.beginWrite()
                 
                 for messageInfo in allUnreadMessages {
-                    syncMessageWithMessageInfo(messageInfo, messageAge: .Old, inRealm: realm) { _messageIDs in
+                    syncMessageWithMessageInfo(messageInfo, messageAge: .old, inRealm: realm) { _messageIDs in
                         messageIDs += _messageIDs
                     }
                 }
@@ -822,14 +817,14 @@ public func recordMessageWithMessageID(_ messageID: String, detailInfo messageIn
             return
         }
 
-        if let user = message.fromFriend , user.isMe {
+        if let user = message.fromFriend, user.isMe {
             message.sendState = MessageSendState.read.rawValue
         }
 
         if let textContent = messageInfo["text_content"] as? String {
             message.textContent = textContent
 
-            if let conversation = message.conversation , !conversation.mentionedMe {
+            if let conversation = message.conversation, !conversation.mentionedMe {
                 if textContent.yep_mentionedMeInRealm(realm) {
                     if message.createdUnixTime > conversation.lastMentionedMeUnixTime {
                         conversation.mentionedMe = true
@@ -931,7 +926,7 @@ public func isServiceMessageAndHandleMessageInfo(_ messageInfo: JSONDictionary, 
         if let groupID = messageInfo["recipient_id"] as? String, let group = groupWithGroupID(groupID, inRealm: realm) {
 
             if let feedID = group.withFeed?.feedID {
-                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
+                deleteSearchableItems(searchableItemType: .feed, itemIDs: [feedID])
             }
 
             // 有关联的 Feed 时就标记，不然删除
@@ -1050,7 +1045,7 @@ public func syncMessageWithMessageInfo(_ messageInfo: JSONDictionary, messageAge
                 newMessage.createdUnixTime = createdUnixTime
             }
 
-            if case .New = messageAge {
+            if case .new = messageAge {
                 // 确保网络来的新消息比任何已有的消息都要新，防止服务器消息延后发来导致插入到当前消息上面
                 if let latestMessage = realm.objects(Message.self).sorted(byProperty: "createdUnixTime", ascending: true).last {
                     if newMessage.createdUnixTime < latestMessage.createdUnixTime {
@@ -1121,7 +1116,7 @@ public func syncMessageWithMessageInfo(_ messageInfo: JSONDictionary, messageAge
                                         sendFromGroup = newGroup
                                         
                                         // 若提及我，才同步group进而得到feed
-                                        if let textContent = messageInfo["text_content"] as? String , textContent.yep_mentionedMeInRealm(realm) {
+                                        if let textContent = messageInfo["text_content"] as? String, textContent.yep_mentionedMeInRealm(realm) {
                                             syncGroupWithGroupID(groupID)
                                         }
                                     }
@@ -1206,10 +1201,10 @@ public func syncMessageWithMessageInfo(_ messageInfo: JSONDictionary, messageAge
                         if let conversation = conversation {
 
                             // 先同步 read 状态
-                            if let sender = message.fromFriend , sender.isMe {
+                            if let sender = message.fromFriend, sender.isMe {
                                 message.readed = true
 
-                            } else if let state = messageInfo["state"] as? String , state == "read" {
+                            } else if let state = messageInfo["state"] as? String, state == "read" {
                                 message.readed = true
                             }
 

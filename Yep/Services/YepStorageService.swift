@@ -29,9 +29,9 @@ struct S3UploadParams {
 
     enum Kind: String {
 
-        case Message = "message"
-        case Avatar = "avatar"
-        case Feed = "topic"
+        case message = "message"
+        case avatar = "avatar"
+        case feed = "topic"
     }
 }
 
@@ -160,7 +160,7 @@ private func s3UploadParams(_ url: String, withFileExtension fileExtension: File
         return nil
     }
     
-    let resource = authJsonResource(path: url, method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = authJsonResource(path: url, method: .get, requestParameters: requestParameters, parse: parse)
     
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
@@ -168,11 +168,11 @@ private func s3UploadParams(_ url: String, withFileExtension fileExtension: File
 private func s3UploadParamsOfKind(_ kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, failureHandler: FailureHandler?, completion: @escaping (S3UploadParams) -> Void) {
 
     s3UploadParams("/v1/attachments/\(kind.rawValue)/s3_upload_form_fields", withFileExtension: fileExtension, failureHandler: { (reason, error)  in
-        if let failureHandler = failureHandler {
-            failureHandler(reason, error)
-        } else {
-            defaultFailureHandler(reason, error)
+        let failureHandler: FailureHandler = { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
+            failureHandler?(reason, errorMessage)
         }
+        failureHandler(reason, error)
 
     }, completion: { S3PrivateUploadParams in
         completion(S3PrivateUploadParams)

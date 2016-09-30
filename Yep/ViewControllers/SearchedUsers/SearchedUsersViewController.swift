@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepNetworking
 import YepKit
 
 final class SearchedUsersViewController: BaseViewController {
@@ -46,8 +45,6 @@ final class SearchedUsersViewController: BaseViewController {
         activityIndicator.startAnimating()
 
         searchUsersByQ(searchText, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
-
             SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }

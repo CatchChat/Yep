@@ -24,9 +24,9 @@ final class FeedGithubRepoCell: FeedBasicCell {
 
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: SocialAccount.Github.iconName)
+        imageView.image = UIImage(named: SocialAccount.github.iconName)
         imageView.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
-        imageView.tintColor = SocialAccount.Github.tintColor
+        imageView.tintColor = SocialAccount.github.tintColor
         return imageView
     }()
 
@@ -70,7 +70,7 @@ final class FeedGithubRepoCell: FeedBasicCell {
                 return
             }
 
-            if case .GithubRepo = feed.kind {
+            if case .githubRepo = feed.kind {
                 if case let .github(repo) = attachment, let url = URL(string: repo.URLString) {
                     self?.tapGithubRepoLinkAction?(url)
                 }

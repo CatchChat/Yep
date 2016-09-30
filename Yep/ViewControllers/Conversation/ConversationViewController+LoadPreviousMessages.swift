@@ -8,14 +8,12 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 
 extension ConversationViewController {
 
     func loadMessagesFromServer(with timeDirection: TimeDirection, excludeMessagesIn invalidMessageIDSet: Set<String>? = nil, failed: (() -> Void)? = nil, completion: ((_ messageIDs: [String], _ noMore: Bool) -> Void)? = nil) {
 
         messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             SafeDispatch.async {
                 failed?()

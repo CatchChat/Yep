@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import YepNetworking
 
 final public class UploadAttachmentOperation: ConcurrentOperation {
 
@@ -31,17 +30,12 @@ final public class UploadAttachmentOperation: ConcurrentOperation {
     override public func main() {
 
         tryUploadAttachment(uploadAttachment, failureHandler: { [weak self] (reason, errorMessage) in
-
-            defaultFailureHandler(reason, errorMessage)
-
             self?.completion(.failed(errorMessage: errorMessage))
-
-            self?.state = .Finished
+            self?.state = .finished
 
         }, completion: { [weak self] uploadedAttachment in
             self?.completion(.success(uploadedAttachment: uploadedAttachment))
-
-            self?.state = .Finished
+            self?.state = .finished
         })
     }
 }

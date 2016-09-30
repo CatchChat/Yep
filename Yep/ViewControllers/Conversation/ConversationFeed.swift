@@ -109,7 +109,7 @@ enum ConversationFeed {
 
         if let kind = kind {
             switch kind {
-            case .Location:
+            case .location:
                 return true
             default:
                 return false
@@ -125,7 +125,7 @@ enum ConversationFeed {
             return false
         }
 
-        return kind != .Text
+        return kind != .text
     }
 
     var githubRepoName: String? {

@@ -163,7 +163,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
                     }, completion: { _ in })
 
                 } else {
-                    voiceRecordSampleView.sampleCollectionView.setContentOffset(CGPoint(x: currentOffsetX - fullWidth * 0.5 , y: 0), animated: false)
+                    voiceRecordSampleView.sampleCollectionView.setContentOffset(CGPoint(x: currentOffsetX - fullWidth * 0.5, y: 0), animated: false)
                 }
 
             } else {
@@ -191,7 +191,7 @@ final class NewFeedVoiceRecordViewController: SegueViewController {
         state = .default
 
         // 如果进来前有声音在播放，令其停止
-        if let audioPlayer = YepAudioService.sharedManager.audioPlayer , audioPlayer.isPlaying {
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer, audioPlayer.isPlaying {
             audioPlayer.pause()
         } // TODO: delete
 

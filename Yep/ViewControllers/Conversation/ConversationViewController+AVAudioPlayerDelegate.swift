@@ -17,7 +17,7 @@ extension ConversationViewController {
 
         AudioBot.stopPlay()
 
-        if let audioPlayer = YepAudioService.sharedManager.audioPlayer, let playingMessage = YepAudioService.sharedManager.playingMessage , audioPlayer.isPlaying {
+        if let audioPlayer = YepAudioService.sharedManager.audioPlayer, let playingMessage = YepAudioService.sharedManager.playingMessage, audioPlayer.isPlaying {
 
             audioPlayer.pause()
 

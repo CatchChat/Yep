@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 import Ruler
 import RxSwift
 import RxCocoa
@@ -89,8 +88,7 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
 
         YepHUD.showActivityIndicator()
         
-        requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .SMS, failureHandler: { reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
+        requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .sms, failureHandler: { reason, errorMessage in
 
             YepHUD.hideActivityIndicator()
 

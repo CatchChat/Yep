@@ -17,7 +17,7 @@ public extension Feed {
         attributeSet.title = creator?.nickname
         attributeSet.contentDescription = body
 
-        if kind == FeedKind.Image.rawValue, let attachment = attachments.first.map({ DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString, image: nil) }), let thumbnailImageData = attachment.thumbnailImageData {
+        if kind == FeedKind.image.rawValue, let attachment = attachments.first.map({ DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString, image: nil) }), let thumbnailImageData = attachment.thumbnailImageData {
             attributeSet.thumbnailData = thumbnailImageData as Data
 
         } else {

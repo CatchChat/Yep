@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 import Ruler
 import RxSwift
 import RxCocoa
@@ -29,13 +28,12 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
 
     override func requestCallMe() {
 
-        requestSendVerifyCodeOfNewMobilePhone(mobilePhone, useMethod: .Call, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
+        requestSendVerifyCodeOfNewMobilePhone(mobilePhone, useMethod: .call, failureHandler: { [weak self] reason, errorMessage in
 
             self?.requestCallMeFailed(errorMessage)
 
         }, completion: { success in
-            println("sendVerifyCodeOfNewMobile .Call \(success)")
+            println("sendVerifyCodeOfNewMobile .call \(success)")
         })
     }
 
@@ -55,7 +53,6 @@ final class VerifyChangedMobileViewController: BaseVerifyMobileViewController {
         YepHUD.showActivityIndicator()
 
         confirmNewMobilePhone(mobilePhone, withVerifyCode: verifyCode, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
 
             YepHUD.hideActivityIndicator()
 

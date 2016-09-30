@@ -9,7 +9,6 @@
 import Foundation
 import AVFoundation
 import YepKit
-import YepNetworking
 
 // MARK: Text
 
@@ -29,10 +28,9 @@ extension ConversationViewController {
 
         YepKit.sendText(text, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .new, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
             case .oneToOne:
@@ -124,10 +122,9 @@ extension ConversationViewController {
                 }
             }
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .new, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
             case .oneToOne:
@@ -192,10 +189,9 @@ extension ConversationViewController {
                 self?.alertSaveFileFailed()
             }
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .new, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
             case .oneToOne:
@@ -281,7 +277,7 @@ extension ConversationViewController {
             }
 
             if let videoMetaData = try? JSONSerialization.data(withJSONObject: videoMetaDataInfo, options: []) {
-                let videoMetaDataString = NSString(data: videoMetaData, encoding: String.Encoding.utf8.rawValue) as? String
+                let videoMetaDataString = String(data: videoMetaData, encoding: .utf8)
                 metaData = videoMetaDataString
             }
 
@@ -322,11 +318,10 @@ extension ConversationViewController {
                 self?.alertSaveFileFailed()
             }
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .new, scrollToBottom: true)
         }
 
         sendVideoInFilePath(videoURL.path, orFileData: nil, metaData: metaData, toRecipient: recipient, afterCreatedMessage: afterCreatedMessageAction, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
             case .oneToOne:
@@ -366,10 +361,9 @@ extension ConversationViewController {
 
         sendLocationWithLocationInfo(locationInfo, toRecipient: recipient, afterCreatedMessage: { [weak self] message in
 
-            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .New, scrollToBottom: true)
+            self?.updateConversationCollectionViewWithMessageIDs(nil, messageAge: .new, scrollToBottom: true)
 
         }, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason, errorMessage)
 
             switch recipient.type {
             case .oneToOne:

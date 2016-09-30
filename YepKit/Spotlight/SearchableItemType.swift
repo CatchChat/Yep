@@ -10,8 +10,8 @@ import CoreSpotlight
 
 public enum SearchableItemType: String {
 
-    case User
-    case Feed
+    case user = "User"
+    case feed = "Feed"
 }
 
 public func searchableItemID(searchableItemType itemType: SearchableItemType, itemID: String) -> String {

@@ -28,9 +28,9 @@ final class FeedDribbbleShotCell: FeedBasicCell {
     
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: SocialAccount.Dribbble.iconName)
+        imageView.image = UIImage(named: SocialAccount.dribbble.iconName)
         imageView.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
-        imageView.tintColor = SocialAccount.Dribbble.tintColor
+        imageView.tintColor = SocialAccount.dribbble.tintColor
         return imageView
     }()
 
@@ -90,7 +90,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
                 return
             }
 
-            if case .DribbbleShot = feed.kind {
+            if case .dribbbleShot = feed.kind {
                 if case let .dribbble(shot) = attachment, let imageURL = URL(string: shot.imageURLString), let linkURL = URL(string: shot.htmlURLString) {
                     self?.tapDribbbleShotMediaAction?(transitionReference, transitionReference.image, imageURL, linkURL)
                 }
@@ -103,7 +103,7 @@ final class FeedDribbbleShotCell: FeedBasicCell {
                 return
             }
 
-            if case .DribbbleShot = feed.kind {
+            if case .dribbbleShot = feed.kind {
                 if case let .dribbble(shot) = attachment, let url = URL(string: shot.htmlURLString) {
                     self?.tapDribbbleShotLinkAction?(url)
                 }

@@ -117,13 +117,6 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
         }
     }
 
-    fileprivate lazy var shareView: ShareProfileView = {
-        let share = ShareProfileView(frame: CGRect(x: 0, y: 0, width: 120, height: 120))
-        share.alpha = 0
-        self.view.addSubview(share)
-        return share
-    }()
-
     #if DEBUG
     private lazy var profileFPSLabel: FPSLabel = {
         let label = FPSLabel()
@@ -209,7 +202,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
             switch profileUser {
                 
             case .discoveredUserType(let discoveredUser):
-                if let introduction = discoveredUser.introduction , !introduction.isEmpty {
+                if let introduction = discoveredUser.introduction, !introduction.isEmpty {
                     return introduction
                 }
 
@@ -240,7 +233,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
     fileprivate func updateMyMasterSkills() {
 
-        guard let profileUser = profileUser , profileUser.isMe else {
+        guard let profileUser = profileUser, profileUser.isMe else {
             return
         }
 
@@ -259,7 +252,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
     fileprivate func updateMyLearningSkills() {
 
-        guard let profileUser = profileUser , profileUser.isMe else {
+        guard let profileUser = profileUser, profileUser.isMe else {
             return
         }
 
@@ -612,7 +605,7 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
 
     fileprivate func tryUpdateBlogTitle() {
 
-        guard let blogURLString = YepUserDefaults.blogURLString.value , !blogURLString.isEmpty, let blogURL = URL(string: blogURLString)?.yep_validSchemeNetworkURL else {
+        guard let blogURLString = YepUserDefaults.blogURLString.value, !blogURLString.isEmpty, let blogURL = URL(string: blogURLString)?.yep_validSchemeNetworkURL else {
             return
         }
 
@@ -680,7 +673,6 @@ final class ProfileViewController: SegueViewController, CanScrollsToTop {
                 let newUsername = text
 
                 updateMyselfWithInfo(["username": newUsername], failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
 
                     let message = errorMessage ?? String.trans_promptCreateUsernameFailed
                     YepAlert.alertSorry(message: message, inViewController: self)
@@ -1134,7 +1126,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if let providerName = profileUser?.providerNameWithIndex(index), let socialAccount = SocialAccount(rawValue: providerName) {
 
-                if socialAccount == .Github {
+                if socialAccount == .github {
                     let cell: ProfileSocialAccountGithubCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
                     cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
@@ -1152,12 +1144,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                     switch socialAccount {
 
-                    case .Dribbble:
+                    case .dribbble:
                         if let dribbbleWork = dribbbleWork {
                             socialWork = SocialWork.dribbble(dribbbleWork)
                         }
 
-                    case .Instagram:
+                    case .instagram:
                         if let instagramWork = instagramWork {
                             socialWork = SocialWork.instagram(instagramWork)
                         }
@@ -1408,7 +1400,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if profileUser.isMe {
 
-                if let blogURLString = YepUserDefaults.blogURLString.value , !blogURLString.isEmpty, let blogURL = URL(string: blogURLString) {
+                if let blogURLString = YepUserDefaults.blogURLString.value, !blogURLString.isEmpty, let blogURL = URL(string: blogURLString) {
                     yep_openURL(blogURL)
 
                 } else {
@@ -1438,8 +1430,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                             YepHUD.hideActivityIndicator()
 
-                            defaultFailureHandler(reason, errorMessage)
-
                             YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
                             
                         }, completion: { blogTitle in
@@ -1454,8 +1444,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                             updateMyselfWithInfo(info, failureHandler: { [weak self] reason, errorMessage in
 
                                 YepHUD.hideActivityIndicator()
-
-                                defaultFailureHandler(reason, errorMessage)
 
                                 YepAlert.alertSorry(message: errorMessage ?? NSLocalizedString("Set blog failed!", comment: ""), inViewController: self)
 
@@ -1585,19 +1573,6 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
     }
 }
 
-extension ProfileViewController: UIScrollViewDelegate {
-    
-    func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
-        if shareView.progress >= 1.0 {
-            shareView.shareActionAnimationAndDoFurther({
-                SafeDispatch.async { [weak self] in
-                    self?.tryShareMyProfile(nil)
-                }
-            })
-        }
-    }
-}
-
 // MARK: - OAuthResult
 
 extension ProfileViewController {
@@ -1606,13 +1581,9 @@ extension ProfileViewController {
         
         oAuthCompleteAction?()
 
-        if let result = notification.object as? NSNumber , result == 1, let socialAccount = self.socialAccount {
+        if let result = notification.object as? NSNumber, result == 1, let socialAccount = self.socialAccount {
 
-            socialAccountWithProvider(socialAccount.rawValue, failureHandler: { reason, errorMessage in
-
-                defaultFailureHandler(reason, errorMessage)
-
-            }, completion: { provider in
+            socialAccountWithProvider(socialAccount.rawValue, failureHandler: nil, completion: { provider in
 
                 println("provider: \(provider)")
 

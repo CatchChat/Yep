@@ -99,7 +99,7 @@ class ScalingImageView: UIScrollView {
             verticalInset = (bounds.height - contentSize.height) * 0.5
         }
 
-        if let scale = window?.screen.scale , scale < 2 {
+        if let scale = window?.screen.scale, scale < 2 {
             horizontalInset = floor(horizontalInset)
             verticalInset = floor(verticalInset)
         }

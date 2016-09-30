@@ -30,10 +30,10 @@ final class YepFayeService: NSObject {
     static let sharedManager = YepFayeService()
 
     enum MessageType: String {
-        case Default = "message"
-        case Instant = "instant_state"
-        case Read = "mark_as_read"
-        case MessageDeleted = "message_deleted"
+        case `default` = "message"
+        case instant = "instant_state"
+        case read = "mark_as_read"
+        case messageDeleted = "message_deleted"
     }
 
     enum InstantStateType: Int, CustomStringConvertible {
@@ -178,7 +178,7 @@ extension YepFayeService {
 
                 switch messageType {
 
-                case .Default:
+                case .default:
 
                     guard let messageInfo = info["message"] as? JSONDictionary else {
                         println("Error: Faye Default not messageInfo!")
@@ -187,7 +187,7 @@ extension YepFayeService {
 
                     self?.saveMessageWithMessageInfo(messageInfo)
 
-                case .Instant:
+                case .instant:
 
                     guard let messageInfo = info["message"] as? JSONDictionary else {
                         println("Error: Faye Instant not messageInfo!")
@@ -204,7 +204,7 @@ extension YepFayeService {
                         }
                     }
 
-                case .Read:
+                case .read:
 
                     guard let messageInfo = info["message"] as? JSONDictionary else {
                         println("Error: Faye Read not messageInfo!")
@@ -219,7 +219,7 @@ extension YepFayeService {
                         //self?.delegate?.fayeMessagesMarkAsReadByRecipient(last_read_at, recipientType: recipient_type, recipientID: recipient_id)
                     }
 
-                case .MessageDeleted:
+                case .messageDeleted:
 
                     guard let messageInfo = info["message"] as? JSONDictionary else {
                         println("Error: Faye MessageDeleted not messageInfo!")
@@ -247,7 +247,7 @@ extension YepFayeService {
 
             let data: JSONDictionary = [
                 "api_version": "v1",
-                "message_type": MessageType.Instant.rawValue,
+                "message_type": MessageType.instant.rawValue,
                 "message": message
             ]
 
@@ -335,14 +335,14 @@ extension YepFayeService {
 
             var messageIDs: [String] = []
 
-            syncMessageWithMessageInfo(messageInfo, messageAge: .New, inRealm: realm) { _messageIDs in
+            syncMessageWithMessageInfo(messageInfo, messageAge: .new, inRealm: realm) { _messageIDs in
 
                 messageIDs = _messageIDs
             }
 
             let _ = try? realm.commitWrite()
 
-            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
             /*
             self?.delegate?.fayeRecievedNewMessages(messageIDs, messageAgeRawValue: MessageAge.New.rawValue)
             // Notification 可能导致 Crash，Conversation 有可能在有些时候没有释放监听，但是现在还没找到没释放的原因

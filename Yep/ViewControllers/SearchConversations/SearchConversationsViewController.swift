@@ -73,7 +73,7 @@ final class SearchConversationsViewController: BaseSearchViewController {
             if keyword == nil {
                 clearSearchResults()
             }
-            if let keyword = keyword , keyword.isEmpty {
+            if let keyword = keyword, keyword.isEmpty {
                 clearSearchResults()
             }
         }
@@ -265,7 +265,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         let searchText = searchText.trimming(.whitespace)
 
         // 不要重复搜索一样的内容
-        if let keyword = self.keyword , keyword == searchText {
+        if let keyword = self.keyword, keyword == searchText {
             return
         }
 

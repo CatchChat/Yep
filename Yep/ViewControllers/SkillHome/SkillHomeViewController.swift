@@ -10,7 +10,6 @@ import UIKit
 import MobileCoreServices.UTType
 import RealmSwift
 import YepKit
-import YepNetworking
 import Proposer
 import Navi
 
@@ -275,10 +274,7 @@ final class SkillHomeViewController: BaseViewController {
 
             let doAddSkillToSkillSet: (SkillSet) -> Void = { skillSet in
 
-                addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: { reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
-
-                }, completion: { [weak self] _ in
+                addSkillWithSkillID(skillID, toSkillSet: skillSet, failureHandler: nil, completion: { [weak self] _ in
 
                     let message = String.trans_promptSuccessfullyAddedSkill(skillLocalName, to: skillSet.name)
                     YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: message, dismissTitle: String.trans_titleOK, inViewController: self, withDismissAction: nil)
@@ -339,8 +335,6 @@ final class SkillHomeViewController: BaseViewController {
         }
 
         discoverUsersWithSkill(skillID, ofSkillSet: .master, inPage: masterPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
-
             SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }
@@ -384,8 +378,6 @@ final class SkillHomeViewController: BaseViewController {
         }
 
         discoverUsersWithSkill(skillID, ofSkillSet: .learning, inPage: learningPage, withPerPage: 30, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
-
             SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }
@@ -492,13 +484,12 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                             YepHUD.showActivityIndicator()
 
-                            let fileExtension: FileExtension = .JPEG
+                            let fileExtension: FileExtension = .jpeg
 
-                            s3UploadFileOfKind(.Avatar, withFileExtension: fileExtension, inFilePath: nil, orFileData: data, mimeType: fileExtension.mimeType, failureHandler: { [weak self] reason, errorMessage in
+                            s3UploadFileOfKind(.avatar, withFileExtension: fileExtension, inFilePath: nil, orFileData: data, mimeType: fileExtension.mimeType, failureHandler: { [weak self] reason, errorMessage in
 
                                 YepHUD.hideActivityIndicator()
 
-                                defaultFailureHandler(reason, errorMessage)
                                 YepAlert.alertSorry(message: NSLocalizedString("Upload skill cover failed!", comment: ""), inViewController: self)
 
                             }, completion: { s3UploadParams in
@@ -509,7 +500,6 @@ extension SkillHomeViewController: UIImagePickerControllerDelegate, UINavigation
 
                                     YepHUD.hideActivityIndicator()
 
-                                    defaultFailureHandler(reason, errorMessage)
                                     YepAlert.alertSorry(message: NSLocalizedString("Update skill cover failed!", comment: ""), inViewController: self)
                                     
                                 }, completion: { [weak self] success in

@@ -42,11 +42,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     var lauchStyle = Listenable<LaunchStyle>(.default) { _ in }
 
     enum RemoteNotificationType: String {
-        case Message = "message"
-        case OfficialMessage = "official_message"
-        case FriendRequest = "friend_request"
-        case MessageDeleted = "message_deleted"
-        case Mentioned = "mentioned"
+        case message = "message"
+        case officialMessage = "official_message"
+        case friendRequest = "friend_request"
+        case messageDeleted = "message_deleted"
+        case mentioned = "mentioned"
     }
 
     fileprivate var remoteNotificationType: RemoteNotificationType? {
@@ -54,7 +54,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             if let type = newValue {
                 switch type {
 
-                case .Message, .OfficialMessage:
+                case .message, .officialMessage:
                     lauchStyle.value = .message
 
                 default:
@@ -257,7 +257,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         switch remoteNotificationType {
 
-        case .Message:
+        case .message:
 
             syncUnreadMessages() {
                 SafeDispatch.async {
@@ -269,14 +269,14 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 }
             }
 
-        case .OfficialMessage:
+        case .officialMessage:
 
             officialMessages { messagesCount in
                 completionHandler(.newData)
                 println("new officialMessages count: \(messagesCount)")
             }
 
-        case .FriendRequest:
+        case .friendRequest:
 
             if let subType = userInfo["subtype"] as? String {
                 if subType == "accepted" {
@@ -290,16 +290,15 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 completionHandler(.noData)
             }
 
-        case .MessageDeleted:
+        case .messageDeleted:
 
             defer {
                 completionHandler(UIBackgroundFetchResult.noData)
             }
 
-            guard let
-                messageInfo = userInfo["message"] as? JSONDictionary,
-                let messageID = messageInfo["id"] as? String
-                else {
+            guard
+                let messageInfo = userInfo["message"] as? JSONDictionary,
+                let messageID = messageInfo["id"] as? String else {
                     break
             }
 
@@ -307,7 +306,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             configureDynamicShortcuts()
 
-        case .Mentioned:
+        case .mentioned:
 
             syncUnreadMessagesAndDoFurtherAction({ _ in
                 SafeDispatch.async {
@@ -389,10 +388,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             switch itemType {
 
-            case .User:
+            case .user:
                 return handleUserSearchActivity(userID: itemID)
 
-            case .Feed:
+            case .feed:
                 return handleFeedSearchActivity(feedID: itemID)
             }
 
@@ -430,7 +429,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             let _ = try? realm.commitWrite()
 
             // 如果已经显示了就不用push
-            if let topVC = nvc.topViewController as? ConversationViewController, let oldFakeID = topVC.conversation?.fakeID, let newFakeID = feedConversation?.fakeID , newFakeID == oldFakeID {
+            if let topVC = nvc.topViewController as? ConversationViewController, let oldFakeID = topVC.conversation?.fakeID, let newFakeID = feedConversation?.fakeID, newFakeID == oldFakeID {
                 return
             }
 
@@ -448,7 +447,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             //println("matchProfile: \(discoveredUser)")
 
             // 如果已经显示了就不用push
-            if let topVC = nvc.topViewController as? ProfileViewController, let userID = topVC.profileUser?.userID , userID == discoveredUser.id {
+            if let topVC = nvc.topViewController as? ProfileViewController, let userID = topVC.profileUser?.userID, userID == discoveredUser.id {
                 return
             }
 
@@ -472,7 +471,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // 如果已经显示了就不用push
-        if let topVC = nvc.topViewController as? ProfileViewController, let _userID = topVC.profileUser?.userID , _userID == userID {
+        if let topVC = nvc.topViewController as? ProfileViewController, let _userID = topVC.profileUser?.userID, _userID == userID {
             return true
 
         } else {
@@ -499,7 +498,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         // 如果已经显示了就不用push
-        if let topVC = nvc.topViewController as? ConversationViewController, let feed = topVC.conversation?.withGroup?.withFeed , feed.feedID == feedID {
+        if let topVC = nvc.topViewController as? ConversationViewController, let feed = topVC.conversation?.withGroup?.withFeed, feed.feedID == feedID {
             return true
 
         } else {
@@ -696,7 +695,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             case 401:
                 SafeDispatch.async {
                     YepUserDefaults.maybeUserNeedRelogin(prerequisites: {
-                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate , appDelegate.inMainStory else {
+                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, appDelegate.inMainStory else {
                             return false
                         }
                         return true
@@ -762,7 +761,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let searchableItems: [CSSearchableItem] = users.map({
             CSSearchableItem(
-                uniqueIdentifier: searchableItemID(searchableItemType: .User, itemID: $0.userID),
+                uniqueIdentifier: searchableItemID(searchableItemType: .user, itemID: $0.userID),
                 domainIdentifier: YepConfig.Domain.user,
                 attributeSet: $0.attributeSet
             )
@@ -790,7 +789,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         let searchableItems = feeds.map({
             CSSearchableItem(
-                uniqueIdentifier: searchableItemID(searchableItemType: .Feed, itemID: $0.feedID),
+                uniqueIdentifier: searchableItemID(searchableItemType: .feed, itemID: $0.feedID),
                 domainIdentifier: YepConfig.Domain.feed,
                 attributeSet: $0.attributeSet
             )
@@ -816,7 +815,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
-            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
 
             /*
             // Use Delegate instead of Notification
@@ -847,7 +846,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             conversations.forEach { conversation in
                 if let latestMessage = conversation.messages.last, let user = latestMessage.fromFriend {
                     let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
-                    AvatarPod.wakeAvatar(userAvatar, completion: { _ , _, _ in })
+                    AvatarPod.wakeAvatar(userAvatar, completion: { _, _, _ in })
                 }
             }
         }

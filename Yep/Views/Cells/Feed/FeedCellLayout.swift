@@ -132,13 +132,13 @@ struct FeedCellLayout {
 
         switch feed.kind {
 
-        case .Text:
+        case .text:
             height = FeedBasicCell.heightOfFeed(feed)
 
-        case .URL:
+        case .url:
             height = FeedURLCell.heightOfFeed(feed)
 
-        case .Image:
+        case .image:
             if feed.imageAttachmentsCount == 1 {
                 height = FeedBiggerImageCell.heightOfFeed(feed)
 
@@ -149,16 +149,16 @@ struct FeedCellLayout {
                 height = FeedAnyImagesCell.heightOfFeed(feed)
             }
 
-        case .GithubRepo:
+        case .githubRepo:
             height = FeedGithubRepoCell.heightOfFeed(feed)
 
-        case .DribbbleShot:
+        case .dribbbleShot:
             height = FeedDribbbleShotCell.heightOfFeed(feed)
 
-        case .Audio:
+        case .audio:
             height = FeedVoiceCell.heightOfFeed(feed)
 
-        case .Location:
+        case .location:
             height = FeedLocationCell.heightOfFeed(feed)
 
         default:
@@ -223,10 +223,10 @@ struct FeedCellLayout {
 
         switch feed.kind {
 
-        case .Text:
+        case .text:
             break
 
-        case .URL:
+        case .url:
 
             let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
             let URLContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
@@ -235,7 +235,7 @@ struct FeedCellLayout {
 
             self._URLLayout = _URLLayout
             
-        case .Image:
+        case .image:
 
             if feed.imageAttachmentsCount == 1 {
 
@@ -272,7 +272,7 @@ struct FeedCellLayout {
                 self.anyImagesLayout = anyImagesLayout
             }
 
-        case .GithubRepo:
+        case .githubRepo:
 
             let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
             let githubRepoContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
@@ -281,7 +281,7 @@ struct FeedCellLayout {
 
             self.githubRepoLayout = githubRepoLayout
 
-        case .DribbbleShot:
+        case .dribbbleShot:
 
             let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
             let dribbbleShotContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)
@@ -290,7 +290,7 @@ struct FeedCellLayout {
 
             self.dribbbleShotLayout = dribbbleShotLayout
 
-        case .Audio:
+        case .audio:
 
             if let attachment = feed.attachment {
                 if case let .audio(audioInfo) = attachment {
@@ -305,7 +305,7 @@ struct FeedCellLayout {
                 }
             }
 
-        case .Location:
+        case .location:
 
             let height: CGFloat = leftBottomLabelFrame.origin.y - beginY - 15
             let locationContainerViewFrame = CGRect(x: 65, y: beginY, width: screenWidth - 65 - 60, height: height)

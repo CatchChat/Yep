@@ -9,7 +9,6 @@
 import UIKit
 import MapKit
 import YepKit
-import YepNetworking
 import YepPreview
 import RealmSwift
 import Proposer
@@ -262,7 +261,7 @@ extension ConversationViewController {
 
     func tryShowSubscribeView() {
 
-        guard let group = conversation.withGroup , !group.includeMe else {
+        guard let group = conversation.withGroup, !group.includeMe else {
             return
         }
 
@@ -370,7 +369,7 @@ extension ConversationViewController {
 
         let titleView = ConversationTitleView(frame: CGRect(origin: CGPoint.zero, size: CGSize(width: 150, height: 44)))
 
-        if let name = nameOfConversation(conversation) , name != "" {
+        if let name = nameOfConversation(conversation), name != "" {
             titleView.nameLabel.text = name
         } else {
             titleView.nameLabel.text = String.trans_titleFeedDiscussion
@@ -557,10 +556,7 @@ extension ConversationViewController {
             let userID = user.userID
             let userNickname = user.nickname
 
-            stateOfFriendRequestWithUser(user, failureHandler: { reason, errorMessage in
-                defaultFailureHandler(reason, errorMessage)
-
-            }, completion: { isFriend, receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState in
+            stateOfFriendRequestWithUser(user, failureHandler: nil, completion: { isFriend, receivedFriendRequestState, receivedFriendRequestID, sentFriendRequestState in
 
                 println("isFriend: \(isFriend)")
                 println("receivedFriendRequestState: \(receivedFriendRequestState.rawValue)")
@@ -574,10 +570,10 @@ extension ConversationViewController {
 
                 SafeDispatch.async { [weak self] in
 
-                    if receivedFriendRequestState == .Pending {
+                    if receivedFriendRequestState == .pending {
                         self?.makeFriendRequestView(for: user, in: .consider(prompt: NSLocalizedString("try add you as friend.", comment: ""), friendRequestID: receivedFriendRequestID))
 
-                    } else if receivedFriendRequestState == .Blocked {
+                    } else if receivedFriendRequestState == .blocked {
                         YepAlert.confirmOrCancel(title: String.trans_titleNotice, message: String(format: NSLocalizedString("You have blocked %@! Do you want to unblock him or her?", comment: ""), "\(userNickname)"), confirmTitle: NSLocalizedString("Unblock", comment: ""), cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: {
 
                             unblockUserWithUserID(userID, failureHandler: nil, completion: { success in
@@ -590,15 +586,15 @@ extension ConversationViewController {
                         })
 
                     } else {
-                        if sentFriendRequestState == .None {
-                            if receivedFriendRequestState != .Rejected && receivedFriendRequestState != .Blocked {
+                        if sentFriendRequestState == .none {
+                            if receivedFriendRequestState != .rejected && receivedFriendRequestState != .blocked {
                                 self?.makeFriendRequestView(for: user, in: .add(prompt: NSLocalizedString("is not your friend.", comment: "")))
                             }
 
-                        } else if sentFriendRequestState == .Rejected {
+                        } else if sentFriendRequestState == .rejected {
                             self?.makeFriendRequestView(for: user, in: .add(prompt: NSLocalizedString("reject your last friend request.", comment: "")))
 
-                        } else if sentFriendRequestState == .Blocked {
+                        } else if sentFriendRequestState == .blocked {
                             YepAlert.alertSorry(message: String(format: NSLocalizedString("You have been blocked by %@!", comment: ""), "\(userNickname)"), inViewController: self)
                         }
                     }

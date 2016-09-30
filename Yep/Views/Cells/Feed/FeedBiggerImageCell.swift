@@ -78,7 +78,7 @@ class FeedBiggerImageCell: FeedBasicCell {
 
     @objc fileprivate func tap(_ sender: UITapGestureRecognizer) {
 
-        guard let firstAttachment = feed?.imageAttachments?.first , !firstAttachment.isTemporary else {
+        guard let firstAttachment = feed?.imageAttachments?.first, !firstAttachment.isTemporary else {
             return
         }
 

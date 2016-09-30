@@ -337,11 +337,11 @@ public enum MessageMediaType: Int, CustomStringConvertible {
     public var fileExtension: FileExtension? {
         switch self {
         case .image:
-            return .JPEG
+            return .jpeg
         case .video:
-            return .MP4
+            return .mp4
         case .audio:
-            return .M4A
+            return .m4a
         default:
             return nil // TODO: more
         }
@@ -395,7 +395,7 @@ open class MediaMetaData: Object {
     open dynamic var data: Data = Data()
 
     open var string: String? {
-        return NSString(data: data, encoding: String.Encoding.utf8.rawValue) as? String
+        return String(data: data, encoding: .utf8) 
     }
 }
 
@@ -455,7 +455,7 @@ open class SocialWorkDribbbleShot: Object {
         self.title = dribbbleShot.title
         self.htmlURLString = dribbbleShot.htmlURLString
         
-        if let hidpi = dribbbleShot.images.hidpi , dribbbleShot.images.normal.contains("gif") {
+        if let hidpi = dribbbleShot.images.hidpi, dribbbleShot.images.normal.contains("gif") {
             self.imageURLString = hidpi
         } else {
             self.imageURLString = dribbbleShot.images.normal
@@ -644,7 +644,7 @@ open class Message: Object {
         // 除非没有谁指向 openGraphInfo，不然不能删除它
         if let openGraphInfo = openGraphInfo {
             if openGraphInfo.feeds.isEmpty {
-                if openGraphInfo.messages.count == 1, let first = openGraphInfo.messages.first , first == self {
+                if openGraphInfo.messages.count == 1, let first = openGraphInfo.messages.first, first == self {
                     realm.delete(openGraphInfo)
                 }
             }
@@ -992,7 +992,7 @@ open class Feed: Object {
     open dynamic var messagesCount: Int = 0
     open dynamic var body: String = ""
 
-    open dynamic var kind: String = FeedKind.Text.rawValue
+    open dynamic var kind: String = FeedKind.text.rawValue
     open var attachments = List<Attachment>()
     open dynamic var socialWork: MessageSocialWork?
     open dynamic var audio: FeedAudio?
@@ -1049,7 +1049,7 @@ open class Feed: Object {
         // 除非没有谁指向 openGraphInfo，不然不能删除它
         if let openGraphInfo = openGraphInfo {
             if openGraphInfo.messages.isEmpty {
-                if openGraphInfo.feeds.count == 1, let first = openGraphInfo.messages.first , first == self {
+                if openGraphInfo.feeds.count == 1, let first = openGraphInfo.messages.first, first == self {
                     realm.delete(openGraphInfo)
                 }
             }
@@ -1063,9 +1063,9 @@ open class Feed: Object {
 
 public enum OfflineJSONName: String {
 
-    case Feeds
-    case DiscoveredUsers
-    case GeniusInterviews
+    case feeds              = "Feeds"
+    case discoveredUsers    = "DiscoveredUsers"
+    case geniusInterviews   = "GeniusInterviews"
 }
 
 open class OfflineJSON: Object {
@@ -1666,7 +1666,7 @@ public func tryGetOrCreateMeInRealm(_ realm: Realm) -> User? {
 
 public func mediaMetaDataFromString(_ metaDataString: String, inRealm realm: Realm) -> MediaMetaData? {
 
-    if let data = metaDataString.data(using: String.Encoding.utf8, allowLossyConversion: false) {
+    if let data = metaDataString.data(using: .utf8, allowLossyConversion: false) {
         let mediaMetaData = MediaMetaData()
         mediaMetaData.data = data
 
@@ -2013,7 +2013,7 @@ public func deleteConversation(_ conversation: Conversation, inRealm realm: Real
 
     let recipient = conversation.recipient
 
-    if let recipient = recipient , recipient.type == .oneToOne {
+    if let recipient = recipient, recipient.type == .oneToOne {
         deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
             println("deleteConversationWithRecipient \(recipient)")
         })
@@ -2040,7 +2040,7 @@ public func deleteConversation(_ conversation: Conversation, inRealm realm: Real
         } else {
             println("deleteConversation, not need leave group: \(groupID)")
 
-            if let recipient = recipient , recipient.type == .group {
+            if let recipient = recipient, recipient.type == .group {
                 deleteConversationWithRecipient(recipient, failureHandler: nil, completion: {
                     println("deleteConversationWithRecipient \(recipient)")
                 })

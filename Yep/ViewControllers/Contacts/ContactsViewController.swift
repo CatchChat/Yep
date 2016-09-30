@@ -200,7 +200,7 @@ final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
             let vc = segue.destination as! ConversationViewController
 
-            if let user = sender as? User , !user.isMe {
+            if let user = sender as? User, !user.isMe {
 
                 if user.conversation == nil {
                     let newConversation = Conversation()

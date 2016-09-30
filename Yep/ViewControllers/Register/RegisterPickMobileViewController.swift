@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 import Ruler
 import RxSwift
 import RxCocoa
@@ -95,8 +94,7 @@ final class RegisterPickMobileViewController: BaseInputMobileViewController {
         YepHUD.showActivityIndicator()
         
         validateMobilePhone(mobilePhone, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason, errorMessage)
-            
+
             YepHUD.hideActivityIndicator()
 
         }, completion: { (available, message) in
@@ -105,7 +103,6 @@ final class RegisterPickMobileViewController: BaseInputMobileViewController {
                 println("ValidateMobile: available")
 
                 registerMobilePhone(mobilePhone, nickname: nickname, failureHandler: { (reason, errorMessage) in
-                    defaultFailureHandler(reason, errorMessage)
 
                     YepHUD.hideActivityIndicator()
 

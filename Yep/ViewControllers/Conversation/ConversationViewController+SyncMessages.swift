@@ -8,7 +8,6 @@
 
 import Foundation
 import YepKit
-import YepNetworking
 import RealmSwift
 
 extension ConversationViewController {
@@ -40,7 +39,6 @@ extension ConversationViewController {
                 realmQueue.async { [weak self] in
 
                     messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
-                        defaultFailureHandler(reason, errorMessage)
 
                         failedAction?()
 
@@ -183,7 +181,7 @@ extension ConversationViewController {
 
             // 群组里没有我，不需要标记
             if recipient.type == .group {
-                if let group = strongSelf.conversation.withGroup , !group.includeMe {
+                if let group = strongSelf.conversation.withGroup, !group.includeMe {
 
                     // 此情况强制所有消息“已读”
                     let _ = try? strongSelf.realm.write {

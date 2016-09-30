@@ -177,9 +177,9 @@ final class ServiceTests: XCTestCase {
         myConversations(maxMessageID: nil, failureHandler: nil) { result in
 
             if
-                let userInfos = result["users"] as? [[String: Any]] , !userInfos.isEmpty,
-                let groupInfos = result["circles"] as? [[String: Any]] , !groupInfos.isEmpty,
-                let messageInfos = result["messages"] as? [[String: Any]] , !messageInfos.isEmpty {
+                let userInfos = result["users"] as? [[String: Any]], !userInfos.isEmpty,
+                let groupInfos = result["circles"] as? [[String: Any]], !groupInfos.isEmpty,
+                let messageInfos = result["messages"] as? [[String: Any]], !messageInfos.isEmpty {
                 expectation.fulfill()
             }
         }

@@ -56,7 +56,7 @@ extension UserAvatar: Navi.Avatar {
 
     var localOriginalImage: UIImage? {
 
-        if let user = user, let avatar = user.avatar , avatar.avatarURLString == user.avatarURLString {
+        if let user = user, let avatar = user.avatar, avatar.avatarURLString == user.avatarURLString {
 
             if
                 let avatarFileURL = FileManager.yepAvatarURLWithName(avatar.avatarFileName),
@@ -73,12 +73,12 @@ extension UserAvatar: Navi.Avatar {
         switch style {
 
         case miniAvatarStyle:
-            if let user = user, let avatar = user.avatar , avatar.avatarURLString == user.avatarURLString {
+            if let user = user, let avatar = user.avatar, avatar.avatarURLString == user.avatarURLString {
                 return UIImage(data: avatar.roundMini, scale: screenScale)
             }
 
         case nanoAvatarStyle:
-            if let user = user, let avatar = user.avatar , avatar.avatarURLString == user.avatarURLString {
+            if let user = user, let avatar = user.avatar, avatar.avatarURLString == user.avatarURLString {
                 return UIImage(data: avatar.roundNano, scale: screenScale)
             }
 
@@ -101,7 +101,7 @@ extension UserAvatar: Navi.Avatar {
             needNewAvatar = true
         }
 
-        if let oldAvatar = user.avatar , oldAvatar.avatarURLString != user.avatarURLString {
+        if let oldAvatar = user.avatar, oldAvatar.avatarURLString != user.avatarURLString {
 
             FileManager.deleteAvatarImageWithName(oldAvatar.avatarFileName)
 

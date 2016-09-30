@@ -85,7 +85,7 @@ extension UIImageView {
 
         YepImageCache.sharedInstance.imageOfMessage(message, withSize: size, tailDirection: tailDirection, completion: { [weak self] progress, image in
 
-            guard let strongSelf = self, let _imageKey = strongSelf.yep_messageImageKey , _imageKey == imageKey else {
+            guard let strongSelf = self, let _imageKey = strongSelf.yep_messageImageKey, _imageKey == imageKey else {
                 return
             }
 
@@ -117,7 +117,7 @@ extension UIImageView {
         let locationName = message.textContent
         YepImageCache.sharedInstance.mapImageOfMessage(message, withSize: size, tailDirection: tailDirection, bottomShadowEnabled: !locationName.isEmpty) { [weak self] mapImage in
 
-            guard let strongSelf = self, let _imageKey = strongSelf.yep_messageMapImageKey , _imageKey == imageKey else {
+            guard let strongSelf = self, let _imageKey = strongSelf.yep_messageMapImageKey, _imageKey == imageKey else {
                 return
             }
 
@@ -161,7 +161,7 @@ extension UIImageView {
 
         YepImageCache.sharedInstance.imageOfAttachment(attachment, withMinSideLength: size.width, completion: { [weak self] (url, image, cacheType) in
 
-            guard let strongSelf = self, let yep_attachmentURL = strongSelf.yep_attachmentURL , yep_attachmentURL == url else {
+            guard let strongSelf = self, let yep_attachmentURL = strongSelf.yep_attachmentURL, yep_attachmentURL == url else {
                 return
             }
 
@@ -208,7 +208,7 @@ extension UIImageView {
 
         YepImageCache.sharedInstance.mapImageOfLocationCoordinate(location.coordinate, withSize: size, completion: { [weak self] image in
 
-            guard let strongSelf = self, let _location = strongSelf.yep_location , _location == location else {
+            guard let strongSelf = self, let _location = strongSelf.yep_location, _location == location else {
                 return
             }
 

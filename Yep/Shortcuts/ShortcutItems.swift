@@ -15,7 +15,7 @@ func configureDynamicShortcuts() {
     var shortcutItems = [UIApplicationShortcutItem]()
 
     do {
-        let type = ShortcutType.Feeds.rawValue
+        let type = ShortcutType.feeds.rawValue
 
         let item = UIApplicationShortcutItem(
             type: type,
@@ -55,7 +55,7 @@ func configureDynamicShortcuts() {
 
                 if let user = conversation.withFriend {
 
-                    let type = ShortcutType.LatestOneToOneConversation.rawValue
+                    let type = ShortcutType.latestOneToOneConversation.rawValue
 
                     let item = UIApplicationShortcutItem(
                         type: type,
@@ -69,7 +69,7 @@ func configureDynamicShortcuts() {
 
                 } else if let feed = conversation.withGroup?.withFeed {
 
-                    let type = ShortcutType.LatestFeedConversation.rawValue
+                    let type = ShortcutType.latestFeedConversation.rawValue
 
                     let item = UIApplicationShortcutItem(
                         type: type,
@@ -106,7 +106,7 @@ func tryQuickActionWithShortcutItem(_ shortcutItem: UIApplicationShortcutItem, i
 
     switch shortcutType {
 
-    case .Feeds:
+    case .feeds:
 
         tabBarVC.tab = .feeds
 
@@ -129,7 +129,7 @@ func tryQuickActionWithShortcutItem(_ shortcutItem: UIApplicationShortcutItem, i
             }
         }
 
-    case .LatestOneToOneConversation:
+    case .latestOneToOneConversation:
 
         tabBarVC.tab = .conversations
 
@@ -161,7 +161,7 @@ func tryQuickActionWithShortcutItem(_ shortcutItem: UIApplicationShortcutItem, i
             }
         }
 
-    case .LatestFeedConversation:
+    case .latestFeedConversation:
 
         tabBarVC.tab = .conversations
 

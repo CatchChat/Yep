@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 import Kingfisher
 import MonkeyKing
 
@@ -73,8 +72,6 @@ final class SocialWorkDribbbleViewController: BaseViewController {
             if let userID = profileUser?.userID {
 
                 dribbbleWorkOfUserWithUserID(userID, failureHandler: { [weak self] reason, errorMessage in
-                    defaultFailureHandler(reason, errorMessage)
-
                     let message = errorMessage ?? String.trans_promptNetworkConnectionIsNotGood
                     YepAlert.alertSorry(message: message, inViewController: self)
 

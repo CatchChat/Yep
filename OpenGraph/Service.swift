@@ -17,26 +17,20 @@ public func titleOfURL(_ url: URL, failureHandler: FailureHandler?, completion: 
 
         let error = response.result.error
 
+        let failureHandler: FailureHandler = { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
+            failureHandler?(reason, errorMessage)
+        }
+
         guard error == nil else {
-
             let errorMessage = String.trans_errorGetTitleOfURLFailed
-
-            if let failureHandler = failureHandler {
-                failureHandler(.other(error), errorMessage)
-            } else {
-                defaultFailureHandler(.other(error), errorMessage)
-            }
+            failureHandler(.other(error), errorMessage)
 
             return
         }
 
         guard let HTMLString = response.result.value, let data = response.data else {
-
-            if let failureHandler = failureHandler {
-                failureHandler(.couldNotParseJSON, "No HTMLString or data!")
-            } else {
-                defaultFailureHandler(.couldNotParseJSON, "No HTMLString or data!")
-            }
+            failureHandler(.couldNotParseJSON, "No HTMLString or data!")
 
             return
         }
@@ -48,14 +42,10 @@ public func titleOfURL(_ url: URL, failureHandler: FailureHandler?, completion: 
 
         guard
             let doc = Kanna.HTML(html: newHTMLString, encoding: .utf8),
-            let title = doc.head?.css("title").first(where: { _ in true })?.text , !title.isEmpty else {
+            let title = doc.head?.css("title").first(where: { _ in true })?.text, !title.isEmpty else {
 
                 let errorMessage = String.trans_promptNoTitleForURL
-                if let failureHandler = failureHandler {
-                    failureHandler(.couldNotParseJSON, errorMessage)
-                } else {
-                    defaultFailureHandler(.couldNotParseJSON, errorMessage)
-                }
+                failureHandler(.couldNotParseJSON, errorMessage)
 
                 return
         }
@@ -70,13 +60,13 @@ public func openGraphWithURL(_ url: URL, failureHandler: FailureHandler?, comple
 
         let error = response.result.error
 
-        guard error == nil else {
+        let failureHandler: FailureHandler = { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
+            failureHandler?(reason, errorMessage)
+        }
 
-            if let failureHandler = failureHandler {
-                failureHandler(.other(error), nil)
-            } else {
-                defaultFailureHandler(.other(error), nil)
-            }
+        guard error == nil else {
+            failureHandler(.other(error), nil)
 
             return
         }
@@ -208,27 +198,23 @@ public func openGraphWithURL(_ url: URL, failureHandler: FailureHandler?, comple
             }
         }
 
-        if let failureHandler = failureHandler {
-            failureHandler(.couldNotParseJSON, nil)
-        } else {
-            defaultFailureHandler(.couldNotParseJSON, nil)
-        }
+        failureHandler(.couldNotParseJSON, nil)
     })
 }
 
 // ref http://a4esl.org/c/charset.html
 private enum WeirdCharset: String {
     // China
-    case GB2312 = "GB2312"
-    case GBK = "GBK"
-    case GB18030 = "GB18030"
+    case gb2312 = "GB2312"
+    case gbk = "GBK"
+    case gb18030 = "GB18030"
 
     // Taiwan, HongKong ...
-    case BIG5 = "BIG5"
-    case BIG5HKSCS = "BIG5-HKSCS"
+    case big5 = "BIG5"
+    case big5hkscs = "BIG5-HKSCS"
 
     // Korean
-    case EUCKR = "EUC-KR"
+    case euckr = "EUC-KR"
 }
 
 private func getUTF8HTMLStringFromHTMLString(_ HTMLString: String, withData data: Data) -> String {
@@ -253,15 +239,15 @@ private func getUTF8HTMLStringFromHTMLString(_ HTMLString: String, withData data
 
     switch weirdCharset {
 
-    case .GB2312, .GBK, .GB18030:
+    case .gb2312, .gbk, .gb18030:
         let china = CFStringEncodings.GB_18030_2000
         encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(china.rawValue)))
 
-    case .BIG5, .BIG5HKSCS:
+    case .big5, .big5hkscs:
         let taiwan = CFStringEncodings.big5_HKSCS_1999
         encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(taiwan.rawValue)))
 
-    case .EUCKR:
+    case .euckr:
         let korean = CFStringEncodings.EUC_KR
         encoding = String.Encoding(rawValue: CFStringConvertEncodingToNSStringEncoding(CFStringEncoding(korean.rawValue)))
     }
@@ -274,8 +260,8 @@ private func getUTF8HTMLStringFromHTMLString(_ HTMLString: String, withData data
 }
 
 private enum iTunesCountry: String {
-    case China = "cn"
-    case USA = "us"
+    case china = "cn"
+    case usa = "us"
 }
 
 private func iTunesLookupWithID(_ lookupID: String, inCountry country: iTunesCountry, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping (JSONDictionary?) -> Void) {
@@ -288,7 +274,7 @@ private func iTunesLookupWithID(_ lookupID: String, inCountry country: iTunesCou
 
         guard
             let info = response.result.value as? JSONDictionary,
-            let resultCount = info["resultCount"] as? Int , resultCount > 0,
+            let resultCount = info["resultCount"] as? Int, resultCount > 0,
             let result = (info["results"] as? [JSONDictionary])?.first
         else {
             completion(nil)
@@ -301,12 +287,12 @@ private func iTunesLookupWithID(_ lookupID: String, inCountry country: iTunesCou
 
 private func iTunesLookupWithID(_ lookupID: String, failureHandler: ((Reason, String?) -> Void)?, completion: @escaping (JSONDictionary) -> Void) {
 
-    iTunesLookupWithID(lookupID, inCountry: .China, failureHandler: failureHandler, completion: { result in
+    iTunesLookupWithID(lookupID, inCountry: .china, failureHandler: failureHandler, completion: { result in
         if let result = result {
             completion(result)
 
         } else {
-            iTunesLookupWithID(lookupID, inCountry: .USA, failureHandler: failureHandler, completion: { result in
+            iTunesLookupWithID(lookupID, inCountry: .usa, failureHandler: failureHandler, completion: { result in
                 if let result = result {
                     completion(result)
 
