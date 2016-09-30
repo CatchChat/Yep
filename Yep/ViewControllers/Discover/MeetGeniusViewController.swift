@@ -76,7 +76,7 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
         super.viewDidLoad()
 
         do {
-            if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.GeniusInterviews, inRealm: realm) {
+            if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.geniusInterviews, inRealm: realm) {
                 if let data = offlineJSON.JSON {
                     if let geniusInterviewsData = data["genius_interviews"] as? [JSONDictionary] {
                         let geniusInterviews: [GeniusInterview] = geniusInterviewsData.map({ GeniusInterview($0) }).flatMap({ $0 })

@@ -147,7 +147,7 @@ final class DiscoverViewController: BaseViewController, CanScrollsToTop {
 
         layoutMode = .card
 
-        if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.DiscoveredUsers, inRealm: realm) {
+        if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.discoveredUsers, inRealm: realm) {
             if let JSON = offlineJSON.JSON, let discoveredUsers = parseDiscoveredUsers(JSON) {
                 self.discoveredUsers = discoveredUsers
                 activityIndicator.stopAnimating()

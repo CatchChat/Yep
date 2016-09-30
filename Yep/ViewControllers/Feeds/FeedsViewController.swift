@@ -453,7 +453,7 @@ final class FeedsViewController: BaseViewController, CanScrollsToTop {
             }
 
             if skill == nil {
-                if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.Feeds, inRealm: realm) {
+                if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.feeds, inRealm: realm) {
                     if let JSON = offlineJSON.JSON, let feeds = parseFeeds(JSON) {
                         self.feeds = feeds.flatMap({ $0 })
                         activityIndicator.stopAnimating()
