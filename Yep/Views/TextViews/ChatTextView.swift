@@ -26,7 +26,7 @@ final class ChatTextView: UITextView {
     }()
 
     fileprivate enum DetectionType: String {
-        case Mention
+        case mention
     }
 
     override func didMoveToSuperview() {
@@ -57,7 +57,7 @@ final class ChatTextView: UITextView {
 
             let textAttributes: [String: Any] = [
                 NSLinkAttributeName: textValue,
-                ChatTextView.detectionTypeName: DetectionType.Mention.rawValue,
+                ChatTextView.detectionTypeName: DetectionType.mention.rawValue,
             ]
 
             attributedString.addAttributes(textAttributes, range: range)
