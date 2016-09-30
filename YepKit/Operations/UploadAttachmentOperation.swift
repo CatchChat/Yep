@@ -30,15 +30,12 @@ final public class UploadAttachmentOperation: ConcurrentOperation {
     override public func main() {
 
         tryUploadAttachment(uploadAttachment, failureHandler: { [weak self] (reason, errorMessage) in
-
             self?.completion(.failed(errorMessage: errorMessage))
-
-            self?.state = .Finished
+            self?.state = .finished
 
         }, completion: { [weak self] uploadedAttachment in
             self?.completion(.success(uploadedAttachment: uploadedAttachment))
-
-            self?.state = .Finished
+            self?.state = .finished
         })
     }
 }
