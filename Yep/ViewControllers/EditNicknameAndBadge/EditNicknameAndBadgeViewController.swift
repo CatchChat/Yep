@@ -60,23 +60,23 @@ final class EditNicknameAndBadgeViewController: UITableViewController {
 
         promptPickBadgeLabel.text = NSLocalizedString("Pick a badge", comment: "")
         
-        paletteBadgeView.badge = .Palette
-        planeBadgeView.badge = .Plane
-        heartBadgeView.badge = .Heart
-        starBadgeView.badge = .Star
-        bubbleBadgeView.badge = .Bubble
+        paletteBadgeView.badge = .palette
+        planeBadgeView.badge = .plane
+        heartBadgeView.badge = .heart
+        starBadgeView.badge = .star
+        bubbleBadgeView.badge = .bubble
 
-        androidBadgeView.badge = .Android
-        appleBadgeView.badge = .Apple
-        petBadgeView.badge = .Pet
-        wineBadgeView.badge = .Wine
-        musicBadgeView.badge = .Music
+        androidBadgeView.badge = .android
+        appleBadgeView.badge = .apple
+        petBadgeView.badge = .pet
+        wineBadgeView.badge = .wine
+        musicBadgeView.badge = .music
 
-        steveBadgeView.badge = .Steve
-        cameraBadgeView.badge = .Camera
-        gameBadgeView.badge = .Game
-        ballBadgeView.badge = .Ball
-        techBadgeView.badge = .Tech
+        steveBadgeView.badge = .steve
+        cameraBadgeView.badge = .camera
+        gameBadgeView.badge = .game
+        ballBadgeView.badge = .ball
+        techBadgeView.badge = .tech
 
         badgeViews = [
             paletteBadgeView,
