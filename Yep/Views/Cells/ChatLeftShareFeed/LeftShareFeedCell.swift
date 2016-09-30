@@ -78,11 +78,11 @@ final class LeftShareFeedCell: ChatBaseCell {
     fileprivate func makeFeedKindImage() -> UIImage? {
         if let feed = conversation.withGroup?.withFeed, let feedKind = FeedKind(rawValue:feed.kind) {
             switch  feedKind {
-            case .DribbbleShot:
+            case .dribbbleShot:
                 return UIImage.yep_iconDribbble
-            case .GithubRepo:
+            case .githubRepo:
                 return UIImage.yep_iconGithub
-            case .Image:
+            case .image:
                 var discoveredAttachments = [DiscoveredAttachment]()
                 feed.attachments.forEach({ (attachment) in
                     let discoveredAttachment = DiscoveredAttachment(metadata: attachment.metadata, URLString: attachment.URLString, image: nil)
@@ -99,7 +99,7 @@ final class LeftShareFeedCell: ChatBaseCell {
                     contentView.addSubview(mediaView)
                 }
                 break
-            case .Location:
+            case .location:
                 return UIImage.yep_iconPinShadow
             default :
                 return UIImage.yep_iconTopicText

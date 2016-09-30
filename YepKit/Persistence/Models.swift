@@ -992,7 +992,7 @@ open class Feed: Object {
     open dynamic var messagesCount: Int = 0
     open dynamic var body: String = ""
 
-    open dynamic var kind: String = FeedKind.Text.rawValue
+    open dynamic var kind: String = FeedKind.text.rawValue
     open var attachments = List<Attachment>()
     open dynamic var socialWork: MessageSocialWork?
     open dynamic var audio: FeedAudio?

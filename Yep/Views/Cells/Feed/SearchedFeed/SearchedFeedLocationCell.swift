@@ -60,7 +60,7 @@ final class SearchedFeedLocationCell: SearchedFeedBasicCell {
                 return
             }
 
-            if case .Location = feed.kind {
+            if case .location = feed.kind {
                 if case let .location(locationInfo) = attachment {
                     self?.tapLocationAction?(locationInfo.name, locationInfo.coordinate)
                 }

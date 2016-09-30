@@ -360,7 +360,7 @@ final class FeedView: UIView {
         var height: CGFloat = ceil(rect.height) + 10 + 40 + 4 + 15 + 17 + 15
         
         if feed.hasAttachment {
-            if feed.kind == .Audio {
+            if feed.kind == .audio {
                 height += 44 + 15
             } else {
                 height += 80 + 15
@@ -391,7 +391,7 @@ final class FeedView: UIView {
         calHeightOfMessageTextView()
 
         let hasAttachment = feed.hasAttachment
-        timeLabelTopConstraint.constant = hasAttachment ? (15 + (feed.kind == .Audio ? 44 : 80) + 15) : 15
+        timeLabelTopConstraint.constant = hasAttachment ? (15 + (feed.kind == .audio ? 44 : 80) + 15) : 15
 
         attachments = feed.attachments.map({
             //DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
@@ -437,12 +437,12 @@ final class FeedView: UIView {
 
         switch kind {
 
-        case .Text:
+        case .text:
 
             mediaCollectionView.isHidden = true
             socialWorkContainerView.isHidden = true
 
-        case .URL:
+        case .url:
 
             mediaCollectionView.isHidden = true
             socialWorkContainerView.isHidden = false
@@ -455,7 +455,7 @@ final class FeedView: UIView {
                 feedURLContainerView.configureWithOpenGraphInfoType(openGraphInfo)
             }
 
-        case .Image:
+        case .image:
 
             mediaCollectionView.isHidden = false
             socialWorkContainerView.isHidden = true
@@ -464,7 +464,7 @@ final class FeedView: UIView {
 
             socialWorkContainerViewHeightConstraint.constant = 80
 
-        case .GithubRepo:
+        case .githubRepo:
 
             mediaCollectionView.isHidden = true
             socialWorkContainerView.isHidden = false
@@ -481,7 +481,7 @@ final class FeedView: UIView {
             socialWorkBorderImageView.isHidden = false
             socialWorkContainerView.bringSubview(toFront: socialWorkBorderImageView)
 
-        case .DribbbleShot:
+        case .dribbbleShot:
 
             mediaCollectionView.isHidden = true
             socialWorkContainerView.isHidden = false
@@ -497,7 +497,7 @@ final class FeedView: UIView {
 
             socialWorkImageURL = feed.dribbbleShotImageURL as URL?
 
-        case .Audio:
+        case .audio:
 
             mediaCollectionView.isHidden = true
             socialWorkContainerView.isHidden = false
@@ -526,7 +526,7 @@ final class FeedView: UIView {
                 }
             }
 
-        case .Location:
+        case .location:
 
             mediaCollectionView.isHidden = true
             socialWorkContainerView.isHidden = false

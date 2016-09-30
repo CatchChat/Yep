@@ -2575,7 +2575,7 @@ public struct DiscoveredFeed: Hashable {
 
     public var hasSocialImage: Bool {
         switch kind {
-        case .DribbbleShot:
+        case .dribbbleShot:
             return true
         default:
             return false
@@ -2585,7 +2585,7 @@ public struct DiscoveredFeed: Hashable {
     public var hasMapImage: Bool {
 
         switch kind {
-        case .Location:
+        case .location:
             return true
         default:
             return false
@@ -2843,7 +2843,7 @@ public struct DiscoveredFeed: Hashable {
 
         switch kind {
 
-        case .URL:
+        case .url:
             if let
                 openGraphInfosData = feedInfo["attachments"] as? [JSONDictionary],
                 let openGraphInfoDict = openGraphInfosData.first,
@@ -2851,14 +2851,14 @@ public struct DiscoveredFeed: Hashable {
                     attachment = .url(openGraphInfo)
             }
 
-        case .Image:
+        case .image:
 
             let attachmentsData = feedInfo["attachments"] as? [JSONDictionary]
             let attachments = attachmentsData?.map({ DiscoveredAttachment.fromJSONDictionary($0) }).flatMap({ $0 }) ?? []
 
             attachment = .images(attachments)
 
-        case .GithubRepo:
+        case .githubRepo:
 
             if let
                 githubReposData = feedInfo["attachments"] as? [JSONDictionary],
@@ -2867,7 +2867,7 @@ public struct DiscoveredFeed: Hashable {
                     attachment = .github(githubRepo)
             }
 
-        case .DribbbleShot:
+        case .dribbbleShot:
 
             if let
                 dribbbleShotsData = feedInfo["attachments"] as? [JSONDictionary],
@@ -2876,7 +2876,7 @@ public struct DiscoveredFeed: Hashable {
                     attachment = .dribbble(dribbbleShot)
             }
 
-        case .Audio:
+        case .audio:
 
             if let
                 audioInfosData = feedInfo["attachments"] as? [JSONDictionary],
@@ -2885,7 +2885,7 @@ public struct DiscoveredFeed: Hashable {
                     attachment = .audio(audioInfo)
             }
 
-        case .Location:
+        case .location:
 
             if let
                 locationInfosData = feedInfo["attachments"] as? [JSONDictionary],
@@ -3050,35 +3050,35 @@ public func feedsOfUser(_ userID: String, pageIndex: Int, perPage: Int, failureH
 }
 
 public enum FeedKind: String {
-    case Text = "text"
-    case URL = "web_page"
-    case Image = "image"
-    case Video = "video"
-    case Audio = "audio"
-    case Location = "location"
+    case text = "text"
+    case url = "web_page"
+    case image = "image"
+    case video = "video"
+    case audio = "audio"
+    case location = "location"
 
-    case AppleMusic = "apple_music"
-    case AppleMovie = "apple_movie"
-    case AppleEBook = "apple_ebook"
+    case appleMusic = "apple_music"
+    case appleMovie = "apple_movie"
+    case appleEBook = "apple_ebook"
 
-    case GithubRepo = "github"
-    case DribbbleShot = "dribbble"
-    //case InstagramMedia = "instagram"
+    case githubRepo = "github"
+    case dribbbleShot = "dribbble"
+    //case instagramMedia = "instagram"
 
     public var accountName: String? {
         switch self {
-        case .GithubRepo: return "github"
-        case .DribbbleShot: return "dribbble"
-        //case .InstagramMedia: return "instagram"
+        case .githubRepo: return "github"
+        case .dribbbleShot: return "dribbble"
+        //case .instagramMedia: return "instagram"
         default: return nil
         }
     }
 
     public var needBackgroundUpload: Bool {
         switch self {
-        case .Image:
+        case .image:
             return true
-        case .Audio:
+        case .audio:
             return true
         default:
             return false
@@ -3087,7 +3087,7 @@ public enum FeedKind: String {
 
     public var needParseOpenGraph: Bool {
         switch self {
-        case .Text:
+        case .text:
             return true
         default:
             return false

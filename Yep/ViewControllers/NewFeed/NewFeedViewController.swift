@@ -529,7 +529,7 @@ final class NewFeedViewController: SegueViewController {
 
         let creator = DiscoveredUser.fromUser(me)
 
-        var kind: FeedKind = .Text
+        var kind: FeedKind = .text
 
         let createdUnixTime = Date().timeIntervalSince1970
         let updatedUnixTime = createdUnixTime
@@ -543,7 +543,7 @@ final class NewFeedViewController: SegueViewController {
         case .default:
 
             if !mediaImages.isEmpty {
-                kind = .Image
+                kind = .image
 
                 let imageAttachments: [DiscoveredAttachment] = mediaImages.map({ image in
 
@@ -563,7 +563,7 @@ final class NewFeedViewController: SegueViewController {
 
         case .voice(let feedVoice):
 
-            kind = .Audio
+            kind = .audio
 
             let audioAsset = AVURLAsset(url: feedVoice.fileURL, options: nil)
             let audioDuration = CMTimeGetSeconds(audioAsset.duration) as Double
@@ -623,7 +623,7 @@ final class NewFeedViewController: SegueViewController {
 
         let message = messageTextView.text.trimming(.whitespaceAndNewline)
         let coordinate = YepLocationService.sharedManager.currentLocation?.coordinate
-        var kind: FeedKind = .Text
+        var kind: FeedKind = .text
         var attachments: [JSONDictionary]?
 
         let tryCreateFeed: () -> Void = { [weak self] in
@@ -634,7 +634,7 @@ final class NewFeedViewController: SegueViewController {
 
                 if let openGraph = openGraph, openGraph.isValid {
 
-                    kind = .URL
+                    kind = .url
 
                     let URLInfo = [
                         "url": openGraph.URL.absoluteString,
@@ -781,7 +781,7 @@ final class NewFeedViewController: SegueViewController {
 
                     attachments = imageInfos
                     
-                    kind = .Image
+                    kind = .image
                 }
                 
                 tryCreateFeed()
@@ -851,7 +851,7 @@ final class NewFeedViewController: SegueViewController {
 
                 attachments = [repoInfo]
 
-                kind = .GithubRepo
+                kind = .githubRepo
 
             case .dribbbleShot:
 
@@ -870,7 +870,7 @@ final class NewFeedViewController: SegueViewController {
 
                 attachments = [shotInfo]
 
-                kind = .DribbbleShot
+                kind = .dribbbleShot
 
             default:
                 break
@@ -933,7 +933,7 @@ final class NewFeedViewController: SegueViewController {
                     return
                 }
 
-                kind = .Audio
+                kind = .audio
 
                 tryCreateFeed()
 
@@ -950,7 +950,7 @@ final class NewFeedViewController: SegueViewController {
 
             attachments = [locationInfo]
 
-            kind = .Location
+            kind = .location
 
             tryCreateFeed()
         }

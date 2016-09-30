@@ -634,15 +634,15 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             switch feed.kind {
 
-            case .Text:
+            case .text:
                 let cell: SearchedFeedBasicCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .URL:
+            case .url:
                 let cell: SearchedFeedURLCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .Image:
+            case .image:
                 if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
                     let cell: SearchedFeedNormalImagesCell = tableView.dequeueReusableCell()
                     return cell
@@ -652,19 +652,19 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     return cell
                 }
 
-            case .GithubRepo:
+            case .githubRepo:
                 let cell: SearchedFeedGithubRepoCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .DribbbleShot:
+            case .dribbbleShot:
                 let cell: SearchedFeedDribbbleShotCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .Audio:
+            case .audio:
                 let cell: SearchedFeedVoiceCell = tableView.dequeueReusableCell()
                 return cell
 
-            case .Location:
+            case .location:
                 let cell: SearchedFeedLocationCell = tableView.dequeueReusableCell()
                 return cell
 
@@ -736,11 +736,11 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             switch feed.kind {
 
-            case .Text:
+            case .text:
 
                 cell.configureWithFeed(feed, layout: layout, keyword: keyword)
 
-            case .URL:
+            case .url:
 
                 guard let cell = cell as? SearchedFeedURLCell else {
                     break
@@ -753,7 +753,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     self?.yep_openURL(URL)
                 }
 
-            case .Image:
+            case .image:
 
                 let tapImagesAction: FeedTapImagesAction = { [weak self] transitionReferences, attachments, image, index in
 
@@ -791,7 +791,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     cell.tapImagesAction = tapImagesAction
                 }
 
-            case .GithubRepo:
+            case .githubRepo:
 
                 guard let cell = cell as? SearchedFeedGithubRepoCell else {
                     break
@@ -803,7 +803,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     self?.yep_openURL(URL)
                 }
 
-            case .DribbbleShot:
+            case .dribbbleShot:
 
                 guard let cell = cell as? SearchedFeedDribbbleShotCell else {
                     break
@@ -836,7 +836,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     self?.present(photosViewController, animated: true, completion: nil)
                 }
 
-            case .Audio:
+            case .audio:
 
                 guard let cell = cell as? SearchedFeedVoiceCell else {
                     break
@@ -909,7 +909,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
                     }
                 }
 
-            case .Location:
+            case .location:
 
                 guard let cell = cell as? SearchedFeedLocationCell else {
                     break

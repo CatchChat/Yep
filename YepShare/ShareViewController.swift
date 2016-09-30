@@ -152,7 +152,7 @@ class ShareViewController: SLComposeServiceViewController {
     fileprivate func postFeed(_ shareType: ShareType, completion: @escaping (_ finish: Bool) -> Void) {
 
         var message = shareType.body
-        var kind: FeedKind = .Text
+        var kind: FeedKind = .text
         var attachments: [JSONDictionary]?
 
         let doCreateFeed: () -> Void = { [weak self] in
@@ -298,7 +298,7 @@ class ShareViewController: SLComposeServiceViewController {
 
             uploadVoiceGroup.notify(queue: DispatchQueue.main) {
 
-                kind = .Audio
+                kind = .audio
                 
                 doCreateFeed()
             }
@@ -316,7 +316,7 @@ class ShareViewController: SLComposeServiceViewController {
 
             }, completion: { openGraph in
 
-                kind = .URL
+                kind = .url
 
                 let URLInfo = [
                     "url": openGraph.URL.absoluteString,
@@ -397,7 +397,7 @@ class ShareViewController: SLComposeServiceViewController {
 
                     attachments = imageInfos
 
-                    kind = .Image
+                    kind = .image
                 }
 
                 doCreateFeed()

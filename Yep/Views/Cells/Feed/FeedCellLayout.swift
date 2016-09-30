@@ -132,13 +132,13 @@ struct FeedCellLayout {
 
         switch feed.kind {
 
-        case .Text:
+        case .text:
             height = FeedBasicCell.heightOfFeed(feed)
 
-        case .URL:
+        case .url:
             height = FeedURLCell.heightOfFeed(feed)
 
-        case .Image:
+        case .image:
             if feed.imageAttachmentsCount == 1 {
                 height = FeedBiggerImageCell.heightOfFeed(feed)
 
@@ -149,16 +149,16 @@ struct FeedCellLayout {
                 height = FeedAnyImagesCell.heightOfFeed(feed)
             }
 
-        case .GithubRepo:
+        case .githubRepo:
             height = FeedGithubRepoCell.heightOfFeed(feed)
 
-        case .DribbbleShot:
+        case .dribbbleShot:
             height = FeedDribbbleShotCell.heightOfFeed(feed)
 
-        case .Audio:
+        case .audio:
             height = FeedVoiceCell.heightOfFeed(feed)
 
-        case .Location:
+        case .location:
             height = FeedLocationCell.heightOfFeed(feed)
 
         default:
