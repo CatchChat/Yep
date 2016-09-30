@@ -29,7 +29,7 @@ final class LoginVerifyMobileViewController: BaseVerifyMobileViewController {
 
     override func requestCallMe() {
 
-        requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .Call, failureHandler: { [weak self ]reason, errorMessage in
+        requestSendVerifyCodeOfMobilePhone(mobilePhone, useMethod: .call, failureHandler: { [weak self ]reason, errorMessage in
             defaultFailureHandler(reason, errorMessage)
 
             self?.requestCallMeFailed(errorMessage)

@@ -469,8 +469,8 @@ public func updateAvatarWithImageData(_ imageData: Data, failureHandler: Failure
 }
 
 public enum VerifyCodeMethod: String {
-    case SMS = "sms"
-    case Call = "call"
+    case sms = "sms"
+    case call = "call"
 }
 
 public func requestSendVerifyCodeOfMobilePhone(_ mobilePhone: MobilePhone, useMethod method: VerifyCodeMethod, failureHandler: FailureHandler?, completion: @escaping (Bool) -> Void) {
