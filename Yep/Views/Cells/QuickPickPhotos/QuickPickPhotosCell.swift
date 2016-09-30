@@ -115,7 +115,7 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case 0:
             let cell: CameraCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
@@ -135,7 +135,7 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
         if let cell = cell as? PhotoCell {
             cell.imageManager = imageManager
 
-            if let imageAsset = images?[(indexPath as NSIndexPath).item] {
+            if let imageAsset = images?[indexPath.item] {
                 cell.imageAsset = imageAsset
                 cell.photoPickedImageView.isHidden = !pickedImageSet.contains(imageAsset)
             }
@@ -144,13 +144,13 @@ extension QuickPickPhotosCell: UICollectionViewDataSource, UICollectionViewDeleg
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case 0:
             takePhotoAction?()
 
         case 1:
-            if let imageAsset = images?[(indexPath as NSIndexPath).item] {
+            if let imageAsset = images?[indexPath.item] {
 
                 if pickedImageSet.contains(imageAsset) {
                     pickedImageSet.remove(imageAsset)

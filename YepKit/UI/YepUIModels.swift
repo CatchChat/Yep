@@ -328,9 +328,9 @@ public enum ProfileUser {
             let skill: Skill?
             switch skillSet {
             case .master:
-                skill = discoveredUser.masterSkills[safe: (indexPath as NSIndexPath).item]
+                skill = discoveredUser.masterSkills[safe: indexPath.item]
             case .learning:
-                skill = discoveredUser.learningSkills[safe: (indexPath as NSIndexPath).item]
+                skill = discoveredUser.learningSkills[safe: indexPath.item]
             }
 
             if let skill = skill {

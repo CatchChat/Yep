@@ -193,7 +193,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
         if let cell = cell as? PhotoCell {
             cell.imageManager = imageManager
 
-            if let imageAsset = images?[(indexPath as NSIndexPath).item] {
+            if let imageAsset = images?[indexPath.item] {
                 cell.imageAsset = imageAsset
                 cell.photoPickedImageView.isHidden = !pickedImageSet.contains(imageAsset)
             }
@@ -202,7 +202,7 @@ final class PickPhotosViewController: UICollectionViewController, PHPhotoLibrary
 
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        if let imageAsset = images?[(indexPath as NSIndexPath).item] {
+        if let imageAsset = images?[indexPath.item] {
             if pickedImageSet.contains(imageAsset) {
                 pickedImageSet.remove(imageAsset)
                 if let index = pickedImages.index(of: imageAsset) {

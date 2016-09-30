@@ -259,7 +259,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                 cell.categoryImage = UIImage.yep_iconSkillArt
             }
 
-            let tintColor = skillCategoryTintColors[(indexPath as NSIndexPath).item % skillCategoryTintColors.count]
+            let tintColor = skillCategoryTintColors[indexPath.item % skillCategoryTintColors.count]
             cell.skillCategoryButton.setBackgroundImage(UIImage.yep_buttonSkillCategory.imageWithGradientTintColor(tintColor).resizableImage(withCapInsets: UIEdgeInsets(top: 30, left: 40, bottom: 30, right: 40)), for: .normal)
 
             cell.toggleSelectionStateAction = { [weak self, weak cell] inSelectionState in
@@ -271,7 +271,7 @@ extension RegisterSelectSkillsViewController: UICollectionViewDataSource, UIColl
                 if inSelectionState {
 
                     // 刷新本次选择类别的 skills
-                    strongSelf.skillCategoryIndex = (indexPath as NSIndexPath).item
+                    strongSelf.skillCategoryIndex = indexPath.item
                     SafeDispatch.async { [weak self] in
                         self?.skillsCollectionView.reloadData()
                     }

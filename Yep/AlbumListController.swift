@@ -193,7 +193,7 @@ final class AlbumListController: UITableViewController {
 
         let cell: AlbumListCell = tableView.dequeueReusableCell()
 
-        if let album = assetsCollection?[(indexPath as NSIndexPath).row] {
+        if let album = assetsCollection?[indexPath.row] {
             cell.countLabel.text = "(\(album.count))"
             cell.titleLabel.text = album.name
 
@@ -222,7 +222,7 @@ final class AlbumListController: UITableViewController {
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        guard let album = assetsCollection?[(indexPath as NSIndexPath).row] else { return }
+        guard let album = assetsCollection?[indexPath.row] else { return }
 
         pickPhotosVC.imagesDidFetch = true
         pickPhotosVC.pickedImages = pickedImages

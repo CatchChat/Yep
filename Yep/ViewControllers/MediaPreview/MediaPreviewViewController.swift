@@ -471,7 +471,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 
         if let cell = cell as? MediaViewCell {
-            let previewMedia = previewMedias[(indexPath as NSIndexPath).item]
+            let previewMedia = previewMedias[indexPath.item]
             configureCell(cell, withPreviewMedia: previewMedia)
 
             cell.mediaView.tapToDismissAction = { [weak self] in

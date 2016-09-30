@@ -392,7 +392,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case Section.feedConversation.rawValue:
             let cell: FeedConversationDockCell = tableView.dequeueReusableCell()
@@ -409,7 +409,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case Section.feedConversation.rawValue:
 
@@ -467,7 +467,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case Section.feedConversation.rawValue:
             break
@@ -491,7 +491,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case Section.feedConversation.rawValue:
             performSegue(withIdentifier: "showFeedConversations", sender: nil)
@@ -510,7 +510,7 @@ extension ConversationsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
-        if (indexPath as NSIndexPath).section == Section.conversation.rawValue {
+        if indexPath.section == Section.conversation.rawValue {
             return true
         }
 
@@ -582,7 +582,7 @@ extension ConversationsViewController: UIViewControllerPreviewingDelegate {
 
         previewingContext.sourceRect = cell.frame
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return nil
         }
 

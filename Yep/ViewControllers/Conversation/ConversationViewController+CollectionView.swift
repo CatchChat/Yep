@@ -491,7 +491,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
@@ -960,7 +960,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
@@ -1632,7 +1632,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
 
     func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 

@@ -1019,7 +1019,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
@@ -1028,11 +1028,11 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
         case .photos:
             let cell: FeedMediaCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             
-            let image = mediaImages[(indexPath as NSIndexPath).item]
+            let image = mediaImages[indexPath.item]
             
             cell.configureWithImage(image)
             cell.delete = { [weak self] in
-                self?.mediaImages.remove(at: (indexPath as NSIndexPath).item)
+                self?.mediaImages.remove(at: indexPath.item)
             }
             
             return cell
@@ -1069,7 +1069,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(_ collectionView: UICollectionView, canMoveItemAt indexPath: IndexPath) -> Bool {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
@@ -1099,7 +1099,7 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
@@ -1107,10 +1107,10 @@ extension NewFeedViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case .photos:
 
-            let index = (indexPath as NSIndexPath).row
+            let index = indexPath.row
 
             let references: [Reference?] = (0..<mediaImages.count).map({
-                let cell = collectionView.cellForItem(at: IndexPath(item: $0, section: (indexPath as NSIndexPath).section)) as? FeedMediaCell
+                let cell = collectionView.cellForItem(at: IndexPath(item: $0, section: indexPath.section)) as? FeedMediaCell
                 return cell?.transitionReference
             })
 

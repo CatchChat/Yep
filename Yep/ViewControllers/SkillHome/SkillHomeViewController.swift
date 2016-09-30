@@ -574,7 +574,7 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case Section.users.rawValue:
 
@@ -598,7 +598,7 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        if (indexPath as NSIndexPath).section == Section.loadMore.rawValue {
+        if indexPath.section == Section.loadMore.rawValue {
 
             if let cell = cell as? LoadMoreTableViewCell {
 
@@ -630,7 +630,7 @@ extension SkillHomeViewController: UITableViewDelegate, UITableViewDataSource {
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case Section.users.rawValue:
             performSegue(withIdentifier: "showProfile", sender: indexPath)

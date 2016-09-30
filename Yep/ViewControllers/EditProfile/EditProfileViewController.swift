@@ -311,7 +311,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
         }
 
@@ -319,7 +319,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
         case .info:
 
-            guard let infoRow = InfoRow(rawValue: (indexPath as NSIndexPath).row) else {
+            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
                 fatalError()
             }
 
@@ -582,7 +582,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
         }
 
@@ -590,7 +590,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
         case .info:
 
-            guard let infoRow = InfoRow(rawValue: (indexPath as NSIndexPath).row) else {
+            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
                 fatalError()
             }
 
@@ -620,7 +620,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
         }
 
@@ -628,7 +628,7 @@ extension EditProfileViewController: UITableViewDataSource, UITableViewDelegate 
 
         case .info:
 
-            guard let infoRow = InfoRow(rawValue: (indexPath as NSIndexPath).row) else {
+            guard let infoRow = InfoRow(rawValue: indexPath.row) else {
                 fatalError()
             }
 

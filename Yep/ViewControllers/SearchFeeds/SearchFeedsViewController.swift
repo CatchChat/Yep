@@ -426,7 +426,7 @@ final class SearchFeedsViewController: BaseSearchViewController {
         case "showProfile":
             let vc = segue.destination as! ProfileViewController
 
-            if let indexPath = sender as? IndexPath, let section = Section(rawValue: (indexPath as NSIndexPath).section) {
+            if let indexPath = sender as? IndexPath, let section = Section(rawValue: indexPath.section) {
 
                 switch section {
                 case .feed:
@@ -628,7 +628,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return UITableViewCell()
         }
 
@@ -692,7 +692,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return
         }
 
@@ -704,7 +704,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
             cell.tapAvatarAction = { [weak self] cell in
                 if let indexPath = tableView.indexPath(for: cell) { // 不直接捕捉 indexPath
-                    println("tapAvatarAction indexPath: \((indexPath as NSIndexPath).section), \((indexPath as NSIndexPath).row)")
+                    println("tapAvatarAction indexPath: \(indexPath.section), \(indexPath.row)")
                     self?.hideKeyboard()
                     self?.performSegue(withIdentifier: "showProfile", sender: indexPath)
                 }
@@ -970,7 +970,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return 0
         }
 
@@ -997,7 +997,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
         hideKeyboard()
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return
         }
 
@@ -1015,7 +1015,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return false
         }
 
@@ -1036,7 +1036,7 @@ extension SearchFeedsViewController: UITableViewDataSource, UITableViewDelegate 
 
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return nil
         }
 

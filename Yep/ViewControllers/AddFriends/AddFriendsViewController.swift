@@ -109,7 +109,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
@@ -126,7 +126,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
         case .more:
             let cell: AddFriendMoreCell = tableView.dequeueReusableCell()
 
-            cell.annotationLabel.text = More(rawValue: (indexPath as NSIndexPath).row)?.description
+            cell.annotationLabel.text = More(rawValue: indexPath.row)?.description
 
             return cell
         }
@@ -140,7 +140,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
         tryHideKeyboard()
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
@@ -150,7 +150,7 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
             break
 
         case .more:
-            guard let row = More(rawValue: (indexPath as NSIndexPath).row) else {
+            guard let row = More(rawValue: indexPath.row) else {
                 fatalError("Invalid row!")
             }
 

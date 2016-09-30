@@ -32,7 +32,7 @@ final class ImageCacheController {
 
         let updatedCache = NSMutableIndexSet()
         for path in visibleCells {
-            updatedCache.add((path as NSIndexPath).item)
+            updatedCache.add(path.item)
         }
 
         let minCache = max(0, updatedCache.firstIndex - cachePreheatSize)

@@ -297,7 +297,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard (indexPath as NSIndexPath).row > 0 else {
+        guard indexPath.row > 0 else {
             return 40
         }
 
@@ -306,11 +306,11 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
-        if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.row == 0 {
 
             let cell: SearchSectionTitleCell = tableView.dequeueReusableCell()
 
@@ -344,17 +344,17 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        guard (indexPath as NSIndexPath).row > 0 else {
+        guard indexPath.row > 0 else {
             return
         }
 
 
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return
         }
 
-        let itemIndex = (indexPath as NSIndexPath).row - 1
+        let itemIndex = indexPath.row - 1
 
         switch section {
 
@@ -387,17 +387,17 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        guard (indexPath as NSIndexPath).row > 0 else {
+        guard indexPath.row > 0 else {
             return
         }
 
         hideKeyboard()
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return
         }
 
-        let itemIndex = (indexPath as NSIndexPath).row - 1
+        let itemIndex = indexPath.row - 1
 
         switch section {
 

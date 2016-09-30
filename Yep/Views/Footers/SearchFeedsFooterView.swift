@@ -235,7 +235,7 @@ extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
 
         let cell: KeywordCell = tableView.dequeueReusableCell()
 
-        let keyword = keywords[(indexPath as NSIndexPath).row]
+        let keyword = keywords[indexPath.row]
         cell.keyword = keyword
 
         cell.tapKeywordAction = { [weak self] keyword in

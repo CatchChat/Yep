@@ -144,7 +144,7 @@ extension VoiceRecordSampleView: UICollectionViewDataSource {
 
         let cell: VoiceRecordSampleCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
-        let value = sampleValues[(indexPath as NSIndexPath).item]
+        let value = sampleValues[indexPath.item]
         cell.value = value
 
         return cell

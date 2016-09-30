@@ -1036,7 +1036,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
         }
 
@@ -1130,7 +1130,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
         case .socialAccount:
 
-            let index = (indexPath as NSIndexPath).item
+            let index = indexPath.item
 
             if let providerName = profileUser?.providerNameWithIndex(index), let socialAccount = SocialAccount(rawValue: providerName) {
 
@@ -1207,7 +1207,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             let header: ProfileSectionHeaderReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, forIndexPath: indexPath)
 
-            guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+            guard let section = Section(rawValue: indexPath.section) else {
                 fatalError()
             }
 
@@ -1390,7 +1390,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
         }
 
@@ -1482,7 +1482,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
                 
         case .socialAccount:
 
-            let index = (indexPath as NSIndexPath).item
+            let index = indexPath.item
 
             guard let
                 profileUser = profileUser,

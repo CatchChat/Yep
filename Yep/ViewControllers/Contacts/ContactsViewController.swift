@@ -273,7 +273,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     fileprivate func friendAtIndexPath(_ indexPath: IndexPath) -> User? {
 
-        let index = (indexPath as NSIndexPath).row
+        let index = indexPath.row
         let friend = friends[safe: index]
         return friend
     }
@@ -290,7 +290,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             return
         }
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return
         }
 
@@ -328,7 +328,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRow(at: indexPath, animated: true)
         }
         
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return
         }
         
@@ -344,7 +344,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             return false
         }
 

@@ -144,7 +144,7 @@ final class PodsHelpYepViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
         }
 
@@ -158,7 +158,7 @@ final class PodsHelpYepViewController: UITableViewController {
 
         case .frameworks:
             let cell = tableView.dequeueReusableCell(withIdentifier: "PodCell", for: indexPath)
-            let framework = frameworks[(indexPath as NSIndexPath).row]
+            let framework = frameworks[indexPath.row]
             cell.textLabel?.text = framework.name
             return cell
         }
@@ -166,7 +166,7 @@ final class PodsHelpYepViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
         }
 
@@ -184,7 +184,7 @@ final class PodsHelpYepViewController: UITableViewController {
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
         }
 
@@ -196,7 +196,7 @@ final class PodsHelpYepViewController: UITableViewController {
             }
 
         case .frameworks:
-            let framework = frameworks[(indexPath as NSIndexPath).row]
+            let framework = frameworks[indexPath.row]
             if let url = framework.url {
                 yep_openURL(url)
             }
