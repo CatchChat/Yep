@@ -78,21 +78,21 @@ open class SkillCellSkill: NSObject {
 
 public enum SocialAccount: String {
 
-    case Dribbble = "dribbble"
-    case Github = "github"
-    case Instagram = "instagram"
-    case Behance = "behance"
+    case dribbble = "dribbble"
+    case github = "github"
+    case instagram = "instagram"
+    case behance = "behance"
     
     public var name: String {
         
         switch self {
-        case .Dribbble:
+        case .dribbble:
             return "Dribbble"
-        case .Github:
+        case .github:
             return "GitHub"
-        case .Behance:
+        case .behance:
             return "Behance"
-        case .Instagram:
+        case .instagram:
             return "Instagram"
         }
     }
@@ -100,13 +100,13 @@ public enum SocialAccount: String {
     public var segue: String {
 
         switch self {
-        case .Dribbble:
+        case .dribbble:
             return "Dribbble"
-        case .Github:
+        case .github:
             return "Github"
-        case .Behance:
+        case .behance:
             return "Behance"
-        case .Instagram:
+        case .instagram:
             return "Instagram"
         }
     }
@@ -114,13 +114,13 @@ public enum SocialAccount: String {
     public var tintColor: UIColor {
         
         switch self {
-        case .Dribbble:
+        case .dribbble:
             return UIColor(red:0.91, green:0.28, blue:0.5, alpha:1)
-        case .Github:
+        case .github:
             return UIColor.black
-        case .Behance:
+        case .behance:
             return UIColor(red:0, green:0.46, blue:1, alpha:1)
-        case .Instagram:
+        case .instagram:
             return UIColor(red:0.15, green:0.36, blue:0.54, alpha:1)
         }
     }
@@ -130,13 +130,13 @@ public enum SocialAccount: String {
     public var iconName: String {
         
         switch self {
-        case .Dribbble:
+        case .dribbble:
             return "icon_dribbble"
-        case .Github:
+        case .github:
             return "icon_github"
-        case .Behance:
+        case .behance:
             return "icon_behance"
-        case .Instagram:
+        case .instagram:
             return "icon_instagram"
         }
     }
@@ -144,13 +144,13 @@ public enum SocialAccount: String {
     public var authURL: URL {
         
         switch self {
-        case .Dribbble:
+        case .dribbble:
             return URL(string: "\(yepBaseURL.absoluteString)/auth/dribbble")!
-        case .Github:
+        case .github:
             return URL(string: "\(yepBaseURL.absoluteString)/auth/github")!
-        case .Behance:
+        case .behance:
             return URL(string: "\(yepBaseURL.absoluteString)/auth/behance")!
-        case .Instagram:
+        case .instagram:
             return URL(string: "\(yepBaseURL.absoluteString)/auth/instagram")!
         }
     }

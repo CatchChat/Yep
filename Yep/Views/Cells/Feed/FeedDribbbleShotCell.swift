@@ -28,9 +28,9 @@ final class FeedDribbbleShotCell: FeedBasicCell {
     
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: SocialAccount.Dribbble.iconName)
+        imageView.image = UIImage(named: SocialAccount.dribbble.iconName)
         imageView.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
-        imageView.tintColor = SocialAccount.Dribbble.tintColor
+        imageView.tintColor = SocialAccount.dribbble.tintColor
         return imageView
     }()
 

@@ -176,7 +176,7 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
 
                     switch socialAccount {
 
-                    case .Dribbble:
+                    case .dribbble:
                         dribbbleWorkOfUserWithUserID(userID, failureHandler: nil, completion: { dribbbleWork in
                             //println("dribbbleWork: \(dribbbleWork.shots.count)")
 
@@ -188,7 +188,7 @@ final class ProfileSocialAccountImagesCell: UICollectionViewCell {
                             }
                         })
 
-                    case .Instagram:
+                    case .instagram:
                         instagramWorkOfUserWithUserID(userID, failureHandler: nil, completion: { instagramWork in
                             //println("instagramWork: \(instagramWork.medias.count)")
 

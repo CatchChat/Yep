@@ -12,7 +12,7 @@ import Kingfisher
 
 final class SkillHomeHeaderView: UIView {
 
-    var skillCategory: SkillCellSkill.Category = .Art
+    var skillCategory: SkillCellSkill.Category = .art
     var skillCoverURLString: String? {
         willSet {
 //            if let coverURLString = newValue, URL = NSURL(string: coverURLString) {

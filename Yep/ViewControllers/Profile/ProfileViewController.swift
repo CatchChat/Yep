@@ -1126,7 +1126,7 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
             if let providerName = profileUser?.providerNameWithIndex(index), let socialAccount = SocialAccount(rawValue: providerName) {
 
-                if socialAccount == .Github {
+                if socialAccount == .github {
                     let cell: ProfileSocialAccountGithubCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
 
                     cell.configureWithProfileUser(profileUser, socialAccount: socialAccount, githubWork: githubWork, completion: { githubWork in
@@ -1144,12 +1144,12 @@ extension ProfileViewController: UICollectionViewDataSource, UICollectionViewDel
 
                     switch socialAccount {
 
-                    case .Dribbble:
+                    case .dribbble:
                         if let dribbbleWork = dribbbleWork {
                             socialWork = SocialWork.dribbble(dribbbleWork)
                         }
 
-                    case .Instagram:
+                    case .instagram:
                         if let instagramWork = instagramWork {
                             socialWork = SocialWork.instagram(instagramWork)
                         }

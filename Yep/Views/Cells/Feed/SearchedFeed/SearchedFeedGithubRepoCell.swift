@@ -24,7 +24,7 @@ final class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
 
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: SocialAccount.Github.iconName)
+        imageView.image = UIImage(named: SocialAccount.github.iconName)
         imageView.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
         imageView.tintColor = YepConfig.SearchedItemCell.logoTintColor
         return imageView
