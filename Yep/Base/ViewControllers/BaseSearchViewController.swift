@@ -19,7 +19,7 @@ class BaseSearchViewController: SegueViewController, SearchActionRepresentation 
     @IBOutlet weak var searchBar: UISearchBar! {
         didSet {
             let image = UIImage.yep_searchbarTextfieldBackground
-            searchBar.setSearchFieldBackgroundImage(image, for: UIControlState())
+            searchBar.setSearchFieldBackgroundImage(image, for: .normal)
             searchBar.returnKeyType = .done
         }
     }

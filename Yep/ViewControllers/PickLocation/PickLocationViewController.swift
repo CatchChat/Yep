@@ -364,7 +364,7 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         navigationController?.setNavigationBarHidden(true, animated: true)
 
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             guard let strongSelf = self else { return }
 
             strongSelf.searchBarTopToSuperBottomConstraint.constant = strongSelf.view.bounds.height - 20
@@ -386,7 +386,7 @@ extension PickLocationViewController: UISearchBarDelegate {
 
         navigationController?.setNavigationBarHidden(false, animated: true)
 
-        UIView.animate(withDuration: 0.3, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             self?.searchBarTopToSuperBottomConstraint.constant = 250
             self?.view.layoutIfNeeded()
 
@@ -473,7 +473,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         let cell: PickLocationCell = tableView.dequeueReusableCell()
 
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case Section.currentLocation.rawValue:
             cell.iconImageView.isHidden = false
@@ -489,7 +489,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         case Section.userLocationPlacemarks.rawValue:
             cell.iconImageView.isHidden = true
-            let placemark = userLocationPlacemarks[(indexPath as NSIndexPath).row]
+            let placemark = userLocationPlacemarks[indexPath.row]
 
             let text = placemark.name ?? "🐌"
 
@@ -501,7 +501,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             cell.iconImageView.isHidden = false
             cell.iconImageView.image = UIImage.yep_iconPin
 
-            let placemark = searchedMapItems[(indexPath as NSIndexPath).row].placemark
+            let placemark = searchedMapItems[indexPath.row].placemark
             cell.locationLabel.text = placemark.name
 
             cell.checkImageView.isHidden = true
@@ -549,7 +549,7 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
 
         selectedLocationIndexPath = indexPath
 
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case Section.currentLocation.rawValue:
             if let _location = mapView.userLocation.location {
@@ -560,14 +560,14 @@ extension PickLocationViewController: UITableViewDataSource, UITableViewDelegate
             break
 
         case Section.userLocationPlacemarks.rawValue:
-            let placemark = userLocationPlacemarks[(indexPath as NSIndexPath).row]
+            let placemark = userLocationPlacemarks[indexPath.row]
             guard let _location = placemark.location else {
                 break
             }
             location = .selected(info: PickLocationViewControllerLocation.Info(coordinate: _location.coordinate, name: placemark.name))
 
         case Section.searchedLocation.rawValue:
-            let placemark = self.searchedMapItems[(indexPath as NSIndexPath).row].placemark
+            let placemark = self.searchedMapItems[indexPath.row].placemark
             guard let _location = placemark.location else {
                 break
             }

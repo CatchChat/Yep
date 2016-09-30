@@ -90,7 +90,7 @@ final class BadgeView: UIView {
 
     var enabled: Bool = false {
         willSet {
-            UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] _ in
                 guard let strongSelf = self else { return }
                 strongSelf.badgeImageView.tintColor = newValue ? UIColor.white : strongSelf.badge.color
             }, completion: nil)

@@ -144,7 +144,7 @@ final class MediaPreviewViewController: UIViewController {
         topPreviewImageView.alpha = 0
         bottomPreviewImageView.alpha = 1
 
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
 
             self?.view.backgroundColor = UIColor.black
 
@@ -268,7 +268,7 @@ final class MediaPreviewViewController: UIViewController {
 
                 transitionView?.alpha = 1
 
-                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                     self?.view.backgroundColor = UIColor.clear
                     self?.mediaControlView.alpha = 0
                     self?.mediasCollectionView.alpha = 0
@@ -291,7 +291,7 @@ final class MediaPreviewViewController: UIViewController {
 
         mediasCollectionView.alpha = 0
 
-        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             self?.mediaControlView.alpha = 0
         }, completion: nil)
 
@@ -306,7 +306,7 @@ final class MediaPreviewViewController: UIViewController {
             }
         }
 
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
 
             self?.view.backgroundColor = UIColor.clear
 
@@ -471,7 +471,7 @@ extension MediaPreviewViewController: UICollectionViewDataSource, UICollectionVi
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 
         if let cell = cell as? MediaViewCell {
-            let previewMedia = previewMedias[(indexPath as NSIndexPath).item]
+            let previewMedia = previewMedias[indexPath.item]
             configureCell(cell, withPreviewMedia: previewMedia)
 
             cell.mediaView.tapToDismissAction = { [weak self] in

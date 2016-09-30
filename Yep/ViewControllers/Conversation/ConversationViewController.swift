@@ -964,7 +964,7 @@ final class ConversationViewController: BaseViewController {
 
         guard newContentOffsetY + conversationCollectionView.contentInset.top > 0 else {
 
-            UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                 if let strongSelf = self {
                     strongSelf.conversationCollectionView.contentInset.bottom = bottom
                     strongSelf.conversationCollectionView.scrollIndicatorInsets.bottom = bottom
@@ -990,7 +990,7 @@ final class ConversationViewController: BaseViewController {
             return
         }
 
-        UIView.animate(withDuration: forceAnimation ? 0.25 : 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: forceAnimation ? 0.25 : 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             if let strongSelf = self {
                 strongSelf.conversationCollectionView.contentInset.bottom = bottom
                 strongSelf.conversationCollectionView.scrollIndicatorInsets.bottom = bottom
@@ -1606,7 +1606,7 @@ final class ConversationViewController: BaseViewController {
 
             if newMessagesTotalHeight > useableHeight {
 
-                UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
 
                     if let strongSelf = self {
 

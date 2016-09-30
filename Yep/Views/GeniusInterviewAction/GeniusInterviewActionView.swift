@@ -33,9 +33,9 @@ class GeniusInterviewActionView: UIView {
         let width: CGFloat = Ruler.iPhoneHorizontal(150, 185, 185).value
         let button = UIButton(frame: CGRect(x: 0, y: 0, width: width, height: 30))
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.setTitle(NSLocalizedString("Say Hi", comment: ""), for: UIControlState())
+        button.setTitle(NSLocalizedString("Say Hi", comment: ""), for: .normal)
         button.backgroundColor = UIColor.yepTintColor()
-        button.setTitleColor(UIColor.white, for: UIControlState())
+        button.setTitleColor(UIColor.white, for: .normal)
         button.layer.cornerRadius = 5
 
         button.addTarget(self, action: #selector(GeniusInterviewActionView.sayHi(_:)), for: UIControlEvents.touchUpInside)

@@ -34,7 +34,7 @@ extension ConversationViewController {
 
         feedView.foldAction = { [weak self] in
             if let strongSelf = self {
-                UIView.animate(withDuration: 0.15, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                UIView.animate(withDuration: 0.15, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                     self?.conversationCollectionView.contentInset.top = 64 + FeedView.foldHeight + strongSelf.conversationCollectionViewContentInsetYOffset
                 }, completion: { _ in })
             }
@@ -42,7 +42,7 @@ extension ConversationViewController {
 
         feedView.unfoldAction = { [weak self] feedView in
             if let strongSelf = self {
-                UIView.animate(withDuration: 0.15, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+                UIView.animate(withDuration: 0.15, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                     self?.conversationCollectionView.contentInset.top = 64 + feedView.normalHeight + strongSelf.conversationCollectionViewContentInsetYOffset
                 }, completion: { _ in })
 
@@ -434,7 +434,7 @@ extension ConversationViewController {
 
         view.layoutIfNeeded()
 
-        UIView.animate(withDuration: 0.2, delay: 0.1, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.2, delay: 0.1, options: .curveEaseInOut, animations: { [weak self] in
             self?.conversationCollectionView.contentInset.top += FriendRequestView.height
 
             friendRequestViewTop.constant += FriendRequestView.height

@@ -25,7 +25,7 @@ final class SkillCell: UICollectionViewCell {
 
     var tapped: Bool = false {
         willSet {
-            UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                 self?.backgroundImageView.tintColor = newValue ? UIColor.black.withAlphaComponent(0.25) : UIColor.yepTintColor()
             }, completion: nil)
         }

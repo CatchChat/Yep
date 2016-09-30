@@ -89,7 +89,7 @@ final class FriendRequestView: UIView {
         let button = UIButton()
         button.setContentHuggingPriority(300, for: UILayoutConstraintAxis.horizontal)
         button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 15, bottom: 5, right: 15)
-        button.setTitleColor(UIColor.white, for: UIControlState())
+        button.setTitleColor(UIColor.white, for: .normal)
         button.setTitleColor(UIColor.gray, for: .highlighted)
         button.setTitleColor(UIColor.lightGray, for: .disabled)
         button.layer.cornerRadius = 5
@@ -98,7 +98,7 @@ final class FriendRequestView: UIView {
 
     lazy var addButton: UIButton = {
         let button = self.baseButton()
-        button.setTitle(NSLocalizedString("button.add", comment: ""), for: UIControlState())
+        button.setTitle(NSLocalizedString("button.add", comment: ""), for: .normal)
         button.backgroundColor = UIColor.yepTintColor()
         button.addTarget(self, action: #selector(FriendRequestView.tryAddAction), for: .touchUpInside)
         return button
@@ -106,7 +106,7 @@ final class FriendRequestView: UIView {
 
     lazy var acceptButton: UIButton = {
         let button = self.baseButton()
-        button.setTitle(NSLocalizedString("button.accept", comment: ""), for: UIControlState())
+        button.setTitle(NSLocalizedString("button.accept", comment: ""), for: .normal)
         button.backgroundColor = UIColor.yepTintColor()
         button.addTarget(self, action: #selector(FriendRequestView.tryAcceptAction), for: .touchUpInside)
         return button
@@ -114,9 +114,9 @@ final class FriendRequestView: UIView {
 
     lazy var rejectButton: UIButton = {
         let button = self.baseButton()
-        button.setTitle(NSLocalizedString("Reject", comment: ""), for: UIControlState())
+        button.setTitle(NSLocalizedString("Reject", comment: ""), for: .normal)
         button.backgroundColor = UIColor(red: 230/255.0, green: 230/255.0, blue: 230/255.0, alpha: 1.0)
-        button.setTitleColor(UIColor.darkGray, for: UIControlState())
+        button.setTitleColor(UIColor.darkGray, for: .normal)
         button.addTarget(self, action: #selector(FriendRequestView.tryRejectAction), for: .touchUpInside)
         return button
     }()

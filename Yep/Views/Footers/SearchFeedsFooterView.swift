@@ -15,14 +15,14 @@ final private class KeywordCell: UITableViewCell {
 
     var keyword: String? {
         didSet {
-            keywordButton.setTitle(keyword, for: UIControlState())
+            keywordButton.setTitle(keyword, for: .normal)
         }
     }
 
     lazy var keywordButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
-        button.setTitleColor(UIColor.yepTintColor(), for: UIControlState())
+        button.setTitleColor(UIColor.yepTintColor(), for: .normal)
 
         button.addTarget(self, action: #selector(KeywordCell.tapKeyword), for: .touchUpInside)
 
@@ -235,7 +235,7 @@ extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
 
         let cell: KeywordCell = tableView.dequeueReusableCell()
 
-        let keyword = keywords[(indexPath as NSIndexPath).row]
+        let keyword = keywords[indexPath.row]
         cell.keyword = keyword
 
         cell.tapKeywordAction = { [weak self] keyword in

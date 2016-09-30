@@ -249,7 +249,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid Section!")
         }
 
@@ -257,7 +257,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
         case .doNotDisturbPeriod:
 
-            switch (indexPath as NSIndexPath).row {
+            switch indexPath.row {
 
             case DoNotDisturbPeriodRow.switch.rawValue:
 
@@ -329,14 +329,14 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid Section!")
         }
 
         switch section {
 
         case .doNotDisturbPeriod:
-            switch (indexPath as NSIndexPath).row {
+            switch indexPath.row {
 
             case DoNotDisturbPeriodRow.switch.rawValue:
                 return 60
@@ -364,14 +364,14 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid Section!")
         }
 
         switch section {
 
         case .doNotDisturbPeriod:
-            if (indexPath as NSIndexPath).row == DoNotDisturbPeriodRow.period.rawValue {
+            if indexPath.row == DoNotDisturbPeriodRow.period.rawValue {
                 performSegue(withIdentifier: "showDoNotDisturbPeriod", sender: nil)
             }
 

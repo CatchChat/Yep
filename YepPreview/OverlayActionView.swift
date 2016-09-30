@@ -15,7 +15,7 @@ class OverlayActionView: UIView {
     fileprivate lazy var shareButton: UIButton = {
         let button = UIButton()
         let image = UIImage(named: "icon_more_image")
-        button.setImage(image, for: UIControlState())
+        button.setImage(image, for: .normal)
         button.addTarget(self, action: #selector(OverlayActionView.share(_:)), for: .touchUpInside)
         return button
     }()

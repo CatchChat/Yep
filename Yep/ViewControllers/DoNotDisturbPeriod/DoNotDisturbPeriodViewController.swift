@@ -126,11 +126,11 @@ final class DoNotDisturbPeriodViewController: UIViewController {
     }
 
     fileprivate func updateFromButton() {
-        fromButton.setTitle(String.trans_timeFrom + " " + doNotDisturbPeriod.localFromString, for: UIControlState())
+        fromButton.setTitle(String.trans_timeFrom + " " + doNotDisturbPeriod.localFromString, for: .normal)
     }
 
     fileprivate func updateToButton() {
-        toButton.setTitle(NSLocalizedString("To", comment: "") + " " + doNotDisturbPeriod.localToString, for: UIControlState())
+        toButton.setTitle(NSLocalizedString("To", comment: "") + " " + doNotDisturbPeriod.localToString, for: .normal)
     }
 
     @IBAction fileprivate func activeFrom() {

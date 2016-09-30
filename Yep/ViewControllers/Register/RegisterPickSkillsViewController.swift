@@ -307,7 +307,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case Section.master.rawValue:
 
@@ -381,7 +381,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
 
             let header: AddSkillsReusableView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, forIndexPath: indexPath)
 
-            switch (indexPath as NSIndexPath).section {
+            switch indexPath.section {
 
             case Section.master.rawValue:
                 header.skillSet = .master
@@ -455,7 +455,7 @@ extension RegisterPickSkillsViewController: UICollectionViewDataSource, UICollec
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        switch (indexPath as NSIndexPath).section {
+        switch indexPath.section {
 
         case Section.master.rawValue:
             if indexPath.item == masterSkills.count {

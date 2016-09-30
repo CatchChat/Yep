@@ -35,8 +35,8 @@ final class SubscribeView: UIView {
     fileprivate lazy var subscribeButton: BorderButton = {
         let button = BorderButton()
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
-        button.setTitle(NSLocalizedString("Subscribe", comment: ""), for: UIControlState())
-        button.setTitleColor(UIColor.yepTintColor(), for: UIControlState())
+        button.setTitle(NSLocalizedString("Subscribe", comment: ""), for: .normal)
+        button.setTitleColor(UIColor.yepTintColor(), for: .normal)
         button.contentEdgeInsets = UIEdgeInsets(top: 8, left: 15, bottom: 8, right: 15)
 
         button.addTarget(self, action: #selector(SubscribeView.subscribe(_:)), for: .touchUpInside)
@@ -46,7 +46,7 @@ final class SubscribeView: UIView {
 
     fileprivate lazy var dismissButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage.yep_iconSubscribeClose, for: UIControlState())
+        button.setImage(UIImage.yep_iconSubscribeClose, for: .normal)
 
         button.addTarget(self, action: #selector(SubscribeView.dismiss(_:)), for: .touchUpInside)
 
@@ -123,7 +123,7 @@ final class SubscribeView: UIView {
 
     func show() {
 
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             self?.bottomConstraint?.constant = 0
             self?.showWithChangeAction?()
             self?.superview?.layoutIfNeeded()
@@ -132,7 +132,7 @@ final class SubscribeView: UIView {
 
     func hide() {
 
-        UIView.animate(withDuration: 0.25, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             self?.bottomConstraint?.constant = SubscribeView.height
             self?.hideWithChangeAction?()
             self?.superview?.layoutIfNeeded()

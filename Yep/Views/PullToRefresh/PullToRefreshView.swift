@@ -90,7 +90,7 @@ final class PullToRefreshView: UIView {
 
         isRefreshing = true
 
-        UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: { [weak self] in
             self?.delegate?.scrollView?.contentInset.top += sceneHeight
         }, completion: nil)
     }
@@ -103,7 +103,7 @@ final class PullToRefreshView: UIView {
 
         isRefreshing = false
 
-        UIView.animate(withDuration: 0.25, delay: 0, options: UIViewAnimationOptions(), animations: { [weak self] in
+        UIView.animate(withDuration: 0.25, delay: 0, options: .curveEaseInOut, animations: { [weak self] in
             self?.delegate?.scrollView?.contentInset.top -= sceneHeight
 
         }, completion: { [weak self] (_) in

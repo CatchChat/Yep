@@ -88,7 +88,7 @@ class ChooseChannelViewController: UITableViewController {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "ChannelCell", for: indexPath)
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
         }
 
@@ -108,7 +108,7 @@ class ChooseChannelViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
         }
 

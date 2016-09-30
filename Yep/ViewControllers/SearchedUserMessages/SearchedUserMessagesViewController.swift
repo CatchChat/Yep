@@ -73,7 +73,7 @@ extension SearchedUserMessagesViewController: UITableViewDataSource, UITableView
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        let itemIndex = (indexPath as NSIndexPath).row
+        let itemIndex = indexPath.row
 
         guard let
             message = messages[safe: itemIndex],
@@ -90,7 +90,7 @@ extension SearchedUserMessagesViewController: UITableViewDataSource, UITableView
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        let itemIndex = (indexPath as NSIndexPath).row
+        let itemIndex = indexPath.row
 
         guard let message = messages[safe: itemIndex],
             let conversation = message.conversation,

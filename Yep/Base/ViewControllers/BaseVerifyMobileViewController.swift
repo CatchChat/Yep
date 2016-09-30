@@ -92,7 +92,7 @@ class BaseVerifyMobileViewController: SegueViewController {
             .addDisposableTo(disposeBag)
 
         callMePromptLabel.text = String.trans_promptDidNotGetIt
-        callMeButton.setTitle(String.trans_buttonCallMe, for: UIControlState())
+        callMeButton.setTitle(String.trans_buttonCallMe, for: .normal)
 
         verifyMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
         verifyCodeTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
@@ -131,13 +131,13 @@ class BaseVerifyMobileViewController: SegueViewController {
                 let callMeInSecondsString = String.trans_buttonCallMe + " (\(callMeInSeconds))"
 
                 UIView.performWithoutAnimation { [weak self] in
-                    self?.callMeButton.setTitle(callMeInSecondsString, for: UIControlState())
+                    self?.callMeButton.setTitle(callMeInSecondsString, for: .normal)
                     self?.callMeButton.layoutIfNeeded()
                 }
 
             } else {
                 UIView.performWithoutAnimation {  [weak self] in
-                    self?.callMeButton.setTitle(String.trans_buttonCallMe, for: UIControlState())
+                    self?.callMeButton.setTitle(String.trans_buttonCallMe, for: .normal)
                     self?.callMeButton.layoutIfNeeded()
                 }
 
@@ -155,7 +155,7 @@ class BaseVerifyMobileViewController: SegueViewController {
         callMeTimer.invalidate()
 
         UIView.performWithoutAnimation { [weak self] in
-            self?.callMeButton.setTitle(String.trans_buttonCalling, for: UIControlState())
+            self?.callMeButton.setTitle(String.trans_buttonCalling, for: .normal)
             self?.callMeButton.layoutIfNeeded()
             self?.callMeButton.isEnabled = false
         }

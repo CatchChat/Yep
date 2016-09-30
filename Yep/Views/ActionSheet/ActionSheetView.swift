@@ -435,7 +435,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let item = items[(indexPath as NSIndexPath).row]
+        let item = items[indexPath.row]
 
         switch item {
 
@@ -502,7 +502,7 @@ extension ActionSheetView: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        let item = items[(indexPath as NSIndexPath).row]
+        let item = items[indexPath.row]
 
         switch item {
 

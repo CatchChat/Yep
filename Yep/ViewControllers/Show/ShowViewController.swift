@@ -45,7 +45,7 @@ final class ShowViewController: UIViewController {
         super.viewDidAppear(animated)
 
         if isFirstAppear {
-            UIView.animate(withDuration: 1, delay: 0.5, options: UIViewAnimationOptions(), animations: { [weak self] in
+            UIView.animate(withDuration: 1, delay: 0.5, options: .curveEaseInOut, animations: { [weak self] in
                 self?.scrollView.alpha = 1
                 self?.pageControl.alpha = 1
                 self?.registerButton.alpha = 1
@@ -64,11 +64,11 @@ final class ShowViewController: UIViewController {
         pageControl.pageIndicatorTintColor = UIColor.yepBorderColor()
         pageControl.currentPageIndicatorTintColor = UIColor.yepTintColor()
 
-        registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), for: UIControlState())
-        loginButton.setTitle(String.trans_titleLogin, for: UIControlState())
+        registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), for: .normal)
+        loginButton.setTitle(String.trans_titleLogin, for: .normal)
 
         registerButton.backgroundColor = UIColor.yepTintColor()
-        loginButton.setTitleColor(UIColor.yepInputTextColor(), for: UIControlState())
+        loginButton.setTitleColor(UIColor.yepInputTextColor(), for: .normal)
 
         let views: [String: Any] = [
             "view": view,

@@ -21,9 +21,9 @@ final class FeedVoiceContainerView: UIView {
         willSet {
             if newValue != audioPlaying {
                 if newValue {
-                    playButton.setImage(UIImage.yep_iconPause, for: UIControlState())
+                    playButton.setImage(UIImage.yep_iconPause, for: .normal)
                 } else {
-                    playButton.setImage(UIImage.yep_iconPlayvideo, for: UIControlState())
+                    playButton.setImage(UIImage.yep_iconPlayvideo, for: .normal)
                 }
             }
         }
@@ -38,7 +38,7 @@ final class FeedVoiceContainerView: UIView {
 
     lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage.yep_iconPlayvideo, for: UIControlState())
+        button.setImage(UIImage.yep_iconPlayvideo, for: .normal)
         button.tintColor = UIColor.lightGray
         button.tintAdjustmentMode = .normal
 

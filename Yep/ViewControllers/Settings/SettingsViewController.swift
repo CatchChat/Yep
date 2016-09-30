@@ -118,7 +118,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalide section!")
         }
 
@@ -129,7 +129,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             return cell
 
         case .ui:
-            guard let row = UIRow(rawValue: (indexPath as NSIndexPath).row) else {
+            guard let row = UIRow(rawValue: indexPath.row) else {
                 fatalError("Invalide row!")
             }
 
@@ -146,7 +146,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
         case .more:
             let cell: SettingsMoreCell = tableView.dequeueReusableCell()
-            let annotation = moreAnnotations[(indexPath as NSIndexPath).row]
+            let annotation = moreAnnotations[indexPath.row]
             cell.annotationLabel.text = annotation.name
             return cell
         }
@@ -154,7 +154,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalide section!")
         }
 
@@ -185,7 +185,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalide section!")
         }
 
@@ -198,7 +198,7 @@ extension SettingsViewController: UITableViewDataSource, UITableViewDelegate {
             break
 
         case .more:
-            let annotation = moreAnnotations[(indexPath as NSIndexPath).row]
+            let annotation = moreAnnotations[indexPath.row]
             let segue = annotation.segue
             performSegue(withIdentifier: segue, sender: nil)
         }

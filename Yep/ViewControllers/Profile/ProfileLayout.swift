@@ -35,7 +35,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
             let deltaY = abs(contentOffset.y - minY)
 
             for attributes in layoutAttributes {
-                if (attributes.indexPath as NSIndexPath).section == ProfileViewController.Section.header.rawValue {
+                if attributes.indexPath.section == ProfileViewController.Section.header.rawValue {
                     var frame = attributes.frame
                     frame.size.height = max(minY, collectionView!.bounds.width * profileAvatarAspectRatio + deltaY)
                     frame.origin.y = frame.minY - deltaY
@@ -54,7 +54,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
                 let deltaY = abs(contentOffset.y - minY)
 
                 for attributes in layoutAttributes {
-                    if (attributes.indexPath as NSIndexPath).section == ProfileViewController.Section.header.rawValue {
+                    if attributes.indexPath.section == ProfileViewController.Section.header.rawValue {
                         var frame = attributes.frame
                         frame.origin.y = deltaY - coverHideHeight
                         attributes.frame = frame
@@ -112,7 +112,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
             for attributes in rowCollection {
                 var itemFrame = attributes.frame
 
-                if attributes.representedElementCategory == .cell && ((attributes.indexPath as NSIndexPath).section == ProfileViewController.Section.master.rawValue || (attributes.indexPath as NSIndexPath).section == ProfileViewController.Section.learning.rawValue) {
+                if attributes.representedElementCategory == .cell && (attributes.indexPath.section == ProfileViewController.Section.master.rawValue || attributes.indexPath.section == ProfileViewController.Section.learning.rawValue) {
                     if previousFrame.equalTo(CGRect.zero) {
                         itemFrame.origin.x = leftEdgeInset
                     } else {

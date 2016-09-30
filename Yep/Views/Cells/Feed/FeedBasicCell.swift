@@ -57,8 +57,8 @@ class FeedBasicCell: UITableViewCell {
 
     lazy var skillButton: UIButton = {
         let button = UIButton()
-        button.setBackgroundImage(UIImage.yep_skillBubbleEmpty, for: UIControlState())
-        button.setTitleColor(UIColor.yepTintColor(), for: UIControlState())
+        button.setBackgroundImage(UIImage.yep_skillBubbleEmpty, for: .normal)
+        button.setTitleColor(UIColor.yepTintColor(), for: .normal)
         button.titleLabel?.font = UIFont.feedSkillFont()
 
         let cellWidth = self.bounds.width

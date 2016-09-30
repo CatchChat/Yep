@@ -204,7 +204,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        if let row = Row(rawValue: (indexPath as NSIndexPath).row) {
+        if let row = Row(rawValue: indexPath.row) {
 
             if case .photoGallery = row {
 
@@ -248,7 +248,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let row = Row(rawValue: (indexPath as NSIndexPath).row) {
+        if let row = Row(rawValue: indexPath.row) {
             if case .photoGallery = row {
                 return 100
 
@@ -266,7 +266,7 @@ extension MoreMessageTypesView: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        if let row = Row(rawValue: (indexPath as NSIndexPath).row) {
+        if let row = Row(rawValue: indexPath.row) {
             switch row {
 
             case .pickPhotos:

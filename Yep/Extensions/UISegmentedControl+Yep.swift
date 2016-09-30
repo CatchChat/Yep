@@ -14,7 +14,7 @@ extension UISegmentedControl {
 
         let attributes = [NSFontAttributeName: font]
 
-        setTitleTextAttributes(attributes, for: UIControlState())
+        setTitleTextAttributes(attributes, for: .normal)
 
         var maxWidth: CGFloat = 0
         for i in 0..<numberOfSegments {

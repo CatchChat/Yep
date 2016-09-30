@@ -79,19 +79,19 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        switch (indexPath as NSIndexPath).row {
+        switch indexPath.row {
         case 0:
             return UITableViewCell()
         default:
             let cell: AboutCell = tableView.dequeueReusableCell()
-            let annotation = aboutAnnotations[(indexPath as NSIndexPath).row - 1]
+            let annotation = aboutAnnotations[indexPath.row - 1]
             cell.annotationLabel.text = annotation
             return cell
         }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        switch (indexPath as NSIndexPath).row {
+        switch indexPath.row {
         case 0:
             return 1
         default:
@@ -105,7 +105,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
             tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        switch (indexPath as NSIndexPath).row {
+        switch indexPath.row {
 
         case Row.pods.rawValue:
             performSegue(withIdentifier: "showPodsHelpYep", sender: nil)

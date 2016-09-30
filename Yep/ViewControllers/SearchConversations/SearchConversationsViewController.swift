@@ -200,7 +200,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
 
-        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] _ in
             self?.searchBarBottomLineView.alpha = 1
         }, completion: nil)
 
@@ -212,7 +212,7 @@ extension SearchConversationsViewController: UISearchBarDelegate {
         searchBar.text = nil
         searchBar.resignFirstResponder()
 
-        UIView.animate(withDuration: 0.1, delay: 0.0, options: UIViewAnimationOptions(), animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] _ in
             self?.searchBarBottomLineView.alpha = 0
         }, completion: nil)
 
@@ -416,16 +416,16 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
-        guard (indexPath as NSIndexPath).row > 0 else {
+        guard indexPath.row > 0 else {
             return 40
         }
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
         if haveMoreItemsInSection(section) {
-            if (indexPath as NSIndexPath).row < numberOfRowsInSection((indexPath as NSIndexPath).section) - 1 {
+            if indexPath.row < numberOfRowsInSection(indexPath.section) - 1 {
                 return 70
             } else {
                 return 30
@@ -437,11 +437,11 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
-        if (indexPath as NSIndexPath).row == 0 {
+        if indexPath.row == 0 {
 
             let cell: SearchSectionTitleCell = tableView.dequeueReusableCell()
 
@@ -457,7 +457,7 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
             return cell
         }
 
-        let itemIndex = (indexPath as NSIndexPath).row - 1
+        let itemIndex = indexPath.row - 1
 
         switch section {
 
@@ -492,15 +492,15 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        guard (indexPath as NSIndexPath).row > 0 else {
+        guard indexPath.row > 0 else {
             return
         }
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
-        let itemIndex = (indexPath as NSIndexPath).row - 1
+        let itemIndex = indexPath.row - 1
 
         switch section {
 
@@ -561,17 +561,17 @@ extension SearchConversationsViewController: UITableViewDataSource, UITableViewD
 
         tableView.deselectRow(at: indexPath, animated: true)
 
-        guard (indexPath as NSIndexPath).row > 0 else {
+        guard indexPath.row > 0 else {
             return
         }
 
         hideKeyboard()
 
-        guard let section = Section(rawValue: (indexPath as NSIndexPath).section) else {
+        guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
         }
 
-        let itemIndex = (indexPath as NSIndexPath).row - 1
+        let itemIndex = indexPath.row - 1
 
         switch section {
 
