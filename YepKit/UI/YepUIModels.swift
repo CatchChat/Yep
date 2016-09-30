@@ -48,20 +48,20 @@ open class SkillCellSkill: NSObject {
     open let coverURLString: String?
 
     public enum Category: String {
-        case Art = "Art"
-        case Technology = "Technology"
-        case Sport = "Sport"
-        case LifeStyle = "Life Style"
+        case art = "Art"
+        case technology = "Technology"
+        case sport = "Sport"
+        case lifeStyle = "Life Style"
 
         var gradientImage: UIImage? {
             switch self {
-            case .Art:
+            case .art:
                 return UIImage(named: "gradient_art")
-            case .Technology:
+            case .technology:
                 return UIImage(named: "gradient_tech")
-            case .Sport:
+            case .sport:
                 return UIImage(named: "gradient_sport")
-            case .LifeStyle:
+            case .lifeStyle:
                 return UIImage(named: "gradient_life")
             }
         }
@@ -72,7 +72,7 @@ open class SkillCellSkill: NSObject {
         self.ID = ID
         self.localName = localName
         self.coverURLString = coverURLString
-        self.category = category ?? .Art
+        self.category = category ?? .art
     }
 }
 
