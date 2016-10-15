@@ -39,7 +39,7 @@ final class OpenGraphTests: XCTestCase {
 
             print("iTunes openGraph: \(openGraph)")
 
-            if openGraph.URL.opengraphtests_containsQueryItem(queryItem) {
+            if openGraph.url.opengraphtests_containsQueryItem(queryItem) {
                 expectation.fulfill()
             }
         }
