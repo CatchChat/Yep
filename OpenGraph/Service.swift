@@ -81,7 +81,7 @@ public func openGraphWithURL(_ url: URL, failureHandler: FailureHandler?, comple
             let newHTMLString = getUTF8HTMLStringFromHTMLString(HTMLString, withData: data)
             //println("newHTMLString: \(newHTMLString)")
 
-            if let openGraph = OpenGraph.fromHTMLString(newHTMLString, forURL: finalURL) {
+            if let openGraph = OpenGraph.fromHTMLString(newHTMLString, for: finalURL) {
 
                 completion(openGraph)
                 /*

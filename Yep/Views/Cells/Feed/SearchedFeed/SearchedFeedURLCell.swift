@@ -47,7 +47,7 @@ final class SearchedFeedURLCell: SearchedFeedBasicCell {
                 feedURLContainerView.titleLabel.text = openGraphInfo.title
 
                 feedURLContainerView.tapAction = { [weak self] in
-                    self?.tapURLInfoAction?(openGraphInfo.URL)
+                    self?.tapURLInfoAction?(openGraphInfo.url)
                 }
             }
         }

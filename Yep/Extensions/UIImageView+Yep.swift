@@ -138,8 +138,8 @@ extension UIImageView {
         return objc_getAssociatedObject(self, &attachmentURLAssociatedKey) as? URL
     }
 
-    fileprivate func yep_setAttachmentURL(_ URL: Foundation.URL) {
-        objc_setAssociatedObject(self, &attachmentURLAssociatedKey, URL, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
+    fileprivate func yep_setAttachmentURL(_ url: URL) {
+        objc_setAssociatedObject(self, &attachmentURLAssociatedKey, url, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)
     }
 
     func yep_setImageOfAttachment(_ attachment: DiscoveredAttachment, withSize size: CGSize) {

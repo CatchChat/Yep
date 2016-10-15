@@ -58,7 +58,7 @@ final class ChatRightTextURLCell: ChatRightTextCell {
 
         if let openGraphInfo = message.openGraphInfo {
             feedURLContainerView.configureWithOpenGraphInfoType(openGraphInfo)
-            openGraphURL = openGraphInfo.URL
+            openGraphURL = openGraphInfo.url
         }
     }
 }

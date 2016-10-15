@@ -112,9 +112,9 @@ final class ChatTextView: UITextView {
 
 extension ChatTextView: UITextViewDelegate {
 
-    fileprivate func tryMatchSharedFeedWithURL(_ URL: Foundation.URL) -> Bool {
+    fileprivate func tryMatchSharedFeedWithURL(_ url: URL) -> Bool {
 
-        let matched = URL.yep_matchSharedFeed { [weak self] feed in
+        let matched = url.yep_matchSharedFeed { [weak self] feed in
             self?.tapFeedAction?(feed)
         }
 

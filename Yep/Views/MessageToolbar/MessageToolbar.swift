@@ -353,7 +353,7 @@ final class MessageToolbar: UIToolbar {
 
     // MARK: Actions
 
-    func updateDraft(_ notification: Foundation.Notification) {
+    func updateDraft(_ notification: Notification) {
 
         guard let conversation = conversation, !conversation.isInvalidated, let realm = conversation.realm else {
             return

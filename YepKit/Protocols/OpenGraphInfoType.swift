@@ -10,7 +10,7 @@ import Foundation
 
 public protocol OpenGraphInfoType {
 
-    var URL: Foundation.URL { get }
+    var url: URL { get }
 
     var siteName: String { get }
     var title: String { get }

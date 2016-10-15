@@ -596,7 +596,7 @@ final class FeedView: UIView {
 
     func tapURLInfo(_ sender: UITapGestureRecognizer) {
 
-        guard let url = feed?.openGraphInfo?.URL else {
+        guard let url = feed?.openGraphInfo?.url else {
             return
         }
 

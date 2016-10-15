@@ -1017,7 +1017,7 @@ extension ConversationViewController: UICollectionViewDataSource, UICollectionVi
                     return
                 }
 
-                let openGraphInfo = OpenGraphInfo(URLString: _openGraph.URL.absoluteString, siteName: _openGraph.siteName ?? "", title: _openGraph.title ?? "", infoDescription: _openGraph.description ?? "", thumbnailImageURLString: _openGraph.previewImageURLString ?? "")
+                let openGraphInfo = OpenGraphInfo(URLString: _openGraph.url.absoluteString, siteName: _openGraph.siteName ?? "", title: _openGraph.title ?? "", infoDescription: _openGraph.description ?? "", thumbnailImageURLString: _openGraph.previewImageURLString ?? "")
 
                 let _ = try? strongSelf.realm.write {
                     strongSelf.realm.add(openGraphInfo, update: true)

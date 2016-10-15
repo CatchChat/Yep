@@ -974,8 +974,8 @@ open class OpenGraphInfo: Object {
 
 extension OpenGraphInfo: OpenGraphInfoType {
 
-    public var URL: Foundation.URL {
-        return Foundation.URL(string: URLString)!
+    public var url: URL {
+        return URL(string: URLString)!
     }
 }
 
@@ -1607,7 +1607,7 @@ public func saveFeedWithDiscoveredFeed(_ feedData: DiscoveredFeed, group: Group,
                 break
             }
 
-            let openGraphInfo = OpenGraphInfo(URLString: info.URL.absoluteString, siteName: info.siteName, title: info.title, infoDescription: info.infoDescription, thumbnailImageURLString: info.thumbnailImageURLString)
+            let openGraphInfo = OpenGraphInfo(URLString: info.url.absoluteString, siteName: info.siteName, title: info.title, infoDescription: info.infoDescription, thumbnailImageURLString: info.thumbnailImageURLString)
 
             realm.add(openGraphInfo, update: true)
 

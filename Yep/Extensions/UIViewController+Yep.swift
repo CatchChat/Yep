@@ -140,10 +140,10 @@ extension UIViewController {
 
 extension UIViewController {
 
-    func yep_openURL(_ URL: Foundation.URL) {
+    func yep_openURL(_ url: URL) {
 
-        if let URL = URL.yep_validSchemeNetworkURL {
-            let safariViewController = SFSafariViewController(url: URL)
+        if let url = url.yep_validSchemeNetworkURL {
+            let safariViewController = SFSafariViewController(url: url)
             present(safariViewController, animated: true, completion: nil)
 
         } else {

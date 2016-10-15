@@ -135,8 +135,8 @@ class ShareViewController: SLComposeServiceViewController {
     enum ShareType {
 
         case plainText(body: String)
-        case audio(body: String, fileURL: Foundation.URL)
-        case url(body: String, URL: Foundation.URL)
+        case audio(body: String, fileURL: URL)
+        case url(body: String, URL: URL)
         case images(body: String, images: [UIImage])
 
         var body: String {
@@ -319,7 +319,7 @@ class ShareViewController: SLComposeServiceViewController {
                 kind = .url
 
                 let URLInfo = [
-                    "url": openGraph.URL.absoluteString,
+                    "url": openGraph.url.absoluteString,
                     "site_name": (openGraph.siteName ?? "").yepshare_truncatedForFeed,
                     "title": (openGraph.title ?? "").yepshare_truncatedForFeed,
                     "description": (openGraph.description ?? "").yepshare_truncatedForFeed,

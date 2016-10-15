@@ -2710,7 +2710,7 @@ public struct DiscoveredFeed: Hashable {
 
     public struct OpenGraphInfo: OpenGraphInfoType {
 
-        public let URL: Foundation.URL
+        public let url: URL
 
         public let siteName: String
         public let title: String
@@ -2720,7 +2720,7 @@ public struct DiscoveredFeed: Hashable {
         public static func fromJSONDictionary(_ json: JSONDictionary) -> OpenGraphInfo? {
             guard let
                 URLString = json["url"] as? String,
-                let URL = Foundation.URL(string: URLString),
+                let url = URL(string: URLString),
                 let siteName = json["site_name"] as? String,
                 let title = json["title"] as? String,
                 let infoDescription = json["description"] as? String,
@@ -2728,7 +2728,7 @@ public struct DiscoveredFeed: Hashable {
                     return nil
             }
 
-            return OpenGraphInfo(URL: URL, siteName: siteName, title: title, infoDescription: infoDescription, thumbnailImageURLString: thumbnailImageURLString)
+            return OpenGraphInfo(url: url, siteName: siteName, title: title, infoDescription: infoDescription, thumbnailImageURLString: thumbnailImageURLString)
         }
     }
 

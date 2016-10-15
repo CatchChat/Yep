@@ -15,9 +15,9 @@ final class YepDownloader: NSObject {
 
     static let sharedDownloader = YepDownloader()
 
-    lazy var session: Foundation.URLSession = {
+    lazy var session: URLSession = {
         let sessionConfig = URLSessionConfiguration.default
-        let session = Foundation.URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
+        let session = URLSession(configuration: sessionConfig, delegate: self, delegateQueue: nil)
         return session
     }()
 

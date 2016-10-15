@@ -400,7 +400,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    fileprivate func handleUniversalLink(_ URL: Foundation.URL) -> Bool {
+    fileprivate func handleUniversalLink(_ url: URL) -> Bool {
 
         guard let
             tabBarVC = window?.rootViewController as? UITabBarController,
@@ -410,7 +410,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Feed (Group)
 
-        return URL.yep_matchSharedFeed({ feed in
+        return url.yep_matchSharedFeed({ feed in
 
             guard let feed = feed else {
                 return
@@ -442,7 +442,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         // Profile (Last)
 
-        }) || URL.yep_matchProfile({ discoveredUser in
+        }) || url.yep_matchProfile({ discoveredUser in
 
             //println("matchProfile: \(discoveredUser)")
 

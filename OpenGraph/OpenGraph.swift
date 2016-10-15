@@ -20,7 +20,7 @@ public struct OpenGraph {
 
     var kind: Kind = .default
 
-    public var URL: Foundation.URL
+    public var url: URL
 
     public var siteName: String?
 
@@ -92,15 +92,15 @@ public struct OpenGraph {
     }
     var appleEBook: AppleEBook?
 
-    init(URL: Foundation.URL) {
-        self.URL = URL.opengraph_appleAllianceURL
+    init(url: URL) {
+        self.url = url.opengraph_appleAllianceURL
     }
 
-    static func fromHTMLString(_ HTMLString: String, forURL URL: Foundation.URL) -> OpenGraph? {
+    static func fromHTMLString(_ HTMLString: String, for url: URL) -> OpenGraph? {
 
         if let doc = Kanna.HTML(html: HTMLString, encoding: .utf8) {
 
-            var openGraph = OpenGraph(URL: URL)
+            var openGraph = OpenGraph(url: url)
 
             if let metaSet = doc.head?.css("meta") {
 
@@ -126,7 +126,7 @@ public struct OpenGraph {
                 // 若缺失某些`og:`标签，再做补救
 
                 if openGraph.siteName == nil {
-                    openGraph.siteName = URL.host
+                    openGraph.siteName = url.host
                 }
 
                 if openGraph.title == nil {

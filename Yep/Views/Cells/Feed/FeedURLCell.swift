@@ -46,7 +46,7 @@ final class FeedURLCell: FeedBasicCell {
                 feedURLContainerView.configureWithOpenGraphInfoType(openGraphInfo)
 
                 feedURLContainerView.tapAction = { [weak self] in
-                    self?.tapURLInfoAction?(openGraphInfo.URL)
+                    self?.tapURLInfoAction?(openGraphInfo.url)
                 }
             }
         }
