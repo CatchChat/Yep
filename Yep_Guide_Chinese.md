@@ -1,6 +1,8 @@
 # Yep 代码入门指南
 
-> 请使用最新的 Cocoapods（version 0.39.0）和 Xcode 7.2 进行编译并运行。
+Yep 同时使用 CocoaPods 和 Carthage 管理第三方库，在 Build 之前，请先运行 `pod install` 和 `carthage bootstrap --platform ios` 来安装第三方库（请确保这两个工具都是最新版本）。
+
+Swift 3.0 (Xcode 8)
 
 ## Intro
 

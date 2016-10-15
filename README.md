@@ -8,7 +8,11 @@ https://soyep.com
 
 # Yep: Project Introductory Guide
 
-> Please build with the latest CocoaPods v0.39.0 and Xcode 7.2.
+Both CocoaPods and Carthage are used in Yep for third party frameworks management.
+
+Before build, run `pod install` and `carthage bootstrap --platform ios` to install third party frameworks. (Make sure both CocoaPods and Carthage are updated to latest version at first)
+
+Swift 3.0 (Xcode 8)
 
 ## Intro
 
