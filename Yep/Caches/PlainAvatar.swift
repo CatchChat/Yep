@@ -21,8 +21,8 @@ struct PlainAvatar {
 
 extension PlainAvatar: Navi.Avatar {
 
-    var URL: Foundation.URL? {
-        return Foundation.URL(string: avatarURLString)
+    var url: URL? {
+        return URL(string: avatarURLString)
     }
 
     var style: AvatarStyle {
@@ -85,7 +85,7 @@ extension PlainAvatar: Navi.Avatar {
         return nil
     }
 
-    func saveOriginalImage(_ originalImage: UIImage, styledImage: UIImage) {
+    func save(originalImage: UIImage, styledImage: UIImage) {
 
         guard let realm = try? Realm() else {
             return

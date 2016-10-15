@@ -31,8 +31,8 @@ struct UserAvatar {
 
 extension UserAvatar: Navi.Avatar {
 
-    var URL: Foundation.URL? {
-        return Foundation.URL(string: avatarURLString)
+    var url: URL? {
+        return URL(string: avatarURLString)
     }
 
     var style: AvatarStyle {
@@ -89,7 +89,7 @@ extension UserAvatar: Navi.Avatar {
         return nil
     }
 
-    func saveOriginalImage(_ originalImage: UIImage, styledImage: UIImage) {
+    func save(originalImage: UIImage, styledImage: UIImage) {
 
         guard let user = user, let realm = user.realm else {
             return
