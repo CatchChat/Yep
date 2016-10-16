@@ -12,12 +12,12 @@ import Proposer
 
 final class AddFriendsViewController: SegueViewController {
 
-    @IBOutlet private weak var addFriendsTableView: UITableView! {
+    @IBOutlet fileprivate weak var addFriendsTableView: UITableView! {
         didSet {
             addFriendsTableView.rowHeight = 60
 
-            addFriendsTableView.registerNibOf(AddFriendSearchCell)
-            addFriendsTableView.registerNibOf(AddFriendMoreCell)
+            addFriendsTableView.registerNibOf(AddFriendSearchCell.self)
+            addFriendsTableView.registerNibOf(AddFriendMoreCell.self)
         }
     }
 
@@ -27,9 +27,9 @@ final class AddFriendsViewController: SegueViewController {
         title = NSLocalizedString("title.add_friends", comment: "")
     }
 
-    private var isFirstAppear: Bool = true
+    fileprivate var isFirstAppear: Bool = true
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if isFirstAppear {
@@ -41,29 +41,29 @@ final class AddFriendsViewController: SegueViewController {
         isFirstAppear = false
     }
 
-    private var addFriendSearchCell: AddFriendSearchCell? {
+    fileprivate var addFriendSearchCell: AddFriendSearchCell? {
 
-        let searchIndexPath = NSIndexPath(forRow: 0, inSection: Section.Search.rawValue)
-        return addFriendsTableView.cellForRowAtIndexPath(searchIndexPath) as? AddFriendSearchCell
+        let searchIndexPath = IndexPath(row: 0, section: Section.search.rawValue)
+        return addFriendsTableView.cellForRow(at: searchIndexPath) as? AddFriendSearchCell
     }
 
-    private func tryShowKeyboard() {
+    fileprivate func tryShowKeyboard() {
 
         addFriendSearchCell?.searchTextField.becomeFirstResponder()
     }
 
-    private func tryHideKeyboard() {
+    fileprivate func tryHideKeyboard() {
 
         addFriendSearchCell?.searchTextField.resignFirstResponder()
     }
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showSearchedUsers" {
             if let searchText = sender as? String {
-                let vc = segue.destinationViewController as! SearchedUsersViewController
-                vc.searchText = searchText.trimming(.WhitespaceAndNewline)
+                let vc = segue.destination as! SearchedUsersViewController
+                vc.searchText = searchText.trimming(.whitespaceAndNewline)
             }
         }
     }
@@ -71,85 +71,96 @@ final class AddFriendsViewController: SegueViewController {
 
 extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    private enum Section: Int {
-        case Search = 0
-        case More
+    fileprivate enum Section: Int {
+        case search = 0
+        case more
     }
 
-    private enum More: Int, CustomStringConvertible {
-        case Contacts
-        //case FaceToFace
+    fileprivate enum More: Int, CustomStringConvertible {
+        case contacts
 
         var description: String {
             switch self {
-
-            case .Contacts:
-                return NSLocalizedString("Friends in Contacts", comment: "")
-
-            //case .FaceToFace:
-            //    return NSLocalizedString("Face to Face", comment: "")
+            case .contacts:
+                return String.trans_titleFriendsInContacts
             }
         }
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        guard let section = Section(rawValue: section) else {
+            fatalError("Invalid section!")
+        }
+
         switch section {
 
-        case Section.Search.rawValue:
+        case .search:
             return 1
 
-        case Section.More.rawValue:
+        case .more:
             return 1
-
-        default:
-            return 0
         }
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        switch indexPath.section {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        case Section.Search.rawValue:
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
+
+        switch section {
+
+        case .search:
             let cell: AddFriendSearchCell = tableView.dequeueReusableCell()
 
-            cell.searchTextField.returnKeyType = .Search
+            cell.searchTextField.returnKeyType = .search
             cell.searchTextField.delegate = self
 
             return cell
 
-        case Section.More.rawValue:
+        case .more:
             let cell: AddFriendMoreCell = tableView.dequeueReusableCell()
 
             cell.annotationLabel.text = More(rawValue: indexPath.row)?.description
 
             return cell
-
-        default:
-            return UITableViewCell()
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         tryHideKeyboard()
 
-        if indexPath.section == Section.More.rawValue {
+        guard let section = Section(rawValue: indexPath.section) else {
+            fatalError("Invalid section!")
+        }
 
-            switch indexPath.row {
+        switch section {
 
-            case More.Contacts.rawValue:
+        case .search:
+            break
+
+        case .more:
+            guard let row = More(rawValue: indexPath.row) else {
+                fatalError("Invalid row!")
+            }
+
+            switch row {
+
+            case .contacts:
 
                 let propose: Propose = {
-                    proposeToAccess(.Contacts, agreed: { [weak self] in
-                        self?.performSegueWithIdentifier("showFriendsInContacts", sender: nil)
+                    proposeToAccess(.contacts, agreed: { [weak self] in
+                        self?.performSegue(withIdentifier: "showFriendsInContacts", sender: nil)
 
                     }, rejected: { [weak self] in
                         self?.alertCanNotAccessContacts()
@@ -157,12 +168,6 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
 
                 showProposeMessageIfNeedForContactsAndTryPropose(propose)
-
-            //case More.FaceToFace.rawValue:
-            //    break
-                
-            default:
-                break
             }
         }
     }
@@ -170,13 +175,13 @@ extension AddFriendsViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension AddFriendsViewController: UITextFieldDelegate {
 
-    func textFieldShouldReturn(textField: UITextField) -> Bool {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 
         let text = textField.text
 
         textField.resignFirstResponder()
 
-        performSegueWithIdentifier("showSearchedUsers", sender: text)
+        performSegue(withIdentifier: "showSearchedUsers", sender: text)
 
         return true
     }

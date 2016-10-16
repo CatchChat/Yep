@@ -8,14 +8,15 @@
 
 import UIKit
 import YepKit
+import YepPreview
 
-final class ChatRightImageCell: ChatRightBaseCell {
+final class ChatRightImageCell: ChatRightBaseCell, Previewable {
 
     lazy var messageImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         imageView.tintColor = UIColor.rightBubbleTintColor()
-        imageView.maskView = self.messageImageMaskImageView
+        imageView.mask = self.messageImageMaskImageView
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -27,8 +28,8 @@ final class ChatRightImageCell: ChatRightBaseCell {
 
     lazy var loadingProgressView: MessageLoadingProgressView = {
         let view = MessageLoadingProgressView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        view.hidden = true
-        view.backgroundColor = UIColor.clearColor()
+        view.isHidden = true
+        view.backgroundColor = UIColor.clear
         return view
     }()
 
@@ -42,7 +43,7 @@ final class ChatRightImageCell: ChatRightBaseCell {
 
     func makeUI() {
 
-        let fullWidth = UIScreen.mainScreen().bounds.width
+        let fullWidth = UIScreen.main.bounds.width
 
         let halfAvatarSize = YepConfig.chatCellAvatarSize() / 2
 
@@ -61,12 +62,12 @@ final class ChatRightImageCell: ChatRightBaseCell {
         }
         UIView.setAnimationsEnabled(true)
 
-        messageImageView.userInteractionEnabled = true
+        messageImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatRightImageCell.tapMediaView))
         messageImageView.addGestureRecognizer(tap)
         
         prepareForMenuAction = { otherGesturesEnabled in
-            tap.enabled = otherGesturesEnabled
+            tap.isEnabled = otherGesturesEnabled
         }
     }
 
@@ -87,16 +88,16 @@ final class ChatRightImageCell: ChatRightBaseCell {
     var loadingProgress: Double = 0 {
         willSet {
             if newValue == 1.0 {
-                loadingProgressView.hidden = true
+                loadingProgressView.isHidden = true
 
             } else {
                 loadingProgressView.progress = newValue
-                loadingProgressView.hidden = false
+                loadingProgressView.isHidden = false
             }
         }
     }
 
-    func loadingWithProgress(progress: Double, image: UIImage?) {
+    func loadingWithProgress(_ progress: Double, image: UIImage?) {
 
         if progress >= loadingProgress {
 
@@ -112,14 +113,14 @@ final class ChatRightImageCell: ChatRightBaseCell {
             }
 
             if let image = image {
-                UIView.transitionWithView(self, duration: imageFadeTransitionDuration, options: .TransitionCrossDissolve, animations: { [weak self] in
+                UIView.transition(with: self, duration: imageFadeTransitionDuration, options: .transitionCrossDissolve, animations: { [weak self] in
                     self?.messageImageView.image = image
                 }, completion: nil)
             }
         }
     }
 
-    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?) {
+    func configureWithMessage(_ message: Message, mediaTapAction: MediaTapAction?) {
 
         self.message = message
         self.user = message.fromFriend
@@ -140,7 +141,7 @@ final class ChatRightImageCell: ChatRightBaseCell {
 
         let imageSize = message.fixedImageSize
 
-        messageImageView.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .Right, completion: { loadingProgress, image in
+        messageImageView.yep_setImageOfMessage(message, withSize: imageSize, tailDirection: .right, completion: { loadingProgress, image in
             SafeDispatch.async { [weak self] in
                 self?.loadingWithProgress(loadingProgress, image: image)
             }
@@ -149,16 +150,22 @@ final class ChatRightImageCell: ChatRightBaseCell {
         UIView.setAnimationsEnabled(false); do {
             let width = min(imageSize.width, YepConfig.ChatCell.imageMaxWidth)
 
-            messageImageView.frame = CGRect(x: CGRectGetMinX(avatarImageView.frame) - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
+            messageImageView.frame = CGRect(x: (avatarImageView.frame).minX - YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble - width, y: 0, width: width, height: bounds.height)
             messageImageMaskImageView.frame = messageImageView.bounds
 
-            dotImageView.center = CGPoint(x: CGRectGetMinX(messageImageView.frame) - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: CGRectGetMidY(messageImageView.frame))
+            dotImageView.center = CGPoint(x: messageImageView.frame.minX - YepConfig.ChatCell.gapBetweenDotImageViewAndBubble, y: messageImageView.frame.midY)
 
-            loadingProgressView.center = CGPoint(x: CGRectGetMidX(messageImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(messageImageView.frame))
+            loadingProgressView.center = CGPoint(x: messageImageView.frame.midX + YepConfig.ChatCell.playImageViewXOffset, y: messageImageView.frame.midY)
 
             borderImageView.frame = messageImageView.frame
         }
         UIView.setAnimationsEnabled(true)
+    }
+
+    // MARK: Previewable
+
+    var transitionReference: Reference {
+        return Reference(view: messageImageView, image: messageImageView.image)
     }
 }
 

@@ -14,10 +14,10 @@ final class LoadMoreTableViewCell: UITableViewCell {
         didSet {
             if isLoading {
                 loadingActivityIndicator.startAnimating()
-                noMoreResultsLabel.hidden = true
+                noMoreResultsLabel.isHidden = true
             } else {
                 loadingActivityIndicator.stopAnimating()
-                noMoreResultsLabel.hidden = false
+                noMoreResultsLabel.isHidden = false
             }
         }
     }
@@ -27,15 +27,15 @@ final class LoadMoreTableViewCell: UITableViewCell {
     @IBOutlet weak var noMoreResultsLabel: UILabel! {
         didSet {
             noMoreResultsLabel.textColor = UIColor.yep_mangmorGrayColor()
-            noMoreResultsLabel.text = NSLocalizedString("No more results.", comment: "")
+            noMoreResultsLabel.text = String.trans_promptNoMoreResults
         }
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        separatorInset = UIEdgeInsets(top: 0, left: UIScreen.mainScreen().bounds.width, bottom: 0, right: 0)
-        noMoreResultsLabel.hidden = true
+        separatorInset = UIEdgeInsets(top: 0, left: UIScreen.main.bounds.width, bottom: 0, right: 0)
+        noMoreResultsLabel.isHidden = true
     }
 }
     

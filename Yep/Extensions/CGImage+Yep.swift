@@ -12,37 +12,37 @@ extension CGImage {
 
     var yep_extendedCanvasCGImage: CGImage {
 
-        let width = CGImageGetWidth(self)
-        let height = CGImageGetHeight(self)
+        let width = self.width
+        let height = self.height
 
         guard width > 0 && height > 0 else {
             return self
         }
 
         func hasAlpha() -> Bool {
-            let alpha = CGImageGetAlphaInfo(self)
+            let alpha = self.alphaInfo
             switch alpha {
-            case .First, .Last, .PremultipliedFirst, .PremultipliedLast:
+            case .first, .last, .premultipliedFirst, .premultipliedLast:
                 return true
             default:
                 return false
             }
         }
 
-        var bitmapInfo = CGBitmapInfo.ByteOrder32Little.rawValue
+        var bitmapInfo = CGBitmapInfo.byteOrder32Little.rawValue
         if hasAlpha() {
-            bitmapInfo |= CGImageAlphaInfo.PremultipliedFirst.rawValue
+            bitmapInfo |= CGImageAlphaInfo.premultipliedFirst.rawValue
         } else {
-            bitmapInfo |= CGImageAlphaInfo.NoneSkipFirst.rawValue
+            bitmapInfo |= CGImageAlphaInfo.noneSkipFirst.rawValue
         }
 
-        guard let context = CGBitmapContextCreate(nil, width, height, 8, 0, CGColorSpaceCreateDeviceRGB(), bitmapInfo) else {
+        guard let context = CGContext(data: nil, width: width, height: height, bitsPerComponent: 8, bytesPerRow: 0, space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: bitmapInfo) else {
             return self
         }
 
-        CGContextDrawImage(context, CGRect(x: 0, y: 0, width: width, height: height), self)
+        context.draw(self, in: CGRect(x: 0, y: 0, width: width, height: height))
 
-        guard let newCGImage = CGBitmapContextCreateImage(context) else {
+        guard let newCGImage = context.makeImage() else {
             return self
         }
         

@@ -9,7 +9,6 @@
 import UIKit
 import AVFoundation
 import YepKit
-import YepNetworking
 import Proposer
 import Navi
 import RxSwift
@@ -17,49 +16,49 @@ import RxCocoa
 
 final class RegisterPickAvatarViewController: SegueViewController {
 
-    private lazy var disposeBag = DisposeBag()
+    fileprivate lazy var disposeBag = DisposeBag()
     
-    @IBOutlet private weak var avatarImageView: UIImageView!
-    @IBOutlet private weak var cameraPreviewView: CameraPreviewView!
+    @IBOutlet fileprivate weak var avatarImageView: UIImageView!
+    @IBOutlet fileprivate weak var cameraPreviewView: CameraPreviewView!
 
-    @IBOutlet private weak var openCameraButton: BorderButton!
+    @IBOutlet fileprivate weak var openCameraButton: BorderButton!
 
-    private lazy var nextButton: UIBarButtonItem = {
+    fileprivate lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
-        button.title = NSLocalizedString("Next", comment: "")
-        button.enabled = false
-        button.rx_tap
-            .subscribeNext({ [weak self] in self?.uploadAvatarAndGotoPickSkills() })
+        button.title = String.trans_buttonNextStep
+        button.isEnabled = false
+        button.rx.tap
+            .subscribe(onNext: { [weak self] in self?.uploadAvatarAndGotoPickSkills() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
 
-    private var avatar = UIImage() {
+    fileprivate var avatar = UIImage() {
         willSet {
             avatarImageView.image = newValue
         }
     }
 
-    private enum PickAvatarState {
-        case Default
-        case Captured
+    fileprivate enum PickAvatarState {
+        case `default`
+        case captured
     }
 
-    private var pickAvatarState: PickAvatarState = .Default {
+    fileprivate var pickAvatarState: PickAvatarState = .default {
         willSet {
             switch newValue {
-            case .Default:
+            case .default:
 
-                cameraPreviewView.hidden = true
-                avatarImageView.hidden = false
+                cameraPreviewView.isHidden = true
+                avatarImageView.isHidden = false
                 avatarImageView.image = UIImage.yep_defaultAvatar
-                nextButton.enabled = false
+                nextButton.isEnabled = false
                 
-            case .Captured:
-                cameraPreviewView.hidden = true
-                avatarImageView.hidden = false
+            case .captured:
+                cameraPreviewView.isHidden = true
+                avatarImageView.isHidden = false
 
-                nextButton.enabled = true
+                nextButton.isEnabled = true
             }
         }
     }
@@ -79,55 +78,53 @@ final class RegisterPickAvatarViewController: SegueViewController {
         
         navigationItem.hidesBackButton = true
         
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
 
-        pickAvatarState = .Default
+        pickAvatarState = .default
 
-        openCameraButton.setTitle(String.trans_buttonChooseFromLibrary, forState: .Normal)
-        openCameraButton.setTitleColor(UIColor.whiteColor(), forState: .Normal)
+        openCameraButton.setTitle(String.trans_buttonChooseFromLibrary, for: .normal)
+        openCameraButton.setTitleColor(UIColor.white, for: .normal)
         openCameraButton.backgroundColor = UIColor.yepTintColor()
-        openCameraButton.rx_tap
-            .subscribeNext({ [weak self] in self?.openPhotoLibraryPicker() })
+        openCameraButton.rx.tap
+            .subscribe(onNext: { [weak self] in self?.openPhotoLibraryPicker() })
             .addDisposableTo(disposeBag)
     }
 
     // MARK: Actions
 
-    private func openPhotoLibraryPicker() {
+    fileprivate func openPhotoLibraryPicker() {
         
         let openCameraRoll: ProposerAction = { [weak self] in
             
-            guard UIImagePickerController.isSourceTypeAvailable(.PhotoLibrary) else {
+            guard UIImagePickerController.isSourceTypeAvailable(.photoLibrary) else {
                 self?.alertCanNotAccessCameraRoll()
                 return
             }
             
             let imagePicker = UIImagePickerController()
             imagePicker.delegate = self
-            imagePicker.sourceType = .PhotoLibrary
+            imagePicker.sourceType = .photoLibrary
             imagePicker.allowsEditing = true
             
-            self?.presentViewController(imagePicker, animated: true, completion: nil)
+            self?.present(imagePicker, animated: true, completion: nil)
         }
         
-        proposeToAccess(.Photos, agreed: openCameraRoll, rejected: { [weak self] in
+        proposeToAccess(.photos, agreed: openCameraRoll, rejected: { [weak self] in
             self?.alertCanNotAccessCameraRoll()
         })
     }
     
-    private func uploadAvatarAndGotoPickSkills() {
+    fileprivate func uploadAvatarAndGotoPickSkills() {
         
         YepHUD.showActivityIndicator()
 
         let image = avatar.largestCenteredSquareImage().resizeToTargetSize(YepConfig.avatarMaxSize())
 
-        let imageData = UIImageJPEGRepresentation(image, Config.avatarCompressionQuality())
+        let imageData = UIImageJPEGRepresentation(image, Config.avatarCompressionQuality)
 
         if let imageData = imageData {
 
             updateAvatarWithImageData(imageData, failureHandler: { (reason, errorMessage) in
-
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
                 YepHUD.hideActivityIndicator()
 
@@ -138,7 +135,7 @@ final class RegisterPickAvatarViewController: SegueViewController {
 
                     YepUserDefaults.avatarURLString.value = newAvatarURLString
 
-                    self?.performSegueWithIdentifier("showRegisterPickSkills", sender: nil)
+                    self?.performSegue(withIdentifier: "showRegisterPickSkills", sender: nil)
                 }
             })
         }
@@ -149,14 +146,14 @@ final class RegisterPickAvatarViewController: SegueViewController {
 
 extension RegisterPickAvatarViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [AnyHashable: Any]!) {
 
         SafeDispatch.async { [weak self] in
             self?.avatar = image
-            self?.pickAvatarState = .Captured
+            self?.pickAvatarState = .captured
         }
 
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }
 

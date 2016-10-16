@@ -12,14 +12,14 @@ import YepKit
 
 final class SearchedFeedLocationCell: SearchedFeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + (10 + 20)
 
         return ceil(height)
     }
 
-    var tapLocationAction: ((locationName: String, locationCoordinate: CLLocationCoordinate2D) -> Void)?
+    var tapLocationAction: ((_ locationName: String, _ locationCoordinate: CLLocationCoordinate2D) -> Void)?
 
     lazy var locationContainerView: IconTitleContainerView = {
         let view = IconTitleContainerView()
@@ -39,12 +39,12 @@ final class SearchedFeedLocationCell: SearchedFeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
         if let attachment = feed.attachment {
-            if case let .Location(locationInfo) = attachment {
+            if case let .location(locationInfo) = attachment {
 
                 if locationInfo.name.isEmpty {
                     locationContainerView.titleLabel.text = NSLocalizedString("Unknown location", comment: "")
@@ -60,9 +60,9 @@ final class SearchedFeedLocationCell: SearchedFeedBasicCell {
                 return
             }
 
-            if case .Location = feed.kind {
-                if case let .Location(locationInfo) = attachment {
-                    self?.tapLocationAction?(locationName: locationInfo.name, locationCoordinate: locationInfo.coordinate)
+            if case .location = feed.kind {
+                if case let .location(locationInfo) = attachment {
+                    self?.tapLocationAction?(locationInfo.name, locationInfo.coordinate)
                 }
             }
         }

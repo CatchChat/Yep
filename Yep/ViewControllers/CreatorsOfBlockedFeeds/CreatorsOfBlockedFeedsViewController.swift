@@ -12,7 +12,7 @@ import RealmSwift
 
 final class CreatorsOfBlockedFeedsViewController: BaseViewController {
 
-    @IBOutlet private weak var blockedCreatorsTableView: UITableView! {
+    @IBOutlet fileprivate weak var blockedCreatorsTableView: UITableView! {
         didSet {
             blockedCreatorsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             blockedCreatorsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
@@ -20,15 +20,15 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
             blockedCreatorsTableView.rowHeight = 80
             blockedCreatorsTableView.tableFooterView = UIView()
 
-            blockedCreatorsTableView.registerNibOf(ContactsCell)
+            blockedCreatorsTableView.registerNibOf(ContactsCell.self)
         }
     }
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
 
-    private var blockedCreators = [DiscoveredUser]() {
+    fileprivate var blockedCreators = [DiscoveredUser]() {
         willSet {
             if newValue.count == 0 {
-                blockedCreatorsTableView.tableFooterView = InfoView(NSLocalizedString("No Blocked Creators", comment: ""))
+                blockedCreatorsTableView.tableFooterView = InfoView(String.trans_promptNoBlockedFeedCreators)
             }
         }
     }
@@ -60,7 +60,7 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -69,10 +69,9 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
         switch identifier {
 
         case "showProfile":
-            let vc = segue.destinationViewController as! ProfileViewController
-
-            let discoveredUser = (sender as! Box<DiscoveredUser>).value
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            let vc = segue.destination as! ProfileViewController
+            let discoveredUser = sender as! DiscoveredUser
+            vc.prepare(with: discoveredUser)
 
         default:
             break
@@ -80,21 +79,21 @@ final class CreatorsOfBlockedFeedsViewController: BaseViewController {
     }
 }
 
-extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarDelegate {
+extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return blockedCreators.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell: ContactsCell = tableView.dequeueReusableCell()
 
-        cell.selectionStyle = .None
+        cell.selectionStyle = .none
 
         let discoveredUser = blockedCreators[indexPath.row]
 
@@ -103,25 +102,25 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         let discoveredUser = blockedCreators[indexPath.row]
-        performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+        performSegue(withIdentifier: "showProfile", sender: discoveredUser)
     }
 
     // Edit (for Unblock)
 
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 
-        if editingStyle == .Delete {
+        if editingStyle == .delete {
 
             let discoveredUser = blockedCreators[indexPath.row]
 
@@ -131,12 +130,12 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
                 SafeDispatch.async { [weak self] in
 
                     if let strongSelf = self {
-                        if let index = strongSelf.blockedCreators.indexOf(discoveredUser)  {
+                        if let index = strongSelf.blockedCreators.index(of: discoveredUser)  {
 
-                            strongSelf.blockedCreators.removeAtIndex(index)
+                            strongSelf.blockedCreators.remove(at: index)
 
-                            let indexPathToDelete = NSIndexPath(forRow: index, inSection: 0)
-                            strongSelf.blockedCreatorsTableView.deleteRowsAtIndexPaths([indexPathToDelete], withRowAnimation: .Automatic)
+                            let indexPathToDelete = IndexPath(row: index, section: 0)
+                            strongSelf.blockedCreatorsTableView.deleteRows(at: [indexPathToDelete], with: .automatic)
                         }
                     }
                 }
@@ -144,7 +143,7 @@ extension CreatorsOfBlockedFeedsViewController: UITableViewDataSource, UITabBarD
         }
     }
     
-    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return NSLocalizedString("Unblock", comment: "")
     }
 }

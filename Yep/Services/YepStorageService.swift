@@ -29,9 +29,9 @@ struct S3UploadParams {
 
     enum Kind: String {
 
-        case Message = "message"
-        case Avatar = "avatar"
-        case Feed = "topic"
+        case message = "message"
+        case avatar = "avatar"
+        case feed = "topic"
     }
 }
 
@@ -47,7 +47,7 @@ struct S3UploadParams {
     - returns: Bool  upload status
 */
 
-private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String, s3UploadParams: S3UploadParams, failureHandler: FailureHandler?, completion: () -> Void) {
+private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: Data?, mimeType: String, s3UploadParams: S3UploadParams, failureHandler: FailureHandler?, completion: @escaping () -> Void) {
 
     let parameters: [String: String] = [
         "key": s3UploadParams.key,
@@ -60,53 +60,50 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
     ]
     
     let filename = "attachment"
-    
-    Alamofire.upload(
-        .POST,
-        s3UploadParams.url,
-        multipartFormData: { multipartFormData in
-            
-            for parameter in parameters {
-                multipartFormData.appendBodyPart(data: parameter.1.dataUsingEncoding(NSUTF8StringEncoding)!, name: parameter.0)
-            }
-            
-            if let filePath = filePath {
-                multipartFormData.appendBodyPart(fileURL: NSURL(fileURLWithPath: filePath), name: "file", fileName: filename, mimeType: mimeType)
-                
-            } else if let fileData = fileData {
-                multipartFormData.appendBodyPart(data: fileData, name: "file", fileName: filename, mimeType: mimeType)
-            }
-            
-        },
-        encodingCompletion: { encodingResult in
-            switch encodingResult {
-            case .Success(let upload, _, _):
-                
-                upload.response { request, response, data, error in
-                    
-                    if let response = response {
-                        print(response.statusCode)
-                        
-                        if response.statusCode == 204 {
-                            completion()
-                        } else {
-                            failureHandler?(reason: .Other(nil), errorMessage: nil)
-                        }
 
-                    } else {
-                        failureHandler?(reason: .Other(nil), errorMessage: nil)
-                    }
-                    
-                }
-                
-            case .Failure(let encodingError):
-                
-                println("Error \(encodingError)")
-                
-                failureHandler?(reason: .Other(nil), errorMessage: nil)
-            }
+    Alamofire.upload(multipartFormData: { multipartFormData in
+
+        for (key, value) in parameters {
+            multipartFormData.append(value.data(using: .utf8)!, withName: key)
         }
-    )
+
+        if let filePath = filePath {
+            multipartFormData.append(URL(fileURLWithPath: filePath), withName: "file", fileName: filename, mimeType: mimeType)
+
+        } else if let fileData = fileData {
+            multipartFormData.append(fileData, withName: "file", fileName: filename, mimeType: mimeType)
+        }
+
+    }, to: s3UploadParams.url, method: .post, encodingCompletion: { encodingResult in
+
+        switch encodingResult {
+
+        case .success(let upload, _, _):
+
+            upload.response { (dataResponse) in
+
+                if let response = dataResponse.response {
+                    print(response.statusCode)
+
+                    if response.statusCode == 204 {
+                        completion()
+                    } else {
+                        failureHandler?(.other(nil), nil)
+                    }
+
+                } else {
+                    failureHandler?(.other(nil), nil)
+                }
+
+            }
+
+        case .failure(let encodingError):
+
+            println("Error \(encodingError)")
+
+            failureHandler?(.other(nil), nil)
+        }
+    })
 }
 
 /// Get S3  upload params
@@ -114,13 +111,13 @@ private func uploadFileToS3(inFilePath filePath: String?, orFileData fileData: N
 ///
 /// :S3UploadParams:     The Upload Params
 
-private func s3UploadParams(url: String, withFileExtension fileExtension: FileExtension, failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> Void) {
+private func s3UploadParams(_ url: String, withFileExtension fileExtension: FileExtension, failureHandler: ((Reason, String?) -> ())?, completion: @escaping (S3UploadParams) -> Void) {
 
     let requestParameters = [
         "extname": fileExtension.rawValue
     ]
 
-    let parse: JSONDictionary -> S3UploadParams? = { data in
+    let parse: (JSONDictionary) -> S3UploadParams? = { data in
         //println("s3FormData: \(data)")
         
         if let options = data["options"] as? JSONDictionary {
@@ -163,19 +160,19 @@ private func s3UploadParams(url: String, withFileExtension fileExtension: FileEx
         return nil
     }
     
-    let resource = authJsonResource(path: url, method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = authJsonResource(path: url, method: .get, requestParameters: requestParameters, parse: parse)
     
     apiRequest({_ in}, baseURL: yepBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
-private func s3UploadParamsOfKind(kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, failureHandler: FailureHandler?, completion: (S3UploadParams) -> Void) {
+private func s3UploadParamsOfKind(_ kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, failureHandler: FailureHandler?, completion: @escaping (S3UploadParams) -> Void) {
 
     s3UploadParams("/v1/attachments/\(kind.rawValue)/s3_upload_form_fields", withFileExtension: fileExtension, failureHandler: { (reason, error)  in
-        if let failureHandler = failureHandler {
-            failureHandler(reason: reason, errorMessage: error)
-        } else {
-            defaultFailureHandler(reason: reason, errorMessage: error)
+        let failureHandler: FailureHandler = { (reason, errorMessage) in
+            defaultFailureHandler(reason, errorMessage)
+            failureHandler?(reason, errorMessage)
         }
+        failureHandler(reason, error)
 
     }, completion: { S3PrivateUploadParams in
         completion(S3PrivateUploadParams)
@@ -184,7 +181,7 @@ private func s3UploadParamsOfKind(kind: S3UploadParams.Kind, withFileExtension f
 
 // MARK: - API
 
-func s3UploadFileOfKind(kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, inFilePath filePath: String?, orFileData fileData: NSData?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: S3UploadParams -> ()) {
+func s3UploadFileOfKind(_ kind: S3UploadParams.Kind, withFileExtension fileExtension: FileExtension, inFilePath filePath: String?, orFileData fileData: Data?, mimeType: String,  failureHandler: ((Reason, String?) -> ())?, completion: @escaping (S3UploadParams) -> ()) {
 
     s3UploadParamsOfKind(kind, withFileExtension: fileExtension, failureHandler: failureHandler) { s3UploadParams in
         uploadFileToS3(inFilePath: filePath, orFileData: fileData, mimeType: mimeType, s3UploadParams: s3UploadParams, failureHandler: failureHandler) {

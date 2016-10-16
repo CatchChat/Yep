@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 
 final class ProfileSocialAccountGithubCell: UICollectionViewCell {
 
@@ -20,7 +19,7 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
                 reposCountLabel.text = "\(user.publicReposCount)"
 
                 let repos = work.repos
-                let starsCount = repos.reduce(0, combine: { (result, repo) -> Int in
+                let starsCount = repos.reduce(0, { (result, repo) -> Int in
                     result + repo.stargazersCount
                 })
                 starsCountLabel.text = "\(starsCount)"
@@ -49,8 +48,8 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
         reposImageView.tintColor = UIColor.yepIconImageViewTintColor()
         starsImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
-        reposCountLabel.textColor = UIColor.grayColor()
-        starsCountLabel.textColor = UIColor.grayColor()
+        reposCountLabel.textColor = UIColor.gray
+        starsCountLabel.textColor = UIColor.gray
 
         accessoryImageView.tintColor = UIColor.yepCellAccessoryImageViewTintColor()
 
@@ -61,24 +60,24 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
     }
 
     func hideDetail() {
-        reposImageView.hidden = true
-        reposCountLabel.hidden = true
-        starsImageView.hidden = true
-        starsCountLabel.hidden = true
+        reposImageView.isHidden = true
+        reposCountLabel.isHidden = true
+        starsImageView.isHidden = true
+        starsCountLabel.isHidden = true
 
-        accessoryImageView.hidden = true
+        accessoryImageView.isHidden = true
     }
 
     func showDefail() {
-        reposImageView.hidden = false
-        reposCountLabel.hidden = false
-        starsImageView.hidden = false
-        starsCountLabel.hidden = false
+        reposImageView.isHidden = false
+        reposCountLabel.isHidden = false
+        starsImageView.isHidden = false
+        starsCountLabel.isHidden = false
 
-        accessoryImageView.hidden = false
+        accessoryImageView.isHidden = false
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?, socialAccount: SocialAccount, githubWork: GithubWork?, completion: ((GithubWork) -> Void)?) {
+    func configureWithProfileUser(_ profileUser: ProfileUser?, socialAccount: SocialAccount, githubWork: GithubWork?, completion: ((GithubWork) -> Void)?) {
 
         iconImageView.image = UIImage(named: socialAccount.iconName)
         nameLabel.text = socialAccount.name
@@ -105,27 +104,13 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
                 self.githubWork = githubWork
 
             } else {
-                var userID: String?
+                if let userID = profileUser?.userID {
 
-                if let profileUser = profileUser {
-                    switch profileUser {
-                    case .DiscoveredUserType(let discoveredUser):
-                        userID = discoveredUser.id
-                    case .UserType(let user):
-                        userID = user.userID
-                    }
-                }
-
-                if let userID = userID {
-
-                    githubWorkOfUserWithUserID(userID, failureHandler: { (reason, errorMessage) -> Void in
-                        defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-                    }, completion: { githubWork in
+                    githubWorkOfUserWithUserID(userID, failureHandler: nil, completion: { githubWork in
                         //println("githubWork: \(githubWork)")
 
-                        SafeDispatch.async {
-                            self.githubWork = githubWork
+                        SafeDispatch.async { [weak self] in
+                            self?.githubWork = githubWork
 
                             completion?(githubWork)
                         }
@@ -134,5 +119,5 @@ final class ProfileSocialAccountGithubCell: UICollectionViewCell {
             }
         }
     }
-
 }
+

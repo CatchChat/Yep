@@ -9,19 +9,19 @@
 import UIKit
 import AVFoundation
 
-func thumbnailImageOfVideoInVideoURL(videoURL: NSURL) -> UIImage? {
-    let asset = AVURLAsset(URL: videoURL, options: [:])
+func thumbnailImageOfVideoInVideoURL(_ videoURL: URL) -> UIImage? {
+    let asset = AVURLAsset(url: videoURL, options: [:])
     let imageGenerator = AVAssetImageGenerator(asset: asset)
 
     imageGenerator.appliesPreferredTrackTransform = true
 
     var actualTime: CMTime = CMTimeMake(0, 0)
 
-    guard let cgImage = try? imageGenerator.copyCGImageAtTime(CMTimeMakeWithSeconds(0.0, 600), actualTime: &actualTime) else {
+    guard let cgImage = try? imageGenerator.copyCGImage(at: CMTimeMakeWithSeconds(0.0, 600), actualTime: &actualTime) else {
         return nil
     }
 
-    let thumbnail = UIImage(CGImage: cgImage)
+    let thumbnail = UIImage(cgImage: cgImage)
 
     return thumbnail
 }

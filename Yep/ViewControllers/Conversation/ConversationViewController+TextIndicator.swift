@@ -13,40 +13,42 @@ import YepNetworking
 
 extension ConversationViewController {
 
-    func promptSendMessageFailed(reason reason: Reason, errorMessage: String?, reserveErrorMessage: String) {
+    func promptSendMessageFailed(reason: Reason, errorMessage: String?, reserveErrorMessage: String) {
 
-        if case .NoSuccessStatusCode(_, let errorCode) = reason where errorCode == ErrorCode.BlockedByRecipient {
+        if case .noSuccessStatusCode(_, let errorCode) = reason, errorCode == .blockedByRecipient {
             indicateBlockedByRecipient()
+
         } else {
             let message = errorMessage ?? reserveErrorMessage
             YepAlert.alertSorry(message: message, inViewController: self)
         }
     }
 
-    private func indicateBlockedByRecipient() {
-        SafeDispatch.async { [weak self] in
-            if let conversation = self?.conversation {
-                self?.indicateBlockedByRecipientInConversation(conversation)
+    fileprivate func indicateBlockedByRecipient() {
+
+        func indicateBlockedByRecipientInConversation(_ conversation: Conversation) {
+
+            guard let realm = conversation.realm else {
+                return
             }
-        }
-    }
 
-    private func indicateBlockedByRecipientInConversation(conversation: Conversation) {
+            let message = Message()
+            let messageID = "BlockedByRecipient." + UUID().uuidString
+            message.messageID = messageID
+            message.blockedByRecipient = true
+            message.conversation = conversation
+            let _ = try? realm.write {
+                realm.add(message)
+            }
 
-        guard let realm = conversation.realm else {
-            return
-        }
-
-        let message = Message()
-        let messageID = "BlockedByRecipient." + NSUUID().UUIDString
-        message.messageID = messageID
-        message.blockedByRecipient = true
-        message.conversation = conversation
-        let _ = try? realm.write {
-            realm.add(message)
+            updateConversationCollectionViewWithMessageIDs([messageID], messageAge: .new, scrollToBottom: true)
         }
 
-        updateConversationCollectionViewWithMessageIDs([messageID], messageAge: .New, scrollToBottom: true, success: { _ in
-        })
+        SafeDispatch.async { [weak self] in
+            guard let strongSelf = self else { return }
+            guard !strongSelf.conversation.isInvalidated else { return }
+            indicateBlockedByRecipientInConversation(strongSelf.conversation)
+        }
     }
 }
+

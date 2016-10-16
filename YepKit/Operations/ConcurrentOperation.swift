@@ -8,58 +8,55 @@
 
 import Foundation
 
-public class ConcurrentOperation: NSOperation {
+open class ConcurrentOperation: Operation {
 
     enum State: String {
-        case Ready, Executing, Finished
+        case ready, executing, finished
 
-        private var keyPath: String {
-            return "is" + rawValue
+        fileprivate var keyPath: String {
+            return "is" + rawValue.capitalized
         }
     }
 
-    var state = State.Ready {
+    var state: State = .ready {
         willSet {
-            willChangeValueForKey(newValue.keyPath)
-            willChangeValueForKey(state.keyPath)
+            willChangeValue(forKey: newValue.keyPath)
+            willChangeValue(forKey: state.keyPath)
         }
         didSet {
-            didChangeValueForKey(oldValue.keyPath)
-            didChangeValueForKey(state.keyPath)
+            didChangeValue(forKey: oldValue.keyPath)
+            didChangeValue(forKey: state.keyPath)
         }
     }
-}
 
-public extension ConcurrentOperation {
-
-    override public var ready: Bool {
-        return super.ready && state == .Ready
+    override open var isReady: Bool {
+        return super.isReady && state == .ready
     }
 
-    override public var executing: Bool {
-        return state == .Executing
+    override open var isExecuting: Bool {
+        return state == .executing
     }
 
-    override public var finished: Bool {
-        return state == .Finished
+    override open var isFinished: Bool {
+        return state == .finished
     }
 
-    override public var asynchronous: Bool {
+    override open var isAsynchronous: Bool {
         return true
     }
 
-    override public func start() {
-        if cancelled {
-            state = .Finished
+    override open func start() {
+        if isCancelled {
+            state = .finished
             return
         }
 
         main()
-        state = .Executing
+        state = .executing
     }
-    
-    override public func cancel() {
-        state = .Finished
+
+    override open func cancel() {
+        state = .finished
     }
 }
 

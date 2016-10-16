@@ -12,7 +12,7 @@ import RealmSwift
 
 final class BlackListViewController: BaseViewController {
 
-    @IBOutlet private weak var blockedUsersTableView: UITableView! {
+    @IBOutlet fileprivate weak var blockedUsersTableView: UITableView! {
         didSet {
             blockedUsersTableView.separatorColor = UIColor.yepCellSeparatorColor()
             blockedUsersTableView.separatorInset = YepConfig.ContactsCell.separatorInset
@@ -20,17 +20,15 @@ final class BlackListViewController: BaseViewController {
             blockedUsersTableView.rowHeight = 80
             blockedUsersTableView.tableFooterView = UIView()
 
-            blockedUsersTableView.registerNibOf(ContactsCell)
+            blockedUsersTableView.registerNibOf(ContactsCell.self)
         }
     }
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
 
-    private let cellIdentifier = "ContactsCell"
-
-    private var blockedUsers: [DiscoveredUser] = [] {
+    fileprivate var blockedUsers: [DiscoveredUser] = [] {
         willSet {
             if newValue.count == 0 {
-                blockedUsersTableView.tableFooterView = InfoView(NSLocalizedString("No blocked users.", comment: ""))
+                blockedUsersTableView.tableFooterView = InfoView(String.trans_promptNoBlockedUsers)
             }
         }
     }
@@ -42,12 +40,13 @@ final class BlackListViewController: BaseViewController {
 
         activityIndicator.startAnimating()
 
-        blockedUsersByMe(failureHandler: { [weak self] reason, errorMessage in
-            SafeDispatch.async {
+        blockedUsersByMe(failureHandler: { (reason, errorMessage) in
+            SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
             }
 
-            YepAlert.alertSorry(message: NSLocalizedString("Network Error: Failed to get blocked users!", comment: ""), inViewController: self)
+            let message = errorMessage ?? "Failed to get blocked users!"
+            YepAlert.alertSorry(message: message, inViewController: self)
 
         }, completion: { blockedUsers in
             SafeDispatch.async { [weak self] in
@@ -61,7 +60,7 @@ final class BlackListViewController: BaseViewController {
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -70,10 +69,10 @@ final class BlackListViewController: BaseViewController {
         switch identifier {
 
         case "showProfile":
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
-            let discoveredUser = (sender as! Box<DiscoveredUser>).value
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            let discoveredUser = sender as! DiscoveredUser
+            vc.prepare(with: discoveredUser)
 
         default:
             break
@@ -83,46 +82,44 @@ final class BlackListViewController: BaseViewController {
 
 extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return blockedUsers.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell: ContactsCell = tableView.dequeueReusableCell()
-
-        cell.selectionStyle = .None
+        cell.selectionStyle = .none
 
         let discoveredUser = blockedUsers[indexPath.row]
-
         cell.configureWithDiscoveredUser(discoveredUser)
 
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         let discoveredUser = blockedUsers[indexPath.row]
-        performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+        performSegue(withIdentifier: "showProfile", sender: discoveredUser)
     }
 
     // Edit (for Unblock)
 
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
 
-    func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
 
-        if editingStyle == .Delete {
+        if editingStyle == .delete {
 
             let discoveredUser = blockedUsers[indexPath.row]
 
@@ -142,12 +139,12 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
                     }
 
                     if let strongSelf = self {
-                        if let index = strongSelf.blockedUsers.indexOf(discoveredUser)  {
+                        if let index = strongSelf.blockedUsers.index(of: discoveredUser)  {
 
-                            strongSelf.blockedUsers.removeAtIndex(index)
+                            strongSelf.blockedUsers.remove(at: index)
 
-                            let indexPathToDelete = NSIndexPath(forRow: index, inSection: 0)
-                            strongSelf.blockedUsersTableView.deleteRowsAtIndexPaths([indexPathToDelete], withRowAnimation: .Automatic)
+                            let indexPathToDelete = IndexPath(row: index, section: 0)
+                            strongSelf.blockedUsersTableView.deleteRows(at: [indexPathToDelete], with: .automatic)
                         }
                     }
                 }
@@ -155,7 +152,7 @@ extension BlackListViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func tableView(tableView: UITableView, titleForDeleteConfirmationButtonForRowAtIndexPath indexPath: NSIndexPath) -> String? {
+    func tableView(_ tableView: UITableView, titleForDeleteConfirmationButtonForRowAt indexPath: IndexPath) -> String? {
         return NSLocalizedString("Unblock", comment: "")
     }
 }

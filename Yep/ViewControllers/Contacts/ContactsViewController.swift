@@ -11,9 +11,9 @@ import YepKit
 import RealmSwift
 import Ruler
 
-final class ContactsViewController: BaseViewController {
+final class ContactsViewController: BaseViewController, CanScrollsToTop {
 
-    @IBOutlet weak var contactsTableView: UITableView! {
+    @IBOutlet fileprivate weak var contactsTableView: UITableView! {
         didSet {
             searchBar.sizeToFit()
             contactsTableView.tableHeaderView = searchBar
@@ -24,17 +24,20 @@ final class ContactsViewController: BaseViewController {
             contactsTableView.rowHeight = 80
             contactsTableView.tableFooterView = UIView()
 
-            contactsTableView.registerNibOf(ContactsCell)
+            contactsTableView.registerNibOf(ContactsCell.self)
         }
     }
 
-    @IBOutlet private weak var coverUnderStatusBarView: UIView!
+    // CanScrollsToTop
+    var scrollView: UIScrollView? {
+        return contactsTableView
+    }
 
-    private lazy var searchBar: UISearchBar = {
+    fileprivate lazy var searchBar: UISearchBar = {
         let searchBar = UISearchBar()
-        searchBar.searchBarStyle = .Minimal
+        searchBar.searchBarStyle = .minimal
         searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
-        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
+        searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, for: .normal)
         searchBar.delegate = self
         return searchBar
     }()
@@ -46,26 +49,18 @@ final class ContactsViewController: BaseViewController {
     }()
     #endif
 
-    private var searchController: UISearchController?
-    private var searchControllerIsActive: Bool {
-        return searchController?.active ?? false
-    }
-
     var originalNavigationControllerDelegate: UINavigationControllerDelegate?
     lazy var searchTransition: SearchTransition = {
         return SearchTransition()
     }()
 
-    private lazy var friends = normalFriends()
-    private var filteredFriends: Results<User>?
+    fileprivate lazy var friends = normalFriends()
 
-    private var searchedUsers: [DiscoveredUser] = []
+    fileprivate var friendsNotificationToken: NotificationToken?
 
-    private var friendsNotificationToken: NotificationToken?
+    fileprivate lazy var noContactsFooterView: InfoView = InfoView(String.trans_promptNoFriends)
 
-    private lazy var noContactsFooterView: InfoView = InfoView(NSLocalizedString("No friends yet.\nTry discover or add some.", comment: ""))
-
-    private var noContacts = false {
+    fileprivate var noContacts = false {
         didSet {
             //contactsTableView.tableHeaderView = noContacts ? nil : searchBar
 
@@ -75,13 +70,13 @@ final class ContactsViewController: BaseViewController {
         }
     }
 
-    private struct Listener {
+    fileprivate struct Listener {
         static let Nickname = "ContactsViewController.Nickname"
         static let Avatar = "ContactsViewController.Avatar"
     }
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
 
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
         YepUserDefaults.nickname.removeListenerWithName(Listener.Nickname)
@@ -105,42 +100,7 @@ final class ContactsViewController: BaseViewController {
 
         navigationItem.title = String.trans_titleContacts
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: FriendsInContactsViewController.Notification.NewFriends, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ContactsViewController.deactiveSearchController(_:)), name: YepConfig.Notification.switchedToOthersFromContactsTab, object: nil)
-
-        coverUnderStatusBarView.hidden = true
-
-        // 超过一定人数才显示搜索框
-
-        /*
-        //if friends.count > Ruler.iPhoneVertical(6, 8, 10, 12).value {
-        if friends.count > 0 {
-
-            let searchController = UISearchController(searchResultsController: nil)
-            searchController.delegate = self
-
-            searchController.searchResultsUpdater = self
-            searchController.dimsBackgroundDuringPresentation = false
-
-            searchController.searchBar.backgroundColor = UIColor.whiteColor()
-            searchController.searchBar.barTintColor = UIColor.whiteColor()
-            searchController.searchBar.searchBarStyle = .Minimal
-            searchController.searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
-            searchController.searchBar.setSearchFieldBackgroundImage(UIImage(named: "searchbar_textfield_background"), forState: .Normal)
-            searchController.searchBar.sizeToFit()
-
-            searchController.searchBar.delegate = self
-
-            contactsTableView.tableHeaderView = searchController.searchBar
-
-            self.searchController = searchController
-
-            // ref http://stackoverflow.com/questions/30937275/uisearchcontroller-doesnt-hide-view-when-pushed
-            //self.definesPresentationContext = true
-
-            //contactsTableView.contentOffset.y = CGRectGetHeight(searchController.searchBar.frame)
-        }
-         */
+        NotificationCenter.default.addObserver(self, selector: #selector(ContactsViewController.syncFriendships(_:)), name: YepConfig.NotificationName.newFriendsInContacts, object: nil)
 
         friendsNotificationToken = friends.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
 
@@ -150,22 +110,24 @@ final class ContactsViewController: BaseViewController {
 
             strongSelf.noContacts = strongSelf.friends.isEmpty
 
-            let tableView = strongSelf.contactsTableView
+            guard let tableView = strongSelf.contactsTableView else {
+                return
+            }
 
             switch change {
 
-            case .Initial:
+            case .initial:
                 tableView.reloadData()
 
-            case .Update(_, let deletions, let insertions, let modifications):
-                let section = Section.Local.rawValue
+            case .update(_, let deletions, let insertions, let modifications):
+                let section = Section.local.rawValue
                 tableView.beginUpdates()
-                tableView.insertRowsAtIndexPaths(insertions.map({ NSIndexPath(forRow: $0, inSection: section) }), withRowAnimation: .Automatic)
-                tableView.deleteRowsAtIndexPaths(deletions.map({ NSIndexPath(forRow: $0, inSection: section) }), withRowAnimation: .Automatic)
-                tableView.reloadRowsAtIndexPaths(modifications.map({ NSIndexPath(forRow: $0, inSection: section) }), withRowAnimation: .Automatic)
+                tableView.insertRows(at: insertions.map({ IndexPath(row: $0, section: section) }), with: .automatic)
+                tableView.deleteRows(at: deletions.map({ IndexPath(row: $0, section: section) }), with: .automatic)
+                tableView.reloadRows(at: modifications.map({ IndexPath(row: $0, section: section) }), with: .automatic)
                 tableView.endUpdates()
 
-            case .Error(let error):
+            case .error(let error):
                 fatalError("\(error)")
             }
         })
@@ -182,8 +144,8 @@ final class ContactsViewController: BaseViewController {
             }
         }
 
-        if traitCollection.forceTouchCapability == .Available {
-            registerForPreviewingWithDelegate(self, sourceView: contactsTableView)
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: contactsTableView)
         }
 
         #if DEBUG
@@ -191,7 +153,7 @@ final class ContactsViewController: BaseViewController {
         #endif
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         recoverOriginalNavigationDelegate()
@@ -199,13 +161,7 @@ final class ContactsViewController: BaseViewController {
 
     // MARK: Actions
 
-    @objc private func deactiveSearchController(sender: NSNotification) {
-        if let searchController = searchController {
-            searchController.active = false
-        }
-    }
-
-    private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
+    fileprivate func updateContactsTableView(scrollsToTop: Bool = false) {
         SafeDispatch.async { [weak self] in
             self?.contactsTableView.reloadData()
 
@@ -215,21 +171,20 @@ final class ContactsViewController: BaseViewController {
         }
     }
 
-    @objc private func syncFriendships(sender: NSNotification) {
-        syncFriendshipsAndDoFurtherAction {
-            SafeDispatch.async {
-                self.updateContactsTableView()
-            }
+    @objc fileprivate func syncFriendships(_ sender: Notification) {
+
+        syncFriendshipsAndDoFurtherAction { [weak self] in
+            self?.updateContactsTableView()
         }
     }
 
-    @IBAction private func showAddFriends(sender: UIBarButtonItem) {
-        performSegueWithIdentifier("showAddFriends", sender: nil)
+    @IBAction fileprivate func showAddFriends(_ sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "showAddFriends", sender: nil)
     }
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
         guard let identifier = segue.identifier else {
             return
@@ -243,14 +198,14 @@ final class ContactsViewController: BaseViewController {
                 return
             }
 
-            let vc = segue.destinationViewController as! ConversationViewController
+            let vc = segue.destination as! ConversationViewController
 
-            if let user = sender as? User where !user.isMe {
+            if let user = sender as? User, !user.isMe {
 
                 if user.conversation == nil {
                     let newConversation = Conversation()
                     
-                    newConversation.type = ConversationType.OneToOne.rawValue
+                    newConversation.type = ConversationType.oneToOne.rawValue
                     newConversation.withFriend = user
                     
                     let _ = try? realm.write {
@@ -260,29 +215,25 @@ final class ContactsViewController: BaseViewController {
 
                 vc.conversation = user.conversation
 
-                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
             }
 
             recoverOriginalNavigationDelegate()
             
         case "showProfile":
 
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
-            if let user = sender as? User {
-               vc.prepare(withUser: user)
-                
-            } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                vc.prepare(withDiscoveredUser: discoveredUser)
-            }
+            let user = sender as! User
+            vc.prepare(withUser: user)
 
             recoverOriginalNavigationDelegate()
             
         case "showSearchContacts":
             
-            let vc = segue.destinationViewController as! SearchContactsViewController
+            let vc = segue.destination as! SearchContactsViewController
             vc.originalNavigationControllerDelegate = navigationController?.delegate
-            
+
             vc.hidesBottomBarWhenPushed = true
             
             prepareSearchTransition()
@@ -298,68 +249,42 @@ final class ContactsViewController: BaseViewController {
 extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     enum Section: Int {
-        case Local
-        case Online
+        case local
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    private func numberOfRowsInSection(section: Int) -> Int {
+    fileprivate func numberOfRowsInSection(_ section: Int) -> Int {
         guard let section = Section(rawValue: section) else {
             return 0
         }
 
         switch section {
-        case .Local:
-            return searchControllerIsActive ? (filteredFriends?.count ?? 0) : friends.count
-        case .Online:
-            return searchControllerIsActive ? searchedUsers.count : 0
+        case .local:
+            return friends.count
         }
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numberOfRowsInSection(section)
     }
 
-    func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    fileprivate func friendAtIndexPath(_ indexPath: IndexPath) -> User? {
 
-        guard numberOfRowsInSection(section) > 0 else {
-            return nil
-        }
-
-        if searchControllerIsActive {
-
-            guard let section = Section(rawValue: section) else {
-                return nil
-            }
-
-            switch section {
-            case .Local:
-                return NSLocalizedString("Friends", comment: "")
-            case .Online:
-                return NSLocalizedString("Users", comment: "")
-            }
-
-        } else {
-            return nil
-        }
-    }
-
-    private func friendAtIndexPath(indexPath: NSIndexPath) -> User? {
         let index = indexPath.row
-        let friend = searchControllerIsActive ? filteredFriends?[safe: index] : friends[safe: index]
+        let friend = friends[safe: index]
         return friend
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell: ContactsCell = tableView.dequeueReusableCell()
         return cell
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         guard let cell = cell as? ContactsCell else {
             return
@@ -371,39 +296,24 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch section {
 
-        case .Local:
+        case .local:
 
             guard let friend = friendAtIndexPath(indexPath) else {
                 return
             }
 
-            if searchControllerIsActive {
-                cell.configureForSearchWithUser(friend)
-            } else {
-                cell.configureWithUser(friend)
-            }
+            cell.configureWithUser(friend)
+
             cell.showProfileAction = { [weak self] in
                 if let friend = self?.friendAtIndexPath(indexPath) {
-                    self?.searchController?.active = false
-                    self?.performSegueWithIdentifier("showProfile", sender: friend)
-                }
-            }
-            
-        case .Online:
-            
-            let discoveredUser = searchedUsers[indexPath.row]
-            cell.configureForSearchWithDiscoveredUser(discoveredUser)
-            cell.showProfileAction = { [weak self] in
-                if let discoveredUser = self?.searchedUsers[indexPath.row] {
-                    self?.searchController?.active = false
-                    self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+                    self?.performSegue(withIdentifier: "showProfile", sender: friend)
                 }
             }
         }
         
     }
     
-    func tableView(tableView: UITableView, didEndDisplayingCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         guard let cell = cell as? ContactsCell else {
             return
@@ -412,10 +322,10 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         cell.avatarImageView.image = nil
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
         
         guard let section = Section(rawValue: indexPath.section) else {
@@ -423,49 +333,38 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
         }
         
         switch section {
-            
-        case .Local:
-            
+        case .local:
             if let friend = friendAtIndexPath(indexPath) {
-                searchController?.active = false
-                performSegueWithIdentifier("showProfile", sender: friend)
+                performSegue(withIdentifier: "showProfile", sender: friend)
             }
-            
-        case .Online:
-            
-            let discoveredUser = searchedUsers[indexPath.row]
-            searchController?.active = false
-            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
         }
     }
 
     // MARK: UITableViewRowAction
 
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
         guard let section = Section(rawValue: indexPath.section) else {
             return false
         }
 
         switch section {
-        case .Local:
+        case .local:
             return true
-        case .Online:
-            return false
         }
     }
 
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
         let user = friends[indexPath.row]
         let userID = user.userID
         let nickname = user.nickname
 
-        let unfriendAction = UITableViewRowAction(style: .Default, title: NSLocalizedString("Unfriend", comment: "")) { [weak self, weak tableView] action, indexPath in
+        let unfriendAction = UITableViewRowAction(style: .default, title: NSLocalizedString("Unfriend", comment: "")) { [weak self, weak tableView] action, indexPath in
 
             tableView?.setEditing(false, animated: true)
 
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Unfriend", comment: ""), message: String(format: NSLocalizedString("Do you want to unfriend with %@?", comment: ""), nickname), confirmTitle: String.trans_confirm, cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
+            YepAlert.confirmOrCancel(title: NSLocalizedString("Unfriend", comment: ""), message: String.trans_promptTryUnfriendWith(nickname), confirmTitle: String.trans_confirm, cancelTitle: String.trans_cancel, inViewController: self, withConfirmAction: {
 
                 unfriend(withUserID: userID, failureHandler: { [weak self] (reason, errorMessage) in
                     let message = errorMessage ?? NSLocalizedString("Unfriend failed!", comment: "")
@@ -475,7 +374,7 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
                     SafeDispatch.async { [weak self] in
                         if let user = self?.friends[indexPath.row], let realm = user.realm {
                             realm.beginWrite()
-                            user.friendState = UserFriendState.Stranger.rawValue
+                            user.friendState = UserFriendState.stranger.rawValue
                             _ = try? realm.commitWrite()
                         }
                     }
@@ -489,81 +388,15 @@ extension ContactsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-// MARK: - UISearchResultsUpdating 
-
-extension ContactsViewController: UISearchResultsUpdating {
-
-    func updateSearchResultsForSearchController(searchController: UISearchController) {
-
-        guard let searchText = searchController.searchBar.text else {
-            return
-        }
-        
-        let predicate = NSPredicate(format: "nickname CONTAINS[c] %@ OR username CONTAINS[c] %@", searchText, searchText)
-        let filteredFriends = friends.filter(predicate)
-        self.filteredFriends = filteredFriends
-
-        updateContactsTableView(scrollsToTop: !filteredFriends.isEmpty)
-
-        searchUsersByQ(searchText, failureHandler: nil, completion: { [weak self] users in
-
-            //println("searchUsersByQ users: \(users)")
-            
-            SafeDispatch.async {
-
-                guard let filteredFriends = self?.filteredFriends else {
-                    return
-                }
-
-                // 剔除 filteredFriends 里已有的
-
-                var searchedUsers: [DiscoveredUser] = []
-
-                let filteredFriendUserIDSet = Set<String>(filteredFriends.map({ $0.userID }))
-
-                for user in users {
-                    if !filteredFriendUserIDSet.contains(user.id) {
-                        searchedUsers.append(user)
-                    }
-                }
-
-                self?.searchedUsers = searchedUsers
-
-                self?.updateContactsTableView()
-            }
-        })
-    }
-}
-
 // MARK: - UISearchBarDelegate
 
 extension ContactsViewController: UISearchBarDelegate {
 
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
 
-        performSegueWithIdentifier("showSearchContacts", sender: nil)
+        performSegue(withIdentifier: "showSearchContacts", sender: nil)
 
         return false
-    }
-
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-
-        if let searchController = searchController {
-            updateSearchResultsForSearchController(searchController)
-        }
-    }
-}
-
-extension ContactsViewController: UISearchControllerDelegate {
-
-    func willPresentSearchController(searchController: UISearchController) {
-        println("willPresentSearchController")
-        coverUnderStatusBarView.hidden = false
-    }
-
-    func willDismissSearchController(searchController: UISearchController) {
-        println("willDismissSearchController")
-        coverUnderStatusBarView.hidden = true
     }
 }
 
@@ -571,9 +404,9 @@ extension ContactsViewController: UISearchControllerDelegate {
 
 extension ContactsViewController: UIViewControllerPreviewingDelegate {
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
 
-        guard let indexPath = contactsTableView.indexPathForRowAtPoint(location), cell = contactsTableView.cellForRowAtIndexPath(indexPath) else {
+        guard let indexPath = contactsTableView.indexPathForRow(at: location), let cell = contactsTableView.cellForRow(at: indexPath) else {
             return nil
         }
 
@@ -589,9 +422,9 @@ extension ContactsViewController: UIViewControllerPreviewingDelegate {
         return vc
     }
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
 
-        showViewController(viewControllerToCommit, sender: self)
+        show(viewControllerToCommit, sender: self)
     }
 }
 

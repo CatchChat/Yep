@@ -11,16 +11,14 @@ import Ruler
 
 final class ShowViewController: UIViewController {
 
-    @IBOutlet private weak var scrollView: UIScrollView!
+    @IBOutlet fileprivate weak var scrollView: UIScrollView!
 
-    @IBOutlet private weak var pageControl: UIPageControl!
+    @IBOutlet fileprivate weak var pageControl: UIPageControl!
 
-    @IBOutlet private weak var registerButton: UIButton!
-    @IBOutlet private weak var loginButton: EdgeBorderButton!
+    @IBOutlet fileprivate weak var registerButton: UIButton!
+    @IBOutlet fileprivate weak var loginButton: EdgeBorderButton!
 
-    private var isFirstAppear = true
-
-    private var steps = [UIViewController]()
+    fileprivate var steps = [UIViewController]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -28,7 +26,9 @@ final class ShowViewController: UIViewController {
         makeUI()
     }
 
-    override func viewWillAppear(animated: Bool) {
+    fileprivate var isFirstAppear = true
+
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         navigationController?.setNavigationBarHidden(true, animated: true)
@@ -41,103 +41,68 @@ final class ShowViewController: UIViewController {
         }
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         if isFirstAppear {
-            UIView.animateWithDuration(1, delay: 0.5, options: .CurveEaseInOut, animations: { [weak self] in
+            UIView.animate(withDuration: 1, delay: 0.5, options: .curveEaseInOut, animations: { [weak self] in
                 self?.scrollView.alpha = 1
                 self?.pageControl.alpha = 1
                 self?.registerButton.alpha = 1
                 self?.loginButton.alpha = 1
-            }, completion: { _ in })
+            }, completion: nil)
         }
 
         isFirstAppear = false
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
-        let stepA = stepGenius()
-        let stepB = stepMatch()
-        let stepC = stepMeet()
-
-        steps = [stepA, stepB, stepC]
+        steps = makeSteps()
 
         pageControl.numberOfPages = steps.count
         pageControl.pageIndicatorTintColor = UIColor.yepBorderColor()
         pageControl.currentPageIndicatorTintColor = UIColor.yepTintColor()
 
-        registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), forState: .Normal)
-        loginButton.setTitle(NSLocalizedString("Login", comment: ""), forState: .Normal)
+        registerButton.setTitle(NSLocalizedString("Sign Up", comment: ""), for: .normal)
+        loginButton.setTitle(String.trans_titleLogin, for: .normal)
 
         registerButton.backgroundColor = UIColor.yepTintColor()
-        loginButton.setTitleColor(UIColor.yepInputTextColor(), forState: .Normal)
+        loginButton.setTitleColor(UIColor.yepInputTextColor(), for: .normal)
 
-        let viewsDictionary: [String: AnyObject] = [
+        let views: [String: Any] = [
             "view": view,
-            "stepA": stepA.view,
-            "stepB": stepB.view,
-            "stepC": stepC.view,
+            "stepA": steps[0].view,
+            "stepB": steps[1].view,
+            "stepC": steps[2].view,
         ]
 
-        let vConstraints = NSLayoutConstraint.constraintsWithVisualFormat("V:|[stepA(==view)]|", options: [], metrics: nil, views: viewsDictionary)
+        let vConstraints = NSLayoutConstraint.constraints(withVisualFormat: "V:|[stepA(==view)]|", options: [], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(vConstraints)
+        NSLayoutConstraint.activate(vConstraints)
 
-        let hConstraints = NSLayoutConstraint.constraintsWithVisualFormat("H:|[stepA(==view)][stepB(==view)][stepC(==view)]|", options: [.AlignAllBottom, .AlignAllTop], metrics: nil, views: viewsDictionary)
+        let hConstraints = NSLayoutConstraint.constraints(withVisualFormat: "H:|[stepA(==view)][stepB(==view)][stepC(==view)]|", options: [.alignAllBottom, .alignAllTop], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(hConstraints)
+        NSLayoutConstraint.activate(hConstraints)
     }
 
-    private func stepGenius() -> ShowStepGeniusViewController {
-        let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepGeniusViewController") as! ShowStepGeniusViewController
+    fileprivate func makeSteps() -> [UIViewController] {
 
-        step.view.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(step.view)
+        let steps: [UIViewController] = [
+            UIStoryboard.Scene.showStepGenius,
+            UIStoryboard.Scene.showStepMatch,
+            UIStoryboard.Scene.showStepMeet,
+        ]
 
-        addChildViewController(step)
-        step.didMoveToParentViewController(self)
+        steps.forEach({ step in
+            step.view.translatesAutoresizingMaskIntoConstraints = false
+            scrollView.addSubview(step.view)
 
-        return step
-    }
+            addChildViewController(step)
+            step.didMove(toParentViewController: self)
+        })
 
-    private func stepMatch() -> ShowStepMatchViewController {
-        let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepMatchViewController") as! ShowStepMatchViewController
-
-        step.view.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(step.view)
-
-        addChildViewController(step)
-        step.didMoveToParentViewController(self)
-
-        return step
-    }
-
-    private func stepMeet() -> ShowStepMeetViewController {
-        let step = storyboard!.instantiateViewControllerWithIdentifier("ShowStepMeetViewController") as! ShowStepMeetViewController
-
-        step.view.translatesAutoresizingMaskIntoConstraints = false
-        scrollView.addSubview(step.view)
-
-        addChildViewController(step)
-        step.didMoveToParentViewController(self)
-
-        return step
-    }
-
-    // MARK: Actions
-    
-    @IBAction private func register(sender: UIButton) {
-
-        let vc = UIStoryboard.Scene.registerPickName
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    @IBAction private func login(sender: UIButton) {
-
-        let vc = UIStoryboard.Scene.loginByMobile
-        navigationController?.pushViewController(vc, animated: true)
+        return steps
     }
 }
 
@@ -145,9 +110,9 @@ final class ShowViewController: UIViewController {
 
 extension ShowViewController: UIScrollViewDelegate {
 
-    func scrollViewDidScroll(scrollView: UIScrollView) {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
 
-        let pageWidth = CGRectGetWidth(scrollView.bounds)
+        let pageWidth = scrollView.bounds.width
         let pageFraction = scrollView.contentOffset.x / pageWidth
 
         let page = Int(round(pageFraction))

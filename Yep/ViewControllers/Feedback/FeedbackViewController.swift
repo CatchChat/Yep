@@ -8,20 +8,19 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 import KeyboardMan
-import DeviceGuru
+import DeviceUtil
 
 final class FeedbackViewController: UIViewController {
 
-    @IBOutlet private weak var promptLabel: UILabel! {
+    @IBOutlet fileprivate weak var promptLabel: UILabel! {
         didSet {
             promptLabel.text = NSLocalizedString("We read every feedback", comment: "")
-            promptLabel.textColor = UIColor.darkGrayColor()
+            promptLabel.textColor = UIColor.darkGray
         }
     }
 
-    @IBOutlet private weak var feedbackTextView: UITextView! {
+    @IBOutlet fileprivate weak var feedbackTextView: UITextView! {
         didSet {
             feedbackTextView.text = ""
             feedbackTextView.delegate = self
@@ -29,42 +28,42 @@ final class FeedbackViewController: UIViewController {
         }
     }
 
-    @IBOutlet private weak var feedbackTextViewTopLineView: HorizontalLineView! {
+    @IBOutlet fileprivate weak var feedbackTextViewTopLineView: HorizontalLineView! {
         didSet {
-            feedbackTextViewTopLineView.lineColor = UIColor.lightGrayColor()
+            feedbackTextViewTopLineView.lineColor = UIColor.lightGray
         }
     }
 
-    @IBOutlet private weak var feedbackTextViewBottomLineView: HorizontalLineView! {
+    @IBOutlet fileprivate weak var feedbackTextViewBottomLineView: HorizontalLineView! {
         didSet {
-            feedbackTextViewBottomLineView.lineColor = UIColor.lightGrayColor()
+            feedbackTextViewBottomLineView.lineColor = UIColor.lightGray
         }
     }
 
-    @IBOutlet private weak var feedbackTextViewBottomConstraint: NSLayoutConstraint! {
+    @IBOutlet fileprivate weak var feedbackTextViewBottomConstraint: NSLayoutConstraint! {
         didSet {
             feedbackTextViewBottomConstraint.constant = YepConfig.Feedback.bottomMargin
         }
     }
 
-    private var isDirty = false {
+    fileprivate var isDirty = false {
         willSet {
-            navigationItem.rightBarButtonItem?.enabled = newValue
+            navigationItem.rightBarButtonItem?.isEnabled = newValue
         }
     }
 
-    private let keyboardMan = KeyboardMan()
+    fileprivate let keyboardMan = KeyboardMan()
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Feedback", comment: "")
+        title = String.trans_titleFeedback
 
         view.backgroundColor = UIColor.yepViewBackgroundColor()
 
-        let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Done, target: self, action: #selector(FeedbackViewController.done(_:)))
+        let doneBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.done, target: self, action: #selector(FeedbackViewController.done(_:)))
         navigationItem.rightBarButtonItem = doneBarButtonItem
-        navigationItem.rightBarButtonItem?.enabled = false
+        navigationItem.rightBarButtonItem?.isEnabled = false
 
         keyboardMan.animateWhenKeyboardAppear = { [weak self] _, keyboardHeight, _ in
             self?.feedbackTextViewBottomConstraint.constant = keyboardHeight + YepConfig.Feedback.bottomMargin
@@ -80,13 +79,13 @@ final class FeedbackViewController: UIViewController {
         view.addGestureRecognizer(tap)
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         feedbackTextView.becomeFirstResponder()
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         feedbackTextView.resignFirstResponder()
@@ -94,28 +93,26 @@ final class FeedbackViewController: UIViewController {
 
     // MARK: Actions
 
-    @objc private func tap(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tap(_ sender: UITapGestureRecognizer) {
         feedbackTextView.resignFirstResponder()
     }
 
-    @objc private func done(sender: AnyObject) {
+    @objc fileprivate func done(_ sender: AnyObject) {
 
         feedbackTextView.resignFirstResponder()
 
-        let deviceInfo = (DeviceGuru.hardwareDescription() ?? "nixDevice") + ", " + NSProcessInfo().operatingSystemVersionString
+        let deviceInfo = (DeviceUtil.hardwareDescription() ?? "nixDevice") + ", " + ProcessInfo().operatingSystemVersionString
         let feedback = Feedback(content: feedbackTextView.text, deviceInfo: deviceInfo)
 
-        sendFeedback(feedback, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+        sendFeedback(feedback, failureHandler: { [weak self] (reason, errorMessage) in
+            let message = errorMessage ?? "Faild to send feedback!"
+            YepAlert.alertSorry(message: message, inViewController: self)
 
-            YepAlert.alertSorry(message: NSLocalizedString("Network error!", comment: ""), inViewController: self)
+        }, completion: { [weak self] in
+            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Thanks! Your feedback has been recorded!", comment: ""), dismissTitle: String.trans_titleOK, inViewController: self, withDismissAction: {
 
-        }, completion: { [weak self] _ in
-
-            YepAlert.alert(title: NSLocalizedString("Success", comment: ""), message: NSLocalizedString("Thanks! Your feedback has been recorded!", comment: ""), dismissTitle: NSLocalizedString("OK", comment: ""), inViewController: self, withDismissAction: {
-
-                SafeDispatch.async {
-                    self?.navigationController?.popViewControllerAnimated(true)
+                SafeDispatch.async { [weak self] in
+                    _ = self?.navigationController?.popViewController(animated: true)
                 }
             })
         })
@@ -126,7 +123,7 @@ final class FeedbackViewController: UIViewController {
 
 extension FeedbackViewController: UITextViewDelegate {
 
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
         isDirty = !textView.text.isEmpty
     }
 }

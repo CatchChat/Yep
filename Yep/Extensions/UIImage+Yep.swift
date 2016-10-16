@@ -12,7 +12,7 @@ import UIKit
 
 extension UIImage {
 
-    static func yep_badgeWithName(name: String) -> UIImage {
+    static func yep_badgeWithName(_ name: String) -> UIImage {
         return UIImage(named: "badge_" + name)!
     }
 }

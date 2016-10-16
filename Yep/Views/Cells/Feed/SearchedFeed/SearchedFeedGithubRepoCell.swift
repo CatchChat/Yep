@@ -9,22 +9,22 @@
 import UIKit
 import YepKit
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+private let screenWidth: CGFloat = UIScreen.main.bounds.width
 
 final class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + (10 + 80)
 
         return ceil(height)
     }
 
-    var tapGithubRepoLinkAction: (NSURL -> Void)?
+    var tapGithubRepoLinkAction: ((URL) -> Void)?
 
     lazy var logoImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.image = UIImage(named: SocialAccount.Github.iconName)
+        imageView.image = UIImage(named: SocialAccount.github.iconName)
         imageView.frame = CGRect(x: 0, y: 0, width: 18, height: 18)
         imageView.tintColor = YepConfig.SearchedItemCell.logoTintColor
         return imageView
@@ -54,12 +54,12 @@ final class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
         if let attachment = feed.attachment {
-            if case let .Github(githubRepo) = attachment {
+            if case let .github(githubRepo) = attachment {
                 githubRepoContainerView.nameLabel.text = githubRepo.name
                 githubRepoContainerView.descriptionLabel.text = githubRepo.description
             }
@@ -70,8 +70,8 @@ final class SearchedFeedGithubRepoCell: SearchedFeedBasicCell {
                 return
             }
 
-            if case .GithubRepo = feed.kind {
-                if case let .Github(repo) = attachment, let URL = NSURL(string: repo.URLString) {
+            if case .githubRepo = feed.kind {
+                if case let .github(repo) = attachment, let URL = URL(string: repo.URLString) {
                     self?.tapGithubRepoLinkAction?(URL)
                 }
             }

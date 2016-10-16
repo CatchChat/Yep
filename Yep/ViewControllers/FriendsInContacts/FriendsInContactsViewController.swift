@@ -8,36 +8,31 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 
 final class FriendsInContactsViewController: BaseViewController {
 
-    struct Notification {
-        static let NewFriends = "NewFriendsInContactsNotification"
-    }
-
-    @IBOutlet private weak var friendsTableView: UITableView! {
+    @IBOutlet fileprivate weak var friendsTableView: UITableView! {
         didSet {
             friendsTableView.separatorColor = UIColor.yepCellSeparatorColor()
             friendsTableView.separatorInset = YepConfig.ContactsCell.separatorInset
 
-            friendsTableView.registerNibOf(ContactsCell)
+            friendsTableView.registerNibOf(ContactsCell.self)
             friendsTableView.rowHeight = 80
             friendsTableView.tableFooterView = UIView()
         }
     }
 
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
 
-    private var discoveredUsers = [DiscoveredUser]() {
+    fileprivate var discoveredUsers = [DiscoveredUser]() {
         didSet {
             if discoveredUsers.count > 0 {
                 updateFriendsTableView()
 
-                NSNotificationCenter.defaultCenter().postNotificationName(Notification.NewFriends, object: nil)
+                NotificationCenter.default.post(name: YepConfig.NotificationName.newFriendsInContacts, object: nil)
 
             } else {
-                friendsTableView.tableFooterView = InfoView(NSLocalizedString("No more new friends.", comment: ""))
+                friendsTableView.tableFooterView = InfoView(String.trans_promptNoNewFriends)
             }
         }
     }
@@ -48,7 +43,7 @@ final class FriendsInContactsViewController: BaseViewController {
         title = String.trans_titleAvailableFriends
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         uploadContactsToMatchNewFriends()
@@ -68,8 +63,6 @@ final class FriendsInContactsViewController: BaseViewController {
         }
 
         friendsInContacts(uploadContacts, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
             SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
             }
@@ -85,22 +78,25 @@ final class FriendsInContactsViewController: BaseViewController {
 
     // MARK: Actions
 
-    private func updateFriendsTableView() {
-        friendsTableView.reloadSections(NSIndexSet(index: 0), withRowAnimation: UITableViewRowAnimation.Automatic)
+    fileprivate func updateFriendsTableView() {
+
+        friendsTableView.reloadData()
     }
 
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "showProfile" {
-            if let indexPath = sender as? NSIndexPath {
-
-                let vc = segue.destinationViewController as! ProfileViewController
-
-                let discoveredUser = discoveredUsers[indexPath.row]
-                vc.prepare(withDiscoveredUser: discoveredUser)
+            guard let indexPath = sender as? IndexPath else {
+                println("showProfile no indexPath!")
+                return
             }
+
+            let vc = segue.destination as! ProfileViewController
+
+            let discoveredUser = discoveredUsers[indexPath.row]
+            vc.prepare(with: discoveredUser)
         }
     }
 }
@@ -109,11 +105,11 @@ final class FriendsInContactsViewController: BaseViewController {
 
 extension FriendsInContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return discoveredUsers.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell: ContactsCell = tableView.dequeueReusableCell()
 
@@ -124,13 +120,13 @@ extension FriendsInContactsViewController: UITableViewDataSource, UITableViewDel
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        performSegueWithIdentifier("showProfile", sender: indexPath)
+        performSegue(withIdentifier: "showProfile", sender: indexPath)
     }
 }
 

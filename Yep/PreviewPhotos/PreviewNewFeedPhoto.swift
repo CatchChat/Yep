@@ -14,11 +14,11 @@ class PreviewNewFeedPhoto: NSObject, Photo {
 
     var image: UIImage? {
         didSet {
-            self.updatedImage?(image: image)
+            self.updatedImage?(image)
         }
     }
 
-    var updatedImage: ((image: UIImage?) -> Void)?
+    var updatedImage: ((_ image: UIImage?) -> Void)?
 
     init(image: UIImage) {
         super.init()

@@ -8,30 +8,32 @@
 
 import UIKit
 import Ruler
+import MonkeyKing
 
 final class AboutViewController: SegueViewController {
 
-    @IBOutlet private weak var appLogoImageView: UIImageView!
-    @IBOutlet private weak var appLogoImageViewTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var appLogoImageView: UIImageView!
+    @IBOutlet fileprivate weak var appLogoImageViewTopConstraint: NSLayoutConstraint!
     
-    @IBOutlet private weak var appNameLabel: UILabel!
-    @IBOutlet private weak var appNameLabelTopConstraint: NSLayoutConstraint!
-    @IBOutlet private weak var appVersionLabel: UILabel!
+    @IBOutlet fileprivate weak var appNameLabel: UILabel!
+    @IBOutlet fileprivate weak var appNameLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var appVersionLabel: UILabel!
     
-    @IBOutlet private weak var aboutTableView: UITableView! {
+    @IBOutlet fileprivate weak var aboutTableView: UITableView! {
         didSet {
-            aboutTableView.registerNibOf(AboutCell)
+            aboutTableView.registerNibOf(AboutCell.self)
         }
     }
-    @IBOutlet private weak var aboutTableViewHeightConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var aboutTableViewHeightConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var copyrightLabel: UILabel!
+    @IBOutlet fileprivate weak var copyrightLabel: UILabel!
 
-    private let rowHeight: CGFloat = Ruler.iPhoneVertical(50, 60, 60, 60).value
+    fileprivate let rowHeight: CGFloat = Ruler.iPhoneVertical(45, 50, 55, 60).value
 
-    private let aboutAnnotations: [String] = [
-        NSLocalizedString("Open Source of Yep", comment: ""),
+    fileprivate let aboutAnnotations: [String] = [
+        String.trans_aboutOpenSourceOfYep,
         NSLocalizedString("Review Yep on the App Store", comment: ""),
+        String.trans_aboutRecommendYep,
         NSLocalizedString("Terms of Service", comment: ""),
     ]
 
@@ -43,7 +45,7 @@ final class AboutViewController: SegueViewController {
         appLogoImageViewTopConstraint.constant = Ruler.iPhoneVertical(0, 20, 40, 60).value
         appNameLabelTopConstraint.constant = Ruler.iPhoneVertical(10, 20, 20, 20).value
 
-        let motionEffect = UIMotionEffect.yep_twoAxesShift(Ruler.iPhoneHorizontal(20, 30, 40).value)
+        let motionEffect = UIMotionEffect.yep_twoAxesShift(Ruler.iPhoneHorizontal(30, 40, 50).value)
         appLogoImageView.addMotionEffect(motionEffect)
         appNameLabel.addMotionEffect(motionEffect)
         appVersionLabel.addMotionEffect(motionEffect)
@@ -51,8 +53,8 @@ final class AboutViewController: SegueViewController {
         appNameLabel.textColor = UIColor.yepTintColor()
 
         if let
-            releaseVersionNumber = NSBundle.releaseVersionNumber,
-            buildVersionNumber = NSBundle.buildVersionNumber {
+            releaseVersionNumber = Bundle.releaseVersionNumber,
+            let buildVersionNumber = Bundle.buildVersionNumber {
                 appVersionLabel.text = NSLocalizedString("Version", comment: "") + " " + releaseVersionNumber + " (\(buildVersionNumber))"
         }
 
@@ -64,17 +66,18 @@ final class AboutViewController: SegueViewController {
 
 extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
 
-    private enum Row: Int {
-        case Pods = 1
-        case Review
-        case Terms
+    fileprivate enum Row: Int {
+        case pods = 1
+        case review
+        case share
+        case terms
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return aboutAnnotations.count + 1
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         switch indexPath.row {
         case 0:
@@ -87,7 +90,7 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         switch indexPath.row {
         case 0:
             return 1
@@ -96,21 +99,35 @@ extension AboutViewController: UITableViewDataSource, UITableViewDelegate {
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         switch indexPath.row {
-        case Row.Pods.rawValue:
-            performSegueWithIdentifier("showPodsHelpYep", sender: nil)
-        case Row.Review.rawValue:
-            UIApplication.sharedApplication().yep_reviewOnTheAppStore()
-        case Row.Terms.rawValue:
-            if let URL = NSURL(string: YepConfig.termsURLString) {
+
+        case Row.pods.rawValue:
+            performSegue(withIdentifier: "showPodsHelpYep", sender: nil)
+
+        case Row.review.rawValue:
+            UIApplication.shared.yep_reviewOnTheAppStore()
+
+        case Row.share.rawValue:
+            let yepURL = URL(string: "https://soyep.com")!
+            let info = MonkeyKing.Info(
+                title: "Yep",
+                description: String.trans_aboutYepDescription,
+                thumbnail: UIImage.yep_yepIconSolo,
+                media: .url(yepURL)
+            )
+            self.yep_share(info: info, defaultActivityItem: yepURL, description: String.trans_aboutYepDescription)
+
+        case Row.terms.rawValue:
+            if let URL = URL(string: YepConfig.termsURLString) {
                 yep_openURL(URL)
             }
+
         default:
             break
         }

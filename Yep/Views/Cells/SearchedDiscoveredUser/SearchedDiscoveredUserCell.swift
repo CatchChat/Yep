@@ -30,7 +30,7 @@ final class SearchedDiscoveredUserCell: UITableViewCell {
         introLabel.text = nil
     }
 
-    func configureWithUserRepresentation(user: UserRepresentation, keyword: String?) {
+    func configureWithUserRepresentation(_ user: UserRepresentation, keyword: String?) {
 
         let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: nanoAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
@@ -43,7 +43,7 @@ final class SearchedDiscoveredUserCell: UITableViewCell {
         }
 
         if let mentionUsername = user.mentionedUsername {
-            usernameLabel.hidden = false
+            usernameLabel.isHidden = false
 
             if let keyword = keyword {
                 usernameLabel.attributedText = mentionUsername.yep_hightlightSearchKeyword(keyword,  baseFont: YepConfig.SearchedItemCell.usernameFont, baseColor: YepConfig.SearchedItemCell.usernameColor)
@@ -53,7 +53,7 @@ final class SearchedDiscoveredUserCell: UITableViewCell {
             }
 
         } else {
-            usernameLabel.hidden = true
+            usernameLabel.isHidden = true
         }
 
         introLabel.text = user.userIntroduction

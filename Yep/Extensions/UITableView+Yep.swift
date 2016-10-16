@@ -13,49 +13,49 @@ extension UITableView {
 
     enum WayToUpdate {
 
-        case None
-        case ReloadData
-        case ReloadIndexPaths([NSIndexPath])
-        case Insert([NSIndexPath])
+        case none
+        case reloadData
+        case reloadIndexPaths([IndexPath])
+        case insert([IndexPath])
 
         var needsLabor: Bool {
 
             switch self {
-            case .None:
+            case .none:
                 return false
-            case .ReloadData:
+            case .reloadData:
                 return true
-            case .ReloadIndexPaths:
+            case .reloadIndexPaths:
                 return true
-            case .Insert:
+            case .insert:
                 return true
             }
         }
 
-        func performWithTableView(tableView: UITableView) {
+        func performWithTableView(_ tableView: UITableView) {
 
             switch self {
 
-            case .None:
+            case .none:
                 println("tableView WayToUpdate: None")
                 break
 
-            case .ReloadData:
+            case .reloadData:
                 println("tableView WayToUpdate: ReloadData")
                 SafeDispatch.async {
                     tableView.reloadData()
                 }
 
-            case .ReloadIndexPaths(let indexPaths):
+            case .reloadIndexPaths(let indexPaths):
                 println("tableView WayToUpdate: ReloadIndexPaths")
                 SafeDispatch.async {
-                    tableView.reloadRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                    tableView.reloadRows(at: indexPaths, with: .none)
                 }
 
-            case .Insert(let indexPaths):
+            case .insert(let indexPaths):
                 println("tableView WayToUpdate: Insert")
                 SafeDispatch.async {
-                    tableView.insertRowsAtIndexPaths(indexPaths, withRowAnimation: .None)
+                    tableView.insertRows(at: indexPaths, with: .none)
                 }
             }
         }
@@ -64,34 +64,34 @@ extension UITableView {
 
 extension UITableView {
 
-    func registerClassOf<T: UITableViewCell where T: Reusable>(_: T.Type) {
+    func registerClassOf<T: UITableViewCell>(_: T.Type) where T: Reusable {
 
-        registerClass(T.self, forCellReuseIdentifier: T.yep_reuseIdentifier)
+        register(T.self, forCellReuseIdentifier: T.yep_reuseIdentifier)
     }
 
-    func registerNibOf<T: UITableViewCell where T: Reusable, T: NibLoadable>(_: T.Type) {
+    func registerNibOf<T: UITableViewCell>(_: T.Type) where T: Reusable, T: NibLoadable {
 
         let nib = UINib(nibName: T.yep_nibName, bundle: nil)
-        registerNib(nib, forCellReuseIdentifier: T.yep_reuseIdentifier)
+        register(nib, forCellReuseIdentifier: T.yep_reuseIdentifier)
     }
 
-    func registerHeaderFooterClassOf<T: UITableViewHeaderFooterView where T: Reusable>(_: T.Type) {
+    func registerHeaderFooterClassOf<T: UITableViewHeaderFooterView>(_: T.Type) where T: Reusable {
 
-        registerClass(T.self, forHeaderFooterViewReuseIdentifier: T.yep_reuseIdentifier)
+        register(T.self, forHeaderFooterViewReuseIdentifier: T.yep_reuseIdentifier)
     }
 
-    func dequeueReusableCell<T: UITableViewCell where T: Reusable>() -> T {
+    func dequeueReusableCell<T: UITableViewCell>() -> T where T: Reusable {
 
-        guard let cell = dequeueReusableCellWithIdentifier(T.yep_reuseIdentifier) as? T else {
+        guard let cell = self.dequeueReusableCell(withIdentifier: T.yep_reuseIdentifier) as? T else {
             fatalError("Could not dequeue cell with identifier: \(T.yep_reuseIdentifier)")
         }
         
         return cell
     }
 
-    func dequeueReusableHeaderFooter<T: UITableViewHeaderFooterView where T: Reusable>() -> T {
+    func dequeueReusableHeaderFooter<T: UITableViewHeaderFooterView>() -> T where T: Reusable {
 
-        guard let view = dequeueReusableHeaderFooterViewWithIdentifier(T.yep_reuseIdentifier) as? T else {
+        guard let view = dequeueReusableHeaderFooterView(withIdentifier: T.yep_reuseIdentifier) as? T else {
             fatalError("Could not dequeue HeaderFooter with identifier: \(T.yep_reuseIdentifier)")
         }
 

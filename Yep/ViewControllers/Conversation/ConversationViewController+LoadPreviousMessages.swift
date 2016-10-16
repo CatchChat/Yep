@@ -8,19 +8,12 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 
 extension ConversationViewController {
 
-    func loadMessagesFromServer(withTimeDirection timeDirection: TimeDirection, invalidMessageIDSet: Set<String>? = nil, failed: (() -> Void)? = nil, completion: ((messageIDs: [String], noMore: Bool) -> Void)? = nil) {
-
-        guard let recipient = recipient else {
-            failed?()
-            return
-        }
+    func loadMessagesFromServer(with timeDirection: TimeDirection, excludeMessagesIn invalidMessageIDSet: Set<String>? = nil, failed: (() -> Void)? = nil, completion: ((_ messageIDs: [String], _ noMore: Bool) -> Void)? = nil) {
 
         messagesFromRecipient(recipient, withTimeDirection: timeDirection, failureHandler: { reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             SafeDispatch.async {
                 failed?()
@@ -41,19 +34,19 @@ extension ConversationViewController {
             println("# messagesFromRecipient: \(messageIDs.count)")
 
             SafeDispatch.async {
-                completion?(messageIDs: messageIDs, noMore: noMore)
+                completion?(messageIDs, noMore)
             }
         })
     }
 
-    func tryLoadPreviousMessages(completion: () -> Void) {
+    func tryLoadPreviousMessages(_ completion: @escaping () -> Void) {
 
         if isLoadingPreviousMessages {
             completion()
             return
         }
 
-        guard !conversation.invalidated else {
+        guard !conversation.isInvalidated else {
             return
         }
 
@@ -75,18 +68,18 @@ extension ConversationViewController {
             var invalidMessageIDSet: Set<String>?
             if let (message, headInvalidMessageIDSet) = firstValidMessageInMessageResults(messages) {
                 let maxMessageID = message.messageID
-                timeDirection = .Past(maxMessageID: maxMessageID)
+                timeDirection = .past(maxMessageID: maxMessageID)
                 invalidMessageIDSet = headInvalidMessageIDSet
             } else {
-                timeDirection = .None
+                timeDirection = .none
             }
 
-            loadMessagesFromServer(withTimeDirection: timeDirection, invalidMessageIDSet: invalidMessageIDSet, failed: { [weak self] in
+            loadMessagesFromServer(with: timeDirection, excludeMessagesIn: invalidMessageIDSet, failed: { [weak self] in
                 self?.isLoadingPreviousMessages = false
                 completion()
 
             }, completion: { [weak self] messageIDs, noMore in
-                if case .Past = timeDirection {
+                if case .past = timeDirection {
                     self?.noMorePreviousMessages = noMore
                 }
 
@@ -115,9 +108,9 @@ extension ConversationViewController {
 
             self.lastTimeMessagesCount = self.messages.count // 同样需要纪录它
 
-            var indexPaths = [NSIndexPath]()
+            var indexPaths = [IndexPath]()
             for i in 0..<newMessagesCount {
-                let indexPath = NSIndexPath(forItem: Int(i), inSection: Section.Message.rawValue)
+                let indexPath = IndexPath(item: Int(i), section: Section.message.rawValue)
                 indexPaths.append(indexPath)
             }
 
@@ -127,7 +120,7 @@ extension ConversationViewController {
             CATransaction.setDisableActions(true)
 
             self.conversationCollectionView.performBatchUpdates({ [weak self] in
-                self?.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
+                self?.conversationCollectionView.insertItems(at: indexPaths)
 
             }, completion: { [weak self] finished in
                 if let strongSelf = self {

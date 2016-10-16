@@ -15,24 +15,24 @@ let kWeek = kDay * 7
 let kMonth = kDay * 31
 let kYear = kDay * 365
 
-func NSDateTimeAgoLocalizedStrings(key: String) -> String {
+func NSDateTimeAgoLocalizedStrings(_ key: String) -> String {
 
-    let resourceURL = NSBundle.mainBundle().resourceURL
-    let URL = resourceURL?.URLByAppendingPathComponent("NSDateTimeAgo.bundle")
-    let bundle = NSBundle(URL: URL!)!
+    let resourceURL = Bundle.main.resourceURL
+    let URL = resourceURL?.appendingPathComponent("NSDateTimeAgo.bundle")
+    let bundle = Bundle(url: URL!)!
 
     return NSLocalizedString(key, tableName: "NSDateTimeAgo", bundle: bundle, comment: "")
 }
 
-public extension NSDate {
+public extension Date {
     
     // shows 1 or two letter abbreviation for units.
     // does not include 'ago' text ... just {value}{unit-abbreviation}
     // does not include interim summary options such as 'Just now'
     public var timeAgoSimple: String {
         
-        let now = NSDate()
-        let deltaSeconds = Int(fabs(timeIntervalSinceDate(now)))
+        let now = Date()
+        let deltaSeconds = Int(fabs(timeIntervalSince(now)))
         let deltaMinutes = deltaSeconds / 60
         
         var value: Int!
@@ -68,11 +68,9 @@ public extension NSDate {
 
     public var timeAgo: String {
         
-        let now = NSDate()
-        let deltaSeconds = Int(fabs(timeIntervalSinceDate(now)))
+        let now = Date()
+        let deltaSeconds = max(Int(now.timeIntervalSince(self)), 0)
         let deltaMinutes = deltaSeconds / 60
-        
-        var value: Int!
         
         if deltaSeconds < 5 {
             // Just Now
@@ -91,50 +89,49 @@ public extension NSDate {
             return NSDateTimeAgoLocalizedStrings("An hour ago")
         } else if deltaMinutes < kDay {
             // Hours Ago
-            value = Int(floor(Float(deltaMinutes / kMinute)))
+            let value = Int(floor(Float(deltaMinutes / kMinute)))
             return stringFromFormat("%%d %@hours ago", withValue: value)
         } else if deltaMinutes < (kDay * 2) {
             // Yesterday
             return NSDateTimeAgoLocalizedStrings("Yesterday")
         } else if deltaMinutes < kWeek {
             // Days Ago
-            value = Int(floor(Float(deltaMinutes / kDay)))
+            let value = Int(floor(Float(deltaMinutes / kDay)))
             return stringFromFormat("%%d %@days ago", withValue: value)
         } else if deltaMinutes < (kWeek * 2) {
             // Last Week
             return NSDateTimeAgoLocalizedStrings("Last week")
         } else if deltaMinutes < kMonth {
             // Weeks Ago
-            value = Int(floor(Float(deltaMinutes / kWeek)))
+            let value = Int(floor(Float(deltaMinutes / kWeek)))
             return stringFromFormat("%%d %@weeks ago", withValue: value)
         } else if deltaMinutes < (kDay * 61) {
             // Last month
             return NSDateTimeAgoLocalizedStrings("Last month")
         } else if deltaMinutes < kYear {
             // Month Ago
-            value = Int(floor(Float(deltaMinutes / kMonth)))
+            let value = Int(floor(Float(deltaMinutes / kMonth)))
             return stringFromFormat("%%d %@months ago", withValue: value)
         } else if deltaMinutes < (kDay * (kYear * 2)) {
             // Last Year
             return NSDateTimeAgoLocalizedStrings("Last Year")
+        } else {
+            // Years Ago
+            let value = Int(floor(Float(deltaMinutes / kYear)))
+            return stringFromFormat("%%d %@years ago", withValue: value)
         }
-        
-        // Years Ago
-        value = Int(floor(Float(deltaMinutes / kYear)))
-        return stringFromFormat("%%d %@years ago", withValue: value)
-        
     }
     
-    public func stringFromFormat(format: String, withValue value: Int) -> String {
+    public func stringFromFormat(_ format: String, withValue value: Int) -> String {
         
         let localeFormat = String(format: format, getLocaleFormatUnderscoresWithValue(Double(value)))
         
         return String(format: NSDateTimeAgoLocalizedStrings(localeFormat), value)
     }
     
-    public func getLocaleFormatUnderscoresWithValue(value: Double) -> String {
+    public func getLocaleFormatUnderscoresWithValue(_ value: Double) -> String {
         
-        let localeCode = NSLocale.preferredLanguages().first
+        let localeCode = Locale.preferredLanguages.first
         
         if localeCode == "ru" {
             let XY = Int(floor(value)) % 100

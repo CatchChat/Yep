@@ -8,32 +8,25 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 import Ruler
 import RxSwift
 import RxCocoa
 
-final class ChangeMobileViewController: UIViewController {
+final class ChangeMobileViewController: BaseInputMobileViewController {
 
-    private lazy var disposeBag = DisposeBag()
+    fileprivate lazy var disposeBag = DisposeBag()
     
-    @IBOutlet private weak var changeMobileNumberPromptLabel: UILabel!
-    @IBOutlet private weak var changeMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var changeMobileNumberPromptLabel: UILabel!
+    @IBOutlet fileprivate weak var changeMobileNumberPromptLabelTopConstraint: NSLayoutConstraint!
 
-    @IBOutlet private weak var currentMobileNumberPromptLabel: UILabel!
-    @IBOutlet private weak var currentMobileNumberLabel: UILabel!
+    @IBOutlet fileprivate weak var currentMobileNumberPromptLabel: UILabel!
+    @IBOutlet fileprivate weak var currentMobileNumberLabel: UILabel!
 
-    @IBOutlet weak var areaCodeTextField: BorderTextField!
-    @IBOutlet weak var areaCodeTextFieldWidthConstraint: NSLayoutConstraint!
-
-    @IBOutlet weak var mobileNumberTextField: BorderTextField!
-    @IBOutlet private weak var mobileNumberTextFieldTopConstraint: NSLayoutConstraint!
-
-    private lazy var nextButton: UIBarButtonItem = {
+    fileprivate lazy var nextButton: UIBarButtonItem = {
         let button = UIBarButtonItem()
-        button.title = NSLocalizedString("Next", comment: "")
-        button.rx_tap
-            .subscribeNext({ [weak self] in self?.tryShowVerifyChangedMobile() })
+        button.title = String.trans_buttonNextStep
+        button.rx.tap
+            .subscribe(onNext: { [weak self] in self?.tryShowVerifyChangedMobile() })
             .addDisposableTo(self.disposeBag)
         return button
     }()
@@ -52,40 +45,39 @@ final class ChangeMobileViewController: UIViewController {
         currentMobileNumberPromptLabel.text = String.trans_promptCurrentNumber
         currentMobileNumberLabel.text = YepUserDefaults.fullPhoneNumber
 
-        areaCodeTextField.text = NSTimeZone.areaCode
-        areaCodeTextField.backgroundColor = UIColor.whiteColor()
+        areaCodeTextField.text = TimeZone.areaCode
+        areaCodeTextField.backgroundColor = UIColor.white
 
         areaCodeTextField.delegate = self
-        areaCodeTextField.rx_text
-            .subscribeNext({ [weak self] _ in self?.adjustAreaCodeTextFieldWidth() })
+        areaCodeTextField.rx.textInput.text
+            .subscribe(onNext: { [weak self] _ in self?.adjustAreaCodeTextFieldWidth() })
             .addDisposableTo(disposeBag)
 
         mobileNumberTextField.placeholder = ""
-        mobileNumberTextField.backgroundColor = UIColor.whiteColor()
+        mobileNumberTextField.backgroundColor = UIColor.white
         mobileNumberTextField.textColor = UIColor.yepInputTextColor()
         mobileNumberTextField.delegate = self
 
-        Observable.combineLatest(areaCodeTextField.rx_text, mobileNumberTextField.rx_text) { !$0.isEmpty && !$1.isEmpty }
-            .bindTo(nextButton.rx_enabled)
+        Observable.combineLatest(areaCodeTextField.rx.textInput.text, mobileNumberTextField.rx.textInput.text) { !$0.isEmpty && !$1.isEmpty }
+            .bindTo(nextButton.rx.enabled)
             .addDisposableTo(disposeBag)
 
         changeMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
-        mobileNumberTextFieldTopConstraint.constant = Ruler.iPhoneVertical(30, 40, 50, 50).value
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        nextButton.enabled = false
+        nextButton.isEnabled = false
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         mobileNumberTextField.becomeFirstResponder()
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
         view.endEditing(true)
@@ -93,60 +85,52 @@ final class ChangeMobileViewController: UIViewController {
 
     // MARK: Actions
 
+    override func tappedKeyboardReturn() {
+        tryShowVerifyChangedMobile()
+    }
+
     func tryShowVerifyChangedMobile() {
 
         view.endEditing(true)
 
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+        guard let areaCode = areaCodeTextField.text, let number = mobileNumberTextField.text else {
             return
         }
+        let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
+        sharedStore().dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
         YepHUD.showActivityIndicator()
 
-        sendVerifyCodeOfNewMobile(mobile, withAreaCode: areaCode, useMethod: .SMS, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
+        requestSendVerifyCodeOfNewMobilePhone(mobilePhone, useMethod: .sms, failureHandler: { (reason, errorMessage) in
 
             YepHUD.hideActivityIndicator()
 
-            let errorMessage = errorMessage ?? NSLocalizedString("Failed to send verification code!", comment: "")
-            YepAlert.alertSorry(message: errorMessage, inViewController: self, withDismissAction: { () -> Void in
-                SafeDispatch.async {
+            let message = errorMessage ?? String.trans_promptRequestSendVerificationCodeFailed
+            YepAlert.alertSorry(message: message, inViewController: self, withDismissAction: {
+                SafeDispatch.async { [weak self] in
                     self?.mobileNumberTextField.becomeFirstResponder()
                 }
             })
 
-        }, completion: { [weak self] in
+        }, completion: {
 
             YepHUD.hideActivityIndicator()
 
-            SafeDispatch.async {
+            SafeDispatch.async { [weak self] in
                 self?.showVerifyChangedMobile()
             }
         })
     }
 
-    private func showVerifyChangedMobile() {
+    fileprivate func showVerifyChangedMobile() {
 
-        guard let areaCode = areaCodeTextField.text, mobile = mobileNumberTextField.text else {
+        guard let areaCode = areaCodeTextField.text, let number = mobileNumberTextField.text else {
             return
         }
+        let mobilePhone = MobilePhone(areaCode: areaCode, number: number)
+        sharedStore().dispatch(MobilePhoneUpdateAction(mobilePhone: mobilePhone))
 
-        performSegueWithIdentifier("showVerifyChangedMobile", sender: ["mobile" : mobile, "areaCode": areaCode])
-    }
-
-    // MARK: Navigation
-
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-
-        if segue.identifier == "showVerifyChangedMobile" {
-
-            if let info = sender as? [String: String] {
-                let vc = segue.destinationViewController as! VerifyChangedMobileViewController
-
-                vc.mobile = info["mobile"]
-                vc.areaCode = info["areaCode"]
-            }
-        }
+        performSegue(withIdentifier: "showVerifyChangedMobile", sender: nil)
     }
 }
 

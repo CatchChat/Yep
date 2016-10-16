@@ -52,7 +52,7 @@ extension UIColor {
     }
 
     class func leftWaveColor() -> UIColor {
-        return UIColor.darkGrayColor().colorWithAlphaComponent(0.2)
+        return UIColor.darkGray.withAlphaComponent(0.2)
     }
 
     class func rightWaveColor() -> UIColor {
@@ -76,7 +76,7 @@ extension UIColor {
     }
 
     class func messageToolBarNormalColor() -> UIColor {
-        return UIColor.lightGrayColor()
+        return UIColor.lightGray
     }
     
     class func yepDisabledColor() -> UIColor {
@@ -92,11 +92,11 @@ extension UIColor {
     }
 
     class func yepCellSeparatorColor() -> UIColor {
-        return UIColor.lightGrayColor().colorWithAlphaComponent(0.3)
+        return UIColor.lightGray.withAlphaComponent(0.3)
     }
 
     class func yepCellAccessoryImageViewTintColor() -> UIColor {
-        return UIColor.lightGrayColor()
+        return UIColor.lightGray
     }
 
     class func yepIconImageViewTintColor() -> UIColor {
@@ -131,7 +131,7 @@ extension UIColor {
         var white: CGFloat = 0
         getWhite(&white, alpha: nil)
 
-        return white > 0.92 ? UIColor.blackColor() : UIColor.whiteColor()
+        return white > 0.92 ? UIColor.black : UIColor.white
     }
 
     var yep_profilePrettyColor: UIColor {

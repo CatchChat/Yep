@@ -8,18 +8,18 @@
 
 import Foundation
 
-extension NSURL {
+extension URL {
 
-    private var opengraphtests_queryItems: [NSURLQueryItem] {
+    fileprivate var opengraphtests_queryItems: [URLQueryItem] {
 
-        if let components = NSURLComponents(URL: self, resolvingAgainstBaseURL: false), queryItems = components.queryItems {
+        if let components = URLComponents(url: self, resolvingAgainstBaseURL: false), let queryItems = components.queryItems {
             return queryItems
         }
 
         return []
     }
 
-    func opengraphtests_containsQueryItem(queryItem: NSURLQueryItem) -> Bool {
+    func opengraphtests_containsQueryItem(_ queryItem: URLQueryItem) -> Bool {
 
         return opengraphtests_queryItems.contains(queryItem)
     }

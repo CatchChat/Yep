@@ -10,13 +10,13 @@ import Foundation
 import YepNetworking
 import RealmSwift
 
-private let githubBaseURL = NSURL(string: "https://api.github.com")!
-private let dribbbleBaseURL = NSURL(string: "https://api.dribbble.com")!
-private let instagramBaseURL = NSURL(string: "https://api.instagram.com")!
+private let githubBaseURL = URL(string: "https://api.github.com")!
+private let dribbbleBaseURL = URL(string: "https://api.dribbble.com")!
+private let instagramBaseURL = URL(string: "https://api.instagram.com")!
 
-private func githubResource<A>(token token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
+private func githubResource<A>(token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: @escaping (JSONDictionary) -> A?) -> Resource<A> {
 
-    let jsonParse: NSData -> A? = { data in
+    let jsonParse: (Data) -> A? = { data in
         if let json = decodeJSON(data) {
             return parse(json)
         }
@@ -33,9 +33,9 @@ private func githubResource<A>(token token: String, path: String, method: YepNet
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
 
-private func dribbbleResource<A>(token token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
+private func dribbbleResource<A>(token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: @escaping (JSONDictionary) -> A?) -> Resource<A> {
 
-    let jsonParse: NSData -> A? = { data in
+    let jsonParse: (Data) -> A? = { data in
         if let json = decodeJSON(data) {
             return parse(json)
         }
@@ -52,9 +52,9 @@ private func dribbbleResource<A>(token token: String, path: String, method: YepN
     return Resource(path: path, method: method, requestBody: jsonBody, headers: headers, parse: jsonParse)
 }
 
-private func instagramResource<A>(token token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
+private func instagramResource<A>(token: String, path: String, method: YepNetworking.Method, requestParameters: JSONDictionary, parse: @escaping (JSONDictionary) -> A?) -> Resource<A> {
 
-    let jsonParse: NSData -> A? = { data in
+    let jsonParse: (Data) -> A? = { data in
         if let json = decodeJSON(data) {
             return parse(json)
         }
@@ -70,28 +70,28 @@ private func instagramResource<A>(token token: String, path: String, method: Yep
 }
 
 public enum SocialWorkPiece {
-    case Github(GithubRepo)
-    case Dribbble(DribbbleShot)
-    case Instagram(InstagramMedia)
+    case github(GithubRepo)
+    case dribbble(DribbbleShot)
+    case instagram(InstagramMedia)
 
     public var messageSocialWorkType: MessageSocialWorkType {
         switch self {
-        case .Github:
-            return MessageSocialWorkType.GithubRepo
-        case .Dribbble:
-            return MessageSocialWorkType.DribbbleShot
-        case .Instagram:
-            return MessageSocialWorkType.InstagramMedia
+        case .github:
+            return MessageSocialWorkType.githubRepo
+        case .dribbble:
+            return MessageSocialWorkType.dribbbleShot
+        case .instagram:
+            return MessageSocialWorkType.instagramMedia
         }
     }
 
     public var messageID: String {
         switch self {
-        case .Github(let repo):
+        case .github(let repo):
             return "github_repo_\(repo.ID)"
-        case .Dribbble(let shot):
+        case .dribbble(let shot):
             return "dribbble_shot_\(shot.ID)"
-        case .Instagram(let media):
+        case .instagram(let media):
             return "instagram_media_\(media.ID)"
         }
     }
@@ -106,19 +106,19 @@ public struct GithubRepo {
     public let URLString: String
     public let description: String
 
-    public let createdAt: NSDate
+    public let createdAt: Date
 }
 
 // ref https://developer.github.com/v3/
 
-public func githubReposWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [GithubRepo] -> Void) {
+public func githubReposWithToken(_ token: String, failureHandler: FailureHandler?, completion: @escaping ([GithubRepo]) -> Void) {
 
-    let requestParameters = [
+    let requestParameters: JSONDictionary = [
         "type": "owner",
         "sort": "created",
     ]
 
-    let parse: JSONDictionary -> [GithubRepo]? = { data in
+    let parse: (JSONDictionary) -> [GithubRepo]? = { data in
 
         //println("githubReposWithToken data: \(data)")
 
@@ -132,13 +132,13 @@ public func githubReposWithToken(token: String, failureHandler: ((Reason, String
 
             guard let
                 ID = repoInfo["id"] as? Int,
-                name = repoInfo["name"] as? String,
-                fullName = repoInfo["full_name"] as? String,
-                URLString = repoInfo["html_url"] as? String,
-                description = repoInfo["description"] as? String,
-                createdAtString = repoInfo["created_at"] as? String,
-                isPrivate = repoInfo["private"] as? Bool,
-                isFork = repoInfo["fork"] as? Bool
+                let name = repoInfo["name"] as? String,
+                let fullName = repoInfo["full_name"] as? String,
+                let URLString = repoInfo["html_url"] as? String,
+                let description = repoInfo["description"] as? String,
+                let createdAtString = repoInfo["created_at"] as? String,
+                let isPrivate = repoInfo["private"] as? Bool,
+                let isFork = repoInfo["fork"] as? Bool
             else {
                 continue
             }
@@ -151,7 +151,7 @@ public func githubReposWithToken(token: String, failureHandler: ((Reason, String
                 continue
             }
 
-            let createdAt = NSDate.dateWithISO08601String(createdAtString)
+            let createdAt = Date.dateWithISO08601String(createdAtString)
 
             let repo = GithubRepo(ID: ID, name: name, fullName: fullName, URLString: URLString, description: description, createdAt: createdAt)
 
@@ -161,13 +161,9 @@ public func githubReposWithToken(token: String, failureHandler: ((Reason, String
         return repos
     }
 
-    let resource = githubResource(token: token, path: "/user/repos", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = githubResource(token: token, path: "/user/repos", method: .get, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: githubBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: githubBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: githubBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: Dribbble Shot
@@ -188,19 +184,19 @@ public struct DribbbleShot {
     public let likesCount: Int
     public let commentsCount: Int
 
-    public let createdAt: NSDate
+    public let createdAt: Date
 }
 
 // ref http://developer.dribbble.com/v1/
 
-public func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [DribbbleShot] -> Void) {
+public func dribbbleShotsWithToken(_ token: String, failureHandler: FailureHandler?, completion: @escaping ([DribbbleShot]) -> Void) {
 
     let requestParameters = [
         "timeframe": "month",
         "sort": "recent",
     ]
 
-    let parse: JSONDictionary -> [DribbbleShot]? = { data in
+    let parse: (JSONDictionary) -> [DribbbleShot]? = { data in
 
         //println("dribbbleShotsWithToken data: \(data)")
 
@@ -213,18 +209,18 @@ public func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, Stri
         for shotInfo in shotsData {
             if let
                 ID = shotInfo["id"] as? Int,
-                title = shotInfo["title"] as? String,
-                htmlURLString = shotInfo["html_url"] as? String,
-                imagesInfo = shotInfo["images"] as? JSONDictionary,
-                likesCount = shotInfo["likes_count"] as? Int,
-                commentsCount = shotInfo["comments_count"] as? Int,
-                createdAtString = shotInfo["created_at"] as? String {
+                let title = shotInfo["title"] as? String,
+                let htmlURLString = shotInfo["html_url"] as? String,
+                let imagesInfo = shotInfo["images"] as? JSONDictionary,
+                let likesCount = shotInfo["likes_count"] as? Int,
+                let commentsCount = shotInfo["comments_count"] as? Int,
+                let createdAtString = shotInfo["created_at"] as? String {
 
-                    let createdAt = NSDate.dateWithISO08601String(createdAtString)
+                    let createdAt = Date.dateWithISO08601String(createdAtString)
 
                     if let
                         normal = imagesInfo["normal"] as? String,
-                        teaser = imagesInfo["teaser"] as? String {
+                        let teaser = imagesInfo["teaser"] as? String {
                             
                             let hidpi = imagesInfo["hidpi"] as? String
                             
@@ -242,13 +238,9 @@ public func dribbbleShotsWithToken(token: String, failureHandler: ((Reason, Stri
         return shots
     }
 
-    let resource = dribbbleResource(token: token, path: "/v1/user/shots", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = dribbbleResource(token: token, path: "/v1/user/shots", method: .get, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: dribbbleBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: dribbbleBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: dribbbleBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: Instagram Media
@@ -269,18 +261,18 @@ public struct InstagramMedia {
 
     public let username: String
 
-    public let createdAt: NSDate
+    public let createdAt: Date
 }
 
 // ref https://instagram.com/developer/endpoints/users/
 
-public func instagramMediasWithToken(token: String, failureHandler: ((Reason, String?) -> Void)?, completion: [InstagramMedia] -> Void) {
+public func instagramMediasWithToken(_ token: String, failureHandler: FailureHandler?, completion: @escaping ([InstagramMedia]) -> Void) {
 
     let requestParameters = [
         "access_token": token,
     ]
 
-    let parse: JSONDictionary -> [InstagramMedia]? = { data in
+    let parse: (JSONDictionary) -> [InstagramMedia]? = { data in
 
         //println("instagramMediasWithToken data: \(data)")
 
@@ -293,28 +285,28 @@ public func instagramMediasWithToken(token: String, failureHandler: ((Reason, St
         for mediaInfo in mediasData {
             if let
                 ID = mediaInfo["id"] as? String,
-                linkURLString = mediaInfo["link"] as? String,
-                imagesInfo = mediaInfo["images"] as? JSONDictionary,
-                likesInfo = mediaInfo["likes"] as? JSONDictionary,
-                commentsInfo = mediaInfo["comments"] as? JSONDictionary,
-                userInfo = mediaInfo["user"] as? JSONDictionary,
-                createdAtString = mediaInfo["created_time"] as? String {
+                let linkURLString = mediaInfo["link"] as? String,
+                let imagesInfo = mediaInfo["images"] as? JSONDictionary,
+                let likesInfo = mediaInfo["likes"] as? JSONDictionary,
+                let commentsInfo = mediaInfo["comments"] as? JSONDictionary,
+                let userInfo = mediaInfo["user"] as? JSONDictionary,
+                let createdAtString = mediaInfo["created_time"] as? String {
 
-                    let createdAt = NSDate(timeIntervalSince1970: (createdAtString as NSString).doubleValue)
+                    let createdAt = Date(timeIntervalSince1970: (createdAtString as NSString).doubleValue)
 
                     if let
                         lowResolutionInfo = imagesInfo["low_resolution"] as? JSONDictionary,
-                        standardResolutionInfo = imagesInfo["standard_resolution"] as? JSONDictionary,
-                        thumbnailInfo = imagesInfo["thumbnail"] as? JSONDictionary,
+                        let standardResolutionInfo = imagesInfo["standard_resolution"] as? JSONDictionary,
+                        let thumbnailInfo = imagesInfo["thumbnail"] as? JSONDictionary,
 
-                        lowResolution = lowResolutionInfo["url"] as? String,
-                        standardResolution = standardResolutionInfo["url"] as? String,
-                        thumbnail = thumbnailInfo["url"] as? String,
+                        let lowResolution = lowResolutionInfo["url"] as? String,
+                        let standardResolution = standardResolutionInfo["url"] as? String,
+                        let thumbnail = thumbnailInfo["url"] as? String,
 
-                        likesCount = likesInfo["count"] as? Int,
-                        commentsCount = commentsInfo["count"] as? Int,
+                        let likesCount = likesInfo["count"] as? Int,
+                        let commentsCount = commentsInfo["count"] as? Int,
 
-                        username = userInfo["username"] as? String {
+                        let username = userInfo["username"] as? String {
 
                             let images = InstagramMedia.Images(lowResolution: lowResolution, standardResolution: standardResolution, thumbnail: thumbnail)
 
@@ -328,13 +320,9 @@ public func instagramMediasWithToken(token: String, failureHandler: ((Reason, St
         return medias
     }
 
-    let resource = instagramResource(token: token, path: "/v1/users/self/feed", method: .GET, requestParameters: requestParameters, parse: parse)
+    let resource = instagramResource(token: token, path: "/v1/users/self/feed", method: .get, requestParameters: requestParameters, parse: parse)
 
-    if let failureHandler = failureHandler {
-        apiRequest({_ in}, baseURL: instagramBaseURL, resource: resource, failure: failureHandler, completion: completion)
-    } else {
-        apiRequest({_ in}, baseURL: instagramBaseURL, resource: resource, failure: defaultFailureHandler, completion: completion)
-    }
+    apiRequest({_ in}, baseURL: instagramBaseURL, resource: resource, failure: failureHandler, completion: completion)
 }
 
 // MARK: Sync
@@ -350,7 +338,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                 return
             }
 
-            func messageIDsFromSyncSocialWorkPiece(socialWorkPiece: SocialWorkPiece, yepTeam: User, inRealm realm: Realm) -> [String] {
+            func messageIDsFromSyncSocialWorkPiece(_ socialWorkPiece: SocialWorkPiece, yepTeam: User, inRealm realm: Realm) -> [String] {
 
                 let messageID = socialWorkPiece.messageID
 
@@ -363,13 +351,14 @@ public func syncSocialWorksToMessagesForYepTeam() {
                 if message == nil {
                     let newMessage = Message()
                     newMessage.messageID = messageID
-                    newMessage.mediaType = MessageMediaType.SocialWork.rawValue
+                    newMessage.mediaType = MessageMediaType.socialWork.rawValue
 
                     let socialWork = MessageSocialWork()
                     socialWork.type = socialWorkPiece.messageSocialWorkType.rawValue
 
                     switch socialWorkPiece {
-                    case .Github(let repo):
+
+                    case .github(let repo):
 
                         let repoID = repo.ID
                         var socialWorkGithubRepo = SocialWorkGithubRepo.getWithRepoID(repoID, inRealm: realm)
@@ -385,7 +374,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
 
                         socialWork.githubRepo = socialWorkGithubRepo
 
-                    case .Dribbble(let shot):
+                    case .dribbble(let shot):
 
                         let shotID = shot.ID
                         var socialWorkDribbbleShot = SocialWorkDribbbleShot.getWithShotID(shotID, inRealm: realm)
@@ -401,7 +390,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
 
                         socialWork.dribbbleShot = socialWorkDribbbleShot
 
-                    case .Instagram:
+                    case .instagram:
                         break
                     }
 
@@ -421,7 +410,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                     if conversation == nil {
                         let newConversation = Conversation()
 
-                        newConversation.type = ConversationType.OneToOne.rawValue
+                        newConversation.type = ConversationType.oneToOne.rawValue
                         newConversation.withFriend = yepTeam
 
                         realm.add(newConversation)
@@ -457,7 +446,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
 
             let yepTeamUsername = "yep_team"
 
-            func yepTeamFromDiscoveredUser(discoveredUser: DiscoveredUser, inRealm realm: Realm) -> User? {
+            func yepTeamFromDiscoveredUser(_ discoveredUser: DiscoveredUser, inRealm realm: Realm) -> User? {
 
                 var yepTeam = userWithUsername(yepTeamUsername, inRealm: realm)
 
@@ -470,7 +459,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                     newYepTeam.avatarURLString = discoveredUser.avatarURLString
                     newYepTeam.badge = discoveredUser.badge ?? ""
 
-                    newYepTeam.friendState = UserFriendState.Yep.rawValue
+                    newYepTeam.friendState = UserFriendState.yep.rawValue
 
                     realm.add(newYepTeam)
 
@@ -496,16 +485,10 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         realm.beginWrite()
 
                         // 同步最新的几个
-                        var i = 0
-                        for repo in githubRepos {
-
-                            if i >= 3 {
-                                break
-                            }
-                            i += 1
+                        for repo in githubRepos.head(to: Config.SocialWork.syncCountMax) {
 
                             if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
-                                messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
+                                messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.github(repo), yepTeam: yepTeam, inRealm: realm)
 
                             } else {
                                 discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
@@ -520,13 +503,13 @@ public func syncSocialWorksToMessagesForYepTeam() {
                                         realm.beginWrite()
 
                                         if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
-                                            messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Github(repo), yepTeam: yepTeam, inRealm: realm)
+                                            messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.github(repo), yepTeam: yepTeam, inRealm: realm)
                                         }
 
                                         let _ = try? realm.commitWrite()
 
                                         // 通知更新 UI
-                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                                     }
                                 })
                             }
@@ -535,7 +518,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         let _ = try? realm.commitWrite()
 
                         // 通知更新 UI
-                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                     }
                 })
             }
@@ -556,16 +539,10 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         realm.beginWrite()
 
                         // 同步最新的几个
-                        var i = 0
-                        for shot in dribbbleShots {
-
-                            if i >= 3 {
-                                break
-                            }
-                            i += 1
+                        for shot in dribbbleShots.head(to: Config.SocialWork.syncCountMax) {
 
                             if let yepTeam = userWithUsername(yepTeamUsername, inRealm: realm) {
-                                messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)
+                                messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.dribbble(shot), yepTeam: yepTeam, inRealm: realm)
 
                             } else {
                                 discoverUserByUsername(yepTeamUsername, failureHandler: nil, completion: { discoveredUser in
@@ -580,13 +557,13 @@ public func syncSocialWorksToMessagesForYepTeam() {
                                         realm.beginWrite()
 
                                         if let yepTeam = yepTeamFromDiscoveredUser(discoveredUser, inRealm: realm) {
-                                            messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.Dribbble(shot), yepTeam: yepTeam, inRealm: realm)
+                                            messageIDs += messageIDsFromSyncSocialWorkPiece(SocialWorkPiece.dribbble(shot), yepTeam: yepTeam, inRealm: realm)
                                         }
 
                                         let _ = try? realm.commitWrite()
 
                                         // 通知更新 UI
-                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                                     }
                                 })
                             }
@@ -595,7 +572,7 @@ public func syncSocialWorksToMessagesForYepTeam() {
                         let _ = try? realm.commitWrite()
 
                         // 通知更新 UI
-                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+                        tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
                     }
                })
             }

@@ -23,13 +23,13 @@ final class SearchedFeedCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        mediaView.hidden = true
+        mediaView.isHidden = true
         nameLabel.text = nil
 
         mediaView.clearImages()
     }
 
-    func configureWithFeed(feed: Feed, keyword: String?) {
+    func configureWithFeed(_ feed: Feed, keyword: String?) {
 
         if let keyword = keyword {
             nameLabel.attributedText = feed.body.yep_hightlightSearchKeyword(keyword, baseFont: YepConfig.SearchedItemCell.nicknameFont, baseColor: YepConfig.SearchedItemCell.nicknameColor)
@@ -38,7 +38,7 @@ final class SearchedFeedCell: UITableViewCell {
             nameLabel.text = feed.body
         }
 
-        let attachments = feed.attachments.map({
+        let attachments: [DiscoveredAttachment] = feed.attachments.map({
             DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString, image: nil)
         })
         mediaView.setImagesWithAttachments(attachments)

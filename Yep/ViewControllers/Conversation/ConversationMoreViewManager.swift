@@ -20,10 +20,10 @@ final class ConversationMoreViewManager {
     var shareFeedAction: (() -> Void)?
     var updateGroupAffairAction: (() -> Void)?
 
-    var afterGotSettingsForUserAction: ((userID: String, blocked: Bool, doNotDisturb: Bool) -> Void)?
-    var afterGotSettingsForGroupAction: ((groupID: String, notificationEnabled: Bool) -> Void)?
+    var afterGotSettingsForUserAction: ((_ userID: String, _ blocked: Bool, _ doNotDisturb: Bool) -> Void)?
+    var afterGotSettingsForGroupAction: ((_ groupID: String, _ notificationEnabled: Bool) -> Void)?
 
-    private var moreViewUpdatePushNotificationsAction: ((notificationEnabled: Bool) -> Void)?
+    fileprivate var moreViewUpdatePushNotificationsAction: ((_ notificationEnabled: Bool) -> Void)?
 
     var userNotificationEnabled: Bool = true {
         didSet {
@@ -52,11 +52,11 @@ final class ConversationMoreViewManager {
         }
     }
 
-    private var moreViewCreated: Bool = false
+    fileprivate var moreViewCreated: Bool = false
 
     lazy var moreView: ActionSheetView = {
 
-        let reportItem = ActionSheetView.Item.Default(
+        let reportItem = ActionSheetView.Item.default(
             title: NSLocalizedString("Report", comment: ""),
             titleColor: UIColor.yepTintColor(),
             action: { [weak self] in
@@ -65,16 +65,16 @@ final class ConversationMoreViewManager {
             }
         )
 
-        let cancelItem = ActionSheetView.Item.Cancel
+        let cancelItem = ActionSheetView.Item.cancel
 
         let view: ActionSheetView
 
         if let user = self.conversation?.withFriend {
 
             view = ActionSheetView(items: [
-                .Detail(
+                .detail(
                     title: NSLocalizedString("View profile", comment: ""),
-                    titleColor: UIColor.darkGrayColor(),
+                    titleColor: UIColor.darkGray,
                     action: { [weak self] in
                         self?.showProfileAction?()
                     }
@@ -90,7 +90,7 @@ final class ConversationMoreViewManager {
                 let userID = user.userID
 
                 settingsForUser(userID: userID, failureHandler: nil, completion: { [weak self] blocked, doNotDisturb in
-                    self?.afterGotSettingsForUserAction?(userID: userID, blocked: blocked, doNotDisturb: doNotDisturb)
+                    self?.afterGotSettingsForUserAction?(userID, blocked, doNotDisturb)
                 })
             }
 
@@ -98,7 +98,7 @@ final class ConversationMoreViewManager {
 
             view = ActionSheetView(items: [
                 self.makePushNotificationsItem(notificationEnabled: group.notificationEnabled), // 0
-                .Default(
+                .default(
                     title: NSLocalizedString("Share this feed", comment: ""),
                     titleColor: UIColor.yepTintColor(),
                     action: { [weak self] in
@@ -122,7 +122,7 @@ final class ConversationMoreViewManager {
                 let groupID = group.groupID
 
                 settingsForGroup(groupID: groupID, failureHandler: nil, completion: { [weak self]  doNotDisturb in
-                    self?.afterGotSettingsForGroupAction?(groupID: groupID, notificationEnabled: !doNotDisturb)
+                    self?.afterGotSettingsForGroupAction?(groupID, !doNotDisturb)
                 })
             }
             
@@ -147,10 +147,10 @@ final class ConversationMoreViewManager {
 
     // MARK: Private
 
-    private func makeDoNotDisturbItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
-        return .Switch(
-            title: NSLocalizedString("Do Not Disturb", comment: ""),
-            titleColor: UIColor.darkGrayColor(),
+    fileprivate func makeDoNotDisturbItem(notificationEnabled: Bool) -> ActionSheetView.Item {
+        return .switch(
+            title: String.trans_titleDoNotDisturb,
+            titleColor: UIColor.darkGray,
             switchOn: !notificationEnabled,
             action: { [weak self] switchOn in
                 self?.toggleDoNotDisturbAction?()
@@ -158,10 +158,10 @@ final class ConversationMoreViewManager {
         )
     }
 
-    private func makePushNotificationsItem(notificationEnabled notificationEnabled: Bool) -> ActionSheetView.Item {
-        return .Switch(
+    fileprivate func makePushNotificationsItem(notificationEnabled: Bool) -> ActionSheetView.Item {
+        return .switch(
             title: NSLocalizedString("Push Notifications", comment: ""),
-            titleColor: UIColor.darkGrayColor(),
+            titleColor: UIColor.darkGray,
             switchOn: notificationEnabled,
             action: { [weak self] switchOn in
                 self?.toggleDoNotDisturbAction?()
@@ -169,10 +169,10 @@ final class ConversationMoreViewManager {
         )
     }
 
-    private func makeBlockItem(blocked blocked: Bool) -> ActionSheetView.Item {
-        return .Default(
+    fileprivate func makeBlockItem(blocked: Bool) -> ActionSheetView.Item {
+        return .default(
             title: blocked ? NSLocalizedString("Unblock", comment: "") : String.trans_titleBlock,
-            titleColor: UIColor.redColor(),
+            titleColor: UIColor.red,
             action: { [weak self] in
                 self?.toggleBlockAction?()
                 return false
@@ -180,14 +180,14 @@ final class ConversationMoreViewManager {
         )
     }
 
-    private func updateGroupItem(group group: Group) -> ActionSheetView.Item {
+    fileprivate func updateGroupItem(group: Group) -> ActionSheetView.Item {
 
         let isMyFeed = group.withFeed?.creator?.isMe ?? false
         let includeMe = group.includeMe
 
         let groupActionTitle: String
         if isMyFeed {
-            groupActionTitle = NSLocalizedString("Delete", comment: "")
+            groupActionTitle = String.trans_titleDelete
         } else {
             if includeMe {
                 groupActionTitle = NSLocalizedString("Unsubscribe", comment: "")
@@ -196,9 +196,9 @@ final class ConversationMoreViewManager {
             }
         }
 
-        return .Default(
+        return .default(
             title: groupActionTitle,
-            titleColor: UIColor.redColor(),
+            titleColor: UIColor.red,
             action: { [weak self] in
                 self?.updateGroupAffairAction?()
                 return true

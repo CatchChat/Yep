@@ -9,11 +9,10 @@
 import UIKit
 import MobileCoreServices.UTType
 import YepKit
-import YepNetworking
 
 extension ConversationViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
 
-    func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : AnyObject]) {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
 
         if let mediaType = info[UIImagePickerControllerMediaType] as? String {
 
@@ -27,16 +26,16 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
 
                     // resize to smaller, not need fixRotation
 
-                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: .High) {
+                    if let fixedImage = image.resizeToSize(fixedSize, withInterpolationQuality: .high) {
                         sendImage(fixedImage)
                     }
                 }
 
             case String(kUTTypeMovie):
 
-                if let videoURL = info[UIImagePickerControllerMediaURL] as? NSURL {
+                if let videoURL = info[UIImagePickerControllerMediaURL] as? URL {
                     println("videoURL \(videoURL)")
-                    sendVideoWithVideoURL(videoURL)
+                    sendVideo(at: videoURL)
                 }
 
             default:
@@ -44,7 +43,7 @@ extension ConversationViewController: UIImagePickerControllerDelegate, UINavigat
             }
         }
 
-        dismissViewControllerAnimated(true, completion: nil)
+        dismiss(animated: true, completion: nil)
     }
 }
 

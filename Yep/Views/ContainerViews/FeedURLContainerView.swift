@@ -13,7 +13,7 @@ final class FeedURLContainerView: UIView {
 
     var tapAction: (() -> Void)?
 
-    private var needMakeUI: Bool = true
+    fileprivate var needMakeUI: Bool = true
     var directionLeading = true { // set before compressionMode
         didSet {
             if directionLeading {
@@ -41,29 +41,29 @@ final class FeedURLContainerView: UIView {
 
     lazy var siteNameLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(12)
-        label.textColor = UIColor.lightGrayColor()
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = UIColor.lightGray
         return label
     }()
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(12)
-        label.textColor = UIColor.blackColor()
+        label.font = UIFont.systemFont(ofSize: 12)
+        label.textColor = UIColor.black
         return label
     }()
 
     lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(10)
-        label.textColor = UIColor.lightGrayColor()
+        label.font = UIFont.systemFont(ofSize: 10)
+        label.textColor = UIColor.lightGray
         label.numberOfLines = 0
         return label
     }()
 
     lazy var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         return imageView
     }()
@@ -75,7 +75,7 @@ final class FeedURLContainerView: UIView {
         addGestureRecognizer(tap)
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         addSubview(backgroundImageView)
         backgroundImageView.translatesAutoresizingMaskIntoConstraints = false
@@ -94,7 +94,7 @@ final class FeedURLContainerView: UIView {
         descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
         thumbnailImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "backgroundImageView": backgroundImageView,
             "siteNameLabel": siteNameLabel,
             "titleLabel": titleLabel,
@@ -104,60 +104,60 @@ final class FeedURLContainerView: UIView {
         ]
 
         do {
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
 
-            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+            let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
 
-            NSLayoutConstraint.activateConstraints(constraintsH)
-            NSLayoutConstraint.activateConstraints(constraintsV)
+            NSLayoutConstraint.activate(constraintsH)
+            NSLayoutConstraint.activate(constraintsV)
         }
 
         do {
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[siteNameLabel]-|", options: [], metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[siteNameLabel]-|", options: [], metrics: nil, views: views)
 
-            let metrics: [String: AnyObject] = [
+            let metrics: [String: CGFloat] = [
                 "top": compressionMode ? 4 : 8,
                 "gap": compressionMode ? 4 : 8,
                 "bottom": compressionMode ? 4 : 8,
             ]
-            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(top)-[siteNameLabel(15)]-(gap)-[titleLabel(15)]-(gap)-[bottomContainerView]-(bottom)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: metrics, views: views)
+            let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(top)-[siteNameLabel(15)]-(gap)-[titleLabel(15)]-(gap)-[bottomContainerView]-(bottom)-|", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
 
-            NSLayoutConstraint.activateConstraints(constraintsH)
-            NSLayoutConstraint.activateConstraints(constraintsV)
+            NSLayoutConstraint.activate(constraintsH)
+            NSLayoutConstraint.activate(constraintsV)
         }
 
         do {
-            let metrics: [String: AnyObject] = [
+            let metrics: [String: CGFloat] = [
                 "imageSize": compressionMode ? 35 : 40,
             ]
 
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[descriptionLabel]-[thumbnailImageView(imageSize)]|", options: [.AlignAllTop], metrics: metrics, views: views)
+            let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[descriptionLabel]-[thumbnailImageView(imageSize)]|", options: [.alignAllTop], metrics: metrics, views: views)
 
-            let constraintsV1 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[descriptionLabel]-(>=0)-|", options: [.AlignAllLeading, .AlignAllTrailing], metrics: nil, views: views)
+            let constraintsV1 = NSLayoutConstraint.constraints(withVisualFormat: "V:|[descriptionLabel]-(>=0)-|", options: [.alignAllLeading, .alignAllTrailing], metrics: nil, views: views)
 
-            let constraintsV2 = NSLayoutConstraint.constraintsWithVisualFormat("V:|[thumbnailImageView(imageSize)]", options: [.AlignAllLeading, .AlignAllTrailing], metrics: metrics, views: views)
+            let constraintsV2 = NSLayoutConstraint.constraints(withVisualFormat: "V:|[thumbnailImageView(imageSize)]", options: [.alignAllLeading, .alignAllTrailing], metrics: metrics, views: views)
 
-            NSLayoutConstraint.activateConstraints(constraintsH)
-            NSLayoutConstraint.activateConstraints(constraintsV1)
-            NSLayoutConstraint.activateConstraints(constraintsV2)
+            NSLayoutConstraint.activate(constraintsH)
+            NSLayoutConstraint.activate(constraintsV1)
+            NSLayoutConstraint.activate(constraintsV2)
         }
     }
 
-    @objc private func tap(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tap(_ sender: UITapGestureRecognizer) {
         tapAction?()
     }
 
-    func configureWithOpenGraphInfoType(openGraphInfo: OpenGraphInfoType) {
+    func configureWithOpenGraphInfoType(_ openGraphInfo: OpenGraphInfoType) {
 
         siteNameLabel.text = openGraphInfo.siteName
         titleLabel.text = openGraphInfo.title
         descriptionLabel.text = openGraphInfo.infoDescription
 
-        if let thumbnailImageURL = NSURL(string: openGraphInfo.thumbnailImageURLString) {
-            thumbnailImageView.kf_setImageWithURL(thumbnailImageURL, placeholderImage: nil)
+        if let url = URL(string: openGraphInfo.thumbnailImageURLString) {
+            thumbnailImageView.kf.setImage(with: url, placeholder: nil)
         } else {
             thumbnailImageView.image = nil
-            thumbnailImageView.backgroundColor = UIColor.lightGrayColor()
+            thumbnailImageView.backgroundColor = UIColor.lightGray
         }
     }
 }

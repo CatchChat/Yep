@@ -12,7 +12,7 @@ import RealmSwift
 
 final class FeedVoiceCell: FeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + (50 + 15)
 
@@ -30,8 +30,8 @@ final class FeedVoiceCell: FeedBasicCell {
             voiceContainerView.audioPlaying = newValue
         }
     }
-    var playOrPauseAudioAction: (FeedVoiceCell -> Void)?
-    var audioPlayedDuration: NSTimeInterval = 0 {
+    var playOrPauseAudioAction: ((FeedVoiceCell) -> Void)?
+    var audioPlayedDuration: TimeInterval = 0 {
         willSet {
             updateVoiceContainerView()
         }
@@ -56,9 +56,9 @@ final class FeedVoiceCell: FeedBasicCell {
         }
     }
     */
-    private func updateVoiceContainerView() {
+    fileprivate func updateVoiceContainerView() {
 
-        guard let feed = feed, realm = try? Realm(), feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
+        guard let feed = feed, let realm = try? Realm(), let feedAudio = FeedAudio.feedAudioWithFeedID(feed.id, inRealm: realm) else {
             return
         }
 
@@ -68,7 +68,7 @@ final class FeedVoiceCell: FeedBasicCell {
             voiceContainerView.voiceSampleView.progress = CGFloat(audioPlayedDuration / audioDuration)
         }
 
-        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio where playingFeedAudio.feedID == feedAudio.feedID, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer where onlineAudioPlayer.yep_playing {
+        if let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, playingFeedAudio.feedID == feedAudio.feedID, let onlineAudioPlayer = YepAudioService.sharedManager.onlineAudioPlayer, onlineAudioPlayer.yep_playing {
             audioPlaying = true
         } else {
             audioPlaying = false
@@ -85,12 +85,12 @@ final class FeedVoiceCell: FeedBasicCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let attachment = feed.attachment {
-            if case let .Audio(audioInfo) = attachment {
+            if case let .audio(audioInfo) = attachment {
 
                 voiceContainerView.voiceSampleView.sampleColor = UIColor.leftWaveColor()
                 voiceContainerView.voiceSampleView.samples = audioInfo.sampleValues
@@ -105,8 +105,8 @@ final class FeedVoiceCell: FeedBasicCell {
 
                     let feedAudio = FeedAudio.feedAudioWithFeedID(audioInfo.feedID, inRealm: realm)
 
-                    if let feedAudio = feedAudio, playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, audioPlayer = YepAudioService.sharedManager.audioPlayer {
-                        audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID) && audioPlayer.playing
+                    if let feedAudio = feedAudio, let playingFeedAudio = YepAudioService.sharedManager.playingFeedAudio, let audioPlayer = YepAudioService.sharedManager.audioPlayer {
+                        audioPlaying = (feedAudio.feedID == playingFeedAudio.feedID) && audioPlayer.isPlaying
 
                     } else {
                         let newFeedAudio = FeedAudio()

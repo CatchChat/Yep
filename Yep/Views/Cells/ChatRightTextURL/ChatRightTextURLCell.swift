@@ -12,8 +12,8 @@ import Ruler
 
 final class ChatRightTextURLCell: ChatRightTextCell {
 
-    var openGraphURL: NSURL?
-    var tapOpenGraphURLAction: ((URL: NSURL) -> Void)?
+    var openGraphURL: URL?
+    var tapOpenGraphURLAction: ((_ URL: URL) -> Void)?
     
     lazy var feedURLContainerView: FeedURLContainerView = {
         let view = FeedURLContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
@@ -25,7 +25,7 @@ final class ChatRightTextURLCell: ChatRightTextCell {
                 return
             }
 
-            self?.tapOpenGraphURLAction?(URL: URL)
+            self?.tapOpenGraphURLAction?(URL)
         }
 
         return view
@@ -41,7 +41,7 @@ final class ChatRightTextURLCell: ChatRightTextCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithMessage(message: Message, layoutCache: ChatTextCellLayoutCache, mediaTapAction: MediaTapAction?) {
+    override func configureWithMessage(_ message: Message, layoutCache: ChatTextCellLayoutCache, mediaTapAction: MediaTapAction?) {
 
         bottomGap = 100 + 10
 
@@ -49,16 +49,16 @@ final class ChatRightTextURLCell: ChatRightTextCell {
 
         UIView.setAnimationsEnabled(false); do {
             let minWidth: CGFloat = Ruler.iPhoneHorizontal(190, 220, 220).value
-            let fullWidth = UIScreen.mainScreen().bounds.width
+            let fullWidth = UIScreen.main.bounds.width
             let width = max(minWidth, textContainerView.frame.width + 12 * 2 - 1)
-            let feedURLContainerViewFrame = CGRect(x: fullWidth - 65 - width - 1, y: CGRectGetMaxY(textContainerView.frame) + 8, width: width, height: 100)
+            let feedURLContainerViewFrame = CGRect(x: fullWidth - 65 - width - 1, y: textContainerView.frame.maxY + 8, width: width, height: 100)
             feedURLContainerView.frame = feedURLContainerViewFrame
         }
         UIView.setAnimationsEnabled(true)
 
         if let openGraphInfo = message.openGraphInfo {
             feedURLContainerView.configureWithOpenGraphInfoType(openGraphInfo)
-            openGraphURL = openGraphInfo.URL
+            openGraphURL = openGraphInfo.url
         }
     }
 }

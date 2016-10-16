@@ -26,7 +26,7 @@ extension SearchActionRepresentation where Self: UIViewController {
     }
 
     func moveUpSearchBar() {
-        UIView.animateWithDuration(0.25, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] _ in
             self?.searchBarTopConstraint.constant = 20
             self?.view.layoutIfNeeded()
         }, completion: nil)
@@ -39,17 +39,5 @@ extension SearchActionRepresentation where Self: UIViewController {
         println("originalNavigationControllerDelegate: \(originalNavigationControllerDelegate)")
         navigationController?.delegate = originalNavigationControllerDelegate
     }
-}
-
-extension SearchConversationsViewController: SearchActionRepresentation {
-
-}
-
-extension SearchContactsViewController: SearchActionRepresentation {
-
-}
-
-extension SearchFeedsViewController: SearchActionRepresentation {
-
 }
 

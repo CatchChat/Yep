@@ -11,20 +11,20 @@ import YepKit
 
 final private class KeywordCell: UITableViewCell {
 
-    var tapKeywordAction: ((keyword: String) -> Void)?
+    var tapKeywordAction: ((_ keyword: String) -> Void)?
 
     var keyword: String? {
         didSet {
-            keywordButton.setTitle(keyword, forState: .Normal)
+            keywordButton.setTitle(keyword, for: .normal)
         }
     }
 
     lazy var keywordButton: UIButton = {
         let button = UIButton()
-        button.titleLabel?.font = UIFont.systemFontOfSize(18)
-        button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18)
+        button.setTitleColor(UIColor.yepTintColor(), for: .normal)
 
-        button.addTarget(self, action: #selector(KeywordCell.tapKeyword), forControlEvents: .TouchUpInside)
+        button.addTarget(self, action: #selector(KeywordCell.tapKeyword), for: .touchUpInside)
 
         return button
     }()
@@ -32,7 +32,7 @@ final private class KeywordCell: UITableViewCell {
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        selectionStyle = .None
+        selectionStyle = .none
 
         makeUI()
     }
@@ -47,18 +47,18 @@ final private class KeywordCell: UITableViewCell {
 
         keywordButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let leading = keywordButton.leadingAnchor.constraintGreaterThanOrEqualToAnchor(contentView.leadingAnchor, constant: 15)
-        let centerX = keywordButton.centerXAnchor.constraintEqualToAnchor(contentView.centerXAnchor)
-        let centerY = keywordButton.centerYAnchor.constraintEqualToAnchor(contentView.centerYAnchor)
-        let width = keywordButton.widthAnchor.constraintGreaterThanOrEqualToConstant(60)
-        let height = keywordButton.heightAnchor.constraintEqualToAnchor(contentView.heightAnchor)
+        let leading = keywordButton.leadingAnchor.constraint(greaterThanOrEqualTo: contentView.leadingAnchor, constant: 15)
+        let centerX = keywordButton.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+        let centerY = keywordButton.centerYAnchor.constraint(equalTo: contentView.centerYAnchor)
+        let width = keywordButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 60)
+        let height = keywordButton.heightAnchor.constraint(equalTo: contentView.heightAnchor)
 
-        NSLayoutConstraint.activateConstraints([leading, centerX, centerY, width, height])
+        NSLayoutConstraint.activate([leading, centerX, centerY, width, height])
     }
 
-    @objc private func tapKeyword() {
+    @objc fileprivate func tapKeyword() {
         if let keyword = keyword {
-            tapKeywordAction?(keyword: keyword)
+            tapKeywordAction?(keyword)
         }
     }
 }
@@ -66,32 +66,32 @@ final private class KeywordCell: UITableViewCell {
 class SearchFeedsFooterView: UIView {
 
     enum Style {
-        case Empty
-        case Keywords
-        case Searching
-        case NoResults
+        case empty
+        case keywords
+        case searching
+        case noResults
     }
 
-    var style: Style = .Empty {
+    var style: Style = .empty {
         didSet {
             switch style {
 
-            case .Empty:
+            case .empty:
 
-                promptLabel.hidden = true
+                promptLabel.isHidden = true
                 activityIndicatorView.stopAnimating()
 
-                keywordsTableView.hidden = true
+                keywordsTableView.isHidden = true
 
-            case .Keywords:
+            case .keywords:
 
-                promptLabel.hidden = false
-                promptLabel.textColor = UIColor.darkGrayColor()
+                promptLabel.isHidden = false
+                promptLabel.textColor = UIColor.darkGray
                 promptLabel.text = NSLocalizedString("Try keywords", comment: "")
 
                 activityIndicatorView.stopAnimating()
 
-                keywordsTableView.hidden = false
+                keywordsTableView.isHidden = false
 
                 if keywords.isEmpty {
                     hotWordsOfSearchFeeds(failureHandler: nil) { [weak self] hotwords in
@@ -102,29 +102,29 @@ class SearchFeedsFooterView: UIView {
                     reloadKeywordsTableView()
                 }
 
-            case .Searching:
+            case .searching:
 
-                promptLabel.hidden = true
+                promptLabel.isHidden = true
 
                 activityIndicatorView.startAnimating()
 
-                keywordsTableView.hidden = true
+                keywordsTableView.isHidden = true
 
-            case .NoResults:
+            case .noResults:
 
-                promptLabel.hidden = false
+                promptLabel.isHidden = false
                 promptLabel.textColor = UIColor.yep_mangmorGrayColor()
-                promptLabel.text = NSLocalizedString("No search results.", comment: "")
+                promptLabel.text = String.trans_promptNoSearchResults
 
                 activityIndicatorView.stopAnimating()
 
-                keywordsTableView.hidden = true
+                keywordsTableView.isHidden = true
             }
         }
     }
 
     var tapBlankAction: (() -> Void)?
-    var tapKeywordAction: ((keyword: String) -> Void)?
+    var tapKeywordAction: ((_ keyword: String) -> Void)?
 
     var keywords: [String] = [] {
         didSet {
@@ -135,9 +135,9 @@ class SearchFeedsFooterView: UIView {
     lazy var promptLabel: UILabel = {
 
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(20)
-        label.textColor = UIColor.darkGrayColor()
-        label.textAlignment = .Center
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.textColor = UIColor.darkGray
+        label.textAlignment = .center
         label.text = NSLocalizedString("Try any keywords", comment: "")
         return label
     }()
@@ -145,7 +145,7 @@ class SearchFeedsFooterView: UIView {
     lazy var activityIndicatorView: UIActivityIndicatorView = {
 
         let view = UIActivityIndicatorView()
-        view.activityIndicatorViewStyle = .Gray
+        view.activityIndicatorViewStyle = .gray
         view.hidesWhenStopped = true
         return view
     }()
@@ -153,12 +153,12 @@ class SearchFeedsFooterView: UIView {
     lazy var keywordsTableView: UITableView = {
 
         let tableView = UITableView()
-        tableView.registerClassOf(KeywordCell)
+        tableView.registerClassOf(KeywordCell.self)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.rowHeight = 36
-        tableView.scrollEnabled = false
-        tableView.separatorStyle = .None
+        tableView.isScrollEnabled = false
+        tableView.separatorStyle = .none
         return tableView
     }()
 
@@ -170,20 +170,20 @@ class SearchFeedsFooterView: UIView {
         let tap = UITapGestureRecognizer(target: self, action: #selector(SearchFeedsFooterView.tapBlank(_:)))
         addGestureRecognizer(tap)
 
-        style = .Empty
+        style = .empty
    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func reloadKeywordsTableView() {
+    fileprivate func reloadKeywordsTableView() {
         SafeDispatch.async { [weak self] in
             self?.keywordsTableView.reloadData()
         }
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         addSubview(promptLabel)
         addSubview(activityIndicatorView)
@@ -193,27 +193,27 @@ class SearchFeedsFooterView: UIView {
         activityIndicatorView.translatesAutoresizingMaskIntoConstraints = false
         keywordsTableView.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "promptLabel": promptLabel,
             "keywordsTableView": keywordsTableView,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[promptLabel]|", options: [], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[promptLabel]|", options: [], metrics: nil, views: views)
 
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-40-[promptLabel]-15-[keywordsTableView]|", options: [.AlignAllCenterX, .AlignAllLeading], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-40-[promptLabel]-15-[keywordsTableView]|", options: [.alignAllCenterX, .alignAllLeading], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activate(constraintsH)
+        NSLayoutConstraint.activate(constraintsV)
 
         do {
-            let centerX = activityIndicatorView.centerXAnchor.constraintEqualToAnchor(promptLabel.centerXAnchor)
-            let centerY = activityIndicatorView.centerYAnchor.constraintEqualToAnchor(promptLabel.centerYAnchor)
+            let centerX = activityIndicatorView.centerXAnchor.constraint(equalTo: promptLabel.centerXAnchor)
+            let centerY = activityIndicatorView.centerYAnchor.constraint(equalTo: promptLabel.centerYAnchor)
 
-            NSLayoutConstraint.activateConstraints([centerX, centerY])
+            NSLayoutConstraint.activate([centerX, centerY])
         }
     }
 
-    @objc private func tapBlank(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tapBlank(_ sender: UITapGestureRecognizer) {
 
         tapBlankAction?()
     }
@@ -221,17 +221,17 @@ class SearchFeedsFooterView: UIView {
 
 extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
 
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         return keywords.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell: KeywordCell = tableView.dequeueReusableCell()
 
@@ -239,7 +239,7 @@ extension SearchFeedsFooterView: UITableViewDataSource, UITableViewDelegate {
         cell.keyword = keyword
 
         cell.tapKeywordAction = { [weak self] keyword in
-            self?.tapKeywordAction?(keyword: keyword)
+            self?.tapKeywordAction?(keyword)
         }
 
         return cell

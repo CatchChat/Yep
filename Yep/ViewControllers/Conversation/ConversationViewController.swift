@@ -10,6 +10,7 @@ import UIKit
 import RealmSwift
 import YepKit
 import YepNetworking
+import YepPreview
 import AVFoundation
 import MobileCoreServices.UTType
 import MapKit
@@ -26,14 +27,14 @@ final class ConversationViewController: BaseViewController {
     var conversationFeed: ConversationFeed?
 
     var realm: Realm!
-    var recipient: Recipient?
+    var recipient: Recipient!
 
     // for peek
     var isPreviewed: Bool = false
 
     var afterSentMessageAction: (() -> Void)?
-    var afterDeletedFeedAction: ((feedID: String) -> Void)?
-    var conversationDirtyAction: ((groupID: String) -> Void)?
+    var afterDeletedFeedAction: ((_ feedID: String) -> Void)?
+    var conversationDirtyAction: ((_ groupID: String) -> Void)?
     var conversationIsDirty = false
     var syncPlayFeedAudioAction: (() -> Void)?
 
@@ -43,7 +44,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    var selectedIndexPathForMenu: NSIndexPath?
+    var selectedIndexPathForMenu: IndexPath?
 
     var groupShareURLString: String?
 
@@ -51,28 +52,31 @@ final class ConversationViewController: BaseViewController {
         return messagesOfConversation(self.conversation, inRealm: self.realm)
     }()
 
+    internal fileprivate(set) var messagesUpdatedVersion = 0
+    fileprivate var messagesNotificationToken: NotificationToken?
+
     var indexOfSearchedMessage: Int?
     let messagesBunchCount = 20 // 分段载入的“一束”消息的数量
     var displayedMessagesRange = NSRange()
 
-    private var needReloadLoadPreviousSection: Bool = false
+    fileprivate var needReloadLoadPreviousSection: Bool = false
 
     // 上一次更新 UI 时的消息数
     var lastTimeMessagesCount: Int = 0
 
     // 位于后台时收到的消息
-    private var inactiveNewMessageIDSet = Set<String>()
+    fileprivate var inactiveNewMessageIDSet = Set<String>()
 
     var conversationCollectionViewHasBeenMovedToBottomOnce = false
 
-    var checkTypingStatusTimer: NSTimer?
+    var checkTypingStatusTimer: Timer?
     var typingResetDelay: Float = 0
 
     // KeyboardMan 帮助我们做键盘动画
-    private let keyboardMan = KeyboardMan()
-    private var giveUpKeyboardHideAnimationWhenViewControllerDisapeear = false
+    fileprivate let keyboardMan = KeyboardMan()
+    fileprivate var giveUpKeyboardHideAnimationWhenViewControllerDisapeear = false
 
-    private var isFirstAppear = true
+    fileprivate var isFirstAppear = true
 
     lazy var titleView: ConversationTitleView = {
         let titleView = self.makeTitleView()
@@ -84,7 +88,7 @@ final class ConversationViewController: BaseViewController {
         return manager
     }()
 
-    private lazy var moreMessageTypesView: MoreMessageTypesView = {
+    fileprivate lazy var moreMessageTypesView: MoreMessageTypesView = {
         let view = self.makeMoreMessageTypesView()
         return view
     }()
@@ -112,18 +116,25 @@ final class ConversationViewController: BaseViewController {
     @IBOutlet weak var conversationCollectionView: UICollectionView!
 
     @IBOutlet weak var messageToolbar: MessageToolbar!
-    @IBOutlet private weak var messageToolbarBottomConstraint: NSLayoutConstraint! {
+    @IBOutlet fileprivate weak var messageToolbarBottomConstraint: NSLayoutConstraint! {
         didSet {
             messageToolbarBottomConstraint.constant = 0
         }
     }
 
-    @IBOutlet private weak var swipeUpView: UIView! {
-        didSet {
-            swipeUpView.hidden = true
-        }
-    }
-    @IBOutlet private weak var swipeUpPromptLabel: UILabel!
+    fileprivate lazy var swipeUpPromptView: SwipeUpPromptView = {
+        let view = SwipeUpPromptView()
+
+        self.view.addSubview(view)
+        view.translatesAutoresizingMaskIntoConstraints = false
+
+        view.heightAnchor.constraint(equalToConstant: 100).isActive = true
+        view.leadingAnchor.constraint(equalTo: self.messageToolbar.leadingAnchor).isActive = true
+        view.trailingAnchor.constraint(equalTo: self.messageToolbar.trailingAnchor).isActive = true
+        self.messageToolbar.topAnchor.constraint(equalTo: view.bottomAnchor, constant: 20).isActive = true
+
+        return view
+    }()
 
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
 
@@ -132,20 +143,20 @@ final class ConversationViewController: BaseViewController {
     let sectionInsetTop: CGFloat = 10
     let sectionInsetBottom: CGFloat = 10
 
-    private lazy var messageTextContentTextViewMaxWidth: CGFloat = {
+    fileprivate lazy var messageTextContentTextViewMaxWidth: CGFloat = {
         let maxWidth = self.collectionViewWidth - (YepConfig.chatCellGapBetweenWallAndAvatar() + YepConfig.chatCellAvatarSize() + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar() + YepConfig.chatTextGapBetweenWallAndContentLabel())
         return maxWidth
     }()
 
     lazy var collectionViewWidth: CGFloat = {
-        return CGRectGetWidth(self.conversationCollectionView.bounds)
+        return self.conversationCollectionView.bounds.width
     }()
 
     lazy var imagePicker: UIImagePickerController = {
         let imagePicker = UIImagePickerController()
         imagePicker.delegate = self
         imagePicker.mediaTypes = [kUTTypeImage as String, kUTTypeMovie as String]
-        imagePicker.videoQuality = .TypeMedium
+        imagePicker.videoQuality = .typeMedium
         imagePicker.allowsEditing = false
         return imagePicker
     }()
@@ -157,22 +168,24 @@ final class ConversationViewController: BaseViewController {
     }()
     #endif
 
-    private struct Listener {
+    fileprivate struct Listener {
         static let Avatar = "ConversationViewController"
     }
 
-    var previewTransitionViews: [UIView?]?
+    var previewReferences: [Reference?]?
     var previewAttachmentPhotos: [PreviewAttachmentPhoto] = []
     var previewMessagePhotos: [PreviewMessagePhoto] = []
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
 
         YepUserDefaults.avatarURLString.removeListenerWithName(Listener.Avatar)
 
         conversationCollectionView?.delegate = nil
 
         checkTypingStatusTimer?.invalidate()
+
+        messagesNotificationToken?.stop()
 
         println("deinit ConversationViewController")
     }
@@ -182,9 +195,9 @@ final class ConversationViewController: BaseViewController {
 
         title = nil
         navigationItem.titleView = titleView
-        view.tintAdjustmentMode = .Normal
+        view.tintAdjustmentMode = .normal
 
-        let moreBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconMore, style: UIBarButtonItemStyle.Plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
+        let moreBarButtonItem = UIBarButtonItem(image: UIImage.yep_iconMore, style: UIBarButtonItemStyle.plain, target: self, action: #selector(ConversationViewController.moreAction(_:)))
         navigationItem.rightBarButtonItem = moreBarButtonItem
 
         realm = conversation.realm
@@ -194,8 +207,8 @@ final class ConversationViewController: BaseViewController {
         // 优先处理侧滑，而不是 scrollView 的上下滚动，避免出现你想侧滑返回的时候，结果触发了 scrollView 的上下滚动
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
-                    conversationCollectionView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                if recognizer.isKind(of: UIScreenEdgePanGestureRecognizer.self) {
+                    conversationCollectionView.panGestureRecognizer.require(toFail: recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
                 }
@@ -224,17 +237,17 @@ final class ConversationViewController: BaseViewController {
                 // preload some old messages if can
                 if displayedMessagesRange.length == 1 {
                     if let maxMessageID = messages.first?.messageID {
-                        let timeDirection: TimeDirection = .Past(maxMessageID: maxMessageID)
-                        loadMessagesFromServer(withTimeDirection: timeDirection, invalidMessageIDSet: nil, failed: nil, completion: { [weak self] (messageIDs, noMore) in
+                        let timeDirection: TimeDirection = .past(maxMessageID: maxMessageID)
+                        loadMessagesFromServer(with: timeDirection) { [weak self] (messageIDs, noMore) in
                             self?.noMorePreviousMessages = noMore
 
                             if !messageIDs.isEmpty {
                                 tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: timeDirection.messageAge)
-                                delay(0.25) { [weak self] in
+                                _ = delay(0.25) { [weak self] in
                                     self?.trySnapContentOfConversationCollectionViewToBottom(forceAnimation: true)
                                 }
                             }
-                        })
+                        }
                     }
                 }
             }
@@ -242,18 +255,18 @@ final class ConversationViewController: BaseViewController {
 
         lastTimeMessagesCount = messages.count
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: Config.Notification.newMessages, object: nil)
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: Config.Notification.deletedMessages, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleReceivedNewMessagesNotification(_:)), name: Config.NotificationName.newMessages, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleDeletedMessagesNotification(_:)), name: Config.NotificationName.deletedMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.cleanForLogout(_:)), name: EditProfileViewController.Notification.Logout, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.cleanForLogout(_:)), name: YepConfig.NotificationName.logout, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.handleApplicationDidBecomeActive(_:)), name: AppDelegate.Notification.applicationDidBecomeActive, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.handleApplicationDidBecomeActive(_:)), name: YepConfig.NotificationName.applicationDidBecomeActive, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillShowNotification(_:)), name: UIMenuControllerWillShowMenuNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillShowNotification(_:)), name: Notification.Name.UIMenuControllerWillShowMenu, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillHideNotification(_:)), name: UIMenuControllerWillHideMenuNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.didRecieveMenuWillHideNotification(_:)), name: Notification.Name.UIMenuControllerWillHideMenu, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: Config.Message.Notification.MessageBatchMarkAsRead, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(ConversationViewController.messagesMarkAsReadByRecipient(_:)), name: Config.NotificationName.messageBatchMarkAsRead, object: nil)
 
         YepUserDefaults.avatarURLString.bindListener(Listener.Avatar) { [weak self] _ in
             SafeDispatch.async {
@@ -348,23 +361,36 @@ final class ConversationViewController: BaseViewController {
         let job = FreeTimeJob(target: self, selector: #selector(ConversationViewController.prepareHeightOfMessagesInFreeTime))
         job.commit()
 
+        messagesNotificationToken = messages.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
+            guard let strongSelf = self else { return }
+            switch change {
+            case .initial:
+                strongSelf.messagesUpdatedVersion = 0
+             case .update(_, let deletions, let insertions, _):
+                let x = (deletions.isEmpty && insertions.isEmpty) ? 0 : 1
+                strongSelf.messagesUpdatedVersion += x
+            case .error:
+                strongSelf.reloadConversationCollectionView()
+            }
+        })
+
         #if DEBUG
             //view.addSubview(conversationFPSLabel)
         #endif
     }
 
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         trySyncMessages()
 
         if isFirstAppear {
             if let feed = conversation.withGroup?.withFeed {
-                conversationFeed = ConversationFeed.FeedType(feed)
+                conversationFeed = ConversationFeed.feedType(feed)
             }
 
             if let conversationFeed = conversationFeed {
-                makeFeedViewWithFeed(conversationFeed)
+                self.feedView = makeFeedView(for: conversationFeed)
                 tryFoldFeedView()
             }
 
@@ -379,11 +405,11 @@ final class ConversationViewController: BaseViewController {
                 if let window = self?.view.window {
                     self?.moreMessageTypesView.showInView(window)
 
-                    if let state = self?.messageToolbar.state where !state.isAtBottom {
-                        self?.messageToolbar.state = .Default
+                    if let state = self?.messageToolbar.state, !state.isAtBottom {
+                        self?.messageToolbar.state = .default
                     }
 
-                    delay(0.2) {
+                    _ = delay(0.2) {
                         self?.imagePicker.hidesBarsOnTap = false
                     }
                 }
@@ -396,12 +422,12 @@ final class ConversationViewController: BaseViewController {
                 //println("messageToolbar.messageTextView.text 1: \(messageToolbar.messageTextView.text)")
                 switch currentState {
 
-                case .BeginTextInput:
+                case .beginTextInput:
                     self?.tryFoldFeedView()
 
                     self?.trySnapContentOfConversationCollectionViewToBottom(forceAnimation: true)
 
-                case .TextInputing:
+                case .textInputing:
                     self?.trySnapContentOfConversationCollectionViewToBottom()
 
                 default:
@@ -409,10 +435,10 @@ final class ConversationViewController: BaseViewController {
                         self?.mentionView.hide()
                     }
 
-                    if previousState != .TextInputing {
+                    if previousState != .textInputing {
                         if let
                             draft = self?.conversation.draft,
-                            state = MessageToolbarState(rawValue: draft.messageToolbarState) {
+                            let state = MessageToolbarState(rawValue: draft.messageToolbarState) {
                                 messageToolbar.messageTextView.text = draft.text
                         }
                     }
@@ -420,7 +446,7 @@ final class ConversationViewController: BaseViewController {
 
                 if previousState != currentState {
                     //println("messageToolbar.messageTextView.text 2: \(messageToolbar.messageTextView.text)")
-                    NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
+                    NotificationCenter.default.post(name: YepConfig.NotificationName.updateDraftOfConversation, object: nil)
                 }
             }
 
@@ -477,21 +503,21 @@ final class ConversationViewController: BaseViewController {
             func tryRecoverMessageToolBar() {
                 if let
                     draft = conversation.draft,
-                    state = MessageToolbarState(rawValue: draft.messageToolbarState) {
+                    let state = MessageToolbarState(rawValue: draft.messageToolbarState) {
 
-                        if state == .TextInputing || state == .Default {
+                        if state == .textInputing || state == .default {
                             messageToolbar.messageTextView.text = draft.text
                         }
 
                         // 恢复时特别注意：因为键盘改由用户触发，因此
-                        if state == .TextInputing || state == .BeginTextInput {
+                        if state == .textInputing || state == .beginTextInput {
                             // 这两种状态时不恢复 messageToolbar.state
                             return
                         }
 
                         // 这句要放在最后，因为它会触发 stateTransitionAction
                         // 只恢复不改变高度的状态
-                        if state == .VoiceRecord {
+                        if state == .voiceRecord {
                             messageToolbar.state = state
                         }
                 }
@@ -511,7 +537,7 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         conversationCollectionViewHasBeenMovedToBottomOnce = true
@@ -523,7 +549,7 @@ final class ConversationViewController: BaseViewController {
 
         // 进来时就尽快标记已读
 
-        delay(0.1) { [weak self] in
+        _ = delay(0.1) { [weak self] in
             self?.batchMarkMessagesAsReaded(updateOlderMessagesIfNeeded: true)
 
             guard let realm = self?.conversation.realm else { return }
@@ -536,7 +562,7 @@ final class ConversationViewController: BaseViewController {
 
         // 为 nil 时才新建
         if checkTypingStatusTimer == nil {
-            checkTypingStatusTimer = NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(ConversationViewController.checkTypingStatus(_:)), userInfo: nil, repeats: true)
+            checkTypingStatusTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(ConversationViewController.checkTypingStatus(_:)), userInfo: nil, repeats: true)
         }
 
         // 尽量晚的设置一些属性和闭包
@@ -545,24 +571,24 @@ final class ConversationViewController: BaseViewController {
 
             messageToolbar.notifyTypingAction = { [weak self] in
 
-                self?.trySendInstantMessageWithType(.Text)
+                self?.trySendInstantMessageWithType(.text)
             }
 
             // MARK: Send Text
 
             messageToolbar.textSendAction = { [weak self] messageToolbar in
 
-                let text = messageToolbar.messageTextView.text!.trimming(.WhitespaceAndNewline)
+                let text = messageToolbar.messageTextView.text!.trimming(.whitespaceAndNewline)
                 self?.cleanTextInput()
                 self?.trySnapContentOfConversationCollectionViewToBottom()
-                self?.send(text)
+                self?.sendText(text)
             }
 
             // MARK: Voice Record
 
             let hideWaver: () -> Void = { [weak self] in
 
-                self?.swipeUpView.hidden = true
+                self?.swipeUpPromptView.isHidden = true
                 self?.waverView.removeFromSuperview()
             }
 
@@ -575,25 +601,25 @@ final class ConversationViewController: BaseViewController {
                     }
 
                     let compressedDecibelSamples = AudioBot.compressDecibelSamples(decibelSamples, withSamplingInterval: 6, minNumberOfDecibelSamples: 20, maxNumberOfDecibelSamples: 60)
-                    self?.sendAudioWithURL(fileURL, compressedDecibelSamples: compressedDecibelSamples)
+                    self?.sendAudio(at: fileURL, with: compressedDecibelSamples)
                 }
             }
 
             messageToolbar.voiceRecordBeginAction = { [weak self] _ in
 
-                proposeToAccess(.Microphone, agreed: { [weak self] in
+                proposeToAccess(.microphone, agreed: { [weak self] in
 
                     SafeDispatch.async { [weak self] in
                         guard let strongSelf = self else { return }
 
                         strongSelf.view.addSubview(strongSelf.waverView)
 
-                        strongSelf.swipeUpPromptLabel.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
-                        strongSelf.swipeUpView.hidden = false
+                        strongSelf.swipeUpPromptView.text = NSLocalizedString("Swipe Up to Cancel", comment: "")
+                        strongSelf.swipeUpPromptView.isHidden = false
 
-                        strongSelf.view.bringSubviewToFront(strongSelf.swipeUpView)
-                        strongSelf.view.bringSubviewToFront(strongSelf.messageToolbar)
-                        strongSelf.view.bringSubviewToFront(strongSelf.moreMessageTypesView)
+                        strongSelf.view.bringSubview(toFront: strongSelf.swipeUpPromptView)
+                        strongSelf.view.bringSubview(toFront: strongSelf.messageToolbar)
+                        strongSelf.view.bringSubview(toFront: strongSelf.moreMessageTypesView)
 
                         strongSelf.waverView.waver.resetWaveSamples()
                     }
@@ -611,7 +637,7 @@ final class ConversationViewController: BaseViewController {
 
                         AudioBot.mixWithOthersWhenRecording = true
 
-                        try AudioBot.startRecordAudioToFileURL(nil, forUsage: .Normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
+                        try AudioBot.startRecordAudioToFileURL(nil, forUsage: .normal, withDecibelSamplePeriodicReport: decibelSamplePeriodicReport)
 
                         AudioBot.reportRecordingDuration = { duration in
 
@@ -622,7 +648,7 @@ final class ConversationViewController: BaseViewController {
                             }
                         }
                         
-                        self?.trySendInstantMessageWithType(.Audio)
+                        self?.trySendInstantMessageWithType(.audio)
                         
                     } catch let error {
                         println("record error: \(error)")
@@ -632,7 +658,7 @@ final class ConversationViewController: BaseViewController {
                     self?.alertCanNotAccessMicrophone()
                 })
 
-                self?.trySendInstantMessageWithType(.Audio)
+                self?.trySendInstantMessageWithType(.audio)
             }
 
             messageToolbar.voiceRecordEndAction = { _ in
@@ -661,7 +687,7 @@ final class ConversationViewController: BaseViewController {
                     text = NSLocalizedString("Swipe Up to Cancel", comment: "")
                 }
 
-                self?.swipeUpPromptLabel.text = text
+                self?.swipeUpPromptView.text = text
             }
         }
 
@@ -672,21 +698,21 @@ final class ConversationViewController: BaseViewController {
         isFirstAppear = false
     }
 
-    override func viewWillDisappear(animated: Bool) {
+    override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-        if conversationIsDirty && !conversation.invalidated {
+        if conversationIsDirty && !conversation.isInvalidated {
             if let groupID = conversation.withGroup?.groupID {
-                conversationDirtyAction?(groupID: groupID)
+                conversationDirtyAction?(groupID)
             }
         }
 
         checkTypingStatusTimer?.invalidate()
 
-        NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
+        NotificationCenter.default.post(name: YepConfig.NotificationName.updateDraftOfConversation, object: nil)
     }
 
-    override func viewDidDisappear(animated: Bool) {
+    override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
 
         YepFayeService.sharedManager.delegate = nil
@@ -698,10 +724,10 @@ final class ConversationViewController: BaseViewController {
         // stop audio playing if need
 
         if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-            if audioPlayer.playing, let delegate = audioPlayer.delegate as? ConversationViewController where delegate == self {
+            if audioPlayer.isPlaying, let delegate = audioPlayer.delegate as? ConversationViewController, delegate == self {
                 audioPlayer.stop()
 
-                UIDevice.currentDevice().proximityMonitoringEnabled = false
+                UIDevice.current.isProximityMonitoringEnabled = false
             }
         }
     }
@@ -719,8 +745,8 @@ final class ConversationViewController: BaseViewController {
                 let index = indexOfSearchedMessage - displayedMessagesRange.location
 
                 if abs(index - displayedMessagesRange.length) > 3 {
-                    let indexPath = NSIndexPath(forItem: index, inSection: Section.Message.rawValue)
-                    conversationCollectionView.scrollToItemAtIndexPath(indexPath, atScrollPosition: .CenteredVertically, animated: false)
+                    let indexPath = IndexPath(item: index, section: Section.message.rawValue)
+                    conversationCollectionView.scrollToItem(at: indexPath, at: .centeredVertically, animated: false)
 
                 } else {
                     // 尽量滚到底部
@@ -736,15 +762,15 @@ final class ConversationViewController: BaseViewController {
 
     // MARK: - Preview Actions
 
-    override func previewActionItems() -> [UIPreviewActionItem] {
+    override var previewActionItems : [UIPreviewActionItem] {
 
-        guard let group = conversation.withGroup where !group.includeMe else {
+        guard let group = conversation.withGroup, !group.includeMe else {
             return []
         }
 
         let groupID = group.groupID
 
-        let subscribeAction = UIPreviewAction(title: NSLocalizedString("Subscribe", comment: ""), style: .Default) { (action, previewViewController) in
+        let subscribeAction = UIPreviewAction(title: NSLocalizedString("Subscribe", comment: ""), style: .default) { (action, previewViewController) in
 
             joinGroup(groupID: groupID, failureHandler: nil, completion: { [weak self] in
                 println("subscribe OK")
@@ -765,38 +791,38 @@ final class ConversationViewController: BaseViewController {
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
         }
 
-        messageToolbar.state = .Default
+        messageToolbar.state = .default
 
         switch identifier {
 
         case "showProfileWithUsername":
 
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
-            let profileUser = (sender as! Box<ProfileUser>).value
+            let profileUser = sender as! ProfileUser
             vc.prepare(withProfileUser: profileUser)
 
-            vc.fromType = .GroupConversation
+            vc.fromType = .groupConversation
 
         case "showProfileFromFeedView":
 
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
             if let user = feedView?.feed?.creator {
                 vc.prepare(withUser: user)
             }
 
-            vc.fromType = .GroupConversation
+            vc.fromType = .groupConversation
 
         case "showProfile":
 
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
             if let user = sender as? User {
                 vc.prepare(withUser: user)
@@ -808,46 +834,46 @@ final class ConversationViewController: BaseViewController {
             }
 
             switch conversation.type {
-            case ConversationType.OneToOne.rawValue:
-                vc.fromType = .OneToOneConversation
-            case ConversationType.Group.rawValue:
-                vc.fromType = .GroupConversation
+            case ConversationType.oneToOne.rawValue:
+                vc.fromType = .oneToOneConversation
+            case ConversationType.group.rawValue:
+                vc.fromType = .groupConversation
             default:
                 break
             }
 
         case "showConversationWithFeed":
 
-            let vc = segue.destinationViewController as! ConversationViewController
+            let vc = segue.destination as! ConversationViewController
 
             guard let realm = try? Realm() else {
                 return
             }
 
-            let feed = (sender as! Box<DiscoveredFeed>).value
+            let feed = sender as! DiscoveredFeed
 
             realm.beginWrite()
-            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+            let feedConversation = vc.prepareConversation(for: feed, in: realm)
             let _ = try? realm.commitWrite()
 
             vc.conversation = feedConversation
-            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+            vc.conversationFeed = ConversationFeed.discoveredFeedType(feed)
 
         case "presentNewFeed":
 
             guard let
-                nvc = segue.destinationViewController as? UINavigationController,
-                vc = nvc.topViewController as? NewFeedViewController
+                nvc = segue.destination as? UINavigationController,
+                let vc = nvc.topViewController as? NewFeedViewController
                 else {
                     return
             }
 
             if let socialWork = sender as? MessageSocialWork {
-                vc.attachment = .SocialWork(socialWork)
+                vc.attachment = .socialWork(socialWork)
 
                 vc.afterCreatedFeedAction = { [weak self] feed in
 
-                    guard let type = MessageSocialWorkType(rawValue: socialWork.type), realm = socialWork.realm else {
+                    guard let type = MessageSocialWorkType(rawValue: socialWork.type), let realm = socialWork.realm else {
                         return
                     }
 
@@ -855,13 +881,13 @@ final class ConversationViewController: BaseViewController {
 
                         switch type {
 
-                        case .GithubRepo:
+                        case .githubRepo:
                             socialWork.githubRepo?.synced = true
 
-                        case .DribbbleShot:
+                        case .dribbbleShot:
                             socialWork.dribbbleShot?.synced = true
 
-                        case .InstagramMedia:
+                        case .instagramMedia:
                             break
                         }
                     }
@@ -872,17 +898,11 @@ final class ConversationViewController: BaseViewController {
 
         case "presentPickLocation":
 
-            let nvc = segue.destinationViewController as! UINavigationController
+            let nvc = segue.destination as! UINavigationController
             let vc = nvc.topViewController as! PickLocationViewController
 
             vc.sendLocationAction = { [weak self] locationInfo in
-
-                if let user = self?.conversation.withFriend {
-                    self?.sendLocationInfo(locationInfo, toUser: user)
-
-                } else if let group = self?.conversation.withGroup {
-                    self?.sendLocationInfo(locationInfo, toGroup: group)
-                }
+                self?.sendLocation(with: locationInfo)
             }
 
         default:
@@ -921,7 +941,7 @@ final class ConversationViewController: BaseViewController {
         conversationCollectionView.contentOffset.y = newContentOffsetY
     }
 
-    private func trySnapContentOfConversationCollectionViewToBottom(forceAnimation forceAnimation: Bool = false) {
+    fileprivate func trySnapContentOfConversationCollectionViewToBottom(forceAnimation: Bool = false) {
 
         ///// Provent form unwanted scrolling
         if let lastToolbarFrame = messageToolbar.lastToolbarFrame {
@@ -944,7 +964,7 @@ final class ConversationViewController: BaseViewController {
 
         guard newContentOffsetY + conversationCollectionView.contentInset.top > 0 else {
 
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                 if let strongSelf = self {
                     strongSelf.conversationCollectionView.contentInset.bottom = bottom
                     strongSelf.conversationCollectionView.scrollIndicatorInsets.bottom = bottom
@@ -970,7 +990,7 @@ final class ConversationViewController: BaseViewController {
             return
         }
 
-        UIView.animateWithDuration(forceAnimation ? 0.25 : 0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: forceAnimation ? 0.25 : 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             if let strongSelf = self {
                 strongSelf.conversationCollectionView.contentInset.bottom = bottom
                 strongSelf.conversationCollectionView.scrollIndicatorInsets.bottom = bottom
@@ -993,16 +1013,16 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    func updateGroupToIncludeMe(finish: (() -> Void)? = nil) {
+    func updateGroupToIncludeMe(_ finish: (() -> Void)? = nil) {
 
         SafeDispatch.async { [weak self] in
             guard let strongSelf = self else {
                 return
             }
-            guard !strongSelf.conversation.invalidated else {
+            guard !strongSelf.conversation.isInvalidated else {
                 return
             }
-            guard let group = strongSelf.conversation.withGroup where !group.invalidated else {
+            guard let group = strongSelf.conversation.withGroup, !group.isInvalidated else {
                 return
             }
 
@@ -1011,7 +1031,7 @@ final class ConversationViewController: BaseViewController {
                 group.conversation?.updatedUnixTime = NSDate().timeIntervalSince1970
             }
 
-            NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+            NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
 
             strongSelf.moreViewManager.updateForGroupAffair()
 
@@ -1021,14 +1041,14 @@ final class ConversationViewController: BaseViewController {
 
     // MARK: Private
 
-    private func setConversaitonCollectionViewOriginalBottomContentInset() {
+    fileprivate func setConversaitonCollectionViewOriginalBottomContentInset() {
 
         let messageToolbarHeight = messageToolbar.bounds.height
         conversationCollectionView.contentInset.bottom = messageToolbarHeight + sectionInsetBottom
         conversationCollectionView.scrollIndicatorInsets.bottom = messageToolbarHeight
     }
 
-    private func setConversaitonCollectionViewOriginalContentInset() {
+    fileprivate func setConversaitonCollectionViewOriginalContentInset() {
 
         let feedViewHeight: CGFloat = (feedView == nil) ? 0 : FeedView.foldHeight
         conversationCollectionView.contentInset.top = 64 + feedViewHeight + conversationCollectionViewContentInsetYOffset
@@ -1036,9 +1056,9 @@ final class ConversationViewController: BaseViewController {
         setConversaitonCollectionViewOriginalBottomContentInset()
     }
 
-    private var messageHeights = [String: CGFloat]()
+    fileprivate var messageHeights = [String: CGFloat]()
 
-    func heightOfMessage(message: Message) -> CGFloat {
+    func heightOfMessage(_ message: Message) -> CGFloat {
 
         let key = message.messageID
 
@@ -1052,7 +1072,7 @@ final class ConversationViewController: BaseViewController {
 
         switch message.mediaType {
 
-        case MessageMediaType.Text.rawValue:
+        case MessageMediaType.text.rawValue:
 
             if message.isIndicator {
                 height = 26
@@ -1063,7 +1083,7 @@ final class ConversationViewController: BaseViewController {
                     rect = _rect
 
                 } else {
-                    rect = message.textContent.boundingRectWithSize(CGSize(width: messageTextContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
+                    rect = message.textContent.boundingRect(with: CGSize(width: messageTextContentTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: YepConfig.ChatCell.textAttributes, context: nil)
 
                     ChatTextCellLayout.updateTextContentTextViewWidth(ceil(rect.width), forMessage: message)
                 }
@@ -1075,25 +1095,25 @@ final class ConversationViewController: BaseViewController {
                 }
             }
 
-        case MessageMediaType.Image.rawValue:
+        case MessageMediaType.image.rawValue:
             height = ceil(message.fixedImageSize.height)
 
-        case MessageMediaType.Audio.rawValue:
+        case MessageMediaType.audio.rawValue:
             height = 40
 
-        case MessageMediaType.Video.rawValue:
+        case MessageMediaType.video.rawValue:
             height = ceil(message.fixedVideoSize.height)
 
-        case MessageMediaType.Location.rawValue:
+        case MessageMediaType.location.rawValue:
             height = 108
 
-        case MessageMediaType.SectionDate.rawValue:
+        case MessageMediaType.sectionDate.rawValue:
             height = 20
 
-        case MessageMediaType.SocialWork.rawValue:
+        case MessageMediaType.socialWork.rawValue:
             height = 135
         
-        case MessageMediaType.ShareFeed.rawValue:
+        case MessageMediaType.shareFeed.rawValue:
             height = 60
 
         default:
@@ -1102,9 +1122,9 @@ final class ConversationViewController: BaseViewController {
 
         // inGroup, plus height for show name
         if conversation.withGroup != nil {
-            if message.mediaType != MessageMediaType.SectionDate.rawValue && !message.isIndicator {
+            if message.mediaType != MessageMediaType.sectionDate.rawValue && !message.isIndicator {
                 if let sender = message.fromFriend {
-                    if sender.friendState != UserFriendState.Me.rawValue {
+                    if sender.friendState != UserFriendState.me.rawValue {
                         height += YepConfig.ChatCell.marginTopForGroup
                     }
                 }
@@ -1118,27 +1138,27 @@ final class ConversationViewController: BaseViewController {
         return height
     }
 
-    func clearHeightOfMessageWithKey(key: String) {
+    func clearHeightOfMessageWithKey(_ key: String) {
         messageHeights[key] = nil
     }
 
-    @objc private func prepareHeightOfMessagesInFreeTime() {
+    @objc fileprivate func prepareHeightOfMessagesInFreeTime() {
 
-        messages.reverse().forEach({
+        messages.reversed().forEach({
             _ = heightOfMessage($0)
         })
     }
 
-    func chatTextCellLayoutCacheOfMessage(message: Message) -> ChatTextCellLayoutCache {
+    func chatTextCellLayoutCacheOfMessage(_ message: Message) -> ChatTextCellLayoutCache {
 
         let layoutCache = ChatTextCellLayout.layoutCacheOfMessage(message, textContentTextViewMaxWidth: messageTextContentTextViewMaxWidth)
 
         return layoutCache
     }
 
-    private var audioPlayedDurations = [String: NSTimeInterval]()
+    fileprivate var audioPlayedDurations = [String: TimeInterval]()
 
-    func audioPlayedDurationOfMessage(message: Message) -> NSTimeInterval {
+    func audioPlayedDurationOfMessage(_ message: Message) -> TimeInterval {
         let key = message.messageID
 
         if !key.isEmpty {
@@ -1150,7 +1170,7 @@ final class ConversationViewController: BaseViewController {
         return 0
     }
 
-    func setAudioPlayedDuration(audioPlayedDuration: NSTimeInterval, ofMessage message: Message) {
+    func setAudioPlayedDuration(_ audioPlayedDuration: TimeInterval, ofMessage message: Message) {
 
         let key = message.messageID
         if !key.isEmpty {
@@ -1161,17 +1181,17 @@ final class ConversationViewController: BaseViewController {
 
         if audioPlayedDuration == 0 {
 
-            if let sender = message.fromFriend, index = messages.indexOf(message) {
+            if let sender = message.fromFriend, let index = messages.index(of: message) {
 
-                let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: Section.Message.rawValue)
+                let indexPath = IndexPath(item: index - displayedMessagesRange.location, section: Section.message.rawValue)
 
-                if sender.friendState != UserFriendState.Me.rawValue { // from Friend
-                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatLeftAudioCell {
+                if sender.friendState != UserFriendState.me.rawValue { // from Friend
+                    if let cell = conversationCollectionView.cellForItem(at: indexPath) as? ChatLeftAudioCell {
                         cell.audioPlayedDuration = 0
                     }
 
                 } else {
-                    if let cell = conversationCollectionView.cellForItemAtIndexPath(indexPath) as? ChatRightAudioCell {
+                    if let cell = conversationCollectionView.cellForItem(at: indexPath) as? ChatRightAudioCell {
                         cell.audioPlayedDuration = 0
                     }
                 }
@@ -1193,17 +1213,12 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    private func trySendInstantMessageWithType(type: YepFayeService.InstantStateType) {
+    fileprivate func trySendInstantMessageWithType(_ type: YepFayeService.InstantStateType) {
 
         guard YepFayeService.sharedManager.fayeClient.isConnected else {
             return
         }
-
-        guard let _ = self.conversation.withFriend else {
-            return
-        }
-
-        guard let recipient = self.recipient else {
+        guard recipient.type == .oneToOne else {
             return
         }
 
@@ -1220,31 +1235,29 @@ final class ConversationViewController: BaseViewController {
 
     // MARK: Actions
 
-    @objc private func messagesMarkAsReadByRecipient(notification: NSNotification) {
+    @objc fileprivate func messagesMarkAsReadByRecipient(_ notification: Notification) {
 
-        guard let
-            messageDataInfo = notification.object as? [String: AnyObject],
-            lastReadUnixTime = messageDataInfo["last_read_at"] as? NSTimeInterval,
-            lastReadMessageID = messageDataInfo["last_read_id"] as? String,
-            recipientType = messageDataInfo["recipient_type"] as? String,
-            recipientID = messageDataInfo["recipient_id"] as? String else {
-                return
+        guard let lastRead = notification.object as? LastRead else {
+            println("Error: messagesMarkAsReadByRecipient: \(notification.object)")
+            return
         }
 
-        if recipientID == recipient?.ID && recipientType == recipient?.type.nameForServer {
-            markAsReadAllSentMesagesBeforeUnixTime(lastReadUnixTime, lastReadMessageID: lastReadMessageID)
+        guard lastRead.recipient == recipient else {
+            return
         }
+
+        markAsReadAllSentMesagesBeforeUnixTime(lastRead.atUnixTime, lastReadMessageID: lastRead.messageID)
     }
 
-    @objc private func tapToCollapseMessageToolBar(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tapToCollapseMessageToolBar(_ sender: UITapGestureRecognizer) {
         if selectedIndexPathForMenu == nil {
-            if messageToolbar.state != .VoiceRecord {
-                messageToolbar.state = .Default
+            if messageToolbar.state != .voiceRecord {
+                messageToolbar.state = .default
             }
         }
     }
 
-    @objc private func checkTypingStatus(sender: NSTimer) {
+    @objc fileprivate func checkTypingStatus(_ sender: Timer) {
 
         typingResetDelay = typingResetDelay - 1
 
@@ -1253,11 +1266,11 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    private func tryScrollToBottom() {
+    fileprivate func tryScrollToBottom() {
 
         if displayedMessagesRange.length > 0 {
 
-            let messageToolBarTop = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds)
+            let messageToolBarTop = messageToolbarBottomConstraint.constant + messageToolbar.bounds.height
 
             let feedViewHeight: CGFloat = (feedView == nil) ? 0 : FeedView.foldHeight
             let invisibleHeight = messageToolBarTop + topBarsHeight + feedViewHeight
@@ -1273,22 +1286,22 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    @objc private func moreAction(sender: AnyObject) {
+    @objc fileprivate func moreAction(_ sender: AnyObject) {
 
-        messageToolbar.state = .Default
+        messageToolbar.state = .default
 
         if let window = view.window {
             moreViewManager.moreView.showInView(window)
         }
     }
 
-    @objc private func handleReceivedNewMessagesNotification(notification: NSNotification) {
+    @objc fileprivate func handleReceivedNewMessagesNotification(_ notification: Notification) {
 
-        guard let
-            messagesInfo = notification.object as? [String: AnyObject],
-            messageIDs = messagesInfo["messageIDs"] as? [String],
-            messageAgeRawValue = messagesInfo["messageAge"] as? String,
-            messageAge = MessageAge(rawValue: messageAgeRawValue) else {
+        guard
+            let messagesInfo = notification.object as? [String: Any],
+            let messageIDs = messagesInfo["messageIDs"] as? [String],
+            let messageAgeRawValue = messagesInfo["messageAge"] as? String,
+            let messageAge = MessageAge(rawValue: messageAgeRawValue) else {
                 println("Can NOT handleReceivedNewMessagesNotification")
                 return
         }
@@ -1296,19 +1309,28 @@ final class ConversationViewController: BaseViewController {
         handleRecievedNewMessages(messageIDs, messageAge: messageAge)
     }
 
-    private func handleRecievedNewMessages(messageIDs: [String], messageAge: MessageAge) {
+    fileprivate func handleRecievedNewMessages(_ messageIDs: [String], messageAge: MessageAge) {
+
+        if !isPreviewed {
+            //Make sure insert cell when in conversation viewcontroller
+            guard self.navigationController?.visibleViewController is ConversationViewController else {
+                return
+            }
+        }
 
         realm.refresh() // 确保是最新数据
 
+        guard let conversation = conversation, let conversationID = conversation.fakeID else {
+            return
+        }
+
         // 按照 conversation 过滤消息，匹配的才能考虑插入
         var filteredMessageIDs: [String] = []
-        if let conversation = conversation, let conversationID = conversation.fakeID {
-            for messageID in messageIDs {
-                if let message = messageWithMessageID(messageID, inRealm: realm) {
-                    if let messageInConversationID = message.conversation?.fakeID {
-                        if messageInConversationID == conversationID {
-                            filteredMessageIDs.append(messageID)
-                        }
+        for messageID in messageIDs {
+            if let message = messageWithMessageID(messageID, inRealm: realm) {
+                if let messageInConversationID = message.conversation?.fakeID {
+                    if messageInConversationID == conversationID {
+                        filteredMessageIDs.append(messageID)
                     }
                 }
             }
@@ -1318,24 +1340,23 @@ final class ConversationViewController: BaseViewController {
         }
 
         // 在前台时才能做插入
-        if UIApplication.sharedApplication().applicationState == .Active {
-            updateConversationCollectionViewWithMessageIDs(filteredMessageIDs, messageAge: messageAge, scrollToBottom: false, success: { _ in
-            })
+        if UIApplication.shared.applicationState == .active {
+            updateConversationCollectionViewWithMessageIDs(filteredMessageIDs, messageAge: messageAge, scrollToBottom: false)
 
         } else {
             // 不然就先记下来
-            inactiveNewMessageIDSet.unionInPlace(filteredMessageIDs)
+            inactiveNewMessageIDSet.formUnion(filteredMessageIDs)
             println("inactiveNewMessageIDSet: \(inactiveNewMessageIDSet)")
         }
     }
 
-    @objc private func handleDeletedMessagesNotification(notification: NSNotification) {
+    @objc fileprivate func handleDeletedMessagesNotification(_ notification: Notification) {
 
         defer {
             reloadConversationCollectionView()
         }
 
-        guard let info = notification.object as? [String: AnyObject], messageIDs = info["messageIDs"] as? [String] else {
+        guard let info = notification.object as? [String: Any], let messageIDs = info["messageIDs"] as? [String] else {
             return
         }
 
@@ -1346,9 +1367,9 @@ final class ConversationViewController: BaseViewController {
 
     // App 进入前台时，根据通知插入处于后台状态时收到的消息
 
-    @objc private func handleApplicationDidBecomeActive(notification: NSNotification) {
+    @objc fileprivate func handleApplicationDidBecomeActive(_ notification: Notification) {
 
-        guard UIApplication.sharedApplication().applicationState == .Active else {
+        guard UIApplication.shared.applicationState == .active else {
             return
         }
 
@@ -1357,11 +1378,10 @@ final class ConversationViewController: BaseViewController {
         trySyncMessages()
     }
 
-    private func tryInsertInActiveNewMessages() {
+    fileprivate func tryInsertInActiveNewMessages() {
 
         if inactiveNewMessageIDSet.count > 0 {
-            updateConversationCollectionViewWithMessageIDs(Array(inactiveNewMessageIDSet), messageAge: .New, scrollToBottom: false, success: { _ in
-            })
+            updateConversationCollectionViewWithMessageIDs(Array(inactiveNewMessageIDSet), messageAge: .new, scrollToBottom: false)
 
             inactiveNewMessageIDSet = []
 
@@ -1369,27 +1389,27 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    func updateConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: (Bool) -> Void) {
+    func updateConversationCollectionViewWithMessageIDs(_ messageIDs: [String]?, messageAge: MessageAge, scrollToBottom: Bool, success: ((Bool) -> Void)? = nil) {
 
-        /*
         // 重要
-        guard navigationController?.topViewController == self else { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
-            return
+        if !isPreviewed {
+            guard navigationController?.topViewController == self else { // 防止 pop/push 后，原来未释放的 VC 也执行这下面的代码
+                return
+            }
         }
-         */
 
         if messageIDs != nil {
             batchMarkMessagesAsReaded()
         }
 
         let subscribeViewHeight = isSubscribeViewShowing ? SubscribeView.height : 0
-        let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + CGRectGetHeight(messageToolbar.bounds) + subscribeViewHeight
+        let keyboardAndToolBarHeight = messageToolbarBottomConstraint.constant + messageToolbar.bounds.height + subscribeViewHeight
 
         adjustConversationCollectionViewWithMessageIDs(messageIDs, messageAge: messageAge, adjustHeight: keyboardAndToolBarHeight, scrollToBottom: scrollToBottom) { finished in
-            success(finished)
+            success?(finished)
         }
 
-        if messageAge == .New {
+        if messageAge == .new {
             conversationIsDirty = true
         }
 
@@ -1402,7 +1422,7 @@ final class ConversationViewController: BaseViewController {
                 conversation.withGroup?.includeMe = true
                 let _ = try? realm.commitWrite()
 
-                delay(0.5) { [weak self] in
+                _ = delay(0.5) { [weak self] in
                     self?.subscribeView.hide()
                 }
 
@@ -1411,7 +1431,9 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    private func adjustConversationCollectionViewWithMessageIDs(messageIDs: [String]?, messageAge: MessageAge, adjustHeight: CGFloat, scrollToBottom: Bool, success: (Bool) -> Void) {
+    fileprivate func adjustConversationCollectionViewWithMessageIDs(_ messageIDs: [String]?, messageAge: MessageAge, adjustHeight: CGFloat, scrollToBottom: Bool, success: @escaping (Bool) -> Void) {
+
+        let oldMessagesUpdatedVersion = self.messagesUpdatedVersion
 
         let _lastTimeMessagesCount = lastTimeMessagesCount
         lastTimeMessagesCount = messages.count
@@ -1444,13 +1466,13 @@ final class ConversationViewController: BaseViewController {
 
             if let messageIDs = messageIDs {
 
-                var indexPaths = [NSIndexPath]()
+                var indexPaths = [IndexPath]()
 
                 for messageID in messageIDs {
                     if let
                         message = messageWithMessageID(messageID, inRealm: realm),
-                        index = messages.indexOf(message) {
-                        let indexPath = NSIndexPath(forItem: index - displayedMessagesRange.location, inSection: Section.Message.rawValue)
+                        let index = messages.index(of: message) {
+                        let indexPath = IndexPath(item: index - displayedMessagesRange.location, section: Section.message.rawValue)
                         indexPaths.append(indexPath)
 
                     } else {
@@ -1465,30 +1487,30 @@ final class ConversationViewController: BaseViewController {
 
                 switch messageAge {
 
-                case .New:
+                case .new:
+
                     conversationCollectionView.performBatchUpdates({ [weak self] in
                         guard let strongSelf = self else {
                             return
                         }
 
                         if needReloadLoadPreviousSection {
-                            strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
+                            strongSelf.conversationCollectionView.reloadSections(IndexSet(integer: Section.loadPrevious.rawValue))
                             strongSelf.needReloadLoadPreviousSection = false
                         }
 
-                        // double check
-                        if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
-                            strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                        } else {
-                            strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
+                        guard strongSelf.messagesUpdatedVersion == oldMessagesUpdatedVersion else {
+                            strongSelf.conversationCollectionView.reloadSections(IndexSet(integer: Section.message.rawValue))
                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                             println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
+                            return
                         }
+
+                        strongSelf.conversationCollectionView.insertItems(at: indexPaths)
 
                     }, completion: nil)
 
-                case .Old:
+                case .old:
                     // 用 CATransaction 保证 CollectionView 在插入后不闪动
                     CATransaction.begin()
                     CATransaction.setDisableActions(true)
@@ -1501,19 +1523,18 @@ final class ConversationViewController: BaseViewController {
                         }
 
                         if needReloadLoadPreviousSection {
-                            strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
+                            strongSelf.conversationCollectionView.reloadSections(IndexSet(integer: Section.loadPrevious.rawValue))
                             strongSelf.needReloadLoadPreviousSection = false
                         }
 
-                        // double check
-                        if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
-                            strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                        } else {
-                            strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
+                        guard strongSelf.messagesUpdatedVersion == oldMessagesUpdatedVersion else {
+                            strongSelf.conversationCollectionView.reloadSections(IndexSet(integer: Section.message.rawValue))
                             strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                             println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
+                            return
                         }
+
+                        strongSelf.conversationCollectionView.insertItems(at: indexPaths)
 
                     }, completion: { [weak self] finished in
                         if let strongSelf = self {
@@ -1532,10 +1553,10 @@ final class ConversationViewController: BaseViewController {
             } else {
                 // 这里做了一个假设：本地刚创建的消息比所有的已有的消息都要新，这在创建消息里做保证（服务器可能传回创建在“未来”的消息）
 
-                var indexPaths = [NSIndexPath]()
+                var indexPaths = [IndexPath]()
 
                 for i in 0..<newMessagesCount {
-                    let indexPath = NSIndexPath(forItem: lastDisplayedMessagesRange.length + i, inSection: Section.Message.rawValue)
+                    let indexPath = IndexPath(item: lastDisplayedMessagesRange.length + i, section: Section.message.rawValue)
                     indexPaths.append(indexPath)
                 }
 
@@ -1545,19 +1566,18 @@ final class ConversationViewController: BaseViewController {
                     }
 
                     if needReloadLoadPreviousSection {
-                        strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.LoadPrevious.rawValue))
+                        strongSelf.conversationCollectionView.reloadSections(IndexSet(integer: Section.loadPrevious.rawValue))
                         strongSelf.needReloadLoadPreviousSection = false
                     }
 
-                    // double check
-                    if indexPaths.count == (strongSelf.messages.count - _lastTimeMessagesCount) {
-                        strongSelf.conversationCollectionView.insertItemsAtIndexPaths(indexPaths)
-
-                    } else {
-                        strongSelf.conversationCollectionView.reloadSections(NSIndexSet(index: Section.Message.rawValue))
+                    guard strongSelf.messagesUpdatedVersion == oldMessagesUpdatedVersion else {
+                        strongSelf.conversationCollectionView.reloadSections(IndexSet(integer: Section.message.rawValue))
                         strongSelf.lastTimeMessagesCount = strongSelf.messages.count
                         println("double check failed! \(strongSelf.messages.count), \(_lastTimeMessagesCount)")
+                        return
                     }
+
+                    strongSelf.conversationCollectionView.insertItems(at: indexPaths)
 
                 }, completion: nil)
 
@@ -1586,12 +1606,12 @@ final class ConversationViewController: BaseViewController {
 
             if newMessagesTotalHeight > useableHeight {
 
-                UIView.animateWithDuration(0.25, delay: 0.0, options: UIViewAnimationOptions.CurveEaseInOut, animations: { [weak self] in
+                UIView.animate(withDuration: 0.25, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
 
                     if let strongSelf = self {
 
                         if scrollToBottom {
-                            let newContentSize = strongSelf.conversationCollectionView.collectionViewLayout.collectionViewContentSize()
+                            let newContentSize = strongSelf.conversationCollectionView.collectionViewLayout.collectionViewContentSize
                             let newContentOffsetY = newContentSize.height - strongSelf.conversationCollectionView.frame.height + keyboardAndToolBarHeight
                             strongSelf.conversationCollectionView.contentOffset.y = newContentOffsetY
 
@@ -1613,18 +1633,20 @@ final class ConversationViewController: BaseViewController {
         }
     }
 
-    @objc private func reloadConversationCollectionView() {
-        SafeDispatch.async {
-            self.conversationCollectionView.reloadData()
+    @objc internal func reloadConversationCollectionView() {
+        SafeDispatch.async { [weak self] in
+            guard let strongSelf = self else { return }
+            strongSelf.conversationCollectionView.reloadData()
+            strongSelf.lastTimeMessagesCount = strongSelf.messages.count
         }
     }
 
-    private func cleanTextInput() {
+    fileprivate func cleanTextInput() {
         messageToolbar.messageTextView.text = ""
-        messageToolbar.state = .BeginTextInput
+        messageToolbar.state = .beginTextInput
     }
 
-    @objc private func cleanForLogout(sender: NSNotification) {
+    @objc fileprivate func cleanForLogout(_ sender: Notification) {
         displayedMessagesRange.length = 0
     }
 }

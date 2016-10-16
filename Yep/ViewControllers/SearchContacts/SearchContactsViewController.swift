@@ -7,38 +7,21 @@
 //
 
 import UIKit
-import RealmSwift
 import YepKit
+import RealmSwift
+import KeypathObserver
 
-final class SearchContactsViewController: SegueViewController {
-
-    var originalNavigationControllerDelegate: UINavigationControllerDelegate?
-    var searchTransition: SearchTransition?
-
-    private var searchBarCancelButtonEnabledObserver: ObjectKeypathObserver<UIButton>?
-    @IBOutlet weak var searchBar: UISearchBar! {
-        didSet {
-            searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
-            searchBar.setSearchFieldBackgroundImage(UIImage.yep_searchbarTextfieldBackground, forState: .Normal)
-            searchBar.returnKeyType = .Done
-        }
-    }
-    @IBOutlet weak var searchBarBottomLineView: HorizontalLineView! {
-        didSet {
-            searchBarBottomLineView.lineColor = UIColor(white: 0.68, alpha: 1.0)
-        }
-    }
-    @IBOutlet weak var searchBarTopConstraint: NSLayoutConstraint!
+final class SearchContactsViewController: BaseSearchViewController {
 
     @IBOutlet weak var contactsTableView: UITableView! {
         didSet {
             //contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor // not work here
             contactsTableView.backgroundColor = YepConfig.SearchTableView.backgroundColor
 
-            contactsTableView.registerHeaderFooterClassOf(TableSectionTitleView)
-            contactsTableView.registerNibOf(SearchSectionTitleCell)
-            contactsTableView.registerNibOf(SearchedUserCell)
-            contactsTableView.registerNibOf(SearchedDiscoveredUserCell)
+            contactsTableView.registerHeaderFooterClassOf(TableSectionTitleView.self)
+            contactsTableView.registerNibOf(SearchSectionTitleCell.self)
+            contactsTableView.registerNibOf(SearchedUserCell.self)
+            contactsTableView.registerNibOf(SearchedDiscoveredUserCell.self)
 
             contactsTableView.sectionHeaderHeight = 0
             contactsTableView.sectionFooterHeight = 0
@@ -46,38 +29,36 @@ final class SearchContactsViewController: SegueViewController {
 
             contactsTableView.tableFooterView = UIView()
 
-            contactsTableView.keyboardDismissMode = .OnDrag
+            contactsTableView.keyboardDismissMode = .onDrag
         }
     }
 
-    private var searchTask: CancelableTask?
+    fileprivate var searchTask: CancelableTask?
 
-    private lazy var friends = normalFriends()
-    private var filteredFriends: Results<User>?
+    fileprivate lazy var friends = normalFriends()
+    fileprivate var filteredFriends: Results<User>?
 
-    private var searchedUsers = [DiscoveredUser]()
+    fileprivate var searchedUsers = [DiscoveredUser]()
 
-    private var countOfFilteredFriends: Int {
+    fileprivate var countOfFilteredFriends: Int {
         return filteredFriends?.count ?? 0
     }
-    private var countOfSearchedUsers: Int {
+    fileprivate var countOfSearchedUsers: Int {
         return searchedUsers.count
     }
 
-    private var keyword: String? {
+    fileprivate var keyword: String? {
         didSet {
             if keyword == nil {
                 clearSearchResults()
             }
-            if let keyword = keyword where keyword.isEmpty {
+            if let keyword = keyword, keyword.isEmpty {
                 clearSearchResults()
             }
         }
     }
 
     deinit {
-        searchBarCancelButtonEnabledObserver = nil
-
         println("deinit SearchContacts")
     }
 
@@ -86,43 +67,16 @@ final class SearchContactsViewController: SegueViewController {
 
         title = NSLocalizedString("Search", comment: "")
 
+        searchBar.placeholder = NSLocalizedString("Search Friend", comment: "")
+
         contactsTableView.separatorColor = YepConfig.SearchTableView.separatorColor
 
         searchBarBottomLineView.alpha = 0
     }
 
-    private var isFirstAppear = true
-    
-    override func viewWillAppear(animated: Bool) {
-        super.viewWillAppear(animated)
-
-        navigationController?.setNavigationBarHidden(true, animated: true)
-
-        if isFirstAppear {
-            delay(0.3) { [weak self] in
-                self?.searchBar.becomeFirstResponder()
-            }
-            delay(0.4) { [weak self] in
-                self?.searchBar.setShowsCancelButton(true, animated: true)
-
-                self?.searchBarCancelButtonEnabledObserver = self?.searchBar.yep_makeSureCancelButtonAlwaysEnabled()
-            }
-        }
-    }
-
-    override func viewDidAppear(animated: Bool) {
-        super.viewDidAppear(animated)
-
-        recoverSearchTransition()
-
-        moveUpSearchBar()
-
-        isFirstAppear = false
-    }
-
     // MARK: Private
 
-    private func updateContactsTableView(scrollsToTop scrollsToTop: Bool = false) {
+    fileprivate func updateContactsTableView(scrollsToTop: Bool = false) {
         SafeDispatch.async { [weak self] in
             self?.contactsTableView.reloadData()
 
@@ -132,14 +86,14 @@ final class SearchContactsViewController: SegueViewController {
         }
     }
 
-    private func hideKeyboard() {
+    fileprivate func hideKeyboard() {
 
         searchBar.resignFirstResponder()
     }
 
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -148,13 +102,13 @@ final class SearchContactsViewController: SegueViewController {
         switch identifier {
 
         case "showProfile":
-            let vc = segue.destinationViewController as! ProfileViewController
+            let vc = segue.destination as! ProfileViewController
 
             if let user = sender as? User {
                 vc.prepare(withUser: user)
 
-            } else if let discoveredUser = (sender as? Box<DiscoveredUser>)?.value {
-                vc.prepare(withDiscoveredUser: discoveredUser)
+            } else if let discoveredUser = sender as? DiscoveredUser {
+                vc.prepare(with: discoveredUser)
             }
 
             prepareOriginalNavigationControllerDelegate()
@@ -169,34 +123,32 @@ final class SearchContactsViewController: SegueViewController {
 
 extension SearchContactsViewController: UISearchBarDelegate {
 
-    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
 
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] _ in
             self?.searchBarBottomLineView.alpha = 1
-        }, completion: { finished in
-        })
+        }, completion: nil)
 
         return true
     }
 
-    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
 
         searchBar.text = nil
         searchBar.resignFirstResponder()
 
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] _ in
             self?.searchBarBottomLineView.alpha = 0
-        }, completion: { finished in
-        })
+        }, completion: nil)
 
-        navigationController?.popViewControllerAnimated(true)
+        _ = navigationController?.popViewController(animated: true)
     }
 
-    func searchBar(searchBar: UISearchBar, shouldChangeTextInRange range: NSRange, replacementText text: String) -> Bool {
+    func searchBar(_ searchBar: UISearchBar, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
 
         cancel(searchTask)
 
-        searchTask = delay(0.5) { [weak self] in
+        searchTask = delay(YepConfig.Search.delayInterval) { [weak self] in
             if let searchText = searchBar.yep_fullSearchText {
                 self?.updateSearchResultsWithText(searchText)
             }
@@ -205,7 +157,7 @@ extension SearchContactsViewController: UISearchBarDelegate {
         return true
     }
 
-    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
 
         cancel(searchTask)
 
@@ -214,17 +166,17 @@ extension SearchContactsViewController: UISearchBarDelegate {
             return
         }
 
-        searchTask = delay(0.5) { [weak self] in
+        searchTask = delay(YepConfig.Search.delayInterval) { [weak self] in
             self?.updateSearchResultsWithText(searchText)
         }
     }
 
-    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
 
         hideKeyboard()
     }
 
-    private func clearSearchResults() {
+    fileprivate func clearSearchResults() {
 
         filteredFriends = nil
         searchedUsers = []
@@ -232,12 +184,12 @@ extension SearchContactsViewController: UISearchBarDelegate {
         updateContactsTableView(scrollsToTop: true)
     }
 
-    private func updateSearchResultsWithText(searchText: String) {
+    fileprivate func updateSearchResultsWithText(_ searchText: String) {
 
-        let searchText = searchText.trimming(.Whitespace)
+        let searchText = searchText.trimming(.whitespace)
 
         // 不要重复搜索一样的内容
-        if let keyword = self.keyword where keyword == searchText {
+        if let keyword = self.keyword, keyword == searchText {
             return
         }
 
@@ -288,20 +240,20 @@ extension SearchContactsViewController: UISearchBarDelegate {
 extension SearchContactsViewController: UITableViewDataSource, UITableViewDelegate {
 
     enum Section: Int {
-        case Local
-        case Online
+        case local
+        case online
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 2
     }
 
-    private func numberOfRowsInSection(section: Int) -> Int {
+    fileprivate func numberOfRowsInSection(_ section: Int) -> Int {
         guard let section = Section(rawValue: section) else {
             return 0
         }
 
-        func numberOfRowsWithCountOfItems(countOfItems: Int) -> Int {
+        func numberOfRowsWithCountOfItems(_ countOfItems: Int) -> Int {
             let count = countOfItems
             if count > 0 {
                 return 1 + count
@@ -311,18 +263,18 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         }
 
         switch section {
-        case .Local:
+        case .local:
             return numberOfRowsWithCountOfItems(countOfFilteredFriends)
-        case .Online:
+        case .online:
             return numberOfRowsWithCountOfItems(countOfSearchedUsers)
         }
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return numberOfRowsInSection(section)
     }
 
-    func tableView(tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
 
         guard numberOfRowsInSection(section) > 0 else {
             return nil
@@ -334,7 +286,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         return header
     }
 
-    func tableView(tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
 
         guard numberOfRowsInSection(section) > 0 else {
             return 0
@@ -343,7 +295,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         return 15
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
         guard indexPath.row > 0 else {
             return 40
@@ -352,7 +304,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         return 70
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid section!")
@@ -363,9 +315,9 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
             let cell: SearchSectionTitleCell = tableView.dequeueReusableCell()
 
             switch section {
-            case .Local:
-                cell.sectionTitleLabel.text = NSLocalizedString("Friends", comment: "")
-            case .Online:
+            case .local:
+                cell.sectionTitleLabel.text = String.trans_titleFriends
+            case .online:
                 cell.sectionTitleLabel.text = NSLocalizedString("Users", comment: "")
             }
 
@@ -374,23 +326,23 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
         switch section {
 
-        case .Local:
+        case .local:
             let cell: SearchedUserCell = tableView.dequeueReusableCell()
             return cell
 
-        case .Online:
+        case .online:
             let cell: SearchedDiscoveredUserCell = tableView.dequeueReusableCell()
             return cell
         }
     }
 
-    private func friendAtIndex(index: Int) -> User? {
+    fileprivate func friendAtIndex(_ index: Int) -> User? {
 
         let friend = filteredFriends?[safe: index]
         return friend
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
         guard indexPath.row > 0 else {
             return
@@ -406,7 +358,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
         switch section {
 
-        case .Local:
+        case .local:
 
             guard let friend = friendAtIndex(itemIndex) else {
                 return
@@ -417,7 +369,7 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
             cell.configureWithUserRepresentation(friend, keyword: keyword)
 
-        case .Online:
+        case .online:
 
             let discoveredUser = searchedUsers[itemIndex]
 
@@ -429,10 +381,10 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         guard indexPath.row > 0 else {
@@ -449,16 +401,16 @@ extension SearchContactsViewController: UITableViewDataSource, UITableViewDelega
 
         switch section {
 
-        case .Local:
+        case .local:
 
             if let friend = friendAtIndex(itemIndex) {
-                performSegueWithIdentifier("showProfile", sender: friend)
+                performSegue(withIdentifier: "showProfile", sender: friend)
             }
 
-        case .Online:
+        case .online:
 
             let discoveredUser = searchedUsers[itemIndex]
-            performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+            performSegue(withIdentifier: "showProfile", sender: discoveredUser)
         }
     }
 }

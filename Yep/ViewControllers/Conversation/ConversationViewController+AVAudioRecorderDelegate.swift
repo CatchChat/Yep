@@ -11,12 +11,12 @@ import AVFoundation
 
 extension ConversationViewController: AVAudioRecorderDelegate {
 
-    func audioRecorderDidFinishRecording(recorder: AVAudioRecorder, successfully flag: Bool) {
-        println("finished recording \(flag)")
+    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder, successfully flag: Bool) {
+        println("audioRecorderDidFinishRecording: \(flag)")
     }
 
-    func audioRecorderEncodeErrorDidOccur(recorder: AVAudioRecorder, error: NSError?) {
-        println("\(error?.localizedDescription)")
+    func audioRecorderEncodeErrorDidOccur(_ recorder: AVAudioRecorder, error: Error?) {
+        println("audioRecorderEncodeErrorDidOccur: \(error)")
     }
 }
 

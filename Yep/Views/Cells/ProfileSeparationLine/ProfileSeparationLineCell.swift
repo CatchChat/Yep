@@ -13,24 +13,24 @@ final class ProfileSeparationLineCell: UICollectionViewCell {
     var leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
     var rightEdgeInset: CGFloat = YepConfig.Profile.rightEdgeInset
     var lineColor: UIColor = UIColor.yepBorderColor()
-    var lineWidth: CGFloat = 1.0 / UIScreen.mainScreen().scale
+    var lineWidth: CGFloat = 1.0 / UIScreen.main.scale
 
     // MARK: Draw
 
-    override func drawRect(rect: CGRect) {
-        super.drawRect(rect)
+    override func draw(_ rect: CGRect) {
+        super.draw(rect)
 
         lineColor.setStroke()
 
         let context = UIGraphicsGetCurrentContext()
 
-        CGContextSetLineWidth(context, lineWidth)
+        context!.setLineWidth(lineWidth)
 
-        let y = ceil(CGRectGetHeight(rect) * 0.5)
+        let y = ceil(rect.height * 0.5)
 
-        CGContextMoveToPoint(context, leftEdgeInset, y)
-        CGContextAddLineToPoint(context, CGRectGetWidth(rect) - rightEdgeInset, y)
+        context!.move(to: CGPoint(x: leftEdgeInset, y: y))
+        context!.addLine(to: CGPoint(x: rect.width - rightEdgeInset, y: y))
 
-        CGContextStrokePath(context)
+        context!.strokePath()
     }
 }

@@ -15,23 +15,23 @@ class PreviewDribbblePhoto: NSObject, Photo {
 
     var image: UIImage? {
         didSet {
-            self.updatedImage?(image: image)
+            self.updatedImage?(image)
         }
     }
 
-    var updatedImage: ((image: UIImage?) -> Void)?
+    var updatedImage: ((_ image: UIImage?) -> Void)?
 
-    init(imageURL: NSURL) {
+    init(imageURL: URL) {
         super.init()
 
         let imageView = UIImageView()
 
         let optionsInfos: KingfisherOptionsInfo = [
-            .PreloadAllGIFData,
-            .BackgroundDecode,
+            .preloadAllGIFData,
+            .backgroundDecode,
         ]
 
-        imageView.kf_setImageWithURL(imageURL, optionsInfo: optionsInfos) { (image, error, cacheType, imageURL) in
+        imageView.kf.setImage(with: imageURL, options: optionsInfos) { (image, error, cacheType, imageURL) in
 
             SafeDispatch.async { [weak self] in
                 if let image = image {

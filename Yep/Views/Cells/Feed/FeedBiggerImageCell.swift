@@ -8,37 +8,43 @@
 
 import UIKit
 import YepKit
+import YepPreview
+import AsyncDisplayKit
 
-final class FeedBiggerImageCell: FeedBasicCell {
+class FeedBiggerImageCell: FeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + YepConfig.FeedBiggerImageCell.imageSize.height + 15
-
         return ceil(height)
     }
 
     var tapImagesAction: FeedTapImagesAction?
 
-    lazy var biggerImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
-        imageView.clipsToBounds = true
-        imageView.frame = CGRect(origin: CGPoint(x: 65, y: 0), size: YepConfig.FeedBiggerImageCell.imageSize)
-        imageView.layer.borderColor = UIColor.yepBorderColor().CGColor
-        imageView.layer.borderWidth = 1.0 / UIScreen.mainScreen().scale
+    fileprivate func createImageNode() -> ASImageNode {
 
-        imageView.userInteractionEnabled = true
+        let node = ASImageNode()
+        node.frame = CGRect(origin: CGPoint.zero, size: YepConfig.FeedBiggerImageCell.imageSize)
+        node.contentMode = .scaleAspectFill
+        node.backgroundColor = YepConfig.FeedMedia.backgroundColor
+        node.borderWidth = 1
+        node.borderColor = UIColor.yepBorderColor().cgColor
+
+        node.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(FeedBiggerImageCell.tap(_:)))
-        imageView.addGestureRecognizer(tap)
+        node.view.addGestureRecognizer(tap)
 
-        return imageView
+        return node
+    }
+
+    fileprivate lazy var imageNode: ASImageNode = {
+        return self.createImageNode()
     }()
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        contentView.addSubview(biggerImageView)
+        contentView.addSubview(imageNode.view)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -48,37 +54,44 @@ final class FeedBiggerImageCell: FeedBasicCell {
     override func prepareForReuse() {
         super.prepareForReuse()
 
-        biggerImageView.image = nil
+        imageNode.image = nil
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: FeedCellLayout, needShowSkill: Bool) {
 
         super.configureWithFeed(feed, layout: layout, needShowSkill: needShowSkill)
 
         if let onlyAttachment = feed.imageAttachments?.first {
 
             if onlyAttachment.isTemporary {
-                biggerImageView.image = onlyAttachment.image
+                imageNode.image = onlyAttachment.image
 
             } else {
-                biggerImageView.yep_showActivityIndicatorWhenLoading = true
-                biggerImageView.yep_setImageOfAttachment(onlyAttachment, withSize: YepConfig.FeedBiggerImageCell.imageSize)
+                imageNode.yep_showActivityIndicatorWhenLoading = true
+                imageNode.yep_setImageOfAttachment(onlyAttachment, withSize: YepConfig.FeedBiggerImageCell.imageSize)
             }
         }
 
         let biggerImageLayout = layout.biggerImageLayout!
-        biggerImageView.frame = biggerImageLayout.biggerImageViewFrame
+        imageNode.frame = biggerImageLayout.biggerImageViewFrame
     }
 
-    @objc private func tap(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tap(_ sender: UITapGestureRecognizer) {
 
-        guard let firstAttachment = feed?.imageAttachments?.first where !firstAttachment.isTemporary else {
+        guard let firstAttachment = feed?.imageAttachments?.first, !firstAttachment.isTemporary else {
             return
         }
 
         if let attachments = feed?.imageAttachments {
-            tapImagesAction?(transitionViews: [biggerImageView], attachments: attachments, image: biggerImageView.image, index: 0)
+            tapImagesAction?([transitionReference], attachments, imageNode.image, 0)
         }
+    }
+}
+
+extension FeedBiggerImageCell: Previewable {
+
+    var transitionReference: Reference {
+        return Reference(view: imageNode.view, image: imageNode.image)
     }
 }
 

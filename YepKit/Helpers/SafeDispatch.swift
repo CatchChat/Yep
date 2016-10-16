@@ -8,28 +8,28 @@
 
 import Foundation
 
-public class SafeDispatch {
+final public class SafeDispatch {
 
-    private let mainQueueKey = UnsafeMutablePointer<Void>.alloc(1)
-    private let mainQueueValue = UnsafeMutablePointer<Void>.alloc(1)
+    private let mainQueueKey = DispatchSpecificKey<Int>()
+    private let mainQueueValue = Int(1)
 
     private static let sharedSafeDispatch = SafeDispatch()
 
     private init() {
-        dispatch_queue_set_specific(dispatch_get_main_queue(), mainQueueKey, mainQueueValue, nil)
+        DispatchQueue.main.setSpecific(key: mainQueueKey, value: mainQueueValue)
     }
 
-    public class func async(onQueue queue: dispatch_queue_t = dispatch_get_main_queue(), forWork block: dispatch_block_t) {
-        if queue === dispatch_get_main_queue() {
-            if dispatch_get_specific(sharedSafeDispatch.mainQueueKey) == sharedSafeDispatch.mainQueueValue {
+    public class func async(onQueue queue: DispatchQueue = DispatchQueue.main, forWork block: @escaping () -> Void) {
+        if queue === DispatchQueue.main {
+            if DispatchQueue.getSpecific(key: sharedSafeDispatch.mainQueueKey) == sharedSafeDispatch.mainQueueValue {
                 block()
             } else {
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     block()
                 }
             }
         } else {
-            dispatch_async(queue) {
+            queue.async {
                 block()
             }
         }

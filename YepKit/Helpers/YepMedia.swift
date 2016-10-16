@@ -9,9 +9,9 @@
 import UIKit
 import Navi
 
-public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> String? {
+public func metaDataStringOfImage(_ image: UIImage, needBlurThumbnail: Bool) -> String? {
 
-    let metaDataInfo: [String: AnyObject]
+    let metaDataInfo: [String: Any]
 
     let imageWidth = image.size.width
     let imageHeight = image.size.height
@@ -29,7 +29,7 @@ public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> St
 
     let thumbnailSize = CGSize(width: thumbnailWidth, height: thumbnailHeight)
 
-    if let thumbnail = image.navi_resizeToSize(thumbnailSize, withInterpolationQuality: CGInterpolationQuality.High) {
+    if let thumbnail = image.navi_resizeToSize(thumbnailSize, withInterpolationQuality: CGInterpolationQuality.high) {
 
         if needBlurThumbnail {
 
@@ -55,11 +55,10 @@ public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> St
 
         } else {
 
-            let data = UIImageJPEGRepresentation(thumbnail, 0.7)
+            let data = UIImageJPEGRepresentation(thumbnail, 0.7)!
+            let string = data.base64EncodedString(options: [])
 
-            let string = data!.base64EncodedStringWithOptions(NSDataBase64EncodingOptions(rawValue: 0))
-
-            println("image thumbnail string length: \(string.lengthOfBytesUsingEncoding(NSUTF8StringEncoding))\n")
+            println("image thumbnail string length: \(string.lengthOfBytes(using: .utf8))\n")
 
             metaDataInfo = [
                 Config.MetaData.imageWidth: imageWidth,
@@ -76,8 +75,8 @@ public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> St
     }
 
     var metaDataString: String? = nil
-    if let metaData = try? NSJSONSerialization.dataWithJSONObject(metaDataInfo, options: []) {
-        metaDataString = NSString(data: metaData, encoding: NSUTF8StringEncoding) as? String
+    if let metaData = try? JSONSerialization.data(withJSONObject: metaDataInfo, options: []) {
+        metaDataString = String(data: metaData, encoding: .utf8) 
     }
 
     return metaDataString
@@ -85,7 +84,7 @@ public func metaDataStringOfImage(image: UIImage, needBlurThumbnail: Bool) -> St
 
 // 我们来一个 [0, 无穷] 到 [0, 1] 的映射
 // 函数 y = 1 - 1 / e^(x/100) 挺合适
-func nonlinearLimit(x: Int, toMax max: Int) -> Int {
+func nonlinearLimit(_ x: Int, toMax max: Int) -> Int {
     let n = 1 - 1 / exp(Double(x) / 100)
     return Int(Double(max) * n)
 }
@@ -97,11 +96,11 @@ for var i = 0; i < 1000; i+=10 {
 }
 */
 
-public func limitedAudioSamplesCount(x: Int) -> Int {
+public func limitedAudioSamplesCount(_ x: Int) -> Int {
     return nonlinearLimit(x, toMax: 50)
 }
 
-public func averageSamplingFrom(values:[CGFloat], withCount count: Int) -> [CGFloat] {
+public func averageSamplingFrom(_ values:[CGFloat], withCount count: Int) -> [CGFloat] {
 
     let step = Double(values.count) / Double(count)
 

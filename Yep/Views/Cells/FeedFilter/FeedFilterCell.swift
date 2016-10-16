@@ -18,18 +18,18 @@ class FeedFilterCell: UITableViewCell {
         }
     }
 
-    var chooseOptionAction: ((option: Option) -> Void)?
+    var chooseOptionAction: ((_ option: Option) -> Void)?
 
     enum Option: Int {
-        case Recommended
-        case Lately
+        case recommended
+        case lately
 
         var title: String {
             switch self {
-            case .Recommended:
+            case .recommended:
                 return NSLocalizedString("Recommended", comment: "")
-            case .Lately:
-                return NSLocalizedString("Lately", comment: "")
+            case .lately:
+                return String.trans_titleLately
             }
         }
     }
@@ -39,7 +39,7 @@ class FeedFilterCell: UITableViewCell {
             segmentedControl.removeAllSegments()
             (0..<2).forEach({
                 let option = Option(rawValue: $0)
-                segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
+                segmentedControl.insertSegment(withTitle: option?.title, at: $0, animated: false)
             })
         }
     }
@@ -47,18 +47,18 @@ class FeedFilterCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        segmentedControl.selectedSegmentIndex = Option.Recommended.rawValue
+        segmentedControl.selectedSegmentIndex = Option.recommended.rawValue
 
-        segmentedControl.addTarget(self, action: #selector(FeedFilterCell.chooseOption(_:)), forControlEvents: .ValueChanged)
+        segmentedControl.addTarget(self, action: #selector(FeedFilterCell.chooseOption(_:)), for: .valueChanged)
     }
 
-    @objc private func chooseOption(sender: UISegmentedControl) {
+    @objc fileprivate func chooseOption(_ sender: UISegmentedControl) {
 
         guard let option = Option(rawValue: sender.selectedSegmentIndex) else {
             return
         }
 
-        chooseOptionAction?(option: option)
+        chooseOptionAction?(option)
     }
 }
 

@@ -9,7 +9,7 @@
 import UIKit
 import YepKit
 
-private let screenWidth: CGFloat = UIScreen.mainScreen().bounds.width
+private let screenWidth: CGFloat = UIScreen.main.bounds.width
 
 struct SearchedFeedCellLayout {
 
@@ -17,7 +17,7 @@ struct SearchedFeedCellLayout {
 
     struct BasicLayout {
 
-        func nicknameLabelFrameWhen(hasLogo hasLogo: Bool, hasSkill: Bool) -> CGRect {
+        func nicknameLabelFrameWhen(hasLogo: Bool, hasSkill: Bool) -> CGRect {
 
             var frame = nicknameLabelFrame
             frame.size.width -= hasLogo ? (18 + 10) : 0
@@ -27,7 +27,7 @@ struct SearchedFeedCellLayout {
         }
 
         let avatarImageViewFrame: CGRect
-        private let nicknameLabelFrame: CGRect
+        fileprivate let nicknameLabelFrame: CGRect
         let skillButtonFrame: CGRect
 
         let messageTextViewFrame: CGRect
@@ -109,13 +109,13 @@ struct SearchedFeedCellLayout {
 
         switch feed.kind {
 
-        case .Text:
+        case .text:
             height = SearchedFeedBasicCell.heightOfFeed(feed)
 
-        case .URL:
+        case .url:
             height = SearchedFeedURLCell.heightOfFeed(feed)
 
-        case .Image:
+        case .image:
             if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
                 height = SearchedFeedNormalImagesCell.heightOfFeed(feed)
 
@@ -123,16 +123,16 @@ struct SearchedFeedCellLayout {
                 height = SearchedFeedAnyImagesCell.heightOfFeed(feed)
             }
 
-        case .GithubRepo:
+        case .githubRepo:
             height = SearchedFeedGithubRepoCell.heightOfFeed(feed)
 
-        case .DribbbleShot:
+        case .dribbbleShot:
             height = SearchedFeedDribbbleShotCell.heightOfFeed(feed)
 
-        case .Audio:
+        case .audio:
             height = SearchedFeedVoiceCell.heightOfFeed(feed)
 
-        case .Location:
+        case .location:
             height = SearchedFeedLocationCell.heightOfFeed(feed)
 
         default:
@@ -148,7 +148,7 @@ struct SearchedFeedCellLayout {
 
         if let skill = feed.skill {
 
-            let rect = skill.localName.boundingRectWithSize(CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
+            let rect = skill.localName.boundingRect(with: CGSize(width: 320, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: YepConfig.FeedBasicCell.skillTextAttributes, context: nil)
 
             let skillButtonWidth = ceil(rect.width) + 20
 
@@ -160,10 +160,10 @@ struct SearchedFeedCellLayout {
         } else {
             let nicknameLabelWidth = screenWidth - 50 - 10
             nicknameLabelFrame = CGRect(x: 50, y: 20, width: nicknameLabelWidth, height: 18)
-            skillButtonFrame = CGRectZero
+            skillButtonFrame = CGRect.zero
         }
 
-        let _rect1 = feed.body.boundingRectWithSize(CGSize(width: SearchedFeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
+        let _rect1 = feed.body.boundingRect(with: CGSize(width: SearchedFeedBasicCell.messageTextViewMaxWidth, height: CGFloat(FLT_MAX)), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: YepConfig.FeedBasicCell.textAttributes, context: nil)
 
         let messageTextViewHeight = ceil(_rect1.height)
         let messageTextViewFrame = CGRect(x: 50, y: 15 + 30 + 4, width: screenWidth - 50 - 10, height: messageTextViewHeight)
@@ -181,10 +181,10 @@ struct SearchedFeedCellLayout {
 
         switch feed.kind {
 
-        case .Text:
+        case .text:
             break
 
-        case .URL:
+        case .url:
 
             let height: CGFloat = 20
             let URLContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
@@ -193,7 +193,7 @@ struct SearchedFeedCellLayout {
 
             self._URLLayout = _URLLayout
 
-        case .Image:
+        case .image:
 
             if feed.imageAttachmentsCount <= SearchFeedsViewController.feedNormalImagesCountThreshold {
                 let x1 = 50 + (YepConfig.SearchedFeedNormalImagesCell.imageSize.width + 5) * 0
@@ -221,7 +221,7 @@ struct SearchedFeedCellLayout {
                 self.anyImagesLayout = anyImagesLayout
             }
 
-        case .GithubRepo:
+        case .githubRepo:
 
             let height: CGFloat = 80
             let githubRepoContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
@@ -230,7 +230,7 @@ struct SearchedFeedCellLayout {
 
             self.githubRepoLayout = githubRepoLayout
 
-        case .DribbbleShot:
+        case .dribbbleShot:
 
             let height: CGFloat = SearchedFeedDribbbleShotCell.dribbbleShotHeight
             let dribbbleShotContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)
@@ -239,10 +239,10 @@ struct SearchedFeedCellLayout {
 
             self.dribbbleShotLayout = dribbbleShotLayout
 
-        case .Audio:
+        case .audio:
 
             if let attachment = feed.attachment {
-                if case let .Audio(audioInfo) = attachment {
+                if case let .audio(audioInfo) = attachment {
                     let timeLengthString = audioInfo.duration.yep_feedAudioTimeLengthString
                     let width = FeedVoiceContainerView.fullWidthWithSampleValuesCount(audioInfo.sampleValues.count, timeLengthString: timeLengthString)
                     let y = beginY + 2
@@ -254,7 +254,7 @@ struct SearchedFeedCellLayout {
                 }
             }
             
-        case .Location:
+        case .location:
             
             let height: CGFloat = 20
             let locationContainerViewFrame = CGRect(x: 50, y: beginY, width: screenWidth - 50 - 60, height: height)

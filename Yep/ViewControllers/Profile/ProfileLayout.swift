@@ -10,15 +10,22 @@ import UIKit
 
 final class ProfileLayout: UICollectionViewFlowLayout {
 
-    var scrollUpAction: ((progress: CGFloat) -> Void)?
+    var scrollUpAction: ((_ progress: CGFloat) -> Void)?
 
-    let topBarsHeight: CGFloat = 64
+    fileprivate let topBarsHeight: CGFloat = 64
 
-    let leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
+    fileprivate let leftEdgeInset: CGFloat = YepConfig.Profile.leftEdgeInset
 
-    override func layoutAttributesForElementsInRect(rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
+    override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
 
-        let layoutAttributes = super.layoutAttributesForElementsInRect(rect)
+        guard let _layoutAttributes = super.layoutAttributesForElements(in: rect) else {
+            return nil
+        }
+
+        let layoutAttributes = _layoutAttributes.map({
+            $0.copy() as! UICollectionViewLayoutAttributes
+        })
+
         let contentInset = collectionView!.contentInset
         let contentOffset = collectionView!.contentOffset
 
@@ -27,65 +34,59 @@ final class ProfileLayout: UICollectionViewFlowLayout {
         if contentOffset.y < minY {
             let deltaY = abs(contentOffset.y - minY)
 
-            if let layoutAttributes = layoutAttributes {
-                for attributes in layoutAttributes {
-                    if attributes.indexPath.section == ProfileViewController.Section.Header.rawValue {
-                        var frame = attributes.frame
-                        frame.size.height = max(minY, CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio + deltaY)
-                        frame.origin.y = CGRectGetMinY(frame) - deltaY
-                        attributes.frame = frame
+            for attributes in layoutAttributes {
+                if attributes.indexPath.section == ProfileViewController.Section.header.rawValue {
+                    var frame = attributes.frame
+                    frame.size.height = max(minY, collectionView!.bounds.width * profileAvatarAspectRatio + deltaY)
+                    frame.origin.y = frame.minY - deltaY
+                    attributes.frame = frame
 
-                        break
-                    }
+                    break
                 }
             }
 
         } else {
-            let coverHeight = CGRectGetWidth(collectionView!.bounds) * profileAvatarAspectRatio
+            let coverHeight = collectionView!.bounds.width * profileAvatarAspectRatio
             let coverHideHeight = coverHeight - topBarsHeight
 
             if contentOffset.y > coverHideHeight {
 
                 let deltaY = abs(contentOffset.y - minY)
 
-                if let layoutAttributes = layoutAttributes {
-                    for attributes in layoutAttributes {
-                        if attributes.indexPath.section == ProfileViewController.Section.Header.rawValue {
-                            var frame = attributes.frame
-                            frame.origin.y = deltaY - coverHideHeight
-                            attributes.frame = frame
-                            attributes.zIndex = 1000
+                for attributes in layoutAttributes {
+                    if attributes.indexPath.section == ProfileViewController.Section.header.rawValue {
+                        var frame = attributes.frame
+                        frame.origin.y = deltaY - coverHideHeight
+                        attributes.frame = frame
+                        attributes.zIndex = 1000
 
-                            break
-                        }
+                        break
                     }
                 }
             }
-            
+
+            let progress: CGFloat
             if coverHideHeight > contentOffset.y {
-                scrollUpAction?(progress: 1.0 - (coverHideHeight - contentOffset.y) / coverHideHeight)
-
+                progress = 1.0 - (coverHideHeight - contentOffset.y) / coverHideHeight
             } else {
-                scrollUpAction?(progress: 1.0)
+                progress = 1.0
             }
-
+            scrollUpAction?(progress)
         }
 
         // 先按照每个 item 的 centerY 分组
         var rowCollections = [CGFloat: [UICollectionViewLayoutAttributes]]()
 
-        if let layoutAttributes = layoutAttributes {
-            for attributes in layoutAttributes {
-                let centerY = CGRectGetMidY(attributes.frame)
+        for attributes in layoutAttributes {
+            let centerY = attributes.frame.midY
 
-                if let rowCollection = rowCollections[centerY] {
-                    var rowCollection = rowCollection
-                    rowCollection.append(attributes)
-                    rowCollections[centerY] = rowCollection
+            if let rowCollection = rowCollections[centerY] {
+                var rowCollection = rowCollection
+                rowCollection.append(attributes)
+                rowCollections[centerY] = rowCollection
 
-                } else {
-                    rowCollections[centerY] = [attributes]
-                }
+            } else {
+                rowCollections[centerY] = [attributes]
             }
         }
 
@@ -99,7 +100,7 @@ final class ProfileLayout: UICollectionViewFlowLayout {
             // 每一行所有 items 的宽度
             var aggregateItemsWidth: CGFloat = 0
             for attributes in rowCollection {
-                aggregateItemsWidth += CGRectGetWidth(attributes.frame)
+                aggregateItemsWidth += attributes.frame.width
             }
 
             // 计算出有效的 width 和需要偏移的 offset
@@ -107,15 +108,15 @@ final class ProfileLayout: UICollectionViewFlowLayout {
             //let alignmentOffsetX = (CGRectGetWidth(collectionView!.bounds) - alignmentWidth) / 2
 
             // 调整每个 item 的 origin.x 即可
-            var previousFrame = CGRectZero
+            var previousFrame = CGRect.zero
             for attributes in rowCollection {
                 var itemFrame = attributes.frame
 
-                if attributes.representedElementCategory == .Cell && (attributes.indexPath.section == ProfileViewController.Section.Master.rawValue || attributes.indexPath.section == ProfileViewController.Section.Learning.rawValue) {
-                    if CGRectEqualToRect(previousFrame, CGRectZero) {
+                if attributes.representedElementCategory == .cell && (attributes.indexPath.section == ProfileViewController.Section.master.rawValue || attributes.indexPath.section == ProfileViewController.Section.learning.rawValue) {
+                    if previousFrame.equalTo(CGRect.zero) {
                         itemFrame.origin.x = leftEdgeInset
                     } else {
-                        itemFrame.origin.x = CGRectGetMaxX(previousFrame) + minimumInteritemSpacing
+                        itemFrame.origin.x = previousFrame.maxX + minimumInteritemSpacing
                     }
 
                     attributes.frame = itemFrame
@@ -128,7 +129,8 @@ final class ProfileLayout: UICollectionViewFlowLayout {
         return layoutAttributes
     }
 
-    override func shouldInvalidateLayoutForBoundsChange(newBounds: CGRect) -> Bool {
+    override func shouldInvalidateLayout(forBoundsChange newBounds: CGRect) -> Bool {
         return true
     }
 }
+

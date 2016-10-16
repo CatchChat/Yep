@@ -17,28 +17,28 @@ final class SkillSelectionCell: UICollectionViewCell {
     @IBOutlet weak var skillLabel: UILabel!
 
     enum Selection {
-        case Unavailable
-        case Off
-        case On
+        case unavailable
+        case off
+        case on
     }
 
-    var skillSelection: Selection = .Off {
+    var skillSelection: Selection = .off {
         willSet {
             switch newValue {
 
-            case .Unavailable:
+            case .unavailable:
                 backgroundImageView.image = UIImage.yep_skillBubbleLargeEmpty
                 skillLabel.textColor = UIColor.yepTintColor()
                 contentView.alpha = 0.2
 
-            case .Off:
+            case .off:
                 backgroundImageView.image = UIImage.yep_skillBubbleLargeEmpty
                 skillLabel.textColor = UIColor.yepTintColor()
                 contentView.alpha = 1
 
-            case .On:
+            case .on:
                 backgroundImageView.image = UIImage.yep_skillBubbleLarge
-                skillLabel.textColor = UIColor.whiteColor()
+                skillLabel.textColor = UIColor.white
                 contentView.alpha = 1
             }
         }

@@ -11,14 +11,6 @@ import YepKit
 import RealmSwift
 import Navi
 
-final class Box<T> {
-    let value: T
-
-    init(_ value: T) {
-        self.value = value
-    }
-}
-
 func cleanRealmAndCaches() {
 
     // clean Realm
@@ -39,17 +31,17 @@ func cleanRealmAndCaches() {
     
     AvatarPod.clear()
 
-    ImageCache.sharedInstance.cache.removeAllObjects()
+    YepImageCache.sharedInstance.cache.removeAllObjects()
 
     println("cleaned caches!")
 
     // clean Message File caches
 
-    NSFileManager.cleanMessageCaches()
+    FileManager.cleanMessageCaches()
 
     // clean Avatar File caches
 
-    NSFileManager.cleanAvatarCaches()
+    FileManager.cleanAvatarCaches()
 
     println("cleaned files!")
 
@@ -58,29 +50,29 @@ func cleanRealmAndCaches() {
     clearDynamicShortcuts()
 
     SafeDispatch.async {
-        NSNotificationCenter.defaultCenter().postNotificationName(EditProfileViewController.Notification.Logout, object: nil)
+        NotificationCenter.default.post(name: YepConfig.NotificationName.logout, object: nil)
     }
 }
 
 extension String {
-    func stringByAppendingPathComponent(path: String) -> String {
-        return (self as NSString).stringByAppendingPathComponent(path)
+    func stringByAppendingPathComponent(_ path: String) -> String {
+        return (self as NSString).appendingPathComponent(path)
     }
 }
 
 
 func cleanDiskCacheFolder() {
     
-    let folderPath = NSSearchPathForDirectoriesInDomains(.CachesDirectory, .UserDomainMask, true)[0]
-    let fileMgr = NSFileManager.defaultManager()
+    let folderPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true)[0]
+    let fileMgr = FileManager.default
     
-    guard let fileArray = try? fileMgr.contentsOfDirectoryAtPath(folderPath) else {
+    guard let fileArray = try? fileMgr.contentsOfDirectory(atPath: folderPath) else {
         return
     }
     
     for filename in fileArray  {
         do {
-            try fileMgr.removeItemAtPath(folderPath.stringByAppendingPathComponent(filename))
+            try fileMgr.removeItem(atPath: folderPath.stringByAppendingPathComponent(filename))
         } catch {
             print(" clean error ")
         }
@@ -89,18 +81,18 @@ func cleanDiskCacheFolder() {
 }
 
 extension UIImage {
-    class func imageWithColor(color: UIColor) -> UIImage {
-        let rect = CGRectMake(0.0, 0.0, 1.0, 1.0)
+    class func imageWithColor(_ color: UIColor) -> UIImage {
+        let rect = CGRect(x: 0.0, y: 0.0, width: 1.0, height: 1.0)
         UIGraphicsBeginImageContext(rect.size)
         let context = UIGraphicsGetCurrentContext()
         
-        CGContextSetFillColorWithColor(context, color.CGColor)
-        CGContextFillRect(context, rect)
+        context!.setFillColor(color.cgColor)
+        context!.fill(rect)
         
         let image = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
-        return image
+        return image!
     }
 }
 
@@ -108,19 +100,19 @@ extension UINavigationBar {
 
     func hideBottomHairline() {
         let navigationBarImageView = hairlineImageViewInNavigationBar(self)
-        navigationBarImageView?.hidden = true
+        navigationBarImageView?.isHidden = true
     }
     
     func showBottomHairline() {
         let navigationBarImageView = hairlineImageViewInNavigationBar(self)
-        navigationBarImageView?.hidden = false
+        navigationBarImageView?.isHidden = false
     }
     
     func changeBottomHairImage() {
     }
     
-    private func hairlineImageViewInNavigationBar(view: UIView) -> UIImageView? {
-        if let view = view as? UIImageView where view.bounds.height <= 1.0 {
+    fileprivate func hairlineImageViewInNavigationBar(_ view: UIView) -> UIImageView? {
+        if let view = view as? UIImageView, view.bounds.height <= 1.0 {
             return view
         }
 

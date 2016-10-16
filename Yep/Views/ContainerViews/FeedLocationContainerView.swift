@@ -20,7 +20,7 @@ final class FeedLocationContainerView: UIView {
 
     lazy var mapImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
 
@@ -33,15 +33,15 @@ final class FeedLocationContainerView: UIView {
     lazy var horizontalLineView: HorizontalLineView = {
         let view = HorizontalLineView()
         view.atBottom = false
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
         return view
     }()
 
     var needCompressNameLabel: Bool = false
     lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor.lightGrayColor()
-        label.font = UIFont.systemFontOfSize(12)
+        label.textColor = UIColor.lightGray
+        label.font = UIFont.systemFont(ofSize: 12)
         return label
     }()
 
@@ -54,7 +54,7 @@ final class FeedLocationContainerView: UIView {
         addGestureRecognizer(tap)
     }
 
-    private func makeUI() {
+    fileprivate func makeUI() {
 
         addSubview(backgroundImageView)
         addSubview(mapImageView)
@@ -68,49 +68,49 @@ final class FeedLocationContainerView: UIView {
         horizontalLineView.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "backgroundImageView": backgroundImageView,
             "mapImageView": mapImageView,
             "horizontalLineView": horizontalLineView,
             "nameLabel": nameLabel,
         ]
 
-        let backgroundH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
-        let backgroundV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
-        NSLayoutConstraint.activateConstraints(backgroundH)
-        NSLayoutConstraint.activateConstraints(backgroundV)
+        let backgroundH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        let backgroundV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[backgroundImageView]|", options: [], metrics: nil, views: views)
+        NSLayoutConstraint.activate(backgroundH)
+        NSLayoutConstraint.activate(backgroundV)
 
-        let constraintsH1 = NSLayoutConstraint.constraintsWithVisualFormat("H:|[mapImageView]|", options: [], metrics: nil, views: views)
-        let constraintsH2 = NSLayoutConstraint.constraintsWithVisualFormat("H:|[horizontalLineView]|", options: [], metrics: nil, views: views)
-        let constraintsH3 = NSLayoutConstraint.constraintsWithVisualFormat("H:|-10-[nameLabel]-10-|", options: [], metrics: nil, views: views)
+        let constraintsH1 = NSLayoutConstraint.constraints(withVisualFormat: "H:|[mapImageView]|", options: [], metrics: nil, views: views)
+        let constraintsH2 = NSLayoutConstraint.constraints(withVisualFormat: "H:|[horizontalLineView]|", options: [], metrics: nil, views: views)
+        let constraintsH3 = NSLayoutConstraint.constraints(withVisualFormat: "H:|-10-[nameLabel]-10-|", options: [], metrics: nil, views: views)
 
         let constraintsV: [NSLayoutConstraint]
         if needCompressNameLabel {
-            constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[mapImageView][nameLabel(20)]|", options: [], metrics: nil, views: views)
+            constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[mapImageView][nameLabel(20)]|", options: [], metrics: nil, views: views)
         } else {
-            constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[mapImageView][nameLabel(30)]|", options: [], metrics: nil, views: views)
+            constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[mapImageView][nameLabel(30)]|", options: [], metrics: nil, views: views)
         }
 
-        let horizontalLineViewH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[horizontalLineView]|", options: [], metrics: nil, views: views)
-        let horizontalLineViewV = NSLayoutConstraint.constraintsWithVisualFormat("V:[horizontalLineView(1)]", options: [], metrics: nil, views: views)
-        let horizontalLineViewTop = NSLayoutConstraint(item: horizontalLineView, attribute: .Top, relatedBy: .Equal, toItem: nameLabel, attribute: .Top, multiplier: 1.0, constant: 0)
+        let horizontalLineViewH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[horizontalLineView]|", options: [], metrics: nil, views: views)
+        let horizontalLineViewV = NSLayoutConstraint.constraints(withVisualFormat: "V:[horizontalLineView(1)]", options: [], metrics: nil, views: views)
+        let horizontalLineViewTop = NSLayoutConstraint(item: horizontalLineView, attribute: .top, relatedBy: .equal, toItem: nameLabel, attribute: .top, multiplier: 1.0, constant: 0)
 
-        let pinImageViewCenterX = NSLayoutConstraint(item: pinImageView, attribute: .CenterX, relatedBy: .Equal, toItem: mapImageView, attribute: .CenterX, multiplier: 1.0, constant: 0)
-        let pinImageViewCenterY = NSLayoutConstraint(item: pinImageView, attribute: .CenterY, relatedBy: .Equal, toItem: mapImageView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+        let pinImageViewCenterX = NSLayoutConstraint(item: pinImageView, attribute: .centerX, relatedBy: .equal, toItem: mapImageView, attribute: .centerX, multiplier: 1.0, constant: 0)
+        let pinImageViewCenterY = NSLayoutConstraint(item: pinImageView, attribute: .centerY, relatedBy: .equal, toItem: mapImageView, attribute: .centerY, multiplier: 1.0, constant: 0)
 
-        NSLayoutConstraint.activateConstraints(constraintsH1)
-        NSLayoutConstraint.activateConstraints(constraintsH2)
-        NSLayoutConstraint.activateConstraints(constraintsH3)
-        NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activate(constraintsH1)
+        NSLayoutConstraint.activate(constraintsH2)
+        NSLayoutConstraint.activate(constraintsH3)
+        NSLayoutConstraint.activate(constraintsV)
 
-        NSLayoutConstraint.activateConstraints(horizontalLineViewH)
-        NSLayoutConstraint.activateConstraints(horizontalLineViewV)
-        NSLayoutConstraint.activateConstraints([horizontalLineViewTop])
+        NSLayoutConstraint.activate(horizontalLineViewH)
+        NSLayoutConstraint.activate(horizontalLineViewV)
+        NSLayoutConstraint.activate([horizontalLineViewTop])
 
-        NSLayoutConstraint.activateConstraints([pinImageViewCenterX, pinImageViewCenterY])
+        NSLayoutConstraint.activate([pinImageViewCenterX, pinImageViewCenterY])
     }
 
-    @objc private func tap(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tap(_ sender: UITapGestureRecognizer) {
         tapAction?()
     }
 }

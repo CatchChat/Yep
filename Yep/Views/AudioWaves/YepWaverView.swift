@@ -22,13 +22,13 @@ final class YepWaverView: UIView {
         setup()
     }
     
-    private func setup() {
-        waver = Waver(frame: CGRectMake(0, CGRectGetHeight(self.bounds)/2.0 - 50.0 - 40.0, CGRectGetWidth(self.bounds), 100.0))
+    fileprivate func setup() {
+        waver = Waver(frame: CGRect(x: 0, y: self.bounds.height/2.0 - 50.0 - 40.0, width: self.bounds.width, height: 100.0))
         self.backgroundColor = UIColor(white: 1.0, alpha: 0.9)
     }
     
-    override func willMoveToSuperview(newSuperview: UIView?) {
-        super.willMoveToSuperview(newSuperview)
+    override func willMove(toSuperview newSuperview: UIView?) {
+        super.willMove(toSuperview: newSuperview)
         self.addSubview(waver)
     }
     

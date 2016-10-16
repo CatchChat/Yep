@@ -10,26 +10,27 @@ import UIKit
 
 extension ConversationViewController: YepFayeServiceDelegate {
 
-    func fayeRecievedInstantStateType(instantStateType: YepFayeService.InstantStateType, userID: String) {
+    func fayeRecievedInstantStateType(_ instantStateType: YepFayeService.InstantStateType, userID: String) {
 
-        if let withFriend = conversation.withFriend {
+        guard !conversation.isInvalidated else {
+            return
+        }
+        guard let user = conversation.withFriend, user.userID == userID else {
+            return
+        }
 
-            if userID == withFriend.userID {
+        let content = String(format: NSLocalizedString("doing%@", comment: ""), "\(instantStateType)")
 
-                let content = String(format: NSLocalizedString("doing%@", comment: ""), "\(instantStateType)")
+        titleView.stateInfoLabel.text = content
+        titleView.stateInfoLabel.textColor = UIColor.yepTintColor()
 
-                titleView.stateInfoLabel.text = content
-                titleView.stateInfoLabel.textColor = UIColor.yepTintColor()
+        switch instantStateType {
 
-                switch instantStateType {
+        case .text:
+            self.typingResetDelay = 2
 
-                case .Text:
-                    self.typingResetDelay = 2
-
-                case .Audio:
-                    self.typingResetDelay = 2.5
-                }
-            }
+        case .audio:
+            self.typingResetDelay = 2.5
         }
     }
 

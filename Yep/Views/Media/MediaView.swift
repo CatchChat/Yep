@@ -24,15 +24,15 @@ final class MediaView: UIView {
         }
     }
 
-    func updateImageViewWithImage(image: UIImage) {
+    func updateImageViewWithImage(_ image: UIImage) {
 
-        scrollView.frame = UIScreen.mainScreen().bounds
+        scrollView.frame = UIScreen.main.bounds
 
         //let size = image.size
         let size = CGSize(width: floor(image.size.width), height: floor(image.size.height))
         //println("size: \(size)")
 
-        imageView.frame = CGRect(origin: CGPointZero, size: size)
+        imageView.frame = CGRect(origin: CGPoint.zero, size: size)
 
         setZoomParametersForSize(scrollView.bounds.size, imageSize: size)
         scrollView.zoomScale = scrollView.minimumZoomScale
@@ -46,14 +46,14 @@ final class MediaView: UIView {
         setNormalScrollViewScrollEnabled()
     }
 
-    private func setNormalScrollViewScrollEnabled() {
+    fileprivate func setNormalScrollViewScrollEnabled() {
 
         guard let image = image else {
             return
         }
 
         let isVerticalLong = (image.size.height / image.size.width) > (bounds.height / bounds.width)
-        scrollView.scrollEnabled = isVerticalLong
+        scrollView.isScrollEnabled = isVerticalLong
     }
 
     var image: UIImage? {
@@ -71,7 +71,7 @@ final class MediaView: UIView {
             if let coverImage = coverImage {
                 coverImageView.image = coverImage
                 coverImageView.alpha = 1
-                bringSubviewToFront(coverImageView)
+                bringSubview(toFront: coverImageView)
 
                 scrollView.alpha = 0
                 videoPlayerLayer.opacity = 0
@@ -98,13 +98,13 @@ final class MediaView: UIView {
 
     lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
 
     lazy var coverImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
 
@@ -127,21 +127,21 @@ final class MediaView: UIView {
         addGestureRecognizer(doubleTap)
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(MediaView.tapToDismiss(_:)))
-        tap.requireGestureRecognizerToFail(doubleTap)
+        tap.require(toFail: doubleTap)
         addGestureRecognizer(tap)
     }
 
-    @objc private func doubleTapToZoom(sender: UITapGestureRecognizer) {
+    @objc fileprivate func doubleTapToZoom(_ sender: UITapGestureRecognizer) {
 
         inTapZoom = true
-        let zoomPoint = sender.locationInView(self)
+        let zoomPoint = sender.location(in: self)
 
         if !isZoomIn {
             isZoomIn = true
             zoomScaleBeforeZoomIn = scrollView.zoomScale
             scrollView.yep_zoomToPoint(zoomPoint, withScale: scrollView.zoomScale * 2, animated: true)
 
-            scrollView.scrollEnabled = true
+            scrollView.isScrollEnabled = true
 
         } else {
             if let zoomScale = zoomScaleBeforeZoomIn {
@@ -154,11 +154,11 @@ final class MediaView: UIView {
         }
     }
 
-    @objc private func tapToDismiss(sender: UITapGestureRecognizer) {
+    @objc fileprivate func tapToDismiss(_ sender: UITapGestureRecognizer) {
 
         if let zoomScale = zoomScaleBeforeZoomIn {
-            let quickZoomDuration: NSTimeInterval = 0.35
-            scrollView.yep_zoomToPoint(CGPoint.zero, withScale: zoomScale, animationDuration: quickZoomDuration, animationCurve: .EaseInOut)
+            let quickZoomDuration: TimeInterval = 0.35
+            scrollView.yep_zoomToPoint(CGPoint.zero, withScale: zoomScale, animationDuration: quickZoomDuration, animationCurve: .easeInOut)
             delay(quickZoomDuration) { [weak self] in
                 self?.tapToDismissAction?()
             }
@@ -171,7 +171,7 @@ final class MediaView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
 
-        videoPlayerLayer.frame = UIScreen.mainScreen().bounds
+        videoPlayerLayer.frame = UIScreen.main.bounds
     }
 
     func makeUI() {
@@ -182,40 +182,40 @@ final class MediaView: UIView {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         coverImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary: [String: AnyObject] = [
+        let views: [String: Any] = [
             "scrollView": scrollView,
             "imageView": imageView,
             "coverImageView": coverImageView,
         ]
 
-        let scrollViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[scrollView]|", options: [], metrics: nil, views: viewsDictionary)
+        let scrollViewConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[scrollView]|", options: [], metrics: nil, views: views)
 
-        let scrollViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[scrollView]|", options: [], metrics: nil, views: viewsDictionary)
+        let scrollViewConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[scrollView]|", options: [], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(scrollViewConstraintsV)
-        NSLayoutConstraint.activateConstraints(scrollViewConstraintsH)
+        NSLayoutConstraint.activate(scrollViewConstraintsV)
+        NSLayoutConstraint.activate(scrollViewConstraintsH)
 
 
-        let coverImageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[coverImageView]|", options: [], metrics: nil, views: viewsDictionary)
+        let coverImageViewConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[coverImageView]|", options: [], metrics: nil, views: views)
 
-        let coverImageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[coverImageView]|", options: [], metrics: nil, views: viewsDictionary)
+        let coverImageViewConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[coverImageView]|", options: [], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(coverImageViewConstraintsV)
-        NSLayoutConstraint.activateConstraints(coverImageViewConstraintsH)
+        NSLayoutConstraint.activate(coverImageViewConstraintsV)
+        NSLayoutConstraint.activate(coverImageViewConstraintsH)
 
         scrollView.addSubview(imageView)
 
         imageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let imageViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[imageView]|", options: [], metrics: nil, views: viewsDictionary)
+        let imageViewConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[imageView]|", options: [], metrics: nil, views: views)
 
-        let imageViewConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[imageView]|", options: [], metrics: nil, views: viewsDictionary)
+        let imageViewConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[imageView]|", options: [], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(imageViewConstraintsV)
-        NSLayoutConstraint.activateConstraints(imageViewConstraintsH)
+        NSLayoutConstraint.activate(imageViewConstraintsV)
+        NSLayoutConstraint.activate(imageViewConstraintsH)
     }
 
-    func setZoomParametersForSize(scrollViewSize: CGSize, imageSize: CGSize) {
+    func setZoomParametersForSize(_ scrollViewSize: CGSize, imageSize: CGSize) {
 
         //println("<----- scrollViewSize: \(scrollViewSize), imageSize: \(imageSize)")
 
@@ -228,7 +228,7 @@ final class MediaView: UIView {
         scrollView.maximumZoomScale = max(minScale, 3.0)
     }
 
-    func recenterImage(image: UIImage) {
+    func recenterImage(_ image: UIImage) {
 
         let scrollViewSize = scrollView.bounds.size
         let imageSize = image.size
@@ -249,18 +249,18 @@ final class MediaView: UIView {
 //        println("------>")
 
         if (scaledImageSize.height / scaledImageSize.width) > (scrollViewSize.height / scrollViewSize.width) {
-            scrollView.setContentOffset(CGPointZero, animated: true)
+            scrollView.setContentOffset(CGPoint.zero, animated: true)
         }
     }
 }
 
 extension MediaView: UIScrollViewDelegate {
 
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    func viewForZooming(in scrollView: UIScrollView) -> UIView? {
         return imageView
     }
 
-    func scrollViewDidZoom(scrollView: UIScrollView) {
+    func scrollViewDidZoom(_ scrollView: UIScrollView) {
         if inTapZoom {
             inTapZoom = false
             return
@@ -273,7 +273,7 @@ extension MediaView: UIScrollViewDelegate {
             isZoomIn = !(scrollView.zoomScale == scrollView.minimumZoomScale)
 
             if isZoomIn {
-                scrollView.scrollEnabled = true
+                scrollView.isScrollEnabled = true
 
             } else {
                 setNormalScrollViewScrollEnabled()

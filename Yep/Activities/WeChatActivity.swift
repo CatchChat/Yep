@@ -11,49 +11,49 @@ import MonkeyKing
 
 final class WeChatActivity: AnyActivity {
 
-    enum Type {
+    enum `Type` {
 
-        case Session
-        case Timeline
+        case session
+        case timeline
 
-        var type: String {
+        var activityType: UIActivityType {
             switch self {
-            case .Session:
-                return YepConfig.ChinaSocialNetwork.WeChat.sessionType
-            case .Timeline:
-                return YepConfig.ChinaSocialNetwork.WeChat.timelineType
+            case .session:
+                return UIActivityType(rawValue: YepConfig.ChinaSocialNetwork.WeChat.sessionType)
+            case .timeline:
+                return UIActivityType(rawValue: YepConfig.ChinaSocialNetwork.WeChat.timelineType)
             }
         }
 
         var title: String {
             switch self {
-            case .Session:
+            case .session:
                 return YepConfig.ChinaSocialNetwork.WeChat.sessionTitle
-            case .Timeline:
+            case .timeline:
                 return YepConfig.ChinaSocialNetwork.WeChat.timelineTitle
             }
         }
 
         var image: UIImage {
             switch self {
-            case .Session:
+            case .session:
                 return YepConfig.ChinaSocialNetwork.WeChat.sessionImage
-            case .Timeline:
+            case .timeline:
                 return YepConfig.ChinaSocialNetwork.WeChat.timelineImage
             }
         }
     }
 
-    init(type: Type, message: MonkeyKing.Message, finish: MonkeyKing.Finish) {
+    init(type: Type, message: MonkeyKing.Message, completionHandler: @escaping MonkeyKing.DeliverCompletionHandler) {
 
-        MonkeyKing.registerAccount(.WeChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID))
+        MonkeyKing.registerAccount(.weChat(appID: YepConfig.ChinaSocialNetwork.WeChat.appID, appKey: ""))
 
         super.init(
-            type: type.type,
+            type: type.activityType,
             title: type.title,
             image: type.image,
             message: message,
-            finish: finish
+            completionHandler: completionHandler
         )
     }
 }

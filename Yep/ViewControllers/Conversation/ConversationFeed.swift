@@ -13,16 +13,16 @@ import RealmSwift
 
 enum ConversationFeed {
 
-    case DiscoveredFeedType(DiscoveredFeed)
-    case FeedType(Feed)
+    case discoveredFeedType(DiscoveredFeed)
+    case feedType(Feed)
 
     var feedID: String? {
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             return discoveredFeed.id
 
-        case .FeedType(let feed):
-            guard !feed.invalidated else {
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
                 return nil
             }
             return feed.feedID
@@ -31,17 +31,20 @@ enum ConversationFeed {
 
     var body: String {
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             return discoveredFeed.body
 
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return ""
+            }
             return feed.body
         }
     }
 
     var creator: User? {
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             guard let realm = try? Realm() else {
                 return nil
             }
@@ -51,17 +54,23 @@ enum ConversationFeed {
 
             return user
 
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             return feed.creator
         }
     }
 
     var distance: Double? {
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             return discoveredFeed.distance
 
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             return feed.distance
         }
     }
@@ -69,9 +78,12 @@ enum ConversationFeed {
     var kind: FeedKind? {
 
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             return discoveredFeed.kind
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             return FeedKind(rawValue: feed.kind)
         }
     }
@@ -79,9 +91,12 @@ enum ConversationFeed {
     var hasSocialImage: Bool {
 
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             return discoveredFeed.hasSocialImage
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return false
+            }
             if let _ = feed.socialWork?.dribbbleShot?.imageURLString {
                 return true
             }
@@ -94,7 +109,7 @@ enum ConversationFeed {
 
         if let kind = kind {
             switch kind {
-            case .Location:
+            case .location:
                 return true
             default:
                 return false
@@ -110,19 +125,22 @@ enum ConversationFeed {
             return false
         }
 
-        return kind != .Text
+        return kind != .text
     }
 
     var githubRepoName: String? {
 
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
-                if case let .Github(githubRepo) = attachment {
+                if case let .github(githubRepo) = attachment {
                     return githubRepo.name
                 }
             }
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             return feed.socialWork?.githubRepo?.name
         }
 
@@ -132,83 +150,98 @@ enum ConversationFeed {
     var githubRepoDescription: String? {
 
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
-                if case let .Github(githubRepo) = attachment {
+                if case let .github(githubRepo) = attachment {
                     return githubRepo.description
                 }
             }
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             return feed.socialWork?.githubRepo?.repoDescription
         }
 
         return nil
     }
 
-    var githubRepoURL: NSURL? {
+    var githubRepoURL: URL? {
 
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
-                if case let .Github(githubRepo) = attachment {
-                    return NSURL(string: githubRepo.URLString)
+                if case let .github(githubRepo) = attachment {
+                    return URL(string: githubRepo.URLString)
                 }
             }
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let URLString = feed.socialWork?.githubRepo?.URLString {
-                return NSURL(string: URLString)
+                return URL(string: URLString)
             }
         }
 
         return nil
     }
 
-    var dribbbleShotImageURL: NSURL? {
+    var dribbbleShotImageURL: URL? {
 
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
-                if case let .Dribbble(dribbbleShot) = attachment {
-                    return NSURL(string: dribbbleShot.imageURLString)
+                if case let .dribbble(dribbbleShot) = attachment {
+                    return URL(string: dribbbleShot.imageURLString)
                 }
             }
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let imageURLString = feed.socialWork?.dribbbleShot?.imageURLString {
-                return NSURL(string: imageURLString)
+                return URL(string: imageURLString)
             }
         }
 
         return nil
     }
 
-    var dribbbleShotURL: NSURL? {
+    var dribbbleShotURL: URL? {
 
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
-                if case let .Dribbble(dribbbleShot) = attachment {
-                    return NSURL(string: dribbbleShot.htmlURLString)
+                if case let .dribbble(dribbbleShot) = attachment {
+                    return URL(string: dribbbleShot.htmlURLString)
                 }
             }
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let htmlURLString = feed.socialWork?.dribbbleShot?.htmlURLString {
-                return NSURL(string: htmlURLString)
+                return URL(string: htmlURLString)
             }
         }
 
         return nil
     }
 
-    var audioMetaInfo: (duration: NSTimeInterval, samples: [CGFloat])? {
+    var audioMetaInfo: (duration: TimeInterval, samples: [CGFloat])? {
 
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
-                if case let .Audio(audioInfo) = attachment {
+                if case let .audio(audioInfo) = attachment {
                     return (audioInfo.duration, audioInfo.sampleValues)
                 }
             }
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let audioMetaInfo = feed.audio?.audioMetaInfo {
                 return audioMetaInfo
             }
@@ -220,13 +253,16 @@ enum ConversationFeed {
     var locationName: String? {
 
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
-                if case let .Location(locationInfo) = attachment {
+                if case let .location(locationInfo) = attachment {
                     return locationInfo.name
                 }
             }
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let location = feed.location {
                 return location.name
             }
@@ -238,13 +274,16 @@ enum ConversationFeed {
     var locationCoordinate: CLLocationCoordinate2D? {
 
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
-                if case let .Location(locationInfo) = attachment {
+                if case let .location(locationInfo) = attachment {
                     return locationInfo.coordinate
                 }
             }
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let location = feed.location {
                 return location.coordinate?.locationCoordinate
             }
@@ -256,13 +295,16 @@ enum ConversationFeed {
     var openGraphInfo: OpenGraphInfoType? {
 
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             if let attachment = discoveredFeed.attachment {
-                if case let .URL(openGraphInfo) = attachment {
+                if case let .url(openGraphInfo) = attachment {
                     return openGraphInfo
                 }
             }
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return nil
+            }
             if let openGraphInfo = feed.openGraphInfo {
                 return openGraphInfo
             }
@@ -273,28 +315,47 @@ enum ConversationFeed {
 
     var attachments: [Attachment] {
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
 
             if let attachment = discoveredFeed.attachment {
-                if case let .Images(attachments) = attachment {
+                if case let .images(attachments) = attachment {
                     return attachmentFromDiscoveredAttachment(attachments)
                 }
             }
 
             return []
 
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return []
+            }
             return Array(feed.attachments)
         }
     }
 
-    var createdUnixTime: NSTimeInterval {
+    var createdUnixTime: TimeInterval {
         switch self {
-        case .DiscoveredFeedType(let discoveredFeed):
+        case .discoveredFeedType(let discoveredFeed):
             return discoveredFeed.createdUnixTime
-
-        case .FeedType(let feed):
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return Date().timeIntervalSince1970
+            }
             return feed.createdUnixTime
+        }
+    }
+
+    var timeString: String {
+        switch self {
+        case .discoveredFeedType(let discoveredFeed):
+            return discoveredFeed.timeString
+        case .feedType(let feed):
+            guard !feed.isInvalidated else {
+                return ""
+            }
+            let date = Date(timeIntervalSince1970: feed.createdUnixTime)
+            let timeString = Config.timeAgoAction?(date) ?? ""
+            return timeString
         }
     }
 }

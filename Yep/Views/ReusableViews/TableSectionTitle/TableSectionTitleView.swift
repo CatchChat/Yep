@@ -12,7 +12,7 @@ final class TableSectionTitleView: UITableViewHeaderFooterView {
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFontOfSize(14)
+        label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = UIColor(red: 0.502, green: 0.502, blue: 0.502, alpha: 1)
         return label
     }()
@@ -23,14 +23,14 @@ final class TableSectionTitleView: UITableViewHeaderFooterView {
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
-        let views: [String: AnyObject] = [
+        let views: [String: Any] = [
             "titleLabel": titleLabel,
         ]
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-20-[titleLabel]|", options: [], metrics: nil, views: views)
-        let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[titleLabel]|", options: [], metrics: nil, views: views)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-20-[titleLabel]|", options: [], metrics: nil, views: views)
+        let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[titleLabel]|", options: [], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(constraintsV)
+        NSLayoutConstraint.activate(constraintsH)
+        NSLayoutConstraint.activate(constraintsV)
     }
 }

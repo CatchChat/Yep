@@ -12,8 +12,8 @@ import Ruler
 
 final class ChatLeftTextURLCell: ChatLeftTextCell {
 
-    var openGraphURL: NSURL?
-    var tapOpenGraphURLAction: ((URL: NSURL) -> Void)?
+    var openGraphURL: URL?
+    var tapOpenGraphURLAction: ((_ URL: URL) -> Void)?
 
     lazy var feedURLContainerView: FeedURLContainerView = {
         let view = FeedURLContainerView(frame: CGRect(x: 0, y: 0, width: 200, height: 200))
@@ -25,7 +25,7 @@ final class ChatLeftTextURLCell: ChatLeftTextCell {
                 return
             }
 
-            self?.tapOpenGraphURLAction?(URL: URL)
+            self?.tapOpenGraphURLAction?(URL)
         }
 
         return view
@@ -41,7 +41,7 @@ final class ChatLeftTextURLCell: ChatLeftTextCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    override func configureWithMessage(message: Message, layoutCache: ChatTextCellLayoutCache) {
+    override func configureWithMessage(_ message: Message, layoutCache: ChatTextCellLayoutCache) {
 
         bottomGap = 100 + 10
 
@@ -50,14 +50,14 @@ final class ChatLeftTextURLCell: ChatLeftTextCell {
         UIView.setAnimationsEnabled(false); do {
             let minWidth: CGFloat = Ruler.iPhoneHorizontal(190, 220, 220).value
             let width = max(minWidth, textContentTextView.frame.width + 12 * 2 - 1)
-            let feedURLContainerViewFrame = CGRect(x: textContentTextView.frame.origin.x - 12 + 1, y: CGRectGetMaxY(textContentTextView.frame) + 8, width: width, height: 100)
+            let feedURLContainerViewFrame = CGRect(x: textContentTextView.frame.origin.x - 12 + 1, y: textContentTextView.frame.maxY + 8, width: width, height: 100)
             feedURLContainerView.frame = feedURLContainerViewFrame
         }
         UIView.setAnimationsEnabled(true)
 
         if let openGraphInfo = message.openGraphInfo {
             feedURLContainerView.configureWithOpenGraphInfoType(openGraphInfo)
-            openGraphURL = openGraphInfo.URL
+            openGraphURL = openGraphInfo.url
         }
     }
 }

@@ -19,9 +19,9 @@ final class FeedConversationCell: UITableViewCell {
 
     var conversation: Conversation!
 
-    private var hasUnreadMessages: Bool = false {
+    fileprivate var hasUnreadMessages: Bool = false {
         didSet {
-            redDotImageView.hidden = !hasUnreadMessages
+            redDotImageView.isHidden = !hasUnreadMessages
         }
     }
 
@@ -34,12 +34,12 @@ final class FeedConversationCell: UITableViewCell {
     override func prepareForReuse() {
         super.prepareForReuse()
         
-        mediaView.hidden = true
+        mediaView.isHidden = true
         
         mediaView.clearImages()
     }
 
-    func configureWithConversation(conversation: Conversation) {
+    func configureWithConversation(_ conversation: Conversation) {
 
         self.conversation = conversation
 
@@ -53,15 +53,14 @@ final class FeedConversationCell: UITableViewCell {
 
         nameLabel.text = feed.body
 
-        let attachments = feed.attachments.map({
-            //DiscoveredAttachment(kind: AttachmentKind(rawValue: $0.kind)!, metadata: $0.metadata, URLString: $0.URLString)
+        let attachments: [DiscoveredAttachment] = feed.attachments.map({
             DiscoveredAttachment(metadata: $0.metadata, URLString: $0.URLString, image: nil)
         })
         mediaView.setImagesWithAttachments(attachments)
 
         if let latestValidMessage = conversation.latestValidMessage {
 
-            if let mediaType = MessageMediaType(rawValue: latestValidMessage.mediaType), placeholder = mediaType.placeholder {
+            if let mediaType = MessageMediaType(rawValue: latestValidMessage.mediaType), let placeholder = mediaType.placeholder {
                 self.chatLabel.text = placeholder
 
             } else {
@@ -71,7 +70,7 @@ final class FeedConversationCell: UITableViewCell {
 
                     let attributedString = NSMutableAttributedString(string: string)
                     let mentionedYouRange = NSMakeRange(0, (mentionedYouString as NSString).length)
-                    attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.redColor(), range: mentionedYouRange)
+                    attributedString.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: mentionedYouRange)
 
                     self.chatLabel.attributedText = attributedString
 
@@ -81,7 +80,7 @@ final class FeedConversationCell: UITableViewCell {
             }
             
         } else {
-            self.chatLabel.text = NSLocalizedString("No messages yet.", comment: "")
+            self.chatLabel.text = String.trans_promptNoMessages
         }
     }
 }

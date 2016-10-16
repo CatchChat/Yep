@@ -8,7 +8,6 @@
 
 import UIKit
 import YepKit
-import YepNetworking
 import MonkeyKing
 import Navi
 
@@ -18,31 +17,31 @@ final class SocialWorkGithubViewController: BaseViewController {
     var profileUser: ProfileUser?
     var githubWork: GithubWork?
 
-    var afterGetGithubWork: (GithubWork -> Void)?
+    var afterGetGithubWork: ((GithubWork) -> Void)?
 
-    private lazy var shareButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(barButtonSystemItem: .Action, target: self, action: #selector(SocialWorkGithubViewController.share(_:)))
+    fileprivate lazy var shareButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(SocialWorkGithubViewController.share(_:)))
         return button
     }()
 
-    @IBOutlet private weak var infoView: UIView!
+    @IBOutlet fileprivate weak var infoView: UIView!
 
-    @IBOutlet private weak var avatarImageView: UIImageView!
-    @IBOutlet private weak var followersCountLabel: UILabel!
-    @IBOutlet private weak var starsCountLabel: UILabel!
-    @IBOutlet private weak var followingCountLabel: UILabel!
+    @IBOutlet fileprivate weak var avatarImageView: UIImageView!
+    @IBOutlet fileprivate weak var followersCountLabel: UILabel!
+    @IBOutlet fileprivate weak var starsCountLabel: UILabel!
+    @IBOutlet fileprivate weak var followingCountLabel: UILabel!
 
-    @IBOutlet private weak var githubTableView: UITableView!
+    @IBOutlet fileprivate weak var githubTableView: UITableView!
 
-    private var githubUser: GithubWork.User? {
+    fileprivate var githubUser: GithubWork.User? {
         didSet {
             if let user = githubUser {
-                shareButton.enabled = true
+                shareButton.isEnabled = true
 
-                infoView.hidden = false
+                infoView.isHidden = false
 
                 let avatarSize = avatarImageView.bounds.width
-                let avatarStyle: AvatarStyle = .RoundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
+                let avatarStyle: AvatarStyle = .roundedRectangle(size: CGSize(width: avatarSize, height: avatarSize), cornerRadius: avatarSize * 0.5, borderWidth: 0)
                 let plainAvatar = PlainAvatar(avatarURLString: user.avatarURLString, avatarStyle: avatarStyle)
                 avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
 
@@ -52,10 +51,10 @@ final class SocialWorkGithubViewController: BaseViewController {
         }
     }
 
-    private var githubRepos = Array<GithubWork.Repo>() {
+    fileprivate var githubRepos = Array<GithubWork.Repo>() {
         didSet {
             let repos = githubRepos
-            let starsCount = repos.reduce(0, combine: { (result, repo) -> Int in
+            let starsCount = repos.reduce(0, { (result, repo) -> Int in
                 result + repo.stargazersCount
             })
 
@@ -63,11 +62,6 @@ final class SocialWorkGithubViewController: BaseViewController {
 
             updateGithubTableView()
         }
-    }
-    
-    override func viewWillAppear(animated: Bool) {
-        
-        super.viewWillAppear(animated)
     }
 
     override func viewDidLoad() {
@@ -82,18 +76,18 @@ final class SocialWorkGithubViewController: BaseViewController {
             title = "GitHub"
         }
 
-        shareButton.enabled = false
+        shareButton.isEnabled = false
         navigationItem.rightBarButtonItem = shareButton
 
-        githubTableView.registerNibOf(GithubRepoCell)
+        githubTableView.registerNibOf(GithubRepoCell.self)
 
         githubTableView.rowHeight = 100
         githubTableView.contentInset.bottom = YepConfig.SocialWorkGithub.Repo.rightEdgeInset - 10
         
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
-                    githubTableView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                if recognizer.isKind(of: UIScreenEdgePanGestureRecognizer.self) {
+                    githubTableView.panGestureRecognizer.require(toFail: recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
                 }
@@ -107,32 +101,19 @@ final class SocialWorkGithubViewController: BaseViewController {
             githubRepos = githubWork.repos
 
         } else {
-            var userID: String?
+            if let userID = profileUser?.userID {
 
-            if let profileUser = profileUser {
-                switch profileUser {
-                case .DiscoveredUserType(let discoveredUser):
-                    userID = discoveredUser.id
-                case .UserType(let user):
-                    userID = user.userID
-                }
-            }
-
-            if let userID = userID {
-
-                githubWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) -> Void in
-                    defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
+                githubWorkOfUserWithUserID(userID, failureHandler: { [weak self] (reason, errorMessage) in
                     YepAlert.alertSorry(message: NSLocalizedString("Yep can't reach GitHub.\nWe blame GFW!", comment: ""), inViewController: self)
 
                 }, completion: { githubWork in
-                    println("githubWork: \(githubWork)")
+                    //println("githubWork: \(githubWork)")
 
-                    SafeDispatch.async {
-                        self.githubUser = githubWork.user
-                        self.githubRepos = githubWork.repos
+                    SafeDispatch.async { [weak self] in
+                        self?.githubUser = githubWork.user
+                        self?.githubRepos = githubWork.repos
 
-                        self.afterGetGithubWork?(githubWork)
+                        self?.afterGetGithubWork?(githubWork)
                     }
                 })
             }
@@ -141,76 +122,51 @@ final class SocialWorkGithubViewController: BaseViewController {
 
     // MARK: Actions
 
-    private func updateGithubTableView() {
-        SafeDispatch.async {
-            self.githubTableView.reloadData()
+    fileprivate func updateGithubTableView() {
+
+        SafeDispatch.async { [weak self] in
+            self?.githubTableView.reloadData()
         }
     }
 
-    @objc private func share(sender: AnyObject) {
+    @objc fileprivate func share(_ sender: AnyObject) {
 
-        if let user = githubUser, githubURL = NSURL(string: user.htmlURLString) {
+        guard let githubUser = githubUser else { return }
+        guard let githubURL = URL(string: githubUser.htmlURLString) else { return }
 
-            var title: String?
-            if let githubUser = githubUser {
-                title = String(format: NSLocalizedString("whosGitHub%@", comment: ""), githubUser.loginName)
+        let title = String(format: NSLocalizedString("whosGitHub%@", comment: ""), githubUser.loginName)
+
+        var thumbnail: UIImage?
+        if let image = avatarImageView.image {
+            thumbnail = image
+
+        } else {
+            if let socialAccount = socialAccount {
+                thumbnail = UIImage(named: socialAccount.iconName)
             }
-
-            var thumbnail: UIImage?
-            if let image = avatarImageView.image {
-                thumbnail = image
-
-            } else {
-                if let socialAccount = socialAccount {
-                    thumbnail = UIImage(named: socialAccount.iconName)
-                }
-            }
-
-            let info = MonkeyKing.Info(
-                title: title,
-                description: nil,
-                thumbnail: thumbnail,
-                media: .URL(githubURL)
-            )
-
-            let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
-
-            let weChatSessionActivity = WeChatActivity(
-                type: .Session,
-                message: sessionMessage,
-                finish: { success in
-                    println("share GitHub to WeChat Session success: \(success)")
-                }
-            )
-
-            let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: info))
-
-            let weChatTimelineActivity = WeChatActivity(
-                type: .Timeline,
-                message: timelineMessage,
-                finish: { success in
-                    println("share GitHub to WeChat Timeline success: \(success)")
-                }
-            )
-
-            let activityViewController = UIActivityViewController(activityItems: [githubURL], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-            activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
-            presentViewController(activityViewController, animated: true, completion: nil)
         }
+
+        let info = MonkeyKing.Info(
+            title: title,
+            description: nil,
+            thumbnail: thumbnail,
+            media: .url(githubURL)
+        )
+        self.yep_share(info: info, defaultActivityItem: githubURL)
     }
 }
 
 extension SocialWorkGithubViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 1
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return githubRepos.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell: GithubRepoCell = tableView.dequeueReusableCell()
 
@@ -223,15 +179,15 @@ extension SocialWorkGithubViewController: UITableViewDataSource, UITableViewDele
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         let repo = githubRepos[indexPath.row]
 
-        if let URL = NSURL(string: repo.htmlURLString) {
+        if let URL = URL(string: repo.htmlURLString) {
             yep_openURL(URL)
         }
     }

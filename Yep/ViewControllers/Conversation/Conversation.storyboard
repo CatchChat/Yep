@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
@@ -26,34 +26,8 @@
                                     <outlet property="delegate" destination="lzL-dF-yCi" id="2Pz-q9-Qk1"/>
                                 </connections>
                             </collectionView>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="H35-sK-viT">
-                                <rect key="frame" x="0.0" y="151" width="320" height="100"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Swipe Up to Cancel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="erl-b0-CMQ">
-                                        <rect key="frame" x="94" y="62" width="133" height="18"/>
-                                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
-                                        <color key="textColor" red="1" green="0.0" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="swipe_up" translatesAutoresizingMaskIntoConstraints="NO" id="WVE-v0-1iA">
-                                        <rect key="frame" x="148" y="44" width="25" height="8"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="8" id="Q0N-bH-k2Y"/>
-                                            <constraint firstAttribute="width" constant="25" id="gpR-7R-3D5"/>
-                                        </constraints>
-                                    </imageView>
-                                </subviews>
-                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="centerX" secondItem="erl-b0-CMQ" secondAttribute="centerX" id="0TX-As-6Xh"/>
-                                    <constraint firstAttribute="height" constant="100" id="CcN-wo-olv"/>
-                                    <constraint firstItem="erl-b0-CMQ" firstAttribute="top" secondItem="WVE-v0-1iA" secondAttribute="bottom" constant="10" id="LIf-zm-2gI"/>
-                                    <constraint firstAttribute="bottom" secondItem="erl-b0-CMQ" secondAttribute="bottom" constant="20" id="b9I-vI-lg3"/>
-                                    <constraint firstItem="WVE-v0-1iA" firstAttribute="centerX" secondItem="erl-b0-CMQ" secondAttribute="centerX" id="bT3-2i-iB2"/>
-                                </constraints>
-                            </view>
-                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Uh-E6-Vss" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="271" width="320" height="49"/>
+                            <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="9Uh-E6-Vss" customClass="MessageToolbar" customModule="Yep" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="436" width="320" height="44"/>
                                 <items/>
                             </toolbar>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="fP4-ji-yWc">
@@ -64,16 +38,13 @@
                         <constraints>
                             <constraint firstItem="fP4-ji-yWc" firstAttribute="top" secondItem="3yg-SJ-CR8" secondAttribute="bottom" constant="120" id="7aa-Xl-xEf"/>
                             <constraint firstItem="9Uh-E6-Vss" firstAttribute="leading" secondItem="846-Dd-AxI" secondAttribute="leading" id="DdG-F5-CnB"/>
-                            <constraint firstItem="H35-sK-viT" firstAttribute="centerX" secondItem="9Uh-E6-Vss" secondAttribute="centerX" id="GFP-xY-clx"/>
                             <constraint firstAttribute="bottom" secondItem="Eug-oZ-gjQ" secondAttribute="bottom" id="JeW-Ct-n2U"/>
                             <constraint firstItem="Eug-oZ-gjQ" firstAttribute="leading" secondItem="846-Dd-AxI" secondAttribute="leading" id="OTQ-AK-b9I"/>
                             <constraint firstItem="fP4-ji-yWc" firstAttribute="centerX" secondItem="846-Dd-AxI" secondAttribute="centerX" id="QB5-lf-ufW"/>
                             <constraint firstItem="Eug-oZ-gjQ" firstAttribute="top" secondItem="846-Dd-AxI" secondAttribute="top" id="Qfi-nM-s5U"/>
-                            <constraint firstItem="H35-sK-viT" firstAttribute="width" secondItem="9Uh-E6-Vss" secondAttribute="width" id="Thq-w4-dFj"/>
-                            <constraint firstItem="9Uh-E6-Vss" firstAttribute="top" secondItem="H35-sK-viT" secondAttribute="bottom" constant="20" id="XB3-oz-ltH"/>
                             <constraint firstAttribute="trailing" secondItem="9Uh-E6-Vss" secondAttribute="trailing" id="sm6-8A-Lpk"/>
                             <constraint firstItem="9Uh-E6-Vss" firstAttribute="top" relation="greaterThanOrEqual" secondItem="3yg-SJ-CR8" secondAttribute="bottom" id="twv-t0-rmT"/>
-                            <constraint firstAttribute="bottom" secondItem="9Uh-E6-Vss" secondAttribute="bottom" constant="160" id="xp5-FH-KYE"/>
+                            <constraint firstAttribute="bottom" secondItem="9Uh-E6-Vss" secondAttribute="bottom" id="xp5-FH-KYE"/>
                             <constraint firstAttribute="trailing" secondItem="Eug-oZ-gjQ" secondAttribute="trailing" id="zUR-03-3Fr"/>
                         </constraints>
                     </view>
@@ -83,8 +54,6 @@
                         <outlet property="conversationCollectionView" destination="Eug-oZ-gjQ" id="Cvy-ke-csl"/>
                         <outlet property="messageToolbar" destination="9Uh-E6-Vss" id="w0M-gu-8sa"/>
                         <outlet property="messageToolbarBottomConstraint" destination="xp5-FH-KYE" id="X0A-gY-iUv"/>
-                        <outlet property="swipeUpPromptLabel" destination="erl-b0-CMQ" id="p87-LW-YyH"/>
-                        <outlet property="swipeUpView" destination="H35-sK-viT" id="Xkk-yV-EwB"/>
                         <segue destination="f8Q-Nw-run" kind="presentation" identifier="presentPickLocation" id="axj-on-nR1"/>
                         <segue destination="1y0-IN-47w" kind="show" identifier="showProfileFromFeedView" id="eCp-94-guS"/>
                         <segue destination="bhi-Zn-U0N" kind="show" identifier="showProfile" id="HJ6-Sc-tfw"/>
@@ -146,7 +115,4 @@
             <point key="canvasLocation" x="80" y="1867"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="swipe_up" width="21" height="6"/>
-    </resources>
 </document>

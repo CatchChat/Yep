@@ -31,7 +31,7 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
         nameLabel.text = "Blog"
         blogLabel.text = nil
 
-        accessoryImageView.hidden = true
+        accessoryImageView.isHidden = true
     }
 
     var blogString: String? {
@@ -45,19 +45,19 @@ class ProfileSocialAccountBlogCell: UICollectionViewCell {
                 nameLabel.textColor = UIColor.yepTintColor()
                 blogLabel.textColor = SocialAccount.disabledColor
 
-                accessoryImageView.hidden = false
+                accessoryImageView.isHidden = false
 
             } else {
                 iconImageView.tintColor = SocialAccount.disabledColor
                 nameLabel.textColor = SocialAccount.disabledColor
                 blogLabel.textColor = SocialAccount.disabledColor
                 
-                accessoryImageView.hidden = true
+                accessoryImageView.isHidden = true
             }
         }
     }
 
-    func configureWithProfileUser(profileUser: ProfileUser?) {
+    func configureWithProfileUser(_ profileUser: ProfileUser?) {
 
         if profileUser?.isMe ?? false {
             blogString = YepUserDefaults.blogString

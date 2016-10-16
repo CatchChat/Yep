@@ -10,87 +10,82 @@ import UIKit
 import Ruler
 import YepKit
 
-@IBDesignable
 final class MessageToolbar: UIToolbar {
     
     var lastToolbarFrame: CGRect?
 
     var messageTextViewHeightConstraint: NSLayoutConstraint!
 
-    let messageTextAttributes = [NSFontAttributeName: UIFont.systemFontOfSize(15)]
+    let messageTextAttributes = [NSFontAttributeName: UIFont.systemFont(ofSize: 15)]
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
         finishNotifyTypingTimer?.invalidate()
-    }
-
-    struct Notification {
-        static let updateDraft = "UpdateDraftOfConversation"
     }
 
     var conversation: Conversation? {
         willSet {
             if let _ = newValue {
-                NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(MessageToolbar.updateDraft(_:)), name: Notification.updateDraft, object: nil)
+                NotificationCenter.default.addObserver(self, selector: #selector(MessageToolbar.updateDraft(_:)), name: YepConfig.NotificationName.updateDraftOfConversation, object: nil)
             }
         }
     }
 
-    var stateTransitionAction: ((messageToolbar: MessageToolbar, previousState: MessageToolbarState, currentState: MessageToolbarState) -> Void)?
+    var stateTransitionAction: ((_ messageToolbar: MessageToolbar, _ previousState: MessageToolbarState, _ currentState: MessageToolbarState) -> Void)?
 
-    var previousState: MessageToolbarState = .Default
-    var state: MessageToolbarState = .Default {
+    var previousState: MessageToolbarState = .default
+    var state: MessageToolbarState = .default {
         willSet {
             updateHeightOfMessageTextView()
 
             previousState = state
 
             if let action = stateTransitionAction {
-                action(messageToolbar: self, previousState: previousState, currentState: newValue)
+                action(self, previousState, newValue)
             }
 
             switch newValue {
-            case .Default:
-                moreButton.hidden = false
-                sendButton.hidden = true
+            case .default:
+                moreButton.isHidden = false
+                sendButton.isHidden = true
 
-                messageTextView.hidden = false
-                voiceRecordButton.hidden = true
+                messageTextView.isHidden = false
+                voiceRecordButton.isHidden = true
 
-                micButton.setImage(UIImage.yep_itemMic, forState: .Normal)
-                moreButton.setImage(UIImage.yep_itemMore, forState: .Normal)
+                micButton.setImage(UIImage.yep_itemMic, for: .normal)
+                moreButton.setImage(UIImage.yep_itemMore, for: .normal)
 
                 micButton.tintColor = UIColor.messageToolBarColor()
                 moreButton.tintColor = UIColor.messageToolBarColor()
 
                 hideVoiceButtonAnimation()
 
-            case .BeginTextInput:
-                moreButton.hidden = false
-                sendButton.hidden = true
+            case .beginTextInput:
+                moreButton.isHidden = false
+                sendButton.isHidden = true
 
-                moreButton.setImage(UIImage.yep_itemMore, forState: .Normal)
+                moreButton.setImage(UIImage.yep_itemMore, for: .normal)
 
-            case .TextInputing:
-                moreButton.hidden = true
-                sendButton.hidden = false
+            case .textInputing:
+                moreButton.isHidden = true
+                sendButton.isHidden = false
 
-                messageTextView.hidden = false
-                voiceRecordButton.hidden = true
+                messageTextView.isHidden = false
+                voiceRecordButton.isHidden = true
                 
                 notifyTyping()
 
-            case .VoiceRecord:
-                moreButton.hidden = false
-                sendButton.hidden = true
+            case .voiceRecord:
+                moreButton.isHidden = false
+                sendButton.isHidden = true
                 
-                messageTextView.hidden = true
-                voiceRecordButton.hidden = false
+                messageTextView.isHidden = true
+                voiceRecordButton.isHidden = false
 
                 messageTextView.text = ""
 
-                micButton.setImage(UIImage.yep_iconKeyboard, forState: .Normal)
-                moreButton.setImage(UIImage.yep_itemMore, forState: .Normal)
+                micButton.setImage(UIImage.yep_iconKeyboard, for: .normal)
+                moreButton.setImage(UIImage.yep_itemMore, for: .normal)
 
                 micButton.tintColor = UIColor.messageToolBarColor()
                 moreButton.tintColor = UIColor.messageToolBarColor()
@@ -101,7 +96,7 @@ final class MessageToolbar: UIToolbar {
 
         didSet {
             switch state {
-            case .BeginTextInput, .TextInputing:
+            case .beginTextInput, .textInputing:
                 // 由用户手动触发键盘弹出，回复时要注意
                 break
             default:
@@ -114,25 +109,25 @@ final class MessageToolbar: UIToolbar {
 
     var needDetectMention = false
     var initMentionUserAction: (() -> Void)?
-    var tryMentionUserAction: ((usernamePrefix: String) -> Void)?
+    var tryMentionUserAction: ((_ usernamePrefix: String) -> Void)?
     var giveUpMentionUserAction: (() -> Void)?
 
-    var textSendAction: ((messageToolBar: MessageToolbar) -> Void)?
+    var textSendAction: ((_ messageToolBar: MessageToolbar) -> Void)?
 
     var moreMessageTypesAction: (() -> Void)?
 
-    var voiceRecordBeginAction: ((messageToolBar: MessageToolbar) -> Void)?
-    var voiceRecordEndAction: ((messageToolBar: MessageToolbar) -> Void)?
-    var voiceRecordCancelAction: ((messageToolBar: MessageToolbar) -> Void)?
+    var voiceRecordBeginAction: ((_ messageToolBar: MessageToolbar) -> Void)?
+    var voiceRecordEndAction: ((_ messageToolBar: MessageToolbar) -> Void)?
+    var voiceRecordCancelAction: ((_ messageToolBar: MessageToolbar) -> Void)?
 
-    var voiceRecordingUpdateUIAction: ((topOffset: CGFloat) -> Void)?
+    var voiceRecordingUpdateUIAction: ((_ topOffset: CGFloat) -> Void)?
     
     lazy var micButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage.yep_itemMic, forState: .Normal)
+        button.setImage(UIImage.yep_itemMic, for: .normal)
         button.tintColor = UIColor.messageToolBarColor()
-        button.tintAdjustmentMode = .Normal
-        button.addTarget(self, action: #selector(MessageToolbar.toggleRecordVoice), forControlEvents: UIControlEvents.TouchUpInside)
+        button.tintAdjustmentMode = .normal
+        button.addTarget(self, action: #selector(MessageToolbar.toggleRecordVoice), for: UIControlEvents.touchUpInside)
         return button
     }()
 
@@ -141,22 +136,22 @@ final class MessageToolbar: UIToolbar {
     lazy var messageTextView: UITextView = {
         let textView = UITextView()
         textView.textContainerInset = UIEdgeInsets(top: 8, left: 4, bottom: 8, right: 4)
-        textView.font = UIFont.systemFontOfSize(15)
+        textView.font = UIFont.systemFont(ofSize: 15)
         textView.layer.borderWidth = 1
-        textView.layer.borderColor = UIColor.yepMessageToolbarSubviewBorderColor().CGColor
+        textView.layer.borderColor = UIColor.yepMessageToolbarSubviewBorderColor().cgColor
         textView.layer.cornerRadius = self.normalCornerRadius
         textView.delegate = self
-        textView.scrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
+        textView.isScrollEnabled = false // 重要：若没有它，换行时可能有 top inset 不正确
         return textView
     }()
 
     lazy var voiceRecordButton: VoiceRecordButton = {
         let button = VoiceRecordButton()
 
-        button.backgroundColor = UIColor.whiteColor()
+        button.backgroundColor = UIColor.white
         button.layer.cornerRadius = self.normalCornerRadius
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.yepMessageToolbarSubviewBorderColor().CGColor
+        button.layer.borderColor = UIColor.yepMessageToolbarSubviewBorderColor().cgColor
         button.tintColor = UIColor.messageToolBarHighlightColor()
 
         button.touchesBegin = { [weak self] in
@@ -176,7 +171,7 @@ final class MessageToolbar: UIToolbar {
         }
 
         button.checkAbort = { [weak self] topOffset in
-            self?.voiceRecordingUpdateUIAction?(topOffset: topOffset)
+            self?.voiceRecordingUpdateUIAction?(topOffset)
 
             return topOffset > 40
         }
@@ -186,24 +181,24 @@ final class MessageToolbar: UIToolbar {
 
     lazy var moreButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage.yep_itemMore, forState: .Normal)
+        button.setImage(UIImage.yep_itemMore, for: .normal)
         button.tintColor = UIColor.messageToolBarColor()
-        button.tintAdjustmentMode = .Normal
-        button.addTarget(self, action: #selector(MessageToolbar.moreMessageTypes), forControlEvents: UIControlEvents.TouchUpInside)
+        button.tintAdjustmentMode = .normal
+        button.addTarget(self, action: #selector(MessageToolbar.moreMessageTypes), for: UIControlEvents.touchUpInside)
         return button
     }()
 
     lazy var sendButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Send", comment: ""), forState: .Normal)
+        button.setTitle(NSLocalizedString("Send", comment: ""), for: .normal)
         button.tintColor = UIColor.messageToolBarHighlightColor()
-        button.tintAdjustmentMode = .Normal
-        button.setTitleColor(UIColor.messageToolBarHighlightColor(), forState: .Normal)
-        button.addTarget(self, action: #selector(MessageToolbar.trySendTextMessage), forControlEvents: UIControlEvents.TouchUpInside)
+        button.tintAdjustmentMode = .normal
+        button.setTitleColor(UIColor.messageToolBarHighlightColor(), for: .normal)
+        button.addTarget(self, action: #selector(MessageToolbar.trySendTextMessage), for: UIControlEvents.touchUpInside)
         return button
     }()
 
-    private var searchTask: CancelableTask?
+    fileprivate var searchTask: CancelableTask?
 
     // MARK: UI
     
@@ -212,7 +207,7 @@ final class MessageToolbar: UIToolbar {
         
         makeUI()
 
-        state = .Default
+        state = .default
     }
 
     var messageTextViewMinHeight: CGFloat {
@@ -237,7 +232,7 @@ final class MessageToolbar: UIToolbar {
         self.addSubview(sendButton)
         sendButton.translatesAutoresizingMaskIntoConstraints = false
 
-        let viewsDictionary: [String: AnyObject] = [
+        let views: [String: Any] = [
             "moreButton": moreButton,
             "messageTextView": messageTextView,
             "micButton": micButton,
@@ -246,46 +241,46 @@ final class MessageToolbar: UIToolbar {
         ]
 
         let buttonBottom: CGFloat = 8
-        let constraintsV1 = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=0)-[micButton]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: viewsDictionary)
-        let constraintsV2 = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=0)-[moreButton(==micButton)]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: viewsDictionary)
-        let constraintsV3 = NSLayoutConstraint.constraintsWithVisualFormat("V:|-(>=0)-[sendButton(==micButton)]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: viewsDictionary)
+        let constraintsV1 = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=0)-[micButton]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: views)
+        let constraintsV2 = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=0)-[moreButton(==micButton)]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: views)
+        let constraintsV3 = NSLayoutConstraint.constraints(withVisualFormat: "V:|-(>=0)-[sendButton(==micButton)]-(bottom)-|", options: [], metrics: ["bottom": buttonBottom], views: views)
 
-        let messageTextViewConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-7-[messageTextView]-8-|", options: [], metrics: nil, views: viewsDictionary)
+        let messageTextViewConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-7-[messageTextView]-8-|", options: [], metrics: nil, views: views)
 
         println("messageTextViewMinHeight: \(messageTextViewMinHeight)")
-        messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .Height, relatedBy: .Equal, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: messageTextViewMinHeight)
+        messageTextViewHeightConstraint = NSLayoutConstraint(item: messageTextView, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: messageTextViewMinHeight)
         messageTextViewHeightConstraint.priority = UILayoutPriorityDefaultHigh
 
-        let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton(48)][messageTextView][moreButton(==micButton)]|", options: [], metrics: nil, views: viewsDictionary)
+        let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[micButton(48)][messageTextView][moreButton(==micButton)]|", options: [], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints(constraintsV1)
-        NSLayoutConstraint.activateConstraints(constraintsV2)
-        NSLayoutConstraint.activateConstraints(constraintsV3)
-        NSLayoutConstraint.activateConstraints(constraintsH)
-        NSLayoutConstraint.activateConstraints(messageTextViewConstraintsV)
-        NSLayoutConstraint.activateConstraints([messageTextViewHeightConstraint])
+        NSLayoutConstraint.activate(constraintsV1)
+        NSLayoutConstraint.activate(constraintsV2)
+        NSLayoutConstraint.activate(constraintsV3)
+        NSLayoutConstraint.activate(constraintsH)
+        NSLayoutConstraint.activate(messageTextViewConstraintsV)
+        NSLayoutConstraint.activate([messageTextViewHeightConstraint])
 
-        let sendButtonConstraintCenterY = NSLayoutConstraint(item: sendButton, attribute: NSLayoutAttribute.CenterY, relatedBy: NSLayoutRelation.Equal, toItem: micButton, attribute: NSLayoutAttribute.CenterY, multiplier: 1, constant: 0)
+        let sendButtonConstraintCenterY = NSLayoutConstraint(item: sendButton, attribute: .centerY, relatedBy: .equal, toItem: micButton, attribute: .centerY, multiplier: 1, constant: 0)
 
-        let sendButtonConstraintHeight = NSLayoutConstraint(item: sendButton, attribute: NSLayoutAttribute.Height, relatedBy: NSLayoutRelation.Equal, toItem: micButton, attribute: NSLayoutAttribute.Height, multiplier: 1, constant: 0)
+        let sendButtonConstraintHeight = NSLayoutConstraint(item: sendButton, attribute: .height, relatedBy: .equal, toItem: micButton, attribute: .height, multiplier: 1, constant: 0)
 
-        let sendButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:[messageTextView][sendButton(==moreButton)]|", options: [], metrics: nil, views: viewsDictionary)
+        let sendButtonConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:[messageTextView][sendButton(==moreButton)]|", options: [], metrics: nil, views: views)
 
-        NSLayoutConstraint.activateConstraints([sendButtonConstraintCenterY])
-        NSLayoutConstraint.activateConstraints([sendButtonConstraintHeight])
-        NSLayoutConstraint.activateConstraints(sendButtonConstraintsH)
+        NSLayoutConstraint.activate([sendButtonConstraintCenterY])
+        NSLayoutConstraint.activate([sendButtonConstraintHeight])
+        NSLayoutConstraint.activate(sendButtonConstraintsH)
 
         // void record button
-        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|-7-[voiceRecordButton]-8-|", options: [], metrics: nil, views: viewsDictionary)
+        let voiceRecordButtonConstraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|-7-[voiceRecordButton]-8-|", options: [], metrics: nil, views: views)
 
-        let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[micButton][voiceRecordButton][moreButton]|", options: [], metrics: nil, views: viewsDictionary)
+        let voiceRecordButtonConstraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[micButton][voiceRecordButton][moreButton]|", options: [], metrics: nil, views: views)
 
-        let voiceRecordButtonHeightConstraint = NSLayoutConstraint(item: voiceRecordButton, attribute: .Height, relatedBy: .GreaterThanOrEqual, toItem: nil, attribute: .NotAnAttribute, multiplier: 1, constant: messageTextViewMinHeight)
+        let voiceRecordButtonHeightConstraint = NSLayoutConstraint(item: voiceRecordButton, attribute: .height, relatedBy: .greaterThanOrEqual, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: messageTextViewMinHeight)
         voiceRecordButtonHeightConstraint.priority = UILayoutPriorityDefaultHigh
 
-        NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsV)
-        NSLayoutConstraint.activateConstraints(voiceRecordButtonConstraintsH)
-        NSLayoutConstraint.activateConstraints([voiceRecordButtonHeightConstraint])
+        NSLayoutConstraint.activate(voiceRecordButtonConstraintsV)
+        NSLayoutConstraint.activate(voiceRecordButtonConstraintsH)
+        NSLayoutConstraint.activate([voiceRecordButtonHeightConstraint])
     }
 
     // MARK: Animations
@@ -300,12 +295,12 @@ final class MessageToolbar: UIToolbar {
         animation.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
         animation.repeatCount = 0
 
-        voiceRecordButton.layer.addAnimation(animation, forKey: "cornerRadius")
+        voiceRecordButton.layer.add(animation, forKey: "cornerRadius")
         
         voiceRecordButton.layer.cornerRadius = newCornerRadius
         messageTextView.layer.cornerRadius = newCornerRadius
 
-        UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
             if let strongSelf = self {
                 strongSelf.messageTextViewHeightConstraint.constant = strongSelf.messageTextViewMinHeight
                 strongSelf.layoutIfNeeded()
@@ -323,7 +318,7 @@ final class MessageToolbar: UIToolbar {
         
         animation.timingFunction = CAMediaTimingFunction(name: "easeInEaseOut")
 
-        messageTextView.layer.addAnimation(animation, forKey: "cornerRadius")
+        messageTextView.layer.add(animation, forKey: "cornerRadius")
 
         messageTextView.layer.cornerRadius = normalCornerRadius
         voiceRecordButton.layer.cornerRadius = normalCornerRadius
@@ -333,7 +328,7 @@ final class MessageToolbar: UIToolbar {
 
     func updateHeightOfMessageTextView() {
 
-        let size = messageTextView.sizeThatFits(CGSize(width: CGRectGetWidth(messageTextView.bounds), height: CGFloat(FLT_MAX)))
+        let size = messageTextView.sizeThatFits(CGSize(width: messageTextView.bounds.width, height: CGFloat(FLT_MAX)))
 
         let newHeight = size.height
         let limitedNewHeight = min(Ruler.iPhoneVertical(60, 80, 100, 100).value, newHeight)
@@ -342,7 +337,7 @@ final class MessageToolbar: UIToolbar {
 
         if newHeight != messageTextViewHeightConstraint.constant {
 
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                 self?.messageTextViewHeightConstraint.constant = limitedNewHeight
                 self?.layoutIfNeeded()
 
@@ -350,7 +345,7 @@ final class MessageToolbar: UIToolbar {
                 // hack for scrollEnabled when input lots of text
                 if finished, let strongSelf = self {
                     let enabled = newHeight > strongSelf.messageTextView.bounds.height
-                    strongSelf.messageTextView.scrollEnabled = enabled
+                    strongSelf.messageTextView.isScrollEnabled = enabled
                 }
             })
         }
@@ -358,9 +353,9 @@ final class MessageToolbar: UIToolbar {
 
     // MARK: Actions
 
-    func updateDraft(notification: NSNotification) {
+    func updateDraft(_ notification: Notification) {
 
-        guard let conversation = conversation where !conversation.invalidated, let realm = conversation.realm else {
+        guard let conversation = conversation, !conversation.isInvalidated, let realm = conversation.realm else {
             return
         }
 
@@ -388,17 +383,17 @@ final class MessageToolbar: UIToolbar {
     func trySendTextMessage() {
 
         if let textSendAction = textSendAction {
-            textSendAction(messageToolBar: self)
+            textSendAction(self)
         }
     }
 
     func toggleRecordVoice() {
 
-        if state == .VoiceRecord {
-            state = .Default
+        if state == .voiceRecord {
+            state = .default
 
         } else {
-            state = .VoiceRecord
+            state = .voiceRecord
         }
     }
 
@@ -406,9 +401,9 @@ final class MessageToolbar: UIToolbar {
         moreMessageTypesAction?()
     }
 
-    private var mentionUsernameRange: Range<String.Index>?
+    fileprivate var mentionUsernameRange: Range<String.Index>?
 
-    func replaceMentionedUsername(username: String) {
+    func replaceMentionedUsername(_ username: String) {
 
         defer {
             mentionUsernameRange = nil
@@ -418,12 +413,14 @@ final class MessageToolbar: UIToolbar {
             return
         }
 
+        guard var text = messageTextView.text else {
+            return
+        }
+
         let mentionUsernameWithSpaceSuffix = "@" + username + " "
 
-        var text = messageTextView.text
-
         if let range = mentionUsernameRange {
-            text.replaceRange(range, with: mentionUsernameWithSpaceSuffix)
+            text.replaceSubrange(range, with: mentionUsernameWithSpaceSuffix)
 
             messageTextView.text = text
 
@@ -433,31 +430,31 @@ final class MessageToolbar: UIToolbar {
 
     func tryVoiceRecordBegin() {
 
-        voiceRecordButton.state = .Touched
+        voiceRecordButton.state = .touched
 
-        voiceRecordBeginAction?(messageToolBar: self)
+        voiceRecordBeginAction?(self)
     }
     
     func tryVoiceRecordEnd() {
 
-        voiceRecordButton.state = .Default
+        voiceRecordButton.state = .default
 
-        voiceRecordEndAction?(messageToolBar: self)
+        voiceRecordEndAction?(self)
     }
     
     func tryVoiceRecordCancel() {
 
-        voiceRecordButton.state = .Default
+        voiceRecordButton.state = .default
 
-        voiceRecordCancelAction?(messageToolBar: self)
+        voiceRecordCancelAction?(self)
     }
     
     // Notify typing
 
-    private var finishNotifyTypingTimer: NSTimer?
-    private var inNotifyTyping: Bool = false
+    fileprivate var finishNotifyTypingTimer: Timer?
+    fileprivate var inNotifyTyping: Bool = false
     
-    private func notifyTyping() {
+    fileprivate func notifyTyping() {
 
         if inNotifyTyping {
             //println("inNotifyTyping")
@@ -469,11 +466,11 @@ final class MessageToolbar: UIToolbar {
             //println("notifyTypingAction")
             notifyTypingAction?()
 
-            finishNotifyTypingTimer = NSTimer.scheduledTimerWithTimeInterval(3.0, target: self, selector: #selector(MessageToolbar.finishNotifyTyping(_:)), userInfo: nil, repeats: false)
+            finishNotifyTypingTimer = Timer.scheduledTimer(timeInterval: 3.0, target: self, selector: #selector(MessageToolbar.finishNotifyTyping(_:)), userInfo: nil, repeats: false)
         }
     }
 
-    @objc private func finishNotifyTyping(sender: NSTimer) {
+    @objc fileprivate func finishNotifyTyping(_ sender: Timer) {
         inNotifyTyping = false
     }
 }
@@ -482,18 +479,18 @@ final class MessageToolbar: UIToolbar {
 
 extension MessageToolbar: UITextViewDelegate {
 
-    func textViewDidBeginEditing(textView: UITextView) {
+    func textViewDidBeginEditing(_ textView: UITextView) {
 
         guard let text = textView.text else { return }
 
-        state = text.isEmpty ? .BeginTextInput : .TextInputing
+        state = text.isEmpty ? .beginTextInput : .textInputing
     }
 
-    func textViewDidChange(textView: UITextView) {
+    func textViewDidChange(_ textView: UITextView) {
 
         guard let text = textView.text else { return }
 
-        state = text.isEmpty ? .BeginTextInput : .TextInputing
+        state = text.isEmpty ? .beginTextInput : .textInputing
 
         if needDetectMention {
 
@@ -502,7 +499,7 @@ extension MessageToolbar: UITextViewDelegate {
             // 刚刚输入 @
 
             if text.hasSuffix("@") {
-                mentionUsernameRange = text.endIndex.advancedBy(-1)..<text.endIndex
+                mentionUsernameRange = text.characters.index(text.endIndex, offsetBy: -1)..<text.endIndex
                 initMentionUserAction?()
                 return
             }
@@ -511,35 +508,35 @@ extension MessageToolbar: UITextViewDelegate {
 
                 // 对于拼音输入法等，输入时会先显示拼音，然后才上字，拼音间有空格（这个空格似乎不是普通空格）
 
-                if let markedTextRange = textView.markedTextRange, markedText = textView.textInRange(markedTextRange) {
+                if let markedTextRange = textView.markedTextRange, let markedText = textView.text(in: markedTextRange) {
 
                     var text = text
 
                     let beginning = textView.beginningOfDocument
                     let start = markedTextRange.start
                     let end = markedTextRange.end
-                    let location = textView.offsetFromPosition(beginning, toPosition: start)
+                    let location = textView.offset(from: beginning, to: start)
 
                     // 保证前面至少还有一个字符，for mentionNSRange
                     guard location > 0 else {
                         return
                     }
 
-                    let length = textView.offsetFromPosition(start, toPosition: end)
+                    let length = textView.offset(from: start, to: end)
                     let nsRange = NSMakeRange(location, length)
                     let mentionNSRange = NSMakeRange(location - 1, length + 1)
-                    guard let range = text.yep_rangeFromNSRange(nsRange), mentionRange = text.yep_rangeFromNSRange(mentionNSRange) else {
+                    guard let range = text.yep_rangeFromNSRange(nsRange), let mentionRange = text.yep_rangeFromNSRange(mentionNSRange) else {
                         return
                     }
 
-                    text.removeRange(range)
+                    text.removeSubrange(range)
 
                     if text.hasSuffix("@") {
                         self?.mentionUsernameRange = mentionRange
 
                         let wordString = markedText.yep_removeAllWhitespaces
                         //println("wordString from markedText: >\(wordString)<")
-                        self?.tryMentionUserAction?(usernamePrefix: wordString)
+                        self?.tryMentionUserAction?(wordString)
 
                         return
                     }
@@ -554,8 +551,8 @@ extension MessageToolbar: UITextViewDelegate {
 
                     self?.mentionUsernameRange = mentionWordRange
 
-                    let wordString = wordString.trimming(.Whitespace)
-                    self?.tryMentionUserAction?(usernamePrefix: wordString)
+                    let wordString = wordString.trimming(.whitespace)
+                    self?.tryMentionUserAction?(wordString)
 
                     return
                 }

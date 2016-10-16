@@ -9,10 +9,10 @@
 import UIKit
 import YepKit
 
-class ChatLeftTextCell: ChatBaseCell {
+class ChatLeftTextCell: ChatBaseCell, Copyable {
 
-    var tapUsernameAction: ((username: String) -> Void)?
-    var tapFeedAction: ((feed: DiscoveredFeed?) -> Void)?
+    var tapUsernameAction: ((_ username: String) -> Void)?
+    var tapFeedAction: ((_ feed: DiscoveredFeed?) -> Void)?
 
     lazy var bubbleTailImageView: UIImageView = {
         let imageView = UIImageView(image: UIImage.yep_bubbleLeftTail)
@@ -22,8 +22,8 @@ class ChatLeftTextCell: ChatBaseCell {
 
     lazy var bubbleBodyShapeLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
-        layer.backgroundColor = UIColor.leftBubbleTintColor().CGColor
-        layer.fillColor = UIColor.leftBubbleTintColor().CGColor
+        layer.backgroundColor = UIColor.leftBubbleTintColor().cgColor
+        layer.fillColor = UIColor.leftBubbleTintColor().cgColor
         return layer
     }()
 
@@ -32,20 +32,20 @@ class ChatLeftTextCell: ChatBaseCell {
 
         view.textContainer.lineFragmentPadding = 0
         view.font = UIFont.chatTextFont()
-        view.backgroundColor = UIColor.clearColor()
-        view.textColor = UIColor.blackColor()
-        view.tintColor = UIColor.blackColor()
+        view.backgroundColor = UIColor.clear
+        view.textColor = UIColor.black
+        view.tintColor = UIColor.black
         view.linkTextAttributes = [
             NSForegroundColorAttributeName: UIColor.yepTintColor(),
-            NSUnderlineStyleAttributeName: NSNumber(integer: NSUnderlineStyle.StyleSingle.rawValue),
+            NSUnderlineStyleAttributeName: NSNumber(value: NSUnderlineStyle.styleSingle.rawValue as Int),
         ]
 
         view.tapMentionAction = { [weak self] username in
-            self?.tapUsernameAction?(username: username)
+            self?.tapUsernameAction?(username)
         }
 
         view.tapFeedAction = { [weak self] feed in
-            self?.tapFeedAction?(feed: feed)
+            self?.tapFeedAction?(feed)
         }
 
         return view
@@ -80,7 +80,7 @@ class ChatLeftTextCell: ChatBaseCell {
         UIView.setAnimationsEnabled(true)
 
         if let bubblePosition = layer.sublayers {
-            contentView.layer.insertSublayer(bubbleBodyShapeLayer, atIndex: UInt32(bubblePosition.count))
+            contentView.layer.insertSublayer(bubbleBodyShapeLayer, at: UInt32(bubblePosition.count))
         }
     }
 
@@ -88,7 +88,7 @@ class ChatLeftTextCell: ChatBaseCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func configureWithMessage(message: Message, layoutCache: ChatTextCellLayoutCache) {
+    func configureWithMessage(_ message: Message, layoutCache: ChatTextCellLayoutCache) {
 
         self.user = message.fromFriend
 
@@ -98,10 +98,10 @@ class ChatLeftTextCell: ChatBaseCell {
 
             // 用 sizeThatFits 来对比，不需要 magicWidth 的时候就可以避免了
             var textContentTextViewWidth = layoutCache.textContentTextViewWidth
-            let size = textContentTextView.sizeThatFits(CGSize(width: textContentTextViewWidth, height: CGFloat.max))
+            let size = textContentTextView.sizeThatFits(CGSize(width: textContentTextViewWidth, height: CGFloat.greatestFiniteMagnitude))
             
             // lineHeight 19.088, size.height 35.5 (1 line) 54.5 (2 lines)
-            textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .Center : .Left
+            textContentTextView.textAlignment = ((size.height - textContentTextView.font!.lineHeight) < 20) ? .center : .left
 
             if ceil(size.width) != textContentTextViewWidth {
                 if abs(ceil(size.width) - textContentTextViewWidth) >= YepConfig.ChatCell.magicWidth {
@@ -132,18 +132,18 @@ class ChatLeftTextCell: ChatBaseCell {
             } else {
                 let textContentTextViewWidth = adjustedTextContentTextViewWidth()
 
-                textContentTextViewFrame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentTextViewWidth, height: bounds.height - topOffset - 3 * 2 - bottomGap)
+                textContentTextViewFrame = CGRect(x: avatarImageView.frame.maxX + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar(), y: 3 + topOffset, width: textContentTextViewWidth, height: bounds.height - topOffset - 3 * 2 - bottomGap)
 
-                layoutCache.update(textContentTextViewFrame: textContentTextViewFrame)
+                layoutCache.update(textContentTextViewFrame)
             }
 
             textContentTextView.frame = textContentTextViewFrame
 
-            let bubbleBodyFrame = CGRectInset(textContentTextView.frame, -12, -3)
+            let bubbleBodyFrame = textContentTextView.frame.insetBy(dx: -12, dy: -3)
 
-            bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.AllCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).CGPath
+            bubbleBodyShapeLayer.path = UIBezierPath(roundedRect: bubbleBodyFrame, byRoundingCorners: UIRectCorner.allCorners, cornerRadii: CGSize(width: YepConfig.ChatCell.bubbleCornerRadius, height: YepConfig.ChatCell.bubbleCornerRadius)).cgPath
 
-            bubbleTailImageView.center = CGPoint(x: CGRectGetMinX(bubbleBodyFrame), y: CGRectGetMidY(avatarImageView.frame))
+            bubbleTailImageView.center = CGPoint(x: bubbleBodyFrame.minX, y: avatarImageView.frame.midY)
 
             if inGroup {
                 nameLabel.text = user?.compositedName
@@ -161,6 +161,12 @@ class ChatLeftTextCell: ChatBaseCell {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
             avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         }
+    }
+
+    // MARK: Copyable
+
+    var text: String? {
+        return textContentTextView.text
     }
 }
 

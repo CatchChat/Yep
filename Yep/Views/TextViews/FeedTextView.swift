@@ -10,7 +10,7 @@ import UIKit
 
 final class FeedTextView: UITextView {
     
-    override func canBecomeFirstResponder() -> Bool {
+    override var canBecomeFirstResponder : Bool {
         return false
     }
 
@@ -18,22 +18,22 @@ final class FeedTextView: UITextView {
     var touchesEndedAction: (() -> Void)?
     var touchesCancelledAction: (() -> Void)?
 
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesBegan(touches, withEvent: event)
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesBegan(touches, with: event)
         touchesBeganAction?()
     }
 
-    override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        super.touchesEnded(touches, withEvent: event)
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesEnded(touches, with: event)
         touchesEndedAction?()
     }
 
-    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-        super.touchesCancelled(touches, withEvent: event)
+    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
+        super.touchesCancelled(touches, with: event)
         touchesCancelledAction?()
     }
     
-    override func addGestureRecognizer(gestureRecognizer: UIGestureRecognizer) {
+    override func addGestureRecognizer(_ gestureRecognizer: UIGestureRecognizer) {
         
         // iOS 9 以上，强制不添加文字选择长按手势，免去触发选择文字
         // 共有四种长按手势，iOS 9 正式版里分别加了两次：0.1 Reveal，0.12 tap link，0.5 selection， 0.75 press link

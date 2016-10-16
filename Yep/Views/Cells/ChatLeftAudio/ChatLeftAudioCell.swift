@@ -13,7 +13,7 @@ final class ChatLeftAudioCell: ChatBaseCell {
 
     var message: Message?
 
-    var audioPlayedDuration: NSTimeInterval = 0 {
+    var audioPlayedDuration: TimeInterval = 0 {
         willSet {
             updateAudioInfoViews()
         }
@@ -23,9 +23,9 @@ final class ChatLeftAudioCell: ChatBaseCell {
         willSet {
             if newValue != playing {
                 if newValue {
-                    playButton.setImage(UIImage.yep_iconPause, forState: .Normal)
+                    playButton.setImage(UIImage.yep_iconPause, for: .normal)
                 } else {
-                    playButton.setImage(UIImage.yep_iconPlay, forState: .Normal)
+                    playButton.setImage(UIImage.yep_iconPlay, for: .normal)
                 }
             }
         }
@@ -45,48 +45,48 @@ final class ChatLeftAudioCell: ChatBaseCell {
     lazy var sampleView: SampleView = {
         let view = SampleView()
         view.sampleColor = UIColor.leftWaveColor()
-        view.userInteractionEnabled = false
+        view.isUserInteractionEnabled = false
         return view
     }()
 
     lazy var audioDurationLabel: UILabel = {
         let label = UILabel()
-        label.textAlignment = .Center
-        label.textColor = UIColor.blackColor()
+        label.textAlignment = .center
+        label.textColor = UIColor.black
         return label
     }()
 
     lazy var playButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage.yep_iconPlay, forState: .Normal)
+        button.setImage(UIImage.yep_iconPlay, for: .normal)
 
-        button.userInteractionEnabled = false
-        button.tintColor = UIColor.darkGrayColor()
-        button.tintAdjustmentMode = .Normal
+        button.isUserInteractionEnabled = false
+        button.tintColor = UIColor.darkGray
+        button.tintAdjustmentMode = .normal
 
         return button
     }()
 
     lazy var loadingProgressView: MessageLoadingProgressView = {
         let view = MessageLoadingProgressView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        view.hidden = true
-        view.backgroundColor = UIColor.clearColor()
+        view.isHidden = true
+        view.backgroundColor = UIColor.clear
         return view
     }()
 
     typealias AudioBubbleTapAction = () -> Void
     var audioBubbleTapAction: AudioBubbleTapAction?
 
-    func loadingWithProgress(progress: Double) {
+    func loadingWithProgress(_ progress: Double) {
         
         //println("audio loadingWithProgress \(progress)")
         
         if progress == 1.0 {
-            loadingProgressView.hidden = true
+            loadingProgressView.isHidden = true
             
         } else {
             loadingProgressView.progress = progress
-            loadingProgressView.hidden = false
+            loadingProgressView.isHidden = false
         }
     }
 
@@ -120,12 +120,12 @@ final class ChatLeftAudioCell: ChatBaseCell {
         }
         UIView.setAnimationsEnabled(true)
 
-        bubbleImageView.userInteractionEnabled = true
+        bubbleImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatLeftAudioCell.tapMediaView))
         bubbleImageView.addGestureRecognizer(tap)
 
         prepareForMenuAction = { otherGesturesEnabled in
-            tap.enabled = otherGesturesEnabled
+            tap.isEnabled = otherGesturesEnabled
         }
     }
 
@@ -137,7 +137,7 @@ final class ChatLeftAudioCell: ChatBaseCell {
         audioBubbleTapAction?()
     }
     
-    func configureWithMessage(message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?) {
+    func configureWithMessage(_ message: Message, audioPlayedDuration: Double, audioBubbleTapAction: AudioBubbleTapAction?) {
 
         self.message = message
         self.user = message.fromFriend
@@ -191,7 +191,7 @@ final class ChatLeftAudioCell: ChatBaseCell {
                 var simpleViewWidth = CGFloat(audioSamples.count) * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap()) - YepConfig.audioSampleGap() // 最后最后一个 gap 不要
                 simpleViewWidth = max(YepConfig.minMessageSampleViewWidth, simpleViewWidth)
                 let width = 60 + simpleViewWidth
-                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: bounds.height - topOffset)
+                audioContainerView.frame = CGRect(x: (avatarImageView.frame).maxX + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: bounds.height - topOffset)
 
                 sampleView.samples = audioSamples
 
@@ -203,7 +203,7 @@ final class ChatLeftAudioCell: ChatBaseCell {
                 sampleView.progress = 0
 
                 let width = 60 + 15 * (YepConfig.audioSampleWidth() + YepConfig.audioSampleGap())
-                audioContainerView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: bounds.height - topOffset)
+                audioContainerView.frame = CGRect(x: avatarImageView.frame.maxX + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: width, height: bounds.height - topOffset)
 
                 audioDurationLabel.text = ""
             }
@@ -215,7 +215,7 @@ final class ChatLeftAudioCell: ChatBaseCell {
             audioDurationLabel.frame = sampleView.frame
             
             if let audioPlayer = YepAudioService.sharedManager.audioPlayer {
-                if audioPlayer.playing {
+                if audioPlayer.isPlaying {
                     if let playingMessage = YepAudioService.sharedManager.playingMessage {
                         if message.messageID == playingMessage.messageID {
                             playing = true
@@ -227,21 +227,21 @@ final class ChatLeftAudioCell: ChatBaseCell {
             }
         }
 
-        audioContainerView.sendSubviewToBack(bubbleImageView)
+        audioContainerView.sendSubview(toBack: bubbleImageView)
 
         configureNameLabel()
 
         playing = false
     }
     
-    private func configureNameLabel() {
+    fileprivate func configureNameLabel() {
 
         if inGroup {
             UIView.setAnimationsEnabled(false); do {
                 nameLabel.text = user?.compositedName
 
                 let height = YepConfig.ChatCell.nameLabelHeightForGroup
-                let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
+                let x = avatarImageView.frame.maxX + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
                 let y = audioContainerView.frame.origin.y - height
                 let width = contentView.bounds.width - x - 10
                 nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)

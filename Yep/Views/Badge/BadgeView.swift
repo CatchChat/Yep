@@ -12,23 +12,23 @@ import UIKit
 final class BadgeView: UIView {
 
     enum Badge: String {
-        case Palette = "palette"
-        case Plane = "plane"
-        case Heart = "heart"
-        case Star = "star"
-        case Bubble = "bubble"
+        case palette = "palette"
+        case plane = "plane"
+        case heart = "heart"
+        case star = "star"
+        case bubble = "bubble"
 
-        case Android = "android"
-        case Apple = "apple"
-        case Pet = "pet"
-        case Wine = "wine"
-        case Music = "music"
+        case android = "android"
+        case apple = "apple"
+        case pet = "pet"
+        case wine = "wine"
+        case music = "music"
 
-        case Steve = "steve"
-        case Camera = "camera"
-        case Game = "game"
-        case Ball = "ball"
-        case Tech = "tech"
+        case steve = "steve"
+        case camera = "camera"
+        case game = "game"
+        case ball = "ball"
+        case tech = "tech"
 
         struct Color {
             static let red = UIColor(red: 1, green: 56/255.0, blue: 36/255.0, alpha: 1)
@@ -40,37 +40,37 @@ final class BadgeView: UIView {
 
         var color: UIColor {
             switch self {
-            case .Palette:
+            case .palette:
                 return Color.red
-            case .Plane:
+            case .plane:
                 return Color.blue
-            case .Heart:
+            case .heart:
                 return Color.red
-            case .Star:
+            case .star:
                 return Color.yellow
-            case .Bubble:
+            case .bubble:
                 return Color.dark
 
-            case .Android:
+            case .android:
                 return Color.green
-            case .Apple:
+            case .apple:
                 return Color.dark
-            case .Pet:
+            case .pet:
                 return Color.yellow
-            case .Wine:
+            case .wine:
                 return Color.red
-            case .Music:
+            case .music:
                 return Color.green
 
-            case .Steve:
+            case .steve:
                 return Color.blue
-            case .Camera:
+            case .camera:
                 return Color.green
-            case .Game:
+            case .game:
                 return Color.dark
-            case .Ball:
+            case .ball:
                 return Color.blue
-            case .Tech:
+            case .tech:
                 return Color.blue
             }
         }
@@ -81,7 +81,7 @@ final class BadgeView: UIView {
     }
 
     //@IBInspectable
-    var badge: Badge = .Heart {
+    var badge: Badge = .heart {
         willSet {
             badgeImageView.image = newValue.image
             badgeImageView.tintColor = newValue.color
@@ -90,9 +90,9 @@ final class BadgeView: UIView {
 
     var enabled: Bool = false {
         willSet {
-            UIView.animateWithDuration(0.1, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] _ in
+            UIView.animate(withDuration: 0.1, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] _ in
                 guard let strongSelf = self else { return }
-                strongSelf.badgeImageView.tintColor = newValue ? UIColor.whiteColor() : strongSelf.badge.color
+                strongSelf.badgeImageView.tintColor = newValue ? UIColor.white : strongSelf.badge.color
             }, completion: nil)
         }
     }
@@ -119,10 +119,10 @@ final class BadgeView: UIView {
 
         badgeImageView.translatesAutoresizingMaskIntoConstraints = false
 
-        let iconConstraintCenterX = NSLayoutConstraint(item: badgeImageView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0)
-        let iconConstraintCenterY = NSLayoutConstraint(item: badgeImageView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0)
+        let iconConstraintCenterX = NSLayoutConstraint(item: badgeImageView, attribute: .centerX, relatedBy: .equal, toItem: self, attribute: .centerX, multiplier: 1, constant: 0)
+        let iconConstraintCenterY = NSLayoutConstraint(item: badgeImageView, attribute: .centerY, relatedBy: .equal, toItem: self, attribute: .centerY, multiplier: 1, constant: 0)
 
-        NSLayoutConstraint.activateConstraints([iconConstraintCenterX, iconConstraintCenterY])
+        NSLayoutConstraint.activate([iconConstraintCenterX, iconConstraintCenterY])
     }
 
     func tap() {

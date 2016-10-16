@@ -18,14 +18,14 @@ public struct FayeMessage {
     let version: String
     let minimunVersion: String?
     let supportedConnectionTypes: [String]
-    let advice: [String: AnyObject]
+    let advice: [String: Any]
     let error: String?
     let subscription: String?
-    let timestamp: NSDate?
-    let data: [String: AnyObject]
-    let ext: [String: AnyObject]
+    let timestamp: Date?
+    let data: [String: Any]
+    let ext: [String: Any]
 
-    static func messageFromDictionary(info: [String: AnyObject]) -> FayeMessage? {
+    static func fromDictionary(_ info: [String: Any]) -> FayeMessage? {
 
         let ID = info["id"] as? String
         guard let channel = info["channel"] as? String else { return nil }
@@ -35,17 +35,17 @@ public struct FayeMessage {
         let version = info["version"] as? String ?? "1.0"
         let minimumVersion = info["minimumVersion"] as? String
         let supportedConnectionTypes = (info["supportedConnectionTypes"] as? [String]) ?? []
-        let advice = (info["advice"] as? [String: AnyObject]) ?? [:]
+        let advice = (info["advice"] as? [String: Any]) ?? [:]
         let error = info["error"] as? String
         let subscription = info["subscription"] as? String
-        let timestamp: NSDate?
-        if let timestampUnixTime = info["timestamp"] as? NSTimeInterval {
-            timestamp = NSDate(timeIntervalSince1970: timestampUnixTime)
+        let timestamp: Date?
+        if let timestampUnixTime = info["timestamp"] as? TimeInterval {
+            timestamp = Date(timeIntervalSince1970: timestampUnixTime)
         } else {
             timestamp = nil
         }
-        let data = (info["data"] as? [String: AnyObject]) ?? [:]
-        let ext = (info["ext"] as? [String: AnyObject]) ?? [:]
+        let data = (info["data"] as? [String: Any]) ?? [:]
+        let ext = (info["ext"] as? [String: Any]) ?? [:]
 
         return FayeMessage(ID: ID, channel: channel, clientID: clientID, successful: successful, authSuccessful: authSuccessful, version: version, minimunVersion: minimumVersion, supportedConnectionTypes: supportedConnectionTypes, advice: advice, error: error, subscription: subscription, timestamp: timestamp, data: data, ext: ext)
     }

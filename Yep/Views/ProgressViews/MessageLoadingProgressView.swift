@@ -16,57 +16,58 @@ final class MessageLoadingProgressView: UIView {
         }
     }
 
-    override func drawRect(rect: CGRect) {
+    override func draw(_ rect: CGRect) {
 
         if progress <= 0 || progress == 1.0 {
             return
         }
 
-        let center = CGPoint(x: CGRectGetMidX(rect), y: CGRectGetMidY(rect))
+        let center = CGPoint(x: rect.midX, y: rect.midY)
         let lineWidth: CGFloat = 4
         let radius = min(rect.width, rect.height) * 0.5 - lineWidth * 0.5
 
+        /*
         let context = UIGraphicsGetCurrentContext()
 
         // base circle
 
-        CGContextSaveGState(context)
+        context!.saveGState()
 
-        CGContextBeginPath(context)
+        context!.beginPath()
 
-        CGContextSetStrokeColorWithColor(context, UIColor.lightGrayColor().colorWithAlphaComponent(0.3).CGColor)
-        CGContextSetLineWidth(context, lineWidth)
+        context!.setStrokeColor(UIColor.lightGray.withAlphaComponent(0.3).cgColor)
+        context!.setLineWidth(lineWidth)
 
-        CGContextAddArc(context, center.x, center.y, radius, 0, CGFloat(M_PI * 2), 0)
+        CGContextAddArc(context!, center.x, center.y, radius, 0, CGFloat(M_PI * 2), 0)
 
-        CGContextDrawPath(context, CGPathDrawingMode.Stroke)
+        context!.drawPath(using: CGPathDrawingMode.stroke)
 
-        CGContextRestoreGState(context)
+        context!.restoreGState()
 
         // progress arc
 
-        CGContextSaveGState(context)
+        context!.saveGState()
 
-        CGContextBeginPath(context)
+        context!.beginPath()
 
-        CGContextSetStrokeColorWithColor(context, UIColor.whiteColor().CGColor)
-        CGContextSetLineWidth(context, lineWidth)
-        CGContextSetLineCap(context, CGLineCap.Round)
+        context!.setStrokeColor(UIColor.white.cgColor)
+        context!.setLineWidth(lineWidth)
+        context!.setLineCap(CGLineCap.round)
 
-        CGContextAddArc(context, center.x, center.y, radius, CGFloat(-M_PI_2), CGFloat(M_PI * 2 * progress - M_PI_2), 0)
+        CGContextAddArc(context!, center.x, center.y, radius, CGFloat(-M_PI_2), CGFloat(M_PI * 2 * progress - M_PI_2), 0)
 
-        CGContextDrawPath(context, CGPathDrawingMode.Stroke)
+        context!.drawPath(using: CGPathDrawingMode.stroke)
 
-        CGContextRestoreGState(context)
+        context!.restoreGState()
+         */
 
-        /*
         // base circle
 
         let baseCircle = UIBezierPath(arcCenter: center, radius: radius, startAngle: 0, endAngle: CGFloat(M_PI * 2), clockwise: true)
         baseCircle.lineWidth = lineWidth
-        baseCircle.lineCapStyle = kCGLineCapRound
+        baseCircle.lineCapStyle = .round
 
-        UIColor.lightGrayColor().setStroke()
+        UIColor.lightGray.setStroke()
 
         baseCircle.stroke()
 
@@ -75,11 +76,11 @@ final class MessageLoadingProgressView: UIView {
         let progressArc = UIBezierPath(arcCenter: center, radius: radius, startAngle: CGFloat(-M_PI_2), endAngle: CGFloat(M_PI * 2 * progress - M_PI_2), clockwise: true)
 
         progressArc.lineWidth = lineWidth
-        progressArc.lineCapStyle = kCGLineCapRound
+        progressArc.lineCapStyle = .round
 
-        UIColor.whiteColor().setStroke()
+        UIColor.white.setStroke()
 
         progressArc.stroke()
-        */
     }
 }
+

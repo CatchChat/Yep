@@ -28,23 +28,23 @@ final class FeedUploadingErrorContainerView: UIView {
     lazy var errorMessageLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("Upload failed!", comment: "")
-        label.textColor = UIColor.redColor()
+        label.textColor = UIColor.red
         return label
     }()
 
     lazy var retryButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Retry", comment: ""), forState: .Normal)
-        button.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
-        button.addTarget(self, action: #selector(FeedUploadingErrorContainerView.retryUploadingFeed(_:)), forControlEvents: .TouchUpInside)
+        button.setTitle(NSLocalizedString("Retry", comment: ""), for: .normal)
+        button.setTitleColor(UIColor.yepTintColor(), for: .normal)
+        button.addTarget(self, action: #selector(FeedUploadingErrorContainerView.retryUploadingFeed(_:)), for: .touchUpInside)
         return button
     }()
 
     lazy var deleteButton: UIButton = {
         let button = UIButton()
-        button.setTitle(NSLocalizedString("Delete", comment: ""), forState: .Normal)
-        button.setTitleColor(UIColor.redColor(), forState: .Normal)
-        button.addTarget(self, action: #selector(FeedUploadingErrorContainerView.deleteUploadingFeed(_:)), forControlEvents: .TouchUpInside)
+        button.setTitle(String.trans_titleDelete, for: .normal)
+        button.setTitleColor(UIColor.red, for: .normal)
+        button.addTarget(self, action: #selector(FeedUploadingErrorContainerView.deleteUploadingFeed(_:)), for: .touchUpInside)
         return button
     }()
 
@@ -65,16 +65,16 @@ final class FeedUploadingErrorContainerView: UIView {
             leftContainerView.translatesAutoresizingMaskIntoConstraints = false
             deleteButton.translatesAutoresizingMaskIntoConstraints = false
 
-            let views: [String: AnyObject] = [
+            let views: [String: Any] = [
                 "leftContainerView": leftContainerView,
                 "deleteButton": deleteButton,
             ]
 
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|[leftContainerView]-15-[deleteButton]-15-|", options: [.AlignAllCenterY], metrics: nil, views: views)
-            let constraintsV = NSLayoutConstraint.constraintsWithVisualFormat("V:|[leftContainerView]|", options: [], metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|[leftContainerView]-15-[deleteButton]-15-|", options: [.alignAllCenterY], metrics: nil, views: views)
+            let constraintsV = NSLayoutConstraint.constraints(withVisualFormat: "V:|[leftContainerView]|", options: [], metrics: nil, views: views)
 
-            NSLayoutConstraint.activateConstraints(constraintsH)
-            NSLayoutConstraint.activateConstraints(constraintsV)
+            NSLayoutConstraint.activate(constraintsH)
+            NSLayoutConstraint.activate(constraintsV)
         }
 
         do {
@@ -86,29 +86,29 @@ final class FeedUploadingErrorContainerView: UIView {
             errorMessageLabel.translatesAutoresizingMaskIntoConstraints = false
             retryButton.translatesAutoresizingMaskIntoConstraints = false
 
-            let views: [String: AnyObject] = [
+            let views: [String: Any] = [
                 "iconImageView": iconImageView,
                 "errorMessageLabel": errorMessageLabel,
                 "retryButton": retryButton,
             ]
 
-            let constraintsH = NSLayoutConstraint.constraintsWithVisualFormat("H:|-[iconImageView]-[errorMessageLabel]-[retryButton]-|", options: [.AlignAllCenterY], metrics: nil, views: views)
+            let constraintsH = NSLayoutConstraint.constraints(withVisualFormat: "H:|-[iconImageView]-[errorMessageLabel]-[retryButton]-|", options: [.alignAllCenterY], metrics: nil, views: views)
 
-            iconImageView.setContentHuggingPriority(UILayoutPriorityRequired, forAxis: .Horizontal)
-            iconImageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, forAxis: .Horizontal)
+            iconImageView.setContentHuggingPriority(UILayoutPriorityRequired, for: .horizontal)
+            iconImageView.setContentCompressionResistancePriority(UILayoutPriorityRequired, for: .horizontal)
 
-            let iconImageViewCenterY = NSLayoutConstraint(item: iconImageView, attribute: .CenterY, relatedBy: .Equal, toItem: leftContainerView, attribute: .CenterY, multiplier: 1.0, constant: 0)
+            let iconImageViewCenterY = NSLayoutConstraint(item: iconImageView, attribute: .centerY, relatedBy: .equal, toItem: leftContainerView, attribute: .centerY, multiplier: 1.0, constant: 0)
 
-            NSLayoutConstraint.activateConstraints(constraintsH)
-            NSLayoutConstraint.activateConstraints([iconImageViewCenterY])
+            NSLayoutConstraint.activate(constraintsH)
+            NSLayoutConstraint.activate([iconImageViewCenterY])
         }
     }
 
-    @objc private func retryUploadingFeed(sender: UIButton) {
+    @objc fileprivate func retryUploadingFeed(_ sender: UIButton) {
         retryAction?()
     }
 
-    @objc private func deleteUploadingFeed(sender: UIButton) {
+    @objc fileprivate func deleteUploadingFeed(_ sender: UIButton) {
         deleteAction?()
     }
 }

@@ -11,19 +11,17 @@ import Foundation
 final public class Config {
 
     public static var updatedAccessTokenAction: (() -> Void)?
-    public static var updatedPusherIDAction: ((pusherID: String) -> Void)?
+    public static var updatedPusherIDAction: ((_ pusherID: String) -> Void)?
 
     public static var sentMessageSoundEffectAction: (() -> Void)?
 
-    public static var timeAgoAction: ((date: NSDate) -> String)?
+    public static var timeAgoAction: ((_ date: Date) -> String)?
 
     public static var isAppActive: (() -> Bool)?
 
     public static let appGroupID: String = "group.Catch-Inc.Yep"
 
-    public class func clientType() -> Int {
-        // TODO: clientType
-
+    public static var clientType: Int {
         #if DEBUG
             return 2
         #else
@@ -31,28 +29,24 @@ final public class Config {
         #endif
     }
 
-    public class func avatarCompressionQuality() -> CGFloat {
-        return 0.7
-    }
+    public static var avatarCompressionQuality: CGFloat = 0.7
 
-    public struct Notification {
-        public static let markAsReaded = "YepConfig.Notification.markAsReaded"
-        public static let changedConversation = "YepConfig.Notification.changedConversation"
-        public static let changedFeedConversation = "YepConfig.Notification.changedFeedConversation"
-        public static let newMessages = "YepConfig.Notification.newMessages"
-        public static let deletedMessages = "YepConfig.Notification.deletedMessages"
-        public static let updatedUser = "YepConfig.Notification.updatedUser"
+    public struct NotificationName {
+        public static let markAsReaded = Notification.Name(rawValue: "YepConfig.Notification.markAsReaded")
+        public static let changedConversation = Notification.Name(rawValue: "YepConfig.Notification.changedConversation")
+        public static let changedFeedConversation = Notification.Name(rawValue: "YepConfig.Notification.changedFeedConversation")
+        public static let newMessages = Notification.Name(rawValue: "YepConfig.Notification.newMessages")
+        public static let deletedMessages = Notification.Name(rawValue: "YepConfig.Notification.deletedMessages")
+        public static let updatedUser = Notification.Name(rawValue: "YepConfig.Notification.updatedUser")
+
+        public static let messageStateChanged = Notification.Name(rawValue: "YepConfig.Notification.messageStateChangedNotification")
+        public static let messageBatchMarkAsRead = Notification.Name(rawValue: "YepConfig.Notification.messageBatchMarkAsReadNotification")
     }
     
     public struct Message {
         // 注意：确保 localNewerTimeInterval > sectionOlderTimeInterval
-        public static let localNewerTimeInterval: NSTimeInterval = 0.001
-        public static let sectionOlderTimeInterval: NSTimeInterval = 0.0005
-
-        public struct Notification {
-            public static let MessageStateChanged = "MessageStateChangedNotification"
-            public static let MessageBatchMarkAsRead = "MessageBatchMarkAsReadNotification"
-        }
+        public static let localNewerTimeInterval: TimeInterval = 0.001
+        public static let sectionOlderTimeInterval: TimeInterval = 0.0005
     }
 
     public struct MetaData {
@@ -77,6 +71,10 @@ final public class Config {
 
         public static let miniImageWidth: CGFloat = 200
         public static let miniImageHeight: CGFloat = 200
+    }
+
+    struct SocialWork {
+        static let syncCountMax: Int = 5
     }
 }
 

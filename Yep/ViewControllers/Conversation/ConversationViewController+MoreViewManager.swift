@@ -20,7 +20,7 @@ extension ConversationViewController {
         manager.conversation = self.conversation
 
         manager.showProfileAction = { [weak self] in
-            self?.performSegueWithIdentifier("showProfile", sender: nil)
+            self?.performSegue(withIdentifier: "showProfile", sender: nil)
         }
 
         manager.toggleDoNotDisturbAction = { [weak self] in
@@ -62,7 +62,7 @@ extension ConversationViewController {
         return manager
     }
 
-    private func toggleDoNotDisturb() {
+    fileprivate func toggleDoNotDisturb() {
 
         if let user = conversation.withFriend {
 
@@ -96,7 +96,7 @@ extension ConversationViewController {
                 updateNotificationEnabled(false, forGroupWithGroupID: groupID)
 
             } else {
-                enableNotificationFromCircleWithCircleID(groupID, failureHandler: nil, completion: {success in
+                enableNotificationFromCircleWithCircleID(groupID, failureHandler: nil, completion: { success in
                     println("enableNotificationFromCircleWithCircleID \(success)")
                     
                 })
@@ -106,18 +106,18 @@ extension ConversationViewController {
         }
     }
 
-    private func tryReport() {
+    fileprivate func tryReport() {
 
         if let user = conversation.withFriend {
-            let profileUser = ProfileUser.UserType(user)
-            report(.User(profileUser))
+            let profileUser = ProfileUser.userType(user)
+            report(.user(profileUser))
 
-        } else if let feed = self.conversation?.withGroup?.withFeed {
-            report(.Feed(feedID: feed.feedID))
+        } else if let feed = conversation.withGroup?.withFeed {
+            report(.feed(feedID: feed.feedID))
         }
     }
 
-    private func toggleBlock() {
+    fileprivate func toggleBlock() {
 
         if let user = conversation.withFriend {
 
@@ -136,7 +136,7 @@ extension ConversationViewController {
 
                     self.updateBlocked(true, forUserWithUserID: userID)
 
-                    deleteSearchableItems(searchableItemType: .User, itemIDs: [userID])
+                    deleteSearchableItems(searchableItemType: .user, itemIDs: [userID])
                 })
             }
         }
@@ -146,7 +146,7 @@ extension ConversationViewController {
 
         guard let
             description = conversation.withGroup?.withFeed?.body,
-            groupID = conversation.withGroup?.groupID else {
+            let groupID = conversation.withGroup?.groupID else {
                 return
         }
 
@@ -167,67 +167,44 @@ extension ConversationViewController {
         shareFeedWithDescripion(description, groupShareURLString: groupShareURLString)
     }
 
-    private func shareFeedWithDescripion(description: String, groupShareURLString: String) {
+    fileprivate func shareFeedWithDescripion(_ description: String, groupShareURLString: String) {
+
+        guard let groupShareURL = URL(string: groupShareURLString) else {
+            return
+        }
 
         let info = MonkeyKing.Info(
-            title: NSLocalizedString("Join Us", comment: ""),
+            title: String.trans_titleShareFeed,
             description: description,
             thumbnail: feedView?.mediaView.imageView1.image,
-            media: .URL(NSURL(string: groupShareURLString)!)
+            media: .url(groupShareURL)
         )
 
         let timeLineinfo = MonkeyKing.Info(
-            title: "\(NSLocalizedString("Join Us", comment: "")) \(description)",
+            title: String.trans_shareFeedWithDescription(description),
             description: description,
             thumbnail: feedView?.mediaView.imageView1.image,
-            media: .URL(NSURL(string: groupShareURLString)!)
+            media: .url(groupShareURL)
         )
 
-        let sessionMessage = MonkeyKing.Message.WeChat(.Session(info: info))
-
-        let weChatSessionActivity = WeChatActivity(
-            type: .Session,
-            message: sessionMessage,
-            finish: { success in
-                println("share Feed to WeChat Session success: \(success)")
-            }
-        )
-
-        let timelineMessage = MonkeyKing.Message.WeChat(.Timeline(info: timeLineinfo))
-
-        let weChatTimelineActivity = WeChatActivity(
-            type: .Timeline,
-            message: timelineMessage,
-            finish: { success in
-                println("share Feed to WeChat Timeline success: \(success)")
-            }
-        )
-
-        let shareText = "\(description) \(groupShareURLString)\n\(NSLocalizedString("From Yep", comment: ""))"
-
-        let activityViewController = UIActivityViewController(activityItems: [shareText], applicationActivities: [weChatSessionActivity, weChatTimelineActivity])
-        activityViewController.excludedActivityTypes = [UIActivityTypeMessage, UIActivityTypeMail]
-
-        SafeDispatch.async { [weak self] in
-            self?.presentViewController(activityViewController, animated: true, completion: nil)
-        }
+        self.yep_share(info: info, timelineInfo: timeLineinfo, defaultActivityItem: groupShareURL, description: description)
     }
 
-    private func tryUpdateGroupAffair(afterSubscribed afterSubscribed: (() -> Void)? = nil) {
+    fileprivate func tryUpdateGroupAffair(afterSubscribed: (() -> Void)? = nil) {
 
-        guard let group = conversation.withGroup, feed = group.withFeed, feedCreator = feed.creator else {
+        guard let group = conversation.withGroup, let feed = group.withFeed, let feedCreator = feed.creator else {
             return
         }
 
         let feedID = feed.feedID
 
-        func doDeleteConversation(afterLeaveGroup afterLeaveGroup: (() -> Void)? = nil) -> Void {
+        func doDeleteConversation(afterLeaveGroup: (() -> Void)? = nil) -> Void {
 
             SafeDispatch.async { [weak self] in
 
                 self?.checkTypingStatusTimer?.invalidate()
 
-                guard let conversation = self?.conversation, realm = conversation.realm else {
+                guard let conversation = self?.conversation, let realm = conversation.realm else {
                     return
                 }
 
@@ -243,37 +220,37 @@ extension ConversationViewController {
 
                 realm.refresh()
 
-                NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
 
-                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
+                deleteSearchableItems(searchableItemType: .feed, itemIDs: [feedID])
             }
         }
 
         let isMyFeed = feedCreator.isMe
+
         // 若是创建者，再询问是否删除 Feed
         if isMyFeed {
-
-            YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: String.trans_promptAlsoDeleteThisFeed, confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+            YepAlert.confirmOrCancel(title: String.trans_titleDelete, message: String.trans_promptAlsoDeleteThisFeed, confirmTitle: String.trans_titleDelete, cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: {
 
                 doDeleteConversation(afterLeaveGroup: { [weak self] in
                     deleteFeedWithFeedID(feedID, failureHandler: nil, completion: {
                         println("deleted feed: \(feedID)")
                     })
 
-                    self?.afterDeletedFeedAction?(feedID: feedID)
+                    self?.afterDeletedFeedAction?(feedID)
 
                     SafeDispatch.async { [weak self] in
 
-                        NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.deletedFeed, object: feedID)
+                        NotificationCenter.default.post(name: YepConfig.NotificationName.deletedFeed, object: feedID)
 
-                        self?.navigationController?.popViewControllerAnimated(true)
+                        _ = self?.navigationController?.popViewController(animated: true)
                     }
                 })
 
             }, cancelAction: { [weak self] in
                 doDeleteConversation(afterLeaveGroup: {
                     SafeDispatch.async { [weak self] in
-                        self?.navigationController?.popViewControllerAnimated(true)
+                        _ = self?.navigationController?.popViewController(animated: true)
                     }
                 })
             })
@@ -284,7 +261,7 @@ extension ConversationViewController {
             if includeMe {
                 doDeleteConversation(afterLeaveGroup: {
                     SafeDispatch.async { [weak self] in
-                        self?.navigationController?.popViewControllerAnimated(true)
+                        _ = self?.navigationController?.popViewController(animated: true)
                     }
                 })
 
@@ -301,7 +278,7 @@ extension ConversationViewController {
         }
     }
 
-    private func updateNotificationEnabled(enabled: Bool, forUserWithUserID userID: String) {
+    fileprivate func updateNotificationEnabled(_ enabled: Bool, forUserWithUserID userID: String) {
 
         guard let realm = try? Realm() else {
             return
@@ -316,7 +293,7 @@ extension ConversationViewController {
         }
     }
 
-    private func updateNotificationEnabled(enabled: Bool, forGroupWithGroupID: String) {
+    fileprivate func updateNotificationEnabled(_ enabled: Bool, forGroupWithGroupID: String) {
 
         guard let realm = try? Realm() else {
             return
@@ -331,7 +308,7 @@ extension ConversationViewController {
         }
     }
 
-    func updateBlocked(blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {
+    func updateBlocked(_ blocked: Bool, forUserWithUserID userID: String, needUpdateUI: Bool = true) {
 
         guard let realm = try? Realm() else {
             return

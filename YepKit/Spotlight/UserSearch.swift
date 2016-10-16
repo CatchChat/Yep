@@ -9,8 +9,6 @@
 import CoreSpotlight
 import MobileCoreServices.UTType
 
-public let userDomainIdentifier = "Catch-Inc.Yep.User"
-
 @available(iOS 9.0, *)
 public extension User {
 
@@ -18,8 +16,9 @@ public extension User {
         let attributeSet = CSSearchableItemAttributeSet(itemContentType: kUTTypeItem as String)
         attributeSet.title = compositedName
         attributeSet.contentDescription = introduction
-        attributeSet.thumbnailData = avatar?.roundMini
+        attributeSet.thumbnailData = avatar?.roundMini as Data?
         attributeSet.keywords = [nickname, username]
         return attributeSet
     }
 }
+

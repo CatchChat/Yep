@@ -9,23 +9,31 @@
 import UIKit
 import RealmSwift
 import YepKit
-import YepNetworking
 
 var skillSizeCache = [String: CGRect]()
 
-final class DiscoverViewController: BaseViewController {
+final class DiscoverViewController: BaseViewController, CanScrollsToTop {
 
-    var showProfileOfDiscoveredUserAction: ((discoveredUser: DiscoveredUser) -> Void)?
-    var didChangeLayoutModeAction: ((layoutMode: DiscoverFlowLayout.Mode) -> Void)?
-    var didChangeSortStyleAction: ((sortStyle: DiscoveredUserSortStyle) -> Void)?
+    var showProfileOfDiscoveredUserAction: ((_ discoveredUser: DiscoveredUser) -> Void)?
+    var didChangeLayoutModeAction: ((_ layoutMode: DiscoverFlowLayout.Mode) -> Void)?
+    var didChangeSortStyleAction: ((_ sortStyle: DiscoveredUserSortStyle) -> Void)?
 
-    @IBOutlet weak var discoveredUsersCollectionView: DiscoverCollectionView!
-    
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate weak var discoveredUsersCollectionView: DiscoverCollectionView!
 
-    private var layoutMode: DiscoverFlowLayout.Mode = .Card {
+    var collectionView: UICollectionView {
+        return discoveredUsersCollectionView
+    }
+
+    // CanScrollsToTop
+    var scrollView: UIScrollView? {
+        return discoveredUsersCollectionView
+    }
+
+    @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
+
+    fileprivate var layoutMode: DiscoverFlowLayout.Mode = .card {
         didSet {
-            didChangeLayoutModeAction?(layoutMode: layoutMode)
+            didChangeLayoutModeAction?(layoutMode)
 
             layout.mode = layoutMode
             SafeDispatch.async { [weak self] in
@@ -34,36 +42,40 @@ final class DiscoverViewController: BaseViewController {
         }
     }
     
-    private let layout = DiscoverFlowLayout()
+    fileprivate let layout = DiscoverFlowLayout()
     
-    private let refreshControl = UIRefreshControl()
+    fileprivate let refreshControl = UIRefreshControl()
 
-    private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
+    fileprivate var discoveredUserSortStyle: DiscoveredUserSortStyle = .default {
         didSet {
-            didChangeSortStyleAction?(sortStyle: discoveredUserSortStyle)
+            didChangeSortStyleAction?(discoveredUserSortStyle)
 
             discoveredUsers = []
             SafeDispatch.async { [weak self] in
                 self?.discoveredUsersCollectionView.reloadData()
             }
 
-            updateDiscoverUsers(mode: .Static)
+            updateDiscoverUsers(mode: .static)
 
             // save discoveredUserSortStyle
             YepUserDefaults.discoveredUserSortStyle.value = discoveredUserSortStyle.rawValue
         }
     }
 
-    var discoveredUsers = [DiscoveredUser]()
+    fileprivate var discoveredUsers = [DiscoveredUser]()
 
-    private lazy var filterStyles: [DiscoveredUserSortStyle] = [
-        .Distance,
-        .LastSignIn,
-        .Default,
+    func discoveredUserAtIndexPath(_ indexPath: IndexPath) -> DiscoveredUser {
+        return discoveredUsers[indexPath.item]
+    }
+
+    fileprivate lazy var filterStyles: [DiscoveredUserSortStyle] = [
+        .distance,
+        .lastSignIn,
+        .default,
     ]
 
-    private func filterItemWithSortStyle(sortStyle: DiscoveredUserSortStyle, currentSortStyle: DiscoveredUserSortStyle) -> ActionSheetView.Item {
-        return .Check(
+    fileprivate func filterItemWithSortStyle(_ sortStyle: DiscoveredUserSortStyle, currentSortStyle: DiscoveredUserSortStyle) -> ActionSheetView.Item {
+        return .check(
             title: sortStyle.name,
             titleColor: UIColor.yepTintColor(),
             checked: sortStyle == currentSortStyle,
@@ -76,15 +88,15 @@ final class DiscoverViewController: BaseViewController {
         )
     }
 
-    private func filterItemsWithCurrentSortStyle(currentSortStyle: DiscoveredUserSortStyle) -> [ActionSheetView.Item] {
+    fileprivate func filterItemsWithCurrentSortStyle(_ currentSortStyle: DiscoveredUserSortStyle) -> [ActionSheetView.Item] {
         var items = filterStyles.map({
            filterItemWithSortStyle($0, currentSortStyle: currentSortStyle)
         })
-        items.append(.Cancel)
+        items.append(.cancel)
         return items
     }
 
-    private lazy var filterView: ActionSheetView = {
+    fileprivate lazy var filterView: ActionSheetView = {
         let view = ActionSheetView(items: self.filterItemsWithCurrentSortStyle(self.discoveredUserSortStyle))
         return view
     }()
@@ -100,7 +112,7 @@ final class DiscoverViewController: BaseViewController {
         println("deinit Discover")
     }
     
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         refreshControl.endRefreshing()
     }
@@ -108,42 +120,42 @@ final class DiscoverViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Discover", comment: "")
+        title = String.trans_titleDiscover
 
-        view.backgroundColor = UIColor.whiteColor()
+        view.backgroundColor = UIColor.white
 
         // recover discoveredUserSortStyle if can
 
         if let
             value = YepUserDefaults.discoveredUserSortStyle.value,
-            _discoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: value) {
+            let _discoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: value) {
 
                 discoveredUserSortStyle = _discoveredUserSortStyle
 
         } else {
-            discoveredUserSortStyle = .Default
+            discoveredUserSortStyle = .default
         }
 
-        discoveredUsersCollectionView.backgroundColor = UIColor.clearColor()
+        discoveredUsersCollectionView.backgroundColor = UIColor.clear
         discoveredUsersCollectionView.setCollectionViewLayout(layout, animated: false)
         discoveredUsersCollectionView.delegate = self
         discoveredUsersCollectionView.dataSource = self
 
-        discoveredUsersCollectionView.registerNibOf(DiscoverNormalUserCell)
-        discoveredUsersCollectionView.registerNibOf(DiscoverCardUserCell)
-        discoveredUsersCollectionView.registerNibOf(LoadMoreCollectionViewCell)
+        discoveredUsersCollectionView.registerNibOf(DiscoverNormalUserCell.self)
+        discoveredUsersCollectionView.registerNibOf(DiscoverCardUserCell.self)
+        discoveredUsersCollectionView.registerNibOf(LoadMoreCollectionViewCell.self)
 
-        layoutMode = .Card
+        layoutMode = .card
 
-        if let realm = try? Realm(), offlineJSON = OfflineJSON.withName(.DiscoveredUsers, inRealm: realm) {
-            if let JSON = offlineJSON.JSON, discoveredUsers = parseDiscoveredUsers(JSON) {
+        if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.discoveredUsers, inRealm: realm) {
+            if let JSON = offlineJSON.JSON, let discoveredUsers = parseDiscoveredUsers(JSON) {
                 self.discoveredUsers = discoveredUsers
                 activityIndicator.stopAnimating()
             }
         }
 
-        refreshControl.tintColor = UIColor.lightGrayColor()
-        refreshControl.addTarget(self, action: #selector(DiscoverViewController.refresh(_:)), forControlEvents: .ValueChanged)
+        refreshControl.tintColor = UIColor.lightGray
+        refreshControl.addTarget(self, action: #selector(DiscoverViewController.refresh(_:)), for: .valueChanged)
         refreshControl.layer.zPosition = -1 // Make Sure Indicator below the Cells
         discoveredUsersCollectionView.addSubview(refreshControl)
 
@@ -154,9 +166,9 @@ final class DiscoverViewController: BaseViewController {
 
     // MARK: Actions
 
-    @objc private func refresh(sender: UIRefreshControl) {
+    @objc fileprivate func refresh(_ sender: UIRefreshControl) {
 
-        updateDiscoverUsers(mode: .TopRefresh) {
+        updateDiscoverUsers(mode: .topRefresh) {
             SafeDispatch.async {
                 sender.endRefreshing()
             }
@@ -167,11 +179,11 @@ final class DiscoverViewController: BaseViewController {
 
         switch layoutMode {
             
-        case .Card:
-            layoutMode = .Normal
+        case .card:
+            layoutMode = .normal
 
-        case .Normal:
-            layoutMode = .Card
+        case .normal:
+            layoutMode = .card
         }
     }
 
@@ -182,14 +194,14 @@ final class DiscoverViewController: BaseViewController {
         }
     }
 
-    private var currentPageIndex = 1
-    private var isFetching = false
-    private enum UpdateMode {
-        case Static
-        case TopRefresh
-        case LoadMore
+    fileprivate var currentPageIndex = 1
+    fileprivate var isFetching = false
+    fileprivate enum UpdateMode {
+        case `static`
+        case topRefresh
+        case loadMore
     }
-    private func updateDiscoverUsers(mode mode: UpdateMode, finish: (() -> Void)? = nil) {
+    fileprivate func updateDiscoverUsers(mode: UpdateMode, finish: (() -> Void)? = nil) {
 
         if isFetching {
             return
@@ -197,12 +209,12 @@ final class DiscoverViewController: BaseViewController {
 
         isFetching = true
         
-        if case .Static = mode {
+        if case .static = mode {
             activityIndicator.startAnimating()
-            view.bringSubviewToFront(activityIndicator)
+            view.bringSubview(toFront: activityIndicator)
         }
 
-        if case .LoadMore = mode {
+        if case .loadMore = mode {
             currentPageIndex += 1
 
         } else {
@@ -210,7 +222,6 @@ final class DiscoverViewController: BaseViewController {
         }
 
         discoverUsers(masterSkillIDs: [], learningSkillIDs: [], discoveredUserSortStyle: discoveredUserSortStyle, inPage: currentPageIndex, withPerPage: 21, failureHandler: { (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
             SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
@@ -225,14 +236,14 @@ final class DiscoverViewController: BaseViewController {
 
                 for skill in user.masterSkills {
 
-                    let skillLocalName = skill.localName ?? ""
+                    let skillLocalName = skill.localName
 
                     let skillID =  skill.id
 
                     if let _ = skillSizeCache[skillID] {
 
                     } else {
-                        let rect = skillLocalName.boundingRectWithSize(CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.UsesLineFragmentOrigin, .UsesFontLeading], attributes: skillTextAttributes, context: nil)
+                        let rect = skillLocalName.boundingRect(with: CGSize(width: CGFloat(FLT_MAX), height: SkillCell.height), options: [.usesLineFragmentOrigin, .usesFontLeading], attributes: skillTextAttributes, context: nil)
 
                         skillSizeCache[skillID] = rect
                     }
@@ -245,21 +256,30 @@ final class DiscoverViewController: BaseViewController {
                     return
                 }
 
-                var wayToUpdate: UICollectionView.WayToUpdate = .None
+                var wayToUpdate: UICollectionView.WayToUpdate = .none
 
-                if case .LoadMore = mode {
+                if case .loadMore = mode {
                     let oldDiscoveredUsersCount = strongSelf.discoveredUsers.count
                     strongSelf.discoveredUsers += discoveredUsers
                     let newDiscoveredUsersCount = strongSelf.discoveredUsers.count
 
-                    let indexPaths = Array(oldDiscoveredUsersCount..<newDiscoveredUsersCount).map({ NSIndexPath(forItem: $0, inSection: Section.User.rawValue) })
+                    let indexPaths = Array(oldDiscoveredUsersCount..<newDiscoveredUsersCount).map({ IndexPath(item: $0, section: Section.user.rawValue) })
                     if !indexPaths.isEmpty {
-                        wayToUpdate = .Insert(indexPaths)
+                        wayToUpdate = .insert(indexPaths)
                     }
 
                 } else {
-                    strongSelf.discoveredUsers = discoveredUsers
-                    wayToUpdate = .ReloadData
+                    let oldDiscoveredUsers = strongSelf.discoveredUsers
+                    let newDiscoveredUsers = discoveredUsers
+
+                    strongSelf.discoveredUsers = newDiscoveredUsers
+
+                    if Set(oldDiscoveredUsers.map({ $0.id })) == Set(newDiscoveredUsers.map({ $0.id })) {
+                        wayToUpdate = .none
+
+                    } else {
+                        wayToUpdate = .reloadData
+                    }
                 }
 
                 strongSelf.activityIndicator.stopAnimating()
@@ -277,16 +297,16 @@ final class DiscoverViewController: BaseViewController {
 
 extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-    private enum Section: Int {
-        case User
-        case LoadMore
+    fileprivate enum Section: Int {
+        case user
+        case loadMore
     }
 
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 2
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             fatalError()
@@ -294,15 +314,15 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
 
         switch section {
 
-        case .User:
+        case .user:
             return discoveredUsers.count
 
-        case .LoadMore:
+        case .loadMore:
             return discoveredUsers.isEmpty ? 0 : 1
         }
     }
     
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
@@ -310,26 +330,26 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
 
         switch section {
 
-        case .User:
+        case .user:
 
             switch layoutMode {
 
-            case .Normal:
+            case .normal:
                 let cell: DiscoverNormalUserCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                 return cell
                 
-            case .Card:
+            case .card:
                 let cell: DiscoverCardUserCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
                 return cell
             }
 
-        case .LoadMore:
+        case .loadMore:
             let cell: LoadMoreCollectionViewCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
             return cell
         }
     }
     
-    func collectionView(collectionView: UICollectionView, willDisplayCell cell: UICollectionViewCell, forItemAtIndexPath indexPath: NSIndexPath) {
+    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
@@ -337,38 +357,38 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
 
         switch section {
 
-        case .User:
+        case .user:
 
             let discoveredUser = discoveredUsers[indexPath.row]
 
             switch layoutMode {
 
-            case .Normal:
+            case .normal:
                 let cell = cell as! DiscoverNormalUserCell
                 cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
                 
-            case .Card:
+            case .card:
                 let cell = cell as! DiscoverCardUserCell
                 cell.configureWithDiscoveredUser(discoveredUser, collectionView: collectionView, indexPath: indexPath)
             }
 
-        case .LoadMore:
+        case .loadMore:
             if let cell = cell as? LoadMoreCollectionViewCell {
 
                 println("load more discovered users")
 
-                if !cell.loadingActivityIndicator.isAnimating() {
+                if !cell.loadingActivityIndicator.isAnimating {
                     cell.loadingActivityIndicator.startAnimating()
                 }
 
-                updateDiscoverUsers(mode: .LoadMore, finish: { [weak cell] in
+                updateDiscoverUsers(mode: .loadMore, finish: { [weak cell] in
                     cell?.loadingActivityIndicator.stopAnimating()
                 })
             }
         }
     }
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
@@ -376,23 +396,23 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
 
         switch section {
 
-        case .User:
+        case .user:
 
             switch layoutMode {
 
-            case .Normal:
-                return CGSize(width: UIScreen.mainScreen().bounds.width, height: 80)
+            case .normal:
+                return CGSize(width: UIScreen.main.bounds.width, height: 80)
 
-            case .Card:
-                return CGSize(width: (UIScreen.mainScreen().bounds.width - (10 + 10 + 10)) * 0.5, height: 280)
+            case .card:
+                return CGSize(width: (UIScreen.main.bounds.width - (10 + 10 + 10)) * 0.5, height: 280)
             }
 
-        case .LoadMore:
-            return CGSize(width: UIScreen.mainScreen().bounds.width, height: 80)
+        case .loadMore:
+            return CGSize(width: UIScreen.main.bounds.width, height: 80)
         }
     }
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
 
         guard let section = Section(rawValue: section) else {
             fatalError()
@@ -400,27 +420,27 @@ extension DiscoverViewController: UICollectionViewDelegate, UICollectionViewData
 
         switch section {
 
-        case .User:
+        case .user:
 
             switch layoutMode {
 
-            case .Normal:
-                return UIEdgeInsetsZero
+            case .normal:
+                return UIEdgeInsets.zero
                 
-            case .Card:
+            case .card:
                 return UIEdgeInsets(top: 10, left: 10, bottom: 10, right: 10)
             }
 
-        case .LoadMore:
-            return UIEdgeInsetsZero
+        case .loadMore:
+            return UIEdgeInsets.zero
         }
     }
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        collectionView.deselectItemAtIndexPath(indexPath, animated: true)
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
 
         let discoveredUser = discoveredUsers[indexPath.row]
-        showProfileOfDiscoveredUserAction?(discoveredUser: discoveredUser)
+        showProfileOfDiscoveredUserAction?(discoveredUser)
     }
 }
 

@@ -12,7 +12,7 @@ class ScalingImageView: UIScrollView {
 
     lazy var imageView: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .ScaleAspectFill
+        view.contentMode = .scaleAspectFill
         view.clipsToBounds = true
         return view
     }()
@@ -30,7 +30,7 @@ class ScalingImageView: UIScrollView {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        self.autoresizingMask = [.FlexibleWidth, .FlexibleHeight]
+        self.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         self.showsVerticalScrollIndicator = false
         self.showsHorizontalScrollIndicator = false
         self.bouncesZoom = true
@@ -47,16 +47,16 @@ class ScalingImageView: UIScrollView {
 
     // MARK: Setup
 
-    private func setupWithImage(image: UIImage) {
+    fileprivate func setupWithImage(_ image: UIImage) {
 
         updateWithImage(image)
     }
 
-    private func updateWithImage(image: UIImage) {
+    fileprivate func updateWithImage(_ image: UIImage) {
 
-        imageView.transform = CGAffineTransformIdentity
+        imageView.transform = CGAffineTransform.identity
         imageView.image = image
-        imageView.frame = CGRect(origin: CGPointZero, size: image.size)
+        imageView.frame = CGRect(origin: CGPoint.zero, size: image.size)
 
         contentSize = image.size
 
@@ -65,7 +65,7 @@ class ScalingImageView: UIScrollView {
         centerContent()
     }
 
-    private func updateZoomScaleWithImage(image: UIImage) {
+    fileprivate func updateZoomScaleWithImage(_ image: UIImage) {
 
         let scrollViewFrame = bounds
         let imageSize = image.size
@@ -83,10 +83,10 @@ class ScalingImageView: UIScrollView {
 
         zoomScale = minimumZoomScale
 
-        panGestureRecognizer.enabled = false
+        panGestureRecognizer.isEnabled = false
     }
 
-    private func centerContent() {
+    fileprivate func centerContent() {
 
         var horizontalInset: CGFloat = 0
         var verticalInset: CGFloat = 0
@@ -99,7 +99,7 @@ class ScalingImageView: UIScrollView {
             verticalInset = (bounds.height - contentSize.height) * 0.5
         }
 
-        if let scale = window?.screen.scale where scale < 2 {
+        if let scale = window?.screen.scale, scale < 2 {
             horizontalInset = floor(horizontalInset)
             verticalInset = floor(verticalInset)
         }

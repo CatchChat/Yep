@@ -9,15 +9,12 @@
 import Foundation
 
 public enum Method: String, CustomStringConvertible {
-    case OPTIONS = "OPTIONS"
-    case GET = "GET"
-    case HEAD = "HEAD"
-    case POST = "POST"
-    case PUT = "PUT"
-    case PATCH = "PATCH"
-    case DELETE = "DELETE"
-    case TRACE = "TRACE"
-    case CONNECT = "CONNECT"
+    case get = "GET"
+    case head = "HEAD"
+    case post = "POST"
+    case put = "PUT"
+    case patch = "PATCH"
+    case delete = "DELETE"
 
     public var description: String {
         return self.rawValue
@@ -27,14 +24,14 @@ public enum Method: String, CustomStringConvertible {
 public struct Resource<A>: CustomStringConvertible {
     let path: String
     let method: Method
-    let requestBody: NSData?
+    let requestBody: Data?
     let headers: [String: String]
-    let parse: NSData -> A?
+    let parse: (Data) -> A?
 
     public var description: String {
-        let decodeRequestBody: [String: AnyObject]
+        let decodeRequestBody: JSONDictionary
         if let requestBody = requestBody {
-            decodeRequestBody = decodeJSON(requestBody)!
+            decodeRequestBody = decodeJSON(requestBody) ?? [:]
         } else {
             decodeRequestBody = [:]
         }
@@ -42,7 +39,7 @@ public struct Resource<A>: CustomStringConvertible {
         return "Resource(Method: \(method), path: \(path), headers: \(headers), requestBody: \(decodeRequestBody))"
     }
 
-    public init(path: String, method: Method, requestBody: NSData?, headers: [String: String], parse: NSData -> A?) {
+    public init(path: String, method: Method, requestBody: Data?, headers: [String: String], parse: @escaping (Data) -> A?) {
         self.path = path
         self.method = method
         self.requestBody = requestBody
@@ -52,34 +49,34 @@ public struct Resource<A>: CustomStringConvertible {
 }
 
 public enum ErrorCode: String {
-    case BlockedByRecipient = "rejected_your_message"
-    case NotYetRegistered = "not_yet_registered"
-    case UserWasBlocked = "user_was_blocked"
+    case blockedByRecipient = "rejected_your_message"
+    case notYetRegistered = "not_yet_registered"
+    case userWasBlocked = "user_was_blocked"
 }
 
 public enum Reason: CustomStringConvertible {
-    case CouldNotParseJSON
-    case NoData
-    case NoSuccessStatusCode(statusCode: Int, errorCode: ErrorCode?)
-    case Other(NSError?)
+    case couldNotParseJSON
+    case noData
+    case noSuccessStatusCode(statusCode: Int, errorCode: ErrorCode?)
+    case other(Error?)
 
     public var description: String {
         switch self {
-        case .CouldNotParseJSON:
+        case .couldNotParseJSON:
             return "CouldNotParseJSON"
-        case .NoData:
+        case .noData:
             return "NoData"
-        case .NoSuccessStatusCode(let statusCode):
+        case .noSuccessStatusCode(let statusCode):
             return "NoSuccessStatusCode: \(statusCode)"
-        case .Other(let error):
-            return "Other, Error: \(error?.description)"
+        case .other(let error):
+            return "Other, Error: \(error)"
         }
     }
 }
 
-public typealias FailureHandler = (reason: Reason, errorMessage: String?) -> Void
+public typealias FailureHandler = (_ reason: Reason, _ errorMessage: String?) -> Void
 
-public let defaultFailureHandler: FailureHandler = { reason, errorMessage in
+public let defaultFailureHandler: FailureHandler = { (reason, errorMessage) in
     print("\n***************************** YepNetworking Failure *****************************")
     print("Reason: \(reason)")
     if let errorMessage = errorMessage {
@@ -87,20 +84,20 @@ public let defaultFailureHandler: FailureHandler = { reason, errorMessage in
     }
 }
 
-func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
+func queryComponents(_ key: String, value: Any) -> [(String, String)] {
 
-    func escape(string: String) -> String {
+    func escape(_ string: String) -> String {
         let generalDelimitersToEncode = ":#[]@" // does not include "?" or "/" due to RFC 3986 - Section 3.4
         let subDelimitersToEncode = "!$&'()*+,;="
 
-        let allowedCharacterSet = NSCharacterSet.URLQueryAllowedCharacterSet().mutableCopy() as! NSMutableCharacterSet
-        allowedCharacterSet.removeCharactersInString(generalDelimitersToEncode + subDelimitersToEncode)
+        let allowedCharacterSet = (CharacterSet.urlQueryAllowed as NSCharacterSet).mutableCopy() as! NSMutableCharacterSet
+        allowedCharacterSet.removeCharacters(in: generalDelimitersToEncode + subDelimitersToEncode)
 
-        return string.stringByAddingPercentEncodingWithAllowedCharacters(allowedCharacterSet) ?? string
+        return string.addingPercentEncoding(withAllowedCharacters: allowedCharacterSet as CharacterSet) ?? string
     }
 
     var components: [(String, String)] = []
-    if let dictionary = value as? [String: AnyObject] {
+    if let dictionary = value as? JSONDictionary {
         for (nestedKey, value) in dictionary {
             components += queryComponents("\(key)[\(nestedKey)]", value: value)
         }
@@ -109,7 +106,7 @@ func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
             components += queryComponents("\(key)[]", value: value)
         }
     } else {
-        components.appendContentsOf([(escape(key), escape("\(value)"))])
+        components.append(contentsOf: [(escape(key), escape("\(value)"))])
     }
 
     return components
@@ -117,60 +114,66 @@ func queryComponents(key: String, value: AnyObject) -> [(String, String)] {
 
 var yepNetworkActivityCount = 0 {
     didSet {
-        Manager.networkActivityCountChangedAction?(count: yepNetworkActivityCount)
+        Manager.networkActivityCountChangedAction?(yepNetworkActivityCount)
     }
 }
 
-private let yepSuccessStatusCodeRange: Range<Int> = 200..<300
+private let yepSuccessStatusCodeRange: CountableRange<Int> = 200..<300
 
-public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSURL, resource: Resource<A>?, failure: FailureHandler?, completion: A -> Void) {
+public func apiRequest<A>(_ modifyRequest: (URLRequest) -> (), baseURL: URL, resource: Resource<A>?, failure: FailureHandler?, completion: @escaping (A) -> Void) {
+
+    let failure: FailureHandler = { (reason, errorMessage) in
+        defaultFailureHandler(reason, errorMessage)
+        failure?(reason, errorMessage)
+    }
 
     guard let resource = resource else {
-        failure?(reason: .Other(nil), errorMessage: "No resource")
+        failure(.other(nil), "No resource")
         return
     }
 
-    let session = NSURLSession.sharedSession()
+    let session = URLSession.shared
 
-    let url = baseURL.URLByAppendingPathComponent(resource.path)
-    let request = NSMutableURLRequest(URL: url)
-    request.HTTPMethod = resource.method.rawValue
+    let url = baseURL.appendingPathComponent(resource.path)
+    var request = URLRequest(url: url)
+    request.httpMethod = resource.method.rawValue
 
-    func needEncodesParametersForMethod(method: Method) -> Bool {
+    func needEncodesParametersForMethod(_ method: Method) -> Bool {
         switch method {
-        case .GET, .HEAD, .DELETE:
+        case .get, .head, .delete:
             return true
         default:
             return false
         }
     }
 
-    func query(parameters: [String: AnyObject]) -> String {
+    func query(_ parameters: JSONDictionary) -> String {
         var components: [(String, String)] = []
-        for key in Array(parameters.keys).sort(<) {
-            let value: AnyObject! = parameters[key]
-            components += queryComponents(key, value: value)
+        for key in Array(parameters.keys).sorted(by: <) {
+            if let value = parameters[key] {
+                components += queryComponents(key, value: value)
+            }
         }
 
-        return (components.map{"\($0)=\($1)"} as [String]).joinWithSeparator("&")
+        return (components.map{"\($0)=\($1)"} as [String]).joined(separator: "&")
     }
 
     func handleParameters() {
         if needEncodesParametersForMethod(resource.method) {
-            guard let URL = request.URL else {
+            guard let URL = request.url else {
                 print("Invalid URL of request: \(request)")
                 return
             }
 
             if let requestBody = resource.requestBody {
-                if let URLComponents = NSURLComponents(URL: URL, resolvingAgainstBaseURL: false) {
-                    URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(decodeJSON(requestBody)!)
-                    request.URL = URLComponents.URL
+                if var URLComponents = URLComponents(url: URL, resolvingAgainstBaseURL: false) {
+                    URLComponents.percentEncodedQuery = (URLComponents.percentEncodedQuery != nil ? URLComponents.percentEncodedQuery! + "&" : "") + query(decodeJSON(requestBody) ?? [:])
+                    request.url = URLComponents.url
                 }
             }
 
         } else {
-            request.HTTPBody = resource.requestBody
+            request.httpBody = resource.requestBody
         }
     }
 
@@ -186,17 +189,9 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
     print(request.cURLCommandLineWithSession(session))
     #endif
 
-    let _failure: FailureHandler
+    let task = session.dataTask(with: request, completionHandler: { (data, response, error) in
 
-    if let failure = failure {
-        _failure = failure
-    } else {
-        _failure = defaultFailureHandler
-    }
-
-    let task = session.dataTaskWithRequest(request) { (data, response, error) -> Void in
-
-        if let httpResponse = response as? NSHTTPURLResponse {
+        if let httpResponse = response as? HTTPURLResponse {
 
             if yepSuccessStatusCodeRange.contains(httpResponse.statusCode) {
 
@@ -206,53 +201,52 @@ public func apiRequest<A>(modifyRequest: NSMutableURLRequest -> (), baseURL: NSU
                         completion(result)
 
                     } else {
-                        let dataString = NSString(data: responseData, encoding: NSUTF8StringEncoding)
+                        let dataString = String(data: responseData, encoding: .utf8)
                         print(dataString)
-                        
-                        _failure(reason: .CouldNotParseJSON, errorMessage: errorMessageInData(data))
+                        failure(.couldNotParseJSON, errorMessageInData(data))
                         print("\(resource)\n")
                         print(request.cURLCommandLine)
                     }
 
                 } else {
-                    _failure(reason: .NoData, errorMessage: errorMessageInData(data))
+                    failure(.noData, errorMessageInData(data))
                     print("\(resource)\n")
                     print(request.cURLCommandLine)
                 }
 
             } else {
                 let errorCode = errorCodeInData(data)
-                _failure(reason: .NoSuccessStatusCode(statusCode: httpResponse.statusCode, errorCode: errorCode), errorMessage: errorMessageInData(data))
+                failure(.noSuccessStatusCode(statusCode: httpResponse.statusCode, errorCode: errorCode), errorMessageInData(data))
                 print("\(resource)\n")
                 print(request.cURLCommandLine)
 
                 // 对于 401: errorMessage: >>>HTTP Token: Access denied<<<
                 // 用户需要重新登录，所以
 
-                if let host = request.URL?.host {
-                    Manager.authFailedAction?(statusCode: httpResponse.statusCode, host: host)
+                if let host = request.url?.host {
+                    Manager.authFailedAction?(httpResponse.statusCode, host)
                 }
             }
 
         } else {
-            _failure(reason: .Other(error), errorMessage: errorMessageInData(data))
+            failure(.other(error), errorMessageInData(data))
             print("\(resource)")
             print(request.cURLCommandLine)
         }
 
-        dispatch_async(dispatch_get_main_queue()) {
+        DispatchQueue.main.async {
             yepNetworkActivityCount -= 1
         }
-    }
+    }) 
 
     task.resume()
 
-    dispatch_async(dispatch_get_main_queue()) {
+    DispatchQueue.main.async {
         yepNetworkActivityCount += 1
     }
 }
 
-func errorMessageInData(data: NSData?) -> String? {
+func errorMessageInData(_ data: Data?) -> String? {
     if let data = data {
         if let json = decodeJSON(data) {
             if let errorMessage = json["error"] as? String {
@@ -264,7 +258,7 @@ func errorMessageInData(data: NSData?) -> String? {
     return nil
 }
 
-func errorCodeInData(data: NSData?) -> ErrorCode? {
+func errorCodeInData(_ data: Data?) -> ErrorCode? {
     if let data = data {
         if let json = decodeJSON(data) {
             print("error json: \(json)")
@@ -279,37 +273,36 @@ func errorCodeInData(data: NSData?) -> ErrorCode? {
 
 // Here are some convenience functions for dealing with JSON APIs
 
-public typealias JSONDictionary = [String: AnyObject]
+public typealias JSONDictionary = [String: Any]
 
-public func decodeJSON(data: NSData) -> JSONDictionary? {
+public func decodeJSON(_ data: Data) -> JSONDictionary? {
 
-    if data.length > 0 {
-        guard let result = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) else {
-            return JSONDictionary()
-        }
-        
-        if let dictionary = result as? JSONDictionary {
-            return dictionary
-        } else if let array = result as? [JSONDictionary] {
-            return ["data": array]
-        } else {
-            return JSONDictionary()
-        }
+    guard data.count > 0 else {
+        return [:] // 允许不返回数据，只有状态码
+    }
 
+    guard let result = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions()) else {
+        return nil
+    }
+    
+    if let dictionary = result as? JSONDictionary {
+        return dictionary
+    } else if let array = result as? [JSONDictionary] {
+        return ["data": array]
     } else {
-        return JSONDictionary()
+        return nil
     }
 }
 
-public func encodeJSON(dict: JSONDictionary) -> NSData? {
-    return dict.count > 0 ? (try? NSJSONSerialization.dataWithJSONObject(dict, options: NSJSONWritingOptions())) : nil
+public func encodeJSON(_ dict: JSONDictionary) -> Data? {
+    return dict.count > 0 ? (try? JSONSerialization.data(withJSONObject: dict, options: JSONSerialization.WritingOptions())) : nil
 }
 
-public func jsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
+public func jsonResource<A>(path: String, method: Method, requestParameters: JSONDictionary, parse: @escaping (JSONDictionary) -> A?) -> Resource<A> {
     return jsonResource(token: nil, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
-public func authJsonResource<A>(path path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A>? {
+public func authJsonResource<A>(path: String, method: Method, requestParameters: JSONDictionary, parse: @escaping (JSONDictionary) -> A?) -> Resource<A>? {
 
     guard let token = Manager.accessToken?() else {
         print("No token for auth")
@@ -319,9 +312,9 @@ public func authJsonResource<A>(path path: String, method: Method, requestParame
     return jsonResource(token: token, path: path, method: method, requestParameters: requestParameters, parse: parse)
 }
 
-public func jsonResource<A>(token token: String?, path: String, method: Method, requestParameters: JSONDictionary, parse: JSONDictionary -> A?) -> Resource<A> {
+public func jsonResource<A>(token: String?, path: String, method: Method, requestParameters: JSONDictionary, parse: @escaping (JSONDictionary) -> A?) -> Resource<A> {
     
-    let jsonParse: NSData -> A? = { data in
+    let jsonParse: (Data) -> A? = { data in
         if let json = decodeJSON(data) {
             return parse(json)
         }
@@ -336,10 +329,10 @@ public func jsonResource<A>(token token: String?, path: String, method: Method, 
         headers["Authorization"] = "Token token=\"\(token)\""
     }
 
-    let locale = NSLocale.autoupdatingCurrentLocale()
+    let locale = Locale.autoupdatingCurrent
     if let
-        languageCode = locale.objectForKey(NSLocaleLanguageCode) as? String,
-        countryCode = locale.objectForKey(NSLocaleCountryCode) as? String {
+        languageCode = (locale as NSLocale).object(forKey: NSLocale.Key.languageCode) as? String,
+        let countryCode = (locale as NSLocale).object(forKey: NSLocale.Key.countryCode) as? String {
             headers["Accept-Language"] = languageCode + "-" + countryCode
     }
 

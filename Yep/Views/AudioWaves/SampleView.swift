@@ -21,8 +21,8 @@ final class SampleView: UIView {
 
     @IBInspectable var sampleColor: UIColor = UIColor.yepTintColor() {
         willSet {
-            playedWaveLayer.strokeColor = newValue.colorWithAlphaComponent(0.5).CGColor
-            unplayedWaveLayer.strokeColor = newValue.CGColor
+            playedWaveLayer.strokeColor = newValue.withAlphaComponent(0.5).cgColor
+            unplayedWaveLayer.strokeColor = newValue.cgColor
         }
     }
 
@@ -32,21 +32,21 @@ final class SampleView: UIView {
     lazy var playedWaveLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.lineWidth = self.sampleWidth
-        layer.strokeColor = self.sampleColor.colorWithAlphaComponent(0.5).CGColor
+        layer.strokeColor = self.sampleColor.withAlphaComponent(0.5).cgColor
         return layer
     }()
 
     lazy var unplayedWaveLayer: CAShapeLayer = {
         let layer = CAShapeLayer()
         layer.lineWidth = self.sampleWidth
-        layer.strokeColor = self.sampleColor.CGColor
+        layer.strokeColor = self.sampleColor.cgColor
         return layer
     }()
 
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
 
-        backgroundColor = UIColor.clearColor()
+        backgroundColor = UIColor.clear
 
         layer.addSublayer(unplayedWaveLayer)
         layer.addSublayer(playedWaveLayer)
@@ -69,7 +69,7 @@ final class SampleView: UIView {
 
                 let viewHeight = self.bounds.height
 
-                for (index, percent) in samples.enumerate() {
+                for (index, percent) in samples.enumerated() {
 
                     let x = CGFloat(index) * sampleWidth + sampleGap * CGFloat(index)
                     let sampleHeightMax = viewHeight * 0.7
@@ -80,17 +80,17 @@ final class SampleView: UIView {
                     let sampleHeight = realSampleHeight < sampleHeightMax ? realSampleHeight: sampleHeightMax
 
                     if CGFloat(index) / CGFloat(samples.count) < progress {
-                        playedWavePath.moveToPoint(CGPointMake(x, viewHeight / 2.0 - sampleHeight / 2.0))
-                        playedWavePath.addLineToPoint(CGPointMake(x, sampleHeight / 2.0 + viewHeight / 2.0))
+                        playedWavePath.move(to: CGPoint(x: x, y: viewHeight / 2.0 - sampleHeight / 2.0))
+                        playedWavePath.addLine(to: CGPoint(x: x, y: sampleHeight / 2.0 + viewHeight / 2.0))
 
                     } else {
-                        unplayedWavePath.moveToPoint(CGPointMake(x, viewHeight / 2.0 - sampleHeight / 2.0))
-                        unplayedWavePath.addLineToPoint(CGPointMake(x, sampleHeight / 2.0 + viewHeight / 2.0))
+                        unplayedWavePath.move(to: CGPoint(x: x, y: viewHeight / 2.0 - sampleHeight / 2.0))
+                        unplayedWavePath.addLine(to: CGPoint(x: x, y: sampleHeight / 2.0 + viewHeight / 2.0))
                     }
                 }
 
-                playedWaveLayer.path = playedWavePath.CGPath
-                unplayedWaveLayer.path = unplayedWavePath.CGPath
+                playedWaveLayer.path = playedWavePath.cgPath
+                unplayedWaveLayer.path = unplayedWavePath.cgPath
             }
 
         } else {

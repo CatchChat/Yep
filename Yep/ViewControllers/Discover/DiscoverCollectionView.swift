@@ -13,11 +13,11 @@ final class DiscoverCollectionView: UICollectionView {
     // ref http://stackoverflow.com/questions/19483511/uirefreshcontrol-with-uicollectionview-in-ios7
     override var contentInset: UIEdgeInsets {
         didSet {
-            if tracking {
+            if isTracking {
                 let diff = contentInset.top - oldValue.top
-                var translation = panGestureRecognizer.translationInView(self)
+                var translation = panGestureRecognizer.translation(in: self)
                 translation.y -= diff * 3 / 2
-                panGestureRecognizer.setTranslation(translation, inView: self)
+                panGestureRecognizer.setTranslation(translation, in: self)
             }
         }
     }

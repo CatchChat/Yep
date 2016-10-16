@@ -12,20 +12,27 @@ import Ruler
 import RxSwift
 import RxCocoa
 
-class DiscoverContainerViewController: UIPageViewController {
+class DiscoverContainerViewController: UIPageViewController, CanScrollsToTop {
 
-    private lazy var disposeBag = DisposeBag()
+    // CanScrollsToTop
+    var scrollView: UIScrollView? {
+        return (viewControllers?.first as? CanScrollsToTop)?.scrollView
+    }
+
+    fileprivate lazy var disposeBag = DisposeBag()
 
     enum Option: Int {
-        case MeetGenius
-        case FindAll
+        case meetGenius
+        case findAll
+
+        static let count = 2
 
         var title: String {
             switch self {
-            case .MeetGenius:
-                return NSLocalizedString("Meet Genius", comment: "")
-            case .FindAll:
-                return NSLocalizedString("Find All", comment: "")
+            case .meetGenius:
+                return String.trans_titleMeetGeniuses
+            case .findAll:
+                return String.trans_titleFindAll
             }
         }
     }
@@ -33,43 +40,43 @@ class DiscoverContainerViewController: UIPageViewController {
     @IBOutlet weak var segmentedControl: UISegmentedControl! {
         didSet {
             segmentedControl.removeAllSegments()
-            (0..<2).forEach({
+            (0..<Option.count).forEach({
                 let option = Option(rawValue: $0)
-                segmentedControl.insertSegmentWithTitle(option?.title, atIndex: $0, animated: false)
+                segmentedControl.insertSegment(withTitle: option?.title, at: $0, animated: false)
             })
 
-            let font = UIFont.systemFontOfSize(Ruler.iPhoneHorizontal(13, 14, 15).value)
-            let padding: CGFloat = Ruler.iPhoneHorizontal(6, 11, 12).value
+            let font = UIFont.systemFont(ofSize: Ruler.iPhoneHorizontal(13, 14, 15).value)
+            let padding: CGFloat = Ruler.iPhoneHorizontal(8, 11, 12).value
             segmentedControl.yep_setTitleFont(font, withPadding: padding)
         }
     }
 
-    private lazy var meetGeniusViewController: MeetGeniusViewController = {
+    fileprivate lazy var meetGeniusViewController: MeetGeniusViewController = {
 
         let vc = UIStoryboard.Scene.meetGenius
 
-        vc.tapBannerAction = { [weak self] banner in
+        vc.tapBannerAction = { banner in
             SafeDispatch.async { [weak self] in
-                self?.performSegueWithIdentifier("showGeniusInterviewWithBanner", sender: Box<GeniusInterviewBanner>(banner))
+                self?.performSegue(withIdentifier: "showGeniusInterviewWithBanner", sender: banner)
             }
         }
 
         vc.showGeniusInterviewAction = { geniusInterview in
             SafeDispatch.async { [weak self] in
-                self?.performSegueWithIdentifier("showGeniusInterview", sender: Box<GeniusInterview>(geniusInterview))
+                self?.performSegue(withIdentifier: "showGeniusInterview", sender: geniusInterview)
             }
         }
 
         return vc
     }()
 
-    private lazy var discoverViewController: DiscoverViewController = {
+    fileprivate lazy var discoverViewController: DiscoverViewController = {
 
         let vc = UIStoryboard.Scene.discover
 
         vc.showProfileOfDiscoveredUserAction = { discoveredUser in
             SafeDispatch.async { [weak self] in
-                self?.performSegueWithIdentifier("showProfile", sender: Box<DiscoveredUser>(discoveredUser))
+                self?.performSegue(withIdentifier: "showProfile", sender: discoveredUser)
             }
         }
 
@@ -84,39 +91,39 @@ class DiscoverContainerViewController: UIPageViewController {
         return vc
     }()
 
-    private lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
+    fileprivate lazy var discoveredUsersLayoutModeButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
         item.image = UIImage.yep_iconList
-        item.rx_tap
-            .subscribeNext({ [weak self] in self?.discoverViewController.changeLayoutMode() })
+        item.rx.tap
+            .subscribe(onNext: { [weak self] in self?.discoverViewController.changeLayoutMode() })
             .addDisposableTo(self.disposeBag)
         return item
     }()
 
-    private var discoveredUsersLayoutMode: DiscoverFlowLayout.Mode = .Card {
+    fileprivate var discoveredUsersLayoutMode: DiscoverFlowLayout.Mode = .card {
         didSet {
             switch discoveredUsersLayoutMode {
 
-            case .Card:
+            case .card:
                 view.backgroundColor = UIColor.yepBackgroundColor()
                 discoveredUsersLayoutModeButtonItem.image = UIImage.yep_iconList
 
-            case .Normal:
-                view.backgroundColor = UIColor.whiteColor()
+            case .normal:
+                view.backgroundColor = UIColor.white
                 discoveredUsersLayoutModeButtonItem.image = UIImage.yep_iconMinicard
             }
         }
     }
 
-    private lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
+    fileprivate lazy var discoveredUsersFilterButtonItem: UIBarButtonItem = {
         let item = UIBarButtonItem()
-        item.rx_tap
-            .subscribeNext({ [weak self] in self?.discoverViewController.showFilters() })
+        item.rx.tap
+            .subscribe(onNext: { [weak self] in self?.discoverViewController.showFilters() })
             .addDisposableTo(self.disposeBag)
         return item
     }()
 
-    private var discoveredUserSortStyle: DiscoveredUserSortStyle = .Default {
+    fileprivate var discoveredUserSortStyle: DiscoveredUserSortStyle = .default {
         willSet {
             SafeDispatch.async {
                 UIView.performWithoutAnimation { [weak self] in
@@ -126,18 +133,18 @@ class DiscoverContainerViewController: UIPageViewController {
         }
     }
 
-    var currentOption: Option = .MeetGenius {
+    var currentOption: Option = .meetGenius {
         didSet {
             switch currentOption {
 
-            case .MeetGenius:
-                setViewControllers([meetGeniusViewController], direction: .Reverse, animated: true, completion: nil)
+            case .meetGenius:
+                setViewControllers([meetGeniusViewController], direction: .reverse, animated: true, completion: nil)
 
                 navigationItem.leftBarButtonItem = nil
                 navigationItem.rightBarButtonItem = nil
 
-            case .FindAll:
-                setViewControllers([discoverViewController], direction: .Forward, animated: true, completion: nil)
+            case .findAll:
+                setViewControllers([discoverViewController], direction: .forward, animated: true, completion: nil)
 
                 //navigationItem.leftBarButtonItem = discoveredUsersLayoutModeButtonItem
                 navigationItem.rightBarButtonItem = discoveredUsersFilterButtonItem
@@ -148,35 +155,35 @@ class DiscoverContainerViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        currentOption = .MeetGenius
+        currentOption = .meetGenius
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
 
-        segmentedControl.rx_value
+        segmentedControl.rx.value
             .map({ Option(rawValue: $0) })
-            .subscribeNext({ [weak self] in self?.currentOption = $0 ?? .MeetGenius })
+            .subscribe(onNext: { [weak self] in self?.currentOption = $0 ?? .meetGenius })
             .addDisposableTo(disposeBag)
 
         if let
             value = YepUserDefaults.discoveredUserSortStyle.value,
-            _discoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: value) {
+            let _discoveredUserSortStyle = DiscoveredUserSortStyle(rawValue: value) {
 
             discoveredUserSortStyle = _discoveredUserSortStyle
 
         } else {
-            discoveredUserSortStyle = .Default
+            discoveredUserSortStyle = .default
         }
 
         self.dataSource = self
         self.delegate = self
 
-        if traitCollection.forceTouchCapability == .Available {
-            registerForPreviewingWithDelegate(self, sourceView: view)
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: view)
         }
     }
 
     // MARK: - Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         guard let identifier = segue.identifier else {
             return
@@ -186,22 +193,20 @@ class DiscoverContainerViewController: UIPageViewController {
 
         case "showProfile":
 
-            let vc = segue.destinationViewController as! ProfileViewController
-            let discoveredUser = (sender as! Box<DiscoveredUser>).value
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            let vc = segue.destination as! ProfileViewController
+            let discoveredUser = sender as! DiscoveredUser
+            vc.prepare(with: discoveredUser)
 
         case "showGeniusInterview":
 
-            let vc = segue.destinationViewController as! GeniusInterviewViewController
-
-            let geniusInterview = (sender as! Box<GeniusInterview>).value
+            let vc = segue.destination as! GeniusInterviewViewController
+            let geniusInterview = sender as! GeniusInterview
             vc.interview = geniusInterview
 
         case "showGeniusInterviewWithBanner":
 
-            let vc = segue.destinationViewController as! GeniusInterviewViewController
-
-            let banner = (sender as! Box<GeniusInterviewBanner>).value
+            let vc = segue.destination as! GeniusInterviewViewController
+            let banner = sender as! GeniusInterviewBanner
             vc.interview = banner
 
         default:
@@ -214,7 +219,7 @@ class DiscoverContainerViewController: UIPageViewController {
 
 extension DiscoverContainerViewController: UIPageViewControllerDataSource {
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
 
         if viewController == discoverViewController {
             return meetGeniusViewController
@@ -223,7 +228,7 @@ extension DiscoverContainerViewController: UIPageViewControllerDataSource {
         return nil
     }
 
-    func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
+    func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
 
         if viewController == meetGeniusViewController {
             return discoverViewController
@@ -237,59 +242,54 @@ extension DiscoverContainerViewController: UIPageViewControllerDataSource {
 
 extension DiscoverContainerViewController: UIPageViewControllerDelegate {
 
-    func pageViewController(pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
 
         guard completed else {
             return
         }
 
         if previousViewControllers.first == meetGeniusViewController {
-            currentOption = .FindAll
+            currentOption = .findAll
         } else if previousViewControllers.first == discoverViewController {
-            currentOption = .MeetGenius
+            currentOption = .meetGenius
         }
         segmentedControl.selectedSegmentIndex = currentOption.rawValue
     }
 }
 
-
 // MARK: - UIViewControllerPreviewingDelegate
 
 extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
 
         switch currentOption {
 
-        case .MeetGenius:
+        case .meetGenius:
 
-            guard let tableView = meetGeniusViewController.tableView else {
-                return nil
-            }
+            let tableView = meetGeniusViewController.interviewsTableView
 
-            let fixedLocation = view.convertPoint(location, toView: tableView)
+            let fixedLocation = view.convert(location, to: tableView)
 
-            guard let indexPath = tableView.indexPathForRowAtPoint(fixedLocation), cell = tableView.cellForRowAtIndexPath(indexPath) else {
+            guard let indexPath = tableView.indexPathForRow(at: fixedLocation), let cell = tableView.cellForRow(at: indexPath) else {
                 return nil
             }
 
             previewingContext.sourceRect = cell.frame
 
             let vc = UIStoryboard.Scene.geniusInterview
-            let geniusInterview = meetGeniusViewController.geniusInterviews[indexPath.row]
+            let geniusInterview = meetGeniusViewController.geniusInterviewAtIndexPath(indexPath)
             vc.interview = geniusInterview
 
             return vc
 
-        case .FindAll:
+        case .findAll:
 
-            guard let discoveredUsersCollectionView = discoverViewController.discoveredUsersCollectionView else {
-                return nil
-            }
+            let collectionView = discoverViewController.collectionView
 
-            let fixedLocation = view.convertPoint(location, toView: discoveredUsersCollectionView)
+            let fixedLocation = view.convert(location, to: collectionView)
 
-            guard let indexPath = discoveredUsersCollectionView.indexPathForItemAtPoint(fixedLocation), cell = discoveredUsersCollectionView.cellForItemAtIndexPath(indexPath) else {
+            guard let indexPath = collectionView.indexPathForItem(at: fixedLocation), let cell = collectionView.cellForItem(at: indexPath) else {
                 return nil
             }
 
@@ -297,16 +297,16 @@ extension DiscoverContainerViewController: UIViewControllerPreviewingDelegate {
 
             let vc = UIStoryboard.Scene.profile
 
-            let discoveredUser = discoverViewController.discoveredUsers[indexPath.item]
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            let discoveredUser = discoverViewController.discoveredUserAtIndexPath(indexPath)
+            vc.prepare(with: discoveredUser)
 
             return vc
         }
     }
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
 
-        showViewController(viewControllerToCommit, sender: self)
+        show(viewControllerToCommit, sender: self)
     }
 }
 

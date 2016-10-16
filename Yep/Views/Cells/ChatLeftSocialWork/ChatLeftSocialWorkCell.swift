@@ -32,20 +32,20 @@ final class ChatLeftSocialWorkCell: UICollectionViewCell {
     }()
 
     var socialWork: MessageSocialWork?
-    var createFeedAction: ((socialWork: MessageSocialWork) -> Void)?
+    var createFeedAction: ((_ socialWork: MessageSocialWork) -> Void)?
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        socialWorkImageView.maskView = maskImageView
+        socialWorkImageView.mask = maskImageView
 
         githubRepoImageView.tintColor = UIColor.yepIconImageViewTintColor()
 
-        syncButton.setTitle(NSLocalizedString("Sync to Feeds", comment: ""), forState: .Normal)
-        syncButton.setTitle(NSLocalizedString("Synced to Feeds", comment: ""), forState: .Disabled)
+        syncButton.setTitle(NSLocalizedString("Sync to Feeds", comment: ""), for: .normal)
+        syncButton.setTitle(NSLocalizedString("Synced to Feeds", comment: ""), for: .disabled)
 
-        syncButton.setTitleColor(UIColor.yepTintColor(), forState: .Normal)
-        syncButton.setTitleColor(UIColor.lightGrayColor(), forState: .Disabled)
+        syncButton.setTitleColor(UIColor.yepTintColor(), for: .normal)
+        syncButton.setTitleColor(UIColor.lightGray, for: .disabled)
     }
 
     override func layoutSubviews() {
@@ -61,7 +61,7 @@ final class ChatLeftSocialWorkCell: UICollectionViewCell {
         socialWork = nil
     }
 
-    func configureWithMessage(message: Message) {
+    func configureWithMessage(_ message: Message) {
 
         if let sender = message.fromFriend {
             let userAvatar = UserAvatar(userID: sender.userID, avatarURLString: sender.avatarURLString, avatarStyle: nanoAvatarStyle)
@@ -72,11 +72,11 @@ final class ChatLeftSocialWorkCell: UICollectionViewCell {
 
             self.socialWork = socialWork
 
-            var socialWorkImageURL: NSURL?
+            var socialWorkImageURL: URL?
 
             guard let
                 socialWorkType = MessageSocialWorkType(rawValue: socialWork.type),
-                socialAccount = SocialAccount(rawValue: socialWorkType.accountName)
+                let socialAccount = SocialAccount(rawValue: socialWorkType.accountName)
             else {
                 return
             }
@@ -86,55 +86,55 @@ final class ChatLeftSocialWorkCell: UICollectionViewCell {
 
             switch socialWorkType {
 
-            case .GithubRepo:
+            case .githubRepo:
 
-                socialWorkImageView.hidden = true
-                githubRepoContainerView.hidden = false
-                centerLineImageView.hidden = false
+                socialWorkImageView.isHidden = true
+                githubRepoContainerView.isHidden = false
+                centerLineImageView.isHidden = false
 
                 if let githubRepo = socialWork.githubRepo {
                     githubRepoNameLabel.text = githubRepo.name
                     githubRepoDescriptionLabel.text = githubRepo.repoDescription
 
-                    syncButton.enabled = !githubRepo.synced
+                    syncButton.isEnabled = !githubRepo.synced
                 }
 
-            case .DribbbleShot:
+            case .dribbbleShot:
 
-                socialWorkImageView.hidden = false
-                githubRepoContainerView.hidden = true
-                centerLineImageView.hidden = true
+                socialWorkImageView.isHidden = false
+                githubRepoContainerView.isHidden = true
+                centerLineImageView.isHidden = true
 
                 if let dribbbleShot = socialWork.dribbbleShot {
-                    socialWorkImageURL = NSURL(string: dribbbleShot.imageURLString)
+                    socialWorkImageURL = URL(string: dribbbleShot.imageURLString)
 
-                    syncButton.enabled = !dribbbleShot.synced
+                    syncButton.isEnabled = !dribbbleShot.synced
                 }
 
-            case .InstagramMedia:
+            case .instagramMedia:
 
-                socialWorkImageView.hidden = false
-                githubRepoContainerView.hidden = true
-                centerLineImageView.hidden = true
+                socialWorkImageView.isHidden = false
+                githubRepoContainerView.isHidden = true
+                centerLineImageView.isHidden = true
 
                 if let string = socialWork.instagramMedia?.imageURLString {
-                    socialWorkImageURL = NSURL(string: string)
+                    socialWorkImageURL = URL(string: string)
                 }
             }
 
             if let URL = socialWorkImageURL {
-                socialWorkImageView.kf_setImageWithURL(URL, placeholderImage: nil)
+                socialWorkImageView.kf.setImage(with: URL, placeholder: nil)
             }
         }
     }
 
-    @IBAction func sync(sender: BorderButton) {
+    @IBAction func sync(_ sender: BorderButton) {
 
         guard let socialWork = socialWork else {
             return
         }
 
-        createFeedAction?(socialWork: socialWork)
+        createFeedAction?(socialWork)
     }
 }
 

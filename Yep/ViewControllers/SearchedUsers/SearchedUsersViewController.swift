@@ -7,16 +7,15 @@
 //
 
 import UIKit
-import YepNetworking
 import YepKit
 
 final class SearchedUsersViewController: BaseViewController {
 
     var searchText = "NIX"
 
-    @IBOutlet private weak var searchedUsersTableView: UITableView! {
+    @IBOutlet fileprivate weak var searchedUsersTableView: UITableView! {
         didSet {
-            searchedUsersTableView.registerNibOf(ContactsCell)
+            searchedUsersTableView.registerNibOf(ContactsCell.self)
 
             searchedUsersTableView.rowHeight = 80
 
@@ -25,15 +24,15 @@ final class SearchedUsersViewController: BaseViewController {
         }
     }
 
-    @IBOutlet private weak var activityIndicator: UIActivityIndicatorView!
+    @IBOutlet fileprivate weak var activityIndicator: UIActivityIndicatorView!
 
-    private var searchedUsers = [DiscoveredUser]() {
+    fileprivate var searchedUsers = [DiscoveredUser]() {
         didSet {
             if searchedUsers.count > 0 {
                 updateSearchedUsersTableView()
 
             } else {
-                searchedUsersTableView.tableFooterView = InfoView(NSLocalizedString("No search results.", comment: ""))
+                searchedUsersTableView.tableFooterView = InfoView(String.trans_promptNoSearchResults)
             }
         }
     }
@@ -46,14 +45,12 @@ final class SearchedUsersViewController: BaseViewController {
         activityIndicator.startAnimating()
 
         searchUsersByQ(searchText, failureHandler: { [weak self] reason, errorMessage in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
             SafeDispatch.async {
                 self?.activityIndicator.stopAnimating()
             }
 
-        }, completion: { [weak self] users in
-            SafeDispatch.async {
+        }, completion: { users in
+            SafeDispatch.async { [weak self] in
                 self?.activityIndicator.stopAnimating()
                 self?.searchedUsers = users
             }
@@ -62,23 +59,27 @@ final class SearchedUsersViewController: BaseViewController {
 
     // MARK: Actions
 
-    private func updateSearchedUsersTableView() {
-        SafeDispatch.async {
-            self.searchedUsersTableView.reloadData()
+    fileprivate func updateSearchedUsersTableView() {
+
+        SafeDispatch.async { [weak self] in
+            self?.searchedUsersTableView.reloadData()
         }
     }
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+
         if segue.identifier == "showProfile" {
-            if let indexPath = sender as? NSIndexPath {
-
-                let vc = segue.destinationViewController as! ProfileViewController
-
-                let discoveredUser = searchedUsers[indexPath.row]
-                vc.prepare(withDiscoveredUser: discoveredUser)
+            guard let indexPath = sender as? IndexPath else {
+                println("Error: showProfile no indexPath!")
+                return
             }
+
+            let vc = segue.destination as! ProfileViewController
+
+            let discoveredUser = searchedUsers[indexPath.row]
+            vc.prepare(with: discoveredUser)
         }
     }
 }
@@ -87,11 +88,11 @@ final class SearchedUsersViewController: BaseViewController {
 
 extension SearchedUsersViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchedUsers.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell: ContactsCell = tableView.dequeueReusableCell()
 
@@ -102,13 +103,13 @@ extension SearchedUsersViewController: UITableViewDataSource, UITableViewDelegat
         return cell
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
-        performSegueWithIdentifier("showProfile", sender: indexPath)
+        performSegue(withIdentifier: "showProfile", sender: indexPath)
     }
 }
 

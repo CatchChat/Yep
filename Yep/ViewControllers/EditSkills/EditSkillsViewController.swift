@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import YepNetworking
 import Ruler
 import RealmSwift
 import YepKit
@@ -17,33 +16,29 @@ final class EditSkillsViewController: BaseViewController {
     var skillSet: SkillSet?
     var afterChangedSkillsAction: (() -> Void)?
 
-    private var realm: Realm!
-    private var me: User?
+    fileprivate var realm: Realm!
+    fileprivate var me: User?
 
-    @IBOutlet private weak var skillsTableView: UITableView!
+    @IBOutlet fileprivate weak var skillsTableView: UITableView!
 
-    @IBOutlet private weak var addSkillsView: BottomButtonView!
+    @IBOutlet fileprivate weak var addSkillsView: BottomButtonView!
 
-    private lazy var selectSkillsTransitionManager = RegisterPickSkillsSelectSkillsTransitionManager()
+    fileprivate lazy var selectSkillsTransitionManager = RegisterPickSkillsSelectSkillsTransitionManager()
 
-    private var masterSkills = [Skill]()
-    private var learningSkills = [Skill]()
+    fileprivate var masterSkills = [Skill]()
+    fileprivate var learningSkills = [Skill]()
 
-    private var skillCategories: [SkillCategory]?
+    fileprivate var skillCategories: [SkillCategory]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        //animatedOnNavigationBar = false
-
         title = skillSet?.name
+
         // get all skill categories
 
-        allSkillCategories(failureHandler: { (reason, errorMessage) -> Void in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
-
-        }, completion: { skillCategories -> Void in
-            self.skillCategories = skillCategories
+        allSkillCategories(failureHandler: nil, completion: { [weak self] skillCategories in
+            self?.skillCategories = skillCategories
         })
 
         // table view
@@ -58,7 +53,7 @@ final class EditSkillsViewController: BaseViewController {
         separatorInset.left = Ruler.iPhoneHorizontal(15, 20, 25).value
         skillsTableView.separatorInset = separatorInset
 
-        skillsTableView.registerNibOf(EditSkillCell)
+        skillsTableView.registerNibOf(EditSkillCell.self)
 
         // add skills view
 
@@ -72,10 +67,10 @@ final class EditSkillsViewController: BaseViewController {
 
             let vc = UIStoryboard.Scene.registerSelectSkills
 
-            vc.modalPresentationStyle = .Custom
+            vc.modalPresentationStyle = .custom
             vc.transitioningDelegate = self?.selectSkillsTransitionManager
 
-            if let strongSelf = self, me = strongSelf.me, skillSet = strongSelf.skillSet {
+            if let strongSelf = self, let me = strongSelf.me, let skillSet = strongSelf.skillSet {
 
                 strongSelf.masterSkills = skillsFromUserSkillList(me.masterSkills)
                 strongSelf.learningSkills = skillsFromUserSkillList(me.learningSkills)
@@ -84,10 +79,10 @@ final class EditSkillsViewController: BaseViewController {
                 vc.failedSelectSkillMessage = skillSet.failedSelectSkillMessage
 
                 switch skillSet {
-                case .Master:
+                case .master:
                     vc.selectedSkillsSet = Set(strongSelf.masterSkills)
                     vc.anotherSelectedSkillsSet = Set(strongSelf.learningSkills)
-                case .Learning:
+                case .learning:
                     vc.selectedSkillsSet = Set(strongSelf.learningSkills)
                     vc.anotherSelectedSkillsSet = Set(strongSelf.masterSkills)
                 }
@@ -106,7 +101,7 @@ final class EditSkillsViewController: BaseViewController {
 
                     switch skillSet {
 
-                    case .Master:
+                    case .master:
 
                         if selected {
 
@@ -114,7 +109,7 @@ final class EditSkillsViewController: BaseViewController {
 
                                 strongSelf.masterSkills.append(skill)
 
-                                addSkill(skill, toSkillSet: .Master, failureHandler: nil, completion: { _ in })
+                                addSkill(skill, toSkillSet: .master, failureHandler: nil, completion: { _ in })
 
                                 success = true
                             }
@@ -136,7 +131,7 @@ final class EditSkillsViewController: BaseViewController {
                                         }
                                     }
 
-                                    deleteSkill(skill, fromSkillSet: .Master, failureHandler: nil, completion: { success in
+                                    deleteSkill(skill, fromSkillSet: .master, failureHandler: nil, completion: { success in
                                         println("deleteSkill \(skill.localName) from Master: \(success)")
                                     })
                                 }
@@ -147,14 +142,14 @@ final class EditSkillsViewController: BaseViewController {
                             }
                         }
 
-                    case .Learning:
+                    case .learning:
 
                         if selected {
                             if strongSelf.masterSkills.filter({ $0.id == skill.id }).count == 0 {
 
                                 strongSelf.learningSkills.append(skill)
 
-                                addSkill(skill, toSkillSet: .Learning, failureHandler: nil, completion: { _ in })
+                                addSkill(skill, toSkillSet: .learning, failureHandler: nil, completion: { _ in })
 
                                 success = true
                             }
@@ -176,7 +171,7 @@ final class EditSkillsViewController: BaseViewController {
                                         }
                                     }
 
-                                    deleteSkill(skill, fromSkillSet: .Learning, failureHandler: nil, completion: { success in
+                                    deleteSkill(skill, fromSkillSet: .learning, failureHandler: nil, completion: { success in
                                         println("deleteSkill \(skill.localName) from Learning: \(success)")
                                     })
                                 }
@@ -195,16 +190,16 @@ final class EditSkillsViewController: BaseViewController {
                 }
             }
 
-            vc.syncSkillsFromServerAction = { [weak self] in
+            vc.syncSkillsFromServerAction = {
                 syncMyInfoAndDoFurtherAction {
-                    SafeDispatch.async {
+                    SafeDispatch.async { [weak self] in
                         self?.updateSkillsTableView()
                         self?.afterChangedSkillsAction?()
                     }
                 }
             }
 
-            self?.navigationController?.presentViewController(vc, animated: true, completion: nil)
+            self?.navigationController?.present(vc, animated: true, completion: nil)
         }
 
         // prepare realm & me
@@ -216,8 +211,11 @@ final class EditSkillsViewController: BaseViewController {
 
     // MARK: Actions
 
-    private func updateSkillsTableView() {
-        skillsTableView.reloadData()
+    fileprivate func updateSkillsTableView() {
+
+        SafeDispatch.async { [weak self] in
+            self?.skillsTableView.reloadData()
+        }
     }
 }
 
@@ -225,13 +223,13 @@ final class EditSkillsViewController: BaseViewController {
 
 extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
-        if let me = me, skillSet = skillSet {
+        if let me = me, let skillSet = skillSet {
             switch skillSet {
-            case .Master:
+            case .master:
                 return me.masterSkills.count
-            case .Learning:
+            case .learning:
                 return me.learningSkills.count
             }
         }
@@ -239,16 +237,16 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
         return 0
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell: EditSkillCell = tableView.dequeueReusableCell()
 
         var userSkill: UserSkill?
-        if let me = me, skillSet = skillSet {
+        if let me = me, let skillSet = skillSet {
             switch skillSet {
-            case .Master:
+            case .master:
                 userSkill = me.masterSkills[indexPath.row]
-            case .Learning:
+            case .learning:
                 userSkill = me.learningSkills[indexPath.row]
             }
         }
@@ -257,7 +255,7 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
 
         cell.removeSkillAction = { [weak self] cell, userSkill in
 
-            if let me = self?.me, skillSet = self?.skillSet {
+            if let me = self?.me, let skillSet = self?.skillSet {
 
                 // delete from Server
 
@@ -270,10 +268,10 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
                 // 不能直接捕捉 indexPath，不然删除一个后，再删除后面的 Skill 时 indexPath 就不对了
                 var rowToDelete: Int?
                 switch skillSet {
-                case .Master:
-                    rowToDelete = me.masterSkills.indexOf(userSkill)
-                case .Learning:
-                    rowToDelete = me.learningSkills.indexOf(userSkill)
+                case .master:
+                    rowToDelete = me.masterSkills.index(of: userSkill)
+                case .learning:
+                    rowToDelete = me.learningSkills.index(of: userSkill)
                 }
 
                 // delete from local
@@ -286,8 +284,8 @@ extension EditSkillsViewController: UITableViewDataSource, UITableViewDelegate {
                 }
 
                 if let rowToDelete = rowToDelete {
-                    let indexPathToDelete = NSIndexPath(forRow: rowToDelete, inSection: 0)
-                    self?.skillsTableView.deleteRowsAtIndexPaths([indexPathToDelete], withRowAnimation: .Automatic)
+                    let indexPathToDelete = IndexPath(row: rowToDelete, section: 0)
+                    self?.skillsTableView.deleteRows(at: [indexPathToDelete], with: .automatic)
                 }
 
                 // update Profile's UI

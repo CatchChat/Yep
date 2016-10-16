@@ -16,7 +16,7 @@ final class SearchMoreResultsCell: UITableViewCell {
                 showMoreLabel.text = NSLocalizedString("Show More", comment: "")
                 arrowImageView.image = UIImage.yep_iconArrowDown
             } else {
-                showMoreLabel.text = NSLocalizedString("Hide", comment: "")
+                showMoreLabel.text = String.trans_titleHide
                 arrowImageView.image = UIImage.yep_iconArrowUp
             }
         }
@@ -32,7 +32,7 @@ final class SearchMoreResultsCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        selectionStyle = .None
+        selectionStyle = .none
         separatorInset = YepConfig.SearchedItemCell.separatorInset
     }
 }

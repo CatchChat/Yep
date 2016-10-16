@@ -30,14 +30,14 @@ final class ContactsCell: UITableViewCell {
         
     }
 
-    func configureWithUser(user: User) {
+    func configureWithUser(_ user: User) {
 
         let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(ContactsCell.tapAvatar))
         avatarImageView.addGestureRecognizer(tap)
-        avatarImageView.userInteractionEnabled = true
+        avatarImageView.isUserInteractionEnabled = true
             
         nameLabel.text = user.nickname
 
@@ -49,14 +49,14 @@ final class ContactsCell: UITableViewCell {
         }
 
         joinedDateLabel.text = user.introduction
-        lastTimeSeenLabel.text = String(format:NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+        lastTimeSeenLabel.text = String.trans_promptLastSeenAt(user.lastSignInUnixTime)
     }
     
-    @objc private func tapAvatar() {
+    @objc fileprivate func tapAvatar() {
         showProfileAction?()
     }
 
-    func configureForSearchWithUser(user: User) {
+    func configureForSearchWithUser(_ user: User) {
 
         let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(userAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
@@ -71,10 +71,10 @@ final class ContactsCell: UITableViewCell {
         }
 
         joinedDateLabel.text = user.introduction
-        lastTimeSeenLabel.text = String(format: NSLocalizedString("Last seen %@", comment: ""), NSDate(timeIntervalSince1970: user.lastSignInUnixTime).timeAgo.lowercaseString)
+        lastTimeSeenLabel.text = String.trans_promptLastSeenAt(user.lastSignInUnixTime)
     }
 
-    func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
+    func configureWithDiscoveredUser(_ discoveredUser: DiscoveredUser) {
 
         let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
@@ -82,14 +82,14 @@ final class ContactsCell: UITableViewCell {
         joinedDateLabel.text = discoveredUser.introduction
 
         if let distance = discoveredUser.distance?.yep_format(".1") {
-            lastTimeSeenLabel.text = "\(distance)km | \(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
+            lastTimeSeenLabel.text = "\(distance)km | \(Date(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
         } else {
-            lastTimeSeenLabel.text = "\(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
+            lastTimeSeenLabel.text = "\(Date(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
         }
 
         nameLabel.text = discoveredUser.nickname
 
-        if let badgeName = discoveredUser.badge, badge = BadgeView.Badge(rawValue: badgeName) {
+        if let badgeName = discoveredUser.badge, let badge = BadgeView.Badge(rawValue: badgeName) {
             badgeImageView.image = badge.image
             badgeImageView.tintColor = badge.color
         } else {
@@ -97,7 +97,7 @@ final class ContactsCell: UITableViewCell {
         }
     }
 
-    func configureForSearchWithDiscoveredUser(discoveredUser: DiscoveredUser) {
+    func configureForSearchWithDiscoveredUser(_ discoveredUser: DiscoveredUser) {
 
         let plainAvatar = PlainAvatar(avatarURLString: discoveredUser.avatarURLString, avatarStyle: miniAvatarStyle)
         avatarImageView.navi_setAvatar(plainAvatar, withFadeTransitionDuration: avatarFadeTransitionDuration)
@@ -105,14 +105,14 @@ final class ContactsCell: UITableViewCell {
         joinedDateLabel.text = discoveredUser.introduction
 
         if let distance = discoveredUser.distance?.yep_format(".1") {
-            lastTimeSeenLabel.text = "\(distance)km | \(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
+            lastTimeSeenLabel.text = "\(distance)km | \(Date(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
         } else {
-            lastTimeSeenLabel.text = "\(NSDate(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
+            lastTimeSeenLabel.text = "\(Date(timeIntervalSince1970: discoveredUser.lastSignInUnixTime).timeAgo)"
         }
 
         nameLabel.text = discoveredUser.compositedName
 
-        if let badgeName = discoveredUser.badge, badge = BadgeView.Badge(rawValue: badgeName) {
+        if let badgeName = discoveredUser.badge, let badge = BadgeView.Badge(rawValue: badgeName) {
             badgeImageView.image = badge.image
             badgeImageView.tintColor = badge.color
         } else {

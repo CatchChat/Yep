@@ -30,7 +30,7 @@ final class RealmTests: XCTestCase {
             })
 
             let firstMessage = messages.first!
-            XCTAssertFalse(firstMessage.invalidated)
+            XCTAssertFalse(firstMessage.isInvalidated)
         }
 
         realm.refresh()
@@ -43,7 +43,7 @@ final class RealmTests: XCTestCase {
             })
 
             let lastMessage = messages.last!
-            XCTAssertTrue(lastMessage.invalidated)
+            XCTAssertTrue(lastMessage.isInvalidated)
         }
     }
 }

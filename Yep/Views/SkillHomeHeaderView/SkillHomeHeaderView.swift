@@ -12,7 +12,7 @@ import Kingfisher
 
 final class SkillHomeHeaderView: UIView {
 
-    var skillCategory: SkillCellSkill.Category = .Art
+    var skillCategory: SkillCellSkill.Category = .art
     var skillCoverURLString: String? {
         willSet {
 //            if let coverURLString = newValue, URL = NSURL(string: coverURLString) {
@@ -25,20 +25,20 @@ final class SkillHomeHeaderView: UIView {
     }
     
     lazy var headerImageView: UIImageView = {
-        let tempImageView = UIImageView(frame: CGRectZero)
-        tempImageView.contentMode = .ScaleAspectFill
+        let tempImageView = UIImageView(frame: CGRect.zero)
+        tempImageView.contentMode = .scaleAspectFill
         tempImageView.clipsToBounds = true
-        tempImageView.backgroundColor = UIColor.whiteColor()
+        tempImageView.backgroundColor = UIColor.white
         return tempImageView;
     }()
     
     lazy var masterButton: SkillHomeSectionButton = {
-        let button = createSkillHomeButtonWithText(SkillSet.Master.name, width: 100, height: YepConfig.skillHomeHeaderButtonHeight)
+        let button = createSkillHomeButtonWithText(SkillSet.master.name, width: 100, height: YepConfig.skillHomeHeaderButtonHeight)
         return button
     }()
     
     lazy var learningButton: SkillHomeSectionButton = {
-        let button = createSkillHomeButtonWithText(SkillSet.Learning.name, width: 100, height: YepConfig.skillHomeHeaderButtonHeight)
+        let button = createSkillHomeButtonWithText(SkillSet.learning.name, width: 100, height: YepConfig.skillHomeHeaderButtonHeight)
         return button
     }()
 
@@ -62,9 +62,9 @@ final class SkillHomeHeaderView: UIView {
         addSubview(masterButton)
         addSubview(learningButton)
 
-        backgroundColor = UIColor.lightGrayColor()
+        backgroundColor = UIColor.lightGray
 
-        headerImageView.userInteractionEnabled = true
+        headerImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(SkillHomeHeaderView.tap))
         headerImageView.addGestureRecognizer(tap)
     }
@@ -78,11 +78,11 @@ final class SkillHomeHeaderView: UIView {
 
         headerImageView.frame = self.bounds
 
-        masterButton.frame = CGRectMake(0, self.frame.height - YepConfig.skillHomeHeaderButtonHeight, self.frame.size.width/2.0, YepConfig.skillHomeHeaderButtonHeight)
+        masterButton.frame = CGRect(x: 0, y: self.frame.height - YepConfig.skillHomeHeaderButtonHeight, width: self.frame.size.width/2.0, height: YepConfig.skillHomeHeaderButtonHeight)
         
         masterButton.updateHightLightBounce()
         
-        learningButton.frame = CGRectMake(masterButton.frame.size.width, self.frame.height - YepConfig.skillHomeHeaderButtonHeight, self.frame.size.width/2.0, YepConfig.skillHomeHeaderButtonHeight)
+        learningButton.frame = CGRect(x: masterButton.frame.size.width, y: self.frame.height - YepConfig.skillHomeHeaderButtonHeight, width: self.frame.size.width/2.0, height: YepConfig.skillHomeHeaderButtonHeight)
         
         learningButton.updateHightLightBounce()
     }

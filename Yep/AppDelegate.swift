@@ -9,6 +9,7 @@
 import UIKit
 import YepKit
 import YepNetworking
+import YepPreview
 import Fabric
 import AVFoundation
 import RealmSwift
@@ -22,7 +23,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
 
-    var deviceToken: NSData? {
+    var deviceToken: Data? {
         didSet {
             guard let deviceToken = deviceToken else { return }
             guard let pusherID = YepUserDefaults.pusherID.value else { return }
@@ -32,33 +33,29 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     var notRegisteredThirdPartyPush = true
 
-    private var isFirstActive = true
+    fileprivate var isFirstActive = true
 
     enum LaunchStyle {
-        case Default
-        case Message
+        case `default`
+        case message
     }
-    var lauchStyle = Listenable<LaunchStyle>(.Default) { _ in }
-
-    struct Notification {
-        static let applicationDidBecomeActive = "applicationDidBecomeActive"
-    }
+    var lauchStyle = Listenable<LaunchStyle>(.default) { _ in }
 
     enum RemoteNotificationType: String {
-        case Message = "message"
-        case OfficialMessage = "official_message"
-        case FriendRequest = "friend_request"
-        case MessageDeleted = "message_deleted"
-        case Mentioned = "mentioned"
+        case message = "message"
+        case officialMessage = "official_message"
+        case friendRequest = "friend_request"
+        case messageDeleted = "message_deleted"
+        case mentioned = "mentioned"
     }
 
-    private var remoteNotificationType: RemoteNotificationType? {
+    fileprivate var remoteNotificationType: RemoteNotificationType? {
         willSet {
             if let type = newValue {
                 switch type {
 
-                case .Message, .OfficialMessage:
-                    lauchStyle.value = .Message
+                case .message, .officialMessage:
+                    lauchStyle.value = .message
 
                 default:
                     break
@@ -69,7 +66,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Life Circle
 
-    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
         BuddyBuildSDK.setup()
 
@@ -77,10 +74,11 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         configureYepKit()
         configureYepNetworking()
+        configureYepPreview()
 
         cacheInAdvance()
 
-        delay(0.5) {
+        _ = delay(0.5) {
             //Fabric.with([Crashlytics.self])
             Fabric.with([Appsee.self])
 
@@ -88,11 +86,12 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
                 let apsForProduction = false
             #else
                 let apsForProduction = true
+                JPUSHService.setLogOFF()
             #endif
-            JPUSHService.setupWithOption([:], appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
+            JPUSHService.setup(withOption: launchOptions, appKey: "e521aa97cd4cd4eba5b73669", channel: "AppStore", apsForProduction: apsForProduction)
         }
         
-        let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker)
+        let _ = try? AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord, with: AVAudioSessionCategoryOptions.defaultToSpeaker)
 
         application.setMinimumBackgroundFetchInterval(UIApplicationBackgroundFetchIntervalMinimum)
 
@@ -105,9 +104,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             // 记录启动通知类型
             if let
-                notification = launchOptions?[UIApplicationLaunchOptionsRemoteNotificationKey] as? UILocalNotification,
-                userInfo = notification.userInfo,
-                type = userInfo["type"] as? String {
+                notification = launchOptions?[UIApplicationLaunchOptionsKey.remoteNotification] as? UILocalNotification,
+                let userInfo = notification.userInfo,
+                let type = userInfo["type"] as? String {
                     remoteNotificationType = RemoteNotificationType(rawValue: type)
             }
 
@@ -120,7 +119,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
 
-    func applicationDidBecomeActive(application: UIApplication) {
+    func applicationDidBecomeActive(_ application: UIApplication) {
 
         println("Did Active")
 
@@ -128,22 +127,27 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             syncUnreadMessages() {}
 
         } else {
-            sync() // 确保该任务不是被 Remote Notification 激活 App 的时候执行
-            startFaye()
+            // 确保该任务不是被 Remote Notification 激活 App 的时候执行
+            sync()
+
+            // 延迟一些，减少线程切换压力
+            _ = delay(2) { [weak self] in
+                self?.startFaye()
+            }
         }
 
-        application.applicationIconBadgeNumber = -1
+        clearNotifications()
 
-        NSNotificationCenter.defaultCenter().postNotificationName(Notification.applicationDidBecomeActive, object: nil)
+        NotificationCenter.default.post(name: YepConfig.NotificationName.applicationDidBecomeActive, object: nil)
         
         isFirstActive = false
     }
 
-    func applicationWillResignActive(application: UIApplication) {
+    func applicationWillResignActive(_ application: UIApplication) {
 
         println("Resign active")
 
-        UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+        clearNotifications()
 
         // dynamic shortcut items
 
@@ -152,7 +156,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         // index searchable items
 
         if YepUserDefaults.isLogined {
-            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler { [weak self] error in
+            CSSearchableIndex.default().deleteAllSearchableItems { [weak self] error in
 
                 guard error == nil else {
                     return
@@ -163,28 +167,28 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
         } else {
-            CSSearchableIndex.defaultSearchableIndex().deleteAllSearchableItemsWithCompletionHandler(nil)
+            CSSearchableIndex.default().deleteAllSearchableItems(completionHandler: nil)
         }
     }
 
-    func applicationDidEnterBackground(application: UIApplication) {
+    func applicationDidEnterBackground(_ application: UIApplication) {
         
         println("Enter background")
 
-        NSNotificationCenter.defaultCenter().postNotificationName(MessageToolbar.Notification.updateDraft, object: nil)
+        NotificationCenter.default.post(name: YepConfig.NotificationName.updateDraftOfConversation, object: nil)
 
         #if DEBUG
         //clearUselessRealmObjects() // only for test
         #endif
     }
 
-    func applicationWillEnterForeground(application: UIApplication) {
+    func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
 
         println("Will Foreground")
     }
 
-    func applicationWillTerminate(application: UIApplication) {
+    func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 
         clearUselessRealmObjects()
@@ -192,21 +196,21 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: APNs
 
-    func application(application: UIApplication, performFetchWithCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
         println("Fetch Back")
         syncUnreadMessages() {
-            completionHandler(UIBackgroundFetchResult.NewData)
+            completionHandler(UIBackgroundFetchResult.newData)
         }
     }
 
-    func application(application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: NSData) {
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 
         // 纪录下来，用于初次登录或注册有 pusherID 后，或“注销再登录”
         self.deviceToken = deviceToken
     }
     
-    func application(application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [NSObject : AnyObject], withResponseInfo responseInfo: [NSObject : AnyObject], completionHandler: () -> Void) {
+    func application(_ application: UIApplication, handleActionWithIdentifier identifier: String?, forRemoteNotification userInfo: [AnyHashable: Any], withResponseInfo responseInfo: [AnyHashable: Any], completionHandler: @escaping () -> Void) {
 
         defer {
             completionHandler()
@@ -226,76 +230,75 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         case YepNotificationOKAction:
 
-            tryReplyText("OK", withUserInfo: userInfo)
+            tryReplyText(String.trans_titleOK, withUserInfo: userInfo)
 
         default:
             break
         }
     }
 
-    func application(application: UIApplication, didReceiveRemoteNotification userInfo: [NSObject : AnyObject], fetchCompletionHandler completionHandler: (UIBackgroundFetchResult) -> Void) {
+    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable: Any], fetchCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
 
         println("didReceiveRemoteNotification: \(userInfo)")
 
         JPUSHService.handleRemoteNotification(userInfo)
 
-        guard YepUserDefaults.isLogined, let type = userInfo["type"] as? String, remoteNotificationType = RemoteNotificationType(rawValue: type) else {
-            completionHandler(UIBackgroundFetchResult.NoData)
+        guard YepUserDefaults.isLogined, let type = userInfo["type"] as? String, let remoteNotificationType = RemoteNotificationType(rawValue: type) else {
+            completionHandler(UIBackgroundFetchResult.noData)
             return
         }
 
         defer {
             // 非前台才记录启动通知类型
-            if application.applicationState != .Active {
+            if application.applicationState != .active {
                 self.remoteNotificationType = remoteNotificationType
             }
         }
 
         switch remoteNotificationType {
 
-        case .Message:
+        case .message:
 
             syncUnreadMessages() {
                 SafeDispatch.async {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+                    NotificationCenter.default.post(name: Config.NotificationName.changedFeedConversation, object: nil)
 
                     configureDynamicShortcuts()
 
-                    completionHandler(UIBackgroundFetchResult.NewData)
+                    completionHandler(.newData)
                 }
             }
 
-        case .OfficialMessage:
+        case .officialMessage:
 
             officialMessages { messagesCount in
-                completionHandler(UIBackgroundFetchResult.NewData)
+                completionHandler(.newData)
                 println("new officialMessages count: \(messagesCount)")
             }
 
-        case .FriendRequest:
+        case .friendRequest:
 
             if let subType = userInfo["subtype"] as? String {
                 if subType == "accepted" {
                     syncFriendshipsAndDoFurtherAction {
-                        completionHandler(UIBackgroundFetchResult.NewData)
+                        completionHandler(.newData)
                     }
                 } else {
-                    completionHandler(UIBackgroundFetchResult.NoData)
+                    completionHandler(.noData)
                 }
             } else {
-                completionHandler(UIBackgroundFetchResult.NoData)
+                completionHandler(.noData)
             }
 
-        case .MessageDeleted:
+        case .messageDeleted:
 
             defer {
-                completionHandler(UIBackgroundFetchResult.NoData)
+                completionHandler(UIBackgroundFetchResult.noData)
             }
 
-            guard let
-                messageInfo = userInfo["message"] as? JSONDictionary,
-                messageID = messageInfo["id"] as? String
-                else {
+            guard
+                let messageInfo = userInfo["message"] as? JSONDictionary,
+                let messageID = messageInfo["id"] as? String else {
                     break
             }
 
@@ -303,35 +306,35 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             configureDynamicShortcuts()
 
-        case .Mentioned:
+        case .mentioned:
 
             syncUnreadMessagesAndDoFurtherAction({ _ in
                 SafeDispatch.async {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+                    NotificationCenter.default.post(name: Config.NotificationName.changedFeedConversation, object: nil)
 
                     configureDynamicShortcuts()
 
-                    completionHandler(UIBackgroundFetchResult.NewData)
+                    completionHandler(UIBackgroundFetchResult.newData)
                 }
             })
         }
     }
 
-    func application(application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: NSError) {
-
-        println(error.description)
-    }
+//    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
+//
+//        println(error)
+//    }
 
     // MARK: Shortcuts
 
-    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+    func application(_ application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping (Bool) -> Void) {
 
         handleShortcutItem(shortcutItem)
 
         completionHandler(true)
     }
 
-    private func handleShortcutItem(shortcutItem: UIApplicationShortcutItem) {
+    fileprivate func handleShortcutItem(_ shortcutItem: UIApplicationShortcutItem) {
 
         if let window = window {
             tryQuickActionWithShortcutItem(shortcutItem, inWindow: window)
@@ -340,13 +343,13 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
     // MARK: Open URL
 
-    func application(application: UIApplication, openURL url: NSURL, sourceApplication: String?, annotation: AnyObject) -> Bool {
+    func application(_ application: UIApplication, open url: URL, sourceApplication: String?, annotation: Any) -> Bool {
 
         if url.absoluteString.contains("/auth/success") {
-            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.OAuthResult, object: NSNumber(int: 1))
+            NotificationCenter.default.post(name: YepConfig.NotificationName.oauthResult, object: NSNumber(value: 1 as Int32))
             
         } else if url.absoluteString.contains("/auth/failure") {
-            NSNotificationCenter.defaultCenter().postNotificationName(YepConfig.Notification.OAuthResult, object: NSNumber(int: 0))
+            NotificationCenter.default.post(name: YepConfig.NotificationName.oauthResult, object: NSNumber(value: 0 as Int32))
         }
         
         if MonkeyKing.handleOpenURL(url) {
@@ -356,7 +359,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         return false
     }
     
-    func application(application: UIApplication, continueUserActivity userActivity: NSUserActivity, restorationHandler: ([AnyObject]?) -> Void) -> Bool {
+    func application(_ application: UIApplication, continue userActivity: NSUserActivity, restorationHandler: @escaping ([Any]?) -> Void) -> Bool {
 
         println("userActivity.activityType: \(userActivity.activityType)")
         println("userActivity.userInfo: \(userActivity.userInfo)")
@@ -385,10 +388,10 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             switch itemType {
 
-            case .User:
+            case .user:
                 return handleUserSearchActivity(userID: itemID)
 
-            case .Feed:
+            case .feed:
                 return handleFeedSearchActivity(feedID: itemID)
             }
 
@@ -397,17 +400,17 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
     
-    private func handleUniversalLink(URL: NSURL) -> Bool {
+    fileprivate func handleUniversalLink(_ url: URL) -> Bool {
 
         guard let
             tabBarVC = window?.rootViewController as? UITabBarController,
-            nvc = tabBarVC.selectedViewController as? UINavigationController else {
+            let nvc = tabBarVC.selectedViewController as? UINavigationController else {
                 return false
         }
 
         // Feed (Group)
 
-        return URL.yep_matchSharedFeed({ feed in
+        return url.yep_matchSharedFeed({ feed in
 
             guard let feed = feed else {
                 return
@@ -422,60 +425,60 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             let vc = UIStoryboard.Scene.conversation
 
             realm.beginWrite()
-            let feedConversation = vc.prepareConversationForFeed(feed, inRealm: realm)
+            let feedConversation = vc.prepareConversation(for: feed, in: realm)
             let _ = try? realm.commitWrite()
 
             // 如果已经显示了就不用push
-            if let topVC = nvc.topViewController as? ConversationViewController, let oldFakeID = topVC.conversation?.fakeID, let newFakeID = feedConversation?.fakeID where newFakeID == oldFakeID {
+            if let topVC = nvc.topViewController as? ConversationViewController, let oldFakeID = topVC.conversation?.fakeID, let newFakeID = feedConversation?.fakeID, newFakeID == oldFakeID {
                 return
             }
 
             vc.conversation = feedConversation
-            vc.conversationFeed = ConversationFeed.DiscoveredFeedType(feed)
+            vc.conversationFeed = ConversationFeed.discoveredFeedType(feed)
 
-            delay(0.25) {
+            _ = delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
             }
 
         // Profile (Last)
 
-        }) || URL.yep_matchProfile({ discoveredUser in
+        }) || url.yep_matchProfile({ discoveredUser in
 
             //println("matchProfile: \(discoveredUser)")
 
             // 如果已经显示了就不用push
-            if let topVC = nvc.topViewController as? ProfileViewController, let userID = topVC.profileUser?.userID where userID == discoveredUser.id {
+            if let topVC = nvc.topViewController as? ProfileViewController, let userID = topVC.profileUser?.userID, userID == discoveredUser.id {
                 return
             }
 
             let vc = UIStoryboard.Scene.profile
-            vc.prepare(withDiscoveredUser: discoveredUser)
+            vc.prepare(with: discoveredUser)
 
-            delay(0.25) {
+            _ = delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
             }
         })
     }
 
-    private func handleUserSearchActivity(userID userID: String) -> Bool {
+    fileprivate func handleUserSearchActivity(userID: String) -> Bool {
 
         guard let
             realm = try? Realm(),
-            user = userWithUserID(userID, inRealm: realm),
-            tabBarVC = window?.rootViewController as? UITabBarController,
-            nvc = tabBarVC.selectedViewController as? UINavigationController else {
+            let user = userWithUserID(userID, inRealm: realm),
+            let tabBarVC = window?.rootViewController as? UITabBarController,
+            let nvc = tabBarVC.selectedViewController as? UINavigationController else {
                 return false
         }
 
         // 如果已经显示了就不用push
-        if let topVC = nvc.topViewController as? ProfileViewController, let _userID = topVC.profileUser?.userID where _userID == userID {
+        if let topVC = nvc.topViewController as? ProfileViewController, let _userID = topVC.profileUser?.userID, _userID == userID {
             return true
 
         } else {
             let vc = UIStoryboard.Scene.profile
             vc.prepare(withUser: user)
 
-            delay(0.25) {
+            _ = delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
             }
 
@@ -483,26 +486,26 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    private func handleFeedSearchActivity(feedID feedID: String) -> Bool {
+    fileprivate func handleFeedSearchActivity(feedID: String) -> Bool {
 
         guard let
             realm = try? Realm(),
-            feed = feedWithFeedID(feedID, inRealm: realm),
-            conversation = feed.group?.conversation,
-            tabBarVC = window?.rootViewController as? UITabBarController,
-            nvc = tabBarVC.selectedViewController as? UINavigationController else {
+            let feed = feedWithFeedID(feedID, inRealm: realm),
+            let conversation = feed.group?.conversation,
+            let tabBarVC = window?.rootViewController as? UITabBarController,
+            let nvc = tabBarVC.selectedViewController as? UINavigationController else {
                 return false
         }
 
         // 如果已经显示了就不用push
-        if let topVC = nvc.topViewController as? ConversationViewController, let feed = topVC.conversation?.withGroup?.withFeed where feed.feedID == feedID {
+        if let topVC = nvc.topViewController as? ConversationViewController, let feed = topVC.conversation?.withGroup?.withFeed, feed.feedID == feedID {
             return true
 
         } else {
             let vc = UIStoryboard.Scene.conversation
             vc.conversation = conversation
 
-            delay(0.25) {
+            _ = delay(0.25) {
                 nvc.pushViewController(vc, animated: true)
             }
 
@@ -570,7 +573,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         YepFayeService.sharedManager.tryStartConnect()
     }
 
-    func registerThirdPartyPushWithDeciveToken(deviceToken: NSData, pusherID: String) {
+    func registerThirdPartyPushWithDeciveToken(_ deviceToken: Data, pusherID: String) {
 
         guard notRegisteredThirdPartyPush else {
             return
@@ -589,8 +592,8 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
     func unregisterThirdPartyPush() {
 
         defer {
-            SafeDispatch.async {
-                UIApplication.sharedApplication().applicationIconBadgeNumber = 0
+            SafeDispatch.async { [weak self] in
+                self?.clearNotifications()
             }
         }
 
@@ -605,26 +608,40 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         println("unregisterThirdPartyPush")
     }
 
-    @objc private func tagsAliasCallBack(iResCode: CInt, tags: NSSet, alias: NSString) {
+    @objc fileprivate func tagsAliasCallBack(_ iResCode: CInt, tags: NSSet, alias: NSString) {
 
         println("tagsAliasCallback: \(iResCode), \(tags), \(alias)")
     }
 
     // MARK: Private
 
-    private lazy var sendMessageSoundEffect: YepSoundEffect = {
-        let bundle = NSBundle.mainBundle()
-        guard let fileURL = bundle.URLForResource("bub3", withExtension: "caf") else {
+    fileprivate func clearNotifications() {
+
+        let application = UIApplication.shared
+
+        application.applicationIconBadgeNumber = 1
+        println("a badge: \(application.applicationIconBadgeNumber)")
+        defer {
+            application.applicationIconBadgeNumber = 0
+            println("b badge: \(application.applicationIconBadgeNumber)")
+        }
+        application.cancelAllLocalNotifications()
+    }
+
+    fileprivate lazy var sendMessageSoundEffect: YepSoundEffect = {
+
+        let bundle = Bundle.main
+        guard let fileURL = bundle.url(forResource: "bub3", withExtension: "caf") else {
             fatalError("YepSoundEffect: file no found!")
         }
         return YepSoundEffect(fileURL: fileURL)
     }()
 
-    private func configureYepKit() {
+    fileprivate func configureYepKit() {
 
         YepKit.Config.updatedAccessTokenAction = {
 
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
                 // 注册或初次登录时同步数据的好时机
                 appDelegate.sync()
 
@@ -635,7 +652,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
         YepKit.Config.updatedPusherIDAction = { pusherID in
 
-            if let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate {
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
                 if let deviceToken = appDelegate.deviceToken {
                     appDelegate.registerThirdPartyPushWithDeciveToken(deviceToken, pusherID: pusherID)
                 }
@@ -648,86 +665,111 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         YepKit.Config.timeAgoAction = { date in
+
             return date.timeAgo
         }
 
         YepKit.Config.isAppActive = {
-            let state = UIApplication.sharedApplication().applicationState
-            return state == .Active
+
+            let state = UIApplication.shared.applicationState
+            return state == .active
         }
     }
 
-    private func configureYepNetworking() {
+    fileprivate func configureYepNetworking() {
 
         YepNetworking.Manager.accessToken = {
+
             return YepUserDefaults.v1AccessToken.value
         }
 
         YepNetworking.Manager.authFailedAction = { statusCode, host in
-            if statusCode == 401 {
-                // 确保是自家服务
-                if host == yepBaseURL.host {
-                    SafeDispatch.async {
-                        YepUserDefaults.maybeUserNeedRelogin(prerequisites: {
-                            guard let appDelegate = UIApplication.sharedApplication().delegate as? AppDelegate where appDelegate.inMainStory else {
-                                return false
-                            }
-                            return true
 
-                        }, confirm: { [weak self] in
-                            self?.unregisterThirdPartyPush()
+            // 确保是自家服务
+            guard host == yepBaseURL.host else {
+                return
+            }
 
-                            cleanRealmAndCaches()
+            switch statusCode {
 
-                            if let rootViewController = self?.window?.rootViewController {
-                                YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { () -> Void in
-                                    
-                                    self?.startShowStory()
-                                })
-                            }
-                        })
-                    }
+            case 401:
+                SafeDispatch.async {
+                    YepUserDefaults.maybeUserNeedRelogin(prerequisites: {
+                        guard let appDelegate = UIApplication.shared.delegate as? AppDelegate, appDelegate.inMainStory else {
+                            return false
+                        }
+                        return true
+
+                    }, confirm: { [weak self] in
+                        self?.unregisterThirdPartyPush()
+
+                        cleanRealmAndCaches()
+
+                        if let rootViewController = self?.window?.rootViewController {
+                            YepAlert.alert(title: NSLocalizedString("Sorry", comment: ""), message: NSLocalizedString("User authentication error, you need to login again!", comment: ""), dismissTitle: NSLocalizedString("Relogin", comment: ""), inViewController: rootViewController, withDismissAction: { [weak self] in
+                                
+                                self?.startShowStory()
+                            })
+                        }
+                    })
                 }
+
+            default:
+                break
             }
         }
 
         YepNetworking.Manager.networkActivityCountChangedAction = { count in
+
             SafeDispatch.async {
-                UIApplication.sharedApplication().networkActivityIndicatorVisible = (count > 0)
+                UIApplication.shared.isNetworkActivityIndicatorVisible = (count > 0)
             }
         }
     }
 
-    private func tryReplyText(text: String, withUserInfo userInfo: [NSObject: AnyObject]) {
+    fileprivate func configureYepPreview() {
 
-        guard let
-            recipientType = userInfo["recipient_type"] as? String,
-            recipientID = userInfo["recipient_id"] as? String else {
-                return
+        YepPreview.Config.shareImageAction = { image, vc in
+
+            let info = MonkeyKing.Info(
+                title: nil,
+                description: nil,
+                thumbnail: image.navi_centerCropWithSize(CGSize(width: 100, height: 100)),
+                media: .image(image)
+            )
+            vc.yep_share(info: info, defaultActivityItem: image)
+        }
+    }
+
+    fileprivate func tryReplyText(_ text: String, withUserInfo userInfo: [AnyHashable: Any]) {
+
+        guard let info = userInfo as? JSONDictionary else {
+            return
+        }
+        guard let recipient = Recipient(info: info) else {
+            return
         }
 
-        println("try reply \"\(text)\" to [\(recipientType): \(recipientID)]")
-        
-        sendText(text, toRecipient: recipientID, recipientType: recipientType, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
-            println("reply to [\(recipientType): \(recipientID)], \(success)")
+        sendText(text, toRecipient: recipient, afterCreatedMessage: { _ in }, failureHandler: nil, completion: { success in
+            println("reply to \(recipient), \(success)")
         })
     }
 
-    private func indexUserSearchableItems() {
+    fileprivate func indexUserSearchableItems() {
 
         let users = normalFriends()
 
-        let searchableItems = users.map({
+        let searchableItems: [CSSearchableItem] = users.map({
             CSSearchableItem(
-                uniqueIdentifier: searchableItemID(searchableItemType: .User, itemID: $0.userID),
-                domainIdentifier: userDomainIdentifier,
+                uniqueIdentifier: searchableItemID(searchableItemType: .user, itemID: $0.userID),
+                domainIdentifier: YepConfig.Domain.user,
                 attributeSet: $0.attributeSet
             )
         })
 
         println("userSearchableItems: \(searchableItems.count)")
 
-        CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(searchableItems) { error in
+        CSSearchableIndex.default().indexSearchableItems(searchableItems) { (error) in
             if error != nil {
                 println(error!.localizedDescription)
 
@@ -737,25 +779,25 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    private func indexFeedSearchableItems() {
+    fileprivate func indexFeedSearchableItems() {
 
         guard let realm = try? Realm() else {
             return
         }
 
-        let feeds = filterValidFeeds(realm.objects(Feed))
+        let feeds = filterValidFeeds(realm.objects(Feed.self))
 
         let searchableItems = feeds.map({
             CSSearchableItem(
-                uniqueIdentifier: searchableItemID(searchableItemType: .Feed, itemID: $0.feedID),
-                domainIdentifier: feedDomainIdentifier,
+                uniqueIdentifier: searchableItemID(searchableItemType: .feed, itemID: $0.feedID),
+                domainIdentifier: YepConfig.Domain.feed,
                 attributeSet: $0.attributeSet
             )
         })
 
         println("feedSearchableItems: \(searchableItems.count)")
 
-        CSSearchableIndex.defaultSearchableIndex().indexSearchableItems(searchableItems) { error in
+        CSSearchableIndex.default().indexSearchableItems(searchableItems) { error in
             if error != nil {
                 println(error!.localizedDescription)
 
@@ -765,7 +807,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    private func syncUnreadMessages(furtherAction: () -> Void) {
+    fileprivate func syncUnreadMessages(_ furtherAction: @escaping () -> Void) {
 
         guard YepUserDefaults.isLogined else {
             furtherAction()
@@ -773,7 +815,7 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
 
         syncUnreadMessagesAndDoFurtherAction() { messageIDs in
-            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .New)
+            tryPostNewMessagesReceivedNotificationWithMessageIDs(messageIDs, messageAge: .new)
 
             /*
             // Use Delegate instead of Notification
@@ -788,9 +830,9 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
         }
     }
 
-    private func cacheInAdvance() {
+    fileprivate func cacheInAdvance() {
 
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0)) {
+        DispatchQueue.global(qos: .background).async {
 
             guard let realm = try? Realm() else {
                 return
@@ -798,70 +840,52 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
 
             // 主界面的头像
 
-            let predicate = NSPredicate(format: "type = %d", ConversationType.OneToOne.rawValue)
-            let conversations = realm.objects(Conversation).filter(predicate).sorted("updatedUnixTime", ascending: false)
+            let predicate = NSPredicate(format: "type = %d", ConversationType.oneToOne.rawValue)
+            let conversations = realm.objects(Conversation.self).filter(predicate).sorted(byProperty: "updatedUnixTime", ascending: false)
 
             conversations.forEach { conversation in
-                if let latestMessage = conversation.messages.last, user = latestMessage.fromFriend {
+                if let latestMessage = conversation.messages.last, let user = latestMessage.fromFriend {
                     let userAvatar = UserAvatar(userID: user.userID, avatarURLString: user.avatarURLString, avatarStyle: miniAvatarStyle)
-                    AvatarPod.wakeAvatar(userAvatar, completion: { _ , _, _ in })
+                    AvatarPod.wakeAvatar(userAvatar, completion: { _, _, _ in })
                 }
             }
         }
     }
 
-    private func customAppearce() {
+    fileprivate func customAppearce() {
 
-        window?.backgroundColor = UIColor.whiteColor()
+        window?.backgroundColor = UIColor.white
 
         // Global Tint Color
 
         window?.tintColor = UIColor.yepTintColor()
-        window?.tintAdjustmentMode = .Normal
+        window?.tintAdjustmentMode = .normal
 
         // NavigationBar Item Style
 
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor()], forState: .Normal)
-        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor().colorWithAlphaComponent(0.3)], forState: .Disabled)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor()], for: .normal)
+        UIBarButtonItem.appearance().setTitleTextAttributes([NSForegroundColorAttributeName: UIColor.yepTintColor().withAlphaComponent(0.3)], for: .disabled)
 
         // NavigationBar Title Style
 
         let shadow: NSShadow = {
             let shadow = NSShadow()
-            shadow.shadowColor = UIColor.lightGrayColor()
-            shadow.shadowOffset = CGSizeMake(0, 0)
+            shadow.shadowColor = UIColor.lightGray
+            shadow.shadowOffset = CGSize(width: 0, height: 0)
             return shadow
         }()
-
-        let textAttributes: [String: AnyObject] = [
+        let textAttributes: [String: Any] = [
             NSForegroundColorAttributeName: UIColor.yepNavgationBarTitleColor(),
             NSShadowAttributeName: shadow,
             NSFontAttributeName: UIFont.navigationBarTitleFont()
         ]
         UINavigationBar.appearance().titleTextAttributes = textAttributes
-        UINavigationBar.appearance().barTintColor = UIColor.whiteColor()
-
-        /*
-        let barButtonTextAttributes: [String: AnyObject] = [
-            NSForegroundColorAttributeName: UIColor.yepTintColor(),
-            NSFontAttributeName: UIFont.barButtonFont()
-        ]
-        UIBarButtonItem.appearance().setTitleTextAttributes(barButtonTextAttributes, forState: UIControlState.Normal)
-        UINavigationBar.appearance().setBackgroundImage(UIImage(named:"white"), forBarMetrics: .Default)
-        UINavigationBar.appearance().shadowImage = UIImage()
-        UINavigationBar.appearance().translucent = false
-         */
+        UINavigationBar.appearance().barTintColor = UIColor.white
 
         // TabBar
 
         UITabBar.appearance().tintColor = UIColor.yepTintColor()
-        UITabBar.appearance().barTintColor = UIColor.whiteColor()
-
-        /*
-        UITabBar.appearance().backgroundImage = UIImage(named:"white")
-        UITabBar.appearance().shadowImage = UIImage()
-        UITabBar.appearance().translucent = false
-         */
+        UITabBar.appearance().barTintColor = UIColor.white
     }
 }
 

@@ -10,80 +10,90 @@ import UIKit
 
 final class PodsHelpYepViewController: UITableViewController {
 
-    private let pods: [[String: String]] = [
-        [
-            "name": "RealmSwift",
-            "URLString": "https://github.com/realm/realm-cocoa",
-        ],
-        [
-            "name": "Proposer",
-            "URLString": "https://github.com/nixzhu/Proposer",
-        ],
-        [
-            "name": "KeyboardMan",
-            "URLString": "https://github.com/nixzhu/KeyboardMan",
-        ],
-        [
-            "name": "Ruler",
-            "URLString": "https://github.com/nixzhu/Ruler",
-        ],
-        [
-            "name": "MonkeyKing",
-            "URLString": "https://github.com/nixzhu/MonkeyKing",
-        ],
-        [
-            "name": "Navi",
-            "URLString": "https://github.com/nixzhu/Navi",
-        ],
-        [
-            "name": "AudioBot",
-            "URLString": "https://github.com/nixzhu/AudioBot",
-        ],
-        [
-            "name": "AutoReview",
-            "URLString": "https://github.com/nixzhu/AutoReview",
-        ],
-        [
-            "name": "Kingfisher",
-            "URLString": "https://github.com/onevcat/Kingfisher",
-        ],
-        [
-            "name": "FXBlurView",
-            "URLString": "https://github.com/nicklockwood/FXBlurView",
-        ],
-        [
-            "name": "TPKeyboardAvoiding",
-            "URLString": "https://github.com/michaeltyson/TPKeyboardAvoiding",
-        ],
-        [
-            "name": "DeviceGuru",
-            "URLString": "https://github.com/InderKumarRathore/DeviceGuru",
-        ],
-        [
-            "name": "Alamofire",
-            "URLString": "https://github.com/Alamofire/Alamofire",
-        ],
-        [
-            "name": "Pop",
-            "URLString": "https://github.com/facebook/pop",
-        ],
-        [
-            "name": "RxSwift",
-            "URLString": "https://github.com/ReactiveX/RxSwift",
-        ],
+    struct Framework {
+        let name: String
+        let urlString: String
 
-    ].sort({ a, b in
-        if let nameA = a["name"], nameB = b["name"] {
-            return nameA < nameB
+        var url: URL? {
+            return URL(string: urlString)
         }
+    }
 
-        return true
-    })
+    fileprivate let frameworks: [Framework] = [
+        Framework(
+            name: "Alamofire",
+            urlString: "https://github.com/Alamofire/Alamofire"
+        ),
+        Framework(
+            name: "AudioBot",
+            urlString: "https://github.com/nixzhu/AudioBot"
+        ),
+        Framework(
+            name: "AutoReview",
+            urlString: "https://github.com/nixzhu/AutoReview"
+        ),
+        Framework(
+            name: "DeviceUtil",
+            urlString: "https://github.com/InderKumarRathore/DeviceUtil"
+        ),
+        Framework(
+            name: "FXBlurView",
+            urlString: "https://github.com/nicklockwood/FXBlurView"
+        ),
+        Framework(
+            name: "KeyboardMan",
+            urlString: "https://github.com/nixzhu/KeyboardMan"
+        ),
+        Framework(
+            name: "KeypathObserver",
+            urlString: "https://github.com/nixzhu/KeypathObserver"
+        ),
+        Framework(
+            name: "Kingfisher",
+            urlString: "https://github.com/onevcat/Kingfisher"
+        ),
+        Framework(
+            name: "MonkeyKing",
+            urlString: "https://github.com/nixzhu/MonkeyKing"
+        ),
+        Framework(
+            name: "Navi",
+            urlString: "https://github.com/nixzhu/Navi"
+        ),
+        Framework(
+            name: "Pop",
+            urlString: "https://github.com/facebook/pop"
+        ),
+        Framework(
+            name: "Proposer",
+            urlString: "https://github.com/nixzhu/Proposer"
+        ),
+        Framework(
+            name: "ReSwift",
+            urlString: "https://github.com/ReSwift/ReSwift"
+        ),
+        Framework(
+            name: "RealmSwift",
+            urlString: "https://github.com/realm/realm-cocoa"
+        ),
+        Framework(
+            name: "Ruler",
+            urlString: "https://github.com/nixzhu/Ruler"
+        ),
+        Framework(
+            name: "RxSwift",
+            urlString: "https://github.com/ReactiveX/RxSwift"
+        ),
+        Framework(
+            name: "TPKeyboardAvoiding",
+            urlString: "https://github.com/michaeltyson/TPKeyboardAvoiding"
+        ),
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Open Source", comment: "")
+        title = String.trans_titleOpenSource
 
         tableView.tableFooterView = UIView()
     }
@@ -91,39 +101,39 @@ final class PodsHelpYepViewController: UITableViewController {
     // MARK: - Table view data source
 
     enum Section: Int {
-        case Yep
-        case Pods
+        case yep
+        case frameworks
 
         var headerTitle: String {
             switch self {
-            case .Yep:
+            case .yep:
                 return NSLocalizedString("Yep", comment: "")
-            case .Pods:
+            case .frameworks:
                 return NSLocalizedString("Third Party", comment: "")
             }
         }
     }
 
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    override func numberOfSections(in tableView: UITableView) -> Int {
 
         return 2
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             fatalError()
         }
 
         switch section {
-        case .Yep:
+        case .yep:
             return 1
-        case .Pods:
-            return pods.count
+        case .frameworks:
+            return frameworks.count
         }
     }
 
-    override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
 
         guard let section = Section(rawValue: section) else {
             fatalError()
@@ -132,7 +142,7 @@ final class PodsHelpYepViewController: UITableViewController {
         return section.headerTitle
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
@@ -140,38 +150,38 @@ final class PodsHelpYepViewController: UITableViewController {
 
         switch section {
 
-        case .Yep:
-            let cell = tableView.dequeueReusableCellWithIdentifier("YepCell", forIndexPath: indexPath)
+        case .yep:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "YepCell", for: indexPath)
             cell.textLabel?.text = NSLocalizedString("Yep on GitHub", comment: "")
             cell.detailTextLabel?.text = NSLocalizedString("Welcome contributions!", comment: "")
             return cell
 
-        case .Pods:
-            let cell = tableView.dequeueReusableCellWithIdentifier("PodCell", forIndexPath: indexPath)
-            let pod = pods[indexPath.row]
-            cell.textLabel?.text = pod["name"]
+        case .frameworks:
+            let cell = tableView.dequeueReusableCell(withIdentifier: "PodCell", for: indexPath)
+            let framework = frameworks[indexPath.row]
+            cell.textLabel?.text = framework.name
             return cell
         }
     }
 
-    override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError()
         }
 
         switch section {
-        case .Yep:
+        case .yep:
             return 60
-        case .Pods:
+        case .frameworks:
             return 44
         }
     }
 
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         guard let section = Section(rawValue: indexPath.section) else {
@@ -180,15 +190,15 @@ final class PodsHelpYepViewController: UITableViewController {
 
         switch section {
 
-        case .Yep:
-            if let URL = NSURL(string: "https://github.com/CatchChat/Yep") {
+        case .yep:
+            if let URL = URL(string: "https://github.com/CatchChat/Yep") {
                 yep_openURL(URL)
             }
 
-        case .Pods:
-            let pod = pods[indexPath.row]
-            if let URLString = pod["URLString"], URL = NSURL(string: URLString) {
-                yep_openURL(URL)
+        case .frameworks:
+            let framework = frameworks[indexPath.row]
+            if let url = framework.url {
+                yep_openURL(url)
             }
         }
     }

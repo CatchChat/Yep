@@ -8,15 +8,15 @@
 
 import Foundation
 
-public class Manager {
+open class Manager {
 
-    private init() {
+    fileprivate init() {
     }
 
-    public static var accessToken: (() -> String?)?
+    open static var accessToken: (() -> String?)?
 
-    public static var authFailedAction: ((statusCode: Int, host: String) -> Void)?
+    open static var authFailedAction: ((_ statusCode: Int, _ host: String) -> Void)?
 
-    public static var networkActivityCountChangedAction: ((count: Int) -> Void)?
+    open static var networkActivityCountChangedAction: ((_ count: Int) -> Void)?
 }
 

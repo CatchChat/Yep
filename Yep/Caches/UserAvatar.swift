@@ -11,7 +11,7 @@ import YepKit
 import RealmSwift
 import Navi
 
-private let screenScale = UIScreen.mainScreen().scale
+private let screenScale = UIScreen.main.scale
 
 struct UserAvatar {
 
@@ -31,8 +31,8 @@ struct UserAvatar {
 
 extension UserAvatar: Navi.Avatar {
 
-    var URL: NSURL? {
-        return NSURL(string: avatarURLString)
+    var url: URL? {
+        return URL(string: avatarURLString)
     }
 
     var style: AvatarStyle {
@@ -56,12 +56,11 @@ extension UserAvatar: Navi.Avatar {
 
     var localOriginalImage: UIImage? {
 
-        if let user = user, avatar = user.avatar where avatar.avatarURLString == user.avatarURLString {
+        if let user = user, let avatar = user.avatar, avatar.avatarURLString == user.avatarURLString {
 
-            if let
-                avatarFileURL = NSFileManager.yepAvatarURLWithName(avatar.avatarFileName),
-                avatarFilePath = avatarFileURL.path,
-                image = UIImage(contentsOfFile: avatarFilePath) {
+            if
+                let avatarFileURL = FileManager.yepAvatarURLWithName(avatar.avatarFileName),
+                let image = UIImage(contentsOfFile: avatarFileURL.path) {
                     return image
             }
         }
@@ -74,12 +73,12 @@ extension UserAvatar: Navi.Avatar {
         switch style {
 
         case miniAvatarStyle:
-            if let user = user, avatar = user.avatar where avatar.avatarURLString == user.avatarURLString {
+            if let user = user, let avatar = user.avatar, avatar.avatarURLString == user.avatarURLString {
                 return UIImage(data: avatar.roundMini, scale: screenScale)
             }
 
         case nanoAvatarStyle:
-            if let user = user, avatar = user.avatar where avatar.avatarURLString == user.avatarURLString {
+            if let user = user, let avatar = user.avatar, avatar.avatarURLString == user.avatarURLString {
                 return UIImage(data: avatar.roundNano, scale: screenScale)
             }
 
@@ -90,9 +89,9 @@ extension UserAvatar: Navi.Avatar {
         return nil
     }
 
-    func saveOriginalImage(originalImage: UIImage, styledImage: UIImage) {
+    func save(originalImage: UIImage, styledImage: UIImage) {
 
-        guard let user = user, realm = user.realm else {
+        guard let user = user, let realm = user.realm else {
             return
         }
 
@@ -102,9 +101,9 @@ extension UserAvatar: Navi.Avatar {
             needNewAvatar = true
         }
 
-        if let oldAvatar = user.avatar where oldAvatar.avatarURLString != user.avatarURLString {
+        if let oldAvatar = user.avatar, oldAvatar.avatarURLString != user.avatarURLString {
 
-            NSFileManager.deleteAvatarImageWithName(oldAvatar.avatarFileName)
+            FileManager.deleteAvatarImageWithName(oldAvatar.avatarFileName)
 
             let _ = try? realm.write {
                 realm.delete(oldAvatar)
@@ -135,9 +134,9 @@ extension UserAvatar: Navi.Avatar {
 
         if let avatar = user.avatar {
 
-            let avatarFileName = NSUUID().UUIDString
+            let avatarFileName = UUID().uuidString
 
-            if avatar.avatarFileName.isEmpty, let _ = NSFileManager.saveAvatarImage(originalImage, withName: avatarFileName) {
+            if avatar.avatarFileName.isEmpty, let _ = FileManager.saveAvatarImage(originalImage, withName: avatarFileName) {
 
                 let _ = try? realm.write {
                     avatar.avatarFileName = avatarFileName
@@ -146,19 +145,19 @@ extension UserAvatar: Navi.Avatar {
 
             switch style {
 
-            case .RoundedRectangle(let size, _, _):
+            case .roundedRectangle(let size, _, _):
 
                 switch size.width {
 
                 case 60:
-                    if avatar.roundMini.length == 0, let data = UIImagePNGRepresentation(styledImage) {
+                    if avatar.roundMini.count == 0, let data = UIImagePNGRepresentation(styledImage) {
                         let _ = try? realm.write {
                             avatar.roundMini = data
                         }
                     }
 
                 case 40:
-                    if avatar.roundNano.length == 0, let data = UIImagePNGRepresentation(styledImage) {
+                    if avatar.roundNano.count == 0, let data = UIImagePNGRepresentation(styledImage) {
                         let _ = try? realm.write {
                             avatar.roundNano = data
                         }

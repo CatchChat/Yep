@@ -35,7 +35,7 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="register:" destination="Acs-5Z-0vE" eventType="touchUpInside" id="ahk-Hd-25p"/>
+                                    <segue destination="5kw-oi-sI4" kind="show" id="Ui4-Wb-ndF"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OXr-PM-hSY" userLabel="Login Button" customClass="EdgeBorderButton" customModule="Yep" customModuleProvider="target">
@@ -44,7 +44,7 @@
                                     <color key="titleColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="login:" destination="Acs-5Z-0vE" eventType="touchUpInside" id="wvm-pc-lbb"/>
+                                    <segue destination="ewp-xk-qaX" kind="show" id="k37-QK-WaZ"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -77,6 +77,22 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rlh-Fl-iXX" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1159.5" y="329.5"/>
+        </scene>
+        <!--RegisterPickNameViewController-->
+        <scene sceneID="mis-mj-l3B">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Intro" referencedIdentifier="RegisterPickNameViewController" id="5kw-oi-sI4" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dKe-Wb-ibf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1026.5" y="878"/>
+        </scene>
+        <!--LoginByMobileViewController-->
+        <scene sceneID="bip-iT-scp">
+            <objects>
+                <viewControllerPlaceholder storyboardName="Intro" referencedIdentifier="LoginByMobileViewController" id="ewp-xk-qaX" sceneMemberID="viewController"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="orO-4W-aM9" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1285.5" y="878"/>
         </scene>
         <!--Show Step Genius View Controller-->
         <scene sceneID="PLw-aM-8MV">

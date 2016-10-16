@@ -13,23 +13,23 @@ import YepNetworking
 import MapKit
 import Kingfisher
 
-final class ImageCache {
+final class YepImageCache {
 
-    static let sharedInstance = ImageCache()
+    static let sharedInstance = YepImageCache()
 
-    let cache = NSCache()
-    let cacheQueue = dispatch_queue_create("ImageCacheQueue", DISPATCH_QUEUE_SERIAL)
-    let cacheAttachmentQueue = dispatch_queue_create("ImageCacheAttachmentQueue", DISPATCH_QUEUE_SERIAL)
+    let cache = NSCache<NSString, UIImage>()
+    let cacheQueue = DispatchQueue(label: "ImageCacheQueue", attributes: [])
+    let cacheAttachmentQueue = DispatchQueue(label: "ImageCacheAttachmentQueue", attributes: [])
 
-    class func attachmentOriginKeyWithURLString(URLString: String) -> String {
+    class func attachmentOriginKeyWithURLString(_ URLString: String) -> String {
         return "attachment-0.0-\(URLString)"
     }
 
-    class func attachmentSideLengthKeyWithURLString(URLString: String, sideLength: CGFloat) -> String {
+    class func attachmentSideLengthKeyWithURLString(_ URLString: String, sideLength: CGFloat) -> String {
         return "attachment-\(sideLength)-\(URLString)"
     }
 
-    func imageOfURL(url: NSURL, withMinSideLength: CGFloat?, completion: (url: NSURL, image: UIImage?, cacheType: CacheType) -> Void) {
+    func imageOfURL(_ url: URL, withMinSideLength: CGFloat?, completion: @escaping (_ url: URL, _ image: UIImage?, _ cacheType: CacheType) -> Void) {
 
         var sideLength: CGFloat = 0
 
@@ -37,31 +37,31 @@ final class ImageCache {
             sideLength = withMinSideLength
         }
 
-        let attachmentOriginKey = ImageCache.attachmentOriginKeyWithURLString(url.absoluteString)
+        let attachmentOriginKey = YepImageCache.attachmentOriginKeyWithURLString(url.absoluteString)
 
-        let attachmentSideLengthKey = ImageCache.attachmentSideLengthKeyWithURLString(url.absoluteString, sideLength: sideLength)
+        let attachmentSideLengthKey = YepImageCache.attachmentSideLengthKeyWithURLString(url.absoluteString, sideLength: sideLength)
 
         //println("attachmentSideLengthKey: \(attachmentSideLengthKey)")
 
         let options: KingfisherOptionsInfo = [
-            .CallbackDispatchQueue(cacheAttachmentQueue),
-            .ScaleFactor(UIScreen.mainScreen().scale),
+            .callbackDispatchQueue(cacheAttachmentQueue),
+            .scaleFactor(UIScreen.main.scale),
         ]
 
         //查找当前 Size 的 Cache
 
-        Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentSideLengthKey, options: options) { (image, type) -> () in
+        ImageCache.default.retrieveImage(forKey: attachmentSideLengthKey, options: options) { (image, type) -> () in
 
             if let image = image?.decodedImage() {
                 SafeDispatch.async {
-                    completion(url: url, image: image, cacheType: type)
+                    completion(url, image, type)
                 }
 
             } else {
 
                 //查找原图
 
-                Kingfisher.ImageCache.defaultCache.retrieveImageForKey(attachmentOriginKey, options: options) { (image, type) -> () in
+                ImageCache.default.retrieveImage(forKey: attachmentOriginKey, options: options) { (image, type) -> () in
 
                     if let image = image {
 
@@ -73,25 +73,25 @@ final class ImageCache {
 
                             let originalData = UIImageJPEGRepresentation(finalImage, 1.0)
                             //let originalData = UIImagePNGRepresentation(finalImage)
-                            Kingfisher.ImageCache.defaultCache.storeImage(finalImage, originalData: originalData, forKey: attachmentSideLengthKey, toDisk: true, completionHandler: { () -> () in
+                            ImageCache.default.store(finalImage, original: originalData, forKey: attachmentSideLengthKey, toDisk: true, completionHandler: { () -> () in
                             })
                         }
 
                         SafeDispatch.async {
-                            completion(url: url, image: finalImage, cacheType: type)
+                            completion(url, finalImage, type)
                         }
 
                     } else {
 
                         // 下载
 
-                        ImageDownloader.defaultDownloader.downloadImageWithURL(url, options: options, progressBlock: { receivedSize, totalSize  in
+                        ImageDownloader.default.downloadImage(with: url, options: options, progressBlock: { receivedSize, totalSize  in
 
-                        }, completionHandler: { image, error , imageURL, originalData in
+                        }, completionHandler: { image, error, imageURL, originalData in
 
                             if let image = image {
 
-                                Kingfisher.ImageCache.defaultCache.storeImage(image, originalData: originalData, forKey: attachmentOriginKey, toDisk: true, completionHandler: nil)
+                                ImageCache.default.store(image, original: originalData, forKey: attachmentOriginKey, toDisk: true, completionHandler: nil)
 
                                 var storeImage = image
 
@@ -99,19 +99,19 @@ final class ImageCache {
                                     storeImage = storeImage.scaleToMinSideLength(sideLength)
                                 }
 
-                                Kingfisher.ImageCache.defaultCache.storeImage(storeImage,  originalData: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSideLengthKey, toDisk: true, completionHandler: nil)
+                                ImageCache.default.store(storeImage,  original: UIImageJPEGRepresentation(storeImage, 1.0), forKey: attachmentSideLengthKey, toDisk: true, completionHandler: nil)
 
                                 let finalImage = storeImage.decodedImage()
 
                                 //println("Image Decode size \(storeImage.size)")
 
                                 SafeDispatch.async {
-                                    completion(url: url, image: finalImage, cacheType: .None)
+                                    completion(url, finalImage, .none)
                                 }
 
                             } else {
                                 SafeDispatch.async {
-                                    completion(url: url, image: nil, cacheType: .None)
+                                    completion(url, nil, .none)
                                 }
                             }
                         })
@@ -121,33 +121,33 @@ final class ImageCache {
         }
     }
 
-    func imageOfAttachment(attachment: DiscoveredAttachment, withMinSideLength: CGFloat?, completion: (url: NSURL, image: UIImage?, cacheType: CacheType) -> Void) {
+    func imageOfAttachment(_ attachment: DiscoveredAttachment, withMinSideLength: CGFloat?, completion: @escaping (_ url: URL, _ image: UIImage?, _ cacheType: CacheType) -> Void) {
 
-        guard let attachmentURL = NSURL(string: attachment.URLString) else {
+        guard let attachmentURL = URL(string: attachment.URLString) else {
             return
         }
 
         imageOfURL(attachmentURL, withMinSideLength: withMinSideLength, completion: completion)
     }
 
-    func imageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: (loadingProgress: Double, image: UIImage?) -> Void) {
+    func imageOfMessage(_ message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, completion: @escaping (_ loadingProgress: Double, _ image: UIImage?) -> Void) {
 
-        let imageKey = message.imageKey
+        let imageKey = message.imageKey as NSString
 
         // 先看看缓存
-        if let image = cache.objectForKey(imageKey) as? UIImage {
-            completion(loadingProgress: 1.0, image: image)
+        if let image = cache.object(forKey: imageKey) {
+            completion(1.0, image)
 
         } else {
             let messageID = message.messageID
 
             var fileName = message.localAttachmentName
-            if message.mediaType == MessageMediaType.Video.rawValue {
+            if message.mediaType == MessageMediaType.video.rawValue {
                 fileName = message.localThumbnailName
             }
 
             var imageURLString = message.attachmentURLString
-            if message.mediaType == MessageMediaType.Video.rawValue {
+            if message.mediaType == MessageMediaType.video.rawValue {
                 imageURLString = message.thumbnailURLString
             }
             
@@ -157,13 +157,13 @@ final class ImageCache {
 
             // 若可以，先显示 blurredThumbnailImage, Video 仍然需要
 
-            let thumbnailKey = "thumbnail" + imageKey
+            let thumbnailKey = "thumbnail_\(imageKey)" as NSString
 
-            if let thumbnail = cache.objectForKey(thumbnailKey) as? UIImage {
-                completion(loadingProgress: preloadingPropgress, image: thumbnail)
+            if let thumbnail = cache.object(forKey: thumbnailKey) {
+                completion(preloadingPropgress, thumbnail)
 
             } else {
-                dispatch_async(self.cacheQueue) {
+                self.cacheQueue.async {
 
                     guard let realm = try? Realm() else {
                         return
@@ -177,7 +177,7 @@ final class ImageCache {
                             self.cache.setObject(bubbleBlurredThumbnailImage, forKey: thumbnailKey)
 
                             SafeDispatch.async {
-                                completion(loadingProgress: preloadingPropgress, image: bubbleBlurredThumbnailImage)
+                                completion(preloadingPropgress, bubbleBlurredThumbnailImage)
                             }
 
                         } else {
@@ -194,22 +194,22 @@ final class ImageCache {
                 }
             }
 
-            dispatch_async(self.cacheQueue) {
+            self.cacheQueue.async {
 
                 guard let realm = try? Realm() else {
                     return
                 }
                 
-                if imageDownloadState == MessageDownloadState.Downloaded.rawValue {
+                if imageDownloadState == MessageDownloadState.downloaded.rawValue {
                 
-                    if !fileName.isEmpty, let imageFileURL = NSFileManager.yepMessageImageURLWithName(fileName), image = UIImage(contentsOfFile: imageFileURL.path!) {
+                    if !fileName.isEmpty, let imageFileURL = FileManager.yepMessageImageURLWithName(fileName), let image = UIImage(contentsOfFile: imageFileURL.path) {
 
                         let messageImage = image.bubbleImageWithTailDirection(tailDirection, size: size).decodedImage()
                         
                         self.cache.setObject(messageImage, forKey: imageKey)
                         
                         SafeDispatch.async {
-                            completion(loadingProgress: 1.0, image: messageImage)
+                            completion(1.0, messageImage)
                         }
                         
                         return
@@ -218,7 +218,7 @@ final class ImageCache {
                         // 找不到要再给下面的下载机会
                         if let message = messageWithMessageID(messageID, inRealm: realm) {
                             let _ = try? realm.write {
-                                message.downloadState = MessageDownloadState.NoDownload.rawValue
+                                message.downloadState = MessageDownloadState.noDownload.rawValue
                             }
                         }
                     }
@@ -228,7 +228,7 @@ final class ImageCache {
 
                 if imageURLString.isEmpty {
                     SafeDispatch.async {
-                        completion(loadingProgress: 1.0, image: nil)
+                        completion(1.0, nil)
                     }
 
                     return
@@ -236,13 +236,13 @@ final class ImageCache {
 
                 if let message = messageWithMessageID(messageID, inRealm: realm) {
 
-                    func doDownloadAttachmentsOfMessage(message: Message) {
+                    func doDownloadAttachmentsOfMessage(_ message: Message) {
 
                         let mediaType = message.mediaType
 
                         YepDownloader.downloadAttachmentsOfMessage(message, reportProgress: { progress, image in
                             SafeDispatch.async {
-                                completion(loadingProgress: progress, image: image)
+                                completion(progress, image)
                             }
 
                         }, imageTransform: { image in
@@ -255,18 +255,18 @@ final class ImageCache {
                             self.cache.setObject(messageImage, forKey: imageKey)
 
                             SafeDispatch.async {
-                                if mediaType == MessageMediaType.Image.rawValue {
-                                    completion(loadingProgress: 1.0, image: messageImage)
+                                if mediaType == MessageMediaType.image.rawValue {
+                                    completion(1.0, messageImage)
                                     
                                 } else { // 视频的封面图片，要保障设置到
-                                    completion(loadingProgress: 1.5, image: messageImage)
+                                    completion(1.5, messageImage)
                                 }
                             }
                         })
                     }
 
                     // 若过期了，刷新后再下载。这里减少一天来判断
-                    if message.attachmentExpiresUnixTime < (NSDate().timeIntervalSince1970 + (60 * 60 * 24)) {
+                    if message.attachmentExpiresUnixTime < (Date().timeIntervalSince1970 + (60 * 60 * 24)) {
 
                         refreshAttachmentWithID(message.attachmentID, failureHandler: nil, completion: { newAttachmentInfo in
                             //println("newAttachmentInfo: \(newAttachmentInfo)")
@@ -281,7 +281,7 @@ final class ImageCache {
 
                                     realm.beginWrite()
 
-                                    if let attachmentExpiresUnixTime = fileInfo["expires_at"] as? NSTimeInterval {
+                                    if let attachmentExpiresUnixTime = fileInfo["expires_at"] as? TimeInterval {
                                         message.attachmentExpiresUnixTime = attachmentExpiresUnixTime
                                     }
 
@@ -306,21 +306,21 @@ final class ImageCache {
 
                 } else {
                     SafeDispatch.async {
-                        completion(loadingProgress: 1.0, image: nil)
+                        completion(1.0, nil)
                     }
                 }
             }
         }
     }
 
-    func mapImageOfMessage(message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, bottomShadowEnabled: Bool, completion: (UIImage) -> ()) {
+    func mapImageOfMessage(_ message: Message, withSize size: CGSize, tailDirection: MessageImageTailDirection, bottomShadowEnabled: Bool, completion: @escaping (UIImage) -> ()) {
 
-        let imageKey = "mapImage-\(message.messageID)-\(message.coordinate)"
+        let imageKey = "mapImage-\(message.messageID)-\(message.coordinate)" as NSString
 
         //println("mapImageOfMessage imageKey: \(imageKey)")
 
         // 先看看缓存
-        if let image = cache.objectForKey(imageKey) as? UIImage {
+        if let image = cache.object(forKey: imageKey) {
             completion(image)
 
         } else {
@@ -335,11 +335,11 @@ final class ImageCache {
                 let latitude: CLLocationDegrees = coordinate.safeLatitude
                 let longitude: CLLocationDegrees = coordinate.safeLongitude
 
-                dispatch_async(self.cacheQueue) {
+                self.cacheQueue.async {
 
                     // 再看看是否已有地图图片文件
 
-                    if let imageFileURL = imageFileURL, image = UIImage(contentsOfFile: imageFileURL.path!) {
+                    if let imageFileURL = imageFileURL, let image = UIImage(contentsOfFile: imageFileURL.path) {
                         let mapImage = image.bubbleImageWithTailDirection(tailDirection, size: size, forMap: bottomShadowEnabled).decodedImage()
 
                         self.cache.setObject(mapImage, forKey: imageKey)
@@ -350,14 +350,21 @@ final class ImageCache {
 
                         return
                     }
-                    
-                    let defaultImage = tailDirection == .Left ? UIImage.yep_leftTailImageBubble.resizableImageWithCapInsets(UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: .Stretch) : UIImage.yep_rightTailImageBubble.resizableImageWithCapInsets(UIEdgeInsets(top: 24, left: 20, bottom: 20, right: 27), resizingMode: .Stretch)
-                    completion(defaultImage)    
+
+                    let defaultImage: UIImage
+                    switch tailDirection {
+                    case .left:
+                        defaultImage = UIImage.yep_leftTailImageBubble.resizableImage(withCapInsets: UIEdgeInsets(top: 25, left: 27, bottom: 20, right: 20), resizingMode: .stretch)
+                    case .right:
+                        defaultImage = UIImage.yep_rightTailImageBubble.resizableImage(withCapInsets: UIEdgeInsets(top: 24, left: 20, bottom: 20, right: 27), resizingMode: .stretch)
+                    }
+
+                    completion(defaultImage)
 
                     // 没有地图图片文件，只能生成了
 
                     let options = MKMapSnapshotOptions()
-                    options.scale = UIScreen.mainScreen().scale
+                    options.scale = UIScreen.main.scale
                     options.size = size
 
                     let locationCoordinate = CLLocationCoordinate2DMake(latitude, longitude)
@@ -366,7 +373,7 @@ final class ImageCache {
 
                     let mapSnapshotter = MKMapSnapshotter(options: options)
 
-                    mapSnapshotter.startWithCompletionHandler { (snapshot, error) -> Void in
+                    mapSnapshotter.start (completionHandler: { (snapshot, error) -> Void in
                         if error == nil {
 
                             guard let snapshot = snapshot else {
@@ -379,22 +386,22 @@ final class ImageCache {
 
                             let pinImage = UIImage.yep_iconCurrentLocation
 
-                            image.drawAtPoint(CGPointZero)
+                            image.draw(at: CGPoint.zero)
 
-                            let pinCenter = snapshot.pointForCoordinate(mapCoordinate)
+                            let pinCenter = snapshot.point(for: mapCoordinate)
 
                             let xOffset: CGFloat
                             switch tailDirection {
-                            case .Left:
+                            case .left:
                                 xOffset = 3
-                            case .Right:
+                            case .right:
                                 xOffset = -3
                             }
 
                             let pinOrigin = CGPoint(x: pinCenter.x - pinImage.size.width * 0.5 + xOffset, y: pinCenter.y - pinImage.size.height * 0.5)
-                            pinImage.drawAtPoint(pinOrigin)
+                            pinImage.draw(at: pinOrigin)
 
-                            let finalImage = UIGraphicsGetImageFromCurrentImageContext()
+                            let finalImage = UIGraphicsGetImageFromCurrentImageContext()!
 
                             UIGraphicsEndImageContext()
 
@@ -402,9 +409,9 @@ final class ImageCache {
 
                             if let data = UIImageJPEGRepresentation(finalImage, 1.0) {
 
-                                let fileName = NSUUID().UUIDString
+                                let fileName = UUID().uuidString
 
-                                if let _ = NSFileManager.saveMessageImageData(data, withName: fileName) {
+                                if let _ = FileManager.saveMessageImageData(data, withName: fileName) {
 
                                     SafeDispatch.async {
                                         
@@ -425,30 +432,30 @@ final class ImageCache {
                                 completion(mapImage)
                             }
                         }
-                    }
+                    })
                 }
             }
         }
     }
 
-    func mapImageOfLocationCoordinate(locationCoordinate: CLLocationCoordinate2D, withSize size: CGSize, completion: (UIImage) -> ()) {
+    func mapImageOfLocationCoordinate(_ locationCoordinate: CLLocationCoordinate2D, withSize size: CGSize, completion: @escaping (UIImage) -> ()) {
 
-        let imageKey = "feedMapImage-\(size)-\(locationCoordinate)"
+        let imageKey = "feedMapImage-\(size)-\(locationCoordinate)" as NSString
 
         // 先看看缓存
-        if let image = cache.objectForKey(imageKey) as? UIImage {
+        if let image = cache.object(forKey: imageKey) {
             completion(image)
 
         } else {
             let options = MKMapSnapshotOptions()
-            options.scale = UIScreen.mainScreen().scale
+            options.scale = UIScreen.main.scale
             let size = size
             options.size = size
             options.region = MKCoordinateRegionMakeWithDistance(locationCoordinate, 500, 500)
 
             let mapSnapshotter = MKMapSnapshotter(options: options)
 
-            mapSnapshotter.startWithQueue(cacheQueue, completionHandler: { snapshot, error in
+            mapSnapshotter.start(with: cacheQueue, completionHandler: { snapshot, error in
                 if error == nil {
 
                     guard let snapshot = snapshot else {

@@ -21,8 +21,8 @@ struct DoNotDisturbPeriod {
     var toMinute: Int = 30
 
     var hourOffset: Int {
-        let localTimeZone = NSTimeZone.localTimeZone()
-        let totalSecondsOffset = localTimeZone.secondsFromGMT
+        let localTimeZone = TimeZone.autoupdatingCurrent
+        let totalSecondsOffset = localTimeZone.secondsFromGMT()
 
         let hourOffset = totalSecondsOffset / (60 * 60)
 
@@ -30,8 +30,8 @@ struct DoNotDisturbPeriod {
     }
 
     var minuteOffset: Int {
-        let localTimeZone = NSTimeZone.localTimeZone()
-        let totalSecondsOffset = localTimeZone.secondsFromGMT
+        let localTimeZone = TimeZone.autoupdatingCurrent
+        let totalSecondsOffset = localTimeZone.secondsFromGMT()
 
         let hourOffset = totalSecondsOffset / (60 * 60)
         let minuteOffset = (totalSecondsOffset - hourOffset * (60 * 60)) / 60
@@ -39,7 +39,7 @@ struct DoNotDisturbPeriod {
         return minuteOffset
     }
 
-    func serverStringWithHour(hour: Int, minute: Int) -> String {
+    func serverStringWithHour(_ hour: Int, minute: Int) -> String {
         if minute - minuteOffset >= 0 {
             return String(format: "%02d:%02d", (hour - hourOffset + 24) % 24, (minute - minuteOffset) % 60)
         } else {
@@ -66,20 +66,20 @@ struct DoNotDisturbPeriod {
 
 final class NotificationsViewController: SegueViewController {
 
-    @IBOutlet private weak var tableView: UITableView! {
+    @IBOutlet fileprivate weak var tableView: UITableView! {
         didSet {
-            tableView.registerNibOf(DoNotDisturbSwitchCell)
-            tableView.registerNibOf(DoNotDisturbPeriodCell)
-            tableView.registerNibOf(SettingsMoreCell)
+            tableView.registerNibOf(DoNotDisturbSwitchCell.self)
+            tableView.registerNibOf(DoNotDisturbPeriodCell.self)
+            tableView.registerNibOf(SettingsMoreCell.self)
 
             tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0)
         }
     }
 
-    private var doNotDisturbPeriod = DoNotDisturbPeriod() {
+    fileprivate var doNotDisturbPeriod = DoNotDisturbPeriod() {
         didSet {
-            SafeDispatch.async {
-                self.tableView.reloadData()
+            SafeDispatch.async { [weak self] in
+                self?.tableView.reloadData()
             }
         }
     }
@@ -87,7 +87,7 @@ final class NotificationsViewController: SegueViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = NSLocalizedString("Notifications & Privacy", comment: "")
+        title = String.trans_titleNotificationsAndPrivacy
 
         if let me = me(), let userDoNotDisturb = me.doNotDisturb {
 
@@ -103,10 +103,10 @@ final class NotificationsViewController: SegueViewController {
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "showDoNotDisturbPeriod" {
-            let vc = segue.destinationViewController as! DoNotDisturbPeriodViewController
+            let vc = segue.destination as! DoNotDisturbPeriodViewController
 
             vc.doNotDisturbPeriod = doNotDisturbPeriod
 
@@ -118,7 +118,7 @@ final class NotificationsViewController: SegueViewController {
 
     // MARK: Actions
 
-    private func enableDoNotDisturb(failed failed: () -> Void) {
+    fileprivate func enableDoNotDisturb(failed: @escaping () -> Void) {
 
         guard let realm = try? Realm() else {
             return
@@ -147,9 +147,8 @@ final class NotificationsViewController: SegueViewController {
         ]
 
         updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-            defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-            YepAlert.alertSorry(message: NSLocalizedString("Enable Do Not Disturb Failed!", comment: ""), inViewController: self)
+            YepAlert.alertSorry(message: String.trans_promptEnableDoNotDisturbFailed, inViewController: self)
 
             failed()
 
@@ -170,7 +169,7 @@ final class NotificationsViewController: SegueViewController {
         })
     }
 
-    private func disableDoNotDisturb(failed failed: () -> Void) {
+    fileprivate func disableDoNotDisturb(failed: @escaping () -> Void) {
 
         guard let me = me() else {
             return
@@ -184,9 +183,8 @@ final class NotificationsViewController: SegueViewController {
             ]
 
             updateMyselfWithInfo(info, failureHandler: { [weak self] (reason, errorMessage) in
-                defaultFailureHandler(reason: reason, errorMessage: errorMessage)
 
-                YepAlert.alertSorry(message: NSLocalizedString("Disable Do Not Disturb Failed!", comment: ""), inViewController: self)
+                YepAlert.alertSorry(message: String.trans_promptDisableDoNotDisturbFailed, inViewController: self)
 
                 failed()
 
@@ -217,37 +215,37 @@ final class NotificationsViewController: SegueViewController {
 extension NotificationsViewController: UITableViewDataSource, UITableViewDelegate {
 
     enum Section: Int {
-        case DoNotDisturbPeriod
-        case BlackList
-        case CreatorsOfBlockedFeeds
+        case doNotDisturbPeriod
+        case blackList
+        case creatorsOfBlockedFeeds
     }
 
-    private enum DoNotDisturbPeriodRow: Int {
-        case Switch
-        case Period
+    fileprivate enum DoNotDisturbPeriodRow: Int {
+        case `switch`
+        case period
     }
 
-    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 3
     }
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
 
         guard let section = Section(rawValue: section) else {
             fatalError("Invalid Section!")
         }
 
         switch section {
-        case .DoNotDisturbPeriod:
+        case .doNotDisturbPeriod:
             return doNotDisturbPeriod.isOn ? 2 : 1
-        case .BlackList:
+        case .blackList:
             return 1
-        case .CreatorsOfBlockedFeeds:
+        case .creatorsOfBlockedFeeds:
             return 1
         }
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid Section!")
@@ -255,60 +253,51 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
         switch section {
 
-        case .DoNotDisturbPeriod:
+        case .doNotDisturbPeriod:
 
             switch indexPath.row {
 
-            case DoNotDisturbPeriodRow.Switch.rawValue:
+            case DoNotDisturbPeriodRow.switch.rawValue:
 
                 let cell: DoNotDisturbSwitchCell = tableView.dequeueReusableCell()
 
-                cell.promptLabel.text = NSLocalizedString("Do Not Disturb", comment: "")
-                cell.toggleSwitch.on = doNotDisturbPeriod.isOn
+                cell.promptLabel.text = String.trans_titleDoNotDisturb
+                cell.toggleSwitch.isOn = doNotDisturbPeriod.isOn
 
                 cell.toggleAction = { [weak self] isOn in
 
                     self?.doNotDisturbPeriod.isOn = isOn
 
-                    let indexPath = NSIndexPath(forRow: DoNotDisturbPeriodRow.Period.rawValue, inSection: 0)
+                    self?.tableView.reloadSections(IndexSet(integer: Section.doNotDisturbPeriod.rawValue), with: .automatic)
+
+                    let indexPath = IndexPath(row: DoNotDisturbPeriodRow.period.rawValue, section: Section.doNotDisturbPeriod.rawValue)
 
                     if isOn {
-                        guard self?.tableView.numberOfRowsInSection(Section.DoNotDisturbPeriod.rawValue) == 1 else {
-                            return
-                        }
-
-                        self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-
                         self?.enableDoNotDisturb(failed: {
-                            SafeDispatch.async {
+                            SafeDispatch.async { [weak self] in
                                 self?.doNotDisturbPeriod.isOn = false
-                                self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                                self?.tableView.deleteRows(at: [indexPath], with: .automatic)
                             }
                         })
 
                     } else {
-                        guard self?.tableView.numberOfRowsInSection(Section.DoNotDisturbPeriod.rawValue) == 2 else {
-                            return
-                        }
-
-                        self?.tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
-
                         self?.disableDoNotDisturb(failed: {
-                            SafeDispatch.async {
+                            SafeDispatch.async { [weak self] in
                                 self?.doNotDisturbPeriod.isOn = true
-                                self?.tableView.insertRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                                self?.tableView.insertRows(at: [indexPath], with: .automatic)
                             }
                         })
                     }
+
                 }
 
                 return cell
 
-            case DoNotDisturbPeriodRow.Period.rawValue:
+            case DoNotDisturbPeriodRow.period.rawValue:
 
                 let cell: DoNotDisturbPeriodCell = tableView.dequeueReusableCell()
 
-                cell.fromPromptLabel.text = NSLocalizedString("From", comment: "")
+                cell.fromPromptLabel.text = String.trans_timeFrom
                 cell.toPromptLabel.text = NSLocalizedString("To", comment: "")
 
                 cell.fromLabel.text = doNotDisturbPeriod.localFromString
@@ -320,13 +309,13 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
                 break
             }
 
-        case .BlackList:
+        case .blackList:
 
             let cell: SettingsMoreCell = tableView.dequeueReusableCell()
             cell.annotationLabel.text = String.trans_titleBlockedUsers
             return cell
 
-        case .CreatorsOfBlockedFeeds:
+        case .creatorsOfBlockedFeeds:
 
             let cell: SettingsMoreCell = tableView.dequeueReusableCell()
             cell.annotationLabel.text = String.trans_promptCreatorsOfBlockedFeeds
@@ -336,7 +325,7 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
         return UITableViewCell()
     }
 
-    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
 
         guard let section = Section(rawValue: indexPath.section) else {
             fatalError("Invalid Section!")
@@ -344,33 +333,33 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
         switch section {
 
-        case .DoNotDisturbPeriod:
+        case .doNotDisturbPeriod:
             switch indexPath.row {
 
-            case DoNotDisturbPeriodRow.Switch.rawValue:
+            case DoNotDisturbPeriodRow.switch.rawValue:
                 return 60
 
-            case DoNotDisturbPeriodRow.Period.rawValue:
+            case DoNotDisturbPeriodRow.period.rawValue:
                 return 60
 
             default:
                 break
             }
 
-        case .BlackList:
+        case .blackList:
             return 60
 
-        case .CreatorsOfBlockedFeeds:
+        case .creatorsOfBlockedFeeds:
             return 60
         }
 
         return 0
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         guard let section = Section(rawValue: indexPath.section) else {
@@ -379,16 +368,16 @@ extension NotificationsViewController: UITableViewDataSource, UITableViewDelegat
 
         switch section {
 
-        case .DoNotDisturbPeriod:
-            if indexPath.row == DoNotDisturbPeriodRow.Period.rawValue {
-                performSegueWithIdentifier("showDoNotDisturbPeriod", sender: nil)
+        case .doNotDisturbPeriod:
+            if indexPath.row == DoNotDisturbPeriodRow.period.rawValue {
+                performSegue(withIdentifier: "showDoNotDisturbPeriod", sender: nil)
             }
 
-        case .BlackList:
-            performSegueWithIdentifier("showBlackList", sender: nil)
+        case .blackList:
+            performSegue(withIdentifier: "showBlackList", sender: nil)
 
-        case .CreatorsOfBlockedFeeds:
-            performSegueWithIdentifier("showCreatorsOfBlockedFeeds", sender: nil)
+        case .creatorsOfBlockedFeeds:
+            performSegue(withIdentifier: "showCreatorsOfBlockedFeeds", sender: nil)
         }
     }
 }

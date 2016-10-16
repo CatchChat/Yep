@@ -10,7 +10,7 @@ import Foundation
 
 extension CGSize {
 
-    func yep_ensureMinWidthOrHeight(value: CGFloat) -> CGSize {
+    func yep_ensureMinWidthOrHeight(_ value: CGFloat) -> CGSize {
         if width > height {
 
             if height < value {

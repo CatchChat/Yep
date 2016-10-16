@@ -17,7 +17,7 @@ final class InstagramMediaCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
     }
     
     override func prepareForReuse() {
@@ -25,9 +25,9 @@ final class InstagramMediaCell: UICollectionViewCell {
         imageView.image = nil
     }
 
-    func configureWithInstagramMedia(media: InstagramWork.Media) {
+    func configureWithInstagramMedia(_ media: InstagramWork.Media) {
 
-        imageView.kf_showIndicatorWhenLoading = true
-        imageView.kf_setImageWithURL(NSURL(string: media.images.lowResolution)!, placeholderImage: nil, optionsInfo: MediaOptionsInfos)
+        //imageView.kf_showIndicatorWhenLoading = true
+        imageView.kf.setImage(with: URL(string: media.images.lowResolution)!, placeholder: nil, options: MediaOptionsInfos)
     }
 }

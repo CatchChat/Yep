@@ -10,8 +10,8 @@ import CoreSpotlight
 
 public enum SearchableItemType: String {
 
-    case User
-    case Feed
+    case user = "User"
+    case feed = "Feed"
 }
 
 public func searchableItemID(searchableItemType itemType: SearchableItemType, itemID: String) -> String {
@@ -19,9 +19,9 @@ public func searchableItemID(searchableItemType itemType: SearchableItemType, it
     return "\(itemType)/\(itemID)"
 }
 
-public func searchableItem(searchableItemID searchableItemID: String) -> (itemType: SearchableItemType, itemID: String)? {
+public func searchableItem(searchableItemID: String) -> (itemType: SearchableItemType, itemID: String)? {
 
-    let parts = searchableItemID.componentsSeparatedByString("/")
+    let parts = searchableItemID.components(separatedBy: "/")
 
     guard parts.count == 2 else {
         return nil
@@ -44,7 +44,7 @@ public func deleteSearchableItems(searchableItemType itemType: SearchableItemTyp
         searchableItemID(searchableItemType: itemType, itemID: $0)
     })
 
-    CSSearchableIndex.defaultSearchableIndex().deleteSearchableItemsWithIdentifiers(toDeleteSearchableItemIDs, completionHandler: { error in
+    CSSearchableIndex.default().deleteSearchableItems(withIdentifiers: toDeleteSearchableItemIDs, completionHandler: { error in
         if error != nil {
             println(error!.localizedDescription)
 

@@ -8,34 +8,35 @@
 
 import UIKit
 import YepKit
+import YepPreview
+import AsyncDisplayKit
 
 final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
 
-    override class func heightOfFeed(feed: DiscoveredFeed) -> CGFloat {
+    override class func heightOfFeed(_ feed: DiscoveredFeed) -> CGFloat {
 
         let height = super.heightOfFeed(feed) + YepConfig.SearchedFeedNormalImagesCell.imageSize.height + 10
-
         return ceil(height)
     }
 
-    lazy var mediaCollectionView: UICollectionView = {
+    lazy var mediaCollectionNode: ASCollectionNode = {
 
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 5
-        layout.scrollDirection = .Horizontal
+        layout.scrollDirection = .horizontal
+        layout.itemSize = YepConfig.SearchedFeedNormalImagesCell.imageSize
 
-        let collectionView = UICollectionView(frame: CGRectZero, collectionViewLayout: layout)
-        collectionView.scrollsToTop = false
-        collectionView.contentInset = UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 10)
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.backgroundColor = UIColor.clearColor()
+        let node = ASCollectionNode(collectionViewLayout: layout)
 
-        collectionView.registerNibOf(FeedMediaCell)
+        node.view.scrollsToTop = false
+        node.view.contentInset = UIEdgeInsets(top: 0, left: 50, bottom: 0, right: 10)
+        node.view.showsHorizontalScrollIndicator = false
+        node.view.backgroundColor = UIColor.clear
 
-        collectionView.dataSource = self
-        collectionView.delegate = self
+        node.dataSource = self
+        node.delegate = self
 
-        let backgroundView = TouchClosuresView(frame: collectionView.bounds)
+        let backgroundView = TouchClosuresView(frame: node.view.bounds)
         backgroundView.touchesBeganAction = { [weak self] in
             if let strongSelf = self {
                 strongSelf.touchesBeganAction?(strongSelf)
@@ -43,7 +44,7 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
         }
         backgroundView.touchesEndedAction = { [weak self] in
             if let strongSelf = self {
-                if strongSelf.editing {
+                if strongSelf.isEditing {
                     return
                 }
                 strongSelf.touchesEndedAction?(strongSelf)
@@ -54,24 +55,23 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
                 strongSelf.touchesCancelledAction?(strongSelf)
             }
         }
-        collectionView.backgroundView = backgroundView
-
-        return collectionView
+        node.view.backgroundView = backgroundView
+        
+        return node
     }()
 
     var tapImagesAction: FeedTapImagesAction?
 
     var attachments = [DiscoveredAttachment]() {
         didSet {
-
-            mediaCollectionView.reloadData()
+            mediaCollectionNode.reloadData()
         }
     }
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
 
-        contentView.addSubview(mediaCollectionView)
+        contentView.addSubview(mediaCollectionNode.view)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -84,61 +84,65 @@ final class SearchedFeedAnyImagesCell: SearchedFeedBasicCell {
         attachments = []
     }
 
-    override func configureWithFeed(feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
+    override func configureWithFeed(_ feed: DiscoveredFeed, layout: SearchedFeedCellLayout, keyword: String?) {
 
         super.configureWithFeed(feed, layout: layout, keyword: keyword)
 
-        if let attachment = feed.attachment, case let .Images(attachments) = attachment {
+        if let attachment = feed.attachment, case .images(let attachments) = attachment {
             self.attachments = attachments
         }
 
         let anyImagesLayout = layout.anyImagesLayout!
-        mediaCollectionView.frame = anyImagesLayout.mediaCollectionViewFrame
+        mediaCollectionNode.frame = anyImagesLayout.mediaCollectionViewFrame
     }
 }
 
-extension SearchedFeedAnyImagesCell: UICollectionViewDataSource, UICollectionViewDelegate {
+extension SearchedFeedAnyImagesCell: ASCollectionDataSource, ASCollectionDelegate {
 
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
 
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return attachments.count
     }
 
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+    func collectionView(_ collectionView: ASCollectionView, nodeForItemAt indexPath: IndexPath) -> ASCellNode {
 
-        let cell: FeedMediaCell = collectionView.dequeueReusableCell(forIndexPath: indexPath)
-
+        let node = FeedImageCellNode()
         if let attachment = attachments[safe: indexPath.item] {
-            cell.configureWithAttachment(attachment, bigger: (attachments.count == 1))
+            node.configureWithAttachment(attachment, imageSize: YepConfig.SearchedFeedNormalImagesCell.imageSize)
         }
-
-        return cell
+        return node
     }
 
-    func collectionView(collectionView: UICollectionView!, layout collectionViewLayout: UICollectionViewLayout!, sizeForItemAtIndexPath indexPath: NSIndexPath!) -> CGSize {
+    func collectionView(_ collectionView: ASCollectionView, constrainedSizeForNodeAt indexPath: IndexPath) -> ASSizeRange {
 
-        return YepConfig.SearchedFeedNormalImagesCell.imageSize
+        let size = YepConfig.SearchedFeedNormalImagesCell.imageSize
+        return ASSizeRange(min: size, max: size)
     }
 
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAtIndex section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-
-        guard let firstAttachment = attachments.first where !firstAttachment.isTemporary else {
+        guard let firstAttachment = attachments.first, !firstAttachment.isTemporary else {
             return
         }
 
-        let cell = collectionView.cellForItemAtIndexPath(indexPath) as! FeedMediaCell
+        guard let node = mediaCollectionNode.view.nodeForItem(at: indexPath) as? FeedImageCellNode else {
+            return
+        }
 
-        let transitionViews: [UIView?] = (0..<attachments.count).map({
-            let cell = collectionView.cellForItemAtIndexPath(NSIndexPath(forItem: $0, inSection: indexPath.section)) as? FeedMediaCell
-            return cell?.imageView
+        let references: [Reference?] = (0..<attachments.count).map({
+            let indexPath = IndexPath(item: $0, section: indexPath.section)
+            let node = mediaCollectionNode.view.nodeForItem(at: indexPath) as? FeedImageCellNode
+
+            if node?.view.superview == nil {
+                return nil
+            } else {
+                return node?.transitionReference
+            }
         })
-        tapImagesAction?(transitionViews: transitionViews, attachments: attachments, image: cell.imageView.image, index: indexPath.item)
+        tapImagesAction?(references, attachments, node.imageNode.image, indexPath.item)
     }
 }
+

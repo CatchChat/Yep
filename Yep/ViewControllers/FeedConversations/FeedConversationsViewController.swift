@@ -14,28 +14,28 @@ final class FeedConversationsViewController: SegueViewController {
 
     @IBOutlet weak var feedConversationsTableView: UITableView! {
         didSet {
-            feedConversationsTableView.registerNibOf(FeedConversationCell)
-            feedConversationsTableView.registerNibOf(DeletedFeedConversationCell)
+            feedConversationsTableView.registerNibOf(FeedConversationCell.self)
+            feedConversationsTableView.registerNibOf(DeletedFeedConversationCell.self)
         }
     }
 
-    private lazy var clearUnreadBarButtonItem: UIBarButtonItem = {
-        let item = UIBarButtonItem(title: NSLocalizedString("FeedConversationsViewController.ClearUnread", comment: ""), style: .Plain, target: self, action: #selector(FeedConversationsViewController.clearUnread(_:)))
+    fileprivate lazy var clearUnreadBarButtonItem: UIBarButtonItem = {
+        let item = UIBarButtonItem(title: String.trans_titleClearUnread, style: .plain, target: self, action: #selector(FeedConversationsViewController.clearUnread(_:)))
         return item
     }()
 
-    private var realm: Realm!
+    fileprivate var realm: Realm!
 
-    private var haveUnreadMessages = false {
+    fileprivate var haveUnreadMessages = false {
         didSet {
             reloadFeedConversationsTableView()
         }
     }
 
-    private lazy var feedConversations: Results<Conversation> = {
+    fileprivate lazy var feedConversations: Results<Conversation> = {
         return feedConversationsInRealm(self.realm)
     }()
-    private var unreadFeedConversations: Results<Conversation>? {
+    fileprivate var unreadFeedConversations: Results<Conversation>? {
         didSet {
             if let unreadFeedConversations = unreadFeedConversations {
                 navigationItem.rightBarButtonItem = unreadFeedConversations.count > 3 ? clearUnreadBarButtonItem : nil
@@ -44,11 +44,11 @@ final class FeedConversationsViewController: SegueViewController {
             }
         }
     }
-    private var feedConversationsNotificationToken: NotificationToken?
+    fileprivate var feedConversationsNotificationToken: NotificationToken?
 
     deinit {
 
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
 
         feedConversationsTableView?.delegate = nil
 
@@ -57,7 +57,7 @@ final class FeedConversationsViewController: SegueViewController {
         println("deinit FeedConversations")
     }
 
-    @objc private func clearUnread(sender: UIBarButtonItem) {
+    @objc fileprivate func clearUnread(_ sender: UIBarButtonItem) {
 
         realm.beginWrite()
 
@@ -74,7 +74,7 @@ final class FeedConversationsViewController: SegueViewController {
 
         _ = try? realm.commitWrite()
 
-        NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedFeedConversation, object: nil)
+        NotificationCenter.default.post(name: Config.NotificationName.changedFeedConversation, object: nil)
     }
 
     override func viewDidLoad() {
@@ -82,44 +82,44 @@ final class FeedConversationsViewController: SegueViewController {
 
         realm = try! Realm()
 
-        title = NSLocalizedString("Feeds", comment: "")
+        title = String.trans_titleFeeds
 
         feedConversationsTableView.rowHeight = 80
         feedConversationsTableView.tableFooterView = UIView()
 
         feedConversationsNotificationToken = feedConversations.addNotificationBlock({ [weak self] (change: RealmCollectionChange) in
-            let predicate = NSPredicate(format: "hasUnreadMessages = true")
+            let predicate = YepConfig.Conversation.hasUnreadMessagesPredicate
             self?.unreadFeedConversations = self?.feedConversations.filter(predicate)
         })
 
         if let gestures = navigationController?.view.gestureRecognizers {
             for recognizer in gestures {
-                if recognizer.isKindOfClass(UIScreenEdgePanGestureRecognizer) {
-                    feedConversationsTableView.panGestureRecognizer.requireGestureRecognizerToFail(recognizer as! UIScreenEdgePanGestureRecognizer)
+                if recognizer.isKind(of: UIScreenEdgePanGestureRecognizer.self) {
+                    feedConversationsTableView.panGestureRecognizer.require(toFail: recognizer as! UIScreenEdgePanGestureRecognizer)
                     println("Require UIScreenEdgePanGestureRecognizer to failed")
                     break
                 }
             }
         }
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.Notification.newMessages, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.NotificationName.newMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.Notification.deletedMessages, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.NotificationName.deletedMessages, object: nil)
 
-        NSNotificationCenter.defaultCenter().addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.Notification.changedFeedConversation, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(FeedConversationsViewController.reloadFeedConversationsTableView), name: Config.NotificationName.changedFeedConversation, object: nil)
 
-        if traitCollection.forceTouchCapability == .Available {
-            registerForPreviewingWithDelegate(self, sourceView: feedConversationsTableView)
+        if traitCollection.forceTouchCapability == .available {
+            registerForPreviewing(with: self, sourceView: feedConversationsTableView)
         }
     }
 
     var isFirstAppear = true
     
-    override func viewWillAppear(animated: Bool) {
+    override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
         if !isFirstAppear {
-            haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: ConversationType.Group) > 0
+            haveUnreadMessages = countOfUnreadMessagesInRealm(realm, withConversationType: .group) > 0
         }
 
         isFirstAppear = false
@@ -128,6 +128,7 @@ final class FeedConversationsViewController: SegueViewController {
     // MARK: Actions
 
     func reloadFeedConversationsTableView() {
+
         SafeDispatch.async { [weak self] in
             self?.feedConversationsTableView.reloadData()
         }
@@ -135,16 +136,16 @@ final class FeedConversationsViewController: SegueViewController {
 
     // MARK: Navigation
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
 
         if segue.identifier == "showConversation" {
-            let vc = segue.destinationViewController as! ConversationViewController
+            let vc = segue.destination as! ConversationViewController
             let conversation = sender as! Conversation
             prepareConversationViewController(vc, withConversation: conversation)
         }
     }
 
-    private func prepareConversationViewController(vc: ConversationViewController, withConversation conversation: Conversation) {
+    fileprivate func prepareConversationViewController(_ vc: ConversationViewController, withConversation conversation: Conversation) {
 
         vc.conversation = conversation
     }
@@ -154,15 +155,13 @@ final class FeedConversationsViewController: SegueViewController {
 
 extension FeedConversationsViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return feedConversations.count
     }
 
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let conversation = feedConversations[safe: indexPath.row] else {
-            return UITableViewCell()
-        }
+        let conversation = feedConversations[indexPath.row]
 
         if let feed = conversation.withGroup?.withFeed {
 
@@ -181,11 +180,9 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
         }
     }
 
-    func tableView(tableView: UITableView, willDisplayCell cell: UITableViewCell, forRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
 
-        guard let conversation = feedConversations[safe: indexPath.row] else {
-            return
-        }
+        let conversation = feedConversations[indexPath.row]
 
         if let feed = conversation.withGroup?.withFeed {
 
@@ -213,46 +210,31 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
         }
     }
 
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
         defer {
-            tableView.deselectRowAtIndexPath(indexPath, animated: true)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
 
         guard let conversation = feedConversations[safe: indexPath.row] else {
             return
         }
 
-        performSegueWithIdentifier("showConversation", sender: conversation)
+        performSegue(withIdentifier: "showConversation", sender: conversation)
     }
 
     // Edit (for Delete)
 
-    func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
 
         return true
     }
 
-    func tableView(tableView: UITableView, editActionsForRowAtIndexPath indexPath: NSIndexPath) -> [UITableViewRowAction]? {
-
-        guard let conversation = feedConversations[safe: indexPath.row] else {
-            fatalError("Invalid index of feedConversations!")
-        }
+    func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath) -> [UITableViewRowAction]? {
 
         let title: String = NSLocalizedString("Unsubscribe", comment: "")
-        /*
-        var title: String = NSLocalizedString("Unsubscribe", comment: "")
-        if let feed = conversation.withGroup?.withFeed {
-            if feed.deleted {
-                title = NSLocalizedString("Delete", comment: "")
-            }
-            if let creator = feed.creator where creator.isMe {
-                title = NSLocalizedString("Delete", comment: "")
-            }
-        }
-        */
 
-        let deleteAction = UITableViewRowAction(style: .Default, title: title) { [weak self] action, indexPath in
+        let deleteAction = UITableViewRowAction(style: .default, title: title) { [weak self] action, indexPath in
 
             defer {
                 tableView.setEditing(false, animated: true)
@@ -262,7 +244,7 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                 return
             }
 
-            guard let feed = conversation.withGroup?.withFeed, feedCreator = feed.creator else {
+            guard let feed = conversation.withGroup?.withFeed, let feedCreator = feed.creator else {
                 return
             }
 
@@ -284,22 +266,22 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
                 realm.refresh()
 
                 tableView.beginUpdates()
-                tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: .Automatic)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
                 tableView.endUpdates()
 
                 // 延迟一些再发通知，避免影响 tableView 的删除
-                delay(0.5) {
-                    NSNotificationCenter.defaultCenter().postNotificationName(Config.Notification.changedConversation, object: nil)
+                _ = delay(0.5) {
+                    NotificationCenter.default.post(name: Config.NotificationName.changedConversation, object: nil)
                 }
 
-                deleteSearchableItems(searchableItemType: .Feed, itemIDs: [feedID])
+                deleteSearchableItems(searchableItemType: .feed, itemIDs: [feedID])
             }
 
             // 若是创建者，再询问是否删除 Feed
 
             if feedCreatorID == YepUserDefaults.userID.value {
 
-                YepAlert.confirmOrCancel(title: NSLocalizedString("Delete", comment: ""), message: String.trans_promptAlsoDeleteThisFeed, confirmTitle: NSLocalizedString("Delete", comment: ""), cancelTitle: NSLocalizedString("Not now", comment: ""), inViewController: self, withConfirmAction: {
+                YepAlert.confirmOrCancel(title: String.trans_titleDelete, message: String.trans_promptAlsoDeleteThisFeed, confirmTitle: String.trans_titleDelete, cancelTitle: String.trans_titleNotNow, inViewController: self, withConfirmAction: {
 
                     doDeleteConversation()
 
@@ -324,9 +306,9 @@ extension FeedConversationsViewController: UITableViewDataSource, UITableViewDel
 
 extension FeedConversationsViewController: UIViewControllerPreviewingDelegate {
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint) -> UIViewController? {
 
-        guard let indexPath = feedConversationsTableView.indexPathForRowAtPoint(location), cell = feedConversationsTableView.cellForRowAtIndexPath(indexPath) else {
+        guard let indexPath = feedConversationsTableView.indexPathForRow(at: location), let cell = feedConversationsTableView.cellForRow(at: indexPath) else {
             return nil
         }
 
@@ -341,9 +323,9 @@ extension FeedConversationsViewController: UIViewControllerPreviewingDelegate {
         return vc
     }
 
-    func previewingContext(previewingContext: UIViewControllerPreviewing, commitViewController viewControllerToCommit: UIViewController) {
+    func previewingContext(_ previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController) {
         
-        showViewController(viewControllerToCommit, sender: self)
+        show(viewControllerToCommit, sender: self)
     }
 }
 

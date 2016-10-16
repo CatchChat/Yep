@@ -10,8 +10,8 @@ import UIKit
 
 enum ShortcutType: String {
 
-    case Feeds = "com.Catch-Inc.Yep.Shortcut.Feeds"
-    case LatestOneToOneConversation = "com.Catch-Inc.Yep.Shortcut.LatestOneToOneConversation"
-    case LatestFeedConversation = "com.Catch-Inc.Yep.Shortcut.LatestFeedConversation"
+    case feeds = "Shortcut.Feeds"
+    case latestOneToOneConversation = "Shortcut.LatestOneToOneConversation"
+    case latestFeedConversation = "Shortcut.LatestFeedConversation"
 }
 

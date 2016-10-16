@@ -8,9 +8,9 @@
 
 import Foundation
 
-func doInNextRunLoop(job: dispatch_block_t) {
+func doInNextRunLoop(_ job: @escaping ()->()) {
 
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0), dispatch_get_main_queue()) {
+    DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + Double(0) / Double(NSEC_PER_SEC)) {
         job()
     }
 }

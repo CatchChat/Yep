@@ -13,7 +13,7 @@ final class ChatLeftVideoCell: ChatBaseCell {
 
     lazy var thumbnailImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .ScaleAspectFill
+        imageView.contentMode = .scaleAspectFill
         imageView.tintColor = UIColor.leftBubbleTintColor()
         return imageView
     }()
@@ -30,8 +30,8 @@ final class ChatLeftVideoCell: ChatBaseCell {
 
     lazy var loadingProgressView: MessageLoadingProgressView = {
         let view = MessageLoadingProgressView(frame: CGRect(x: 0, y: 0, width: 30, height: 30))
-        view.hidden = true
-        view.backgroundColor = UIColor.clearColor()
+        view.isHidden = true
+        view.backgroundColor = UIColor.clear
         return view
     }()
 
@@ -66,12 +66,12 @@ final class ChatLeftVideoCell: ChatBaseCell {
         }
         UIView.setAnimationsEnabled(true)
 
-        thumbnailImageView.userInteractionEnabled = true
+        thumbnailImageView.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer(target: self, action: #selector(ChatLeftVideoCell.tapMediaView))
         thumbnailImageView.addGestureRecognizer(tap)
 
         prepareForMenuAction = { otherGesturesEnabled in
-            tap.enabled = otherGesturesEnabled
+            tap.isEnabled = otherGesturesEnabled
         }
     }
 
@@ -86,16 +86,16 @@ final class ChatLeftVideoCell: ChatBaseCell {
     var loadingProgress: Double = 0 {
         willSet {
             if newValue == 1.0 {
-                loadingProgressView.hidden = true
+                loadingProgressView.isHidden = true
 
             } else {
                 loadingProgressView.progress = newValue
-                loadingProgressView.hidden = false
+                loadingProgressView.isHidden = false
             }
         }
     }
 
-    func loadingWithProgress(progress: Double, image: UIImage?) {
+    func loadingWithProgress(_ progress: Double, image: UIImage?) {
 
         if progress >= loadingProgress {
             
@@ -123,14 +123,14 @@ final class ChatLeftVideoCell: ChatBaseCell {
 
                 self.thumbnailImageView.image = image
 
-                UIView.animateWithDuration(YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .CurveEaseInOut, animations: { [weak self] in
+                UIView.animate(withDuration: YepConfig.ChatCell.imageAppearDuration, delay: 0.0, options: .curveEaseInOut, animations: { [weak self] in
                     self?.thumbnailImageView.alpha = 1.0
                 }, completion: nil )
             }
         }
     }
 
-    func configureWithMessage(message: Message, mediaTapAction: MediaTapAction?) {
+    func configureWithMessage(_ message: Message, mediaTapAction: MediaTapAction?) {
 
         self.user = message.fromFriend
 
@@ -164,15 +164,15 @@ final class ChatLeftVideoCell: ChatBaseCell {
 
         let videoSize = message.fixedVideoSize
 
-        thumbnailImageView.yep_setImageOfMessage(message, withSize: videoSize, tailDirection: .Left, completion: { loadingProgress, image in
+        thumbnailImageView.yep_setImageOfMessage(message, withSize: videoSize, tailDirection: .left, completion: { loadingProgress, image in
             SafeDispatch.async { [weak self] in
                 self?.loadingWithProgress(loadingProgress, image: image)
             }
         })
 
         UIView.setAnimationsEnabled(false); do {
-            thumbnailImageView.frame = CGRect(x: CGRectGetMaxX(avatarImageView.frame) + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: videoSize.width, height: bounds.height - topOffset)
-            playImageView.center = CGPoint(x: CGRectGetMidX(thumbnailImageView.frame) + YepConfig.ChatCell.playImageViewXOffset, y: CGRectGetMidY(thumbnailImageView.frame))
+            thumbnailImageView.frame = CGRect(x: (avatarImageView.frame).maxX + YepConfig.ChatCell.gapBetweenAvatarImageViewAndBubble, y: topOffset, width: videoSize.width, height: bounds.height - topOffset)
+            playImageView.center = CGPoint(x: thumbnailImageView.frame.midX + YepConfig.ChatCell.playImageViewXOffset, y: thumbnailImageView.frame.midY)
             loadingProgressView.center = playImageView.center
 
             borderImageView.frame = thumbnailImageView.frame
@@ -182,14 +182,14 @@ final class ChatLeftVideoCell: ChatBaseCell {
         configureNameLabel()
     }
 
-    private func configureNameLabel() {
+    fileprivate func configureNameLabel() {
 
         if inGroup {
             nameLabel.text = user?.compositedName
 
             UIView.setAnimationsEnabled(false); do {
                 let height = YepConfig.ChatCell.nameLabelHeightForGroup
-                let x = CGRectGetMaxX(avatarImageView.frame) + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
+                let x = avatarImageView.frame.maxX + YepConfig.chatCellGapBetweenTextContentLabelAndAvatar()
                 let y = thumbnailImageView.frame.origin.y - height
                 let width = contentView.bounds.width - x - 10
                 nameLabel.frame = CGRect(x: x, y: y, width: width, height: height)

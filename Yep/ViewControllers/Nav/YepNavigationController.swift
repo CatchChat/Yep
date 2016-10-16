@@ -28,35 +28,35 @@ final class YepNavigationController: UINavigationController, UIGestureRecognizer
         super.init(coder: aDecoder)
     }
 
-    override func pushViewController(viewController: UIViewController, animated: Bool) {
+    override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         if animated {
-            interactivePopGestureRecognizer?.enabled = false
+            interactivePopGestureRecognizer?.isEnabled = false
         }
         
         super.pushViewController(viewController, animated: animated)
     }
     
-    override func popToRootViewControllerAnimated(animated: Bool) -> [UIViewController]? {
+    override func popToRootViewController(animated: Bool) -> [UIViewController]? {
         if animated {
-            interactivePopGestureRecognizer?.enabled = false
+            interactivePopGestureRecognizer?.isEnabled = false
         }
         
-        return super.popToRootViewControllerAnimated(animated)
+        return super.popToRootViewController(animated: animated)
     }
     
-    override func popToViewController(viewController: UIViewController, animated: Bool) -> [UIViewController]? {
+    override func popToViewController(_ viewController: UIViewController, animated: Bool) -> [UIViewController]? {
         if animated {
-            interactivePopGestureRecognizer?.enabled = false
+            interactivePopGestureRecognizer?.isEnabled = false
         }
         
         return super.popToViewController(viewController, animated: false)
     }
     
-    func navigationController(navigationController: UINavigationController, didShowViewController viewController: UIViewController, animated: Bool) {
-        interactivePopGestureRecognizer?.enabled = true
+    func navigationController(_ navigationController: UINavigationController, didShow viewController: UIViewController, animated: Bool) {
+        interactivePopGestureRecognizer?.isEnabled = true
     }
     
-    func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+    func gestureRecognizerShouldBegin(_ gestureRecognizer: UIGestureRecognizer) -> Bool {
         if gestureRecognizer == interactivePopGestureRecognizer {
             if self.viewControllers.count < 2 || self.visibleViewController == self.viewControllers[0] {
                 return false

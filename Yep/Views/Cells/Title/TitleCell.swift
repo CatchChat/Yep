@@ -14,7 +14,7 @@ final class TitleCell: UITableViewCell {
 
     var boldEnabled = false {
         didSet {
-            singleTitleLabel.font = boldEnabled ? UIFont.boldSystemFontOfSize(17) : UIFont.systemFontOfSize(17)
+            singleTitleLabel.font = boldEnabled ? UIFont.boldSystemFont(ofSize: 17) : UIFont.systemFont(ofSize: 17)
         }
     }
 }

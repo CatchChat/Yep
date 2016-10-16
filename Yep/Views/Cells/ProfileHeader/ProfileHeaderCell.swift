@@ -19,18 +19,18 @@ final class ProfileHeaderCell: UICollectionViewCell {
     @IBOutlet weak var avatarBlurImageView: UIImageView!
     @IBOutlet weak var locationLabel: UILabel!
 
-    var updatePrettyColorAction: (UIColor -> Void)?
+    var updatePrettyColorAction: ((UIColor) -> Void)?
     
     var askedForPermission = false
 
     deinit {
-        NSNotificationCenter.defaultCenter().removeObserver(self)
+        NotificationCenter.default.removeObserver(self)
     }
 
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        locationLabel.hidden = true
+        locationLabel.isHidden = true
     }
 
     var blurredAvatarImage: UIImage? {
@@ -39,98 +39,38 @@ final class ProfileHeaderCell: UICollectionViewCell {
         }
     }
 
-    /*
-    var location: CLLocation? {
-        didSet {
-            if let location = location {
-
-                // 优化，减少反向查询
-                if let oldLocation = oldValue {
-                    let distance = location.distanceFromLocation(oldLocation)
-                    if distance < YepConfig.Location.distanceThreshold {
-                        return
-                    }
-                }
-
-                locationLabel.text = ""
-
-                CLGeocoder().reverseGeocodeLocation(location, completionHandler: { (placemarks, error) in
-
-                    SafeDispatch.async { [weak self] in
-                        if (error != nil) {
-                            println("\(location) reverse geodcode fail: \(error?.localizedDescription)")
-                            self?.location = nil
-                        }
-
-                        if let placemarks = placemarks {
-                            if let firstPlacemark = placemarks.first {
-                                self?.locationLabel.text = firstPlacemark.locality ?? (firstPlacemark.name ?? firstPlacemark.country)
-                            }
-                        }
-                    }
-                })
-            }
-        }
-    }
-    */
-
-    func configureWithDiscoveredUser(discoveredUser: DiscoveredUser) {
+    func configureWithDiscoveredUser(_ discoveredUser: DiscoveredUser) {
         updateAvatarWithAvatarURLString(discoveredUser.avatarURLString)
 
         //location = CLLocation(latitude: discoveredUser.latitude, longitude: discoveredUser.longitude)
     }
 
-    func configureWithUser(user: User) {
+    func configureWithUser(_ user: User) {
 
         updateAvatarWithAvatarURLString(user.avatarURLString)
-
-        /*
-        if user.friendState == UserFriendState.Me.rawValue {
-
-            if !askedForPermission {
-                askedForPermission = true
-                proposeToAccess(.Location(.WhenInUse), agreed: {
-                    YepLocationService.turnOn()
-
-                    if user.isMe {
-                        YepLocationService.sharedManager.afterUpdatedLocationAction = { [weak self] newLocation in
-                            self?.location = newLocation
-                        }
-                    }
-
-                }, rejected: {
-                    println("Yep can NOT get Location. :[\n")
-                })
-            }
-
-            NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateAddress", name: "YepLocationUpdated", object: nil)
-        }
-
-        location = CLLocation(latitude: user.latitude, longitude: user.longitude)
-        */
     }
 
-    func blurImage(image: UIImage, completion: UIImage -> Void) {
+    func blurImage(_ image: UIImage, completion: @escaping (UIImage) -> Void) {
 
         if let blurredAvatarImage = blurredAvatarImage {
             completion(blurredAvatarImage)
 
         } else {
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)) {
-                let blurredImage = image.blurredImageWithRadius(20, iterations: 20, tintColor: UIColor.blackColor())
-                completion(blurredImage)
+            DispatchQueue.global(qos: .default).async {
+                let blurredImage = image.blurredImage(withRadius: 20, iterations: 20, tintColor: UIColor.black)
+                completion(blurredImage!)
             }
         }
     }
 
-    func updateAvatarWithAvatarURLString(avatarURLString: String) {
+    func updateAvatarWithAvatarURLString(_ avatarURLString: String) {
 
         if avatarImageView.image == nil {
             avatarImageView.alpha = 0
             avatarBlurImageView.alpha = 0
         }
 
-        let avatarStyle = AvatarStyle.Original
+        let avatarStyle = AvatarStyle.original
         let plainAvatar = PlainAvatar(avatarURLString: avatarURLString, avatarStyle: avatarStyle)
 
         AvatarPod.wakeAvatar(plainAvatar) { [weak self] finished, image, _ in
@@ -152,7 +92,7 @@ final class ProfileHeaderCell: UICollectionViewCell {
 
                 self?.updatePrettyColorAction?(prettyColor)
 
-                UIView.animateWithDuration(0.2, delay: 0.0, options: .CurveEaseOut, animations: { [weak self] in
+                UIView.animate(withDuration: 0.2, delay: 0.0, options: .curveEaseOut, animations: { [weak self] in
                     self?.avatarImageView.alpha = 1
                 }, completion: nil)
             }
@@ -165,3 +105,4 @@ final class ProfileHeaderCell: UICollectionViewCell {
         locationLabel.text = YepLocationService.sharedManager.address
     }
 }
+

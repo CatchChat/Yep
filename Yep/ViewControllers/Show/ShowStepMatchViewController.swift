@@ -10,20 +10,20 @@ import UIKit
 
 final class ShowStepMatchViewController: ShowStepViewController {
 
-    @IBOutlet private weak var camera: UIImageView!
-    @IBOutlet private weak var pen: UIImageView!
-    @IBOutlet private weak var book: UIImageView!
-    @IBOutlet private weak var controller: UIImageView!
-    @IBOutlet private weak var keyboard: UIImageView!
+    @IBOutlet fileprivate weak var camera: UIImageView!
+    @IBOutlet fileprivate weak var pen: UIImageView!
+    @IBOutlet fileprivate weak var book: UIImageView!
+    @IBOutlet fileprivate weak var controller: UIImageView!
+    @IBOutlet fileprivate weak var keyboard: UIImageView!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        titleLabel.text = NSLocalizedString("Match", comment: "")
-        subTitleLabel.text = NSLocalizedString("Match friends with your skills", comment: "")
+        titleLabel.text = String.trans_titleMatch
+        subTitleLabel.text = String.trans_showMatchFriendsWithSkills
     }
 
-    override func viewDidAppear(animated: Bool) {
+    override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
         animate(camera, offset: 10, duration: 4)

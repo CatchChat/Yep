@@ -14,14 +14,14 @@ final class RegisterPickSkillsSelectSkillsTransitionManager: NSObject, UIViewCon
 
     // MARK: UIViewControllerTransitioningDelegate
 
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         isPresentation = true
 
         return self
     }
 
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
 
         isPresentation = false
 
@@ -30,32 +30,32 @@ final class RegisterPickSkillsSelectSkillsTransitionManager: NSObject, UIViewCon
 
     // MARK: UIViewControllerAnimatedTransitioning
     
-    func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
 
         return 0.6
     }
 
-    func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
 
-        let fromVC = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey)
-        let toVC = transitionContext.viewControllerForKey(UITransitionContextToViewControllerKey)
+        let fromVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from)
+        let toVC = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to)
 
-        let fromView = transitionContext.viewForKey(UITransitionContextFromViewKey)
-        let toView = transitionContext.viewForKey(UITransitionContextToViewKey)
+        let fromView = transitionContext.view(forKey: UITransitionContextViewKey.from)
+        let toView = transitionContext.view(forKey: UITransitionContextViewKey.to)
 
-        let containerView = transitionContext.containerView()
+        let containerView = transitionContext.containerView
 
         if isPresentation {
             if let view = toView {
-                containerView?.addSubview(view)
+                containerView.addSubview(view)
             }
         }
 
         let animatingVC = isPresentation ? toVC! : fromVC!
         let animatingView = isPresentation ? toView! : fromView!
 
-        let onScreenFrame = transitionContext.finalFrameForViewController(animatingVC)
-        let offScreenFrame = CGRectOffset(onScreenFrame, 0, CGRectGetHeight(onScreenFrame))
+        let onScreenFrame = transitionContext.finalFrame(for: animatingVC)
+        let offScreenFrame = onScreenFrame.offsetBy(dx: 0, dy: onScreenFrame.height)
 
         let (initialFrame, finalFrame) = isPresentation ? (offScreenFrame, onScreenFrame) : (onScreenFrame, offScreenFrame)
 
@@ -67,7 +67,7 @@ final class RegisterPickSkillsSelectSkillsTransitionManager: NSObject, UIViewCon
             animatingView.alpha = 1
         }
 
-        UIView.animateWithDuration(transitionDuration(transitionContext), delay: 0, options: [.AllowUserInteraction, .BeginFromCurrentState], animations: { [unowned self] in
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0, options: [.allowUserInteraction, .beginFromCurrentState], animations: { [unowned self] in
             animatingView.frame = finalFrame
 
             if self.isPresentation {

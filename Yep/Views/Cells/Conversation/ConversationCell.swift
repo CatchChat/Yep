@@ -18,8 +18,8 @@ final class ConversationCell: UITableViewCell {
         didSet {
             let hidden = countOfUnreadMessages == 0
 
-            redDotImageView.hidden = hidden
-            unreadCountLabel.hidden = hidden
+            redDotImageView.isHidden = hidden
+            unreadCountLabel.isHidden = hidden
 
             unreadCountLabel.text = "\(countOfUnreadMessages)"
         }
@@ -43,7 +43,7 @@ final class ConversationCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
 
-        avatarImageView.contentMode = .ScaleAspectFill
+        avatarImageView.contentMode = .scaleAspectFill
         avatarImageViewWidthConstraint.constant = YepConfig.ConversationCell.avatarSize
 
 //        NSNotificationCenter.defaultCenter().addObserver(self, selector: "updateUIButAvatar:", name: YepConfig.Notification.newMessages, object: nil)
@@ -66,26 +66,26 @@ final class ConversationCell: UITableViewCell {
 //        updateInfoLabels()
 //    }
 
-    private func updateCountOfUnreadMessages() {
+    fileprivate func updateCountOfUnreadMessages() {
 
-        if !conversation.invalidated {
+        if !conversation.isInvalidated {
             countOfUnreadMessages = countOfUnreadMessagesInConversation(conversation)
         }
     }
 
     func updateInfoLabels() {
 
-        self.chatLabel.text = conversation.latestMessageTextContentOrPlaceholder ?? NSLocalizedString("No messages yet.", comment: "")
-        self.timeAgoLabel.text = NSDate(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
+        self.chatLabel.text = conversation.latestMessageTextContentOrPlaceholder ?? String.trans_promptNoMessages
+        self.timeAgoLabel.text = Date(timeIntervalSince1970: conversation.updatedUnixTime).timeAgo
     }
 
-    func configureWithConversation(conversation: Conversation, avatarRadius radius: CGFloat, tableView: UITableView, indexPath: NSIndexPath) {
+    func configureWithConversation(_ conversation: Conversation, avatarRadius radius: CGFloat, tableView: UITableView, indexPath: IndexPath) {
         
         self.conversation = conversation
 
         updateCountOfUnreadMessages()
         
-        if conversation.type == ConversationType.OneToOne.rawValue {
+        if conversation.type == ConversationType.oneToOne.rawValue {
 
             if let conversationWithFriend = conversation.withFriend {
 

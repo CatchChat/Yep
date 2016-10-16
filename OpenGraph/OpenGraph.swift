@@ -12,15 +12,15 @@ import Kanna
 public struct OpenGraph {
 
     enum Kind {
-        case Default
-        case AppleMusic
-        case AppleMovie
-        case AppleEBook
+        case `default`
+        case appleMusic
+        case appleMovie
+        case appleEBook
     }
 
-    var kind: Kind = .Default
+    var kind: Kind = .default
 
-    public var URL: NSURL
+    public var url: URL
 
     public var siteName: String?
 
@@ -34,9 +34,9 @@ public struct OpenGraph {
     public var isValid: Bool {
 
         guard
-            let siteName = siteName where !siteName.isEmpty,
-            let title = title where !title.isEmpty,
-            let description = description where !description.isEmpty,
+            let siteName = siteName, !siteName.isEmpty,
+            let title = title, !title.isEmpty,
+            let description = description, !description.isEmpty,
             let _ = previewImageURLString
         else {
             return false
@@ -92,22 +92,22 @@ public struct OpenGraph {
     }
     var appleEBook: AppleEBook?
 
-    init(URL: NSURL) {
-        self.URL = URL.opengraph_appleAllianceURL
+    init(url: URL) {
+        self.url = url.opengraph_appleAllianceURL
     }
 
-    static func fromHTMLString(HTMLString: String, forURL URL: NSURL) -> OpenGraph? {
+    static func fromHTMLString(_ HTMLString: String, for url: URL) -> OpenGraph? {
 
-        if let doc = Kanna.HTML(html: HTMLString, encoding: NSUTF8StringEncoding) {
+        if let doc = Kanna.HTML(html: HTMLString, encoding: .utf8) {
 
-            var openGraph = OpenGraph(URL: URL)
+            var openGraph = OpenGraph(url: url)
 
             if let metaSet = doc.head?.css("meta") {
 
                 var openGraphInfo = [String: String]()
 
                 for meta in metaSet {
-                    if let property = meta["property"]?.lowercaseString {
+                    if let property = meta["property"]?.lowercased() {
                         if property.hasPrefix("og:") {
                             if let content = meta["content"] {
                                 openGraphInfo[property] = content
@@ -126,20 +126,20 @@ public struct OpenGraph {
                 // 若缺失某些`og:`标签，再做补救
 
                 if openGraph.siteName == nil {
-                    openGraph.siteName = URL.host
+                    openGraph.siteName = url.host
                 }
 
                 if openGraph.title == nil {
-                    if let title = doc.head?.css("title").first?.text where !title.isEmpty {
+                    if let title = doc.head?.css("title").first(where: { _ in true })?.text, !title.isEmpty {
                         openGraph.title = title
                     }
                 }
 
                 if openGraph.description == nil {
                     for meta in metaSet {
-                        if let name = meta["name"]?.lowercaseString {
+                        if let name = meta["name"]?.lowercased() {
                             if name == "description" {
-                                if let description = meta["content"] where !description.isEmpty {
+                                if let description = meta["content"], !description.isEmpty {
                                     openGraph.description = description
                                     break
                                 }
@@ -155,7 +155,7 @@ public struct OpenGraph {
                 // 特别再补救一次 description
 
                 if openGraph.description == nil {
-                    let firstParagraph = doc.body?.css("p").first?.text
+                    let firstParagraph = doc.body?.css("p").first(where: { _ in true })?.text
                     openGraph.description = firstParagraph
                 }
 
@@ -167,9 +167,9 @@ public struct OpenGraph {
 
                 // 以及行首行尾的空白
 
-                openGraph.siteName = openGraph.siteName?.opengraph_trimming(.WhitespaceAndNewline)
-                openGraph.title = openGraph.title?.opengraph_trimming(.WhitespaceAndNewline)
-                openGraph.description = openGraph.description?.opengraph_trimming(.WhitespaceAndNewline)
+                openGraph.siteName = openGraph.siteName?.opengraph_trimming(.whitespaceAndNewline)
+                openGraph.title = openGraph.title?.opengraph_trimming(.whitespaceAndNewline)
+                openGraph.description = openGraph.description?.opengraph_trimming(.whitespaceAndNewline)
             }
 
             return openGraph
