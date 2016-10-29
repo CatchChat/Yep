@@ -21,7 +21,6 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
         didSet {
             tableView.addSubview(self.refreshControl)
 
-            tableView.tableHeaderView = self.meetGeniusShowView
             tableView.tableFooterView = UIView()
 
             tableView.separatorInset = UIEdgeInsets(top: 0, left: 95, bottom: 0, right: 0)
@@ -74,6 +73,9 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        tableView.tableHeaderView = self.meetGeniusShowView
+        meetGeniusShowView.getLatestGeniusInterviewBanner()
 
         do {
             if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.geniusInterviews, inRealm: realm) {
