@@ -72,8 +72,8 @@ final class FeedView: UIView {
                 self?.messageTextViewTopConstraint.constant = -25 * newValue + 4
 
                 if newValue == 1.0 {
-                    self?.usernameLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
-                    self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? 15 : (5 + 40 + 15)
+                    self?.usernameLabelTrailingConstraint.constant = attachmentURLsIsEmpty ? CGFloat(15) : CGFloat(5 + 40 + 15)
+                    self?.messageTextViewTrailingConstraint.constant = attachmentURLsIsEmpty ? CGFloat(15) : CGFloat(5 + 40 + 15)
                     self?.messageTextViewHeightConstraint.constant = 20
                 }
 

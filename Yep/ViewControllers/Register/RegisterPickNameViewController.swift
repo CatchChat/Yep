@@ -81,6 +81,7 @@ final class RegisterPickNameViewController: BaseViewController {
         nameTextField.placeholder = " "
         nameTextField.delegate = self
         nameTextField.rx.textInput.text
+            .map({ $0 ?? "" })
             .map({ !$0.isEmpty })
             .subscribe(onNext: { [weak self] in self?.isDirty = $0 })
             .addDisposableTo(disposeBag)

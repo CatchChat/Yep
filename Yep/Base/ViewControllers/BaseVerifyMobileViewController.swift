@@ -86,7 +86,7 @@ class BaseVerifyMobileViewController: SegueViewController {
         verifyCodeTextField.backgroundColor = UIColor.white
         verifyCodeTextField.textColor = UIColor.yepInputTextColor()
         verifyCodeTextField.rx.textInput.text
-            .map({ $0.characters.count == YepConfig.verifyCodeLength() })
+            .map({ $0?.characters.count == YepConfig.verifyCodeLength() })
             .subscribe(onNext: { [weak self] in self?.haveAppropriateInput = $0 })
             .addDisposableTo(disposeBag)
 

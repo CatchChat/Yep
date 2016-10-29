@@ -201,8 +201,9 @@ public func apiRequest<A>(_ modifyRequest: (URLRequest) -> (), baseURL: URL, res
                         completion(result)
 
                     } else {
-                        let dataString = String(data: responseData, encoding: .utf8)
-                        print(dataString)
+                        if let dataString = String(data: responseData, encoding: .utf8) {
+                            print(dataString)
+                        }
                         failure(.couldNotParseJSON, errorMessageInData(data))
                         print("\(resource)\n")
                         print(request.cURLCommandLine)

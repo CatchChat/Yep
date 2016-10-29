@@ -55,8 +55,11 @@ final class LoginByMobileViewController: BaseInputMobileViewController {
         mobileNumberTextField.textColor = UIColor.yepInputTextColor()
         mobileNumberTextField.delegate = self
 
-        Observable.combineLatest(areaCodeTextField.rx.textInput.text, mobileNumberTextField.rx.textInput.text) { !$0.isEmpty && !$1.isEmpty }
-            .bindTo(nextButton.rx.enabled)
+        Observable.combineLatest(areaCodeTextField.rx.textInput.text, mobileNumberTextField.rx.textInput.text) { (a, b) -> Bool in
+            guard let a = a, let b = b else { return false }
+            return !a.isEmpty && !b.isEmpty
+            }
+            .bindTo(nextButton.rx.isEnabled)
             .addDisposableTo(disposeBag)
 
         pickMobileNumberPromptLabelTopConstraint.constant = Ruler.iPhoneVertical(30, 50, 60, 60).value
