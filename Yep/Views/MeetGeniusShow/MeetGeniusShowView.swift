@@ -19,6 +19,7 @@ class MeetGeniusShowView: UIView {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
         view.isUserInteractionEnabled = true
+        view.clipsToBounds = true
 
         let tap = UITapGestureRecognizer(target: self, action: #selector(MeetGeniusShowView.didTap(_:)))
         view.addGestureRecognizer(tap)
@@ -38,6 +39,8 @@ class MeetGeniusShowView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+
+        clipsToBounds = true
 
         makeUI()
 
