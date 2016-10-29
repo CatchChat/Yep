@@ -74,8 +74,10 @@ final class MeetGeniusViewController: UIViewController, CanScrollsToTop {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.tableHeaderView = self.meetGeniusShowView
-        meetGeniusShowView.getLatestGeniusInterviewBanner()
+        do {
+            tableView.tableHeaderView = self.meetGeniusShowView
+            meetGeniusShowView.getLatestGeniusInterviewBanner()
+        }
 
         do {
             if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.geniusInterviews, inRealm: realm) {

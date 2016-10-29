@@ -3821,6 +3821,16 @@ public func latestGeniusInterviewBanner(failureHandler: FailureHandler?, complet
 
     let parse: (JSONDictionary) -> GeniusInterviewBanner? = { data in
 
+        if let realm = try? Realm() {
+            if let offlineData = try? JSONSerialization.data(withJSONObject: data, options: []) {
+                let offlineJSON = OfflineJSON(name: OfflineJSONName.geniusInterviewBanner.rawValue, data: offlineData)
+                let _ = try? realm.write {
+                    realm.add(offlineJSON, update: true)
+                    println("offline geniusInterviewBanner")
+                }
+            }
+        }
+
         let banner = GeniusInterviewBanner(data)
         return banner
     }

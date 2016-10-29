@@ -1063,9 +1063,10 @@ open class Feed: Object {
 
 public enum OfflineJSONName: String {
 
-    case feeds              = "Feeds"
-    case discoveredUsers    = "DiscoveredUsers"
-    case geniusInterviews   = "GeniusInterviews"
+    case feeds                  = "Feeds"
+    case discoveredUsers        = "DiscoveredUsers"
+    case geniusInterviewBanner  = "GeniusInterviewBanner"
+    case geniusInterviews       = "GeniusInterviews"
 }
 
 open class OfflineJSON: Object {

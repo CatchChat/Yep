@@ -9,6 +9,7 @@
 import UIKit
 import YepKit
 import Kingfisher
+import RealmSwift
 
 class MeetGeniusShowView: UIView {
 
@@ -25,7 +26,15 @@ class MeetGeniusShowView: UIView {
         return view
     }()
 
-    fileprivate var geniusInterviewBanner: GeniusInterviewBanner?
+    fileprivate var geniusInterviewBanner: GeniusInterviewBanner? {
+        didSet {
+            if let imageURL = geniusInterviewBanner?.imageURL {
+                SafeDispatch.async { [weak self] in
+                    self?.backgroundImageView.kf.setImage(with: imageURL, placeholder: nil, options: MediaOptionsInfos)
+                }
+            }
+        }
+    }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,14 +67,14 @@ class MeetGeniusShowView: UIView {
 
     func getLatestGeniusInterviewBanner() {
 
-        latestGeniusInterviewBanner(failureHandler: nil, completion: { [weak self] geniusInterviewBanner in
-
-            self?.geniusInterviewBanner = geniusInterviewBanner
-
-            SafeDispatch.async { [weak self] in
-                let imageURL = geniusInterviewBanner.imageURL
-                self?.backgroundImageView.kf.setImage(with: imageURL, placeholder: nil, options: MediaOptionsInfos)
+        if let realm = try? Realm(), let offlineJSON = OfflineJSON.withName(.geniusInterviewBanner, inRealm: realm) {
+            if let data = offlineJSON.JSON {
+                geniusInterviewBanner = GeniusInterviewBanner(data)
             }
+        }
+
+        latestGeniusInterviewBanner(failureHandler: nil, completion: { [weak self] geniusInterviewBanner in
+            self?.geniusInterviewBanner = geniusInterviewBanner
         })
     }
 
