@@ -1,17 +1,18 @@
 PODS:
-  - Appsee (2.2)
-  - AsyncDisplayKit (1.9.90):
-    - AsyncDisplayKit/PINRemoteImage (= 1.9.90)
-  - AsyncDisplayKit/ASDealloc2MainObject (1.9.90)
-  - AsyncDisplayKit/Core (1.9.90):
+  - Appsee (2.3)
+  - AsyncDisplayKit (1.9.92):
+    - AsyncDisplayKit/PINRemoteImage (= 1.9.92)
+  - AsyncDisplayKit/ASDealloc2MainObject (1.9.92)
+  - AsyncDisplayKit/Core (1.9.92):
     - AsyncDisplayKit/ASDealloc2MainObject
-  - AsyncDisplayKit/PINRemoteImage (1.9.90):
+  - AsyncDisplayKit/PINRemoteImage (1.9.92):
     - AsyncDisplayKit/Core
-    - PINRemoteImage/iOS (>= 3.0.0-beta.3)
+    - PINCache (= 3.0.1-beta)
+    - PINRemoteImage/iOS (= 3.0.0-beta.3)
   - DeviceUtil (2.0.1)
-  - Fabric (1.6.8)
+  - Fabric (1.6.11)
   - FXBlurView (1.6.4)
-  - JPush (2.1.9)
+  - JPush (2.2.0)
   - PINCache (3.0.1-beta)
   - PINRemoteImage/Core (3.0.0-beta.3):
     - PINCache (>= 3.0.0-beta)
@@ -33,12 +34,12 @@ DEPENDENCIES:
   - TPKeyboardAvoiding
 
 SPEC CHECKSUMS:
-  Appsee: c95173e65acaab0ffc8a082c70633c9f5f45d5f0
-  AsyncDisplayKit: 926ded3ca3fb7026565e0e81f0e132fea4d3a6eb
+  Appsee: 3f57734813c0bb22f5c0c6bb412c6140f23fd2fb
+  AsyncDisplayKit: 49d94f5739669d666ff7cdc3430f43f0b2cfbeaf
   DeviceUtil: ef09c9ae52239a35a24067c459f66c8c3c9478b9
-  Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
+  Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  JPush: 8bccf709ace4318a8e7008cc4fab42b706bfad46
+  JPush: 14bd5ff248fbef9c2179c82a9d1120e573b1c66a
   PINCache: 6911fe422a633e18b3d3ddf2bd4f0e55e36e2892
   PINRemoteImage: 308731aa6534500e58fc211b9cc2bb7252df25ba
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
@@ -47,4 +48,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: 92f8507e815e8631e2e063df30ba96d9400c591b
 
-COCOAPODS: 1.1.0.rc.3
+COCOAPODS: 1.1.1
