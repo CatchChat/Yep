@@ -110,7 +110,7 @@ extension YepFayeService {
     func prepareForChannel(_ channel: String) {
 
         if let extensionData = extensionData() {
-            fayeClient.setExtension(extensionData, forChannel: channel)
+            fayeClient.setExtension(extensionData, for: channel)
         }
     }
 
@@ -144,7 +144,7 @@ extension YepFayeService {
                 return
             }
 
-            self?.fayeClient.subscribeToChannel(personalChannel) { [weak self] data in
+            self?.fayeClient.subscribe(to: personalChannel) { [weak self] data in
 
                 println("receive faye data: \(data)")
 
@@ -251,15 +251,9 @@ extension YepFayeService {
                 "message": message
             ]
 
-            self.fayeClient.sendMessage(data, toChannel: self.instantChannel(), usingExtension: extensionData, usingBlock: { message  in
-
-                if message.successful {
-                    completion(true)
-
-                } else {
-                    completion(false)
-                }
-            })
+            self.fayeClient.sendMessage(data, to: self.instantChannel(), usingExtension: extensionData) { message in
+                completion(message.successful)
+            }
         }
     }
 }
