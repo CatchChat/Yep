@@ -12,7 +12,7 @@ import CoreLocation
 
 final class ThirdPartyServiceTests: XCTestCase {
 
-    func testSearchFoursquareVenues() {
+    func _testSearchFoursquareVenues() {
 
         let expectation = self.expectation(description: "search foursquare venues")
 
