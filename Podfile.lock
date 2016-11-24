@@ -14,7 +14,7 @@ PODS:
   - FayeClient (1.0.0):
     - SocketRocket
   - FXBlurView (1.6.4)
-  - JPush (2.2.0)
+  - JPush (2.1.9)
   - PINCache (3.0.1-beta)
   - PINRemoteImage/Core (3.0.0-beta.3):
     - PINCache (>= 3.0.0-beta)
@@ -31,7 +31,7 @@ DEPENDENCIES:
   - Fabric
   - FayeClient
   - FXBlurView
-  - JPush
+  - JPush (~> 2.1.9)
   - pop
   - TPKeyboardAvoiding
 
@@ -42,13 +42,13 @@ SPEC CHECKSUMS:
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FayeClient: 698bcb52d67919b4599374dde05bcdaf8884f1f0
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
-  JPush: 14bd5ff248fbef9c2179c82a9d1120e573b1c66a
+  JPush: 8bccf709ace4318a8e7008cc4fab42b706bfad46
   PINCache: 6911fe422a633e18b3d3ddf2bd4f0e55e36e2892
   PINRemoteImage: 308731aa6534500e58fc211b9cc2bb7252df25ba
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
   TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
 
-PODFILE CHECKSUM: 20498c35345f590a057a5e550a0420cce2411eaf
+PODFILE CHECKSUM: e43d4b104c6640cf240c6bb0c86220508d3ad229
 
 COCOAPODS: 1.1.1

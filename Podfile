@@ -10,7 +10,7 @@ def pods
     pod 'FXBlurView'
     pod 'TPKeyboardAvoiding'
     pod 'pop'
-    pod 'JPush'
+    pod 'JPush', '~> 2.1.9'
     pod 'Fabric'
 end
 
