@@ -1,4 +1,4 @@
-# Yep
+# Yep [![codebeat](https://codebeat.co/badges/d110e446-39c8-4802-809e-51cd07eb24bc)](https://codebeat.co/projects/github-com-catchchat-yep)
 
 A community where geniuses meet
 
