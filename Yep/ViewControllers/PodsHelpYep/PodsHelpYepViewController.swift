@@ -37,6 +37,10 @@ final class PodsHelpYepViewController: UITableViewController {
             urlString: "https://github.com/InderKumarRathore/DeviceUtil"
         ),
         Framework(
+            name: "FayeClient",
+            urlString: "https://github.com/nixzhu/FayeClient"
+        ),
+        Framework(
             name: "FXBlurView",
             urlString: "https://github.com/nicklockwood/FXBlurView"
         ),
@@ -73,7 +77,7 @@ final class PodsHelpYepViewController: UITableViewController {
             urlString: "https://github.com/ReSwift/ReSwift"
         ),
         Framework(
-            name: "RealmSwift",
+            name: "Realm",
             urlString: "https://github.com/realm/realm-cocoa"
         ),
         Framework(
