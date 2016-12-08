@@ -73,8 +73,9 @@ final public class Listenable<T> {
     var listenerSet = Set<Listener<T>>()
 
     public func bindListener(_ name: String, action: @escaping Listener<T>.Action) {
-        let listener = Listener(name: name, action: action)
+        removeListenerWithName(name)
 
+        let listener = Listener(name: name, action: action)
         listenerSet.insert(listener)
     }
 
