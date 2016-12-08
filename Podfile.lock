@@ -1,5 +1,5 @@
 PODS:
-  - Appsee (2.3)
+  - Appsee (2.3.1)
   - AsyncDisplayKit (1.9.92):
     - AsyncDisplayKit/PINRemoteImage (= 1.9.92)
   - AsyncDisplayKit/ASDealloc2MainObject (1.9.92)
@@ -9,7 +9,7 @@ PODS:
     - AsyncDisplayKit/Core
     - PINCache (= 3.0.1-beta)
     - PINRemoteImage/iOS (= 3.0.0-beta.3)
-  - DeviceUtil (2.0.1)
+  - DeviceUtil (2.0.3)
   - Fabric (1.6.11)
   - FayeClient (1.0.0):
     - SocketRocket
@@ -22,7 +22,7 @@ PODS:
     - PINRemoteImage/Core
   - pop (1.0.9)
   - SocketRocket (0.5.1)
-  - TPKeyboardAvoiding (1.3)
+  - TPKeyboardAvoiding (1.3.1)
 
 DEPENDENCIES:
   - Appsee
@@ -36,9 +36,9 @@ DEPENDENCIES:
   - TPKeyboardAvoiding
 
 SPEC CHECKSUMS:
-  Appsee: 3f57734813c0bb22f5c0c6bb412c6140f23fd2fb
+  Appsee: 78b5d4b281ceb83d5fd17d7df18d5ff8c292e031
   AsyncDisplayKit: 49d94f5739669d666ff7cdc3430f43f0b2cfbeaf
-  DeviceUtil: ef09c9ae52239a35a24067c459f66c8c3c9478b9
+  DeviceUtil: bd9597d040b3960698b71f3c1b940c7143a06eae
   Fabric: 5911403591946b8228ab1c51d98f1d7137e863c6
   FayeClient: 698bcb52d67919b4599374dde05bcdaf8884f1f0
   FXBlurView: db786c2561cb49a09ae98407f52460096ab8a44f
@@ -47,7 +47,7 @@ SPEC CHECKSUMS:
   PINRemoteImage: 308731aa6534500e58fc211b9cc2bb7252df25ba
   pop: f667631a5108a2e60d9e8797c9b32ddaf2080bce
   SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  TPKeyboardAvoiding: a5138f318c06fb3e151f886e18ce4a72695d9cbe
+  TPKeyboardAvoiding: 0d6af20e95e2850f4c621841225b59ec7d8dd852
 
 PODFILE CHECKSUM: e43d4b104c6640cf240c6bb0c86220508d3ad229
 
