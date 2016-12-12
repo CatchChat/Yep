@@ -61,7 +61,7 @@ final public class Listenable<T> {
         didSet {
             setterAction(value)
 
-            for listener in listenerSet {
+            for listener in listeners.values {
                 listener.action(value)
             }
         }
@@ -70,13 +70,13 @@ final public class Listenable<T> {
     public typealias SetterAction = (T) -> Void
     var setterAction: SetterAction
 
-    var listenerSet = Set<Listener<T>>()
+    var listeners: [String: Listener<T>] = [:]
 
     public func bindListener(_ name: String, action: @escaping Listener<T>.Action) {
-        removeListenerWithName(name)
 
         let listener = Listener(name: name, action: action)
-        listenerSet.insert(listener)
+
+        listeners[name] = listener
     }
 
     public func bindAndFireListener(_ name: String, action: @escaping Listener<T>.Action) {
@@ -85,17 +85,8 @@ final public class Listenable<T> {
         action(value)
     }
 
-    public func removeListenerWithName(_ name: String) {
-        for listener in listenerSet {
-            if listener.name == name {
-                listenerSet.remove(listener)
-                break
-            }
-        }
-    }
-
     public func removeAllListeners() {
-        listenerSet.removeAll(keepingCapacity: false)
+        listeners.removeAll(keepingCapacity: false)
     }
 
     public init(_ v: T, setterAction action: @escaping SetterAction) {
