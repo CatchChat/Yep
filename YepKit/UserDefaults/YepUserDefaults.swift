@@ -74,7 +74,7 @@ final public class Listenable<T> {
 
     public func bindListener(_ name: String, action: @escaping Listener<T>.Action) {
         let listener = Listener(name: name, action: action)
-        listenerSet.insert(listener)
+        listenerSet.update(with: listener)
         
         // @available(swift, obsoleted: 3.0)
         // listenerSet.insert(listener)
