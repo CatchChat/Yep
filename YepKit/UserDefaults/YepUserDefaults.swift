@@ -73,10 +73,11 @@ final public class Listenable<T> {
     var listenerSet = Set<Listener<T>>()
 
     public func bindListener(_ name: String, action: @escaping Listener<T>.Action) {
-        removeListenerWithName(name)
-
         let listener = Listener(name: name, action: action)
         listenerSet.insert(listener)
+        
+        // @available(swift, obsoleted: 3.0)
+        // listenerSet.insert(listener)
     }
 
     public func bindAndFireListener(_ name: String, action: @escaping Listener<T>.Action) {
