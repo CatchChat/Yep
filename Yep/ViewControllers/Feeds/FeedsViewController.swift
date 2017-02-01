@@ -1832,7 +1832,7 @@ extension FeedsViewController: UITableViewDataSource, UITableViewDelegate {
 
 extension FeedsViewController: PullToRefreshViewDelegate {
 
-    func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
+    func pullToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView) {
 
         activityIndicator.alpha = 0
 
