@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PullToRefreshViewDelegate: class {
-    func pulllToRefreshViewDidRefresh(pulllToRefreshView: PullToRefreshView)
+    func pullToRefreshViewDidRefresh(pullToRefreshView: PullToRefreshView)
     func scrollView() -> UIScrollView
 }
 
@@ -145,7 +145,7 @@ extension PullToRefreshView: UIScrollViewDelegate {
 
             targetContentOffset.memory.y = -scrollView.contentInset.top
 
-            delegate?.pulllToRefreshViewDidRefresh(self)
+            delegate?.pullToRefreshViewDidRefresh(self)
         }
     }
 
@@ -157,7 +157,7 @@ extension PullToRefreshView: UIScrollViewDelegate {
 
             scrollView.contentOffset.y = -scrollView.contentInset.top
 
-            delegate?.pulllToRefreshViewDidRefresh(self)
+            delegate?.pullToRefreshViewDidRefresh(self)
         }
     }
 }
